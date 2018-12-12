@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./test.arm > output.txt
 
-# not yet  ./cbleemsync.l64 ../regional.db ../Games/
+./cbleemsync.arm /media/regional.db /media/Games/ > out.txt 2> err.txt
+
 
