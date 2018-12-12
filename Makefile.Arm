@@ -1,0 +1,26 @@
+CC = arm-linux-gnueabihf-gcc
+CFLAGS = -Wall -g -march=armv7 
+INCLUDES =
+LFLAGS =
+LIBS = -ldl -lpthread
+SRCS = main.c database.c filesystem.c sqlite3.c
+OBJS = $(SRCS:.c=.o)
+MAIN = cbleemsync.arm
+
+.PHONY: depend clean
+
+
+all:	$(MAIN)
+	@echo cbleemsync has been compiled
+
+$(MAIN): $(OBJS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LFLAGS) $(LIBS)
+.c.o:
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+clean: 
+	$(RM) *.o *~ $(MAIN)
+depend:	$(SRCS)
+	makedepend $(INCLUDES) $^
+
+# Do not delete
+
