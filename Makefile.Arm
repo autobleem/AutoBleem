@@ -1,5 +1,5 @@
 CC = arm-linux-gnueabihf-gcc
-CFLAGS = -Wall -c -g -MMD -MP -march=armv7 
+CFLAGS = -Wall -g -march=armv7 
 INCLUDES =
 LFLAGS =
 LIBS = -ldl -lpthread
