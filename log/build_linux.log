@@ -45,24 +45,24 @@ util.h:80:21: warning: implicit declaration of function ‘tolower’ [-Wimplici
              int d = tolower((unsigned char) *a) - tolower((unsigned char) *b);
                      ^~~~~~~
 util.h: In function ‘copy_file’:
-util.h:90:22: warning: unused variable ‘err1’ [-Wunused-variable]
+util.h:88:22: warning: unused variable ‘err1’ [-Wunused-variable]
          int err = 0, err1 = 0;
                       ^~~~
-util.h:90:13: warning: unused variable ‘err’ [-Wunused-variable]
+util.h:88:13: warning: unused variable ‘err’ [-Wunused-variable]
          int err = 0, err1 = 0;
              ^~~
 filesystem.c: In function ‘process_game_ini’:
 filesystem.c:18:16: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
      int * fp = fopen(path, "r");
                 ^~~~~
-filesystem.c:25:41: warning: passing argument 3 of ‘getline’ from incompatible pointer type [-Wincompatible-pointer-types]
-     while ((read = getline(&line, &len, fp)) != -1) {
-                                         ^~
+filesystem.c:25:46: warning: passing argument 3 of ‘getline’ from incompatible pointer type [-Wincompatible-pointer-types]
+     while ((read = getline(&line_file, &len, fp)) != -1) {
+                                              ^~
 In file included from filesystem.c:2:0:
 /usr/include/stdio.h:616:20: note: expected ‘FILE * restrict {aka struct _IO_FILE * restrict}’ but argument is of type ‘int *’
  extern _IO_ssize_t getline (char **__restrict __lineptr,
                     ^~~~~~~
-filesystem.c:111:12: warning: passing argument 1 of ‘fclose’ from incompatible pointer type [-Wincompatible-pointer-types]
+filesystem.c:136:12: warning: passing argument 1 of ‘fclose’ from incompatible pointer type [-Wincompatible-pointer-types]
      fclose(fp);
             ^~
 In file included from filesystem.c:2:0:
@@ -70,21 +70,21 @@ In file included from filesystem.c:2:0:
  extern int fclose (FILE *__stream);
             ^~~~~~
 filesystem.c: In function ‘read_and_validate’:
-filesystem.c:288:22: warning: passing argument 2 of ‘strcpy’ from incompatible pointer type [-Wincompatible-pointer-types]
+filesystem.c:314:22: warning: passing argument 2 of ‘strcpy’ from incompatible pointer type [-Wincompatible-pointer-types]
      strcpy(png_path, separator);
                       ^~~~~~~~~
 In file included from filesystem.c:3:0:
 /usr/include/string.h:121:14: note: expected ‘const char * restrict’ but argument is of type ‘char * (*)()’
  extern char *strcpy (char *__restrict __dest, const char *__restrict __src)
               ^~~~~~
-filesystem.c:293:22: warning: passing argument 2 of ‘strcpy’ from incompatible pointer type [-Wincompatible-pointer-types]
+filesystem.c:319:22: warning: passing argument 2 of ‘strcpy’ from incompatible pointer type [-Wincompatible-pointer-types]
      strcpy(lic_path, separator);
                       ^~~~~~~~~
 In file included from filesystem.c:3:0:
 /usr/include/string.h:121:14: note: expected ‘const char * restrict’ but argument is of type ‘char * (*)()’
  extern char *strcpy (char *__restrict __dest, const char *__restrict __src)
               ^~~~~~
-filesystem.c:298:22: warning: passing argument 2 of ‘strcpy’ from incompatible pointer type [-Wincompatible-pointer-types]
+filesystem.c:324:22: warning: passing argument 2 of ‘strcpy’ from incompatible pointer type [-Wincompatible-pointer-types]
      strcpy(cfg_path, separator);
                       ^~~~~~~~~
 In file included from filesystem.c:3:0:
@@ -92,17 +92,17 @@ In file included from filesystem.c:3:0:
  extern char *strcpy (char *__restrict __dest, const char *__restrict __src)
               ^~~~~~
 filesystem.c: In function ‘cmpfunc’:
-filesystem.c:347:24: warning: initialization discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
-     t_game_data * aObj=a;
-                        ^
-filesystem.c:348:24: warning: initialization discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
-     t_game_data * bObj=b;
-                        ^
+filesystem.c:373:26: warning: initialization discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+     t_game_data * aObj = a;
+                          ^
+filesystem.c:374:26: warning: initialization discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+     t_game_data * bObj = b;
+                          ^
 filesystem.c: In function ‘save_database’:
-filesystem.c:358:9: warning: implicit declaration of function ‘insert_game_record’ [-Wimplicit-function-declaration]
-         insert_game_record(fileName,data);
+filesystem.c:382:9: warning: implicit declaration of function ‘insert_game_record’ [-Wimplicit-function-declaration]
+         insert_game_record(fileName, data);
          ^~~~~~~~~~~~~~~~~~
-filesystem.c:360:1: warning: control reaches end of non-void function [-Wreturn-type]
+filesystem.c:384:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
 sqlite3.c: In function ‘balance_nonroot’:
