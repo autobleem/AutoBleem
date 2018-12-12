@@ -22,6 +22,14 @@ CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/cbleemsync
 CND_PACKAGE_DIR_Release=dist/Release/GNU-MacOSX/package
 CND_PACKAGE_NAME_Release=cbleemsync.tar
 CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/cbleemsync.tar
+# PCS1 configuration
+CND_PLATFORM_PCS1=GNU-MacOSX
+CND_ARTIFACT_DIR_PCS1=dist/PCS1/GNU-MacOSX
+CND_ARTIFACT_NAME_PCS1=cbleemsync
+CND_ARTIFACT_PATH_PCS1=dist/PCS1/GNU-MacOSX/cbleemsync
+CND_PACKAGE_DIR_PCS1=dist/PCS1/GNU-MacOSX/package
+CND_PACKAGE_NAME_PCS1=cbleemsync.tar
+CND_PACKAGE_PATH_PCS1=dist/PCS1/GNU-MacOSX/package/cbleemsync.tar
 #
 # include compiler specific variables
 #

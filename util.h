@@ -83,15 +83,13 @@ extern "C" {
         }
     }
 
-    
-
     int copy_file(char *old_filename, char *new_filename) {
         FILE *ptr_old, *ptr_new;
         int err = 0, err1 = 0;
         int a;
 
         ptr_old = fopen(old_filename, "rb");
-        ptr_new = fopen( new_filename, "wb");
+        ptr_new = fopen(new_filename, "wb");
 
         if (ptr_old == 0)
             return -1;
@@ -115,6 +113,25 @@ extern "C" {
         return 0;
     }
 
+    int strpos(char *haystack, char *needle) {
+        char *p = strstr(haystack, needle);
+        if (p)
+            return p - haystack;
+        return -1; // Not found = -1.
+    }
+    
+    void strlower(char *dest, char * src)
+    {
+        for (int i=0;i<strlen(src);i++)
+        {
+            dest[i]=tolower(src[i]);
+        }
+    }
+    
+    void zerostr(char * str)
+    {
+        memset(str,0,strlen(str));
+    }
 
 #ifdef __cplusplus
 }
