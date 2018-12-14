@@ -85,7 +85,6 @@ extern "C" {
 
     int copy_file(char *old_filename, char *new_filename) {
         FILE *ptr_old, *ptr_new;
-        int err = 0, err1 = 0;
         int a;
 
         ptr_old = fopen(old_filename, "rb");

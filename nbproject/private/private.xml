@@ -7,7 +7,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/screemer/NetBeansProjects/cbleemaync/filesystem.c</file>
+            <file>file:/Users/screemer/NetBeansProjects/cbleemsync/src/include/util.h</file>
+            <file>file:/Users/screemer/NetBeansProjects/cbleemsync/Makefile.Linux</file>
+            <file>file:/Users/screemer/NetBeansProjects/cbleemsync/src/code/filesystem.c</file>
+            <file>file:/Users/screemer/NetBeansProjects/cbleemsync/src/include/filesystem.h</file>
+            <file>file:/Users/screemer/NetBeansProjects/cbleemsync/payload/cbleemsync/run.sh</file>
+            <file>file:/Users/screemer/NetBeansProjects/cbleemsync/src/resources/default.lic</file>
+            <file>file:/Users/screemer/NetBeansProjects/cbleemsync/src/code/main.c</file>
+            <file>file:/Users/screemer/NetBeansProjects/cbleemsync/Makefile.Arm</file>
         </group>
     </open-files>
 </project-private>

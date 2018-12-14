@@ -4,25 +4,25 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>database.h</itemPath>
+      <itemPath>src/include/database.h</itemPath>
       <itemPath>filesystem.h</itemPath>
-      <itemPath>sqlite3.h</itemPath>
-      <itemPath>util.h</itemPath>
+      <itemPath>src/include/sqlite3.h</itemPath>
+      <itemPath>src/include/util.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
-      <itemPath>default.lic</itemPath>
-      <itemPath>default.png</itemPath>
-      <itemPath>pcsx.cfg</itemPath>
+      <itemPath>src/resources/default.lic</itemPath>
+      <itemPath>src/resources/default.png</itemPath>
+      <itemPath>src/resources/pcsx.cfg</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>database.c</itemPath>
-      <itemPath>filesystem.c</itemPath>
-      <itemPath>main.c</itemPath>
-      <itemPath>sqlite3.c</itemPath>
+      <itemPath>src/code/database.c</itemPath>
+      <itemPath>src/code/filesystem.c</itemPath>
+      <itemPath>src/code/main.c</itemPath>
+      <itemPath>src/code/sqlite3.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -40,36 +40,39 @@
   <confs>
     <conf name="Debug" type="1">
       <toolsSet>
-        <compilerSet>default</compilerSet>
+        <compilerSet>GNU|GNU</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <cTool>
+          <incDir>
+            <pElem>src/include</pElem>
+          </incDir>
           <commandLine>-DSQLITE_OMIT_LOAD_EXTENSION</commandLine>
         </cTool>
       </compileType>
-      <item path="database.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="database.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="default.lic" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="default.png" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="filesystem.c" ex="false" tool="0" flavor2="0">
-      </item>
       <item path="filesystem.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="main.c" ex="false" tool="0" flavor2="0">
+      <item path="src/code/database.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="pcsx.cfg" ex="false" tool="3" flavor2="0">
+      <item path="src/code/filesystem.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="sqlite3.c" ex="false" tool="0" flavor2="0">
+      <item path="src/code/main.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="sqlite3.h" ex="false" tool="3" flavor2="0">
+      <item path="src/code/sqlite3.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="util.h" ex="false" tool="3" flavor2="0">
+      <item path="src/include/database.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/include/sqlite3.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/include/util.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/resources/default.lic" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/resources/default.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/resources/pcsx.cfg" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -92,27 +95,27 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="database.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="database.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="default.lic" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="default.png" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="filesystem.c" ex="false" tool="0" flavor2="0">
-      </item>
       <item path="filesystem.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="main.c" ex="false" tool="0" flavor2="0">
+      <item path="src/code/database.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="pcsx.cfg" ex="false" tool="3" flavor2="0">
+      <item path="src/code/filesystem.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="sqlite3.c" ex="false" tool="0" flavor2="0">
+      <item path="src/code/main.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="sqlite3.h" ex="false" tool="3" flavor2="0">
+      <item path="src/code/sqlite3.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="util.h" ex="false" tool="3" flavor2="0">
+      <item path="src/include/database.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/include/sqlite3.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/include/util.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/resources/default.lic" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/resources/default.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/resources/pcsx.cfg" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="PCS1" type="1">
@@ -126,27 +129,27 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="database.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="database.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="default.lic" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="default.png" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="filesystem.c" ex="false" tool="0" flavor2="0">
-      </item>
       <item path="filesystem.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="main.c" ex="false" tool="0" flavor2="0">
+      <item path="src/code/database.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="pcsx.cfg" ex="false" tool="3" flavor2="0">
+      <item path="src/code/filesystem.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="sqlite3.c" ex="false" tool="0" flavor2="0">
+      <item path="src/code/main.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="sqlite3.h" ex="false" tool="3" flavor2="0">
+      <item path="src/code/sqlite3.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="util.h" ex="false" tool="3" flavor2="0">
+      <item path="src/include/database.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/include/sqlite3.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/include/util.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/resources/default.lic" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/resources/default.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/resources/pcsx.cfg" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

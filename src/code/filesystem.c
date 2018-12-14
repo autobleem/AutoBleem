@@ -11,11 +11,11 @@ t_game_data game_data[MAX_GAMES];
 int games;
 bool all_correct;
 
-void process_game_ini(char * path) {
-    char * line_file = NULL;
+void process_game_ini(char *path) {
+    char *line_file = NULL;
     size_t len = 0;
     ssize_t read;
-    int * fp = fopen(path, "r");
+    int *fp = fopen(path, "r");
     if (fp == NULL) {
         return; // error opening file
     }
@@ -29,11 +29,11 @@ void process_game_ini(char * path) {
             continue; // skip empty lines
         }
 
-        char  line_lower_case[1024];
+        char line_lower_case[1024];
         zerostr(line_lower_case);
-        strlower(line_lower_case,line);
-     
-        
+        strlower(line_lower_case, line);
+
+
         if (strcmp(line_lower_case, "[game]") == 0) {
             // ignore this
         } else {
@@ -44,33 +44,30 @@ void process_game_ini(char * path) {
 
             zerostr(value);
             zerostr(name);
-          
 
-            
 
-            char * datax = strstr(line_lower_case, "=");
+            char *datax = strstr(line_lower_case, "=");
             if (datax == NULL) {
                 // this line is faulty
                 continue;
             }
-            
-          
-            datax = strstr(line, "=");
-            strcpy(value,datax+1);
-            fprintf(stderr, "value: %s\n", value);
-            fprintf(stderr, "linelc: %d\n", strpos(line_lower_case,"="));
 
-            strncpy(name,line_lower_case,strpos(line_lower_case,"="));
+
+            datax = strstr(line, "=");
+            strcpy(value, datax + 1);
+            fprintf(stderr, "value: %s\n", value);
+            fprintf(stderr, "linelc: %d\n", strpos(line_lower_case, "="));
+
+            strncpy(name, line_lower_case, strpos(line_lower_case, "="));
             fprintf(stderr, "name: %s\n", name);
             // fill data in
-            
-            
+
+
             if (strcmp(name, "title") == 0) {
                 strcpy(game_data[games].title, value);
                 fprintf(stderr, "Game Title: %s\n", game_data[games].title);
             }
-            
-            
+
 
             if (strcmp(name, "publisher") == 0) {
 
@@ -103,34 +100,31 @@ void process_game_ini(char * path) {
             }
 
             if (strcmp(name, "discs") == 0) {
-               
+
                 char *pt;
                 pt = strtok(value, ",");
                 while (pt != NULL) {
                     fprintf(stderr, "Discname: %s\n", pt);
                     char discname[1024];
                     zerostr(discname);
-                    strcpy(discname,pt);
+                    strcpy(discname, pt);
                     strcpy(game_data[games].discs[game_data[games].total_discs].diskname, discname);
                     fprintf(stderr, "Segfault ? : %d\n", game_data[games].total_discs);
-                    
-                    game_data[games].total_discs = game_data[games].total_discs+1;
-                    
+
+                    game_data[games].total_discs = game_data[games].total_discs + 1;
+
                     fprintf(stderr, "Total Discs: %d\n", game_data[games].total_discs);
-                    
+
                     pt = strtok(NULL, ",");
                     fprintf(stderr, "strtok: %d\n", game_data[games].total_discs);
                 }
 
 
             }
-           
+
         }
-       
+
     }
-
-
-
 
 
     fclose(fp);
@@ -207,7 +201,7 @@ bool final_validate() {
     return result;
 }
 
-void read_and_validate(char * folder, char * path) {
+void read_and_validate(char *folder, char *path) {
     fprintf(stderr, "Processing folder: %s\n", folder);
 
     int id = atoi(folder);
@@ -275,17 +269,20 @@ void read_and_validate(char * folder, char * path) {
                     if (strcicmp(".bin", last_four) == 0) {
                         // this is bin file compare to disc
 
-                        if (strncmp(game_data[games].discs[i].diskname, entry->d_name, strlen(game_data[games].discs[i].diskname)) == 0) {
+                        if (strncmp(game_data[games].discs[i].diskname, entry->d_name,
+                                    strlen(game_data[games].discs[i].diskname)) == 0) {
 
-                            game_data[games].discs[i].bin_found = true;
+                            // game_data[games].discs[i].bin_found = true;
 
 
                         }
                     }
                     if (strcicmp(".cue", last_four) == 0) {
                         // this is bin file compare to disc
-                        if (strncmp(entry->d_name, game_data[games].discs[i].diskname, strlen(game_data[games].discs[i].diskname)) == 0) {
+                        if (strncmp(entry->d_name, game_data[games].discs[i].diskname,
+                                    strlen(game_data[games].discs[i].diskname)) == 0) {
                             game_data[games].discs[i].cue_found = true;
+                            game_data[games].discs[i].bin_found = true;
 
 
                         }
@@ -296,15 +293,13 @@ void read_and_validate(char * folder, char * path) {
         }
 
 
-
-
         if (dir != NULL) {
             closedir(dir);
         }
 
     }
     char cwd[1024];
-    if (getcwd(cwd, sizeof (cwd)) != NULL) {
+    if (getcwd(cwd, sizeof(cwd)) != NULL) {
 
     }
 
@@ -369,21 +364,21 @@ void read_and_validate(char * folder, char * path) {
 
 }
 
-int cmpfunc(const void * a, const void * b) {
-    t_game_data * aObj = a;
-    t_game_data * bObj = b;
+int cmpfunc(const void *a, const void *b) {
+    t_game_data *aObj = a;
+    t_game_data *bObj = b;
 
     return aObj->folder_id - bObj->folder_id;
 }
 
-int save_database(char * fileName) {
+int save_database(char *fileName) {
     for (int i = 0; i < games; i++) {
         t_game_data data = game_data[i];
         insert_game_record(fileName, data);
     }
 }
 
-int scan_directory_folders(char * path) {
+int scan_directory_folders(char *path) {
     // init values
     all_correct = false; // update this before loading to db 
     games = 0;
@@ -410,7 +405,7 @@ int scan_directory_folders(char * path) {
         closedir(dir);
 
         // sort games by id;
-        qsort(game_data, games, sizeof (t_game_data), cmpfunc);
+        qsort(game_data, games, sizeof(t_game_data), cmpfunc);
 
         // validate all game id's sequential
         all_correct = true;
@@ -424,7 +419,6 @@ int scan_directory_folders(char * path) {
                 return -1;
             }
         }
-
 
 
         fprintf(stderr, "Everything looks ok\n");

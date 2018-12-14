@@ -14,9 +14,9 @@ GREP=grep
 NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=gcc
-CCC=g++
-CXX=g++
+CC=gcc-8
+CCC=g++-8
+CXX=g++-8
 FC=gfortran
 AS=as
 
@@ -35,10 +35,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/database.o \
-	${OBJECTDIR}/filesystem.o \
-	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/sqlite3.o
+	${OBJECTDIR}/src/code/database.o \
+	${OBJECTDIR}/src/code/filesystem.o \
+	${OBJECTDIR}/src/code/main.o \
+	${OBJECTDIR}/src/code/sqlite3.o
 
 
 # C Compiler Flags
@@ -65,25 +65,25 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cbleemsync: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cbleemsync ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/database.o: database.c
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/src/code/database.o: src/code/database.c
+	${MKDIR} -p ${OBJECTDIR}/src/code
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/database.o database.c
+	$(COMPILE.c) -g -Isrc/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/code/database.o src/code/database.c
 
-${OBJECTDIR}/filesystem.o: filesystem.c
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/src/code/filesystem.o: src/code/filesystem.c
+	${MKDIR} -p ${OBJECTDIR}/src/code
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/filesystem.o filesystem.c
+	$(COMPILE.c) -g -Isrc/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/code/filesystem.o src/code/filesystem.c
 
-${OBJECTDIR}/main.o: main.c
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/src/code/main.o: src/code/main.c
+	${MKDIR} -p ${OBJECTDIR}/src/code
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
+	$(COMPILE.c) -g -Isrc/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/code/main.o src/code/main.c
 
-${OBJECTDIR}/sqlite3.o: sqlite3.c
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/src/code/sqlite3.o: src/code/sqlite3.c
+	${MKDIR} -p ${OBJECTDIR}/src/code
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/sqlite3.o sqlite3.c
+	$(COMPILE.c) -g -Isrc/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/code/sqlite3.o src/code/sqlite3.c
 
 # Subprojects
 .build-subprojects:
