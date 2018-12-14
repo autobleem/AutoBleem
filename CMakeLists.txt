@@ -1,9 +1,11 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.10)
 project(cbleemsync)
 
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories(src/include)
+
+find_package(Threads REQUIRED)
 
 add_executable(cbleemsync
         src/code/database.c
@@ -18,3 +20,8 @@ add_executable(cbleemsync
         src/resources/default.png
         src/resources/pcsx.cfg
         src/resources/run.sh)
+
+target_link_libraries(cbleemsync 
+         Threads::Threads
+         ${CMAKE_DL_LIBS}
+)

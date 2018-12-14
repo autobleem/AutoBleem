@@ -51,7 +51,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/screemer/ps1c/cbleemsync
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/screemer/ps1c/cbleemsync
+CMAKE_BINARY_DIR = /home/screemer/ps1c/cbleemsync/build_arm
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/screemer/ps1c/cbleemsync/CMakeFiles /home/screemer/ps1c/cbleemsync/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/screemer/ps1c/cbleemsync/build_arm/CMakeFiles /home/screemer/ps1c/cbleemsync/build_arm/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/screemer/ps1c/cbleemsync/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/screemer/ps1c/cbleemsync/build_arm/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
