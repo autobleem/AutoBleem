@@ -1,5 +1,12 @@
 #include "util.h"
 
+#include <fstream>
+#include <sys/stat.h>
+#include <algorithm>
+
+using namespace std;
+#define FILE_BUFFER 524288
+
 const char *Util::separator() {
 #ifdef _WIN32
     return "\\";
@@ -8,8 +15,72 @@ const char *Util::separator() {
 #endif
 }
 
+bool wayToSort(DirEntry i, DirEntry j) {
+    return i.name < j.name;
+}
 
-bool Util::is_integer_name(char *input) {
+std::string Util::getWorkingPath() {
+    char temp[2048];
+    return (getcwd(temp, sizeof(temp)) ? std::string(temp) : std::string(""));
+}
+
+vector<DirEntry> Util::dir(string path) {
+    vector<DirEntry> result;
+    DIR *dir = opendir(path.c_str());
+    if (dir != NULL) {
+        struct dirent *entry = readdir(dir);
+        while (entry != NULL) {
+            DirEntry obj(entry->d_name, entry->d_type);
+            result.push_back(obj);
+            entry = readdir(dir);
+        }
+
+        closedir(dir);
+    }
+    sort(result.begin(), result.end(), wayToSort);
+    return result;
+}
+
+bool Util::exists(const std::string &name) {
+    struct stat buffer;
+    return (stat(name.c_str(), &buffer) == 0);
+}
+
+bool Util::createDir(const std::string name) {
+    const int dir_err = mkdir(name.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    return (-1 != dir_err);
+
+}
+
+bool Util::copy(string source, string dest) {
+    ifstream infile;
+    ofstream outfile;
+
+    char *buffer;
+    buffer = new char[FILE_BUFFER];
+
+    infile.open(source, ios::binary);
+    outfile.open(dest, ios::binary);
+
+    if (!infile.good()) return false;
+    if (!outfile.good()) return false;
+
+    while (true) {
+        int read = infile.readsome(buffer, FILE_BUFFER);
+        if (read == 0) break;
+        outfile.write(buffer, read);
+
+    }
+    infile.close();
+    outfile.flush();
+    outfile.close();
+    delete buffer;
+
+    return true;
+}
+
+
+bool Util::is_integer_name(const char *input) {
     size_t ln = strlen(input);
     for (size_t i = 0; i < ln; i++) {
         if (!isdigit(input[i])) {
@@ -20,36 +91,7 @@ bool Util::is_integer_name(char *input) {
     return true;
 }
 
-size_t Util::trimwhitespace(char *out, size_t len, const char *str) {
-    if (len == 0)
-        return 0;
 
-    const char *end;
-    size_t out_size;
-
-    // Trim leading space
-    while (isspace((unsigned char) *str)) str++;
-
-    if (*str == 0) // All spaces?
-    {
-        *out = 0;
-        return 1;
-    }
-
-    // Trim trailing space
-    end = str + strlen(str) - 1;
-    while (end > str && isspace((unsigned char) *end)) end--;
-    end++;
-
-    // Set output size to minimum of trimmed string length and buffer size minus 1
-    out_size = (end - str) < len ? (end - str) : len;
-
-    // Copy trimmed string and add null terminator
-    memcpy(out, str, out_size);
-    out[out_size] = 0;
-
-    return out_size;
-}
 
 int Util::strcicmp(char const *a, char const *b) {
     for (;; a++, b++) {
@@ -59,48 +101,3 @@ int Util::strcicmp(char const *a, char const *b) {
     }
 }
 
-int Util::copy_file(char *old_filename, char *new_filename) {
-    FILE *ptr_old, *ptr_new;
-    int a;
-
-    ptr_old = fopen(old_filename, "rb");
-    ptr_new = fopen(new_filename, "wb");
-
-    if (ptr_old == 0)
-        return -1;
-
-    if (ptr_new == 0) {
-        fclose(ptr_old);
-        return -1;
-    }
-
-    while (1) {
-        a = fgetc(ptr_old);
-
-        if (!feof(ptr_old))
-            fputc(a, ptr_new);
-        else
-            break;
-    }
-
-    fclose(ptr_new);
-    fclose(ptr_old);
-    return 0;
-}
-
-int Util::strpos(char *haystack, char *needle) {
-    char *p = strstr(haystack, needle);
-    if (p)
-        return p - haystack;
-    return -1; // Not found = -1.
-}
-
-void Util::strlower(char *dest, char *src) {
-    for (int i = 0; i < strlen(src); i++) {
-        dest[i] = tolower(src[i]);
-    }
-}
-
-void Util::clearstr(char *str) {
-    memset(str, 0, strlen(str));
-}

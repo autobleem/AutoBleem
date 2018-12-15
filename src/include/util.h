@@ -16,26 +16,48 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <dirent.h>
+#include <stdlib.h>
 #include <iostream>
 #include <cstdlib>
+#include <vector>
+#include <unistd.h>
+
+using namespace std;
+
+class DirEntry {
+public:
+    string name;
+    bool dir;
+
+    DirEntry(string name, bool dir) {
+        this->dir = dir;
+        this->name = name;
+    }
+
+};
 
 class Util {
 public:
     static const char *separator();
 
-    static bool is_integer_name(char *input);
+    // File System operations
+    static vector<DirEntry> dir(string path);
 
-    static size_t trimwhitespace(char *out, size_t len, const char *str);
+    static bool copy(string source, string dest);
+
+    static bool exists(const std::string &name);
+
+    static bool createDir(const std::string name);
+
+    static std::string getWorkingPath();
+
+    static bool is_integer_name(const char *input);
 
     static int strcicmp(char const *a, char const *b);
 
-    static int copy_file(char *old_filename, char *new_filename);
 
-    static int strpos(char *haystack, char *needle);
 
-    static void strlower(char *dest, char *src);
-
-    static void clearstr(char *str);
 };
 
 

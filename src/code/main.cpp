@@ -6,17 +6,18 @@
  */
 
 #include <iostream>
-
 #include "database.h"
-#include "filesystem.h"
+#include "scanner.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
     if (argc < 3) {
-        cout << "USAGE: bleemsync dbfilename.db /path/to/games" << endl;
+        cout << "USAGE: bleemsync /path/dbfilename.db /path/to/games" << endl;
         return EXIT_FAILURE;
     }
+
+
     Database *db = new Database();
     if (!db->connect(argv[1]))
     {
@@ -29,6 +30,13 @@ int main(int argc, char *argv[]) {
         delete db;
         return EXIT_FAILURE;
     };
+
+    Scanner *scanner = new Scanner();
+    scanner->scanDirectory(argv[2]);
+    scanner->updateDB(db);
+    delete scanner;
+
+    /*
     if (scan_directory_folders(argv[2]) != 0) {
         cout << "Error scanning folders" << endl;
         db->disconnect();
@@ -36,6 +44,7 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
     save_database(db);
+     */
     db->disconnect();
     delete db;
 
