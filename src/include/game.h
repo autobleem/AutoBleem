@@ -43,22 +43,24 @@ public:
 
     void readIni(string path);
 
+    void saveIni(string path);
     void recoverFiles();
-
     bool verify();
-
     bool print();
 
 
 private:
 
+    bool automationUsed = false;
 
     map<string, string> iniValues;
 
     void parseIni(string path);
 
+
     void updateObj();
 
+    bool validateCue(string cuePath, string path);
     string valueOrDefault(string name, string def);
 
 

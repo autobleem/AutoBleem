@@ -42,8 +42,10 @@ vector<DirEntry> Util::dir(string path) {
 }
 
 bool Util::exists(const std::string &name) {
+
     struct stat buffer;
     return (stat(name.c_str(), &buffer) == 0);
+
 }
 
 bool Util::createDir(const std::string name) {

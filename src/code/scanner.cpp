@@ -26,8 +26,8 @@ void Scanner::updateDB(Database *db) {
             Game data = games[i];
             cout << "Inserting game ID: " << i + 1 << " - " << data.title << endl;
             db->insertGame(i + 1, data.title, data.publisher, data.players, data.year);
-            for (int i = 0; i < data.discs.size(); i++) {
-                db->insertDisc(i + 1, i + 1, data.discs[i].diskName);
+            for (int j = 0; j < data.discs.size(); j++) {
+                db->insertDisc(i + 1, j + 1, data.discs[j].diskName);
             }
             outfile << i + 1 << "," << data.fullPath.substr(0, data.fullPath.size() - 1) << endl;
 
@@ -113,8 +113,10 @@ void Scanner::scanDirectory(string path) {
         }
         game.recoverFiles();
         game.print();
-        games.push_back(game);
-
+        if (game.verify()) {
+            game.saveIni(folderPath + GAME_INI);
+            games.push_back(game);
+        }
 
     }
     sort(games.begin(), games.end(), wayToSort);

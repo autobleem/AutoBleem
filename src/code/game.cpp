@@ -8,26 +8,54 @@
 
 using namespace std;
 
+bool Game::validateCue(string cuePath, string path) {
+    cout << "Validating CUE:  " << cuePath << "  in  " << path << endl;
+    // TODO: implement this !!!
+    return true;
+}
+
 string Game::valueOrDefault(string name, string def) {
     string value;
     if (iniValues.find(name) != iniValues.end()) {
         value = trim(iniValues.find(name)->second);
         if (value.length() == 0) {
+            automationUsed = true;
             return def;
         }
     } else {
+        automationUsed = true;
         value = def;
     }
     return value;
 }
 
-bool Game::print() {
+bool Game::verify() {
     bool result = true;
 
+    for (int i = 0; i < discs.size(); i++) {
+        if (discs[i].diskName.length() == 0) result = false;
+        if (!discs[i].cueFound) result = false;
+        if (!discs[i].binVerified) result = false;
+    }
 
+    if (!gameDataFound) result = false;
+    if (!gameIniFound) result = false;
+    if (!gameIniValid) result = false;
+    if (!imageFound) result = false;
+    if (!licFound) result = false;
+    if (!pcsxCfgFound) result = false;
+
+    if (automationUsed) {
+        result = result || automationUsed;
+    }
+    return result;
+}
+
+bool Game::print() {
     cout << "-------------------" << endl;
     cout << "Printing game data:" << endl;
     cout << "-----------------" << endl;
+    cout << "AUTOMATION: " << automationUsed << endl;
     cout << "Game folder id: " << folder_id << endl;
     cout << "Game: " << title << endl;
     cout << "Players: " << players << endl;
@@ -43,25 +71,19 @@ bool Game::print() {
 
     for (int i = 0; i < discs.size(); i++) {
         cout << "  Disc:" << i + 1 << "  " << discs[i].diskName << endl;
-        if (discs[i].diskName.length() == 0) result = false;
         cout << "  CUE found: " << discs[i].cueFound << endl;
-        if (discs[i].cueFound) result = false;
         cout << "  BIN correct: " << discs[i].binVerified << endl;
-        if (discs[i].binVerified) result = false;
+
     }
 
-    if (!gameDataFound) result = false;
-    if (!gameIniFound) result = false;
-    if (!gameIniValid) result = false;
-    if (!imageFound) result = false;
-    if (!licFound) result = false;
-    if (!pcsxCfgFound) result = false;
 
+    bool result = verify();
     if (result) {
         cout << "-------OK-------" << endl;
     } else {
         cout << "------FAIL------" << endl;
     }
+
     return result;
 }
 
@@ -69,7 +91,8 @@ void Game::recoverFiles() {
     string path = Util::getWorkingPath();
 
     if (discs.size() == 0) {
-        // find any CUE
+        automationUsed = true;
+        // find cue files
         string destination = fullPath + "GameData" + Util::separator();
         vector<DirEntry> entries = Util::dir(destination);
         for (int i = 0; i < entries.size(); i++) {
@@ -80,6 +103,7 @@ void Game::recoverFiles() {
                 Disc disc;
                 disc.diskName = discEntry;
                 disc.cueFound = true;
+                disc.binVerified = validateCue(destination + entry.name, destination);
                 discs.push_back(disc);
             }
         }
@@ -87,12 +111,14 @@ void Game::recoverFiles() {
 
     if (discs.size() > 0) {
         if (!licFound) {
+            automationUsed = true;
             string source = path + Util::separator() + "default.lic";
             string destination = fullPath + "GameData" + Util::separator() + discs[0].diskName + ".lic";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             Util::copy(source, destination);
         }
         if (!imageFound) {
+            automationUsed = true;
             string source = path + Util::separator() + "default.png";
             string destination = fullPath + "GameData" + Util::separator() + discs[0].diskName + ".png";
             cerr << "SRC:" << source << " DST:" << destination << endl;
@@ -103,6 +129,7 @@ void Game::recoverFiles() {
 
 
     if (!pcsxCfgFound) {
+        automationUsed = true;
         string source = path + Util::separator() + "pcsx.cfg";
         string destination = fullPath + "GameData" + Util::separator() + "pcsx.cfg";
         cerr << "SRC:" << source << " DST:" << destination << endl;
@@ -133,11 +160,25 @@ void Game::updateObj() {
         for (int i = 0; i < strings.size(); i++) {
             Disc disc;
             disc.diskName = strings[i];
+
+            string cueFile = fullPath + "GameData" + Util::separator() + disc.diskName + ".cue";
+            bool discCueExists = Util::exists(cueFile);
+            if (discCueExists) {
+                disc.binVerified = validateCue(cueFile, fullPath + "GameData" + Util::separator());
+                disc.cueFound = true;
+            }
             discs.push_back(disc);
         }
     }
+
+    gameIniValid = true;
+
+
 }
 
+void Game::saveIni(string path) {
+    // TODO: implement this to override
+}
 
 void Game::parseIni(string path) {
     iniValues.clear();
