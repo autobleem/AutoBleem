@@ -1,25 +1,22 @@
 cmake_minimum_required(VERSION 3.10)
 project(cbleemsync)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
 
 include_directories(src/include)
 
 find_package(Threads REQUIRED)
 
 add_executable(cbleemsync
-        src/code/database.c
-        src/code/filesystem.c
-        src/code/main.c
         src/code/sqlite3.c
+        src/code/database.cpp
+        src/code/filesystem.cpp
+        src/code/main.cpp
         src/include/database.h
         src/include/filesystem.h
         src/include/sqlite3.h
         src/include/util.h
-        src/resources/default.lic
-        src/resources/default.png
-        src/resources/pcsx.cfg
-        src/resources/run.sh)
+        src/code/util.cpp)
 
 target_link_libraries(cbleemsync 
          Threads::Threads

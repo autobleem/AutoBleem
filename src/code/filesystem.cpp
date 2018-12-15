@@ -1,11 +1,12 @@
 #include <dirent.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
+#include <iostream>
 #include <unistd.h>
 #include "util.h"
 #include "filesystem.h"
 #include "database.h"
+
 
 t_game_data game_data[MAX_GAMES];
 int games;
@@ -15,7 +16,7 @@ void process_game_ini(char *path) {
     char *line_file = NULL;
     size_t len = 0;
     ssize_t read;
-    int *fp = fopen(path, "r");
+    FILE *fp = fopen(path, "r");
     if (fp == NULL) {
         return; // error opening file
     }
@@ -24,14 +25,14 @@ void process_game_ini(char *path) {
 
     while ((read = getline(&line_file, &len, fp)) != -1) {
         char line[1024];
-        trimwhitespace(line, strlen(line_file), line_file);
+        Util::trimwhitespace(line, strlen(line_file), line_file);
         if (strlen(line) == 0) {
             continue; // skip empty lines
         }
 
         char line_lower_case[1024];
-        zerostr(line_lower_case);
-        strlower(line_lower_case, line);
+        Util::clearstr(line_lower_case);
+        Util::strlower(line_lower_case, line);
 
 
         if (strcmp(line_lower_case, "[game]") == 0) {
@@ -42,8 +43,8 @@ void process_game_ini(char *path) {
             char name[1024];
             // find "=" character;
 
-            zerostr(value);
-            zerostr(name);
+            Util::clearstr(value);
+            Util::clearstr(name);
 
 
             char *datax = strstr(line_lower_case, "=");
@@ -56,9 +57,9 @@ void process_game_ini(char *path) {
             datax = strstr(line, "=");
             strcpy(value, datax + 1);
             fprintf(stderr, "value: %s\n", value);
-            fprintf(stderr, "linelc: %d\n", strpos(line_lower_case, "="));
+            fprintf(stderr, "linelc: %d\n", Util::strpos(line_lower_case, (char *) "="));
 
-            strncpy(name, line_lower_case, strpos(line_lower_case, "="));
+            strncpy(name, line_lower_case, Util::strpos(line_lower_case, (char *) "="));
             fprintf(stderr, "name: %s\n", name);
             // fill data in
 
@@ -78,7 +79,7 @@ void process_game_ini(char *path) {
 
             if (strcmp(name, "players") == 0) {
                 fprintf(stderr, "Players: %s\n", value);
-                if (is_integer_name(value)) {
+                if (Util::is_integer_name(value)) {
                     game_data[games].players = atoi(value);
                     fprintf(stderr, "Playersd: %d\n", game_data[games].players);
 
@@ -90,7 +91,7 @@ void process_game_ini(char *path) {
 
             if (strcmp(name, "year") == 0) {
                 fprintf(stderr, "Year: %s\n", value);
-                if (is_integer_name(value)) {
+                if (Util::is_integer_name(value)) {
                     game_data[games].year = atoi(value);
                     fprintf(stderr, "Yeard: %d\n", game_data[games].year);
                 } else {
@@ -106,7 +107,7 @@ void process_game_ini(char *path) {
                 while (pt != NULL) {
                     fprintf(stderr, "Discname: %s\n", pt);
                     char discname[1024];
-                    zerostr(discname);
+                    Util::clearstr(discname);
                     strcpy(discname, pt);
                     strcpy(game_data[games].discs[game_data[games].total_discs].diskname, discname);
                     fprintf(stderr, "Segfault ? : %d\n", game_data[games].total_discs);
@@ -209,11 +210,11 @@ void read_and_validate(char *folder, char *path) {
     char fullPath[2048];
     fullPath[0] = 0; // clear this
     strcat(fullPath, path);
-    strcat(fullPath, separator());
+    strcat(fullPath, Util::separator());
     strcat(fullPath, folder);
-    strcat(fullPath, separator());
+    strcat(fullPath, Util::separator());
     strcat(fullPath, "GameData");
-    strcat(fullPath, separator());
+    strcat(fullPath, Util::separator());
     DIR *dir = opendir(fullPath);
 
     // check if gamedata is valid dir
@@ -245,7 +246,7 @@ void read_and_validate(char *folder, char *path) {
             struct dirent *entry = readdir(dir);
             while (entry != NULL) {
 
-                if (strcicmp(entry->d_name, "pcsx.cfg") == 0) {
+                if (Util::strcicmp(entry->d_name, "pcsx.cfg") == 0) {
                     game_data[games].pcsx_cfg_found = true;
 
                 }
@@ -254,19 +255,19 @@ void read_and_validate(char *folder, char *path) {
                     const char *last_four = &entry->d_name[strlen(entry->d_name) - 4];
 
                     if (i == 0) {
-                        if (strcicmp(".lic", last_four) == 0) {
+                        if (Util::strcicmp(".lic", last_four) == 0) {
                             game_data[games].lic_found = true;
 
                         }
 
-                        if (strcicmp(".png", last_four) == 0) {
+                        if (Util::strcicmp(".png", last_four) == 0) {
                             game_data[games].image_found = true;
 
                         }
                     }
 
 
-                    if (strcicmp(".bin", last_four) == 0) {
+                    if (Util::strcicmp(".bin", last_four) == 0) {
                         // this is bin file compare to disc
 
                         if (strncmp(game_data[games].discs[i].diskname, entry->d_name,
@@ -277,7 +278,7 @@ void read_and_validate(char *folder, char *path) {
 
                         }
                     }
-                    if (strcicmp(".cue", last_four) == 0) {
+                    if (Util::strcicmp(".cue", last_four) == 0) {
                         // this is bin file compare to disc
                         if (strncmp(entry->d_name, game_data[games].discs[i].diskname,
                                     strlen(game_data[games].discs[i].diskname)) == 0) {
@@ -306,17 +307,17 @@ void read_and_validate(char *folder, char *path) {
     char png_path[1024];
     png_path[0] = 0;
     strcpy(png_path, cwd);
-    strcpy(png_path, separator);
+    strcpy(png_path, Util::separator());
     strcpy(png_path, "default.png");
     char lic_path[1024];
     lic_path[0] = 0;
     strcpy(lic_path, cwd);
-    strcpy(lic_path, separator);
+    strcpy(lic_path, Util::separator());
     strcpy(lic_path, "default.lic");
     char cfg_path[1024];
     cfg_path[0] = 0;
     strcpy(cfg_path, cwd);
-    strcpy(cfg_path, separator);
+    strcpy(cfg_path, Util::separator());
     strcpy(cfg_path, "pcsx.cfg");
 
 
@@ -328,7 +329,7 @@ void read_and_validate(char *folder, char *path) {
         pcsx_cfg[0] = 0;
         strcat(pcsx_cfg, fullPath);
         strcat(pcsx_cfg, "pcsx.cfg");
-        copy_file(cfg_path, pcsx_cfg);
+        Util::copy_file(cfg_path, pcsx_cfg);
         game_data[games].pcsx_cfg_found = true;
         fprintf(stderr, "Copy default pcsx.cfg\n");
 
@@ -341,7 +342,7 @@ void read_and_validate(char *folder, char *path) {
         strcat(png_file, fullPath);
         strcat(png_file, game_data[games].discs[0].diskname);
         strcat(png_file, ".png");
-        copy_file("default.png", png_file);
+        Util::copy_file((char *) "default.png", png_file);
         game_data[games].image_found = true;
         fprintf(stderr, "Copy default image\n");
 
@@ -354,7 +355,7 @@ void read_and_validate(char *folder, char *path) {
         strcat(lic_file, fullPath);
         strcat(lic_file, game_data[games].discs[0].diskname);
         strcat(lic_file, ".lic");
-        copy_file("default.lic", lic_file);
+        Util::copy_file((char *) "default.lic", lic_file);
         game_data[games].lic_found = true;
         fprintf(stderr, "Copy default licence\n");
 
@@ -365,8 +366,8 @@ void read_and_validate(char *folder, char *path) {
 }
 
 int cmpfunc(const void *a, const void *b) {
-    t_game_data *aObj = a;
-    t_game_data *bObj = b;
+    const t_game_data *aObj = (const t_game_data *) a;
+    const t_game_data *bObj = (const t_game_data *) b;
 
     return aObj->folder_id - bObj->folder_id;
 }
@@ -376,6 +377,7 @@ int save_database(char *fileName) {
         t_game_data data = game_data[i];
         insert_game_record(fileName, data);
     }
+    return 0;
 }
 
 int scan_directory_folders(char *path) {
@@ -392,7 +394,7 @@ int scan_directory_folders(char *path) {
 
         while (entry != NULL) {
             if (entry->d_type == DT_DIR)
-                if (is_integer_name(entry->d_name)) {
+                if (Util::is_integer_name(entry->d_name)) {
                     // found folder with game
                     read_and_validate(entry->d_name, path);
                     games++;
@@ -405,7 +407,7 @@ int scan_directory_folders(char *path) {
         closedir(dir);
 
         // sort games by id;
-        qsort(game_data, games, sizeof(t_game_data), cmpfunc);
+        qsort((void *) game_data, games, sizeof(t_game_data), cmpfunc);
 
         // validate all game id's sequential
         all_correct = true;

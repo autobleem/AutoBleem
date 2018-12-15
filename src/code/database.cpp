@@ -1,7 +1,8 @@
 #include <stdio.h>
+#include <iostream>
 #include "database.h"
-#include "filesystem.h"
 
+using namespace std;
 
 
 static const char create_games_sql[] = "CREATE TABLE IF NOT EXISTS GAME  \
@@ -33,9 +34,9 @@ static const char insert_game[] = "INSERT INTO GAME ([GAME_ID],[GAME_TITLE_STRIN
 static const char insert_disc[] = "INSERT INTO DISC ([GAME_ID],[DISC_NUMBER],[BASENAME]) \
                 values (?,?,?)";
 
-int insert_game_record(char * fileName, t_game_data game_data) {
+int insert_game_record(char *fileName, t_game_data game_data) {
     sqlite3 *db;
-    sqlite3_stmt *res;
+    sqlite3_stmt *res = 0;
 
     // open new one and create all required structure
     int rc = sqlite3_open(fileName, &db);
@@ -59,14 +60,14 @@ int insert_game_record(char * fileName, t_game_data game_data) {
 
     }
 
-    for (int i = 0;i < game_data.total_discs; i++) {
+    for (int i = 0; i < game_data.total_discs; i++) {
         rc = sqlite3_prepare_v2(db, insert_disc, -1, &res, 0);
         if (rc == SQLITE_OK) {
 
             sqlite3_bind_int(res, 1, game_data.folder_id);
-            sqlite3_bind_int(res, 2, i+1);
+            sqlite3_bind_int(res, 2, i + 1);
             sqlite3_bind_text(res, 3, game_data.discs[i].diskname, -1, 0);
-      
+
             sqlite3_step(res);
 
         } else {
@@ -81,69 +82,63 @@ int insert_game_record(char * fileName, t_game_data game_data) {
     return 0;
 }
 
-int create_database(char * fileName) {
-
-
-    sqlite3 *db;
-    sqlite3_stmt *res;
-
-
-
-    // open new one and create all required structure
-    int rc = sqlite3_open(fileName, &db);
-
-    fprintf(stderr, "Connecting to SQLITE file: %s\n", fileName);
-
+bool Database::executeCreateStatement(char *sql, string tableName) {
+    char *errorReport = NULL;
+    cout << "Creating " << tableName << " table (if not exists)" << endl;
+    int rc = sqlite3_exec(db, sql, 0, 0, &errorReport);
     if (rc != SQLITE_OK) {
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        cerr << "Failed to create " << tableName << "  table" << sqlite3_errmsg(db) << endl;
+        if (!errorReport) sqlite3_free(errorReport);
         sqlite3_close(db);
-        return 1;
+        return false;
     }
+    return true;
+}
 
-    fprintf(stderr, "Creating GAME table (if not exists)\n");
-
-    rc = sqlite3_exec(db, create_disc_sql, 0, 0, &res);
+bool Database::executeStatement(char *sql, string outMsg, string errorMsg) {
+    char *errorReport = NULL;
+    cout << outMsg << endl;
+    int rc = sqlite3_exec(db, sql, 0, 0, &errorReport);
     if (rc != SQLITE_OK) {
-
-        fprintf(stderr, "Failed to create GAME: %s\n", sqlite3_errmsg(db));
+        cerr << errorMsg << sqlite3_errmsg(db) << endl;
+        if (!errorReport) sqlite3_free(errorReport);
         sqlite3_close(db);
-        return 1;
+        return false;
     }
+    return true;
+}
 
-    fprintf(stderr, "Creating DISC table (if not exists)\n");
-
-    rc = sqlite3_exec(db, create_games_sql, 0, 0, &res);
+bool Database::connect(string fileName) {
+    int rc = sqlite3_open(fileName.c_str(), &db);
+    cout << "Connected to DB" << fileName << endl;
     if (rc != SQLITE_OK) {
-
-        fprintf(stderr, "Failed to create DISC: %s\n", sqlite3_errmsg(db));
+        cout << "Cannot open database: " << sqlite3_errmsg(db) << endl;
         sqlite3_close(db);
-        return 1;
+        db = NULL;
+        return false;
     }
+    return true;
+}
 
-    fprintf(stderr, "Creating LANGUAGE_SPECIFIC table (if not exists)\n");
-
-    rc = sqlite3_exec(db, create_language_specific_sql, 0, 0, &res);
-    if (rc != SQLITE_OK) {
-
-        fprintf(stderr, "Failed to create LANGUAGE_SPECIFIC: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-        return 1;
-    }
-
-    fprintf(stderr, "Removing all data \n");
-    rc = sqlite3_exec(db, truncate_all, 0, 0, &res);
-    if (rc != SQLITE_OK) {
-
-        fprintf(stderr, "Failed to truncate tables: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-        return 1;
-    }
-
-    fprintf(stderr, "Finalizing Create Step\n");
-
-    sqlite3_finalize(res);
+void Database::disconnect() {
+    if (db != NULL) {}
     sqlite3_close(db);
+    db = NULL;
 
-    return 0;
+}
 
-};
+bool Database::createInitialDatabase() {
+
+
+    if (!executeCreateStatement((char *) create_games_sql, "GAME")) return false;
+
+    if (!executeCreateStatement((char *) create_disc_sql, "DISC")) return false;
+
+    if (!executeCreateStatement((char *) create_language_specific_sql, "LANGUAGE_SPECIFIC")) return false;
+
+    if (!executeStatement((char *) truncate_all, "Truncating all data", "Error truncating data")) return false;
+
+
+    return true;
+}
+
