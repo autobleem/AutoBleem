@@ -13,19 +13,27 @@ static const char LICENCE[] = ".lic";
 
 
 bool wayToSort(Game i, Game j) {
-    return i.folder_id < j.folder_id;
+    return i.title < j.title;
 }
 
 void Scanner::updateDB(Database *db) {
+
+    string path = Util::getWorkingPath() + Util::separator() + "autobleem.list";
+    ofstream outfile;
+    outfile.open(path);
     if (complete)
         for (int i = 0; i < games.size(); i++) {
             Game data = games[i];
-            cout << "Inserting game ID: " << data.folder_id << " - " << data.title << endl;
-            db->insertGame(data.folder_id, data.title, data.publisher, data.players, data.year);
+            cout << "Inserting game ID: " << i + 1 << " - " << data.title << endl;
+            db->insertGame(i + 1, data.title, data.publisher, data.players, data.year);
             for (int i = 0; i < data.discs.size(); i++) {
                 db->insertDisc(data.folder_id, i + 1, data.discs[i].diskName);
             }
+            outfile << i + 1 << "," << data.fullPath << endl;
+
         }
+    outfile.flush();
+    outfile.close();
 }
 
 void Scanner::scanDirectory(string path) {
@@ -40,7 +48,7 @@ void Scanner::scanDirectory(string path) {
         if (!entry.dir) continue;
 
         Game game;
-        game.folder_id = atoi(entry.name.c_str());
+        game.folder_id = atoi(entry.name.c_str()); // this will not be in use;
         game.fullPath = path + entry.name + Util::separator();
         game.pathName = entry.name;
 
