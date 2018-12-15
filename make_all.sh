@@ -16,5 +16,5 @@ make
 cd ..
 
 git add .
-git commit -"New build"
+git commit -m "New build"
 
