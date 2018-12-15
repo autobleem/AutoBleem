@@ -1,3 +1,0 @@
-/home/screemer/ps1c/cbleemsync/build/CMakeFiles/rebuild_cache.dir
-/home/screemer/ps1c/cbleemsync/build/CMakeFiles/cbleemsync.dir
-/home/screemer/ps1c/cbleemsync/build/CMakeFiles/edit_cache.dir

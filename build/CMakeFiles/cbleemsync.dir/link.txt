@@ -1,1 +1,0 @@
-/usr/bin/cc    CMakeFiles/cbleemsync.dir/src/code/database.c.o CMakeFiles/cbleemsync.dir/src/code/filesystem.c.o CMakeFiles/cbleemsync.dir/src/code/main.c.o CMakeFiles/cbleemsync.dir/src/code/sqlite3.c.o  -o cbleemsync -ldl -lpthread 
