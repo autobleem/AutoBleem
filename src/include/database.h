@@ -50,7 +50,9 @@ public:
 
     bool createInitialDatabase();
 
-    int insertGameRecord(string fileName, t_game_data gameData);
+    bool insertGame(int id, string title, string publisher, int players, int year);
+
+    bool insertDisc(int id, int discNum, string discName);
 
 private:
     sqlite3 *db;
@@ -60,8 +62,6 @@ private:
     bool executeStatement(char *sql, string outMsg, string errorMsg);
 };
 
-
-int insert_game_record(char *fileName, t_game_data game_data);
 
 
 

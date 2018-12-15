@@ -5,10 +5,10 @@
 #include <unistd.h>
 #include "util.h"
 #include "filesystem.h"
-#include "database.h"
 
 
 t_game_data game_data[MAX_GAMES];
+
 int games;
 bool all_correct;
 
@@ -216,7 +216,6 @@ void read_and_validate(char *folder, char *path) {
     strcat(fullPath, "GameData");
     strcat(fullPath, Util::separator());
     DIR *dir = opendir(fullPath);
-
     // check if gamedata is valid dir
     if (dir != NULL) {
         closedir(dir);
@@ -368,14 +367,19 @@ void read_and_validate(char *folder, char *path) {
 int cmpfunc(const void *a, const void *b) {
     const t_game_data *aObj = (const t_game_data *) a;
     const t_game_data *bObj = (const t_game_data *) b;
-
     return aObj->folder_id - bObj->folder_id;
 }
 
-int save_database(char *fileName) {
+int save_database(Database *db) {
     for (int i = 0; i < games; i++) {
         t_game_data data = game_data[i];
-        insert_game_record(fileName, data);
+        cout << "Inserting game ID: " << data.folder_id << " - " << data.title << endl;
+        db->insertGame(data.folder_id, data.title, data.publisher, data.players, data.year);
+        for (int i = 0; i < data.total_discs; i++) {
+            db->insertDisc(data.folder_id, i + 1, data.discs[i].diskname);
+        }
+
+
     }
     return 0;
 }

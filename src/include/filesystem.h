@@ -8,19 +8,16 @@
 #ifndef FILESYSTEM_H
 #define FILESYSTEM_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "database.h"
     
 #define MAX_GAMES 500
 
 
 int scan_directory_folders(char * path);
-int save_database(char * fileName);
 
-#ifdef __cplusplus
-}
-#endif
+int save_database(Database *db);
+
+
 
 #endif /* FILESYSTEM_H */
 
