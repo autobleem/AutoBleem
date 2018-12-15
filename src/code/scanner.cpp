@@ -29,7 +29,7 @@ void Scanner::updateDB(Database *db) {
             for (int i = 0; i < data.discs.size(); i++) {
                 db->insertDisc(data.folder_id, i + 1, data.discs[i].diskName);
             }
-            outfile << i + 1 << "," << data.fullPath << endl;
+            outfile << i + 1 << "," << data.fullPath.substr(0, data.fullPath.size() - 1) << endl;
 
         }
     outfile.flush();
