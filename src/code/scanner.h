@@ -20,6 +20,7 @@ public:
 
     void scanDirectory(string path);
 
+    void unecm(string path);
     void updateDB(Database *db);
 
 private:

@@ -52,6 +52,9 @@ public:
 
     string scanSerial();
 
+    void updateObj();
+
+    bool validateCue(string cuePath, string path);
 private:
 
     string firstBinPath = "";
@@ -59,8 +62,8 @@ private:
     map<string, string> iniValues;
 
     void parseIni(string path);
-    void updateObj();
-    bool validateCue(string cuePath, string path);
+
+
     string valueOrDefault(string name, string def);
 
 

@@ -5,6 +5,8 @@
 #include "game.h"
 #include "main.h"
 #include "util.h"
+#include "metadata.h"
+#include "ecmhelper.h"
 
 using namespace std;
 
@@ -117,6 +119,7 @@ bool Game::validateCue(string cuePath, string path) {
         string binPath = path + binFiles[i];
 
         if (!Util::exists(binPath)) {
+            // check if it is ecm
             result = false;
         } else {
             if (i == 0) {
@@ -218,15 +221,16 @@ void Game::recoverFiles() {
         for (int i = 0; i < entries.size(); i++) {
             DirEntry entry = entries[i];
             if (entry.name[0] == '.') continue;
-            if (Util::strcicmp(entry.name.substr(entry.name.length() - 4).c_str(), ".cue") == 0) {
-                string discEntry = entry.name.substr(0, entry.name.size() - 4);
-                Disc disc;
-                disc.diskName = discEntry;
-                disc.cueFound = true;
-                disc.cueName = discEntry;
-                disc.binVerified = validateCue(destination + entry.name, fullPath + "GameData" + Util::separator());
-                discs.push_back(disc);
-            }
+            if (entry.name.length() > 4)
+                if (Util::strcicmp(entry.name.substr(entry.name.length() - 4).c_str(), ".cue") == 0) {
+                    string discEntry = entry.name.substr(0, entry.name.size() - 4);
+                    Disc disc;
+                    disc.diskName = discEntry;
+                    disc.cueFound = true;
+                    disc.cueName = discEntry;
+                    disc.binVerified = validateCue(destination + entry.name, fullPath + "GameData" + Util::separator());
+                    discs.push_back(disc);
+                }
         }
     }
 
@@ -241,10 +245,28 @@ void Game::recoverFiles() {
         }
         if (!imageFound) {
             automationUsed = true;
+
             string source = path + Util::separator() + "default.png";
             string destination = fullPath + "GameData" + Util::separator() + discs[0].diskName + ".png";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             Util::copy(source, destination);
+            // maybe we can do better ?
+            string serial = scanSerial();
+            if (serial != "") {
+                Metadata md;
+                if (md.lookup(serial)) {
+
+                    cout << "Updating cover" << destination << endl;
+                    ofstream pngFile;
+                    pngFile.open(destination);
+                    pngFile.write(md.bytes, md.dataSize);
+                    pngFile.flush();
+                    pngFile.close();
+                    automationUsed = false;
+                    imageFound = true;
+                };
+
+            }
             imageFound = true;
 
         }

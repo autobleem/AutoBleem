@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <string.h>
 
+
 /***************************************************************************/
 
 void banner(void) {
@@ -54,7 +55,7 @@ static ecc_uint8 ecc_b_lut[256];
 static ecc_uint32 edc_lut[256];
 
 /* Init routine */
-static void eccedc_init(void) {
+void eccedc_init(void) {
     ecc_uint32 i, j, edc;
     for (i = 0; i < 256; i++) {
         j = (i << 1) ^ (i & 0x80 ? 0x11D : 0);

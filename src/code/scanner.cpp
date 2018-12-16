@@ -5,16 +5,39 @@
 #include "scanner.h"
 #include "main.h"
 #include "metadata.h"
+#include "ecmhelper.h"
+
+#include <stdio.h>
+
 
 static const char GAME_DATA[] = "GameData";
 static const char GAME_INI[] = "Game.ini";
 static const char PCSX_CFG[] = "pcsx.cfg";
 static const char LABEL[] = ".png";
+static const char ECM[] = ".ecm";
 static const char LICENCE[] = ".lic";
 
 
 bool wayToSort(Game i, Game j) {
     return i.title < j.title;
+}
+
+void Scanner::unecm(string path) {
+    vector<DirEntry> rootDir = Util::dir(path);
+    for (std::vector<int>::size_type i = 0; i != rootDir.size(); i++) {
+        DirEntry entry = rootDir[i];
+        if (entry.name[0] == '.') continue;
+        if (Util::strcicmp(entry.name.substr(entry.name.length() - 4).c_str(), ECM) == 0) {
+            // oh someone forgot to unpack ECM ... let me do that for you - THIS IS EXPERIMENTAL
+            Ecmhelper ecm;
+            if (ecm.unecm(path + entry.name, path + entry.name.substr(0, entry.name.length() - 4))) {
+                // successfuly unpacked
+                remove((path + entry.name).c_str());
+
+            }
+        }
+
+    }
 }
 
 void Scanner::updateDB(Database *db) {
@@ -53,16 +76,17 @@ void Scanner::scanDirectory(string path) {
         game.fullPath = path + entry.name + Util::separator();
         game.pathName = entry.name;
 
-        string folderPath = path + entry.name + Util::separator() + GAME_DATA + Util::separator();
+        string gameDataPath = path + entry.name + Util::separator() + GAME_DATA + Util::separator();
 
-        bool gameDataExists = Util::exists(folderPath);
+        bool gameDataExists = Util::exists(gameDataPath);
         if (!gameDataExists) {
             cerr << "Game: " << entry.name << " - GameData Not found" << endl;
-            Util::createDir(folderPath);
+            Util::createDir(gameDataPath);
 
 
         }
         game.gameDataFound = true;
+
 
         vector<DirEntry> gameRoot = Util::dir(path + entry.name + Util::separator());
         for (std::vector<int>::size_type j = 0; j != gameRoot.size(); j++) {
@@ -71,27 +95,28 @@ void Scanner::scanDirectory(string path) {
             if (entryGame.name == GAME_DATA) continue;
 
             string oldName = path + entry.name + Util::separator() + entryGame.name;
-            string newName = folderPath + entryGame.name;
+            string newName = gameDataPath + entryGame.name;
             cerr << "Moving: " << oldName << "  to: " << newName << endl;
             rename(oldName.c_str(), newName.c_str());
         }
 
+        unecm(gameDataPath);
 
-        if (!Util::exists(folderPath + GAME_INI)) {
-            game.readIni(folderPath + GAME_INI);
+        if (!Util::exists(gameDataPath + GAME_INI)) {
+            game.readIni(gameDataPath + GAME_INI);
             game.gameIniFound = false;
         } else {
             game.gameIniFound = true;
         }
 
 
-        vector<DirEntry> gameDir = Util::dir(folderPath);
+        vector<DirEntry> gameDir = Util::dir(gameDataPath);
         for (std::vector<int>::size_type j = 0; j != gameDir.size(); j++) {
             DirEntry entryGame = gameDir[j];
             if (entryGame.name[0] == '.') continue;
 
             if (Util::strcicmp(entryGame.name.c_str(), GAME_INI) == 0) {
-                string gameIniPath = folderPath + GAME_INI;
+                string gameIniPath = gameDataPath + GAME_INI;
                 game.readIni(gameIniPath);
             }
 
@@ -103,12 +128,16 @@ void Scanner::scanDirectory(string path) {
                 game.pcsxCfgFound = true;
             }
 
-            if (Util::strcicmp(entryGame.name.substr(entryGame.name.length() - 4).c_str(), LABEL) == 0) {
-                game.imageFound = true;
-            }
-            if (Util::strcicmp(entryGame.name.substr(entryGame.name.length() - 4).c_str(), LICENCE) == 0) {
-                game.licFound = true;
-            }
+            if (entryGame.name.length() > 4)
+                if (Util::strcicmp(entryGame.name.substr(entryGame.name.length() - 4).c_str(), LABEL) == 0) {
+                    game.imageFound = true;
+                }
+            if (entryGame.name.length() > 4)
+
+                if (entryGame.name.length() > 4)
+                    if (Util::strcicmp(entryGame.name.substr(entryGame.name.length() - 4).c_str(), LICENCE) == 0) {
+                        game.licFound = true;
+                    }
 
 
         }
@@ -127,7 +156,7 @@ void Scanner::scanDirectory(string path) {
 
                     if (game.discs.size() > 0) {
                         // all recovered :)
-                        string newFilename = folderPath + game.discs[0].cueName + ".png";
+                        string newFilename = gameDataPath + game.discs[0].cueName + ".png";
                         cout << "Updating cover" << newFilename << endl;
                         ofstream pngFile;
                         pngFile.open(newFilename);
@@ -146,7 +175,7 @@ void Scanner::scanDirectory(string path) {
 
             }
         }
-        game.saveIni(folderPath + GAME_INI);
+        game.saveIni(gameDataPath + GAME_INI);
 
         game.print();
         if (game.verify()) {

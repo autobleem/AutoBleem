@@ -8,14 +8,24 @@ include_directories(src/include)
 find_package(Threads REQUIRED)
 
 add_executable(cbleemsync
+        src/code/unecm.c
         src/code/sqlite3.c
-        src/include/main.h
+        src/code/main.h
         src/code/database.cpp
         src/code/main.cpp
-        src/include/database.h
-        src/include/sqlite3.h
-        src/include/util.h
-        src/code/util.cpp src/code/game.cpp src/include/game.h src/code/scanner.cpp src/include/scanner.h src/code/unecm.c src/code/metadata.cpp src/include/metadata.h)
+        src/code/database.h
+        src/code/sqlite3.h
+        src/code/util.h
+        src/code/util.cpp
+        src/code/game.cpp
+        src/code/game.h
+        src/code/scanner.cpp
+        src/code/scanner.h
+        src/code/metadata.cpp
+        src/code/metadata.h
+        src/code/ecmhelper.cpp
+        src/code/ecmhelper.h
+        )
 
 target_link_libraries(cbleemsync 
          Threads::Threads
@@ -30,7 +40,6 @@ add_custom_command(TARGET cbleemsync PRE_BUILD
 configure_file(src/resources/default.lic default.lic COPYONLY)
 configure_file(src/resources/default.png default.png COPYONLY)
 configure_file(src/resources/pcsx.cfg pcsx.cfg COPYONLY)
-configure_file(src/resources/coversJ.db coversJ.db COPYONLY)
 configure_file(src/resources/coversU.db coversU.db COPYONLY)
 configure_file(src/resources/coversP.db coversP.db COPYONLY)
 
