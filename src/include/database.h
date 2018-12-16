@@ -11,7 +11,7 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include "Metadata.h"
+#include "metadata.h"
 
 using namespace std;
 
