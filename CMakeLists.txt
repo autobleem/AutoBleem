@@ -15,7 +15,7 @@ add_executable(cbleemsync
         src/include/database.h
         src/include/sqlite3.h
         src/include/util.h
-        src/code/util.cpp src/code/game.cpp src/include/game.h src/code/scanner.cpp src/include/scanner.h)
+        src/code/util.cpp src/code/game.cpp src/include/game.h src/code/scanner.cpp src/include/scanner.h src/code/unecm.c)
 
 target_link_libraries(cbleemsync 
          Threads::Threads

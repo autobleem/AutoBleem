@@ -143,6 +143,7 @@ void Game::recoverFiles() {
             string destination = fullPath + "GameData" + Util::separator() + discs[0].diskName + ".lic";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             Util::copy(source, destination);
+            licFound = true;
         }
         if (!imageFound) {
             automationUsed = true;
@@ -150,6 +151,7 @@ void Game::recoverFiles() {
             string destination = fullPath + "GameData" + Util::separator() + discs[0].diskName + ".png";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             Util::copy(source, destination);
+            imageFound = true;
 
         }
     }

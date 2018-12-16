@@ -112,8 +112,8 @@ void Scanner::scanDirectory(string path) {
 
         }
         game.recoverFiles();
-        game.print();
         game.saveIni(folderPath + GAME_INI);
+        game.print();
         if (game.verify()) {
             games.push_back(game);
         }
