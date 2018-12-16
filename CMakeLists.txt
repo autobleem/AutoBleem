@@ -30,9 +30,6 @@ add_custom_command(TARGET cbleemsync PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         $<TARGET_FILE_DIR:cbleemsync>/cbleemsync $<TARGET_FILE_DIR:cbleemsync>/payload/cbleemsync)
 
-add_custom_command(TARGET cbleemsync POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-        $<TARGET_FILE_DIR:cbleemsync>/default.lic $<TARGET_FILE_DIR:cbleemsync>/payload/cbleemsync)
 
 configure_file(src/resources/default.lic default.lic COPYONLY)
 configure_file(src/resources/default.png default.png COPYONLY)
