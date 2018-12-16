@@ -1,3 +1,4 @@
+git pull
 rm -rf ./build
 rm -rf ./build_arm
 
@@ -14,4 +15,6 @@ cmake -DCMAKE_TOOLCHAIN_FILE=../PS1Ctoolchain.cmake ..
 make
 cd ..
 
+git add .
+git commit -m "New build"
 
