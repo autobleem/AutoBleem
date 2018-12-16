@@ -54,6 +54,8 @@ public:
 
     bool insertDisc(int id, int discNum, string discName);
 
+    bool querySerial(string serial);
+
 private:
     sqlite3 *db;
 

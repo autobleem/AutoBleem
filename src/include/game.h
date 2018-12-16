@@ -51,18 +51,16 @@ public:
 
 private:
 
+    string firstBinPath = "";
     bool automationUsed = false;
-
     map<string, string> iniValues;
 
     void parseIni(string path);
-
-
     void updateObj();
-
     bool validateCue(string cuePath, string path);
     string valueOrDefault(string name, string def);
 
+    string scanSerial();
 
 };
 

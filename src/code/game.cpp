@@ -8,6 +8,93 @@
 
 using namespace std;
 
+#define MAX_SERIAL_CHECK 100000
+
+string fixSerial(string serial) {
+    replace(serial.begin(), serial.end(), '_', '-');
+    serial.erase(std::remove(serial.begin(), serial.end(), '.'), serial.end());
+    string fixed = "";
+    stringstream alpha;
+    stringstream digits;
+    bool digitsProcessing = false;
+    for (int i = 0; i < serial.size(); i++) {
+        int maxchars = serial[0] == 'L' ? 3 : 4;
+        if (!isdigit(serial[i])) {
+
+            if (digitsProcessing) continue;
+            if (serial[i] == '-') continue;
+            if (alpha.str().length() < maxchars) {
+                alpha << serial[i];
+            }
+        } else {
+            digitsProcessing = true;
+            digits << serial[i];
+        }
+    }
+
+    return alpha.str() + "-" + digits.str();
+
+
+}
+
+string Game::scanSerial() {
+    string prefixes[] = {
+            "CPCS", "ESPM", "HPS", "LPS", "LSP", "SCAJ", "SCED", "SCES", "SCPS", "SCUS", "SIPS", "SLES", "SLKA", "SLPM",
+            "SLPS", "SLUS"};
+
+    if (firstBinPath == "") {
+        return ""; // not at this stage
+    }
+
+    ifstream stream(firstBinPath, ios::binary);
+    stream.seekg(0, ios_base::end);
+    int length = stream.tellg();
+
+
+    char triggerCharacters[] = {'C', 'E', 'H', 'L', 'S'};
+    char bits[11];
+    bool foundSerial = false;
+    string serial = "";
+    for (int pos = 0; pos < length; pos += 11) {
+
+        if (pos > MAX_SERIAL_CHECK) break;
+        stream.seekg(pos, ios::beg);
+        stream.read(bits, 11);
+        char triggerChar;
+        for (int i = 0; i < 11; i++) {
+
+            for (int charid = 0; charid < 5; charid++) {
+
+                triggerChar = triggerCharacters[charid];
+
+                if (bits[i] == triggerChar) {
+
+                    pos += i;
+                    stream.seekg(pos, ios::beg);
+                    stream.read(bits, 11);
+
+                    string possibleString = bits;
+
+                    for (int prefid = 0; prefid < 16; prefid++) {
+                        if (possibleString.substr(0, prefixes[prefid].size()) == prefixes[prefid]) {
+                            foundSerial = true;
+                            serial = possibleString;
+
+                        }
+                    }
+                }
+                if (foundSerial) break;
+            }
+        }
+        if (foundSerial) break;
+    }
+    if (!foundSerial) {
+        return "";
+    }
+
+    return fixSerial(serial);
+}
+
 bool Game::validateCue(string cuePath, string path) {
     vector<string> binFiles;
     string line;
@@ -28,8 +115,16 @@ bool Game::validateCue(string cuePath, string path) {
 
     for (int i = 0; i < binFiles.size(); i++) {
         string binPath = path + binFiles[i];
+
         if (!Util::exists(binPath)) {
             result = false;
+        } else {
+            if (i == 0) {
+                firstBinPath = binPath;
+                string serial = scanSerial();
+                cout << "SERIAL FOUND:" << serial << endl;
+            }
+
         }
     }
     cueStream.close();
@@ -143,6 +238,7 @@ void Game::recoverFiles() {
             string destination = fullPath + "GameData" + Util::separator() + discs[0].diskName + ".lic";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             Util::copy(source, destination);
+            licFound = true;
         }
         if (!imageFound) {
             automationUsed = true;
@@ -150,6 +246,7 @@ void Game::recoverFiles() {
             string destination = fullPath + "GameData" + Util::separator() + discs[0].diskName + ".png";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             Util::copy(source, destination);
+            imageFound = true;
 
         }
     }

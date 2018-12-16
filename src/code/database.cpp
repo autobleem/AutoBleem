@@ -3,6 +3,11 @@
 
 using namespace std;
 
+static const char SELECT_META[] = "SELECT SERIAL,TITLE, PUBLISHER, \
+                                RELEASE,PLAYERS, COVER FROM SERIALS s \
+                                JOIN GAME g on s.GAME=g.id \
+                                WHERE SERIAL=?";
+
 static const char CREATE_GAME_SQL[] = "CREATE TABLE IF NOT EXISTS GAME  \
      ( [GAME_ID] integer NOT NULL UNIQUE, \
        [GAME_TITLE_STRING] text, \
@@ -32,6 +37,21 @@ static const char INSERT_GAME[] = "INSERT INTO GAME ([GAME_ID],[GAME_TITLE_STRIN
 static const char INSERT_DISC[] = "INSERT INTO DISC ([GAME_ID],[DISC_NUMBER],[BASENAME]) \
                 values (?,?,?)";
 
+bool Database::querySerial(string serial) {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, SELECT_META, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+
+        sqlite3_bind_text(res, 3, serial.c_str(), -1, nullptr);
+        sqlite3_step(res);
+    } else {
+        cerr << "Failed to execute statement: " << sqlite3_errmsg(db) << endl;
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+    return true;
+}
 
 bool Database::insertDisc(int id, int discNum, string discName) {
     sqlite3_stmt *res = nullptr;
