@@ -27,7 +27,6 @@ add_custom_command(TARGET cbleemsync PRE_BUILD
         ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:cbleemsync>)
 
 
-
 configure_file(src/resources/default.lic default.lic COPYONLY)
 configure_file(src/resources/default.png default.png COPYONLY)
 configure_file(src/resources/pcsx.cfg pcsx.cfg COPYONLY)
