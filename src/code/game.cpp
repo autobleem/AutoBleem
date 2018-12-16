@@ -9,9 +9,31 @@
 using namespace std;
 
 bool Game::validateCue(string cuePath, string path) {
-    cout << "Validating CUE:  " << cuePath << "  in  " << path << endl;
-    // TODO: implement this !!!
-    return true;
+    vector<string> binFiles;
+    string line;
+    ifstream cueStream;
+    bool result = true;
+
+    cueStream.open(cuePath);
+    while (getline(cueStream, line)) {
+        line = trim(line);
+        if (line.size() == 0) continue;
+        if (line.substr(0, 4) == "FILE") {
+            line = line.substr(6, string::npos);
+            line = line.substr(0, line.find('"'));
+            binFiles.push_back(line);
+        }
+
+    }
+
+    for (int i = 0; i < binFiles.size(); i++) {
+        string binPath = path + binFiles[i];
+        if (!Util::exists(binPath)) {
+            result = false;
+        }
+    }
+    cueStream.close();
+    return result;
 }
 
 string Game::valueOrDefault(string name, string def) {
@@ -45,9 +67,14 @@ bool Game::verify() {
     if (!licFound) result = false;
     if (!pcsxCfgFound) result = false;
 
+    if (!result) {
+        cerr << "Game: " << title << " Validation Failed" << endl;
+    }
+    /*
     if (automationUsed) {
         result = result || automationUsed;
     }
+     */
     return result;
 }
 
@@ -103,7 +130,7 @@ void Game::recoverFiles() {
                 Disc disc;
                 disc.diskName = discEntry;
                 disc.cueFound = true;
-                disc.binVerified = validateCue(destination + entry.name, destination);
+                disc.binVerified = validateCue(destination + entry.name, fullPath + "GameData" + Util::separator());
                 discs.push_back(disc);
             }
         }
@@ -143,12 +170,16 @@ void Game::updateObj() {
     string tmp;
     discs.clear();
 
-    title = valueOrDefault("title", pathName);
+    // Use folder names for convinience and ignore game.ini
+    //title = valueOrDefault("title", pathName);
+    title = pathName;
     publisher = valueOrDefault("publisher", "Other");
+    string automation = valueOrDefault("automation", "0");
+    automationUsed = atoi(automation.c_str());
     tmp = valueOrDefault("players", "1");
-    if (Util::is_integer_name(tmp.c_str())) players = atoi(tmp.c_str()); else players = 1;
+    if (Util::isInteger(tmp.c_str())) players = atoi(tmp.c_str()); else players = 1;
     tmp = valueOrDefault("year", "2018");
-    if (Util::is_integer_name(tmp.c_str())) year = atoi(tmp.c_str()); else year = 2018;
+    if (Util::isInteger(tmp.c_str())) year = atoi(tmp.c_str()); else year = 2018;
     tmp = valueOrDefault("discs", "");
     if (tmp.length() != 0) {
         vector<string> strings;
@@ -177,7 +208,29 @@ void Game::updateObj() {
 }
 
 void Game::saveIni(string path) {
-    // TODO: implement this to override
+
+    cout << "Overwritting ini file" << path << endl;
+    ofstream os;
+    os.open(path);
+    os << "[Game]" << endl;
+    os << "Discs=";
+    for (int i = 0; i < discs.size(); i++) {
+        os << discs[i].diskName;
+        if (i != discs.size() - 1) {
+            os << ",";
+        }
+    }
+    os << endl;
+    os << "Title=" << title << endl;
+    os << "Publisher=" << publisher << endl;
+    os << "Players=" << players << endl;
+    os << "Year=" << year << endl;
+    os << "Automation=" << automationUsed << endl;
+
+
+    os.flush();
+    os.close();
+    gameIniFound = true;
 }
 
 void Game::parseIni(string path) {
@@ -188,6 +241,7 @@ void Game::parseIni(string path) {
 
     if (!file.good()) {
         gameIniFound = false;
+        return;
 
     }
     while (getline(file, iniLine)) {

@@ -52,7 +52,7 @@ public:
 
     static std::string getWorkingPath();
 
-    static bool is_integer_name(const char *input);
+    static bool isInteger(const char *input);
 
     static int strcicmp(char const *a, char const *b);
 

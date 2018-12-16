@@ -82,7 +82,7 @@ bool Util::copy(string source, string dest) {
 }
 
 
-bool Util::is_integer_name(const char *input) {
+bool Util::isInteger(const char *input) {
     size_t ln = strlen(input);
     for (size_t i = 0; i < ln; i++) {
         if (!isdigit(input[i])) {

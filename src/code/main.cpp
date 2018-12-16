@@ -36,15 +36,7 @@ int main(int argc, char *argv[]) {
     scanner->updateDB(db);
     delete scanner;
 
-    /*
-    if (scan_directory_folders(argv[2]) != 0) {
-        cout << "Error scanning folders" << endl;
-        db->disconnect();
-        delete db;
-        return EXIT_FAILURE;
-    }
-    save_database(db);
-     */
+
     db->disconnect();
     delete db;
 
