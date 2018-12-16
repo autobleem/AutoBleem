@@ -121,8 +121,6 @@ bool Game::validateCue(string cuePath, string path) {
         } else {
             if (i == 0) {
                 firstBinPath = binPath;
-                string serial = scanSerial();
-                cout << "SERIAL FOUND:" << serial << endl;
             }
 
         }
@@ -225,6 +223,7 @@ void Game::recoverFiles() {
                 Disc disc;
                 disc.diskName = discEntry;
                 disc.cueFound = true;
+                disc.cueName = discEntry;
                 disc.binVerified = validateCue(destination + entry.name, fullPath + "GameData" + Util::separator());
                 discs.push_back(disc);
             }
@@ -268,8 +267,8 @@ void Game::updateObj() {
     discs.clear();
 
     // Use folder names for convinience and ignore game.ini
-    //title = valueOrDefault("title", pathName);
-    title = pathName;
+    title = valueOrDefault("title", pathName);
+    //title = pathName;
     publisher = valueOrDefault("publisher", "Other");
     string automation = valueOrDefault("automation", "0");
     automationUsed = atoi(automation.c_str());
@@ -294,6 +293,7 @@ void Game::updateObj() {
             if (discCueExists) {
                 disc.binVerified = validateCue(cueFile, fullPath + "GameData" + Util::separator());
                 disc.cueFound = true;
+                disc.cueName = disc.diskName;
             }
             discs.push_back(disc);
         }

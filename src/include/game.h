@@ -17,6 +17,7 @@ using namespace std;
 class Disc {
 public:
     string diskName;
+    string cueName = "";
     // verifications
 
     bool cueFound = false;
@@ -40,6 +41,7 @@ public:
     bool gameIniValid = false;
     bool imageFound = false;
     bool licFound = false;
+    bool automationUsed = false;
 
     void readIni(string path);
 
@@ -48,11 +50,12 @@ public:
     bool verify();
     bool print();
 
+    string scanSerial();
 
 private:
 
     string firstBinPath = "";
-    bool automationUsed = false;
+
     map<string, string> iniValues;
 
     void parseIni(string path);
@@ -60,7 +63,6 @@ private:
     bool validateCue(string cuePath, string path);
     string valueOrDefault(string name, string def);
 
-    string scanSerial();
 
 };
 
