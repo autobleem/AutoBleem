@@ -1,7 +1,11 @@
 #include <iostream>
 #include "database.h"
 
+#include <stdio.h>
+#include <string.h>
+
 using namespace std;
+
 
 static const char SELECT_META[] = "SELECT SERIAL,TITLE, PUBLISHER, \
                                 RELEASE,PLAYERS, COVER FROM SERIALS s \
@@ -37,20 +41,47 @@ static const char INSERT_GAME[] = "INSERT INTO GAME ([GAME_ID],[GAME_TITLE_STRIN
 static const char INSERT_DISC[] = "INSERT INTO DISC ([GAME_ID],[DISC_NUMBER],[BASENAME]) \
                 values (?,?,?)";
 
-bool Database::querySerial(string serial) {
+bool Database::querySerial(string serial, Metadata *md) {
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, SELECT_META, -1, &res, nullptr);
     if (rc == SQLITE_OK) {
 
-        sqlite3_bind_text(res, 3, serial.c_str(), -1, nullptr);
-        sqlite3_step(res);
+        sqlite3_bind_text(res, 1, serial.c_str(), -1, nullptr);
+        int result = sqlite3_step(res);
+
+        if (result == SQLITE_ROW) {
+            const unsigned char *title = sqlite3_column_text(res, 1);
+
+            const unsigned char *publisher = sqlite3_column_text(res, 2);
+
+            const int year = sqlite3_column_int(res, 3);
+
+            const int players = sqlite3_column_int(res, 4);
+
+
+            const void *bytes = sqlite3_column_blob(res, 5);
+            int size = sqlite3_column_bytes(res, 5);
+            if (size != 0) {
+                md->dataSize = size;
+                md->bytes = new char[size];
+                memcpy(md->bytes, bytes, size);
+            }
+            md->title = std::string(reinterpret_cast<const char *>(title));
+            md->publisher = std::string(reinterpret_cast<const char *>(publisher));
+            md->year = year;
+            md->players = players;
+            md->valid = true;
+
+            return true;
+
+        }
     } else {
         cerr << "Failed to execute statement: " << sqlite3_errmsg(db) << endl;
         sqlite3_finalize(res);
         return false;
     }
     sqlite3_finalize(res);
-    return true;
+    return false;
 }
 
 bool Database::insertDisc(int id, int discNum, string discName) {

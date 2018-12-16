@@ -4,6 +4,7 @@
 
 #include "scanner.h"
 #include "main.h"
+#include "metadata.h"
 
 static const char GAME_DATA[] = "GameData";
 static const char GAME_INI[] = "Game.ini";
@@ -112,7 +113,41 @@ void Scanner::scanDirectory(string path) {
 
         }
         game.recoverFiles();
+        if (!game.gameIniFound || game.automationUsed) {
+            string serial = game.scanSerial();
+            if (serial.length() > 0) {
+                cout << "Accessing metadata for serial: " << serial << endl;
+                Metadata md;
+                if (md.lookup(serial)) {
+                    // at this stage we have more data;
+                    game.title = md.title;
+                    game.publisher = md.publisher;
+                    game.players = md.players;
+                    game.year = md.year;
+
+                    if (game.discs.size() > 0) {
+                        // all recovered :)
+                        string newFilename = folderPath + game.discs[0].cueName + ".png";
+                        cout << "Updating cover" << newFilename << endl;
+                        ofstream pngFile;
+                        pngFile.open(newFilename);
+                        pngFile.write(md.bytes, md.dataSize);
+                        pngFile.flush();
+                        pngFile.close();
+                        game.automationUsed = false;
+                        game.imageFound = true;
+
+                    }
+
+                    free(md.bytes);
+                } else {
+                    game.title = game.pathName;
+                }
+
+            }
+        }
         game.saveIni(folderPath + GAME_INI);
+
         game.print();
         if (game.verify()) {
             games.push_back(game);
