@@ -22,8 +22,22 @@ target_link_libraries(cbleemsync
          ${CMAKE_DL_LIBS}
 )
 
+add_custom_command(TARGET cbleemsync PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:cbleemsync>)
+
+add_custom_command(TARGET cbleemsync PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        $<TARGET_FILE_DIR:cbleemsync>/cbleemsync $<TARGET_FILE_DIR:cbleemsync>/payload/cbleemsync)
+
+add_custom_command(TARGET cbleemsync POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        $<TARGET_FILE_DIR:cbleemsync>/default.lic $<TARGET_FILE_DIR:cbleemsync>/payload/cbleemsync)
+
 configure_file(src/resources/default.lic default.lic COPYONLY)
 configure_file(src/resources/default.png default.png COPYONLY)
 configure_file(src/resources/pcsx.cfg pcsx.cfg COPYONLY)
-configure_file(src/resources/run.sh run.sh COPYONLY)
+configure_file(src/resources/coversJ.db coversJ.db COPYONLY)
+configure_file(src/resources/coversU.db coversU.db COPYONLY)
+configure_file(src/resources/coversP.db coversP.db COPYONLY)
 

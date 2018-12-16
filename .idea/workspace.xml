@@ -11,7 +11,39 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f377571-016b-4a6e-91a8-99bb578502df" name="Default Changelist" comment="" />
+    <list default="true" id="0f377571-016b-4a6e-91a8-99bb578502df" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/resources/coversJ.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/coversP.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/coversU.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/028c18a9-ec4b-4632-b2cf-d4e20f252e8f/LUPDATA.BIN" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/028c18a9-ec4b-4632-b2cf-d4e20f252e8f/LUPDATA.BIN" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/Games/My Great Game 1/GameData/Game.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/Games/My Great Game 1/GameData/Game.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/Games/My Great Game 1/GameData/SLUS-00594.bin" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/Games/My Great Game 1/GameData/SLUS-00594.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/Games/My Great Game 1/GameData/SLUS-00594.cue" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/Games/My Great Game 1/GameData/SLUS-00594.cue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/Games/My Great Game 1/GameData/SLUS-00594.lic" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/Games/My Great Game 1/GameData/SLUS-00594.lic" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/Games/My Great Game 1/GameData/SLUS-00594.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/Games/My Great Game 1/GameData/SLUS-00594.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/Games/My Great Game 1/GameData/SLUS-00776.bin" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/Games/My Great Game 1/GameData/SLUS-00776.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/Games/My Great Game 1/GameData/SLUS-00776.cue" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/Games/My Great Game 1/GameData/SLUS-00776.cue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/Games/My Great Game 1/GameData/pcsx.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/cbleemsync/pcsx.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/Games/My Great Game 2/GameData/Game.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/Games/My Great Game 2/GameData/Game.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/Games/My Great Game 2/GameData/SLUS-01066.bin" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/Games/My Great Game 2/GameData/SLUS-01066.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/Games/My Great Game 2/GameData/SLUS-01066.cue" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/Games/My Great Game 2/GameData/SLUS-01066.cue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/Games/My Great Game 2/GameData/SLUS-01066.lic" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/Games/My Great Game 2/GameData/SLUS-01066.lic" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/Games/My Great Game 2/GameData/SLUS-01066.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/Games/My Great Game 2/GameData/SLUS-01066.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/Games/My Great Game 2/GameData/pcsx.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/Games/My Great Game 2/GameData/pcsx.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/cbleemsync/autobleem.list" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/cbleemsync/autobleem.list" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/cbleemsync/cbleemsync" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/cbleemsync/default.lic" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/cbleemsync/default.lic" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/cbleemsync/default.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/cbleemsync/default.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/cbleemsync/pcsx.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/Games/My Great Game 1/GameData/pcsx.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/cbleemsync/run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/cbleemsync/run.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/lolhack/bleemsync.sh" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/lolhack/bleemsync.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/lolhack/boot.sh" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/lolhack/boot.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/lolhack/boot_autobleem.sh" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/lolhack/boot_autobleem.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/lolhack/link_autobleem.sh" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/lolhack/link_autobleem.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payload/lolhack/lolhack.sh" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/payload/lolhack/lolhack.sh" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,11 +54,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="188">
-              <caret line="71" column="29" lean-forward="true" selection-start-line="71" selection-start-column="29" selection-end-line="71" selection-end-column="29" />
+              <caret line="71" column="29" selection-start-line="71" selection-start-column="29" selection-end-line="71" selection-end-column="29" />
               <folding>
                 <element signature="e#45#62#0" expanded="true" />
               </folding>
@@ -47,7 +79,7 @@
         <entry file="file://$PROJECT_DIR$/src/include/game.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="355">
-              <caret line="62" column="11" lean-forward="true" selection-start-line="62" selection-start-column="11" selection-end-line="62" selection-end-column="11" />
+              <caret line="62" column="11" selection-start-line="62" selection-start-column="11" selection-end-line="62" selection-end-column="11" />
               <folding>
                 <element signature="e#100#117#0" expanded="true" />
               </folding>
@@ -56,12 +88,7 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/payload/lolhack/boot.sh">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/payload/lolhack/boot_autobleem.sh">
+        <entry file="file://$PROJECT_DIR$/src/resources/payload/lolhack/boot_autobleem.sh">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
               <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
@@ -97,7 +124,7 @@
         <entry file="file://$PROJECT_DIR$/src/code/database.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="247">
-              <caret line="39" column="41" lean-forward="true" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
+              <caret line="39" column="41" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -114,11 +141,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+            <state relative-caret-position="449">
+              <caret line="32" column="47" selection-start-line="32" selection-start-column="47" selection-end-line="32" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -159,11 +186,11 @@
         <option value="$PROJECT_DIR$/payload/lolhack/boot_autobleem.sh" />
         <option value="$PROJECT_DIR$/src/code/scanner.cpp" />
         <option value="$PROJECT_DIR$/src/code/unecm.c" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/code/database.cpp" />
         <option value="$PROJECT_DIR$/src/include/database.h" />
         <option value="$PROJECT_DIR$/src/include/game.h" />
         <option value="$PROJECT_DIR$/src/code/game.cpp" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
       </list>
     </option>
   </component>
@@ -190,24 +217,28 @@
             <path>
               <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
               <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
-              <item name="cmake-build-debug" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
               <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
               <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="include" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="payload" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="payload" type="462c0819:PsiDirectoryNode" />
+              <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -222,8 +253,12 @@
     <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/resources" />
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/src/include" />
       <recent name="$PROJECT_DIR$/src/code" />
     </key>
@@ -257,7 +292,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1544820516003</updated>
-      <workItem from="1544820517271" duration="63995000" />
+      <workItem from="1544820517271" duration="65713000" />
     </task>
     <task id="LOCAL-00001" summary="Multi bin support">
       <created>1544822200034</created>
@@ -389,23 +424,23 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63995000" />
+    <option name="totallyTimeSpent" value="65713000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="53" y="23" width="1920" height="1009" extended-state="0" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16453674" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16453674" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" sideWeight="0.49893504" visible="true" weight="0.32824427" />
-      <window_info anchor="bottom" id="Messages" sideWeight="0.4547391" weight="0.32824427" />
+      <window_info anchor="bottom" id="Version Control" sideWeight="0.49893504" weight="0.32824427" />
+      <window_info active="true" anchor="bottom" id="Messages" sideWeight="0.4547391" visible="true" weight="0.32824427" />
       <window_info anchor="bottom" id="Terminal" />
       <window_info anchor="bottom" id="Event Log" sideWeight="0.5394036" side_tool="true" weight="0.3653217" />
       <window_info anchor="bottom" id="File Transfer" weight="0.32896176" />
       <window_info anchor="bottom" id="CMake" weight="0.32896176" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49838012" weight="0.32896176" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49838012" weight="0.32824427" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.46059638" weight="0.3653217" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49361023" weight="0.35223556" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -646,10 +681,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/payload/lolhack/boot.sh">
+    <entry file="file://$PROJECT_DIR$/src/resources/payload/lolhack/boot.sh">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/payload/lolhack/boot_autobleem.sh">
+    <entry file="file://$PROJECT_DIR$/src/resources/payload/lolhack/boot_autobleem.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
@@ -663,13 +698,6 @@
           <folding>
             <element signature="e#1252#1270#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
         </state>
       </provider>
     </entry>
@@ -696,7 +724,7 @@
     <entry file="file://$PROJECT_DIR$/src/include/game.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="355">
-          <caret line="62" column="11" lean-forward="true" selection-start-line="62" selection-start-column="11" selection-end-line="62" selection-end-column="11" />
+          <caret line="62" column="11" selection-start-line="62" selection-start-column="11" selection-end-line="62" selection-end-column="11" />
           <folding>
             <element signature="e#100#117#0" expanded="true" />
           </folding>
@@ -706,7 +734,7 @@
     <entry file="file://$PROJECT_DIR$/src/code/database.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="247">
-          <caret line="39" column="41" lean-forward="true" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
+          <caret line="39" column="41" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -720,10 +748,24 @@
     <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="188">
-          <caret line="71" column="29" lean-forward="true" selection-start-line="71" selection-start-column="29" selection-end-line="71" selection-end-column="29" />
+          <caret line="71" column="29" selection-start-line="71" selection-start-column="29" selection-end-line="71" selection-end-column="29" />
           <folding>
             <element signature="e#45#62#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake_install.cmake">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="52" selection-start-column="52" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="449">
+          <caret line="32" column="47" selection-start-line="32" selection-start-column="47" selection-end-line="32" selection-end-column="47" />
         </state>
       </provider>
     </entry>
