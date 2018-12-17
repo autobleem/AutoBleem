@@ -60,7 +60,7 @@ static const char cue1[] = "FILE \"{binName}\" BINARY\n"
                            "  TRACK 01 MODE2/2352\n"
                            "    INDEX 01 00:00:00\n";
 static const char cue2[] = "FILE \"{binName}\" BINARY\n"
-                           "  TRACK 02 AUDIO\n"
+                           "  TRACK {track} AUDIO\n"
                            "    INDEX 00 00:00:00\n"
                            "    INDEX 01 00:02:00\n";
 
@@ -95,6 +95,7 @@ void repairMissingCue(string path, string folderName) {
         os.open(newCueName);
         // let's create new one
         bool first = true;
+        int track = 1;
         for (string bin:binFiles) {
             string cueElement;
             if (first) {
@@ -104,6 +105,12 @@ void repairMissingCue(string path, string folderName) {
             }
 
             replaceAll(cueElement, "{binName}", bin);
+            if (track < 10) {
+                replaceAll(cueElement, "{track}", "0" + to_string(track));
+            } else {
+                replaceAll(cueElement, "{track}", to_string(track));
+            }
+            track++;
             first = false;
             os << cueElement;
         }
