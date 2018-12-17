@@ -63,11 +63,11 @@ Database is split into three separate files by region. If you do not for example
 
 The files are:
 
-NTSC-U coversU.db[file](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/coversU.db)  ~47MB  - 1320 games
+[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/coversU.db)NTSC-U coversU.db  ~47MB  - 1320 games
 
-PAL-E  coversP.db[file](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/coversJ.db)  ~88MB  - 2582 games
+[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/coversJ.db)PAL-E  coversP.db  ~88MB  - 2582 games
 
-NTSC-J coversJ.db[file](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/coversP.db) ~173MB  - 4785 games
+[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/coversP.db)NTSC-J coversJ.db ~173MB  - 4785 games
 
 So it is up to you to decide which files you inslude into your USB dongle. With all three files AutoBleem should be able to match most of the available games. If the game can not be found, it will still try to use "Generic" image, it will put the same name as the folder in Games and unknown Publisher.
 
