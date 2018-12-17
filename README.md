@@ -3,7 +3,9 @@ BleemSync implementation in C++ that works on Playstation Classic
 
 Rewritten in C++ with additional validation.
 **This is getting stable now ... but ...  use it ONLY if you know what you are doing.** 
+
 ##Features ported from BleemSync
+
 1. Overmounts portions of the PSC's filesystem to safely allow modifications
 2. Modifies the stock UI to show added games
 3. Uses Game name as folders instead of numbered folders
