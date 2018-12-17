@@ -88,6 +88,9 @@ I am not C# developer, but Java and C++... those are totally different languages
 ### Can I extend this project ? 
 Of course ... it is fully open source using GPL3.0
 
+### I can not see my game
+AutoBleem is analysing the game folder during boot and using smart algorithm it is trying to generate all files needed to run the game, but sometimes it fails. In this case AutoBleem WILL NOT ADD THE GAME to the MENU, so if you do not see your game ... something is broken in it.
+
 ### Known Issues/Limitations
 - Games have to be in cue/bin same as on BleemSync
 
