@@ -33,7 +33,7 @@ In general as it uses same overmounting scripts that BleemSync use it is SAFE TO
 
 ## Installation
 
-1. Download the ZIP file from the release page (beta will available soon)
+1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/AutoBleem-0.1b.zip)
 2. Extract the contents to the root of your FAT32 or ext4 formatted USB flash drive
 3. Name your flash drive SONY. This is a requirement.
 4. Download Cover Repository databases (three separate files for NTSC-U, PAL and NTSC-J)
@@ -63,11 +63,11 @@ Database is split into three separate files by region. If you do not for example
 
 The files are:
 
-NTSC-U coversU.db  ~47MB  - 1320 games
+NTSC-U coversU.db[file](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/coversU.db)  ~47MB  - 1320 games
 
-PAL-E  coversP.db  ~88MB  - 2582 games
+PAL-E  coversP.db[file](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/coversJ.db)  ~88MB  - 2582 games
 
-NTSC-J coversJ.db ~173MB  - 4785 games
+NTSC-J coversJ.db[file](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/coversP.db) ~173MB  - 4785 games
 
 So it is up to you to decide which files you inslude into your USB dongle. With all three files AutoBleem should be able to match most of the available games. If the game can not be found, it will still try to use "Generic" image, it will put the same name as the folder in Games and unknown Publisher.
 
