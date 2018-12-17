@@ -15,7 +15,7 @@ If you want some new feature, or you find a bug please raise the issue. As I am 
 **This is getting stable now ... but ...  use it ONLY if you know what you are doing.** 
 In general as it uses same overmounting scripts that BleemSync use it is SAFE TO THE SAME LEVEL. It should not brick you console, but... if you brick it I am not responsible. Your risk.... from the other side, I use this solution for some time and nothing wrong happened.
 
-## Features similar to BleemSyn or upgraded
+## Features similar to BleemSync or upgraded
 
 1. Overmounts portions of the PSC's filesystem to safely allow modifications
 2. Modifies the stock UI to show added games
@@ -73,8 +73,11 @@ So it is up to you to decide which files you inslude into your USB dongle. With 
 ## Credits and links 
 
 This software uses some parts of code based on open licences:
+
 [BleemSync](https://github.com/pathartl/BleemSync) - original implementation in C# with some different functionality
+
 [SQLite](https://www.sqlite.org/index.html) (sqlite.c / sqlite.h)
+
 UNECM - Copyright (C) 2002 Neill Corlett (GPL) (unecm.c)
 
 ## Frequently Asked Questions
