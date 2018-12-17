@@ -61,14 +61,31 @@ Database is split into three separate files by region. If you do not for example
 The files are:
 
 NTSC-U coversU.db  ~47MB  - 1320 games
+
 PAL-E  coversP.db  ~88MB  - 2582 games
+
 NTSC-J coversJ.db ~173MB  - 4785 games
 
 So it is up to you to decide which files you inslude into your USB dongle. With all three files AutoBleem should be able to match most of the available games. If the game can not be found, it will still try to use "Generic" image, it will put the same name as the folder in Games and unknown Publisher.
 
 **REMEBER COPY DATABASE FILES TO /cbleemsync/ folder on USB, not any other place**
 
+## Credits and links 
+
+This software uses some parts of code based on open licences:
+[BleemSync](https://github.com/pathartl/BleemSync) - original implementation in C# with some different functionality
+[SQLite](https://www.sqlite.org/index.html) (sqlite.c / sqlite.h)
+UNECM - Copyright (C) 2002 Neill Corlett (GPL) (unecm.c)
+
 ## Frequently Asked Questions
 ### Why not contribute to BleemSync ?
 
 I am not C# developer, but Java and C++... those are totally different languages and I .. just do not like C#. Also BleemSync is developed by ModMyClassic group that I am not member of.
+
+### Can I extend this project ? 
+Of course ... it is fully open source using GPL3.0
+
+### Known Issues/Limitations
+- Games have to be in cue/bin same as on BleemSync
+
+
