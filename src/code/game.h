@@ -46,7 +46,8 @@ public:
     void readIni(string path);
 
     void saveIni(string path);
-    void recoverFiles();
+
+    void recoverMissingFiles();
     bool verify();
     bool print();
 

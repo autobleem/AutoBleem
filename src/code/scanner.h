@@ -25,6 +25,8 @@ public:
 
 private:
     bool complete;
+
+    void moveFolderIfNeeded(DirEntry entry, string gameDataPath, string path);
 };
 
 

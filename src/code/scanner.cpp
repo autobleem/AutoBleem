@@ -3,11 +3,7 @@
 //
 
 #include "scanner.h"
-#include "main.h"
-#include "metadata.h"
 #include "ecmhelper.h"
-
-#include <stdio.h>
 
 
 static const char GAME_DATA[] = "GameData";
@@ -22,10 +18,11 @@ bool wayToSort(Game i, Game j) {
     return i.title < j.title;
 }
 
+
 void Scanner::unecm(string path) {
-    vector<DirEntry> rootDir = Util::dir(path);
-    for (std::vector<int>::size_type i = 0; i != rootDir.size(); i++) {
-        DirEntry entry = rootDir[i];
+    // This is really slow - do not want to run it until some GUI shows progress
+
+    for (DirEntry entry: Util::dir(path)) {
         if (entry.name[0] == '.') continue;
         if (Util::strcicmp(entry.name.substr(entry.name.length() - 4).c_str(), ECM) == 0) {
             // oh someone forgot to unpack ECM ... let me do that for you - THIS IS EXPERIMENTAL
@@ -41,7 +38,6 @@ void Scanner::unecm(string path) {
 }
 
 void Scanner::updateDB(Database *db) {
-
     string path = Util::getWorkingPath() + Util::separator() + "autobleem.list";
     ofstream outfile;
     outfile.open(path);
@@ -60,37 +56,70 @@ void Scanner::updateDB(Database *db) {
     outfile.close();
 }
 
-void Scanner::scanDirectory(string path) {
-    // clear games list
-    games.clear();
-    complete = false;
+static const char cue1[] = "FILE \"{binName}\" BINARY\n"
+                           "  TRACK 01 MODE2/2352\n"
+                           "    INDEX 01 00:00:00\n";
+static const char cue2[] = "FILE \"{binName}\" BINARY\n"
+                           "  TRACK 02 AUDIO\n"
+                           "    INDEX 00 00:00:00\n"
+                           "    INDEX 01 00:02:00\n";
 
+void replaceAll(std::string &str, const std::string &from, const std::string &to) {
+    if (from.empty())
+        return;
+    size_t start_pos = 0;
+    while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
+    }
+}
+
+void repairMissingCue(string path, string folderName) {
+    vector<string> binFiles;
+    bool hasCue = false;
     vector<DirEntry> rootDir = Util::dir(path);
-    for (std::vector<int>::size_type i = 0; i != rootDir.size(); i++) {
-        DirEntry entry = rootDir[i];
+    for (DirEntry entry:rootDir) {
         if (entry.name[0] == '.') continue;
-        if (!entry.dir) continue;
+        if (entry.name.length() > 4)
+            if (Util::strcicmp(entry.name.substr(entry.name.length() - 4).c_str(), ".cue") == 0) {
+                hasCue = true;
+            }
+        if (entry.name.length() > 4)
+            if (Util::strcicmp(entry.name.substr(entry.name.length() - 4).c_str(), ".bin") == 0) {
+                binFiles.push_back(entry.name);
+            }
+    }
+    if (!hasCue) {
+        string newCueName = path + folderName + ".cue";
+        ofstream os;
+        os.open(newCueName);
+        // let's create new one
+        bool first = true;
+        for (string bin:binFiles) {
+            string cueElement;
+            if (first) {
+                cueElement = cue1;
+            } else {
+                cueElement = cue2;
+            }
 
-        Game game;
-        game.folder_id = atoi(entry.name.c_str()); // this will not be in use;
-        game.fullPath = path + entry.name + Util::separator();
-        game.pathName = entry.name;
-
-        string gameDataPath = path + entry.name + Util::separator() + GAME_DATA + Util::separator();
-
-        bool gameDataExists = Util::exists(gameDataPath);
-        if (!gameDataExists) {
-            cerr << "Game: " << entry.name << " - GameData Not found" << endl;
-            Util::createDir(gameDataPath);
-
-
+            replaceAll(cueElement, "{binName}", bin);
+            first = false;
+            os << cueElement;
         }
-        game.gameDataFound = true;
+        os.flush();
+        os.close();
+    }
+}
 
+void Scanner::moveFolderIfNeeded(DirEntry entry, string gameDataPath, string path) {
+    bool gameDataExists = Util::exists(gameDataPath);
+    if (!gameDataExists) {
+        cerr << "Game: " << entry.name << " - GameData Not found" << endl;
+        Util::createDir(gameDataPath);
 
-        vector<DirEntry> gameRoot = Util::dir(path + entry.name + Util::separator());
-        for (std::vector<int>::size_type j = 0; j != gameRoot.size(); j++) {
-            DirEntry entryGame = gameRoot[j];
+        for (DirEntry entryGame:  Util::dir(path + entry.name + Util::separator())) {
+
             if (entryGame.name[0] == '.') continue;
             if (entryGame.name == GAME_DATA) continue;
 
@@ -99,8 +128,38 @@ void Scanner::scanDirectory(string path) {
             cerr << "Moving: " << oldName << "  to: " << newName << endl;
             rename(oldName.c_str(), newName.c_str());
         }
+    }
+}
 
-        unecm(gameDataPath);
+void Scanner::scanDirectory(string path) {
+    // clear games list
+    games.clear();
+    complete = false;
+
+
+    for (DirEntry entry: Util::dir(path)) {
+        if (entry.name[0] == '.') continue;
+        if (!entry.dir) continue;
+
+        Game game;
+        game.folder_id = 0; // this will not be in use;
+        game.fullPath = path + entry.name + Util::separator();
+        game.pathName = entry.name;
+
+        string gameDataPath = path + entry.name + Util::separator() + GAME_DATA + Util::separator();
+
+        moveFolderIfNeeded(entry, gameDataPath, path);
+        game.gameDataFound = true;
+
+        repairMissingCue(gameDataPath, entry.name);
+
+
+        /*
+         *
+         *  Uncomment this to UNECM data
+         *  COMMENTED AS IT IS SLOW AND SCREEN SHOWS JUST BLACK
+         */
+        //unecm(gameDataPath);
 
         if (!Util::exists(gameDataPath + GAME_INI)) {
             game.readIni(gameDataPath + GAME_INI);
@@ -109,10 +168,7 @@ void Scanner::scanDirectory(string path) {
             game.gameIniFound = true;
         }
 
-
-        vector<DirEntry> gameDir = Util::dir(gameDataPath);
-        for (std::vector<int>::size_type j = 0; j != gameDir.size(); j++) {
-            DirEntry entryGame = gameDir[j];
+        for (DirEntry entryGame:Util::dir(gameDataPath)) {
             if (entryGame.name[0] == '.') continue;
 
             if (Util::strcicmp(entryGame.name.c_str(), GAME_INI) == 0) {
@@ -141,7 +197,9 @@ void Scanner::scanDirectory(string path) {
 
 
         }
-        game.recoverFiles();
+
+        game.recoverMissingFiles();
+
         if (!game.gameIniFound || game.automationUsed) {
             string serial = game.scanSerial();
             if (serial.length() > 0) {
@@ -176,13 +234,14 @@ void Scanner::scanDirectory(string path) {
             }
         }
         game.saveIni(gameDataPath + GAME_INI);
-
         game.print();
+
         if (game.verify()) {
             games.push_back(game);
         }
 
     }
+
     sort(games.begin(), games.end(), wayToSort);
 
     complete = true;

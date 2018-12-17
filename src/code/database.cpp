@@ -1,8 +1,7 @@
 #include <iostream>
 #include "database.h"
 
-#include <stdio.h>
-#include <string.h>
+#include <cstring>
 
 using namespace std;
 
@@ -48,17 +47,11 @@ bool Database::querySerial(string serial, Metadata *md) {
 
         sqlite3_bind_text(res, 1, serial.c_str(), -1, nullptr);
         int result = sqlite3_step(res);
-
         if (result == SQLITE_ROW) {
             const unsigned char *title = sqlite3_column_text(res, 1);
-
             const unsigned char *publisher = sqlite3_column_text(res, 2);
-
             const int year = sqlite3_column_int(res, 3);
-
             const int players = sqlite3_column_int(res, 4);
-
-
             const void *bytes = sqlite3_column_blob(res, 5);
             int size = sqlite3_column_bytes(res, 5);
             if (size != 0) {
@@ -71,7 +64,6 @@ bool Database::querySerial(string serial, Metadata *md) {
             md->year = year;
             md->players = players;
             md->valid = true;
-
             return true;
 
         }
@@ -166,14 +158,9 @@ void Database::disconnect() {
 }
 
 bool Database::createInitialDatabase() {
-
-
     if (!executeCreateStatement((char *) CREATE_GAME_SQL, "GAME")) return false;
-
     if (!executeCreateStatement((char *) CREATE_DISC_SQL, "DISC")) return false;
-
     if (!executeCreateStatement((char *) CREATE_LANGUAGE_SPECIFIC_SQL, "LANGUAGE_SPECIFIC")) return false;
-
     return executeStatement((char *) DELETE_DATA, "Truncating all data", "Error truncating data");
 
 

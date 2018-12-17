@@ -6,7 +6,6 @@
 #include "main.h"
 #include "util.h"
 #include "metadata.h"
-#include "ecmhelper.h"
 
 using namespace std;
 
@@ -112,12 +111,9 @@ bool Game::validateCue(string cuePath, string path) {
             line = line.substr(0, line.find('"'));
             binFiles.push_back(line);
         }
-
     }
-
     for (int i = 0; i < binFiles.size(); i++) {
         string binPath = path + binFiles[i];
-
         if (!Util::exists(binPath)) {
             // check if it is ecm
             result = false;
@@ -210,16 +206,14 @@ bool Game::print() {
     return result;
 }
 
-void Game::recoverFiles() {
+void Game::recoverMissingFiles() {
     string path = Util::getWorkingPath();
 
     if (discs.size() == 0) {
         automationUsed = true;
         // find cue files
         string destination = fullPath + "GameData" + Util::separator();
-        vector<DirEntry> entries = Util::dir(destination);
-        for (int i = 0; i < entries.size(); i++) {
-            DirEntry entry = entries[i];
+        for (DirEntry entry: Util::dir(destination)) {
             if (entry.name[0] == '.') continue;
             if (entry.name.length() > 4)
                 if (Util::strcicmp(entry.name.substr(entry.name.length() - 4).c_str(), ".cue") == 0) {
@@ -327,8 +321,8 @@ void Game::updateObj() {
 }
 
 void Game::saveIni(string path) {
-
     cout << "Overwritting ini file" << path << endl;
+
     ofstream os;
     os.open(path);
     os << "[Game]" << endl;
