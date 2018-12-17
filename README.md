@@ -10,7 +10,7 @@ As BleemSync 0.4.0 was released during my development of first version I leverag
 
 If you want some new feature, or you find a bug please raise the issue. As I am single developler without any community support it my take some time to sort it out, so any other help welcome. 
 
-## It is stable and is it safe to use
+## Is it stable and is it safe to use ?
 
 **This is getting stable now ... but ...  use it ONLY if you know what you are doing.** 
 
