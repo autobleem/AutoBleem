@@ -41,7 +41,7 @@ In general as it uses same overmounting scripts that BleemSync use it is SAFE TO
 
 ## Automatic Game scanning
 
-To allow AutoBleem to scan your games they need to be structurized in ... wait .. this is not BleemSync. Just take your game folder and drop into Games folder. As soon there is .bin file inside this folder AutoBleem will try to generate all other needed files for you on console boot. So structure can be as follows:
+To allow AutoBleem to scan your games they need to be inserted into Game folder. Just take your game folder and drop it there. As soon there is .bin file inside this folder AutoBleem will try to generate all other needed files for you on console boot. So structure can be as follows:
 
 ```
 Games/
