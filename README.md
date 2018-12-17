@@ -13,7 +13,9 @@ If you want some new feature, or you find a bug please raise the issue. As I am 
 ## It is stable and is it safe to use
 
 **This is getting stable now ... but ...  use it ONLY if you know what you are doing.** 
-REMEBER: THIS IS STILL BETA AND MAY NEED MORE TESTING ANY HELP WELCOME
+
+## REMEBER: THIS IS STILL BETA AND MAY NEED MORE TESTING - ANY HELP WITH THIS WELCOME
+
 In general as it uses same overmounting scripts that BleemSync use it is SAFE TO THE SAME LEVEL. It should not brick you console, but... if you brick it I am not responsible. Your risk.... from the other side, I use this solution for some time and nothing wrong happened.
 
 ## Features similar to BleemSync or upgraded
