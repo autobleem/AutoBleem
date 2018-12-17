@@ -1,5 +1,5 @@
 # AutoBleem - former cbleemsync
-BleemSync implementation in C++ that works on Playstation Classic 
+BleemSync implementation in C++ that works on PlayStation Classic 
 
 Rewritten in C++ with additional validation.
 **This is getting stable now ... but ...  use it ONLY if you know what you are doing.** 
@@ -8,8 +8,12 @@ Rewritten in C++ with additional validation.
 
 1. Overmounts portions of the PSC's filesystem to safely allow modifications
 2. Modifies the stock UI to show added games
-3. Uses Game name as folders instead of numbered folders
+3. Uses **Game name as folders** instead of numbered folders
 4. Supports multi-disc games(not tested)
 5. **Includes offline metadata and cover art databases - no download needed**
 6. **Runs on boot of the PlayStation Classic** as it was designed to do so from the beginning
 7. Intelligent algorithm is trying to "fix" missing files like .cue, unpack .ecm (currently switched off)
+8. Small footprint on USB drive as no runtime needed
+9. As written in native language for PlayStation Classic it is fast
+
+## Installation
