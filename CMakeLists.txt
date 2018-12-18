@@ -5,7 +5,8 @@ set(CMAKE_CXX_STANDARD 11)
 
 include_directories(src/include)
 
-find_package(Threads REQUIRED)
+find_package(Threads REQUIRED
+        SDL2 REQUIRED)
 
 add_executable(cbleemsync
         src/code/unecm.c
@@ -27,8 +28,12 @@ add_executable(cbleemsync
         src/code/ecmhelper.h
         )
 
+
 target_link_libraries(cbleemsync 
          Threads::Threads
+        SDL2
+        SDL2_image
+        SDL2_mixer
          ${CMAKE_DL_LIBS}
 )
 
