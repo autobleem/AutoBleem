@@ -4,7 +4,7 @@ project(cbleemsync)
 set(CMAKE_CXX_STANDARD 11)
 
 include_directories(src/include)
-include_directories(/usr/local/cross-tools/arm-linux-gnueabihf/include)
+include_directories(/usr/local/cross-tools/arm-linux-gnueabihf/include/)
 
 find_package(Threads REQUIRED
         SDL2 REQUIRED)
