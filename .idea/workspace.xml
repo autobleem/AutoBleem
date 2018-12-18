@@ -11,10 +11,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f377571-016b-4a6e-91a8-99bb578502df" name="Default Changelist" comment="Small Code Cleanup + Create CUE">
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+    <list default="true" id="0f377571-016b-4a6e-91a8-99bb578502df" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/code/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/main.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -42,8 +39,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/code/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
-              <caret line="126" column="22" selection-start-line="126" selection-start-column="22" selection-end-line="126" selection-end-column="22" />
+            <state relative-caret-position="170">
+              <caret line="100" column="31" selection-start-line="100" selection-start-column="31" selection-end-line="100" selection-end-column="31" />
               <folding>
                 <element signature="e#85#104#0" expanded="true" />
               </folding>
@@ -300,7 +297,7 @@
       <option name="presentableId" value="Default" />
       <updated>1544820516003</updated>
       <workItem from="1544820517271" duration="80326000" />
-      <workItem from="1545164431599" duration="5248000" />
+      <workItem from="1545164431599" duration="6303000" />
     </task>
     <task id="LOCAL-00001" summary="Multi bin support">
       <created>1544822200034</created>
@@ -477,11 +474,18 @@
       <option name="project" value="LOCAL" />
       <updated>1545003542585</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Small Code Cleanup + Create CUE">
+      <created>1545172755710</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1545172755710</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87756000" />
+    <option name="totallyTimeSpent" value="88811000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-5" y="23" width="1920" height="1009" extended-state="6" />
@@ -492,7 +496,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49733758" weight="0.32824427" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4195953" visible="true" weight="0.3653217" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.41799787" visible="true" weight="0.3653217" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.47018105" weight="0.35223556" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -502,7 +506,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="CMake" order="10" sideWeight="0.46325877" weight="0.32824427" />
       <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5804047" side_tool="true" visible="true" weight="0.3653217" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5820021" side_tool="true" visible="true" weight="0.3653217" />
       <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.42971247" weight="0.32824427" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -789,8 +793,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/code/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="126" column="22" selection-start-line="126" selection-start-column="22" selection-end-line="126" selection-end-column="22" />
+        <state relative-caret-position="170">
+          <caret line="100" column="31" selection-start-line="100" selection-start-column="31" selection-end-line="100" selection-end-column="31" />
           <folding>
             <element signature="e#85#104#0" expanded="true" />
           </folding>

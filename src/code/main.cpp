@@ -56,11 +56,12 @@ int main(int argc, char *argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
     if (SDL_Init(SDL_INIT_AUDIO) < 0)
         return -1;
-    int mixinit = Mix_Init(MIX_INIT_OGG);
+    int mixinit = Mix_Init(MIX_INIT_MP3);
 
-    cout << mixinit;
-    printf("UProblem: %s\n", Mix_GetError());
 
+    if (mixinit != MIX_INIT_MP3) {
+        printf("Problem: %s\n", Mix_GetError());
+    }
 
     SDL_Window *window = SDL_CreateWindow("AutoBleem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720,
                                           SDL_WINDOW_FULLSCREEN);
@@ -94,18 +95,17 @@ int main(int argc, char *argv[]) {
         printf("Unable to play Ogg file: %s\n", Mix_GetError());
     }
     Mix_Music *music;
-    music = Mix_LoadMUS("music.ogg");
-    if (music == NULL) { printf("Unable to load Ogg file: %s\n", Mix_GetError()); }
+    music = Mix_LoadMUS("music.mp3");
+    if (music == NULL) { printf("Unable to load MP3 file: %s\n", Mix_GetError()); }
 
-    if (Mix_PlayMusic(music, 0) == -1) { printf("Unable to play Ogg file: %s\n", Mix_GetError()); }
+    if (Mix_PlayMusic(music, -1) == -1) { printf("Unable to play MP3 file: %s\n", Mix_GetError()); }
 
     while (!quit) {
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT)
                 break;
-            else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
-                break;
+
         }
 
 
@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
 
         int current = SDL_GetTicks();
         int time = current - start;
-        if (time > 15) {
+        if (time > 5) {
             if (alpha < 255) {
                 alpha++;
             } else {
@@ -139,6 +139,7 @@ int main(int argc, char *argv[]) {
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
 
+    return result;
 
 
     // experiment for scan
