@@ -110,15 +110,7 @@ void Splash::display() {
 
 
 void Splash::finish() {
-    while (1) {
-        SDL_Event e;
-        if (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT)
-                break;
-            else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
-                break;
-        }
-    }
+
     SDL_DestroyTexture(img);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
