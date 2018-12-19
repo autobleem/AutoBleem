@@ -35,9 +35,9 @@ int scanGames(int argc, char *argv[]) {
 
     Scanner *scanner = new Scanner();
     scanner->scanDirectory(argv[2]);
-    logText("Updating regional.db");
+
     scanner->updateDB(db);
-    logText("  ");
+
     delete scanner;
     db->disconnect();
     delete db;
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     int result = scanGames(argc, argv);
     logText("Loading Playstation Classic UI");
     splash->finish();
-
+    SDL_Quit();
 
     return result;
 }

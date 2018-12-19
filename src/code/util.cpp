@@ -42,18 +42,9 @@ vector<DirEntry> Util::dir(string path) {
 }
 
 bool Util::exists(const std::string &name) {
-    struct stat info;
-    if (stat(name.c_str(), &info) != 0) {
-        printf("cannot access %s\n", name.c_str());
-        return false;
 
-    } else if (info.st_mode & S_IFDIR)  // S_ISDIR() doesn't exist on my windows
-        printf("%s is a directory\n", name.c_str());
-    else
-        printf("%s is no directory\n", name.c_str());
-    return true;
-    //struct stat buffer;
-    //return (stat(name.c_str(), &buffer) == 0);
+    struct stat buffer;
+    return (stat(name.c_str(), &buffer) == 0);
 
 }
 

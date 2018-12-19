@@ -110,10 +110,9 @@ void Splash::display() {
 
 
 void Splash::finish() {
-
     SDL_DestroyTexture(img);
     SDL_DestroyRenderer(renderer);
-    SDL_Quit();
+
 
 }
 
