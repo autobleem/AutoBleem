@@ -3,11 +3,11 @@ project(cbleemsync)
 
 set(CMAKE_CXX_STANDARD 11)
 
-include_directories(src/include)
-include_directories(/usr/local/cross-tools/arm-linux-gnueabihf/include/)
 
-find_package(Threads REQUIRED
-        SDL2 REQUIRED)
+include_directories(src/include /usr/local/cross-tools/arm-linux-gnueabihf/include/)
+link_directories(/usr/local/cross-tools/arm-linux-gnueabihf/lib/)
+
+find_package(Threads REQUIRED)
 
 add_executable(cbleemsync
         src/code/unecm.c
@@ -27,15 +27,17 @@ add_executable(cbleemsync
         src/code/metadata.h
         src/code/ecmhelper.cpp
         src/code/ecmhelper.h
-        src/code/splash.cpp src/code/splash.h)
+	src/code/splash.h
+        src/code/splash.cpp
+        )
 
 
 target_link_libraries(cbleemsync 
          Threads::Threads
-        SDL2
-        SDL2_image
-        SDL2_mixer
-        SDL2_ttf
+         SDL2
+         SDL2_image
+         SDL2_mixer
+         SDL2_ttf
          ${CMAKE_DL_LIBS}
 )
 
@@ -49,7 +51,4 @@ configure_file(src/resources/default.png default.png COPYONLY)
 configure_file(src/resources/pcsx.cfg pcsx.cfg COPYONLY)
 configure_file(src/resources/coversU.db coversU.db COPYONLY)
 configure_file(src/resources/coversP.db coversP.db COPYONLY)
-configure_file(src/resources/coversJ.db coversJ.db COPYONLY)
-configure_file(src/resources/RobotoCondensed-Light.ttf RobotoCondensed-Light.ttf COPYONLY)
-configure_file(src/resources/music.wav music.wav COPYONLY)
 
