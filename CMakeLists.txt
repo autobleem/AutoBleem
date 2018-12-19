@@ -37,6 +37,7 @@ target_link_libraries(cbleemsync
          SDL2
          SDL2_image
          SDL2_mixer
+         SDL2_ttf
          ${CMAKE_DL_LIBS}
 )
 
