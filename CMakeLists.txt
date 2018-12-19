@@ -27,6 +27,8 @@ add_executable(cbleemsync
         src/code/metadata.h
         src/code/ecmhelper.cpp
         src/code/ecmhelper.h
+	src/code/splash.h
+        src/code/splash.cpp
         )
 
 
