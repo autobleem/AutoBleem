@@ -27,7 +27,7 @@ add_executable(cbleemsync
         src/code/metadata.h
         src/code/ecmhelper.cpp
         src/code/ecmhelper.h
-        )
+        src/code/splash.cpp src/code/splash.h)
 
 
 target_link_libraries(cbleemsync 
@@ -35,6 +35,7 @@ target_link_libraries(cbleemsync
         SDL2
         SDL2_image
         SDL2_mixer
+        SDL2_ttf
          ${CMAKE_DL_LIBS}
 )
 
@@ -48,4 +49,7 @@ configure_file(src/resources/default.png default.png COPYONLY)
 configure_file(src/resources/pcsx.cfg pcsx.cfg COPYONLY)
 configure_file(src/resources/coversU.db coversU.db COPYONLY)
 configure_file(src/resources/coversP.db coversP.db COPYONLY)
+configure_file(src/resources/coversJ.db coversJ.db COPYONLY)
+configure_file(src/resources/RobotoCondensed-Light.ttf RobotoCondensed-Light.ttf COPYONLY)
+configure_file(src/resources/music.wav music.wav COPYONLY)
 

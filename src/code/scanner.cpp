@@ -27,6 +27,8 @@ void Scanner::unecm(string path) {
         if (Util::strcicmp(entry.name.substr(entry.name.length() - 4).c_str(), ECM) == 0) {
             // oh someone forgot to unpack ECM ... let me do that for you - THIS IS EXPERIMENTAL
             Ecmhelper ecm;
+
+            logText("Decompressing ecm:");
             if (ecm.unecm(path + entry.name, path + entry.name.substr(0, entry.name.length() - 4))) {
                 // successfuly unpacked
                 remove((path + entry.name).c_str());
@@ -143,6 +145,8 @@ void Scanner::scanDirectory(string path) {
     games.clear();
     complete = false;
 
+    logText("Scanning...");
+
 
     for (DirEntry entry: Util::dir(path)) {
         if (entry.name[0] == '.') continue;
@@ -152,6 +156,7 @@ void Scanner::scanDirectory(string path) {
         game.folder_id = 0; // this will not be in use;
         game.fullPath = path + entry.name + Util::separator();
         game.pathName = entry.name;
+        logText("Game: " + entry.name);
 
         string gameDataPath = path + entry.name + Util::separator() + GAME_DATA + Util::separator();
 
@@ -160,13 +165,7 @@ void Scanner::scanDirectory(string path) {
 
         repairMissingCue(gameDataPath, entry.name);
 
-
-        /*
-         *
-         *  Uncomment this to UNECM data
-         *  COMMENTED AS IT IS SLOW AND SCREEN SHOWS JUST BLACK
-         */
-        //unecm(gameDataPath);
+        unecm(gameDataPath);
 
         if (!Util::exists(gameDataPath + GAME_INI)) {
             game.readIni(gameDataPath + GAME_INI);

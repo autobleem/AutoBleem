@@ -11,6 +11,9 @@
 #include <cctype>
 #include <locale>
 #include <sstream>
+#include <string>
+
+using namespace std;
 
 // trim from start
 static inline std::string &ltrim(std::string &s) {
@@ -38,5 +41,7 @@ static inline std::string &lcase(std::string &s, int nchars = 0) {
     }
     return s;
 }
+
+void logText(string message);
 
 #endif //CBLEEMSYNC_MAIN_H

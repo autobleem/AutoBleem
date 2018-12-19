@@ -8,10 +8,8 @@
 #include <iostream>
 #include "database.h"
 #include "scanner.h"
+#include "splash.h"
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_mixer.h>
 
 using namespace std;
 
@@ -37,112 +35,26 @@ int scanGames(int argc, char *argv[]) {
 
     Scanner *scanner = new Scanner();
     scanner->scanDirectory(argv[2]);
+    logText("Updating regional.db");
     scanner->updateDB(db);
+    logText("  ");
     delete scanner;
-
-
     db->disconnect();
     delete db;
-
     return (EXIT_SUCCESS);
 }
 
 
 int main(int argc, char *argv[]) {
-    bool quit = false;
-    SDL_Event event;
-    SDL_Renderer *renderer = NULL;
-
-    SDL_Init(SDL_INIT_VIDEO);
-    if (SDL_Init(SDL_INIT_AUDIO) < 0)
-        return -1;
-    int mixinit = Mix_Init(MIX_INIT_MP3);
-
-
-    if (mixinit != MIX_INIT_MP3) {
-        printf("Problem: %s\n", Mix_GetError());
-    }
-
-    SDL_Window *window = SDL_CreateWindow("AutoBleem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720,
-                                          SDL_WINDOW_FULLSCREEN);
-    SDL_Texture *img = NULL;
-    int w, h; // texture width & height
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    img = IMG_LoadTexture(renderer, "background.jpg");
-    SDL_SetTextureBlendMode(img, SDL_BLENDMODE_BLEND);
-
-    SDL_QueryTexture(img, NULL, NULL, &w, &h);
-    SDL_Rect texr;
-    texr.x = 0;
-    texr.y = 0;
-    texr.w = w;
-    texr.h = h;
-
-    int start = SDL_GetTicks();
-
-    // Start the screen as Opaque(255)
-    int alpha = 0;
-
-    SDL_Surface *tempScreen = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_BLENDFACTOR_SRC_ALPHA, 1280, 720, 32, 0xff000000,
-                                                   0x00ff0000, 0x0000ff00, 0x000000ff);
-
-    // Convert it to the format of the screen
-
-
-    // Free the created surface
-    SDL_FreeSurface(tempScreen);
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
-        printf("Unable to play Ogg file: %s\n", Mix_GetError());
-    }
-    Mix_Music *music;
-    music = Mix_LoadMUS("music.mp3");
-    if (music == NULL) { printf("Unable to load MP3 file: %s\n", Mix_GetError()); }
-
-    if (Mix_PlayMusic(music, -1) == -1) { printf("Unable to play MP3 file: %s\n", Mix_GetError()); }
-
-    while (!quit) {
-        SDL_Event e;
-        if (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT)
-                break;
-
-        }
-
-
-        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-        SDL_RenderClear(renderer);
-
-        // copy the texture to the rendering context
-
-        SDL_SetTextureAlphaMod(img, alpha);
-
-        int current = SDL_GetTicks();
-        int time = current - start;
-        if (time > 5) {
-            if (alpha < 255) {
-                alpha++;
-            } else {
-                break;
-            }
-            start = SDL_GetTicks();
-        }
-
-
-        SDL_RenderCopy(renderer, img, NULL, &texr);
-        // flip the backbuffer
-        // this means that everything that we prepared behind the screens is actually shown
-        SDL_RenderPresent(renderer);
-    }
-
+    shared_ptr<Splash> splash(Splash::getInstance());
+    splash->display();
+    splash->drawText("AutoBleem v0.2 Welcome");
     int result = scanGames(argc, argv);
-    SDL_DestroyTexture(img);
-    SDL_DestroyRenderer(renderer);
-    SDL_Quit();
+    logText("Loading Playstation Classic UI");
+    splash->finish();
+
 
     return result;
-
-
-    // experiment for scan
 }
 
 

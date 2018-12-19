@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <string.h>
 
+void logText(char *message);
 
 /***************************************************************************/
 
@@ -191,6 +192,9 @@ void setcounter(unsigned n) {
         unsigned d = (mycounter_total + 64) / 128;
         if (!d) d = 1;
         fprintf(stderr, "Decoding (%02d%%)\r", (100 * a) / d);
+        char buffer[1024];
+        sprintf(buffer, "Decoding ECMed bin (%02d%%)\r", (100 * a) / d);
+        logText(buffer);
     }
     mycounter = n;
 }
