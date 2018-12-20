@@ -51,7 +51,7 @@ bool Database::querySerial(string serial, Metadata *md) {
             const int year = sqlite3_column_int(res, 3);
             const int players = sqlite3_column_int(res, 4);
             const void *bytes = sqlite3_column_blob(res, 5);
-            int size = sqlite3_column_bytes(res, 5);
+            size_t size = sqlite3_column_bytes(res, 5);
             if (size != 0) {
                 md->dataSize = size;
                 md->bytes = new char[size];

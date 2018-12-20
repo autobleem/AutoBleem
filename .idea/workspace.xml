@@ -12,12 +12,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f377571-016b-4a6e-91a8-99bb578502df" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/resources/1.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/resources/2.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/resources/3.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/resources/4.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.dSYM/Contents/Resources/DWARF/cbleemsync" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.dSYM/Contents/Resources/DWARF/cbleemsync" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/database.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/database.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/code/splash.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/splash.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -31,15 +28,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/main.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-182">
-              <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="171">
@@ -52,25 +40,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/scanner.h">
+        <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
+            <state relative-caret-position="187">
+              <caret line="114" selection-start-line="114" selection-end-line="114" />
               <folding>
-                <element signature="e#104#121#0" expanded="true" />
+                <element signature="e#45#64#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/code/database.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="83" column="60" selection-start-line="83" selection-start-column="60" selection-end-line="83" selection-end-column="60" />
-              <folding>
-                <element signature="e#45#64#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="136">
+              <caret line="53" column="55" lean-forward="true" selection-start-line="53" selection-start-column="55" selection-end-line="53" selection-end-column="55" />
             </state>
           </provider>
         </entry>
@@ -96,11 +81,29 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/code/metadata.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/unecm.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="34" column="19" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="19" />
+            <state relative-caret-position="189">
+              <caret line="240" column="37" selection-start-line="240" selection-start-column="37" selection-end-line="240" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="355" column="37" selection-start-line="355" selection-start-column="37" selection-end-line="355" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -124,18 +127,6 @@
               <caret line="41" column="35" selection-start-line="41" selection-start-column="35" selection-end-line="41" selection-end-column="35" />
               <folding>
                 <element signature="e#304#322#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/scanner.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="33" selection-start-line="33" selection-end-line="33" />
-              <folding>
-                <element signature="e#45#65#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -194,7 +185,6 @@
         <option value="$PROJECT_DIR$/src/code/main.cpp" />
         <option value="$PROJECT_DIR$/src/code/scanner.cpp" />
         <option value="$PROJECT_DIR$/src/code/util.cpp" />
-        <option value="$PROJECT_DIR$/src/code/database.cpp" />
         <option value="$PROJECT_DIR$/src/code/database.h" />
         <option value="$PROJECT_DIR$/src/code/main.h" />
         <option value="$PROJECT_DIR$/src/code/ecmhelper.cpp" />
@@ -207,6 +197,7 @@
         <option value="$PROJECT_DIR$/src/code/splash.h" />
         <option value="$PROJECT_DIR$/src/code/util.h" />
         <option value="$PROJECT_DIR$/src/code/splash.cpp" />
+        <option value="$PROJECT_DIR$/src/code/database.cpp" />
       </list>
     </option>
   </component>
@@ -256,6 +247,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
   <component name="RecentsManager">
@@ -302,7 +294,7 @@
       <workItem from="1544820517271" duration="80326000" />
       <workItem from="1545164431599" duration="7356000" />
       <workItem from="1545177122731" duration="87000" />
-      <workItem from="1545177698845" duration="14698000" />
+      <workItem from="1545177698845" duration="15031000" />
     </task>
     <task id="LOCAL-00001" summary="Multi bin support">
       <created>1544822200034</created>
@@ -514,11 +506,18 @@
       <option name="project" value="LOCAL" />
       <updated>1545267349479</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Small Code Cleanup + GUI (0.11)">
+      <created>1545268522452</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1545268522452</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="104649000" />
+    <option name="totallyTimeSpent" value="104982000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1009" extended-state="0" />
@@ -527,9 +526,10 @@
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17092651" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Inspection Results" sideWeight="0.49946752" weight="0.3293348" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49733758" weight="0.32824427" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.38019168" visible="true" weight="0.3653217" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.37859425" visible="true" weight="0.3653217" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.45527157" weight="0.35223556" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -539,8 +539,8 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="CMake" order="10" sideWeight="0.46219382" weight="0.32824427" />
       <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.6198083" side_tool="true" visible="true" weight="0.3653217" />
-      <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.37699682" weight="0.32824427" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.6214058" side_tool="true" visible="true" weight="0.3653217" />
+      <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.37539935" weight="0.32824427" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -675,13 +675,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/database.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/database.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -700,16 +693,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" column="5" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
-          <folding>
-            <element signature="e#45#62#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -737,13 +720,6 @@
           <folding>
             <element signature="e#45#66#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/metadata.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -798,13 +774,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/unecm.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="34" column="19" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/util.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1335">
@@ -837,11 +806,39 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="83" column="60" selection-start-line="83" selection-start-column="60" selection-end-line="83" selection-end-column="60" />
+        <state relative-caret-position="187">
+          <caret line="114" selection-start-line="114" selection-end-line="114" />
           <folding>
             <element signature="e#45#64#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/database.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="53" column="55" lean-forward="true" selection-start-line="53" selection-start-column="55" selection-end-line="53" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/unecm.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="240" column="37" selection-start-line="240" selection-start-column="37" selection-end-line="240" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="355" column="37" selection-start-line="355" selection-start-column="37" selection-end-line="355" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/metadata.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
         </state>
       </provider>
     </entry>
