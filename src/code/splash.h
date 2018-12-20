@@ -19,6 +19,10 @@
 
 using namespace std;
 
+#define MENU_OPTION_SCAN 1
+#define MENU_OPTION_RUN  2
+#define MENU_OPTION_SONY 3
+
 class Splash {
 private:
     Splash() {}
@@ -31,6 +35,8 @@ public:
     void finish();
     void drawText(string text);
     void logText(string message);
+    void menuSelection();
+    int menuOption=MENU_OPTION_SCAN;
 #ifndef NO_GUI
     SDL_Rect texr;
     SDL_Renderer *renderer = NULL;

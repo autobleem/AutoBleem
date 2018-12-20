@@ -6,7 +6,7 @@
 #include "util.h"
 
 
-void Splash::logText(string message)  {
+void Splash::logText(string message) {
     shared_ptr<Splash> splash(Splash::getInstance());
     splash->drawText(message);
 }
@@ -39,12 +39,12 @@ void Splash::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *te
     rect->w = text_width;
     rect->h = text_height;
 }
+
 #endif
 
 void Splash::display() {
 #ifndef NO_GUI
-    SDL_Init(SDL_INIT_VIDEO);
-    SDL_Init(SDL_INIT_AUDIO);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO);
     Mix_Init(0);
     TTF_Init();
 
@@ -94,7 +94,7 @@ void Splash::display() {
         SDL_RenderClear(renderer);
         SDL_SetTextureAlphaMod(img, alpha);
         SDL_SetTextureAlphaMod(textTex, alpha);
-        Mix_VolumeMusic(alpha/3);
+        Mix_VolumeMusic(alpha / 3);
         int current = SDL_GetTicks();
         int time = current - start;
         if (time > 5) {
@@ -113,6 +113,52 @@ void Splash::display() {
 #endif
 }
 
+void Splash::menuSelection() {
+#ifndef NO_GUI
+    cout << SDL_NumJoysticks() << "joysticks were found." << endl;
+    SDL_Joystick *joystick;
+    for (int i = 0; i < SDL_NumJoysticks(); i++) {
+        joystick = SDL_JoystickOpen(i);
+        cout << "--" << SDL_JoystickName(joystick) << endl;
+    }
+
+    drawText("MENU: Press 'Start' for AutoBleem   'X' - Re/Scan Games   'O' - Original Games");
+
+    bool menuVisible=true;
+    while (menuVisible) {
+        SDL_Event e;
+        if (SDL_PollEvent(&e)) {
+            // this is for pc Only
+            if (e.type == SDL_QUIT)
+                break;
+            switch (e.type)
+            {
+                case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
+                    drawText("Button:"+to_string(e.jbutton.button));
+                    if ( e.jbutton.button == 0 )
+                    {
+                        this->menuOption = MENU_OPTION_RUN;
+                        //menuVisible = false;
+                    };
+                    if ( e.jbutton.button == 1 )
+                    {
+                        this->menuOption = MENU_OPTION_SCAN;
+                        //menuVisible = false;
+                    };
+                    if ( e.jbutton.button == 2 )
+                    {
+                        this->menuOption = MENU_OPTION_SONY;
+                        //menuVisible = false;
+                    };
+                    break;
+            }
+
+        }
+    }
+
+
+#endif
+}
 
 void Splash::finish() {
 #ifndef NO_GUI
@@ -129,7 +175,7 @@ void Splash::drawText(string text) {
     SDL_Texture *textTex;
     SDL_Rect textRec;
     getTextAndRect(renderer, 88, 552, text.c_str(), Sans, &textTex, &textRec);
-    if (textRec.w>1140) textRec.w=1140;
+    if (textRec.w > 1140) textRec.w = 1140;
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
