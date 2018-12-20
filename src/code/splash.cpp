@@ -145,23 +145,23 @@ void Splash::menuSelection() {
             {
                 case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
                     drawText("Button:"+to_string(e.jbutton.button));
-                    if ( e.jbutton.button == 0 )
+                    if ( e.jbutton.button == 9 )
                     {
                         this->menuOption = MENU_OPTION_RUN;
 
-                        //menuVisible = false;
+                        menuVisible = false;
 
-                    };
-                    if ( e.jbutton.button == 1 )
-                    {
-                        this->menuOption = MENU_OPTION_SCAN;
-
-                        //menuVisible = false;
                     };
                     if ( e.jbutton.button == 2 )
                     {
+                        this->menuOption = MENU_OPTION_SCAN;
+
+                        menuVisible = false;
+                    };
+                    if ( e.jbutton.button == 1 )
+                    {
                         this->menuOption = MENU_OPTION_SONY;
-                        //menuVisible = false;
+                        menuVisible = false;
 
 
                     };
