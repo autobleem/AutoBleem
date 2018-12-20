@@ -144,7 +144,7 @@ void Splash::menuSelection() {
             switch (e.type)
             {
                 case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
-                    drawText("Button:"+to_string(e.jbutton.button));
+                    //drawText("Button:"+to_string(e.jbutton.button));
                     if ( e.jbutton.button == 9 )
                     {
                         this->menuOption = MENU_OPTION_RUN;
