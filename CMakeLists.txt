@@ -1,9 +1,11 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.6)
 project(cbleemsync)
 
 set(CMAKE_CXX_STANDARD 11)
 
-include_directories(src/include)
+
+include_directories(src/include /usr/local/cross-tools/arm-linux-gnueabihf/include/)
+link_directories(/usr/local/cross-tools/arm-linux-gnueabihf/lib/)
 
 find_package(Threads REQUIRED)
 
@@ -25,10 +27,18 @@ add_executable(cbleemsync
         src/code/metadata.h
         src/code/ecmhelper.cpp
         src/code/ecmhelper.h
-        )
+	    src/code/splash.h
+        src/code/splash.cpp
+		src/code/inifile.cpp
+		src/code/inifile.h)
+
 
 target_link_libraries(cbleemsync 
          Threads::Threads
+         SDL2
+         SDL2_image
+         SDL2_mixer
+         SDL2_ttf
          ${CMAKE_DL_LIBS}
 )
 

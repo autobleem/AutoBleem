@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="cbleemsync"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\src\resources\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cbleemsync">
+				<Option output="/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/cbleemsync" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/screemer/NetBeansProjects/cbleemsync/src/include"/>
+					<Add directory="/usr/local/cross-tools/arm-linux-gnueabihf/include"/>
+					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/../../../../../../include/c++/8.2.0"/>
+					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/../../../../../../include/c++/8.2.0/x86_64-apple-darwin15.6.0"/>
+					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/../../../../../../include/c++/8.2.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/local/Cellar/gcc/8.2.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/include-fixed"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 cbleemsync"/>
+					<CompileFile command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cbleemsync/fast">
+				<Option output="/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/cbleemsync" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/screemer/NetBeansProjects/cbleemsync/src/include"/>
+					<Add directory="/usr/local/cross-tools/arm-linux-gnueabihf/include"/>
+					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/../../../../../../include/c++/8.2.0"/>
+					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/../../../../../../include/c++/8.2.0/x86_64-apple-darwin15.6.0"/>
+					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/../../../../../../include/c++/8.2.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/local/Cellar/gcc/8.2.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/include-fixed"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 cbleemsync/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j4 -f &quot;/Users/screemer/NetBeansProjects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/database.cpp">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/database.h">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/ecmhelper.cpp">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/ecmhelper.h">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/game.cpp">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/game.h">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/inifile.cpp">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/inifile.h">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/main.cpp">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/main.h">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/metadata.cpp">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/metadata.h">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/scanner.cpp">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/scanner.h">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/splash.cpp">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/splash.h">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/sqlite3.c">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/sqlite3.h">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/unecm.c">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/util.cpp">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/util.h">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/resources/coversP.db">
+			<Option virtualFolder="CMake Files\src\resources\"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/resources/coversU.db">
+			<Option virtualFolder="CMake Files\src\resources\"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/resources/default.lic">
+			<Option virtualFolder="CMake Files\src\resources\"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/resources/default.png">
+			<Option virtualFolder="CMake Files\src\resources\"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/resources/pcsx.cfg">
+			<Option virtualFolder="CMake Files\src\resources\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,6 +1,6 @@
 /***************************************************************************/
 /*
-** UNECM - Decoder for ECM (Error Code Modeler) format.
+** UNECM - Decoder for EXT_ECM (Error Code Modeler) format.
 ** Version 1.0
 ** Copyright (C) 2002 Neill Corlett
 **
@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <string.h>
 
+void logText(char *message);
 
 /***************************************************************************/
 
@@ -191,6 +192,9 @@ void setcounter(unsigned n) {
         unsigned d = (mycounter_total + 64) / 128;
         if (!d) d = 1;
         fprintf(stderr, "Decoding (%02d%%)\r", (100 * a) / d);
+        char buffer[1024];
+        sprintf(buffer, "Decoding ECMed bin (%02d%%)\r", (100 * a) / d);
+        logText(buffer);
     }
     mycounter = n;
 }
@@ -304,7 +308,7 @@ int unecmify(
     uneof:
     fprintf(stderr, "Unexpected EOF!\n");
     corrupt:
-    fprintf(stderr, "Corrupt ECM file!\n");
+    fprintf(stderr, "Corrupt EXT_ECM file!\n");
     return 1;
 }
 

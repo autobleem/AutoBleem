@@ -3,7 +3,6 @@
 //
 
 #include "main.h"
-#include <string>
 
 using namespace std;
 
@@ -20,6 +19,8 @@ public:
     char *bytes = NULL;
     int dataSize = 0;
     bool valid = false;
+
+    string lastRegion="U";
 
     bool lookup(string serial);
 };

@@ -2,9 +2,8 @@
 // Created by screemer on 2018-12-16.
 //
 
-#include <cstdio>
 #include "ecmhelper.h"
-#include "util.h"
+
 
 extern "C"
 {
@@ -15,7 +14,7 @@ int unecmify(FILE *in, FILE *out);
 
 bool Ecmhelper::unecm(string input, string output) {
     cout << "Unpacking: " << input << " to " << output << endl;
-    if (Util::strcicmp(output.substr(output.length() - 4).c_str(), ".bin") != 0) {
+    if (!Util::matchExtension(output, EXT_BIN)) {
         output = output + ".bin";
     }
     eccedc_init();
@@ -31,6 +30,5 @@ bool Ecmhelper::unecm(string input, string output) {
     int result = unecmify(fin, fout);
     fclose(fout);
     fclose(fin);
-
     return result == 0;
 }

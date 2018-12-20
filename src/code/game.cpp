@@ -1,15 +1,10 @@
 //
 // Created by screemer on 2018-12-15.
 //
-
 #include "game.h"
-#include "main.h"
-#include "util.h"
 #include "metadata.h"
 
 using namespace std;
-
-#define MAX_SERIAL_CHECK 100000
 
 string fixSerial(string serial) {
     replace(serial.begin(), serial.end(), '_', '-');
@@ -32,10 +27,7 @@ string fixSerial(string serial) {
             digits << serial[i];
         }
     }
-
     return alpha.str() + "-" + digits.str();
-
-
 }
 
 string Game::scanSerial() {
@@ -105,7 +97,7 @@ bool Game::validateCue(string cuePath, string path) {
     cueStream.open(cuePath);
     while (getline(cueStream, line)) {
         line = trim(line);
-        if (line.size() == 0) continue;
+        if (line.empty()) continue;
         if (line.substr(0, 4) == "FILE") {
             line = line.substr(6, string::npos);
             line = line.substr(0, line.find('"'));
@@ -183,7 +175,7 @@ bool Game::print() {
     cout << "GameData found: " << gameDataFound << endl;
     cout << "Game.ini found: " << gameIniFound << endl;
     cout << "Game.ini valid: " << gameIniValid << endl;
-    cout << "LABEL found:" << imageFound << endl;
+    cout << "EXT_PNG found:" << imageFound << endl;
     cout << "LIC found:" << licFound << endl;
     cout << "pcsx.cfg found: " << pcsxCfgFound << endl;
     cout << "TotalDiscs: " << discs.size() << endl;
@@ -212,17 +204,17 @@ void Game::recoverMissingFiles() {
     if (discs.size() == 0) {
         automationUsed = true;
         // find cue files
-        string destination = fullPath + "GameData" + Util::separator();
+        string destination = fullPath + GAME_DATA + Util::separator();
         for (DirEntry entry: Util::dir(destination)) {
             if (entry.name[0] == '.') continue;
-            if (entry.name.length() > 4)
-                if (Util::strcicmp(entry.name.substr(entry.name.length() - 4).c_str(), ".cue") == 0) {
+
+                if (Util::matchExtension(entry.name,EXT_CUE)) {
                     string discEntry = entry.name.substr(0, entry.name.size() - 4);
                     Disc disc;
                     disc.diskName = discEntry;
                     disc.cueFound = true;
                     disc.cueName = discEntry;
-                    disc.binVerified = validateCue(destination + entry.name, fullPath + "GameData" + Util::separator());
+                    disc.binVerified = validateCue(destination + entry.name, fullPath + GAME_DATA + Util::separator());
                     discs.push_back(disc);
                 }
         }
@@ -232,7 +224,7 @@ void Game::recoverMissingFiles() {
         if (!licFound) {
             automationUsed = true;
             string source = path + Util::separator() + "default.lic";
-            string destination = fullPath + "GameData" + Util::separator() + discs[0].diskName + ".lic";
+            string destination = fullPath + GAME_DATA + Util::separator() + discs[0].diskName + ".lic";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             Util::copy(source, destination);
             licFound = true;
@@ -241,7 +233,7 @@ void Game::recoverMissingFiles() {
             automationUsed = true;
 
             string source = path + Util::separator() + "default.png";
-            string destination = fullPath + "GameData" + Util::separator() + discs[0].diskName + ".png";
+            string destination = fullPath + GAME_DATA + Util::separator() + discs[0].diskName + ".png";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             Util::copy(source, destination);
             // maybe we can do better ?
@@ -270,7 +262,7 @@ void Game::recoverMissingFiles() {
     if (!pcsxCfgFound) {
         automationUsed = true;
         string source = path + Util::separator() + "pcsx.cfg";
-        string destination = fullPath + "GameData" + Util::separator() + "pcsx.cfg";
+        string destination = fullPath + GAME_DATA + Util::separator() + "pcsx.cfg";
         cerr << "SRC:" << source << " DST:" << destination << endl;
         Util::copy(source, destination);
         pcsxCfgFound = true;
@@ -282,7 +274,7 @@ void Game::updateObj() {
     string tmp;
     discs.clear();
 
-    // Use folder names for convinience and ignore game.ini
+
     title = valueOrDefault("title", pathName);
     //title = pathName;
     publisher = valueOrDefault("publisher", "Other");
@@ -293,7 +285,7 @@ void Game::updateObj() {
     tmp = valueOrDefault("year", "2018");
     if (Util::isInteger(tmp.c_str())) year = atoi(tmp.c_str()); else year = 2018;
     tmp = valueOrDefault("discs", "");
-    if (tmp.length() != 0) {
+    if (!tmp.empty()) {
         vector<string> strings;
         istringstream f(tmp);
         string s;
@@ -304,10 +296,10 @@ void Game::updateObj() {
             Disc disc;
             disc.diskName = strings[i];
 
-            string cueFile = fullPath + "GameData" + Util::separator() + disc.diskName + ".cue";
+            string cueFile = fullPath + GAME_DATA + Util::separator() + disc.diskName + EXT_CUE;
             bool discCueExists = Util::exists(cueFile);
             if (discCueExists) {
-                disc.binVerified = validateCue(cueFile, fullPath + "GameData" + Util::separator());
+                disc.binVerified = validateCue(cueFile, fullPath + GAME_DATA + Util::separator());
                 disc.cueFound = true;
                 disc.cueName = disc.diskName;
             }
