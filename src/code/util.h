@@ -40,24 +40,15 @@ public:
 class Util {
 public:
     static const char *separator();
-
     // File System operations
     static vector<DirEntry> dir(string path);
-
     static bool copy(string source, string dest);
-
     static bool exists(const std::string &name);
-
     static bool createDir(const std::string name);
-
     static std::string getWorkingPath();
-
     static bool isInteger(const char *input);
-
-    static int strcicmp(char const *a, char const *b);
-
-
-
+    static bool matchExtension(string path, string ext);
+    static bool matchesLowercase(string first, string second);
 };
 
 

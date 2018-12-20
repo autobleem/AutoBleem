@@ -6,31 +6,19 @@
 #include "ecmhelper.h"
 
 
-static const char GAME_DATA[] = "GameData";
-static const char GAME_INI[] = "Game.ini";
-static const char PCSX_CFG[] = "pcsx.cfg";
-static const char LABEL[] = ".png";
-static const char ECM[] = ".ecm";
-static const char LICENCE[] = ".lic";
-
-
 bool wayToSort(Game i, Game j) {
     return i.title < j.title;
 }
 
 
 void Scanner::unecm(string path) {
-    // This is really slow - do not want to run it until some GUI shows progress
-
     for (DirEntry entry: Util::dir(path)) {
         if (entry.name[0] == '.') continue;
-        if (Util::strcicmp(entry.name.substr(entry.name.length() - 4).c_str(), ECM) == 0) {
-            // oh someone forgot to unpack ECM ... let me do that for you - THIS IS EXPERIMENTAL
+        if (Util::matchExtension(entry.name, EXT_ECM)) {
             Ecmhelper ecm;
-
             logText("Decompressing ecm:");
             if (ecm.unecm(path + entry.name, path + entry.name.substr(0, entry.name.length() - 4))) {
-                // successfuly unpacked
+
                 remove((path + entry.name).c_str());
 
             }
@@ -82,17 +70,17 @@ void repairMissingCue(string path, string folderName) {
     vector<DirEntry> rootDir = Util::dir(path);
     for (DirEntry entry:rootDir) {
         if (entry.name[0] == '.') continue;
-        if (entry.name.length() > 4)
-            if (Util::strcicmp(entry.name.substr(entry.name.length() - 4).c_str(), ".cue") == 0) {
-                hasCue = true;
-            }
-        if (entry.name.length() > 4)
-            if (Util::strcicmp(entry.name.substr(entry.name.length() - 4).c_str(), ".bin") == 0) {
-                binFiles.push_back(entry.name);
-            }
+
+        if (Util::matchExtension(entry.name, EXT_CUE)) {
+            hasCue = true;
+        }
+
+        if (Util::matchExtension(entry.name, EXT_BIN)) {
+            binFiles.push_back(entry.name);
+        }
     }
     if (!hasCue) {
-        string newCueName = path + folderName + ".cue";
+        string newCueName = path + folderName + EXT_CUE;
         ofstream os;
         os.open(newCueName);
         // let's create new one
@@ -177,29 +165,23 @@ void Scanner::scanDirectory(string path) {
         for (DirEntry entryGame:Util::dir(gameDataPath)) {
             if (entryGame.name[0] == '.') continue;
 
-            if (Util::strcicmp(entryGame.name.c_str(), GAME_INI) == 0) {
+
+            if (Util::matchesLowercase(entryGame.name, GAME_INI)) {
                 string gameIniPath = gameDataPath + GAME_INI;
                 game.readIni(gameIniPath);
             }
 
-            if (Util::strcicmp(entryGame.name.c_str(), PCSX_CFG) == 0) {
+            if (Util::matchesLowercase(entryGame.name, PCSX_CFG)) {
                 game.pcsxCfgFound = true;
             }
 
-            if (Util::strcicmp(entryGame.name.c_str(), PCSX_CFG) == 0) {
-                game.pcsxCfgFound = true;
+            if (Util::matchExtension(entryGame.name, EXT_PNG)) {
+                game.imageFound = true;
             }
 
-            if (entryGame.name.length() > 4)
-                if (Util::strcicmp(entryGame.name.substr(entryGame.name.length() - 4).c_str(), LABEL) == 0) {
-                    game.imageFound = true;
-                }
-            if (entryGame.name.length() > 4)
-
-                if (entryGame.name.length() > 4)
-                    if (Util::strcicmp(entryGame.name.substr(entryGame.name.length() - 4).c_str(), LICENCE) == 0) {
-                        game.licFound = true;
-                    }
+            if (Util::matchExtension(entryGame.name, EXT_LIC)) {
+                game.licFound = true;
+            }
 
 
         }
@@ -208,7 +190,7 @@ void Scanner::scanDirectory(string path) {
 
         if (!game.gameIniFound || game.automationUsed) {
             string serial = game.scanSerial();
-            if (serial.length() > 0) {
+            if (!serial.empty()) {
                 cout << "Accessing metadata for serial: " << serial << endl;
                 Metadata md;
                 if (md.lookup(serial)) {
@@ -220,7 +202,7 @@ void Scanner::scanDirectory(string path) {
 
                     if (game.discs.size() > 0) {
                         // all recovered :)
-                        string newFilename = gameDataPath + game.discs[0].cueName + ".png";
+                        string newFilename = gameDataPath + game.discs[0].cueName + EXT_PNG;
                         cout << "Updating cover" << newFilename << endl;
                         ofstream pngFile;
                         pngFile.open(newFilename);

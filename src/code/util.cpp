@@ -1,4 +1,5 @@
 #include "util.h"
+#include "main.h"
 
 #include <fstream>
 #include <sys/stat.h>
@@ -81,6 +82,21 @@ bool Util::copy(string source, string dest) {
     return true;
 }
 
+bool Util::matchExtension(string path, string ext) {
+    if (path.length() >= 4) {
+        string fileExt = path.substr(path.length() - 4, path.length());
+        if (fileExt[0] != '.') {
+            return false;
+        } else {
+            return lcase(fileExt) == lcase(ext);
+
+        }
+    } else {
+        return false;
+    };
+
+}
+
 
 bool Util::isInteger(const char *input) {
     size_t ln = strlen(input);
@@ -93,13 +109,9 @@ bool Util::isInteger(const char *input) {
     return true;
 }
 
-
-
-int Util::strcicmp(char const *a, char const *b) {
-    for (;; a++, b++) {
-        int d = tolower((unsigned char) *a) - tolower((unsigned char) *b);
-        if (d != 0 || !*a)
-            return d;
-    }
+bool Util::matchesLowercase(string first, string second)
+{
+    return lcase(first)==lcase(second);
 }
+
 

@@ -20,9 +20,7 @@ private:
 
 public:
     void display();
-
     void finish();
-
     void drawText(string text);
 
     SDL_Rect texr;

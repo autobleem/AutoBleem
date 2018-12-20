@@ -106,6 +106,12 @@
 		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/game.h">
 			<Option target="cbleemsync"/>
 		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/inifile.cpp">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/inifile.h">
+			<Option target="cbleemsync"/>
+		</Unit>
 		<Unit filename="/Users/screemer/NetBeansProjects/cbleemsync/src/code/main.cpp">
 			<Option target="cbleemsync"/>
 		</Unit>

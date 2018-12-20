@@ -29,7 +29,7 @@ add_executable(cbleemsync
         src/code/ecmhelper.h
 	src/code/splash.h
         src/code/splash.cpp
-        )
+		src/code/inifile.cpp src/code/inifile.h)
 
 
 target_link_libraries(cbleemsync 

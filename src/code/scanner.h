@@ -5,12 +5,9 @@
 #ifndef CBLEEMSYNC_SCANNER_H
 #define CBLEEMSYNC_SCANNER_H
 
-#include <string>
-#include <vector>
+#include "main.h"
 #include "game.h"
 #include "database.h"
-
-#include "util.h"
 
 using namespace std;
 
@@ -25,7 +22,6 @@ public:
 
 private:
     bool complete;
-
     void moveFolderIfNeeded(DirEntry entry, string gameDataPath, string path);
 };
 

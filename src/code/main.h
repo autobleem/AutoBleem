@@ -1,7 +1,6 @@
 #ifndef CBLEEMSYNC_MAIN_H
 #define CBLEEMSYNC_MAIN_H
 
-#include <string>
 #include <vector>
 #include <map>
 #include <cstdio>
@@ -12,6 +11,21 @@
 #include <locale>
 #include <sstream>
 #include <string>
+#include <cstring>
+#include <iostream>
+
+#include "util.h"
+
+#define MAX_SERIAL_CHECK 100000
+
+static const char GAME_DATA[] = "GameData";
+static const char GAME_INI[] = "Game.ini";
+static const char PCSX_CFG[] = "pcsx.cfg";
+static const char EXT_PNG[] = ".png";
+static const char EXT_ECM[] = ".ecm";
+static const char EXT_BIN[] = ".bin";
+static const char EXT_CUE[] = ".cue";
+static const char EXT_LIC[] = ".lic";
 
 using namespace std;
 

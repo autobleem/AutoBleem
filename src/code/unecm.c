@@ -1,6 +1,6 @@
 /***************************************************************************/
 /*
-** UNECM - Decoder for ECM (Error Code Modeler) format.
+** UNECM - Decoder for EXT_ECM (Error Code Modeler) format.
 ** Version 1.0
 ** Copyright (C) 2002 Neill Corlett
 **
@@ -308,7 +308,7 @@ int unecmify(
     uneof:
     fprintf(stderr, "Unexpected EOF!\n");
     corrupt:
-    fprintf(stderr, "Corrupt ECM file!\n");
+    fprintf(stderr, "Corrupt EXT_ECM file!\n");
     return 1;
 }
 

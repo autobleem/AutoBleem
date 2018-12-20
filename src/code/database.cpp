@@ -1,7 +1,5 @@
-#include <iostream>
 #include "database.h"
 
-#include <cstring>
 
 using namespace std;
 
