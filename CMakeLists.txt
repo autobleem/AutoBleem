@@ -4,8 +4,8 @@ project(cbleemsync)
 set(CMAKE_CXX_STANDARD 11)
 
 
-#include_directories(src/include /usr/local/cross-tools/arm-linux-gnueabihf/include/)
-#link_directories(/usr/local/cross-tools/arm-linux-gnueabihf/lib/)
+include_directories(src/include /usr/local/cross-tools/arm-linux-gnueabihf/include/)
+link_directories(/usr/local/cross-tools/arm-linux-gnueabihf/lib/)
 
 find_package(Threads REQUIRED)
 
