@@ -44,6 +44,8 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/Users/screemer/NetBeansProjects/cbleemsync/src/include"/>
+					<Add directory="/usr/local/cross-tools/arm-linux-gnueabihf/include"/>
 					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/../../../../../../include/c++/8.2.0"/>
 					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/../../../../../../include/c++/8.2.0/x86_64-apple-darwin15.6.0"/>
 					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/../../../../../../include/c++/8.2.0/backward"/>
@@ -69,6 +71,8 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/Users/screemer/NetBeansProjects/cbleemsync/src/include"/>
+					<Add directory="/usr/local/cross-tools/arm-linux-gnueabihf/include"/>
 					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/../../../../../../include/c++/8.2.0"/>
 					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/../../../../../../include/c++/8.2.0/x86_64-apple-darwin15.6.0"/>
 					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin15.6.0/8.2.0/../../../../../../include/c++/8.2.0/backward"/>

@@ -12,103 +12,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f377571-016b-4a6e-91a8-99bb578502df" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/code/inifile.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/code/inifile.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/1.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/2.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/3.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/4.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/autobleem.list" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/autobleem.list" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cbleemsync" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.dSYM/Contents/Resources/DWARF/cbleemsync" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.dSYM/Contents/Resources/DWARF/cbleemsync" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/database.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/database.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/database.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/database.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/ecmhelper.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/ecmhelper.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/ecmhelper.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/ecmhelper.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/game.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/game.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/game.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/main.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/main.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/metadata.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/metadata.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/scanner.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/scanner.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/scanner.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/scanner.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/splash.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/splash.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/sqlite3.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/sqlite3.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/sqlite3.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/sqlite3.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/unecm.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/unecm.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/util.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/util.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/util.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/util.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_assert.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_atomic.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_audio.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_bits.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_blendmode.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_clipboard.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_config.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_cpuinfo.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_egl.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_endian.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_error.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_events.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_filesystem.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_gamecontroller.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_gesture.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_haptic.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_hints.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_joystick.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_keyboard.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_keycode.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_loadso.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_log.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_main.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_messagebox.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_mouse.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_mutex.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_name.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_opengl.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_opengl_glext.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_opengles.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_opengles2.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_opengles2_gl2.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_opengles2_gl2ext.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_opengles2_gl2platform.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_opengles2_khrplatform.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_pixels.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_platform.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_power.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_quit.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_rect.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_render.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_revision.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_rwops.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_scancode.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_sensor.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_shape.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_stdinc.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_surface.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_system.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_syswm.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_test.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_test_assert.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_test_common.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_test_compare.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_test_crc32.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_test_font.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_test_fuzzer.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_test_harness.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_test_images.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_test_log.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_test_md5.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_test_memory.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_test_random.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_thread.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_timer.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_touch.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_types.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_version.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_video.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/SDL_vulkan.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/begin_code.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/include/SDL2/close_code.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/splash.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/splash.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -130,10 +40,13 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/metadata.h">
+        <entry file="file://$PROJECT_DIR$/src/code/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+            <state relative-caret-position="171">
+              <caret line="38" column="18" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
+              <folding>
+                <element signature="e#85#104#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -150,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-317">
-              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+            <state relative-caret-position="375">
+              <caret line="83" column="60" selection-start-line="83" selection-start-column="60" selection-end-line="83" selection-end-column="60" />
               <folding>
                 <element signature="e#45#64#0" expanded="true" />
               </folding>
@@ -204,7 +117,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/util.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="312">
@@ -277,7 +190,6 @@
         <option value="$PROJECT_DIR$/src/include/database.h" />
         <option value="/Volumes/SONY/Games/AutoLoad Sample/GameData/SLUS-01115.cue" />
         <option value="$PROJECT_DIR$/src/code/unecm.c" />
-        <option value="$PROJECT_DIR$/src/code/splash.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/code/main.cpp" />
         <option value="$PROJECT_DIR$/src/code/scanner.cpp" />
@@ -294,6 +206,7 @@
         <option value="$PROJECT_DIR$/src/code/scanner.h" />
         <option value="$PROJECT_DIR$/src/code/splash.h" />
         <option value="$PROJECT_DIR$/src/code/util.h" />
+        <option value="$PROJECT_DIR$/src/code/splash.cpp" />
       </list>
     </option>
   </component>
@@ -326,6 +239,12 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="code" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -347,8 +266,8 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/code" />
       <recent name="$PROJECT_DIR$/src/resources" />
+      <recent name="$PROJECT_DIR$/src/code" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -383,7 +302,7 @@
       <workItem from="1544820517271" duration="80326000" />
       <workItem from="1545164431599" duration="7356000" />
       <workItem from="1545177122731" duration="87000" />
-      <workItem from="1545177698845" duration="13658000" />
+      <workItem from="1545177698845" duration="14698000" />
     </task>
     <task id="LOCAL-00001" summary="Multi bin support">
       <created>1544822200034</created>
@@ -588,21 +507,29 @@
       <option name="project" value="LOCAL" />
       <updated>1545187585137</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Small Code Cleanup + GUI (0.11)">
+      <created>1545267349479</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1545267349479</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="103609000" />
+    <option name="totallyTimeSpent" value="104649000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1009" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17092651" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17092651" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49733758" weight="0.32824427" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.38711396" weight="0.3653217" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.38019168" visible="true" weight="0.3653217" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.45527157" weight="0.35223556" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -612,8 +539,8 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="CMake" order="10" sideWeight="0.46219382" weight="0.32824427" />
       <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.61661345" side_tool="true" visible="true" weight="0.32824427" />
-      <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.38338658" visible="true" weight="0.32824427" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.6198083" side_tool="true" visible="true" weight="0.3653217" />
+      <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.37699682" weight="0.32824427" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -803,16 +730,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="38" column="18" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
-          <folding>
-            <element signature="e#85#104#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/metadata.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -853,16 +770,6 @@
           <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
           <folding>
             <element signature="e#104#121#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-317">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding>
-            <element signature="e#45#64#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -914,6 +821,26 @@
           <caret line="41" column="35" selection-start-line="41" selection-start-column="35" selection-end-line="41" selection-end-column="35" />
           <folding>
             <element signature="e#304#322#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="38" column="18" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
+          <folding>
+            <element signature="e#85#104#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="83" column="60" selection-start-line="83" selection-start-column="60" selection-end-line="83" selection-end-column="60" />
+          <folding>
+            <element signature="e#45#64#0" expanded="true" />
           </folding>
         </state>
       </provider>

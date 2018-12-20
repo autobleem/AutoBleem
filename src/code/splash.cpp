@@ -58,17 +58,17 @@ void Splash::display() {
     texr.w = w;
     texr.h = h;
 
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
+    if (Mix_OpenAudio(32000, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
         printf("Unable to play Ogg file: %s\n", Mix_GetError());
     }
     Mix_Music *music;
-    music = Mix_LoadMUS("music.wav");
+    music = Mix_LoadMUS("3.wav");
     if (music == NULL) { printf("Unable to load Wav file: %s\n", Mix_GetError()); }
     if (Mix_PlayMusic(music, -1) == -1) { printf("Unable to play music file: %s\n", Mix_GetError()); }
     int start = SDL_GetTicks();
     string fontPath = "RobotoCondensed-Light.ttf";
     Sans = TTF_OpenFont(fontPath.c_str(), 24);
-
+    Mix_VolumeMusic(0);
     int alpha = 0;
     while (1) {
         SDL_Event e;
@@ -81,7 +81,7 @@ void Splash::display() {
 
         SDL_Texture *textTex;
         SDL_Rect textRec;
-        get_text_and_rect(renderer, 88, 552, "AutoBleem v0.1.1b", Sans, &textTex, &textRec);
+        get_text_and_rect(renderer, 88, 552, "AutoBleem v0.2", Sans, &textTex, &textRec);
         int screencenter = 1280 / 2;
         textRec.x = screencenter - (textRec.w / 2);
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
@@ -91,9 +91,10 @@ void Splash::display() {
         SDL_RenderClear(renderer);
         SDL_SetTextureAlphaMod(img, alpha);
         SDL_SetTextureAlphaMod(textTex, alpha);
+        Mix_VolumeMusic(alpha/3);
         int current = SDL_GetTicks();
         int time = current - start;
-        if (time > 2) {
+        if (time > 5) {
             if (alpha < 255) {
                 alpha += 1;
             } else {
@@ -110,6 +111,20 @@ void Splash::display() {
 
 
 void Splash::finish() {
+
+    while (1) {
+        SDL_Event e;
+        if (SDL_PollEvent(&e)) {
+            if (e.type == SDL_QUIT)
+                break;
+            else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
+                break;
+        }
+
+
+
+    }
+
     SDL_DestroyTexture(img);
     SDL_DestroyRenderer(renderer);
 
