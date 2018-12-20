@@ -8,22 +8,35 @@ v0.0 - finished - proof of concept version in plain c, same functionality as fir
 v0.1 - released - rewrite with C++, ported serial scan, custom downloadable cover repository - released
 
 v0.2 - ready for testing - 
+
      - quickboot/GUI with ability to skip scrapper, run internal games with USB in place
+     
      - better folder structures (.pcsx is not hidden anymore)
+     
      - quick check on boot if rescan may be needed
+     
      - ECM decompression on boot (this is slow)
+     
      - general fixes in code
      
 v0.3 - planned - auto update pcsx.cfg with proper region, based on repository data
+
      - fast, more inteligent serial number scan (bin file parser)
+     
      - fixes in scanner to repair cue's that have invalid bin names
      
 v0.4 - planned - integration with p7zip/unrar/zip to unzip games on boot
+
      - rename iso to bin and create cue
      
 v0.5 - future plans - retroarch integration as option in menu
+
      - code cleanup and stability fixes
+     
+     - autoconfig high resolution based on repository data
+     
      - backup of save games
+     
      - ... to be continued
      
 ## Why this project
