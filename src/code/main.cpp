@@ -20,7 +20,6 @@ int scanGames(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-
     Database *db = new Database();
     if (!db->connect(argv[1])) {
         delete db;
@@ -35,7 +34,6 @@ int scanGames(int argc, char *argv[]) {
 
     Scanner *scanner = new Scanner();
     scanner->scanDirectory(argv[2]);
-
     scanner->updateDB(db);
 
     delete scanner;
@@ -52,7 +50,9 @@ int main(int argc, char *argv[]) {
     int result = scanGames(argc, argv);
     splash->logText("Loading Playstation Classic UI");
     splash->finish();
+#ifndef NO_GUI
     SDL_Quit();
+#endif
 
     return result;
 }

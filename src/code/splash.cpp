@@ -20,6 +20,8 @@ void logText(char *message) {
 }
 }
 
+#ifndef NO_GUI
+
 void Splash::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text, TTF_Font *font,
                             SDL_Texture **texture, SDL_Rect *rect) {
     int text_width;
@@ -37,9 +39,10 @@ void Splash::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *te
     rect->w = text_width;
     rect->h = text_height;
 }
+#endif
 
 void Splash::display() {
-
+#ifndef NO_GUI
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Init(SDL_INIT_AUDIO);
     Mix_Init(0);
@@ -107,19 +110,21 @@ void Splash::display() {
         SDL_RenderCopy(renderer, textTex, NULL, &textRec);
         SDL_RenderPresent(renderer);
     }
+#endif
 }
 
 
 void Splash::finish() {
+#ifndef NO_GUI
     SDL_DestroyTexture(img);
     SDL_DestroyRenderer(renderer);
-
+#endif
 
 }
 
 
 void Splash::drawText(string text) {
-
+#ifndef NO_GUI
 
     SDL_Texture *textTex;
     SDL_Rect textRec;
@@ -134,5 +139,8 @@ void Splash::drawText(string text) {
     SDL_RenderPresent(renderer);
 
     SDL_DestroyTexture(textTex);
+#else
+    cout <<"## UI: "<< text << endl;
+#endif
 
 }

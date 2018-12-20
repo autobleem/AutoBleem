@@ -7,7 +7,6 @@
 
 static const char *jDatabases[] = {"coversU.db", "coversP.db", "coversJ.db"};
 
-
 bool Metadata::lookup(string serial) {
     for (int i = 0; i < 3; i++) {
         Database *db = new Database();
@@ -17,9 +16,7 @@ bool Metadata::lookup(string serial) {
                 return true;
             }
         };
-
         db->disconnect();
-
     }
     return false;
 }
