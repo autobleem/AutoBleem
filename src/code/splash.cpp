@@ -113,6 +113,16 @@ void Splash::display() {
 #endif
 }
 
+void Splash::saveSelection()
+{
+    string path = "/media/lolhack/selection.txt";
+    ofstream os;
+    os.open(path);
+    os << menuOption << endl;
+    os.flush();
+    os.close();
+}
+
 void Splash::menuSelection() {
 #ifndef NO_GUI
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
@@ -138,17 +148,22 @@ void Splash::menuSelection() {
                     if ( e.jbutton.button == 0 )
                     {
                         this->menuOption = MENU_OPTION_RUN;
+
                         //menuVisible = false;
+
                     };
                     if ( e.jbutton.button == 1 )
                     {
                         this->menuOption = MENU_OPTION_SCAN;
+
                         //menuVisible = false;
                     };
                     if ( e.jbutton.button == 2 )
                     {
                         this->menuOption = MENU_OPTION_SONY;
                         //menuVisible = false;
+
+
                     };
                     break;
             }

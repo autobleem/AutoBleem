@@ -46,19 +46,13 @@ int scanGames(int argc, char *argv[]) {
 int main(int argc, char *argv[]) {
     shared_ptr<Splash> splash(Splash::getInstance());
     splash->display();
-    splash->drawText("AutoBleem v0.2");
+    splash->drawText("AutoBleem");
     splash->menuSelection();
-    switch (splash->menuOption)
+    splash->saveSelection();
+    if (splash->menuOption==MENU_OPTION_SCAN)
     {
-        case MENU_OPTION_SCAN:
-            scanGames(argc, argv);
-            break;
-        case MENU_OPTION_RUN:
-            break;
-        case MENU_OPTION_SONY: // not implemented yet
-            break;
+        scanGames(argc, argv);
     }
-
     splash->logText("Loading Playstation Classic UI");
     splash->finish();
 #ifndef NO_GUI

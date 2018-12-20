@@ -36,6 +36,7 @@ public:
     void drawText(string text);
     void logText(string message);
     void menuSelection();
+    void saveSelection();
     int menuOption=MENU_OPTION_SCAN;
 #ifndef NO_GUI
     SDL_Rect texr;
