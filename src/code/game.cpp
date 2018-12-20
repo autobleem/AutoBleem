@@ -274,7 +274,7 @@ void Game::updateObj() {
     string tmp;
     discs.clear();
 
-    // Use folder names for convinience and ignore game.ini
+
     title = valueOrDefault("title", pathName);
     //title = pathName;
     publisher = valueOrDefault("publisher", "Other");
@@ -285,7 +285,7 @@ void Game::updateObj() {
     tmp = valueOrDefault("year", "2018");
     if (Util::isInteger(tmp.c_str())) year = atoi(tmp.c_str()); else year = 2018;
     tmp = valueOrDefault("discs", "");
-    if (tmp.length() != 0) {
+    if (!tmp.empty()) {
         vector<string> strings;
         istringstream f(tmp);
         string s;
@@ -296,7 +296,7 @@ void Game::updateObj() {
             Disc disc;
             disc.diskName = strings[i];
 
-            string cueFile = fullPath + GAME_DATA + Util::separator() + disc.diskName + ".cue";
+            string cueFile = fullPath + GAME_DATA + Util::separator() + disc.diskName + EXT_CUE;
             bool discCueExists = Util::exists(cueFile);
             if (discCueExists) {
                 disc.binVerified = validateCue(cueFile, fullPath + GAME_DATA + Util::separator());
