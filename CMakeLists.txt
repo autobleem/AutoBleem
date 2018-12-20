@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.6)
 project(cbleemsync)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -27,9 +27,10 @@ add_executable(cbleemsync
         src/code/metadata.h
         src/code/ecmhelper.cpp
         src/code/ecmhelper.h
-	src/code/splash.h
+	    src/code/splash.h
         src/code/splash.cpp
-		src/code/inifile.cpp src/code/inifile.h)
+		src/code/inifile.cpp
+		src/code/inifile.h)
 
 
 target_link_libraries(cbleemsync 
