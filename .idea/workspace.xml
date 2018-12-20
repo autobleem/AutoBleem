@@ -13,7 +13,18 @@
   <component name="ChangeListManager">
     <list default="true" id="0f377571-016b-4a6e-91a8-99bb578502df" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.dSYM/Contents/Resources/DWARF/cbleemsync" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.dSYM/Contents/Resources/DWARF/cbleemsync" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/database.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/database.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/database.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/database.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/metadata.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/metadata.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/metadata.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/metadata.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/scanner.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/scanner.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/scanner.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/scanner.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/code/splash.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/splash.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/splash.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/splash.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/util.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/util.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/util.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/util.h" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -29,8 +40,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" selection-start-line="21" selection-end-line="21" />
+            <state relative-caret-position="375">
+              <caret line="48" column="28" lean-forward="true" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="28" />
               <folding>
                 <element signature="e#85#104#0" expanded="true" />
               </folding>
@@ -39,21 +50,21 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/inifile.h">
+        <entry file="file://$PROJECT_DIR$/src/code/metadata.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="7" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
+            <state relative-caret-position="360">
+              <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/metadata.cpp">
+        <entry file="file://$PROJECT_DIR$/src/code/scanner.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" selection-start-line="8" selection-end-line="8" />
+            <state relative-caret-position="300">
+              <caret line="20" column="46" selection-start-line="20" selection-start-column="46" selection-end-line="20" selection-end-column="46" />
               <folding>
-                <element signature="e#45#66#0" expanded="true" />
+                <element signature="e#104#121#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -62,44 +73,19 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/main.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" selection-start-line="20" selection-end-line="20" />
-              <folding>
-                <element signature="e#53#70#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="197">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/metadata.h">
+        <entry file="file://$PROJECT_DIR$/src/code/metadata.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/scanner.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="25" selection-start-line="25" selection-end-line="25" />
+            <state relative-caret-position="360">
+              <caret line="24" column="43" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
               <folding>
-                <element signature="e#104#121#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="70">
-              <caret line="146" column="22" selection-start-line="146" selection-start-column="22" selection-end-line="146" selection-end-column="22" />
-              <folding>
-                <element signature="e#45#64#0" expanded="true" />
-                <element signature="e#5686#5718#0" expanded="true" />
+                <element signature="e#45#66#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -108,28 +94,55 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/database.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1250">
-              <caret line="53" column="55" selection-start-line="53" selection-start-column="55" selection-end-line="53" selection-end-column="55" />
+            <state relative-caret-position="302">
+              <caret line="49" column="56" selection-start-line="49" selection-start-column="56" selection-end-line="49" selection-end-column="56" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4455">
-              <caret line="298" column="95" selection-start-line="298" selection-start-column="95" selection-end-line="298" selection-end-column="95" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/code/scanner.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="30" column="38" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
+            <state relative-caret-position="203">
+              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
               <folding>
                 <element signature="e#45#65#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/code/database.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
+              <folding>
+                <element signature="e#127#144#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/code/util.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="296">
+              <caret line="43" selection-start-line="43" selection-end-line="43" selection-end-column="40" />
+              <folding>
+                <element signature="e#0#17#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/code/util.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="44" column="46" selection-start-line="44" selection-start-column="46" selection-end-line="44" selection-end-column="46" />
+              <folding>
+                <element signature="e#304#322#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -184,34 +197,34 @@
         <option value="$PROJECT_DIR$/src/include/database.h" />
         <option value="/Volumes/SONY/Games/AutoLoad Sample/GameData/SLUS-01115.cue" />
         <option value="$PROJECT_DIR$/src/code/unecm.c" />
-        <option value="$PROJECT_DIR$/src/code/util.cpp" />
-        <option value="$PROJECT_DIR$/src/code/database.h" />
         <option value="$PROJECT_DIR$/src/code/ecmhelper.cpp" />
         <option value="$PROJECT_DIR$/src/code/ecmhelper.h" />
         <option value="$PROJECT_DIR$/src/code/inifile.h" />
-        <option value="$PROJECT_DIR$/src/code/metadata.h" />
-        <option value="$PROJECT_DIR$/src/code/util.h" />
-        <option value="$PROJECT_DIR$/src/code/database.cpp" />
-        <option value="$PROJECT_DIR$/src/code/scanner.h" />
-        <option value="$PROJECT_DIR$/src/code/scanner.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/resources/config.ini" />
         <option value="$PROJECT_DIR$/src/code/game.h" />
-        <option value="$PROJECT_DIR$/src/code/metadata.cpp" />
         <option value="$PROJECT_DIR$/src/code/game.cpp" />
         <option value="$PROJECT_DIR$/src/code/main.h" />
         <option value="$PROJECT_DIR$/src/code/splash.h" />
-        <option value="$PROJECT_DIR$/src/code/main.cpp" />
         <option value="$PROJECT_DIR$/src/code/splash.cpp" />
+        <option value="$PROJECT_DIR$/src/code/metadata.h" />
+        <option value="$PROJECT_DIR$/src/code/metadata.cpp" />
+        <option value="$PROJECT_DIR$/src/code/database.h" />
+        <option value="$PROJECT_DIR$/src/code/scanner.h" />
+        <option value="$PROJECT_DIR$/src/code/util.cpp" />
+        <option value="$PROJECT_DIR$/src/code/util.h" />
+        <option value="$PROJECT_DIR$/src/code/main.cpp" />
+        <option value="$PROJECT_DIR$/src/code/database.cpp" />
+        <option value="$PROJECT_DIR$/src/code/scanner.cpp" />
       </list>
     </option>
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-5" />
-    <option name="y" value="22" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="27" />
+    <option name="y" value="23" />
     <option name="width" value="1920" />
-    <option name="height" value="1010" />
+    <option name="height" value="1009" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -224,6 +237,11 @@
             <path>
               <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
               <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
+              <item name="cmake-build-debug" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
@@ -561,14 +579,21 @@
       <option name="project" value="LOCAL" />
       <updated>1545329543393</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Small Code Cleanup + GUI (0.11)">
+      <created>1545330110215</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1545330110215</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110922000" />
+    <option name="totallyTimeSpent" value="114939000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1920" height="1009" extended-state="0" />
+    <frame x="27" y="23" width="1920" height="1009" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17092651" />
@@ -709,26 +734,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/util.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="28" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#17#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/util.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="41" column="35" selection-start-line="41" selection-start-column="35" selection-end-line="41" selection-end-column="35" />
-          <folding>
-            <element signature="e#304#322#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/unecm.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
@@ -750,13 +755,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/database.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -797,50 +795,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/metadata.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
-          <folding>
-            <element signature="e#45#66#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/metadata.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/scanner.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="38" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
-          <folding>
-            <element signature="e#45#65#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/scanner.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
-          <folding>
-            <element signature="e#104#121#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/database.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1250">
-          <caret line="53" column="55" selection-start-line="53" selection-start-column="55" selection-end-line="53" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4455">
@@ -848,40 +802,111 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/main.h">
+    <entry file="file://$PROJECT_DIR$/src/code/splash.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        <state relative-caret-position="420">
+          <caret line="33" column="32" selection-start-line="33" selection-start-column="32" selection-end-line="33" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2130">
+          <caret line="142" selection-start-line="142" selection-end-line="142" />
           <folding>
-            <element signature="e#53#70#0" expanded="true" />
+            <element signature="e#45#64#0" expanded="true" />
+            <element signature="e#5686#5718#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/splash.h">
+    <entry file="file://$PROJECT_DIR$/src/code/metadata.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
+        <state relative-caret-position="360">
+          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/metadata.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="43" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
+          <folding>
+            <element signature="e#45#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/scanner.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="46" selection-start-line="20" selection-start-column="46" selection-end-line="20" selection-end-column="46" />
+          <folding>
+            <element signature="e#104#121#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/util.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="43" selection-start-line="43" selection-end-line="43" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/main.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/database.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+          <folding>
+            <element signature="e#127#144#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/util.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="44" column="46" selection-start-line="44" selection-start-column="46" selection-end-line="44" selection-end-column="46" />
+          <folding>
+            <element signature="e#304#322#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/code/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        <state relative-caret-position="375">
+          <caret line="48" column="28" lean-forward="true" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="28" />
           <folding>
             <element signature="e#85#104#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
+    <entry file="file://$PROJECT_DIR$/src/code/database.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="146" column="22" selection-start-line="146" selection-start-column="22" selection-end-line="146" selection-end-column="22" />
+        <state relative-caret-position="302">
+          <caret line="49" column="56" selection-start-line="49" selection-start-column="56" selection-end-line="49" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/scanner.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
           <folding>
-            <element signature="e#45#64#0" expanded="true" />
-            <element signature="e#5686#5718#0" expanded="true" />
+            <element signature="e#45#65#0" expanded="true" />
           </folding>
         </state>
       </provider>

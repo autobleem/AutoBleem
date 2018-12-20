@@ -10,6 +10,19 @@ bool wayToSort(Game i, Game j) {
     return i.title < j.title;
 }
 
+bool Scanner::isFirstRun(string path, Database * db)
+{
+
+    bool listFile =  !Util::exists(Util::getWorkingPath() + Util::separator() + "autobleem.list");
+    if (listFile) {
+        return listFile;
+    }
+    vector<DirEntry> entries =  Util::diru(path);
+    int num_games = db->getNumGames();
+    cout << path << " "<< "db" << num_games << " dir" << entries.size() << endl;
+    return num_games!=entries.size();
+
+}
 
 void Scanner::unecm(string path) {
     for (DirEntry entry: Util::dir(path)) {

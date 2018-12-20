@@ -18,11 +18,11 @@ public:
 
     void scanDirectory(string path);
 
+    bool isFirstRun(string path, Database * db);
     void unecm(string path);
     void updateDB(Database *db);
-
+    bool forceScan=false;
 private:
-
 
     bool complete;
     void moveFolderIfNeeded(DirEntry entry, string gameDataPath, string path);

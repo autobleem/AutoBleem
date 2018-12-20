@@ -31,7 +31,7 @@ private:
             TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
 #endif
 public:
-    void display();
+    void display(bool forceScan);
     void finish();
     void drawText(string text);
     void logText(string message);
@@ -44,7 +44,7 @@ public:
     SDL_Texture *img = NULL;
     TTF_Font *Sans = TTF_OpenFont("Sans.ttf", 24);
 #endif
-
+    bool forceScan=false;
     Splash(Splash const &) = delete;
     Splash &operator=(Splash const &) = delete;
     static std::shared_ptr<Splash> getInstance() {

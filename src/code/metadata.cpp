@@ -13,6 +13,18 @@ bool Metadata::lookup(string serial) {
         if (db->connect(jDatabases[i])) {
             if (db->querySerial(serial, this)) {
                 db->disconnect();
+                switch(i)
+                {
+                    case 0:
+                        this->lastRegion="U";
+                        break;
+                    case 1:
+                        this->lastRegion="P";
+                        break;
+                    case 2:
+                        this->lastRegion="J";
+                        break;
+                }
                 return true;
             }
         };

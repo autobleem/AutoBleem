@@ -41,6 +41,24 @@ vector<DirEntry> Util::dir(string path) {
     sort(result.begin(), result.end(), wayToSort);
     return result;
 }
+vector<DirEntry> Util::diru(string path) {
+    vector<DirEntry> result;
+    DIR *dir = opendir(path.c_str());
+    if (dir != NULL) {
+        struct dirent *entry = readdir(dir);
+        while (entry != NULL) {
+            DirEntry obj(entry->d_name, entry->d_type);
+            if (entry->d_name[0]!='.') {
+                result.push_back(obj);
+            }
+            entry = readdir(dir);
+        }
+
+        closedir(dir);
+    }
+    sort(result.begin(), result.end(), wayToSort);
+    return result;
+}
 
 bool Util::exists(const std::string &name) {
 

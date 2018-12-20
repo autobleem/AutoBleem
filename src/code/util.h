@@ -42,6 +42,7 @@ public:
     static const char *separator();
     // File System operations
     static vector<DirEntry> dir(string path);
+    static vector<DirEntry> diru(string path);
     static bool copy(string source, string dest);
     static bool exists(const std::string &name);
     static bool createDir(const std::string name);

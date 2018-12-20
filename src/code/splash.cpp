@@ -42,7 +42,8 @@ void Splash::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *te
 
 #endif
 
-void Splash::display() {
+void Splash::display(bool forceScan) {
+    this->forceScan = forceScan;
 #ifndef NO_GUI
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO);
     Mix_Init(0);
@@ -84,7 +85,7 @@ void Splash::display() {
 
         SDL_Texture *textTex;
         SDL_Rect textRec;
-        getTextAndRect(renderer, 88, 552, "AutoBleem v0.2", Sans, &textTex, &textRec);
+        getTextAndRect(renderer, 88, 552, "AutoBleem v0.2(Nex)", Sans, &textTex, &textRec);
         int screencenter = 1280 / 2;
         textRec.x = screencenter - (textRec.w / 2);
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
@@ -113,8 +114,7 @@ void Splash::display() {
 #endif
 }
 
-void Splash::saveSelection()
-{
+void Splash::saveSelection() {
     string path = "/media/lolhack/selection.txt";
     ofstream os;
     os.open(path);
@@ -132,39 +132,40 @@ void Splash::menuSelection() {
         cout << "--" << SDL_JoystickName(joystick) << endl;
     }
 
-    drawText("MENU: Press 'Start' for AutoBleem   'X' - Re/Scan Games   'O' - Original Games");
-
-    bool menuVisible=true;
+    if (!forceScan) {
+        drawText("MENU: Press 'Start' for AutoBleem   'X' - Re/Scan Games   'O' - Original Games");
+    } else {
+        drawText("MENU: This is a first run or games were changed - Press 'X' to scan");
+    }
+    bool menuVisible = true;
     while (menuVisible) {
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
             // this is for pc Only
             if (e.type == SDL_QUIT)
                 break;
-            switch (e.type)
-            {
+            switch (e.type) {
                 case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
                     //drawText("Button:"+to_string(e.jbutton.button));
-                    if ( e.jbutton.button == 9 )
-                    {
-                        this->menuOption = MENU_OPTION_RUN;
+                    if (!forceScan)
+                        if (e.jbutton.button == 9) {
+                            this->menuOption = MENU_OPTION_RUN;
 
-                        menuVisible = false;
+                            menuVisible = false;
 
-                    };
-                    if ( e.jbutton.button == 2 )
-                    {
+                        };
+                    if (e.jbutton.button == 2) {
                         this->menuOption = MENU_OPTION_SCAN;
 
                         menuVisible = false;
                     };
-                    if ( e.jbutton.button == 1 )
-                    {
-                        this->menuOption = MENU_OPTION_SONY;
-                        menuVisible = false;
+                    if (!forceScan)
+                        if (e.jbutton.button == 1) {
+                            this->menuOption = MENU_OPTION_SONY;
+                            menuVisible = false;
 
 
-                    };
+                        };
                     break;
             }
 

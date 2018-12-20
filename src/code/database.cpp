@@ -8,7 +8,7 @@ static const char SELECT_META[] = "SELECT SERIAL,TITLE, PUBLISHER, \
                                 RELEASE,PLAYERS, COVER FROM SERIALS s \
                                 JOIN GAME g on s.GAME=g.id \
                                 WHERE SERIAL=?";
-
+static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
 static const char CREATE_GAME_SQL[] = "CREATE TABLE IF NOT EXISTS GAME  \
      ( [GAME_ID] integer NOT NULL UNIQUE, \
        [GAME_TITLE_STRING] text, \
@@ -38,6 +38,28 @@ static const char INSERT_GAME[] = "INSERT INTO GAME ([GAME_ID],[GAME_TITLE_STRIN
 static const char INSERT_DISC[] = "INSERT INTO DISC ([GAME_ID],[DISC_NUMBER],[BASENAME]) \
                 values (?,?,?)";
 
+int Database::getNumGames() {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, NUM_GAMES, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+
+
+        int result = sqlite3_step(res);
+        if (result == SQLITE_ROW) {
+
+            const int number = sqlite3_column_int(res, 0);
+            sqlite3_finalize(res);
+            return number;
+
+        }
+    } else {
+        cerr << "Failed to execute statement: " << sqlite3_errmsg(db) << endl;
+        sqlite3_finalize(res);
+        return 0;
+    }
+    sqlite3_finalize(res);
+    return 0;
+}
 bool Database::querySerial(string serial, Metadata *md) {
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, SELECT_META, -1, &res, nullptr);

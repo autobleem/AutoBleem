@@ -20,6 +20,8 @@ public:
     int dataSize = 0;
     bool valid = false;
 
+    string lastRegion="U";
+
     bool lookup(string serial);
 };
 
