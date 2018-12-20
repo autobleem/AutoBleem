@@ -6,7 +6,7 @@
 #include "util.h"
 
 
-void logText(string message) {
+void Splash::logText(string message)  {
     shared_ptr<Splash> splash(Splash::getInstance());
     splash->drawText(message);
 }
@@ -20,8 +20,8 @@ void logText(char *message) {
 }
 }
 
-void get_text_and_rect(SDL_Renderer *renderer, int x, int y, const char *text,
-                       TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect) {
+void Splash::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text, TTF_Font *font,
+                            SDL_Texture **texture, SDL_Rect *rect) {
     int text_width;
     int text_height;
     SDL_Surface *surface;
@@ -81,7 +81,7 @@ void Splash::display() {
 
         SDL_Texture *textTex;
         SDL_Rect textRec;
-        get_text_and_rect(renderer, 88, 552, "AutoBleem v0.2", Sans, &textTex, &textRec);
+        getTextAndRect(renderer, 88, 552, "AutoBleem v0.2", Sans, &textTex, &textRec);
         int screencenter = 1280 / 2;
         textRec.x = screencenter - (textRec.w / 2);
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
@@ -111,9 +111,6 @@ void Splash::display() {
 
 
 void Splash::finish() {
-
-
-
     SDL_DestroyTexture(img);
     SDL_DestroyRenderer(renderer);
 
@@ -126,7 +123,8 @@ void Splash::drawText(string text) {
 
     SDL_Texture *textTex;
     SDL_Rect textRec;
-    get_text_and_rect(renderer, 88, 552, text.c_str(), Sans, &textTex, &textRec);
+    getTextAndRect(renderer, 88, 552, text.c_str(), Sans, &textTex, &textRec);
+    if (textRec.w>1140) textRec.w=1140;
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);

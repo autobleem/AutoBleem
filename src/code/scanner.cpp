@@ -16,7 +16,8 @@ void Scanner::unecm(string path) {
         if (entry.name[0] == '.') continue;
         if (Util::matchExtension(entry.name, EXT_ECM)) {
             Ecmhelper ecm;
-            logText("Decompressing ecm:");
+            shared_ptr<Splash> splash(Splash::getInstance());
+            splash->logText("Decompressing ecm:");
             if (ecm.unecm(path + entry.name, path + entry.name.substr(0, entry.name.length() - 4))) {
 
                 remove((path + entry.name).c_str());
@@ -132,8 +133,8 @@ void Scanner::scanDirectory(string path) {
     // clear games list
     games.clear();
     complete = false;
-
-    logText("Scanning...");
+    shared_ptr<Splash> splash(Splash::getInstance());
+    splash->logText("Scanning...");
 
 
     for (DirEntry entry: Util::dir(path)) {
@@ -144,7 +145,7 @@ void Scanner::scanDirectory(string path) {
         game.folder_id = 0; // this will not be in use;
         game.fullPath = path + entry.name + Util::separator();
         game.pathName = entry.name;
-        logText("Game: " + entry.name);
+        splash->logText("Game: " + entry.name);
 
         string gameDataPath = path + entry.name + Util::separator() + GAME_DATA + Util::separator();
 

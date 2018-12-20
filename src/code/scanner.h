@@ -8,6 +8,7 @@
 #include "main.h"
 #include "game.h"
 #include "database.h"
+#include "splash.h"
 
 using namespace std;
 
@@ -21,6 +22,8 @@ public:
     void updateDB(Database *db);
 
 private:
+
+
     bool complete;
     void moveFolderIfNeeded(DirEntry entry, string gameDataPath, string path);
 };

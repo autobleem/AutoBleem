@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
     splash->display();
     splash->drawText("AutoBleem v0.2 Welcome");
     int result = scanGames(argc, argv);
-    logText("Loading Playstation Classic UI");
+    splash->logText("Loading Playstation Classic UI");
     splash->finish();
     SDL_Quit();
 

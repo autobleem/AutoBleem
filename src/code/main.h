@@ -56,6 +56,5 @@ static inline std::string &lcase(std::string &s, int nchars = 0) {
     return s;
 }
 
-void logText(string message);
 
 #endif //CBLEEMSYNC_MAIN_H

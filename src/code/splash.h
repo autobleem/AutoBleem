@@ -17,11 +17,13 @@ using namespace std;
 class Splash {
 private:
     Splash() {}
-
+    void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
+            TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
 public:
     void display();
     void finish();
     void drawText(string text);
+    void logText(string message);
 
     SDL_Rect texr;
     SDL_Renderer *renderer = NULL;
@@ -30,9 +32,7 @@ public:
 
 
     Splash(Splash const &) = delete;
-
     Splash &operator=(Splash const &) = delete;
-
     static std::shared_ptr<Splash> getInstance() {
         static std::shared_ptr<Splash> s{new Splash};
         return s;
