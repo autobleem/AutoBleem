@@ -24,6 +24,9 @@ bool Metadata::lookup(string serial) {
                     case 2:
                         this->lastRegion="J";
                         break;
+                    default:
+                        this->lastRegion="U";
+                        break;
                 }
                 return true;
             }

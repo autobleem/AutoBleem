@@ -88,6 +88,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/screemer/Dokumenty/cbleemsync/src/code/config.cpp">
+			<Option target="cbleemsync"/>
+		</Unit>
+		<Unit filename="/home/screemer/Dokumenty/cbleemsync/src/code/config.h">
+			<Option target="cbleemsync"/>
+		</Unit>
 		<Unit filename="/home/screemer/Dokumenty/cbleemsync/src/code/database.cpp">
 			<Option target="cbleemsync"/>
 		</Unit>

@@ -268,8 +268,6 @@ void Game::recoverMissingFiles() {
 void Game::updateObj() {
     string tmp;
     discs.clear();
-
-
     title = valueOrDefault("title", pathName);
     //title = pathName;
     publisher = valueOrDefault("publisher", "Other");
@@ -291,7 +289,6 @@ void Game::updateObj() {
         for (int i = 0; i < strings.size(); i++) {
             Disc disc;
             disc.diskName = strings[i];
-
             string cueFile = fullPath + GAME_DATA + Util::separator() + disc.diskName + EXT_CUE;
             bool discCueExists = Util::exists(cueFile);
             if (discCueExists) {
@@ -302,7 +299,6 @@ void Game::updateObj() {
             discs.push_back(disc);
         }
     }
-
     gameIniValid = true;
 
 
@@ -310,27 +306,23 @@ void Game::updateObj() {
 
 void Game::saveIni(string path) {
     cout << "Overwritting ini file" << path << endl;
-
-    ofstream os;
-    os.open(path);
-    os << "[Game]" << endl;
-    os << "Discs=";
+    Inifile * ini = new Inifile();
+    ini->section="Game";
+    ini->values["title"]=title;
+    ini->values["publisher"]=publisher;
+    ini->values["year"]=to_string(year);
+    ini->values["players"]=to_string(players);
+    ini->values["automation"]=to_string(automationUsed);
+    stringstream ss;
     for (int i = 0; i < discs.size(); i++) {
-        os << Util::escape(discs[i].diskName);
+        ss << Util::escape(discs[i].diskName);
         if (i != discs.size() - 1) {
-            os << ",";
+            ss << ",";
         }
     }
-    os << endl;
-    os << "Title=" << title << endl;
-    os << "Publisher=" << publisher << endl;
-    os << "Players=" << players << endl;
-    os << "Year=" << year << endl;
-    os << "Automation=" << automationUsed << endl;
-
-
-    os.flush();
-    os.close();
+    ini->values["discs"]=ss.str();
+    ini->save(path);
+    delete ini;
     gameIniFound = true;
 }
 
