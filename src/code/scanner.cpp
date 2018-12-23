@@ -18,18 +18,27 @@ bool Scanner::isFirstRun(string path, Database * db)
         return listFile;
     }
 
-    // TODO: Implement this better way by checking directory only
+
     bool prevFileExists = Util::exists(Util::getWorkingPath() + Util::separator()+ "autobleem.prev");
     if (!prevFileExists)
     {
         return true;
     }
-    /*
+    ifstream prev;
+    string prevName = Util::getWorkingPath() + Util::separator()+ "autobleem.prev";
+    prev.open(prevName.c_str(),ios::binary);
     vector<DirEntry> entries =  Util::diru(path);
-    int num_games = db->getNumGames();
-    cout << path << " "<< "db" << num_games << " dir" << entries.size() << endl;
-    return num_games!=entries.size();
-     */
+    for (DirEntry entry:entries)
+    {
+        string nameInFile;
+        getline(prev,nameInFile);
+        if (nameInFile!=entry.name)
+        {
+            return true;
+        }
+    }
+    prev.close();
+
     return false;
 
 }
@@ -63,7 +72,7 @@ void Scanner::updateDB(Database *db) {
             cout << "Inserting game ID: " << i + 1 << " - " << data.title << endl;
             db->insertGame(i + 1, data.title, data.publisher, data.players, data.year);
             for (int j = 0; j < data.discs.size(); j++) {
-                db->insertDisc(i + 1, j + 1, Util::escape(data.discs[j].diskName));
+                db->insertDisc(i + 1, j + 1, data.discs[j].diskName);
             }
             outfile << i + 1 << "," << Util::escape(data.fullPath.substr(0, data.fullPath.size() - 1)) << endl;
 
