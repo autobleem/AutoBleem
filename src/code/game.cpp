@@ -3,6 +3,8 @@
 //
 #include "game.h"
 #include "metadata.h"
+#include "isodir.h"
+#include "inifile.h"
 
 using namespace std;
 
@@ -39,53 +41,46 @@ string Game::scanSerial() {
         return ""; // not at this stage
     }
 
-    ifstream stream(firstBinPath, ios::binary);
-    stream.seekg(0, ios_base::end);
-    int length = stream.tellg();
-
-
-    char triggerCharacters[] = {'C', 'E', 'H', 'L', 'S'};
-    char bits[11];
-    bool foundSerial = false;
-    string serial = "";
-    for (int pos = 0; pos < length; pos += 11) {
-
-        if (pos > MAX_SERIAL_CHECK) break;
-        stream.seekg(pos, ios::beg);
-        stream.read(bits, 11);
-        char triggerChar;
-        for (int i = 0; i < 11; i++) {
-
-            for (int charid = 0; charid < 5; charid++) {
-
-                triggerChar = triggerCharacters[charid];
-
-                if (bits[i] == triggerChar) {
-
-                    pos += i;
-                    stream.seekg(pos, ios::beg);
-                    stream.read(bits, 11);
-
-                    string possibleString = bits;
-
-                    for (int prefid = 0; prefid < 16; prefid++) {
-                        if (possibleString.substr(0, prefixes[prefid].size()) == prefixes[prefid]) {
-                            foundSerial = true;
-                            serial = possibleString;
-
-                        }
-                    }
+    Isodir * dirLoader = new Isodir();
+    IsoDirectory dir = dirLoader->getDir(firstBinPath);
+    delete dirLoader;
+    string serialFound="";
+    if (!dir.rootDir.empty())
+    {
+        for (string entry:dir.rootDir)
+        {
+            string potentialSerial = fixSerial(entry);
+            for (string prefix:prefixes)
+            {
+                int pos=potentialSerial.find(prefix.c_str(),0);
+                if (pos==0)
+                {
+                    serialFound = potentialSerial;
+                    cout << "Serial number: " << serialFound << endl;
+                    return serialFound;
                 }
-                if (foundSerial) break;
+
             }
         }
-        if (foundSerial) break;
-    }
-    if (!foundSerial) {
+        string volume = fixSerial(dir.volumeName);
+        for (string prefix:prefixes)
+        {
+            int pos=volume.find(prefix.c_str(),0);
+            if (pos==0)
+            {
+                serialFound = volume;
+                cout << "Serial number: " << serialFound << endl;
+                return serialFound;
+            }
+
+        }
+        return "";
+    } else
+    {
         return "";
     }
 
-    return fixSerial(serial);
+
 }
 
 bool Game::validateCue(string cuePath, string path) {
@@ -175,7 +170,7 @@ bool Game::print() {
     cout << "GameData found: " << gameDataFound << endl;
     cout << "Game.ini found: " << gameIniFound << endl;
     cout << "Game.ini valid: " << gameIniValid << endl;
-    cout << "EXT_PNG found:" << imageFound << endl;
+    cout << "PNG found:" << imageFound << endl;
     cout << "LIC found:" << licFound << endl;
     cout << "pcsx.cfg found: " << pcsxCfgFound << endl;
     cout << "TotalDiscs: " << discs.size() << endl;
@@ -290,6 +285,7 @@ void Game::updateObj() {
         istringstream f(tmp);
         string s;
         while (getline(f, s, ',')) {
+            s=Util::decode(s);
             strings.push_back(s);
         }
         for (int i = 0; i < strings.size(); i++) {
@@ -320,7 +316,7 @@ void Game::saveIni(string path) {
     os << "[Game]" << endl;
     os << "Discs=";
     for (int i = 0; i < discs.size(); i++) {
-        os << discs[i].diskName;
+        os << Util::escape(discs[i].diskName);
         if (i != discs.size() - 1) {
             os << ",";
         }
@@ -340,30 +336,17 @@ void Game::saveIni(string path) {
 
 void Game::parseIni(string path) {
     iniValues.clear();
-    ifstream file;
-    string iniLine;
-    file.open(path);
-
-    if (!file.good()) {
+    Inifile * ini=new Inifile();
+    ini->load(path);
+    if (ini->values.empty())
+    {
         gameIniFound = false;
+        delete ini;
         return;
-
     }
-    while (getline(file, iniLine)) {
-        iniLine = trim(iniLine);
-        if (iniLine.length() == 0) continue;
-        if (iniLine.find('=') != string::npos) {
-            iniLine = lcase(iniLine, iniLine.find('='));
-            string paramName = iniLine.substr(0, iniLine.find('='));
-            string paramVal = iniLine.substr(iniLine.find('=') + 1, string::npos);
-            iniValues[paramName] = paramVal;
-        }
-
-        if (file.eof()) break;
-    };
     gameIniFound = true;
-    file.close();
-
+    iniValues=ini->values;
+    delete ini;
 }
 
 void Game::readIni(string path) {

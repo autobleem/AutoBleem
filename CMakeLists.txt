@@ -30,7 +30,7 @@ add_executable(cbleemsync
 	    src/code/splash.h
         src/code/splash.cpp
 		src/code/inifile.cpp
-		src/code/inifile.h)
+		src/code/inifile.h src/code/isodir.cpp src/code/isodir.h)
 
 
 target_link_libraries(cbleemsync 

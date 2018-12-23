@@ -40,6 +40,9 @@ public:
 class Util {
 public:
     static const char *separator();
+    static string escape(string input);
+    static string decode(string input);
+    static void replaceAll(std::string &str, const std::string &from, const std::string &to);
     // File System operations
     static vector<DirEntry> dir(string path);
     static vector<DirEntry> diru(string path);

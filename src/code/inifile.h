@@ -6,9 +6,15 @@
 #define CBLEEMSYNC_INIFILE_H
 
 #include "main.h"
+#include <map>
 
 class Inifile {
+public:
+    string section;
+    map<string, string> values;
 
+    void load(string path);
+    void save(string path);
 };
 
 

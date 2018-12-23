@@ -17,10 +17,20 @@ bool Scanner::isFirstRun(string path, Database * db)
     if (listFile) {
         return listFile;
     }
+
+    // TODO: Implement this better way by checking directory only
+    bool prevFileExists = Util::exists(Util::getWorkingPath() + Util::separator()+ "autobleem.prev");
+    if (!prevFileExists)
+    {
+        return true;
+    }
+    /*
     vector<DirEntry> entries =  Util::diru(path);
     int num_games = db->getNumGames();
     cout << path << " "<< "db" << num_games << " dir" << entries.size() << endl;
     return num_games!=entries.size();
+     */
+    return false;
 
 }
 
@@ -42,6 +52,8 @@ void Scanner::unecm(string path) {
 }
 
 void Scanner::updateDB(Database *db) {
+    shared_ptr<Splash> splash(Splash::getInstance());
+    splash->logText("Updating regional.db...");
     string path = Util::getWorkingPath() + Util::separator() + "autobleem.list";
     ofstream outfile;
     outfile.open(path);
@@ -51,9 +63,9 @@ void Scanner::updateDB(Database *db) {
             cout << "Inserting game ID: " << i + 1 << " - " << data.title << endl;
             db->insertGame(i + 1, data.title, data.publisher, data.players, data.year);
             for (int j = 0; j < data.discs.size(); j++) {
-                db->insertDisc(i + 1, j + 1, data.discs[j].diskName);
+                db->insertDisc(i + 1, j + 1, Util::escape(data.discs[j].diskName));
             }
-            outfile << i + 1 << "," << data.fullPath.substr(0, data.fullPath.size() - 1) << endl;
+            outfile << i + 1 << "," << Util::escape(data.fullPath.substr(0, data.fullPath.size() - 1)) << endl;
 
         }
     outfile.flush();
@@ -68,15 +80,6 @@ static const char cue2[] = "FILE \"{binName}\" BINARY\n"
                            "    INDEX 00 00:00:00\n"
                            "    INDEX 01 00:02:00\n";
 
-void replaceAll(std::string &str, const std::string &from, const std::string &to) {
-    if (from.empty())
-        return;
-    size_t start_pos = 0;
-    while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
-        str.replace(start_pos, from.length(), to);
-        start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
-    }
-}
 
 void repairMissingCue(string path, string folderName) {
     vector<string> binFiles;
@@ -108,11 +111,11 @@ void repairMissingCue(string path, string folderName) {
                 cueElement = cue2;
             }
 
-            replaceAll(cueElement, "{binName}", bin);
+            Util::replaceAll(cueElement, "{binName}", bin);
             if (track < 10) {
-                replaceAll(cueElement, "{track}", "0" + to_string(track));
+                Util::replaceAll(cueElement, "{track}", "0" + to_string(track));
             } else {
-                replaceAll(cueElement, "{track}", to_string(track));
+                Util::replaceAll(cueElement, "{track}", to_string(track));
             }
             track++;
             first = false;
@@ -149,11 +152,17 @@ void Scanner::scanDirectory(string path) {
     shared_ptr<Splash> splash(Splash::getInstance());
     splash->logText("Scanning...");
 
+    ofstream prev;
+    string prevFileName = Util::getWorkingPath()+Util::separator()+"autobleem.prev";
+    prev.open(prevFileName.c_str(),ios::binary);
+
+
 
     for (DirEntry entry: Util::dir(path)) {
         if (entry.name[0] == '.') continue;
         if (!entry.dir) continue;
 
+        prev << entry.name << endl;
         Game game;
         game.folder_id = 0; // this will not be in use;
         game.fullPath = path + entry.name + Util::separator();
@@ -244,6 +253,8 @@ void Scanner::scanDirectory(string path) {
 
     }
 
+    prev.flush();
+    prev.close();
     sort(games.begin(), games.end(), wayToSort);
 
     complete = true;

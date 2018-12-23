@@ -11,7 +11,9 @@ IFS=,
 while read number game_path 
 do
 	echo "$number -  $game_path"  >> /media/System/Logs/autobleem.log
-	
+
+game_path=${game_path/|@/,}	
+game_path=${game_path/||/|}
 
 ln -s $game_path/GameData /tmp/gaadatatmp/$number && mkdir -p $game_path/.pcsx && cp $game_path/GameData/pcsx.cfg $game_path/.pcsx
 rm -rf /tmp/datatmp/AppData/sony/pcsx/$number && ln -s  $game_path /tmp/datatmp/AppData/sony/pcsx/$number 
