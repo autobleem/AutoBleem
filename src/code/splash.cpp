@@ -85,7 +85,7 @@ void Splash::display(bool forceScan) {
 
         SDL_Texture *textTex;
         SDL_Rect textRec;
-        getTextAndRect(renderer, 88, 552, "AutoBleem v0.2.1 (nex)", Sans, &textTex, &textRec);
+        getTextAndRect(renderer, 88, 552, "AutoBleem v0.2.1a (nex)", Sans, &textTex, &textRec);
         int screencenter = 1280 / 2;
         textRec.x = screencenter - (textRec.w / 2);
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);

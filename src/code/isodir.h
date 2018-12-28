@@ -20,14 +20,15 @@ public:
 
 class Isodir {
 public:
-    IsoDirectory getDir(string binPath);
+    IsoDirectory getDir(string binPath,int maxlevel );
+    void readDir(vector<string> * data, unsigned int sector, int maxlevel, int level);
 private:
     IsoDirectory getEmptyDir();
     string removeVersion(string input);
     int getSectorAddress(int sector);
-    char readChar();
+    unsigned char readChar();
     string readString(int size);
-    int readDword();
+    unsigned long readDword();
     int findPrimaryDescriptor(int maxOffset);
     int offset = 0;
     ifstream stream;

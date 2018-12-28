@@ -41,46 +41,42 @@ string Game::scanSerial() {
         return ""; // not at this stage
     }
 
-    Isodir * dirLoader = new Isodir();
-    IsoDirectory dir = dirLoader->getDir(firstBinPath);
-    delete dirLoader;
-    string serialFound="";
-    if (!dir.rootDir.empty())
-    {
-        for (string entry:dir.rootDir)
-        {
-            string potentialSerial = fixSerial(entry);
-            for (string prefix:prefixes)
-            {
-                int pos=potentialSerial.find(prefix.c_str(),0);
-                if (pos==0)
-                {
-                    serialFound = potentialSerial;
+
+    for (int level=1;level<4;level++) {
+        Isodir * dirLoader = new Isodir();
+        IsoDirectory dir = dirLoader->getDir(firstBinPath,level);
+        delete dirLoader;
+        string serialFound = "";
+        if (!dir.rootDir.empty()) {
+            for (string entry:dir.rootDir) {
+                string potentialSerial = fixSerial(entry);
+                for (string prefix:prefixes) {
+                    int pos = potentialSerial.find(prefix.c_str(), 0);
+                    if (pos == 0) {
+                        serialFound = potentialSerial;
+                        cout << "Serial number: " << serialFound << endl;
+                        return serialFound;
+                    }
+
+                }
+            }
+            string volume = fixSerial(dir.volumeName);
+            for (string prefix:prefixes) {
+                int pos = volume.find(prefix.c_str(), 0);
+                if (pos == 0) {
+                    serialFound = volume;
                     cout << "Serial number: " << serialFound << endl;
                     return serialFound;
                 }
 
             }
-        }
-        string volume = fixSerial(dir.volumeName);
-        for (string prefix:prefixes)
-        {
-            int pos=volume.find(prefix.c_str(),0);
-            if (pos==0)
-            {
-                serialFound = volume;
-                cout << "Serial number: " << serialFound << endl;
-                return serialFound;
-            }
 
+        } else {
+            return "";
         }
-        return "";
-    } else
-    {
-        return "";
+
     }
-
-
+    return "";
 }
 
 bool Game::validateCue(string cuePath, string path) {
