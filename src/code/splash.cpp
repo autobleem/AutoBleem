@@ -154,6 +154,14 @@ void Splash::menuSelection() {
                             menuVisible = false;
 
                         };
+
+                    if (!forceScan)
+                        if (e.jbutton.button == 3) {
+                            this->menuOption = MENU_OPTION_RETRO;
+
+                            menuVisible = false;
+
+                        };
                     if (e.jbutton.button == 2) {
                         this->menuOption = MENU_OPTION_SCAN;
 

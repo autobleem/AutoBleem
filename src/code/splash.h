@@ -19,9 +19,10 @@
 
 using namespace std;
 
-#define MENU_OPTION_SCAN 1
-#define MENU_OPTION_RUN  2
-#define MENU_OPTION_SONY 3
+#define MENU_OPTION_SCAN  1
+#define MENU_OPTION_RUN   2
+#define MENU_OPTION_SONY  3
+#define MENU_OPTION_RETRO 4
 
 class Splash {
 private:
