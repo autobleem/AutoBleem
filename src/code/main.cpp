@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
     {
         scanGames(argc, argv,scanner);
     }
-    splash->logText("Loading Playstation Classic UI");
+    splash->logText("Loading ... Please Wait ...");
     splash->finish();
 #ifndef NO_GUI
     SDL_Quit();

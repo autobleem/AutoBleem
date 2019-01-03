@@ -66,11 +66,11 @@ void Splash::display(bool forceScan) {
         printf("Unable to play Ogg file: %s\n", Mix_GetError());
     }
     Mix_Music *music;
-    music = Mix_LoadMUS("3.wav");
+    music = Mix_LoadMUS("4.wav");
     if (music == NULL) { printf("Unable to load Wav file: %s\n", Mix_GetError()); }
     if (Mix_PlayMusic(music, -1) == -1) { printf("Unable to play music file: %s\n", Mix_GetError()); }
     int start = SDL_GetTicks();
-    string fontPath = "RobotoCondensed-Light.ttf";
+    string fontPath = "Andika.ttf";
     Sans = TTF_OpenFont(fontPath.c_str(), 24);
     Mix_VolumeMusic(0);
     int alpha = 0;
@@ -85,7 +85,7 @@ void Splash::display(bool forceScan) {
 
         SDL_Texture *textTex;
         SDL_Rect textRec;
-        getTextAndRect(renderer, 88, 552, "AutoBleem v0.2.1a (nex)", Sans, &textTex, &textRec);
+        getTextAndRect(renderer, 88, 552, "AutoBleem v0.3", Sans, &textTex, &textRec);
         int screencenter = 1280 / 2;
         textRec.x = screencenter - (textRec.w / 2);
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
@@ -133,9 +133,9 @@ void Splash::menuSelection() {
     }
 
     if (!forceScan) {
-        drawText("MENU: Press 'Start' for AutoBleem   'X' - Re/Scan Games   'O' - Original Games");
+        drawText("Start-AutoBleem Games   Cross-Re/Scan   Circle-Original Games   Square-RetroArch");
     } else {
-        drawText("MENU: This is a first run or games were changed - Press 'X' to scan");
+        drawText("Games changed. Press 'Cross' to scan");
     }
     bool menuVisible = true;
     while (menuVisible) {
@@ -198,7 +198,7 @@ void Splash::drawText(string text) {
 
     SDL_Texture *textTex;
     SDL_Rect textRec;
-    getTextAndRect(renderer, 88, 552, text.c_str(), Sans, &textTex, &textRec);
+    getTextAndRect(renderer, 88, 550, text.c_str(), Sans, &textTex, &textRec);
     if (textRec.w > 1140) textRec.w = 1140;
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);

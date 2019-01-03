@@ -12,14 +12,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f377571-016b-4a6e-91a8-99bb578502df" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/resources/Andika.ttf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/autobleem.list" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/autobleem.list" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/autobleem.prev" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/autobleem.prev" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/background.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/background.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/cbleemsync" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cbleemsync" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.cbp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.dSYM/Contents/Resources/DWARF/cbleemsync" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.dSYM/Contents/Resources/DWARF/cbleemsync" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/code/splash.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/splash.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/splash.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/splash.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/RobotoCondensed-Light.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/background.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/background.jpg" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -49,8 +50,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="48" column="28" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="28" />
+            <state relative-caret-position="390">
+              <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
               <folding>
                 <element signature="e#85#104#0" expanded="true" />
               </folding>
@@ -106,8 +107,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="382">
-              <caret line="159" column="64" selection-start-line="159" selection-start-column="64" selection-end-line="159" selection-end-column="64" />
+            <state relative-caret-position="194">
+              <caret line="201" column="36" selection-start-line="201" selection-start-column="36" selection-end-line="201" selection-end-column="36" />
               <folding>
                 <element signature="e#45#64#0" expanded="true" />
               </folding>
@@ -220,7 +221,6 @@
         <option value="$PROJECT_DIR$/src/code/metadata.h" />
         <option value="$PROJECT_DIR$/src/code/database.h" />
         <option value="$PROJECT_DIR$/src/code/scanner.h" />
-        <option value="$PROJECT_DIR$/src/code/main.cpp" />
         <option value="$PROJECT_DIR$/src/code/inifile.h" />
         <option value="$PROJECT_DIR$/src/code/inifile.cpp" />
         <option value="$PROJECT_DIR$/src/code/util.h" />
@@ -233,6 +233,7 @@
         <option value="$PROJECT_DIR$/src/code/isodir.cpp" />
         <option value="$PROJECT_DIR$/src/code/game.cpp" />
         <option value="$PROJECT_DIR$/src/code/splash.h" />
+        <option value="$PROJECT_DIR$/src/code/main.cpp" />
         <option value="$PROJECT_DIR$/src/code/splash.cpp" />
       </list>
     </option>
@@ -287,15 +288,15 @@
     <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/resources" />
+      <recent name="$PROJECT_DIR$/src/code" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/resources" />
       <recent name="$PROJECT_DIR$/src/code" />
       <recent name="$PROJECT_DIR$/src/include" />
       <recent name="$PROJECT_DIR$/src" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/resources" />
-      <recent name="$PROJECT_DIR$/src/code" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -343,7 +344,7 @@
       <workItem from="1545994665427" duration="2240000" />
       <workItem from="1546001397783" duration="6322000" />
       <workItem from="1546036311892" duration="2722000" />
-      <workItem from="1546546357908" duration="644000" />
+      <workItem from="1546546357908" duration="2384000" />
     </task>
     <task id="LOCAL-00001" summary="Multi bin support">
       <created>1544822200034</created>
@@ -611,11 +612,18 @@
       <option name="project" value="LOCAL" />
       <updated>1545330110215</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Small Code Cleanup + GUI (0.11)">
+      <created>1546550458563</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1546550458563</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="155768000" />
+    <option name="totallyTimeSpent" value="157508000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1009" extended-state="6" />
@@ -897,16 +905,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="48" column="28" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="28" />
-          <folding>
-            <element signature="e#85#104#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/scanner.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -981,10 +979,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+          <folding>
+            <element signature="e#85#104#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="159" column="64" selection-start-line="159" selection-start-column="64" selection-end-line="159" selection-end-column="64" />
+        <state relative-caret-position="194">
+          <caret line="201" column="36" selection-start-line="201" selection-start-column="36" selection-end-line="201" selection-end-column="36" />
           <folding>
             <element signature="e#45#64#0" expanded="true" />
           </folding>
