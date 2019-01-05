@@ -13,6 +13,7 @@
 
 using namespace std;
 
+
 int scanGames(int argc, char *argv[], Scanner * scanner) {
     Database *db = new Database();
     if (!db->connect(argv[1])) {
@@ -56,7 +57,7 @@ int main(int argc, char *argv[]) {
     delete db;
     shared_ptr<Splash> splash(Splash::getInstance());
     splash->display(scanner->forceScan);
-    splash->drawText("AutoBleem");
+    splash->drawText("AutoBleem",false);
     splash->menuSelection();
     splash->saveSelection();
     if (splash->menuOption==MENU_OPTION_SCAN)

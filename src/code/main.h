@@ -16,9 +16,6 @@
 
 #include "util.h"
 
-#define MAX_SERIAL_CHECK 100000
-
-//#define NO_GUI
 
 static const char GAME_DATA[] = "GameData";
 static const char GAME_INI[] = "Game.ini";

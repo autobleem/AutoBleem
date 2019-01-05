@@ -6,11 +6,14 @@
 #define CBLEEMSYNC_CONFIG_H
 
 #include "main.h"
+#include "inifile.h"
 
 
 class Config {
 public:
-
+    Inifile inifile;
+    Config();
+    void save();
 };
 
 

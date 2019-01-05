@@ -16,6 +16,7 @@
 #endif
 
 #include <memory>
+#include "config.h"
 
 using namespace std;
 
@@ -27,6 +28,9 @@ using namespace std;
 class Splash {
 private:
     Splash() {}
+    Config cfg;
+    Inifile themeData;
+    string themePath;
 #ifndef NO_GUI
     void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
             TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
@@ -34,7 +38,8 @@ private:
 public:
     void display(bool forceScan);
     void finish();
-    void drawText(string text);
+    void drawText(string text, bool showIcons);
+    void drawIcons(bool forceScan);
     void logText(string message);
     void menuSelection();
     void saveSelection();
@@ -43,9 +48,20 @@ public:
     SDL_Rect texr;
     SDL_Rect logor;
     SDL_Renderer *renderer = NULL;
+
     SDL_Texture *img = NULL;
     SDL_Texture *logo = NULL;
-    TTF_Font *Sans = TTF_OpenFont("Sans.ttf", 24);
+    SDL_Texture *buttonX = NULL;
+    SDL_Texture *buttonO = NULL;
+    SDL_Texture *buttonT = NULL;
+    SDL_Texture *buttonS = NULL;
+    SDL_Texture *buttonStart = NULL;
+    SDL_Texture *buttonSelect = NULL;
+
+    void loadAssets();
+
+
+    TTF_Font *Sans =  NULL;
 #endif
     bool forceScan=false;
     Splash(Splash const &) = delete;

@@ -139,7 +139,7 @@ void Isodir::readDir(vector<string> * data, unsigned int sector, int maxlevel, i
         }
         string fileName = readString(fileNameLen);
         data->push_back(removeVersion(fileName));
-        if ((attr>>1) && 1)
+        if ((attr>>1) & 1)
         {
             readDir(data,loc, maxlevel,level+1);
         }
