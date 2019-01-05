@@ -161,6 +161,101 @@ void Splash::saveSelection() {
     os.close();
 }
 
+void Splash::aboutBox()
+{
+
+    SDL_Texture *textTex;
+    SDL_Rect textRec;
+
+
+
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, img, NULL, &texr);
+
+
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, img, NULL, &texr);
+   // SDL_RenderCopy(renderer, logo, NULL, &logor);
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 180);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_Rect rect;
+    rect.x = atoi(themeData.values["textx"].c_str());
+    rect.y = atoi(themeData.values["texty"].c_str());
+    rect.w = atoi(themeData.values["textw"].c_str());
+    rect.h = atoi(themeData.values["texth"].c_str());
+    SDL_RenderFillRect(renderer, &rect);
+
+    SDL_Rect rect2;
+    rect2.x = atoi(themeData.values["opscreenx"].c_str());
+    rect2.y = atoi(themeData.values["opscreeny"].c_str());
+    rect2.w = atoi(themeData.values["opscreenw"].c_str());
+    rect2.h = atoi(themeData.values["opscreenh"].c_str());
+    SDL_RenderFillRect(renderer, &rect2);
+
+    SDL_Rect logoRect;
+    logoRect.x = rect2.x;
+    logoRect.y = rect2.y;
+    logoRect.w = logor.w/3;
+    logoRect.h = logor.h/3;
+    SDL_RenderCopy(renderer, logo, NULL, &logoRect);
+
+    getTextAndRect(renderer, rect2.x+10, logoRect.y+logoRect.h, "AutoBleem - Automatic PlayStation Classic game scanner and Boot Menu", Sans, &textTex, &textRec);
+    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
+    SDL_DestroyTexture(textTex);
+    getTextAndRect(renderer, rect2.x+10, logoRect.y+logoRect.h+textRec.h, "2018-2019 code by ScreemerPL / testing nex and justAndy", Sans, &textTex, &textRec);
+    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
+    SDL_DestroyTexture(textTex);
+
+    getTextAndRect(renderer, rect2.x+10, logoRect.y+logoRect.h+textRec.h*3, "Support WWW: https://github.com/screemerpl/cbleemsync", Sans, &textTex, &textRec);
+    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
+    SDL_DestroyTexture(textTex);
+    getTextAndRect(renderer, rect2.x+10, logoRect.y+logoRect.h+textRec.h*4, "This is free and open source software. If you paid for it ... you lost your money,", Sans, &textTex, &textRec);
+    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
+    SDL_DestroyTexture(textTex);
+    getTextAndRect(renderer, rect2.x+10, logoRect.y+logoRect.h+textRec.h*5, "but if you really want to donate this project send me some small amount to PayPal: screemer1@o2.pl ", Sans, &textTex, &textRec);
+    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
+    SDL_DestroyTexture(textTex);
+
+    getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), "Press X to go back", Sans, &textTex, &textRec);
+    if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
+    int screencenter = 1280 / 2;
+    textRec.x = screencenter - (textRec.w / 2);
+    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
+    SDL_DestroyTexture(textTex);
+
+    SDL_RenderPresent(renderer);
+
+
+    bool menuVisible = true;
+    while (menuVisible) {
+        SDL_Event e;
+        if (SDL_PollEvent(&e)) {
+            // this is for pc Only
+            if (e.type == SDL_QUIT)
+            {
+                menuVisible = false;
+            }
+            switch (e.type) {
+                case SDL_JOYBUTTONUP:  /* Handle Joystick Button Presses */
+                    //drawText("Button:"+to_string(e.jbutton.button));
+
+                        if (e.jbutton.button == 3) {
+
+                            menuVisible = false;
+
+                        };
+
+
+            }
+
+        }
+    }
+
+}
+
 void Splash::menuSelection() {
 #ifndef NO_GUI
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
@@ -182,11 +277,14 @@ void Splash::menuSelection() {
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
             // this is for pc Only
-            if (e.type == SDL_QUIT)
-                break;
+            if (e.type == SDL_QUIT) {
+                aboutBox();
+                menuSelection();
+                menuVisible = false;
+            }
             switch (e.type) {
                 case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
-                    //drawText("Button:"+to_string(e.jbutton.button));
+
                     if (!forceScan)
                         if (e.jbutton.button == 9) {
                             this->menuOption = MENU_OPTION_RUN;
@@ -206,6 +304,9 @@ void Splash::menuSelection() {
                         this->menuOption = MENU_OPTION_SCAN;
 
                         menuVisible = false;
+                    };
+                    if (e.jbutton.button == 4) {
+                        aboutBox();
                     };
                     if (!forceScan)
                         if (e.jbutton.button == 1) {
