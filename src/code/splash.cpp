@@ -53,7 +53,8 @@ void Splash::display(bool forceScan) {
                                           0);
     int w, h; // texture width & height
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    img = IMG_LoadTexture(renderer, "background.jpg");
+    img = IMG_LoadTexture(renderer, "theme/default/background.jpg");
+    logo = IMG_LoadTexture(renderer, "theme/default/ab.png");
     SDL_SetTextureBlendMode(img, SDL_BLENDMODE_BLEND);
     SDL_QueryTexture(img, NULL, NULL, &w, &h);
 
@@ -61,16 +62,21 @@ void Splash::display(bool forceScan) {
     texr.y = 0;
     texr.w = w;
     texr.h = h;
+    SDL_QueryTexture(logo, NULL, NULL, &w, &h);
+    logor.x = 400;
+    logor.y = 160;
+    logor.w = w;
+    logor.h = h;
 
     if (Mix_OpenAudio(32000, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
         printf("Unable to play Ogg file: %s\n", Mix_GetError());
     }
     Mix_Music *music;
-    music = Mix_LoadMUS("4.wav");
+    music = Mix_LoadMUS("theme/default/4.wav");
     if (music == NULL) { printf("Unable to load Wav file: %s\n", Mix_GetError()); }
     if (Mix_PlayMusic(music, -1) == -1) { printf("Unable to play music file: %s\n", Mix_GetError()); }
     int start = SDL_GetTicks();
-    string fontPath = "Andika.ttf";
+    string fontPath = "theme/default/Andika.ttf";
     Sans = TTF_OpenFont(fontPath.c_str(), 24);
     Mix_VolumeMusic(0);
     int alpha = 0;
@@ -94,6 +100,7 @@ void Splash::display(bool forceScan) {
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
         SDL_RenderClear(renderer);
         SDL_SetTextureAlphaMod(img, alpha);
+        SDL_SetTextureAlphaMod(logo, alpha);
         SDL_SetTextureAlphaMod(textTex, alpha);
         Mix_VolumeMusic(alpha / 3);
         int current = SDL_GetTicks();
@@ -108,6 +115,17 @@ void Splash::display(bool forceScan) {
             start = SDL_GetTicks();
         }
         SDL_RenderCopy(renderer, img, NULL, &texr);
+        SDL_RenderCopy(renderer, logo, NULL, &logor);
+
+        SDL_SetRenderDrawColor(renderer,0,0,0,80);
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+        SDL_Rect rect;
+        rect.x = 30;
+        rect.y = 558;
+        rect.w = 1220;
+        rect.h = 30;
+        SDL_RenderFillRect(renderer, &rect);
+
         SDL_RenderCopy(renderer, textTex, NULL, &textRec);
         SDL_RenderPresent(renderer);
     }
@@ -187,6 +205,7 @@ void Splash::menuSelection() {
 void Splash::finish() {
 #ifndef NO_GUI
     SDL_DestroyTexture(img);
+    SDL_DestroyTexture(logo);
     SDL_DestroyRenderer(renderer);
 #endif
 
@@ -205,6 +224,17 @@ void Splash::drawText(string text) {
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, img, NULL, &texr);
+    SDL_RenderCopy(renderer, logo, NULL, &logor);
+
+    SDL_SetRenderDrawColor(renderer,0,0,0,80);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_Rect rect;
+    rect.x = 30;
+    rect.y = 558;
+    rect.w = 1220;
+    rect.h = 30;
+    SDL_RenderFillRect(renderer, &rect);
+
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
     SDL_RenderPresent(renderer);
 

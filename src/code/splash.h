@@ -41,8 +41,10 @@ public:
     int menuOption=MENU_OPTION_SCAN;
 #ifndef NO_GUI
     SDL_Rect texr;
+    SDL_Rect logor;
     SDL_Renderer *renderer = NULL;
     SDL_Texture *img = NULL;
+    SDL_Texture *logo = NULL;
     TTF_Font *Sans = TTF_OpenFont("Sans.ttf", 24);
 #endif
     bool forceScan=false;
