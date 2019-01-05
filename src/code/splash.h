@@ -44,6 +44,9 @@ public:
     void menuSelection();
     void saveSelection();
     void aboutBox();
+    void options();
+    void redrawOptions();
+    int selOption=0;
     int menuOption=MENU_OPTION_SCAN;
 #ifndef NO_GUI
     SDL_Rect texr;
