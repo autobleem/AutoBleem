@@ -212,10 +212,14 @@ void Splash::aboutBox()
     getTextAndRect(renderer, rect2.x+10, logoRect.y+logoRect.h+textRec.h*3, "Support WWW: https://github.com/screemerpl/cbleemsync", Sans, &textTex, &textRec);
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
     SDL_DestroyTexture(textTex);
-    getTextAndRect(renderer, rect2.x+10, logoRect.y+logoRect.h+textRec.h*4, "This is free and open source software. If you paid for it ... you lost your money,", Sans, &textTex, &textRec);
+    getTextAndRect(renderer, rect2.x+10, logoRect.y+logoRect.h+textRec.h*4, "This is free and open source software. It works AS IS and I take no reponsibility for any issues.", Sans, &textTex, &textRec);
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
     SDL_DestroyTexture(textTex);
-    getTextAndRect(renderer, rect2.x+10, logoRect.y+logoRect.h+textRec.h*5, "but if you really want to donate this project send me some small amount to PayPal: screemer1@o2.pl ", Sans, &textTex, &textRec);
+    getTextAndRect(renderer, rect2.x+10, logoRect.y+logoRect.h+textRec.h*5, "If you want to donate this project send me some small amount to PayPal: screemer1@o2.pl ", Sans, &textTex, &textRec);
+    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
+    SDL_DestroyTexture(textTex);
+
+    getTextAndRect(renderer, rect2.x+10, logoRect.y+logoRect.h+textRec.h*7, "If you want just to chat join ModMyClassic Discord channel and .. find 'screemer' ... ", Sans, &textTex, &textRec);
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
     SDL_DestroyTexture(textTex);
 
@@ -225,6 +229,13 @@ void Splash::aboutBox()
     textRec.x = screencenter - (textRec.w / 2);
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
     SDL_DestroyTexture(textTex);
+
+    SDL_Rect iconRect;
+    iconRect.w = atoi(themeData.values["iconw"].c_str());
+    iconRect.h = atoi(themeData.values["iconh"].c_str());
+    iconRect.y = atoi(themeData.values["texty"].c_str());
+    iconRect.x =  atoi(themeData.values["iconexit"].c_str());
+    SDL_RenderCopy(renderer, buttonX, NULL, &iconRect);
 
     SDL_RenderPresent(renderer);
 
@@ -278,8 +289,8 @@ void Splash::menuSelection() {
         if (SDL_PollEvent(&e)) {
             // this is for pc Only
             if (e.type == SDL_QUIT) {
-                aboutBox();
-                menuSelection();
+              //  aboutBox();
+                //menuSelection();
                 menuVisible = false;
             }
             switch (e.type) {
@@ -307,6 +318,8 @@ void Splash::menuSelection() {
                     };
                     if (e.jbutton.button == 4) {
                         aboutBox();
+                        menuSelection();
+                        menuVisible = false;
                     };
                     if (!forceScan)
                         if (e.jbutton.button == 1) {
