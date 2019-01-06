@@ -12,9 +12,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f377571-016b-4a6e-91a8-99bb578502df" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/resources/theme/psone/psx.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/config.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/splash.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/splash.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/theme/psone/logo.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/theme/psone/theme.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/theme/psone/theme.ini" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -61,8 +62,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
-              <caret line="242" column="46" selection-start-line="242" selection-start-column="46" selection-end-line="242" selection-end-column="46" />
+            <state relative-caret-position="394">
+              <caret line="251" column="86" selection-start-line="251" selection-start-column="86" selection-end-line="251" selection-end-column="86" />
               <folding>
                 <element signature="e#45#64#0" expanded="true" />
               </folding>
@@ -238,18 +239,7 @@
             <path>
               <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
               <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
-              <item name="cmake-build-debug" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
@@ -263,6 +253,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="theme" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="theme" type="462c0819:PsiDirectoryNode" />
+              <item name="psone" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -655,22 +653,28 @@
       <option name="project" value="LOCAL" />
       <updated>1546735793706</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Small Code Cleanup + Create CUE">
+      <created>1546737350409</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1546737350409</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="188037000" />
+    <option name="totallyTimeSpent" value="188211000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="23" width="1920" height="1009" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49143836" visible="true" weight="0.17412141" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49143836" visible="true" weight="0.17412141" />
       <window_info id="Structure" order="1" sideWeight="0.5085617" side_tool="true" visible="true" weight="0.17412141" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49733758" weight="0.32824427" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.2971246" visible="true" weight="0.36314067" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.2971246" visible="true" weight="0.36314067" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.45047924" weight="0.35114503" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1022,8 +1026,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="242" column="46" selection-start-line="242" selection-start-column="46" selection-end-line="242" selection-end-column="46" />
+        <state relative-caret-position="394">
+          <caret line="251" column="86" selection-start-line="251" selection-start-column="86" selection-end-line="251" selection-end-column="86" />
           <folding>
             <element signature="e#45#64#0" expanded="true" />
           </folding>
