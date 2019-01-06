@@ -48,6 +48,26 @@ void Splash::loadAssets() {
     themePath = Util::getWorkingPath() + Util::separator() + "theme" + Util::separator() + cfg.inifile.values["theme"] +
                 Util::separator();
     themeData.load(themePath + "theme.ini");
+
+    if (img!=NULL)
+    {
+        SDL_DestroyTexture(img);
+        SDL_DestroyTexture(logo);
+        SDL_DestroyTexture(buttonT);
+        SDL_DestroyTexture(buttonO);
+        SDL_DestroyTexture(buttonX);
+        SDL_DestroyTexture(buttonS);
+        SDL_DestroyTexture(buttonStart);
+        SDL_DestroyTexture(buttonSelect);
+        TTF_CloseFont(Sans);
+        img=NULL;
+    }
+
+    logor.x = atoi(themeData.values["lpositionx"].c_str());
+    logor.y = atoi(themeData.values["lpositiony"].c_str());
+    logor.w = atoi(themeData.values["lw"].c_str());
+    logor.h = atoi(themeData.values["lh"].c_str());
+
     img = IMG_LoadTexture(renderer, (themePath + themeData.values["background"]).c_str());
     logo = IMG_LoadTexture(renderer, (themePath + themeData.values["logo"]).c_str());
 
@@ -58,6 +78,71 @@ void Splash::loadAssets() {
     buttonSelect = IMG_LoadTexture(renderer, (themePath + themeData.values["select"]).c_str());
     buttonStart = IMG_LoadTexture(renderer, (themePath + themeData.values["start"]).c_str());
 
+    string fontPath = (themePath + themeData.values["font"]).c_str();
+    Sans = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
+
+
+    themes.clear();
+    sthemes.clear();
+    vector<DirEntry> folders = Util::diru(Util::getWorkingPath() + Util::separator() + "theme");
+    for (DirEntry entry:folders) {
+        themes.push_back(entry.name);
+    }
+    folders = Util::diru("/media/themes");
+    for (DirEntry entry:folders) {
+        sthemes.push_back(entry.name);
+    }
+    pcsx.clear();
+    pcsx.push_back("original");
+    pcsx.push_back("bleemsync");
+    mip.clear();
+    mip.push_back("true");
+    mip.push_back("false");
+    nomusic.clear();
+    nomusic.push_back("true");
+    nomusic.push_back("false");
+    autoregion.clear();
+    autoregion.push_back("true");
+    autoregion.push_back("false");
+
+    if (music!=NULL) {
+        Mix_HaltMusic();
+    }
+    if (cfg.inifile.values["nomusic"] != "true")
+        if (themeData.values["loop"] != "-1") {
+            if (Mix_OpenAudio(32000, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
+                printf("Unable to open audio: %s\n", Mix_GetError());
+            }
+
+            music = Mix_LoadMUS((themePath + themeData.values["music"]).c_str());
+            if (music == NULL) { printf("Unable to load Wav file: %s\n", Mix_GetError()); }
+            if (Mix_PlayMusic(music, themeData.values["loop"] == "1" ? -1 : 0) == -1) {
+                printf("Unable to play music file: %s\n", Mix_GetError());
+            }
+        }
+
+}
+
+string Splash::getOption(vector<string> list, string current, bool next) {
+    int pos = 0;
+    for (int i = 0; i < list.size(); i++) {
+        if (list[i] == current) {
+            pos = i;
+        }
+    }
+
+    if (next) {
+       pos++;
+    if (pos>=list.size())
+    {
+         pos=list.size()-1;
+    }
+    } else {
+         pos--;
+         if (pos<0) pos=0;
+    }
+
+    return list[pos];
 }
 
 void Splash::display(bool forceScan) {
@@ -84,26 +169,11 @@ void Splash::display(bool forceScan) {
     texr.w = w;
     texr.h = h;
     SDL_QueryTexture(logo, NULL, NULL, &w, &h);
-    logor.x = atoi(themeData.values["lpositionx"].c_str());
-    logor.y = atoi(themeData.values["lpositiony"].c_str());
-    logor.w = atoi(themeData.values["lw"].c_str());
-    logor.h = atoi(themeData.values["lh"].c_str());
 
-    if (cfg.inifile.values["nomusic"] != "true")
-        if (themeData.values["loop"] != "-1") {
-            if (Mix_OpenAudio(32000, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
-                printf("Unable to open audio: %s\n", Mix_GetError());
-            }
-            Mix_Music *music;
-            music = Mix_LoadMUS((themePath + themeData.values["music"]).c_str());
-            if (music == NULL) { printf("Unable to load Wav file: %s\n", Mix_GetError()); }
-            if (Mix_PlayMusic(music, themeData.values["loop"] == "1" ? -1 : 0) == -1) {
-                printf("Unable to play music file: %s\n", Mix_GetError());
-            }
-        }
+
+
     int start = SDL_GetTicks();
-    string fontPath = (themePath + themeData.values["font"]).c_str();
-    Sans = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
+
     Mix_VolumeMusic(0);
     int alpha = 0;
     while (1) {
@@ -162,6 +232,27 @@ void Splash::saveSelection() {
     os << menuOption << endl;
     os.flush();
     os.close();
+
+    path = "/media/lolhack/autobleem_cfg.sh";
+    os.open(path);
+    os << "#!/bin/sh" << endl << endl;
+    os << "AB_SELECTION=" << menuOption << endl;
+    os << "AB_THEME=" << cfg.inifile.values["stheme"] << endl;
+    os << "AB_PCSX=" << cfg.inifile.values["pcsx"] << endl;
+    os << "AB_MIP=" << cfg.inifile.values["pcsx"] << endl;
+
+    os.flush();
+    os.close();
+}
+
+void Splash::renderMenuOption(string text, int line, SDL_Rect rect2, SDL_Rect logoRect, SDL_Rect textRec)
+{
+    SDL_Texture * textTex;
+    getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * line,
+                   text.c_str(), Sans, &textTex,
+                   &textRec);
+    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
+    SDL_DestroyTexture(textTex);
 }
 
 void Splash::redrawOptions() {
@@ -199,32 +290,17 @@ void Splash::redrawOptions() {
     SDL_RenderCopy(renderer, logo, NULL, &logoRect);
 
     getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * 0,
-                   "This menu IS NOT WORKING YET - change config.ini or wait for v0.4", Sans, &textTex, &textRec);
+                   "Configuration:", Sans, &textTex, &textRec);
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
     SDL_DestroyTexture(textTex);
 
-    getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * 1,
-                   ("Theme: " + cfg.inifile.values["theme"] + " (will load on next boot)").c_str(), Sans, &textTex,
-                   &textRec);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
+    renderMenuOption("AutoBleem Theme: " + cfg.inifile.values["theme"],                      1,rect2,logoRect,textRec);
+    renderMenuOption("Menu Theme: " + cfg.inifile.values["stheme"],                          2,rect2,logoRect,textRec);
+    renderMenuOption("Disable Theme BGM: " + cfg.inifile.values["nomusic"],                  3,rect2,logoRect,textRec);
+    renderMenuOption("Process configuration on scan: " + cfg.inifile.values["autoregion"],   4,rect2,logoRect,textRec);
+    renderMenuOption("Mipmap patch: " + cfg.inifile.values["mip"],                           5,rect2,logoRect,textRec);
+    renderMenuOption("Overmount PCSX: " + cfg.inifile.values["pcsx"],                        6,rect2,logoRect,textRec);
 
-    getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * 2,
-                   ("PCSX Mode:" + cfg.inifile.values["pcsx"] + " (will load on next boot)").c_str(), Sans, &textTex,
-                   &textRec);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-    getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * 3,
-                   ("Disable Theme BGM: " + cfg.inifile.values["nomusic"] + " (will load on next boot)").c_str(), Sans,
-                   &textTex, &textRec);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-
-    getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * 4,
-                   ("Process configuration on scan:" + cfg.inifile.values["autoregion"] + " ").c_str(), Sans, &textTex,
-                   &textRec);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
 
 
     getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), "Press X to go back", Sans, &textTex, &textRec);
@@ -271,6 +347,7 @@ void Splash::options() {
                 case SDL_JOYBUTTONUP:  /* Handle Joystick Button Presses */
 
                     if (e.jbutton.button == 2) {
+                        cfg.save();
                         menuVisible = false;
                     };
                     break;
@@ -287,6 +364,94 @@ void Splash::options() {
                             selOption--;
                             if (selOption < 0) {
                                 selOption = 0;
+                            }
+                            redrawOptions();
+                        }
+                    }
+
+                    if (e.jaxis.axis == 0) {
+                        if (e.jaxis.value > 3200) {
+
+                            if (selOption==0)
+                            {
+                                string nextValue = getOption(themes,cfg.inifile.values["theme"],true);
+                                cfg.inifile.values["theme"] = nextValue;
+                                loadAssets();
+                            }
+
+                            if (selOption==1)
+                            {
+                                string nextValue = getOption(sthemes,cfg.inifile.values["stheme"],true);
+                                cfg.inifile.values["stheme"] = nextValue;
+
+                            }
+                            if (selOption==2)
+                            {
+                                string nextValue = getOption(nomusic,cfg.inifile.values["nomusic"],true);
+                                cfg.inifile.values["nomusic"] = nextValue;
+                                loadAssets();
+
+                            }
+                            if (selOption==3)
+                            {
+                                string nextValue = getOption(autoregion,cfg.inifile.values["autoregion"],true);
+                                cfg.inifile.values["autoregion"] = nextValue;
+
+
+                            }
+                            if (selOption==4)
+                            {
+                                string nextValue = getOption(mip,cfg.inifile.values["mip"],true);
+                                cfg.inifile.values["mip"] = nextValue;
+
+
+                            }
+                            if (selOption==5)
+                            {
+                                string nextValue = getOption(pcsx,cfg.inifile.values["pcsx"],true);
+                                cfg.inifile.values["pcsx"] = nextValue;
+
+
+                            }
+                            redrawOptions();
+                        }
+                        if (e.jaxis.value < -3200) {
+                            if (selOption==0)
+                            {
+                                string nextValue = getOption(themes,cfg.inifile.values["theme"],false);
+                                cfg.inifile.values["theme"] = nextValue;
+                                loadAssets();
+                            }
+                            if (selOption==1)
+                            {
+                                string nextValue = getOption(sthemes,cfg.inifile.values["stheme"],false);
+                                cfg.inifile.values["stheme"] = nextValue;
+
+                            }
+                            if (selOption==2)
+                            {
+                                string nextValue = getOption(nomusic,cfg.inifile.values["nomusic"],false);
+                                cfg.inifile.values["nomusic"] = nextValue;
+                                loadAssets();
+
+                            }
+                            if (selOption==3)
+                            {
+                                string nextValue = getOption(autoregion,cfg.inifile.values["autoregion"],false);
+                                cfg.inifile.values["autoregion"] = nextValue;
+
+                            }
+                            if (selOption==4)
+                            {
+                                string nextValue = getOption(mip,cfg.inifile.values["mip"],false);
+                                cfg.inifile.values["mip"] = nextValue;
+
+                            }
+                            if (selOption==5)
+                            {
+                                string nextValue = getOption(pcsx,cfg.inifile.values["pcsx"],false);
+                                cfg.inifile.values["pcsx"] = nextValue;
+
                             }
                             redrawOptions();
                         }

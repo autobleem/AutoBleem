@@ -48,7 +48,7 @@ public:
     void redrawOptions();
     int selOption=0;
     int menuOption=MENU_OPTION_SCAN;
-#ifndef NO_GUI
+
     SDL_Rect texr;
     SDL_Rect logor;
     SDL_Renderer *renderer = NULL;
@@ -62,11 +62,21 @@ public:
     SDL_Texture *buttonStart = NULL;
     SDL_Texture *buttonSelect = NULL;
 
+    vector<string> themes;
+    vector<string> sthemes;
+    vector<string> pcsx;
+    vector<string> mip;
+    vector<string> nomusic;
+    vector<string> autoregion;
+
+
     void loadAssets();
+    string getOption(vector<string> list, string current, bool next);
+    void renderMenuOption(string text, int line, SDL_Rect rect2, SDL_Rect logoRect, SDL_Rect textRec);
 
 
+    Mix_Music * music;
     TTF_Font *Sans =  NULL;
-#endif
     bool forceScan=false;
     Splash(Splash const &) = delete;
     Splash &operator=(Splash const &) = delete;
