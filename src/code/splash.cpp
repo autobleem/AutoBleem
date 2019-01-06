@@ -84,6 +84,7 @@ void Splash::loadAssets() {
 
     themes.clear();
     sthemes.clear();
+    sthemes.push_back("default");
     vector<DirEntry> folders = Util::diru(Util::getWorkingPath() + Util::separator() + "theme");
     for (DirEntry entry:folders) {
         themes.push_back(entry.name);
