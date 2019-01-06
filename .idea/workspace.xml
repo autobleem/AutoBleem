@@ -15,8 +15,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/config.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/code/splash.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/splash.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/splash.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/splash.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/config.ini" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -63,8 +61,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="230" column="18" lean-forward="true" selection-start-line="230" selection-start-column="18" selection-end-line="230" selection-end-column="18" />
+            <state relative-caret-position="259">
+              <caret line="242" column="46" selection-start-line="242" selection-start-column="46" selection-end-line="242" selection-end-column="46" />
               <folding>
                 <element signature="e#45#64#0" expanded="true" />
               </folding>
@@ -643,11 +641,25 @@
       <option name="project" value="LOCAL" />
       <updated>1546692195975</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="Small Code Cleanup + Create CUE">
+      <created>1546735308454</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1546735308454</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Small Code Cleanup + Create CUE">
+      <created>1546735793706</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1546735793706</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="186949000" />
+    <option name="totallyTimeSpent" value="188037000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="23" width="1920" height="1009" extended-state="0" />
@@ -1010,8 +1022,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="230" column="18" lean-forward="true" selection-start-line="230" selection-start-column="18" selection-end-line="230" selection-end-column="18" />
+        <state relative-caret-position="259">
+          <caret line="242" column="46" selection-start-line="242" selection-start-column="46" selection-end-line="242" selection-end-column="46" />
           <folding>
             <element signature="e#45#64#0" expanded="true" />
           </folding>

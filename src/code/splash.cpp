@@ -240,7 +240,7 @@ void Splash::saveSelection() {
     os << "AB_SELECTION=" << menuOption << endl;
     os << "AB_THEME=" << cfg.inifile.values["stheme"] << endl;
     os << "AB_PCSX=" << cfg.inifile.values["pcsx"] << endl;
-    os << "AB_MIP=" << cfg.inifile.values["pcsx"] << endl;
+    os << "AB_MIP=" << cfg.inifile.values["mip"] << endl;
 
     os.flush();
     os.close();
