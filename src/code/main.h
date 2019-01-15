@@ -21,6 +21,7 @@ static const char GAME_DATA[] = "GameData";
 static const char GAME_INI[] = "Game.ini";
 static const char PCSX_CFG[] = "pcsx.cfg";
 static const char EXT_PNG[] = ".png";
+static const char EXT_PBP[] = ".pbp";
 static const char EXT_ECM[] = ".ecm";
 static const char EXT_BIN[] = ".bin";
 static const char EXT_CUE[] = ".cue";

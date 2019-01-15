@@ -53,6 +53,14 @@ public:
     static bool isInteger(const char *input);
     static bool matchExtension(string path, string ext);
     static bool matchesLowercase(string first, string second);
+    static string findFirstFile(string ext, string path);
+
+    static unsigned char readChar(ifstream * stream);
+    static unsigned long  readDword(ifstream * stream);
+    static string readString(int size, ifstream * stream);
+    static string readString(ifstream * stream);
+    static void skipZeros(ifstream * stream);
+
 };
 
 

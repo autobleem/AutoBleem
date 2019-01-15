@@ -36,6 +36,7 @@ public:
     bool imageFound = false;
     bool licFound = false;
     bool automationUsed = false;
+    int imageType=0;
 
     void readIni(string path);
     void saveIni(string path);
@@ -46,6 +47,7 @@ public:
     void updateObj();
     bool validateCue(string cuePath, string path);
 private:
+
     string firstBinPath = "";
     map<string, string> iniValues;
     void parseIni(string path);

@@ -154,8 +154,23 @@ void Scanner::moveFolderIfNeeded(DirEntry entry, string gameDataPath, string pat
     }
 }
 
+int Scanner::getImageType(string path)
+{
+    for (DirEntry entry: Util::diru(path)) {
+        if (Util::matchExtension(entry.name, EXT_BIN)) {
+            return 0;
+        }
+        if (Util::matchExtension(entry.name, EXT_PBP)) {
+            return 1;
+        }
+
+    }
+    return 0;
+}
+
 void Scanner::scanDirectory(string path) {
     // clear games list
+
     games.clear();
     complete = false;
     shared_ptr<Splash> splash(Splash::getInstance());
@@ -173,19 +188,26 @@ void Scanner::scanDirectory(string path) {
 
         prev << entry.name << endl;
         Game game;
+
         game.folder_id = 0; // this will not be in use;
         game.fullPath = path + entry.name + Util::separator();
+
+
         game.pathName = entry.name;
         splash->logText("Game: " + entry.name);
 
         string gameDataPath = path + entry.name + Util::separator() + GAME_DATA + Util::separator();
 
         moveFolderIfNeeded(entry, gameDataPath, path);
+        game.imageType = this->getImageType(gameDataPath);
         game.gameDataFound = true;
 
-        repairMissingCue(gameDataPath, entry.name);
+        if (game.imageType==0) // only cue/bin
+        {
+            repairMissingCue(gameDataPath, entry.name);
+            unecm(gameDataPath);
+        }
 
-        unecm(gameDataPath);
 
         if (!Util::exists(gameDataPath + GAME_INI)) {
             game.readIni(gameDataPath + GAME_INI);
@@ -194,9 +216,7 @@ void Scanner::scanDirectory(string path) {
             game.gameIniFound = true;
         }
 
-        for (DirEntry entryGame:Util::dir(gameDataPath)) {
-            if (entryGame.name[0] == '.') continue;
-
+        for (DirEntry entryGame:Util::diru(gameDataPath)) {
 
             if (Util::matchesLowercase(entryGame.name, GAME_INI)) {
                 string gameIniPath = gameDataPath + GAME_INI;

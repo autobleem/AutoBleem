@@ -122,6 +122,19 @@ bool Util::copy(string source, string dest) {
     return true;
 }
 
+string Util::findFirstFile(string ext, string path)
+{
+  vector<DirEntry> entries = diru(path);
+  for (DirEntry entry:entries)
+  {
+      if (matchExtension(entry.name,ext))
+      {
+          return entry.name;
+      }
+  }
+  return "";
+}
+
 bool Util::matchExtension(string path, string ext) {
     if (path.length() >= 4) {
         string fileExt = path.substr(path.length() - 4, path.length());
@@ -154,4 +167,53 @@ bool Util::matchesLowercase(string first, string second)
     return lcase(first)==lcase(second);
 }
 
+
+unsigned char Util::readChar(ifstream * stream) {
+    unsigned char c;
+    stream->read((char*)&c, 1);
+    return c;
+}
+
+string Util::readString(int size, ifstream * stream) {
+    char str[size + 1];
+    str[size] = 0;
+    stream->read(str, size);
+    return str;
+}
+
+void Util::skipZeros(ifstream *stream)
+{
+    char c=readChar(stream);
+    while (c==00)
+    {
+        c=readChar(stream);
+    }
+    stream->seekg(-1,ios::cur);
+}
+
+string Util::readString(ifstream * stream) {
+    string str;
+    char c=readChar(stream);
+    while (c!=00)
+    {
+        str=str+c;
+        c=readChar(stream);
+    }
+    return str;
+}
+
+unsigned long Util::readDword(ifstream * stream) {
+    unsigned long res = 0;
+    unsigned long c;
+    c = readChar(stream);
+    res += c;
+    c = readChar(stream);
+    res += c << (1 * 8);
+    c = readChar(stream);
+    res += c << (2 * 8);
+    c = readChar(stream);
+    res += c << (3 * 8);
+    return res;
+
+}
 

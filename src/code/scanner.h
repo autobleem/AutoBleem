@@ -24,6 +24,7 @@ public:
     bool forceScan=false;
 private:
 
+    int getImageType(string path);
     bool complete;
     void moveFolderIfNeeded(DirEntry entry, string gameDataPath, string path);
 };
