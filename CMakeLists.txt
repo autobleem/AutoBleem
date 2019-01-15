@@ -32,8 +32,15 @@ add_executable(cbleemsync
 		src/code/inifile.cpp
 		src/code/inifile.h src/code/isodir.cpp src/code/isodir.h src/code/config.cpp src/code/config.h)
 
+add_executable(starter
+		src/code/starter.cpp
+		src/code/util.h
+		src/code/util.cpp
+		src/code/inifile.cpp
+		src/code/inifile.cpp
+		)
 
-target_link_libraries(cbleemsync 
+target_link_libraries(cbleemsync
          Threads::Threads
          SDL2
          SDL2_image

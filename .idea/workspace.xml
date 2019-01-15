@@ -3,6 +3,7 @@
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
       <config projectName="cbleemsync" targetName="cbleemsync" />
+      <config projectName="cbleemsync" targetName="starter" />
     </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
@@ -12,14 +13,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f377571-016b-4a6e-91a8-99bb578502df" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/code/starter.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/game.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/game.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/game.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/main.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/main.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/scanner.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/scanner.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/scanner.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/scanner.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/util.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/util.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/util.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/util.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/autobleem.list" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/autobleem.list" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/autobleem.prev" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/autobleem.prev" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.dSYM/Contents/Resources/DWARF/cbleemsync" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cbleemsync.dSYM/Contents/Resources/DWARF/cbleemsync" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/config.ini" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -52,25 +53,34 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
+        <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-79">
-              <caret line="18" column="29" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
+            <state relative-caret-position="180">
+              <caret line="184" column="1" selection-start-line="184" selection-start-column="1" selection-end-line="197" selection-end-column="1" />
               <folding>
-                <element signature="e#45#64#0" expanded="true" />
+                <element signature="e#44#61#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
+        <entry file="file://$PROJECT_DIR$/src/code/starter.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="490">
-              <caret line="96" column="54" selection-start-line="96" selection-start-column="54" selection-end-line="96" selection-end-column="54" />
+            <state relative-caret-position="115">
+              <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
               <folding>
-                <element signature="e#44#61#0" expanded="true" />
+                <element signature="e#1#18#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="501">
+              <caret line="35" column="28" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -151,18 +161,6 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/scanner.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="26" column="16" selection-start-line="26" selection-start-column="16" selection-end-line="26" selection-end-column="16" />
-              <folding>
-                <element signature="e#104#121#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
@@ -188,6 +186,7 @@
       <find>80</find>
       <find>san</find>
       <find>validation</find>
+      <find>ini</find>
     </findStrings>
     <replaceStrings>
       <replace>string</replace>
@@ -227,7 +226,6 @@
         <option value="$PROJECT_DIR$/src/code/unecm.c" />
         <option value="$PROJECT_DIR$/src/code/ecmhelper.cpp" />
         <option value="$PROJECT_DIR$/src/code/ecmhelper.h" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/code/metadata.h" />
         <option value="$PROJECT_DIR$/src/code/database.h" />
         <option value="$PROJECT_DIR$/src/code/inifile.h" />
@@ -251,6 +249,9 @@
         <option value="$PROJECT_DIR$/src/code/util.h" />
         <option value="$PROJECT_DIR$/src/code/util.cpp" />
         <option value="$PROJECT_DIR$/src/code/game.cpp" />
+        <option value="$PROJECT_DIR$/src/code/starter.c" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/src/code/starter.cpp" />
       </list>
     </option>
   </component>
@@ -273,6 +274,11 @@
             <path>
               <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
               <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
+              <item name="cmake-build-debug" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
@@ -325,12 +331,21 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.cbleemsync">
     <configuration name="cbleemsync" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="$USER_HOME$/Desktop/psx.db $USER_HOME$/SONY/Games/" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cbleemsync" TARGET_NAME="cbleemsync" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="cbleemsync" RUN_TARGET_NAME="cbleemsync">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="starter" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cbleemsync" TARGET_NAME="starter" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="cbleemsync" RUN_TARGET_NAME="starter">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.cbleemsync" />
+      <item itemvalue="Application.starter" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -359,7 +374,7 @@
       <workItem from="1546001397783" duration="6322000" />
       <workItem from="1546036311892" duration="2722000" />
       <workItem from="1546546357908" duration="10308000" />
-      <workItem from="1547504573740" duration="6620000" />
+      <workItem from="1547504573740" duration="10184000" />
     </task>
     <task id="LOCAL-00001" summary="Multi bin support">
       <created>1544822200034</created>
@@ -690,23 +705,30 @@
       <option name="project" value="LOCAL" />
       <updated>1546745500999</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="PBP serial scan">
+      <created>1547511797487</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1547511797487</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="194943000" />
+    <option name="totallyTimeSpent" value="198507000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="23" width="1920" height="1009" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4907563" visible="true" weight="0.17571884" />
-      <window_info id="Structure" order="1" sideWeight="0.5092437" side_tool="true" visible="true" weight="0.17571884" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.74025977" visible="true" weight="0.17571884" />
+      <window_info id="Structure" order="1" sideWeight="0.25974026" side_tool="true" visible="true" weight="0.17571884" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49733758" weight="0.32824427" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.2971246" weight="0.36314067" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.45047924" visible="true" weight="0.35114503" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.45047924" weight="0.35114503" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -716,7 +738,7 @@
       <window_info anchor="bottom" id="CMake" order="10" sideWeight="0.46219382" weight="0.32824427" />
       <window_info anchor="bottom" id="Terminal" order="11" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.7028754" side_tool="true" weight="0.36314067" />
-      <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.3519702" weight="0.32824427" />
+      <window_info active="true" anchor="bottom" id="Messages" order="13" sideWeight="0.3519702" visible="true" weight="0.32824427" />
       <window_info anchor="bottom" id="Inspection Results" order="14" sideWeight="0.49946752" weight="0.3293348" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -746,16 +768,10 @@
     <MESSAGE value="ECM uncompress" />
     <MESSAGE value="Small Code Cleanup + GUI (0.11)" />
     <MESSAGE value="Small Code Cleanup + Create CUE" />
-    <option name="LAST_COMMIT_MESSAGE" value="Small Code Cleanup + Create CUE" />
+    <MESSAGE value="PBP serial scan" />
+    <option name="LAST_COMMIT_MESSAGE" value="PBP serial scan" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cmake_install.cmake">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="52" selection-start-column="52" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Volumes/SONY/Games/AutoLoad Sample/GameData/Game.ini" />
     <entry file="file:///Volumes/SONY/Games/Resident Evil 2 Leon (US)/GameData/Game.ini" />
     <entry file="file:///Volumes/SONY/Games/AutoLoad Sample/GameData/SLUS-01115.cue" />
@@ -796,13 +812,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/resources/theme/default/background.jpg">
       <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="34" selection-start-column="34" selection-end-column="34" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/code/ecmhelper.cpp">
       <provider selected="true" editor-type-id="text-editor">
@@ -982,16 +991,6 @@
     <entry file="file://$USER_HOME$/Sony/Games/!Revolt/GameData/pcsx.cfg">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/inifile.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="13" />
-          <folding>
-            <element signature="e#104#121#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/inifile.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -1044,12 +1043,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="501">
+          <caret line="35" column="28" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/inifile.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="13" />
+          <folding>
+            <element signature="e#104#121#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="96" column="54" selection-start-line="96" selection-start-column="54" selection-end-line="96" selection-end-column="54" />
+        <state relative-caret-position="180">
+          <caret line="184" column="1" selection-start-line="184" selection-start-column="1" selection-end-line="197" selection-end-column="1" />
           <folding>
             <element signature="e#44#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/starter.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+          <folding>
+            <element signature="e#1#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
