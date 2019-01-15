@@ -10,7 +10,7 @@
 
 void Splash::logText(string message) {
     shared_ptr<Splash> splash(Splash::getInstance());
-    splash->drawText(message, false);
+    splash->drawText(message);
 }
 
 
@@ -18,7 +18,7 @@ extern "C"
 {
 void logText(char *message) {
     shared_ptr<Splash> splash(Splash::getInstance());
-    splash->drawText(message, false);
+    splash->drawText(message);
 }
 }
 
@@ -30,6 +30,15 @@ void Splash::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *te
     int text_height;
     SDL_Surface *surface;
     SDL_Color textColor = {255, 255, 255, 0};
+
+    if (strlen(text) == 0) {
+        *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, 0, 0);
+        rect->x = 0;
+        rect->y = 0;
+        rect->h = 0;
+        rect->w = 0;
+        return;
+    }
 
     surface = TTF_RenderText_Blended(font, text, textColor);
     *texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -49,8 +58,7 @@ void Splash::loadAssets() {
                 Util::separator();
     themeData.load(themePath + "theme.ini");
 
-    if (img!=NULL)
-    {
+    if (img != NULL) {
         SDL_DestroyTexture(img);
         SDL_DestroyTexture(logo);
         SDL_DestroyTexture(buttonT);
@@ -60,7 +68,7 @@ void Splash::loadAssets() {
         SDL_DestroyTexture(buttonStart);
         SDL_DestroyTexture(buttonSelect);
         TTF_CloseFont(Sans);
-        img=NULL;
+        img = NULL;
     }
 
     logor.x = atoi(themeData.values["lpositionx"].c_str());
@@ -106,7 +114,7 @@ void Splash::loadAssets() {
     autoregion.push_back("true");
     autoregion.push_back("false");
 
-    if (music!=NULL) {
+    if (music != NULL) {
         Mix_HaltMusic();
     }
     if (cfg.inifile.values["nomusic"] != "true")
@@ -133,14 +141,13 @@ string Splash::getOption(vector<string> list, string current, bool next) {
     }
 
     if (next) {
-       pos++;
-    if (pos>=list.size())
-    {
-         pos=list.size()-1;
-    }
+        pos++;
+        if (pos >= list.size()) {
+            pos = list.size() - 1;
+        }
     } else {
-         pos--;
-         if (pos<0) pos=0;
+        pos--;
+        if (pos < 0) pos = 0;
     }
 
     return list[pos];
@@ -154,9 +161,12 @@ void Splash::display(bool forceScan) {
     Mix_Init(0);
     TTF_Init();
 
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+
+
 
     SDL_Window *window = SDL_CreateWindow("AutoBleem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720,
-                                          0);
+                                         0);
     int w, h; // texture width & height
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
@@ -170,7 +180,6 @@ void Splash::display(bool forceScan) {
     texr.w = w;
     texr.h = h;
     SDL_QueryTexture(logo, NULL, NULL, &w, &h);
-
 
 
     int start = SDL_GetTicks();
@@ -246,9 +255,8 @@ void Splash::saveSelection() {
     os.close();
 }
 
-void Splash::renderMenuOption(string text, int line, SDL_Rect rect2, SDL_Rect logoRect, SDL_Rect textRec)
-{
-    SDL_Texture * textTex;
+void Splash::renderMenuOption(string text, int line, SDL_Rect rect2, SDL_Rect logoRect, SDL_Rect textRec) {
+    SDL_Texture *textTex;
     getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * line,
                    text.c_str(), Sans, &textTex,
                    &textRec);
@@ -295,28 +303,26 @@ void Splash::redrawOptions() {
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
     SDL_DestroyTexture(textTex);
 
-    renderMenuOption("AutoBleem Theme: " + cfg.inifile.values["theme"],                      1,rect2,logoRect,textRec);
-    renderMenuOption("Menu Theme: " + cfg.inifile.values["stheme"],                          2,rect2,logoRect,textRec);
-    renderMenuOption("Disable Theme BGM: " + cfg.inifile.values["nomusic"],                  3,rect2,logoRect,textRec);
-    renderMenuOption("Process configuration on scan: " + cfg.inifile.values["autoregion"],   4,rect2,logoRect,textRec);
-    renderMenuOption("Mipmap patch: " + cfg.inifile.values["mip"],                           5,rect2,logoRect,textRec);
-    renderMenuOption("Overmount PCSX: " + cfg.inifile.values["pcsx"],                        6,rect2,logoRect,textRec);
+    renderMenuOption("AutoBleem Theme: " + cfg.inifile.values["theme"], 1, rect2, logoRect, textRec);
+    renderMenuOption("Menu Theme: " + cfg.inifile.values["stheme"], 2, rect2, logoRect, textRec);
+    renderMenuOption("Disable Theme BGM: " + cfg.inifile.values["nomusic"], 3, rect2, logoRect, textRec);
+    renderMenuOption("Process configuration on scan: " + cfg.inifile.values["autoregion"], 4, rect2, logoRect, textRec);
+    renderMenuOption("Mipmap patch: " + cfg.inifile.values["mip"], 5, rect2, logoRect, textRec);
+    renderMenuOption("Overmount PCSX: " + cfg.inifile.values["pcsx"], 6, rect2, logoRect, textRec);
 
 
+    getEmojiTextTexture(renderer,"Press |@X| to go back|",Sans,  &textTex,
+                        &textRec);
 
-    getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), "Press X to go back", Sans, &textTex, &textRec);
+    textRec.y = atoi(themeData.values["ttop"].c_str());
+
+
     if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
     SDL_DestroyTexture(textTex);
 
-    SDL_Rect iconRect;
-    iconRect.w = atoi(themeData.values["iconw"].c_str());
-    iconRect.h = atoi(themeData.values["iconh"].c_str());
-    iconRect.y = atoi(themeData.values["texty"].c_str());
-    iconRect.x = atoi(themeData.values["iconexit"].c_str());
-    SDL_RenderCopy(renderer, buttonX, NULL, &iconRect);
 
     SDL_Rect rectSelection;
     rectSelection.x = rect2.x + 10;
@@ -373,43 +379,37 @@ void Splash::options() {
                     if (e.jaxis.axis == 0) {
                         if (e.jaxis.value > 3200) {
 
-                            if (selOption==0)
-                            {
-                                string nextValue = getOption(themes,cfg.inifile.values["theme"],true);
+                            if (selOption == 0) {
+                                string nextValue = getOption(themes, cfg.inifile.values["theme"], true);
                                 cfg.inifile.values["theme"] = nextValue;
                                 loadAssets();
                             }
 
-                            if (selOption==1)
-                            {
-                                string nextValue = getOption(sthemes,cfg.inifile.values["stheme"],true);
+                            if (selOption == 1) {
+                                string nextValue = getOption(sthemes, cfg.inifile.values["stheme"], true);
                                 cfg.inifile.values["stheme"] = nextValue;
 
                             }
-                            if (selOption==2)
-                            {
-                                string nextValue = getOption(nomusic,cfg.inifile.values["nomusic"],true);
+                            if (selOption == 2) {
+                                string nextValue = getOption(nomusic, cfg.inifile.values["nomusic"], true);
                                 cfg.inifile.values["nomusic"] = nextValue;
                                 loadAssets();
 
                             }
-                            if (selOption==3)
-                            {
-                                string nextValue = getOption(autoregion,cfg.inifile.values["autoregion"],true);
+                            if (selOption == 3) {
+                                string nextValue = getOption(autoregion, cfg.inifile.values["autoregion"], true);
                                 cfg.inifile.values["autoregion"] = nextValue;
 
 
                             }
-                            if (selOption==4)
-                            {
-                                string nextValue = getOption(mip,cfg.inifile.values["mip"],true);
+                            if (selOption == 4) {
+                                string nextValue = getOption(mip, cfg.inifile.values["mip"], true);
                                 cfg.inifile.values["mip"] = nextValue;
 
 
                             }
-                            if (selOption==5)
-                            {
-                                string nextValue = getOption(pcsx,cfg.inifile.values["pcsx"],true);
+                            if (selOption == 5) {
+                                string nextValue = getOption(pcsx, cfg.inifile.values["pcsx"], true);
                                 cfg.inifile.values["pcsx"] = nextValue;
 
 
@@ -417,40 +417,34 @@ void Splash::options() {
                             redrawOptions();
                         }
                         if (e.jaxis.value < -3200) {
-                            if (selOption==0)
-                            {
-                                string nextValue = getOption(themes,cfg.inifile.values["theme"],false);
+                            if (selOption == 0) {
+                                string nextValue = getOption(themes, cfg.inifile.values["theme"], false);
                                 cfg.inifile.values["theme"] = nextValue;
                                 loadAssets();
                             }
-                            if (selOption==1)
-                            {
-                                string nextValue = getOption(sthemes,cfg.inifile.values["stheme"],false);
+                            if (selOption == 1) {
+                                string nextValue = getOption(sthemes, cfg.inifile.values["stheme"], false);
                                 cfg.inifile.values["stheme"] = nextValue;
 
                             }
-                            if (selOption==2)
-                            {
-                                string nextValue = getOption(nomusic,cfg.inifile.values["nomusic"],false);
+                            if (selOption == 2) {
+                                string nextValue = getOption(nomusic, cfg.inifile.values["nomusic"], false);
                                 cfg.inifile.values["nomusic"] = nextValue;
                                 loadAssets();
 
                             }
-                            if (selOption==3)
-                            {
-                                string nextValue = getOption(autoregion,cfg.inifile.values["autoregion"],false);
+                            if (selOption == 3) {
+                                string nextValue = getOption(autoregion, cfg.inifile.values["autoregion"], false);
                                 cfg.inifile.values["autoregion"] = nextValue;
 
                             }
-                            if (selOption==4)
-                            {
-                                string nextValue = getOption(mip,cfg.inifile.values["mip"],false);
+                            if (selOption == 4) {
+                                string nextValue = getOption(mip, cfg.inifile.values["mip"], false);
                                 cfg.inifile.values["mip"] = nextValue;
 
                             }
-                            if (selOption==5)
-                            {
-                                string nextValue = getOption(pcsx,cfg.inifile.values["pcsx"],false);
+                            if (selOption == 5) {
+                                string nextValue = getOption(pcsx, cfg.inifile.values["pcsx"], false);
                                 cfg.inifile.values["pcsx"] = nextValue;
 
                             }
@@ -533,19 +527,15 @@ void Splash::aboutBox() {
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
     SDL_DestroyTexture(textTex);
 
-    getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), "Press X to go back", Sans, &textTex, &textRec);
+    getEmojiTextTexture(renderer,"Press |@X| to go back|",Sans,  &textTex,
+                        &textRec);
+    textRec.y = atoi(themeData.values["ttop"].c_str());
+
     if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
     SDL_DestroyTexture(textTex);
-
-    SDL_Rect iconRect;
-    iconRect.w = atoi(themeData.values["iconw"].c_str());
-    iconRect.h = atoi(themeData.values["iconh"].c_str());
-    iconRect.y = atoi(themeData.values["texty"].c_str());
-    iconRect.x = atoi(themeData.values["iconexit"].c_str());
-    SDL_RenderCopy(renderer, buttonX, NULL, &iconRect);
 
     SDL_RenderPresent(renderer);
 
@@ -586,10 +576,11 @@ void Splash::menuSelection() {
     }
 
     if (!forceScan) {
-        drawText("-  AutoBleem Games   O  Re/Scan   O  Original Games   O  RetroArch   O  About   -  Options", true);
+        drawText(
+                "|@Start| AutoBleem Games   |@X|  Re/Scan   |@O|  Original Games   |@S|  RetroArch   |@T|  About   |@Select|  Options|");
 
     } else {
-        drawText("Games changed. Press  O  to scan", true);
+        drawText("Games changed. Press  |@X|  to scan|");
 
     }
     bool menuVisible = true;
@@ -690,15 +681,128 @@ void Splash::drawIcons(bool forceScan) {
     }
 }
 
-void Splash::drawText(string text, bool showIcons) {
+void Splash::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *font, SDL_Texture **texture,
+                                 SDL_Rect *rect) {
+    if (text.find("|") == std::string::npos) {
+        text = text + "|";
+    }
+    vector<SDL_Texture *> textTexures;
+    vector<string> textParts;
+    std::string delimiter = "|";
+
+    size_t pos = 0;
+    std::string token;
+    while ((pos = text.find(delimiter)) != std::string::npos) {
+        token = text.substr(0, pos);
+        if (token.size() > 0)
+            textParts.push_back(token);
+        text.erase(0, pos + delimiter.length());
+    }
+
+    for (string str:textParts) {
+        if (str.empty()) continue;
+        if (str[0] == '@') {
+            string icon = str.substr(1);
+            if (icon == "Start") {
+                textTexures.push_back(buttonStart);
+            }
+            if (icon == "S") {
+                textTexures.push_back(buttonS);
+            }
+            if (icon == "O") {
+                textTexures.push_back(buttonO);
+            }
+            if (icon == "Select") {
+                textTexures.push_back(buttonSelect);
+            }
+            if (icon == "T") {
+                textTexures.push_back(buttonT);
+            }
+            if (icon == "X") {
+                textTexures.push_back(buttonX);
+            }
+        } else {
+            SDL_Texture *textTex;
+            SDL_Rect textRec;
+            getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), str.c_str(), Sans, &textTex, &textRec);
+            textTexures.push_back(textTex);
+        }
+    }
+
+    int w = 0;
+    int h = 0;
+
+    for (SDL_Texture *tex:textTexures) {
+
+        Uint32 format;
+        int access;
+        int tw, th;
+        SDL_QueryTexture(tex, &format, &access, &tw, &th);
+
+        w += tw;
+        if (th > h) h = th;
+    }
+
+
+    *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
+    SDL_SetTextureBlendMode(*texture, SDL_BLENDMODE_NONE);
+    SDL_SetRenderTarget(renderer, *texture);
+    SDL_SetTextureBlendMode(*texture, SDL_BLENDMODE_BLEND);
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    SDL_RenderClear(renderer);
+
+    int xpos = 0;
+    for (SDL_Texture *tex:textTexures) {
+        Uint32 format;
+        int access;
+        int tw, th;
+        SDL_QueryTexture(tex, &format, &access, &tw, &th);
+
+
+        SDL_Rect posRect;
+        posRect.x = xpos;
+
+        posRect.y = 0;
+
+        if (th != h) {
+            posRect.y = (h - th) / 2;
+        }
+        posRect.w = tw;
+        posRect.h = th;
+        xpos += tw;
+        SDL_RenderCopy(renderer, tex, NULL, &posRect);
+    }
+    rect->w = w;
+    rect->h = h;
+    rect->x = 0;
+    rect->y = 0;
+    SDL_SetRenderTarget(renderer, NULL);
+
+    for (SDL_Texture *tex:textTexures) {
+        if ((tex != buttonSelect) && (tex != buttonS) && (tex != buttonStart) && (tex != buttonO) && (tex != buttonT) &&
+            (tex != buttonX))
+
+            SDL_DestroyTexture(tex);
+    }
+    textTexures.clear();
+}
+
+void Splash::drawText(string text) {
 #ifndef NO_GUI
+
 
     SDL_Texture *textTex;
     SDL_Rect textRec;
-    getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), text.c_str(), Sans, &textTex, &textRec);
-    if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
+
+    getEmojiTextTexture(renderer, text, Sans, &textTex, &textRec);
+
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);
+    textRec.y = atoi(themeData.values["ttop"].c_str());
+    if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
+
+
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, img, NULL, &texr);
@@ -715,8 +819,6 @@ void Splash::drawText(string text, bool showIcons) {
 
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
 
-    if (showIcons)
-        drawIcons(forceScan);
 
     SDL_RenderPresent(renderer);
 
