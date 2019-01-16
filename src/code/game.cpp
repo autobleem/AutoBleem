@@ -5,6 +5,7 @@
 #include "metadata.h"
 #include "isodir.h"
 #include "inifile.h"
+#include "cfgprocessor.h"
 
 using namespace std;
 
@@ -41,47 +42,42 @@ string Game::scanSerial() {
             is.open(destinationDir + pbpFileName);
 
             long magic = Util::readDword(&is);
-            if (magic!=0x50425000)
-            {
+            if (magic != 0x50425000) {
                 return "";
             }
             long second = Util::readDword(&is);
-            if (second != 0x10000)
-            {
+            if (second != 0x10000) {
                 return "";
             }
             long sfoStart = Util::readDword(&is);
             long sfoEnd = Util::readDword(&is);
 
-            is.seekg(sfoStart,ios::beg);
+            is.seekg(sfoStart, ios::beg);
 
             unsigned int signature = Util::readDword(&is);
-            if (signature != 1179865088)
-            {
+            if (signature != 1179865088) {
                 return "";
             }
-            unsigned int version=Util::readDword(&is);;
-            unsigned int fields_table_offs=Util::readDword(&is);
-            unsigned int values_table_offs=Util::readDword(&is);
+            unsigned int version = Util::readDword(&is);;
+            unsigned int fields_table_offs = Util::readDword(&is);
+            unsigned int values_table_offs = Util::readDword(&is);
             int nitems = Util::readDword(&is);
 
             vector<string> fields;
             vector<string> values;
             fields.clear();
             values.clear();
-            is.seekg(sfoStart,ios::beg);
-            is.seekg(fields_table_offs,ios::cur);
-            for (int i=0;i<nitems;i++)
-            {
+            is.seekg(sfoStart, ios::beg);
+            is.seekg(fields_table_offs, ios::cur);
+            for (int i = 0; i < nitems; i++) {
                 string fieldName = Util::readString(&is);
                 Util::skipZeros(&is);
                 fields.push_back(fieldName);
             }
 
-            is.seekg(sfoStart,ios::beg);
-            is.seekg(values_table_offs,ios::cur);
-            for (int i=0;i<nitems;i++)
-            {
+            is.seekg(sfoStart, ios::beg);
+            is.seekg(values_table_offs, ios::cur);
+            for (int i = 0; i < nitems; i++) {
                 string valueName = Util::readString(&is);
                 Util::skipZeros(&is);
                 values.push_back(valueName);
@@ -89,10 +85,8 @@ string Game::scanSerial() {
 
             is.close();
 
-            for (int i=0;i<nitems;i++)
-            {
-                if (fields[i]=="DISC_ID")
-                {
+            for (int i = 0; i < nitems; i++) {
+                if (fields[i] == "DISC_ID") {
                     string potentialSerial = values[i];
                     return fixSerial(potentialSerial);
                 }
@@ -119,6 +113,7 @@ string Game::scanSerial() {
             string serialFound = "";
             if (!dir.rootDir.empty()) {
                 for (string entry:dir.rootDir) {
+                    cout << entry << endl;
                     string potentialSerial = fixSerial(entry);
                     for (string prefix:prefixes) {
                         int pos = potentialSerial.find(prefix.c_str(), 0);
@@ -262,6 +257,10 @@ bool Game::print() {
 
 void Game::recoverMissingFiles() {
     string path = Util::getWorkingPath();
+
+    Metadata md;
+    bool metadataLoaded = false;
+
     if (this->imageType == 1) {
 
         // disc link
@@ -273,7 +272,7 @@ void Game::recoverMissingFiles() {
                 Disc disc;
                 disc.diskName = pbpFileName;
                 disc.cueFound = true;
-                disc.cueName =  pbpFileName;
+                disc.cueName = pbpFileName;
                 disc.binVerified = true;
                 discs.push_back(disc);
 
@@ -320,9 +319,9 @@ void Game::recoverMissingFiles() {
             // maybe we can do better ?
             string serial = scanSerial();
             if (serial != "") {
-                Metadata md;
-                if (md.lookup(serial)) {
 
+                if (md.lookup(serial)) {
+                    metadataLoaded = true;
                     cout << "Updating cover" << destination << endl;
                     ofstream pngFile;
                     pngFile.open(destination);
@@ -332,6 +331,7 @@ void Game::recoverMissingFiles() {
                     automationUsed = false;
                     imageFound = true;
                 };
+                md.clean();
 
             }
             imageFound = true;
@@ -345,7 +345,39 @@ void Game::recoverMissingFiles() {
         string source = path + Util::separator() + "pcsx.cfg";
         string destination = fullPath + GAME_DATA + Util::separator() + "pcsx.cfg";
         cerr << "SRC:" << source << " DST:" << destination << endl;
-        Util::copy(source, destination);
+        CfgProcessor *pcsxProcessor = new CfgProcessor();
+
+        int region = 0;
+        bool japan = false;
+
+
+        if (!metadataLoaded) {
+            string serial = scanSerial();
+            if (serial != "") {
+                metadataLoaded = md.lookup(serial);
+            }
+
+        }
+
+        if (metadataLoaded) {
+            if (md.lastRegion == "U") {
+                japan = false;
+                region = 1;
+            }
+            if (md.lastRegion == "J") {
+                japan = true;
+                region = 1;
+            }
+            if (md.lastRegion == "P") {
+                japan = false;
+                region = 2;
+            }
+
+        }
+        md.clean();
+        pcsxProcessor->process(source, destination, region, japan, 1, false, 39);
+        delete pcsxProcessor;
+        // Util::copy(source, destination);
         pcsxCfgFound = true;
     }
 
@@ -376,7 +408,7 @@ void Game::updateObj() {
         for (int i = 0; i < strings.size(); i++) {
             Disc disc;
             disc.diskName = strings[i];
-            if (imageType==0) {
+            if (imageType == 0) {
                 string cueFile = fullPath + GAME_DATA + Util::separator() + disc.diskName + EXT_CUE;
                 bool discCueExists = Util::exists(cueFile);
                 if (discCueExists) {
@@ -386,14 +418,11 @@ void Game::updateObj() {
                 }
                 discs.push_back(disc);
             }
-            if (imageType==1)
-            {
-                string pbpName = Util::findFirstFile(EXT_PBP,fullPath + GAME_DATA + Util::separator());
-                if (pbpName==disc.diskName)
-                {
+            if (imageType == 1) {
+                string pbpName = Util::findFirstFile(EXT_PBP, fullPath + GAME_DATA + Util::separator());
+                if (pbpName == disc.diskName) {
                     disc.cueFound = true;
-                } else
-                {
+                } else {
                     disc.cueFound = false;
                 }
 

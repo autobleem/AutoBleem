@@ -38,7 +38,9 @@ private:
 public:
     void display(bool forceScan);
     void finish();
-    void drawText(string text, bool showIcons);
+    void drawText(string text);
+    void getEmojiTextTexture(SDL_Renderer *renderer, string text,
+                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
     void drawIcons(bool forceScan);
     void logText(string message);
     void menuSelection();

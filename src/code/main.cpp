@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
     delete db;
     shared_ptr<Splash> splash(Splash::getInstance());
     splash->display(scanner->forceScan);
-    splash->drawText("AutoBleem",false);
+    splash->drawText("AutoBleem");
     splash->menuSelection();
     splash->saveSelection();
     if (splash->menuOption==MENU_OPTION_SCAN)

@@ -31,7 +31,7 @@ private:
     unsigned long readDword();
     int findPrimaryDescriptor(int maxOffset);
     int offset = 0;
-    ifstream stream;
+    ifstream * stream;
 
 };
 

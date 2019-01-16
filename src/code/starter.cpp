@@ -24,15 +24,22 @@ string valueOrDefault(string name, string def, map<string,string> iniValues) {
 
 void execute(int argc, char** argv)
 {
+    string currentPath = Util::getWorkingPath();
+    ofstream os;
+    os.open(currentPath+Util::separator()+"starter.txt");
+    for (int i=0;i<argc;i++)
+    {
+        os << "argv[" << i << "]: " << argv[i] <<endl;
+    }
+
     execvp(PCSX,argv);
+    os.close();
 }
 
 int main (int argc, char *argv[])
 {
 
-
     string path="/data/AppData/sony/title/";
-
 
     Inifile ini;
     ini.load(path+"Game.ini");
@@ -52,7 +59,9 @@ int main (int argc, char *argv[])
             if (arguments[i]=="-cdfile")
             {
                 string image=arguments[i+1];
-                image = image.substr(0,image.size()-4);
+                if (Util::matchExtension(image,".cue")) {
+                    image = image.substr(0, image.size() - 4);
+                }
                 arguments[i+1] = image;
             }
         }
@@ -63,8 +72,6 @@ int main (int argc, char *argv[])
     for (const auto& arg : arguments)
         argvNew.push_back((char*)arg.data());
     argvNew.push_back(nullptr);
-
     execute(argvNew.size() - 1, argvNew.data());
-
     return 0;
 }
