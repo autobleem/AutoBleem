@@ -266,7 +266,7 @@ void Scanner::scanDirectory(string path) {
 
                     }
 
-                    free(md.bytes);
+                    md.clean();
                 } else {
                     game.title = game.pathName;
                 }

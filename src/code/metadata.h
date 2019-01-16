@@ -23,6 +23,15 @@ public:
     string lastRegion="U";
 
     bool lookup(string serial);
+    void clean()
+    {
+        if (bytes!=NULL)
+        {
+            free(bytes);
+            bytes=NULL;
+        }
+    }
+
 };
 
 

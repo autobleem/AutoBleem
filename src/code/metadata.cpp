@@ -13,6 +13,7 @@ bool Metadata::lookup(string serial) {
         if (db->connect(jDatabases[i])) {
             if (db->querySerial(serial, this)) {
                 db->disconnect();
+                delete(db);
                 switch(i)
                 {
                     case 0:
@@ -32,6 +33,8 @@ bool Metadata::lookup(string serial) {
             }
         };
         db->disconnect();
+        delete(db);
     }
+
     return false;
 }

@@ -30,7 +30,13 @@ add_executable(cbleemsync
 	    src/code/splash.h
         src/code/splash.cpp
 		src/code/inifile.cpp
-		src/code/inifile.h src/code/isodir.cpp src/code/isodir.h src/code/config.cpp src/code/config.h)
+		src/code/inifile.h
+		src/code/isodir.cpp
+		src/code/isodir.h
+		src/code/config.cpp
+		src/code/config.h
+		src/code/cfgprocessor.cpp
+		src/code/cfgprocessor.h)
 
 add_executable(starter
 		src/code/starter.cpp
