@@ -5,14 +5,8 @@
 
 #ifndef CBLEEMSYNC_GAME_H
 #define CBLEEMSYNC_GAME_H
-
-
-#include <vector>
-#include <map>
-
-
+#include "main.h"
 using namespace std;
-
 
 class Disc {
 public:
@@ -42,32 +36,22 @@ public:
     bool imageFound = false;
     bool licFound = false;
     bool automationUsed = false;
+    int imageType=0;
 
     void readIni(string path);
-
     void saveIni(string path);
-
     void recoverMissingFiles();
     bool verify();
     bool print();
-
     string scanSerial();
-
     void updateObj();
-
     bool validateCue(string cuePath, string path);
 private:
 
     string firstBinPath = "";
-
     map<string, string> iniValues;
-
     void parseIni(string path);
-
-
     string valueOrDefault(string name, string def);
-
-
 };
 
 

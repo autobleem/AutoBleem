@@ -1,7 +1,5 @@
-#include <iostream>
 #include "database.h"
 
-#include <cstring>
 
 using namespace std;
 
@@ -9,8 +7,8 @@ using namespace std;
 static const char SELECT_META[] = "SELECT SERIAL,TITLE, PUBLISHER, \
                                 RELEASE,PLAYERS, COVER FROM SERIALS s \
                                 JOIN GAME g on s.GAME=g.id \
-                                WHERE SERIAL=?";
-
+                                WHERE SERIAL=? OR SERIAL LIKE ?";
+static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
 static const char CREATE_GAME_SQL[] = "CREATE TABLE IF NOT EXISTS GAME  \
      ( [GAME_ID] integer NOT NULL UNIQUE, \
        [GAME_TITLE_STRING] text, \
@@ -40,12 +38,36 @@ static const char INSERT_GAME[] = "INSERT INTO GAME ([GAME_ID],[GAME_TITLE_STRIN
 static const char INSERT_DISC[] = "INSERT INTO DISC ([GAME_ID],[DISC_NUMBER],[BASENAME]) \
                 values (?,?,?)";
 
+int Database::getNumGames() {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, NUM_GAMES, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+
+
+        int result = sqlite3_step(res);
+        if (result == SQLITE_ROW) {
+
+            const int number = sqlite3_column_int(res, 0);
+            sqlite3_finalize(res);
+            return number;
+
+        }
+    } else {
+        cerr << "Failed to execute statement: " << sqlite3_errmsg(db) << endl;
+        sqlite3_finalize(res);
+        return 0;
+    }
+    sqlite3_finalize(res);
+    return 0;
+}
 bool Database::querySerial(string serial, Metadata *md) {
+    string serialLike = serial+"-%";
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, SELECT_META, -1, &res, nullptr);
     if (rc == SQLITE_OK) {
 
         sqlite3_bind_text(res, 1, serial.c_str(), -1, nullptr);
+        sqlite3_bind_text(res, 2, serialLike.c_str(), -1, nullptr);
         int result = sqlite3_step(res);
         if (result == SQLITE_ROW) {
             const unsigned char *title = sqlite3_column_text(res, 1);
@@ -53,7 +75,7 @@ bool Database::querySerial(string serial, Metadata *md) {
             const int year = sqlite3_column_int(res, 3);
             const int players = sqlite3_column_int(res, 4);
             const void *bytes = sqlite3_column_blob(res, 5);
-            int size = sqlite3_column_bytes(res, 5);
+            size_t size = sqlite3_column_bytes(res, 5);
             if (size != 0) {
                 md->dataSize = size;
                 md->bytes = new char[size];

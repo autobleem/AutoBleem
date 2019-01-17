@@ -5,12 +5,10 @@
 #ifndef CBLEEMSYNC_SCANNER_H
 #define CBLEEMSYNC_SCANNER_H
 
-#include <string>
-#include <vector>
+#include "main.h"
 #include "game.h"
 #include "database.h"
-
-#include "util.h"
+#include "splash.h"
 
 using namespace std;
 
@@ -20,12 +18,14 @@ public:
 
     void scanDirectory(string path);
 
+    bool isFirstRun(string path, Database * db);
     void unecm(string path);
     void updateDB(Database *db);
-
+    bool forceScan=false;
 private:
-    bool complete;
 
+    int getImageType(string path);
+    bool complete;
     void moveFolderIfNeeded(DirEntry entry, string gameDataPath, string path);
 };
 

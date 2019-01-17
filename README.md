@@ -2,9 +2,11 @@
 BleemSync implementation in C++ that works on PlayStation Classic 
 It is relatively safe way to add games to your PlayStation Classic.
 
+
+     
 ## Why this project
 
-This is my personal project not related to BleemSync developers on ModMyClassic group in any way . I started it at the day when lolhack was published, so probably same day when pathartl started his project. Soon BleemSync was released, but I was not happy how it worked at that time. As I wanted some software just to dynamically add  games to the USB and sync them to PlayStation Classic's database I decided to develop this in parallel with original BleemSync. All the features are based on my own personal perspective and ideas.
+This is my personal project not related to BleemSync developers on ModMyClassic group on discord . I started it at the day when lolhack was published, so probably same day when pathartl started his project. Soon BleemSync was released, but I was not fully happy how it worked at that time. I wanted some software just to dynamically add  games to the USB and sync them to PlayStation Classic's database. I decided to develop this in parallel with original BleemSync. All the features are based on my own personal perspective and ideas.
 
 As BleemSync 0.4.0 was released during my development of first version I leveraged some implementation ideas from original C# code, but all C++ code is written from the scratch.
 
@@ -86,7 +88,7 @@ UNECM - Copyright (C) 2002 Neill Corlett (GPL) (unecm.c)
 ## Frequently Asked Questions
 ### Why not contribute to BleemSync ?
 
-I am not C# developer, but Java and C++... those are totally different languages and I .. just do not like C#. Also BleemSync is developed by ModMyClassic group that I am not member of.
+I am not C# developer, but Java and C++... those are totally different technologies. I will try to support BleemSync as agreed with pathartl
 
 ### Can I extend this project ? 
 Of course ... it is fully open source using GPL3.0
@@ -96,5 +98,42 @@ AutoBleem is analysing the game folder during boot and using smart algorithm it 
 
 ### Known Issues/Limitations
 - Games have to be in cue/bin same as on BleemSync
+
+## Road Map
+v0.0 - finished - proof of concept version in plain c, same functionality as first public BleemSync - finished 
+
+v0.1 - released - rewrite with C++, ported serial scan, custom downloadable cover repository - released
+
+v0.2 - ready for testing - 
+
+     - quickboot/GUI with ability to skip scrapper, run internal games with USB in place
+     
+     - better folder structures (.pcsx is not hidden anymore)
+     
+     - quick check on boot if rescan may be needed
+     
+     - ECM decompression on boot (this is slow)
+     
+     - general fixes in code
+     
+v0.3 - planned - auto update pcsx.cfg with proper region, based on repository data
+
+     - fast, more inteligent serial number scan (bin file parser)
+     
+     - fixes in scanner to repair cue's that have invalid bin names
+     
+v0.4 - planned - integration with p7zip/unrar/zip to unzip games on boot
+
+     - rename iso to bin and create cue
+     
+v0.5 - future plans - retroarch integration as option in menu
+
+     - code cleanup and stability fixes
+     
+     - autoconfig high resolution based on repository data
+     
+     - backup of save games
+     
+     - ... to be continued
 
 
