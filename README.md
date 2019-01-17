@@ -1,3 +1,5 @@
+# Version 0.4.0 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases/download/0.4/autobleem-v0.4.0.zip)
+
 # AutoBleem 
 AutoBleem is a tool to make your PlayStation Classic more usefull.
 It is relatively safe way to add games , change look and feel, change advanced configuration of your mini console.
@@ -19,21 +21,23 @@ In general as it uses similar overmounting scripts that BleemSync use it is SAFE
 
 #### NOTE: This tool is made to use only with legal licenced games. The whole project does not use any licenced source code, also it does not alter any of the Sony files inside the mini console, it just uses what is already there and not alter it in any way.
 
-## Features similar to BleemSync or upgraded
+## Features 
 
-1. Overmounts portions of the PSC's filesystem to safely allow modifications
+1. Overmounts portions of the PSC's filesystem to safely allow PCS modifications
 1. Modifies the stock UI to show added games
 1. Uses **GAME NAMES as folders** instead of numbered folders
 1. Supports multi-disc games
 1. **Includes offline metadata and cover art databases - no download needed during sync**
 1. **Runs on boot of the PlayStation Classic** as it was designed to do so from the beginning
-1. Intelligent algorithm is trying to "fix" missing files like .cue, unpack .ecm (currently switched off)
+1. Intelligent algorithm is trying to "fix" missing files like .cue, unpack .ecm 
+1. **Nice GUI that replaces need for BootMenu**
 1. Small footprint on USB drive as no .NET Core runtime needed
 1. As written in native language for PlayStation Classic it is fast
 1. Work with no issue with multitrack games (I had no problem with it)
-1. Supports CUE/BIN and PBP file formats
-1. Replaces BootMenu and Bleemsync.. no need to run anything on the PC
-1. Supports skinning of both AutoBleem and Sony menu
+1. Supports **CUE/BIN** and **PBP** file formats
+1. Replaces BootMenu and Bleemsync.. **no need to run anything on the PC**
+1. Supports themes of both AutoBleem and Sony menu
+1. **configurable filter settings**
 
 ## Installation
 
