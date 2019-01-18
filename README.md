@@ -33,7 +33,7 @@ AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4
 1. Small footprint on USB drive as no .NET Core runtime needed
 1. As written in native language for PlayStation Classic it is fast
 1. Work with no issue with multitrack games (I had no problem with it)
-1. Supports **CUE/BIN** and **PBP** file formats
+1. Supports **CUE/BIN** and **Not encrypted PBP (popstation created - PSN downloads will not work)** file formats
 1. Replaces BootMenu and Bleemsync..intergates with RetroArch sotware **no need to run anything on the PC**
 1. Supports themes of both AutoBleem and Sony menu
 1. **configurable filter settings**
