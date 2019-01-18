@@ -109,6 +109,9 @@ AutoBleem is analysing the game folder during boot and using smart algorithm it 
 
 ### Known Issues/Limitations
 - Sometimes the wrong region is set by Sony's PCSX in PlaystationClassic (example WipeoutXL) - use GUI to change Bios setting 
+- Encrypted PBP files are not loaded by PCSX ... you can only use files created using Popstation/PSX2PSP software
+- Try to set compression level to 1 (Worst) in PSX2PSP for quick load times
+
 
 ## Road Map
      
