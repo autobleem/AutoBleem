@@ -137,21 +137,21 @@ void repairMissingCue(string path, string folderName) {
 
 void Scanner::moveFolderIfNeeded(DirEntry entry, string gameDataPath, string path) {
     bool gameDataExists = Util::exists(gameDataPath);
-    if (!gameDataExists) {
-        cerr << "Game: " << entry.name << " - GameData Not found" << endl;
-        Util::createDir(gameDataPath);
 
-        for (DirEntry entryGame:  Util::dir(path + entry.name + Util::separator())) {
-
-            if (entryGame.name[0] == '.') continue;
-            if (entryGame.name == GAME_DATA) continue;
-
-            string oldName = path + entry.name + Util::separator() + entryGame.name;
-            string newName = gameDataPath + entryGame.name;
+    if (gameDataExists)
+    {
+        cerr << "Game: " << entry.name << " - Moving GameData to 0.5" << endl;
+        for (DirEntry entryGame:  Util::diru(gameDataPath)) {
+            string newName = path + entry.name + Util::separator() + entryGame.name;
+            string oldName = gameDataPath + entryGame.name;
             cerr << "Moving: " << oldName << "  to: " << newName << endl;
             rename(oldName.c_str(), newName.c_str());
         }
     }
+
+    Util::rmDir(gameDataPath);
+
+
 }
 
 int Scanner::getImageType(string path)
@@ -199,6 +199,8 @@ void Scanner::scanDirectory(string path) {
         string gameDataPath = path + entry.name + Util::separator() + GAME_DATA + Util::separator();
 
         moveFolderIfNeeded(entry, gameDataPath, path);
+        gameDataPath = path + entry.name + Util::separator();
+
         game.imageType = this->getImageType(gameDataPath);
         game.gameDataFound = true;
 

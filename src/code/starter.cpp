@@ -24,16 +24,8 @@ string valueOrDefault(string name, string def, map<string,string> iniValues) {
 
 void execute(int argc, char** argv)
 {
-    string currentPath = Util::getWorkingPath();
-    ofstream os;
-    os.open(currentPath+Util::separator()+"starter.txt");
-    for (int i=0;i<argc;i++)
-    {
-        os << "argv[" << i << "]: " << argv[i] <<endl;
-    }
-
     execvp(PCSX,argv);
-    os.close();
+
 }
 
 int main (int argc, char *argv[])

@@ -60,6 +60,7 @@ public:
     static string readString(int size, ifstream * stream);
     static string readString(ifstream * stream);
     static void skipZeros(ifstream * stream);
+    static int rmDir(string path);
 
 };
 
