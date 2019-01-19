@@ -22,6 +22,7 @@ class Game {
 public:
     int folder_id;
     string fullPath;
+    string saveStatePath;
     string pathName;
     string title;
     string publisher;

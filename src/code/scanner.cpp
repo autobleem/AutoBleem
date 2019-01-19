@@ -74,7 +74,7 @@ void Scanner::updateDB(Database *db) {
             for (int j = 0; j < data.discs.size(); j++) {
                 db->insertDisc(i + 1, j + 1, data.discs[j].diskName);
             }
-            outfile << i + 1 << "," << Util::escape(data.fullPath.substr(0, data.fullPath.size() - 1)) << endl;
+            outfile << i + 1 << "," << Util::escape(data.fullPath.substr(0, data.fullPath.size() - 1)) << "," << Util::escape(data.saveStatePath.substr(0, data.saveStatePath.size() - 1)) << endl;
 
         }
     outfile.flush();
@@ -180,18 +180,27 @@ void Scanner::scanDirectory(string path) {
     string prevFileName = Util::getWorkingPath()+Util::separator()+"autobleem.prev";
     prev.open(prevFileName.c_str(),ios::binary);
 
+    if (!Util::exists(path+"!SaveStates"))
+    {
+        Util::createDir(path+"!SaveStates");
+    }
 
 
     for (DirEntry entry: Util::dir(path)) {
         if (entry.name[0] == '.') continue;
         if (!entry.dir) continue;
+        if (entry.name == "!SaveStates") continue;
 
         prev << entry.name << endl;
+
+        string saveStateDir = path+"!SaveStates"+Util::separator()+entry.name;
+        Util::createDir(saveStateDir);
+
         Game game;
 
         game.folder_id = 0; // this will not be in use;
         game.fullPath = path + entry.name + Util::separator();
-
+        game.saveStatePath = path + "!SaveStates" + Util::separator() + entry.name + Util::separator();
 
         game.pathName = entry.name;
         splash->logText("Game: " + entry.name);
