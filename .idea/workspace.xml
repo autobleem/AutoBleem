@@ -56,8 +56,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/code/starter.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="69" column="29" selection-start-line="69" selection-start-column="29" selection-end-line="69" selection-end-column="29" />
+            <state relative-caret-position="436">
+              <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
               <folding>
                 <element signature="e#1#18#0" expanded="true" />
               </folding>
@@ -402,21 +402,7 @@
       <workItem from="1547583403608" duration="7179000" />
       <workItem from="1547755424200" duration="15000" />
       <workItem from="1547755550219" duration="279000" />
-      <workItem from="1547934567961" duration="5221000" />
-    </task>
-    <task id="LOCAL-00006" summary="Full rewite in C++ .. added fix for wrong game structure...&#10;&#10;Stable build 0.1">
-      <created>1544901802405</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1544901802406</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Full rewite in C++ .. added fix for wrong game structure...&#10;                &#10; Stable build 0.1">
-      <created>1544905261823</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1544905261823</updated>
+      <workItem from="1547934567961" duration="6160000" />
     </task>
     <task id="LOCAL-00008" summary="Full rewite in C++ .. added fix for wrong game structure...&#10;                &#10; Stable build 0.1">
       <created>1544907447260</created>
@@ -747,17 +733,31 @@
       <option name="project" value="LOCAL" />
       <updated>1547945410760</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="PBP serial scan">
+      <created>1547945599967</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1547945599967</updated>
+    </task>
+    <task id="LOCAL-00056" summary="PBP serial scan">
+      <created>1547946132144</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1547946132144</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="213550000" />
+    <option name="totallyTimeSpent" value="214489000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1009" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.737013" visible="true" weight="0.18210863" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.737013" visible="true" weight="0.18210863" />
       <window_info id="Structure" order="1" sideWeight="0.26298702" side_tool="true" visible="true" weight="0.18210863" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -773,7 +773,7 @@
       <window_info anchor="bottom" id="CMake" order="10" sideWeight="0.46219382" weight="0.32824427" />
       <window_info anchor="bottom" id="Terminal" order="11" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.7028754" side_tool="true" weight="0.36314067" />
-      <window_info active="true" anchor="bottom" id="Messages" order="13" sideWeight="0.3519702" visible="true" weight="0.32824427" />
+      <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.3519702" visible="true" weight="0.32824427" />
       <window_info anchor="bottom" id="Inspection Results" order="14" sideWeight="0.49946752" weight="0.3293348" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -1115,8 +1115,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/code/starter.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="69" column="29" selection-start-line="69" selection-start-column="29" selection-end-line="69" selection-end-column="29" />
+        <state relative-caret-position="436">
+          <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
           <folding>
             <element signature="e#1#18#0" expanded="true" />
           </folding>

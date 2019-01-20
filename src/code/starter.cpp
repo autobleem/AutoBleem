@@ -64,10 +64,6 @@ int main (int argc, char *argv[])
     for (const auto& arg : arguments)
         argvNew.push_back((char*)arg.data());
 
-    char cfg[] = "-cfg";
-    char cfgpath[] = "./.pcsx/pcsx.cfg";
-    argvNew.push_back(cfg);
-    argvNew.push_back(cfgpath);
 
     argvNew.push_back(nullptr);
     execute(argvNew.size() - 1, argvNew.data());
