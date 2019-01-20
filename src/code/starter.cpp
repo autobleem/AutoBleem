@@ -65,7 +65,7 @@ int main (int argc, char *argv[])
         argvNew.push_back((char*)arg.data());
 
     char cfg[] = "-cfg";
-    char cfgpath[] = "/data/AppData/sony/title/pcsx.cfg";
+    char cfgpath[] = "./.pcsx/pcsx.cfg";
     argvNew.push_back(cfg);
     argvNew.push_back(cfgpath);
 
