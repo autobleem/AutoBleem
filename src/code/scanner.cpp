@@ -30,6 +30,7 @@ bool Scanner::isFirstRun(string path, Database * db)
     vector<DirEntry> entries =  Util::diru(path);
     for (DirEntry entry:entries)
     {
+        if (entry.name == "!SaveStates") continue;
         string nameInFile;
         getline(prev,nameInFile);
         if (nameInFile!=entry.name)

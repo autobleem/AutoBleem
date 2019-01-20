@@ -236,14 +236,8 @@ void Splash::display(bool forceScan) {
 }
 
 void Splash::saveSelection() {
-    string path = "/media/lolhack/selection.txt";
     ofstream os;
-    os.open(path);
-    os << menuOption << endl;
-    os.flush();
-    os.close();
-
-    path = "/media/lolhack/autobleem_cfg.sh";
+    string path = "/media/lolhack/autobleem_cfg.sh";
     os.open(path);
     os << "#!/bin/sh" << endl << endl;
     os << "AB_SELECTION=" << menuOption << endl;
