@@ -63,6 +63,10 @@ int main (int argc, char *argv[])
     std::vector<char*> argvNew;
     for (const auto& arg : arguments)
         argvNew.push_back((char*)arg.data());
+
+    argvNew.push_back("-cfg");
+    argvNew.push_back("/data/AppData/sony/title/pcsx.cfg");
+
     argvNew.push_back(nullptr);
     execute(argvNew.size() - 1, argvNew.data());
     return 0;
