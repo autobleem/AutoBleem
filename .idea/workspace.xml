@@ -14,8 +14,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0f377571-016b-4a6e-91a8-99bb578502df" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/scanner.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/scanner.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/splash.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/splash.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/starter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/starter.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -49,6 +48,18 @@
               <caret line="309" column="41" selection-start-line="309" selection-start-column="33" selection-end-line="309" selection-end-column="41" />
               <folding>
                 <element signature="e#44#61#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/code/starter.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="495">
+              <caret line="69" column="29" selection-start-line="69" selection-start-column="29" selection-end-line="69" selection-end-column="29" />
+              <folding>
+                <element signature="e#1#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -89,25 +100,13 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
+            <state relative-caret-position="3555">
               <caret line="237" column="30" selection-start-line="237" selection-start-column="30" selection-end-line="237" selection-end-column="30" />
               <folding>
                 <element signature="e#45#64#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/util.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="62" column="14" selection-start-line="62" selection-start-column="14" selection-end-line="62" selection-end-column="14" />
-              <folding>
-                <element signature="e#304#322#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -239,13 +238,13 @@
         <option value="$PROJECT_DIR$/src/resources/config.ini" />
         <option value="$PROJECT_DIR$/src/resources/theme/psone/theme.ini" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/src/code/starter.cpp" />
         <option value="$PROJECT_DIR$/src/code/util.h" />
         <option value="$PROJECT_DIR$/src/code/util.cpp" />
         <option value="$PROJECT_DIR$/src/code/game.cpp" />
         <option value="$PROJECT_DIR$/src/code/game.h" />
         <option value="$PROJECT_DIR$/src/code/scanner.cpp" />
         <option value="$PROJECT_DIR$/src/code/splash.cpp" />
+        <option value="$PROJECT_DIR$/src/code/starter.cpp" />
       </list>
     </option>
   </component>
@@ -403,21 +402,7 @@
       <workItem from="1547583403608" duration="7179000" />
       <workItem from="1547755424200" duration="15000" />
       <workItem from="1547755550219" duration="279000" />
-      <workItem from="1547934567961" duration="4088000" />
-    </task>
-    <task id="LOCAL-00004" summary="Multi bin support">
-      <created>1544845034775</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1544845034775</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Full rewite in C++ .. added fix for wrong game structure...&#10;&#10;Stable build 0.1">
-      <created>1544901723144</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1544901723144</updated>
+      <workItem from="1547934567961" duration="5221000" />
     </task>
     <task id="LOCAL-00006" summary="Full rewite in C++ .. added fix for wrong game structure...&#10;&#10;Stable build 0.1">
       <created>1544901802405</created>
@@ -748,17 +733,31 @@
       <option name="project" value="LOCAL" />
       <updated>1547938431944</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="PBP serial scan">
+      <created>1547942958285</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1547942958285</updated>
+    </task>
+    <task id="LOCAL-00054" summary="PBP serial scan">
+      <created>1547945410760</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1547945410760</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="212417000" />
+    <option name="totallyTimeSpent" value="213550000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1009" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.737013" visible="true" weight="0.18210863" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.737013" visible="true" weight="0.18210863" />
       <window_info id="Structure" order="1" sideWeight="0.26298702" side_tool="true" visible="true" weight="0.18210863" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -774,7 +773,7 @@
       <window_info anchor="bottom" id="CMake" order="10" sideWeight="0.46219382" weight="0.32824427" />
       <window_info anchor="bottom" id="Terminal" order="11" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.7028754" side_tool="true" weight="0.36314067" />
-      <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.3519702" visible="true" weight="0.32824427" />
+      <window_info active="true" anchor="bottom" id="Messages" order="13" sideWeight="0.3519702" visible="true" weight="0.32824427" />
       <window_info anchor="bottom" id="Inspection Results" order="14" sideWeight="0.49946752" weight="0.3293348" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -990,16 +989,6 @@
     <entry file="file://$PROJECT_DIR$/src/resources/theme/psone/ab.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/starter.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
-          <folding>
-            <element signature="e#1#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/sqlite3.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="882360">
@@ -1116,10 +1105,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/code/splash.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
+        <state relative-caret-position="3555">
           <caret line="237" column="30" selection-start-line="237" selection-start-column="30" selection-end-line="237" selection-end-column="30" />
           <folding>
             <element signature="e#45#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/starter.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="69" column="29" selection-start-line="69" selection-start-column="29" selection-end-line="69" selection-end-column="29" />
+          <folding>
+            <element signature="e#1#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
