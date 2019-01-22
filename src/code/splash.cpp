@@ -237,7 +237,7 @@ void Splash::display(bool forceScan) {
 
 void Splash::saveSelection() {
     ofstream os;
-    string path = "/media/lolhack/autobleem_cfg.sh";
+    string path = cfg.inifile.values["cfg"]; // "/media/lolhack/autobleem_cfg.sh";
     os.open(path);
     os << "#!/bin/sh" << endl << endl;
     os << "AB_SELECTION=" << menuOption << endl;
