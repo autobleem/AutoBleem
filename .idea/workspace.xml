@@ -341,6 +341,11 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.cbleemsync">
+    <configuration name="autobleem-gui" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cbleemsync" TARGET_NAME="autobleem-gui" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="cbleemsync" RUN_TARGET_NAME="autobleem-gui">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="cbleemsync" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="$USER_HOME$/Desktop/psx.db $USER_HOME$/SONY/Games/" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cbleemsync" TARGET_NAME="cbleemsync" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="cbleemsync" RUN_TARGET_NAME="cbleemsync">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -353,6 +358,7 @@
     </configuration>
     <list>
       <item itemvalue="Application.cbleemsync" />
+      <item itemvalue="Application.autobleem-gui" />
       <item itemvalue="Application.starter" />
     </list>
   </component>
