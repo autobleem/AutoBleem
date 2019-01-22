@@ -9,7 +9,7 @@ link_directories(/usr/local/cross-tools/arm-linux-gnueabihf/lib/)
 
 find_package(Threads REQUIRED)
 
-add_executable(cbleemsync
+add_executable(autobleem-gui
         src/code/unecm.c
         src/code/sqlite3.c
         src/code/main.h
@@ -47,7 +47,7 @@ add_executable(starter
 		src/code/inifile.cpp
 		)
 
-target_link_libraries(cbleemsync
+target_link_libraries(autobleem-gui
          Threads::Threads
          SDL2
          SDL2_image
@@ -56,9 +56,9 @@ target_link_libraries(cbleemsync
          ${CMAKE_DL_LIBS}
 )
 
-add_custom_command(TARGET cbleemsync PRE_BUILD
+add_custom_command(TARGET autobleem-gui PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:cbleemsync>)
+        ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:autobleem-gui>)
 
 
 configure_file(src/resources/default.lic default.lic COPYONLY)
