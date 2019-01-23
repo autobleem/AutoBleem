@@ -19,6 +19,7 @@ void Inifile::load(string path) {
         if (iniLine.length() == 0) continue;
         if (iniLine[0]=='[')
         {
+            iniLine = ltrim(iniLine);
             iniLine = iniLine.substr(1,iniLine.length()-1);
             section = iniLine;
         }

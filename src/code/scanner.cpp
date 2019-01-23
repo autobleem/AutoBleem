@@ -6,6 +6,7 @@
 #include "ecmhelper.h"
 
 
+
 bool wayToSort(Game i, Game j) {
     return i.title < j.title;
 }
@@ -31,6 +32,7 @@ bool Scanner::isFirstRun(string path, Database * db)
     for (DirEntry entry:entries)
     {
         if (entry.name == "!SaveStates") continue;
+        if (entry.name == "!MemCards") continue;
         string nameInFile;
         getline(prev,nameInFile);
         if (nameInFile!=entry.name)
@@ -181,9 +183,14 @@ void Scanner::scanDirectory(string path) {
     string prevFileName = Util::getWorkingPath()+Util::separator()+"autobleem.prev";
     prev.open(prevFileName.c_str(),ios::binary);
 
-    if (!Util::exists(path+"!SaveStates"))
+    if (!Util::exists(path+Util::separator()+"!SaveStates"))
     {
-        Util::createDir(path+"!SaveStates");
+        Util::createDir(path+Util::separator()+"!SaveStates");
+    }
+
+    if (!Util::exists(path+Util::separator()+"!MemCards"))
+    {
+        Util::createDir(path+Util::separator()+"!MemCards");
     }
 
 
@@ -191,10 +198,11 @@ void Scanner::scanDirectory(string path) {
         if (entry.name[0] == '.') continue;
         if (!entry.dir) continue;
         if (entry.name == "!SaveStates") continue;
+        if (entry.name == "!MemCards") continue;
 
         prev << entry.name << endl;
 
-        string saveStateDir = path+"!SaveStates"+Util::separator()+entry.name;
+        string saveStateDir = path+Util::separator()+"!SaveStates"+Util::separator()+entry.name;
         Util::createDir(saveStateDir);
 
         Game game;

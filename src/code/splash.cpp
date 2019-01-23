@@ -67,6 +67,7 @@ void Splash::loadAssets() {
         SDL_DestroyTexture(buttonS);
         SDL_DestroyTexture(buttonStart);
         SDL_DestroyTexture(buttonSelect);
+        SDL_DestroyTexture(buttonR1);
         TTF_CloseFont(Sans);
         img = NULL;
     }
@@ -85,6 +86,7 @@ void Splash::loadAssets() {
     buttonS = IMG_LoadTexture(renderer, (themePath + themeData.values["square"]).c_str());
     buttonSelect = IMG_LoadTexture(renderer, (themePath + themeData.values["select"]).c_str());
     buttonStart = IMG_LoadTexture(renderer, (themePath + themeData.values["start"]).c_str());
+    buttonR1 = IMG_LoadTexture(renderer, (themePath + themeData.values["r1"]).c_str());
 
     string fontPath = (themePath + themeData.values["font"]).c_str();
     Sans = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
@@ -237,7 +239,7 @@ void Splash::display(bool forceScan) {
 
 void Splash::saveSelection() {
     ofstream os;
-    string path = cfg.inifile.values["cfg"]; // "/media/lolhack/autobleem_cfg.sh";
+    string path = cfg.inifile.values["cfg"];
     os.open(path);
     os << "#!/bin/sh" << endl << endl;
     os << "AB_SELECTION=" << menuOption << endl;
@@ -560,7 +562,12 @@ void Splash::aboutBox() {
 
 }
 
+bool otherMenuShift =false;
+
 void Splash::menuSelection() {
+    string mainMenu = "|@Start| AutoBleem    |@X|  Re/Scan   |@O|  Original  |@S|  RetroArch   |@T|  About   |@Select|  Options  |@R1| Other|";
+    string forceScanMenu = "Games changed. Press  |@X|  to scan|";
+    string otherMenu =  "|@X|  Memory Cards   |@O|  Game Manager |";
 #ifndef NO_GUI
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
     SDL_Joystick *joystick;
@@ -570,11 +577,10 @@ void Splash::menuSelection() {
     }
 
     if (!forceScan) {
-        drawText(
-                "|@Start| AutoBleem Games   |@X|  Re/Scan   |@O|  Original Games   |@S|  RetroArch   |@T|  About   |@Select|  Options|");
+        drawText(mainMenu);
 
     } else {
-        drawText("Games changed. Press  |@X|  to scan|");
+        drawText(forceScanMenu);
 
     }
     bool menuVisible = true;
@@ -587,46 +593,65 @@ void Splash::menuSelection() {
                 menuVisible = false;
             }
             switch (e.type) {
+                case SDL_JOYBUTTONUP:
+                    if (!forceScan) {
+                        if (e.jbutton.button == 6) {
+                            drawText(mainMenu);
+                            otherMenuShift = false;
+                        }
+                    }
+                    break;
                 case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
 
-                    if (!forceScan)
-                        if (e.jbutton.button == 9) {
-                            this->menuOption = MENU_OPTION_RUN;
+                    cout << to_string(e.jbutton.button) << endl;
+
+                    if (!forceScan) {
+                        if (e.jbutton.button == 6) {
+                            drawText(otherMenu);
+                            otherMenuShift = true;
+                        }
+                    }
+
+                    if (!otherMenuShift) {
+                        if (!forceScan)
+                            if (e.jbutton.button == 9) {
+                                this->menuOption = MENU_OPTION_RUN;
+
+                                menuVisible = false;
+
+                            };
+
+                        if (!forceScan)
+                            if (e.jbutton.button == 3) {
+                                this->menuOption = MENU_OPTION_RETRO;
+
+                                menuVisible = false;
+
+                            };
+                        if (e.jbutton.button == 2) {
+                            this->menuOption = MENU_OPTION_SCAN;
 
                             menuVisible = false;
-
                         };
-
-                    if (!forceScan)
-                        if (e.jbutton.button == 3) {
-                            this->menuOption = MENU_OPTION_RETRO;
-
+                        if (e.jbutton.button == 0) {
+                            aboutBox();
+                            menuSelection();
                             menuVisible = false;
-
                         };
-                    if (e.jbutton.button == 2) {
-                        this->menuOption = MENU_OPTION_SCAN;
-
-                        menuVisible = false;
-                    };
-                    if (e.jbutton.button == 0) {
-                        aboutBox();
-                        menuSelection();
-                        menuVisible = false;
-                    };
-                    if (e.jbutton.button == 8) {
-                        options();
-                        menuSelection();
-                        menuVisible = false;
-                    };
-                    if (!forceScan)
-                        if (e.jbutton.button == 1) {
-                            this->menuOption = MENU_OPTION_SONY;
+                        if (e.jbutton.button == 8) {
+                            options();
+                            menuSelection();
                             menuVisible = false;
-
-
                         };
-                    break;
+                        if (!forceScan)
+                            if (e.jbutton.button == 1) {
+                                this->menuOption = MENU_OPTION_SONY;
+                                menuVisible = false;
+
+
+                            };
+                        break;
+                    }
             }
 
         }
@@ -646,6 +671,7 @@ void Splash::finish() {
     SDL_DestroyTexture(buttonS);
     SDL_DestroyTexture(buttonStart);
     SDL_DestroyTexture(buttonSelect);
+    SDL_DestroyTexture(buttonR1);
     SDL_DestroyRenderer(renderer);
 #endif
 
@@ -708,6 +734,9 @@ void Splash::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *
             }
             if (icon == "Select") {
                 textTexures.push_back(buttonSelect);
+            }
+            if (icon == "R1") {
+                textTexures.push_back(buttonR1);
             }
             if (icon == "T") {
                 textTexures.push_back(buttonT);
@@ -774,7 +803,7 @@ void Splash::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *
     SDL_SetRenderTarget(renderer, NULL);
 
     for (SDL_Texture *tex:textTexures) {
-        if ((tex != buttonSelect) && (tex != buttonS) && (tex != buttonStart) && (tex != buttonO) && (tex != buttonT) &&
+        if ((tex != buttonSelect) && (tex != buttonS) && (tex != buttonStart) && (tex != buttonO) && (tex != buttonT) && (tex != buttonR1) &&
             (tex != buttonX))
 
             SDL_DestroyTexture(tex);

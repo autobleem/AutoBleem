@@ -381,6 +381,7 @@ void Game::updateObj() {
     string tmp;
     discs.clear();
     title = valueOrDefault("title", pathName);
+    memcard = valueOrDefault("memcard", "");
 
     publisher = valueOrDefault("publisher", "Other");
     string automation = valueOrDefault("automation", "0");
@@ -441,6 +442,14 @@ void Game::saveIni(string path) {
     ini->values["players"] = to_string(players);
     ini->values["automation"] = to_string(automationUsed);
     ini->values["imagetype"] = to_string(imageType);
+    if (memcard.empty())
+    {
+        ini->values["memcard"] = "SONY";
+    } else
+    {
+        ini->values["memcard"] = memcard;
+    }
+
     stringstream ss;
     for (int i = 0; i < discs.size(); i++) {
         ss << Util::escape(discs[i].diskName);

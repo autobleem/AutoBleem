@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6)
-project(cbleemsync)
+project(autobleem-gui)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -37,7 +37,7 @@ add_executable(autobleem-gui
 		src/code/config.h
 		src/code/cfgprocessor.cpp
 		src/code/cfgprocessor.h
-		)
+        src/code/memcard.cpp src/code/memcard.h)
 
 add_executable(starter
 		src/code/starter.cpp

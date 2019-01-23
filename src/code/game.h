@@ -26,6 +26,7 @@ public:
     string pathName;
     string title;
     string publisher;
+    string memcard;
     int players;
     int year;
     vector<Disc> discs;

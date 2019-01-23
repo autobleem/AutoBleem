@@ -1,0 +1,94 @@
+//
+// Created by screemer on 2019-01-23.
+//
+
+#include "memcard.h"
+void Memcard::newCard(string name)
+{
+    string curPath = path+Util::separator()+"!MemCards/"+name;
+    string autobleemPath = Util::getWorkingPath();
+    if (!Util::exists(curPath))
+    {
+        Util::createDir(curPath);
+        Util::copy(autobleemPath+Util::separator()+"memcard/card1.mcd",curPath+Util::separator()+"card1.mcd");
+        Util::copy(autobleemPath+Util::separator()+"memcard/card2.mcd",curPath+Util::separator()+"card2.mcd");
+        Util::copy(autobleemPath+Util::separator()+"memcard/card1.mcd",curPath+Util::separator()+"card1.bak");
+        Util::copy(autobleemPath+Util::separator()+"memcard/card2.mcd",curPath+Util::separator()+"card2.bak");
+
+    }
+}
+
+void Memcard::deleteCard(string name)
+{
+    string curPath = path+Util::separator()+"!MemCards/"+name;
+    string autobleemPath = Util::getWorkingPath();
+    if (Util::exists(curPath))
+    {
+
+
+        Util::rmDir(curPath);
+
+    }
+}
+
+void Memcard::swapIn(string path, string name)
+{
+    string customPath = this->path+Util::separator()+"!MemCards/"+name;
+    if (!Util::exists(customPath))
+    {
+        restore(path);
+    } else
+    {
+        Util::rmDir(path+Util::separator()+"memcards");
+        symlink(customPath.c_str(), (path+Util::separator()+"memcards").c_str());
+    }
+
+}
+
+void Memcard::swapOut(string path, string name)
+{
+
+}
+
+void Memcard::restoreAll(string mainDir)
+{
+    for (DirEntry entry: Util::diru(mainDir))
+    {
+        string path = mainDir+Util::separator()+entry.name;
+        restore(path);
+    }
+}
+
+void Memcard::backup(string path)
+{
+    string curPath = path+Util::separator()+"backup";
+    if (!Util::exists(curPath)) {
+        Util::createDir(curPath);
+    } else
+    {
+        return;
+    }
+
+    string original = path+Util::separator()+"memcards";
+    for (DirEntry entry:Util::diru(original))
+    {
+        Util::copy(original+Util::separator()+entry.name,curPath+Util::separator()+entry.name);
+    }
+}
+
+void Memcard::restore(string path)
+{
+    string curPath = path+Util::separator()+"backup";
+    if (!Util::exists(curPath)) {
+        return;
+    }
+
+    string original = path+Util::separator()+"memcards";
+    remove(original.c_str());
+
+    for (DirEntry entry:Util::diru(curPath))
+    {
+        Util::copy(curPath+Util::separator()+entry.name,original+Util::separator()+entry.name);
+    }
+    Util::rmDir(curPath);
+}

@@ -63,6 +63,7 @@ public:
     SDL_Texture *buttonS = NULL;
     SDL_Texture *buttonStart = NULL;
     SDL_Texture *buttonSelect = NULL;
+    SDL_Texture *buttonR1 = NULL;
 
     vector<string> themes;
     vector<string> sthemes;
