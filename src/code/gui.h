@@ -27,9 +27,9 @@ using namespace std;
 
 #define OCD_ALPHA 170
 
-class GuiRender {
+class Gui {
 private:
-    GuiRender() {}
+    Gui() {}
 
 
     string themePath;
@@ -54,14 +54,14 @@ public:
     void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
 
-    int selOption=0;
+
     int menuOption=MENU_OPTION_SCAN;
 
-    SDL_Rect texr;
-    SDL_Rect logor;
+    SDL_Rect backgroundRect;
+    SDL_Rect logoRect;
     SDL_Renderer *renderer = NULL;
 
-    SDL_Texture *img = NULL;
+    SDL_Texture *backgroundImg = NULL;
     SDL_Texture *logo = NULL;
     SDL_Texture *buttonX = NULL;
     SDL_Texture *buttonO = NULL;
@@ -71,26 +71,18 @@ public:
     SDL_Texture *buttonSelect = NULL;
     SDL_Texture *buttonR1 = NULL;
 
-    vector<string> themes;
-    vector<string> sthemes;
-    vector<string> pcsx;
-    vector<string> mip;
-    vector<string> nomusic;
-    vector<string> autoregion;
 
 
     void loadAssets();
-    string getOption(vector<string> list, string current, bool next);
-    void renderMenuOption(string text, int line, SDL_Rect rect2, SDL_Rect logoRect, SDL_Rect textRec);
 
 
     Mix_Music * music;
-    TTF_Font *Sans =  NULL;
+    TTF_Font *font =  NULL;
     bool forceScan=false;
-    GuiRender(GuiRender const &) = delete;
-    GuiRender &operator=(GuiRender const &) = delete;
-    static std::shared_ptr<GuiRender> getInstance() {
-        static std::shared_ptr<GuiRender> s{new GuiRender};
+    Gui(Gui const &) = delete;
+    Gui &operator=(Gui const &) = delete;
+    static std::shared_ptr<Gui> getInstance() {
+        static std::shared_ptr<Gui> s{new Gui};
         return s;
     }
 };

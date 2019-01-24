@@ -27,8 +27,8 @@ add_executable(autobleem-gui
         src/code/metadata.h
         src/code/ecmhelper.cpp
         src/code/ecmhelper.h
-		src/code/guirender.h
-		src/code/guirender.cpp
+        src/code/gui.h
+        src/code/gui.cpp
 		src/code/inifile.cpp
 		src/code/inifile.h
 		src/code/isodir.cpp

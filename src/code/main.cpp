@@ -8,7 +8,7 @@
 #include <iostream>
 #include "database.h"
 #include "scanner.h"
-#include "guirender.h"
+#include "gui.h"
 
 
 using namespace std;
@@ -16,9 +16,9 @@ using namespace std;
 #include "memcard.h"
 
 
-int scanGames( char *argv[], Scanner * scanner) {
+int scanGames( string path, string dbpath, Scanner * scanner) {
     Database *db = new Database();
-    if (!db->connect(argv[1])) {
+    if (!db->connect(dbpath)) {
         delete db;
         return EXIT_FAILURE;
     }
@@ -30,7 +30,7 @@ int scanGames( char *argv[], Scanner * scanner) {
     };
 
 
-    scanner->scanDirectory(argv[2]);
+    scanner->scanDirectory(path);
     scanner->updateDB(db);
 
 
@@ -54,7 +54,10 @@ int main(int argc, char *argv[]) {
         delete db;
         return EXIT_FAILURE;
     }
+    db->disconnect();
+    delete db;
 
+    string dbpath = argv[1];
     string path = argv[2];
 
     Memcard *memcardOperation = new Memcard(path);
@@ -65,18 +68,15 @@ int main(int argc, char *argv[]) {
     {
         scanner->forceScan = true;
     }
-    db->disconnect();
-    delete db;
 
-
-    shared_ptr<GuiRender> gui(GuiRender::getInstance());
+    shared_ptr<Gui> gui(Gui::getInstance());
     gui->display(scanner->forceScan);
     gui->drawText("AutoBleem");
     gui->menuSelection();
     gui->saveSelection();
     if (gui->menuOption==MENU_OPTION_SCAN)
     {
-        scanGames( argv,scanner);
+        scanGames( path, dbpath,scanner);
     }
 
 

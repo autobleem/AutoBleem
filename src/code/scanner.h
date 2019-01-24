@@ -8,7 +8,7 @@
 #include "main.h"
 #include "game.h"
 #include "database.h"
-#include "guirender.h"
+#include "gui.h"
 
 using namespace std;
 

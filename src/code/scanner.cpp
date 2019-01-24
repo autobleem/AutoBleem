@@ -51,7 +51,7 @@ void Scanner::unecm(string path) {
         if (entry.name[0] == '.') continue;
         if (Util::matchExtension(entry.name, EXT_ECM)) {
             Ecmhelper ecm;
-            shared_ptr<GuiRender> splash(GuiRender::getInstance());
+            shared_ptr<Gui> splash(Gui::getInstance());
             splash->logText("Decompressing ecm:");
             if (ecm.unecm(path + entry.name, path + entry.name.substr(0, entry.name.length() - 4))) {
 
@@ -64,7 +64,7 @@ void Scanner::unecm(string path) {
 }
 
 void Scanner::updateDB(Database *db) {
-    shared_ptr<GuiRender> splash(GuiRender::getInstance());
+    shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText("Updating regional.db...");
     string path = Util::getWorkingPath() + Util::separator() + "autobleem.list";
     ofstream outfile;
@@ -176,7 +176,7 @@ void Scanner::scanDirectory(string path) {
 
     games.clear();
     complete = false;
-    shared_ptr<GuiRender> splash(GuiRender::getInstance());
+    shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText("Scanning...");
 
     ofstream prev;

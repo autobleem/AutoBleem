@@ -2,29 +2,30 @@
 // Created by screemer on 2018-12-19.
 //
 
-#include "guirender.h"
+#include "gui.h"
 #include "util.h"
 #include "gui_about.h"
 #include "gui_splash.h"
+#include "gui_options.h"
 
 
-void GuiRender::logText(string message) {
-    shared_ptr<GuiRender> splash(GuiRender::getInstance());
-    splash->drawText(message);
+void Gui::logText(string message) {
+    shared_ptr<Gui> gui(Gui::getInstance());
+    gui->drawText(message);
 }
 
 
 extern "C"
 {
 void logText(char *message) {
-    shared_ptr<GuiRender> splash(GuiRender::getInstance());
-    splash->drawText(message);
+    shared_ptr<Gui> gui(Gui::getInstance());
+    gui->drawText(message);
 }
 }
 
 
-void GuiRender::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text, TTF_Font *font,
-                            SDL_Texture **texture, SDL_Rect *rect) {
+void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text, TTF_Font *font,
+                               SDL_Texture **texture, SDL_Rect *rect) {
     int text_width;
     int text_height;
     SDL_Surface *surface;
@@ -51,13 +52,13 @@ void GuiRender::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char 
 }
 
 
-void GuiRender::loadAssets() {
+void Gui::loadAssets() {
     themePath = Util::getWorkingPath() + Util::separator() + "theme" + Util::separator() + cfg.inifile.values["theme"] +
                 Util::separator();
     themeData.load(themePath + "theme.ini");
 
-    if (img != NULL) {
-        SDL_DestroyTexture(img);
+    if (backgroundImg != NULL) {
+        SDL_DestroyTexture(backgroundImg);
         SDL_DestroyTexture(logo);
         SDL_DestroyTexture(buttonT);
         SDL_DestroyTexture(buttonO);
@@ -66,16 +67,16 @@ void GuiRender::loadAssets() {
         SDL_DestroyTexture(buttonStart);
         SDL_DestroyTexture(buttonSelect);
         SDL_DestroyTexture(buttonR1);
-        TTF_CloseFont(Sans);
-        img = NULL;
+        TTF_CloseFont(font);
+        backgroundImg = NULL;
     }
 
-    logor.x = atoi(themeData.values["lpositionx"].c_str());
-    logor.y = atoi(themeData.values["lpositiony"].c_str());
-    logor.w = atoi(themeData.values["lw"].c_str());
-    logor.h = atoi(themeData.values["lh"].c_str());
+    logoRect.x = atoi(themeData.values["lpositionx"].c_str());
+    logoRect.y = atoi(themeData.values["lpositiony"].c_str());
+    logoRect.w = atoi(themeData.values["lw"].c_str());
+    logoRect.h = atoi(themeData.values["lh"].c_str());
 
-    img = IMG_LoadTexture(renderer, (themePath + themeData.values["background"]).c_str());
+    backgroundImg = IMG_LoadTexture(renderer, (themePath + themeData.values["background"]).c_str());
     logo = IMG_LoadTexture(renderer, (themePath + themeData.values["logo"]).c_str());
 
     buttonO = IMG_LoadTexture(renderer, (themePath + themeData.values["circle"]).c_str());
@@ -87,32 +88,8 @@ void GuiRender::loadAssets() {
     buttonR1 = IMG_LoadTexture(renderer, (themePath + themeData.values["r1"]).c_str());
 
     string fontPath = (themePath + themeData.values["font"]).c_str();
-    Sans = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
+    font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
 
-
-    themes.clear();
-    sthemes.clear();
-    sthemes.push_back("default");
-    vector<DirEntry> folders = Util::diru(Util::getWorkingPath() + Util::separator() + "theme");
-    for (DirEntry entry:folders) {
-        themes.push_back(entry.name);
-    }
-    folders = Util::diru("/media/themes");
-    for (DirEntry entry:folders) {
-        sthemes.push_back(entry.name);
-    }
-    pcsx.clear();
-    pcsx.push_back("original");
-    pcsx.push_back("bleemsync");
-    mip.clear();
-    mip.push_back("true");
-    mip.push_back("false");
-    nomusic.clear();
-    nomusic.push_back("true");
-    nomusic.push_back("false");
-    autoregion.clear();
-    autoregion.push_back("true");
-    autoregion.push_back("false");
 
     if (music != NULL) {
         Mix_HaltMusic();
@@ -132,28 +109,9 @@ void GuiRender::loadAssets() {
 
 }
 
-string GuiRender::getOption(vector<string> list, string current, bool next) {
-    int pos = 0;
-    for (int i = 0; i < list.size(); i++) {
-        if (list[i] == current) {
-            pos = i;
-        }
-    }
 
-    if (next) {
-        pos++;
-        if (pos >= list.size()) {
-            pos = list.size() - 1;
-        }
-    } else {
-        pos--;
-        if (pos < 0) pos = 0;
-    }
 
-    return list[pos];
-}
-
-void GuiRender::display(bool forceScan) {
+void Gui::display(bool forceScan) {
     this->forceScan = forceScan;
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO);
     Mix_Init(0);
@@ -172,7 +130,7 @@ void GuiRender::display(bool forceScan) {
 
 }
 
-void GuiRender::saveSelection() {
+void Gui::saveSelection() {
     ofstream os;
     string path = cfg.inifile.values["cfg"];
     os.open(path);
@@ -186,90 +144,17 @@ void GuiRender::saveSelection() {
     os.close();
 }
 
-void GuiRender::renderMenuOption(string text, int line, SDL_Rect rect2, SDL_Rect logoRect, SDL_Rect textRec) {
-    SDL_Texture *textTex;
-    getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * line,
-                   text.c_str(), Sans, &textTex,
-                   &textRec);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-}
-
-void GuiRender::redrawOptions() {
-    SDL_Texture *textTex;
-    SDL_Rect textRec;
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, img, NULL, &texr);
-
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, img, NULL, &texr);
-
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_Rect rect;
-    rect.x = atoi(themeData.values["textx"].c_str());
-    rect.y = atoi(themeData.values["texty"].c_str());
-    rect.w = atoi(themeData.values["textw"].c_str());
-    rect.h = atoi(themeData.values["texth"].c_str());
-    SDL_RenderFillRect(renderer, &rect);
-
-    SDL_Rect rect2;
-    rect2.x = atoi(themeData.values["opscreenx"].c_str());
-    rect2.y = atoi(themeData.values["opscreeny"].c_str());
-    rect2.w = atoi(themeData.values["opscreenw"].c_str());
-    rect2.h = atoi(themeData.values["opscreenh"].c_str());
-    SDL_RenderFillRect(renderer, &rect2);
-
-    SDL_Rect logoRect;
-    logoRect.x = rect2.x;
-    logoRect.y = rect2.y;
-    logoRect.w = logor.w / 3;
-    logoRect.h = logor.h / 3;
-    SDL_RenderCopy(renderer, logo, NULL, &logoRect);
-
-    getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * 0,
-                   "Configuration:", Sans, &textTex, &textRec);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-
-    renderMenuOption("AutoBleem Theme: " + cfg.inifile.values["theme"], 1, rect2, logoRect, textRec);
-    renderMenuOption("Menu Theme: " + cfg.inifile.values["stheme"], 2, rect2, logoRect, textRec);
-    renderMenuOption("Disable Theme BGM: " + cfg.inifile.values["nomusic"], 3, rect2, logoRect, textRec);
-    renderMenuOption("Process configuration on scan: " + cfg.inifile.values["autoregion"], 4, rect2, logoRect, textRec);
-    renderMenuOption("Mipmap patch: " + cfg.inifile.values["mip"], 5, rect2, logoRect, textRec);
-    renderMenuOption("Overmount PCSX: " + cfg.inifile.values["pcsx"], 6, rect2, logoRect, textRec);
 
 
-    getEmojiTextTexture(renderer, "Press |@X| to go back|", Sans, &textTex,
-                        &textRec);
 
-    textRec.y = atoi(themeData.values["ttop"].c_str());
+void Gui::options() {
+    GuiOptions * options=new GuiOptions();
+    options->init(renderer);
+    options->render();
+    options->loop();
+    delete options;
 
-
-    if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
-    int screencenter = 1280 / 2;
-    textRec.x = screencenter - (textRec.w / 2);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-
-
-    SDL_Rect rectSelection;
-    rectSelection.x = rect2.x + 10;
-    rectSelection.y = logoRect.y + logoRect.h + textRec.h * (selOption + 1);
-    rectSelection.w = rect2.w - 20;
-    rectSelection.h = textRec.h;
-
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, OCD_ALPHA);
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_RenderDrawRect(renderer, &rectSelection);
-
-    SDL_RenderPresent(renderer);
-}
-
-void GuiRender::options() {
-
+    /*
     selOption = 0;
     redrawOptions();
 
@@ -282,19 +167,19 @@ void GuiRender::options() {
                 menuVisible = false;
             }
             switch (e.type) {
-                case SDL_JOYBUTTONUP:  /* Handle Joystick Button Presses */
+                case SDL_JOYBUTTONUP:
 
                     if (e.jbutton.button == 2) {
                         cfg.save();
                         menuVisible = false;
                     };
                     break;
-                case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
+                case SDL_JOYAXISMOTION:
                     if (e.jaxis.axis == 1) {
                         if (e.jaxis.value > 3200) {
                             selOption++;
-                            if (selOption > cfg.inifile.values.size() - 2) {
-                                selOption = cfg.inifile.values.size() - 2;
+                            if (selOption > cfg.inifile.values.size() - 3) {
+                                selOption = cfg.inifile.values.size() - 3;
                             }
                             redrawOptions();
                         }
@@ -309,7 +194,6 @@ void GuiRender::options() {
 
                     if (e.jaxis.axis == 0) {
                         if (e.jaxis.value > 3200) {
-
                             if (selOption == 0) {
                                 string nextValue = getOption(themes, cfg.inifile.values["theme"], true);
                                 cfg.inifile.values["theme"] = nextValue;
@@ -391,13 +275,13 @@ void GuiRender::options() {
 
         }
     }
-
+*/
 }
 
 
 bool otherMenuShift = false;
 
-void GuiRender::menuSelection() {
+void Gui::menuSelection() {
     string mainMenu = "|@Start| AutoBleem    |@X|  Re/Scan   |@O|  Original  |@S|  RetroArch   |@T|  About   |@Select|  Options  |@R1| Other|";
     string forceScanMenu = "Games changed. Press  |@X|  to scan|";
     string otherMenu = "|@X|  Memory Cards   |@O|  Game Manager |";
@@ -433,9 +317,8 @@ void GuiRender::menuSelection() {
                         }
                     }
                     break;
-                case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
+                case SDL_JOYBUTTONDOWN:
 
-                    cout << to_string(e.jbutton.button) << endl;
 
                     if (!forceScan) {
                         if (e.jbutton.button == 6) {
@@ -496,9 +379,9 @@ void GuiRender::menuSelection() {
 
 }
 
-void GuiRender::finish() {
+void Gui::finish() {
 
-    SDL_DestroyTexture(img);
+    SDL_DestroyTexture(backgroundImg);
     SDL_DestroyTexture(logo);
     SDL_DestroyTexture(buttonT);
     SDL_DestroyTexture(buttonO);
@@ -512,8 +395,8 @@ void GuiRender::finish() {
 }
 
 
-void GuiRender::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *font, SDL_Texture **texture,
-                                 SDL_Rect *rect) {
+void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *font, SDL_Texture **texture,
+                                    SDL_Rect *rect) {
     if (text.find("|") == std::string::npos) {
         text = text + "|";
     }
@@ -558,7 +441,7 @@ void GuiRender::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Fon
         } else {
             SDL_Texture *textTex;
             SDL_Rect textRec;
-            getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), str.c_str(), Sans, &textTex, &textRec);
+            getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), str.c_str(), font, &textTex, &textRec);
             textTexures.push_back(textTex);
         }
     }
@@ -623,13 +506,13 @@ void GuiRender::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Fon
     textTexures.clear();
 }
 
-void GuiRender::drawText(string text) {
+void Gui::drawText(string text) {
 
 
     SDL_Texture *textTex;
     SDL_Rect textRec;
 
-    getEmojiTextTexture(renderer, text, Sans, &textTex, &textRec);
+    getEmojiTextTexture(renderer, text, font, &textTex, &textRec);
 
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);
@@ -639,8 +522,8 @@ void GuiRender::drawText(string text) {
 
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, img, NULL, &texr);
-    SDL_RenderCopy(renderer, logo, NULL, &logor);
+    SDL_RenderCopy(renderer, backgroundImg, NULL, &backgroundRect);
+    SDL_RenderCopy(renderer, logo, NULL, &logoRect);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
