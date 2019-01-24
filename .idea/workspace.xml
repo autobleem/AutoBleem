@@ -14,16 +14,9 @@
   <component name="ChangeListManager">
     <list default="true" id="0f377571-016b-4a6e-91a8-99bb578502df" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/gui_about.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui_about.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/gui_options.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui_options.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/gui_options.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui_options.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/gui_splash.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui_splash.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/guirender.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/guirender.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/scanner.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/scanner.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/scanner.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/scanner.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/gui.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/gui.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/config.ini" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -98,8 +91,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/gui.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="75" column="15" selection-start-line="75" selection-start-column="15" selection-end-line="75" selection-end-column="15" />
+            <state relative-caret-position="283">
+              <caret line="51" column="17" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="17" />
               <folding>
                 <element signature="e#136#157#0" expanded="true" />
               </folding>
@@ -119,14 +112,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/gui.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="91" column="4" selection-start-line="91" selection-start-column="4" selection-end-line="91" selection-end-column="4" />
+            <state relative-caret-position="-3010">
+              <caret line="26" column="10" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
               <folding>
                 <element signature="e#45#61#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/resources/config.ini">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="12" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -153,11 +155,6 @@
               </folding>
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/ecmhelper.h">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -245,7 +242,6 @@
         <option value="$PROJECT_DIR$/src/code/inifile.cpp" />
         <option value="$PROJECT_DIR$/src/resources/theme/default/theme.ini" />
         <option value="$PROJECT_DIR$/src/resources/theme/psone/theme.ini" />
-        <option value="$PROJECT_DIR$/src/resources/config.ini" />
         <option value="$PROJECT_DIR$/src/code/game.h" />
         <option value="$PROJECT_DIR$/src/code/game.cpp" />
         <option value="$PROJECT_DIR$/src/code/util.h" />
@@ -266,8 +262,9 @@
         <option value="$PROJECT_DIR$/src/code/guirender.h" />
         <option value="$PROJECT_DIR$/src/code/gui_options.h" />
         <option value="$PROJECT_DIR$/src/code/gui_options.cpp" />
-        <option value="$PROJECT_DIR$/src/code/gui.h" />
         <option value="$PROJECT_DIR$/src/code/gui.cpp" />
+        <option value="$PROJECT_DIR$/src/code/gui.h" />
+        <option value="$PROJECT_DIR$/src/resources/config.ini" />
       </list>
     </option>
   </component>
@@ -407,14 +404,7 @@
       <workItem from="1547755424200" duration="15000" />
       <workItem from="1547755550219" duration="279000" />
       <workItem from="1547934567961" duration="6637000" />
-      <workItem from="1548194594028" duration="23008000" />
-    </task>
-    <task id="LOCAL-00016" summary="First Release (unecm.c)">
-      <created>1544980800714</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1544980800714</updated>
+      <workItem from="1548194594028" duration="23368000" />
     </task>
     <task id="LOCAL-00017" summary="First Release (unecm.c)">
       <created>1544981369522</created>
@@ -752,11 +742,18 @@
       <option name="project" value="LOCAL" />
       <updated>1548296456300</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="cleanup">
+      <created>1548299016622</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1548299016622</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="237974000" />
+    <option name="totallyTimeSpent" value="238334000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-3" y="47" width="1920" height="1009" extended-state="0" />
@@ -921,13 +918,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="9" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources/config.ini">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="16" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -1151,8 +1141,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/code/gui.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="75" column="15" selection-start-line="75" selection-start-column="15" selection-end-line="75" selection-end-column="15" />
+        <state relative-caret-position="283">
+          <caret line="51" column="17" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="17" />
           <folding>
             <element signature="e#136#157#0" expanded="true" />
           </folding>
@@ -1161,11 +1151,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/code/gui.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="91" column="4" selection-start-line="91" selection-start-column="4" selection-end-line="91" selection-end-column="4" />
+        <state relative-caret-position="-3010">
+          <caret line="26" column="10" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
           <folding>
             <element signature="e#45#61#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources/config.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="12" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
         </state>
       </provider>
     </entry>

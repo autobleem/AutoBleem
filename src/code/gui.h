@@ -47,9 +47,7 @@ public:
     void logText(string message);
     void menuSelection();
     void saveSelection();
-   // void aboutBox();
-    void options();
-    void redrawOptions();
+
 
     void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
@@ -79,6 +77,7 @@ public:
     Mix_Music * music;
     TTF_Font *font =  NULL;
     bool forceScan=false;
+
     Gui(Gui const &) = delete;
     Gui &operator=(Gui const &) = delete;
     static std::shared_ptr<Gui> getInstance() {

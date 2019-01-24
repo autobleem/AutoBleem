@@ -147,136 +147,6 @@ void Gui::saveSelection() {
 
 
 
-void Gui::options() {
-    GuiOptions * options=new GuiOptions();
-    options->init(renderer);
-    options->render();
-    options->loop();
-    delete options;
-
-    /*
-    selOption = 0;
-    redrawOptions();
-
-    bool menuVisible = true;
-    while (menuVisible) {
-        SDL_Event e;
-        if (SDL_PollEvent(&e)) {
-            // this is for pc Only
-            if (e.type == SDL_QUIT) {
-                menuVisible = false;
-            }
-            switch (e.type) {
-                case SDL_JOYBUTTONUP:
-
-                    if (e.jbutton.button == 2) {
-                        cfg.save();
-                        menuVisible = false;
-                    };
-                    break;
-                case SDL_JOYAXISMOTION:
-                    if (e.jaxis.axis == 1) {
-                        if (e.jaxis.value > 3200) {
-                            selOption++;
-                            if (selOption > cfg.inifile.values.size() - 3) {
-                                selOption = cfg.inifile.values.size() - 3;
-                            }
-                            redrawOptions();
-                        }
-                        if (e.jaxis.value < -3200) {
-                            selOption--;
-                            if (selOption < 0) {
-                                selOption = 0;
-                            }
-                            redrawOptions();
-                        }
-                    }
-
-                    if (e.jaxis.axis == 0) {
-                        if (e.jaxis.value > 3200) {
-                            if (selOption == 0) {
-                                string nextValue = getOption(themes, cfg.inifile.values["theme"], true);
-                                cfg.inifile.values["theme"] = nextValue;
-                                loadAssets();
-                            }
-
-                            if (selOption == 1) {
-                                string nextValue = getOption(sthemes, cfg.inifile.values["stheme"], true);
-                                cfg.inifile.values["stheme"] = nextValue;
-
-                            }
-                            if (selOption == 2) {
-                                string nextValue = getOption(nomusic, cfg.inifile.values["nomusic"], true);
-                                cfg.inifile.values["nomusic"] = nextValue;
-                                loadAssets();
-
-                            }
-                            if (selOption == 3) {
-                                string nextValue = getOption(autoregion, cfg.inifile.values["autoregion"], true);
-                                cfg.inifile.values["autoregion"] = nextValue;
-
-
-                            }
-                            if (selOption == 4) {
-                                string nextValue = getOption(mip, cfg.inifile.values["mip"], true);
-                                cfg.inifile.values["mip"] = nextValue;
-
-
-                            }
-                            if (selOption == 5) {
-                                string nextValue = getOption(pcsx, cfg.inifile.values["pcsx"], true);
-                                cfg.inifile.values["pcsx"] = nextValue;
-
-
-                            }
-                            redrawOptions();
-                        }
-                        if (e.jaxis.value < -3200) {
-                            if (selOption == 0) {
-                                string nextValue = getOption(themes, cfg.inifile.values["theme"], false);
-                                cfg.inifile.values["theme"] = nextValue;
-                                loadAssets();
-                            }
-                            if (selOption == 1) {
-                                string nextValue = getOption(sthemes, cfg.inifile.values["stheme"], false);
-                                cfg.inifile.values["stheme"] = nextValue;
-
-                            }
-                            if (selOption == 2) {
-                                string nextValue = getOption(nomusic, cfg.inifile.values["nomusic"], false);
-                                cfg.inifile.values["nomusic"] = nextValue;
-                                loadAssets();
-
-                            }
-                            if (selOption == 3) {
-                                string nextValue = getOption(autoregion, cfg.inifile.values["autoregion"], false);
-                                cfg.inifile.values["autoregion"] = nextValue;
-
-                            }
-                            if (selOption == 4) {
-                                string nextValue = getOption(mip, cfg.inifile.values["mip"], false);
-                                cfg.inifile.values["mip"] = nextValue;
-
-                            }
-                            if (selOption == 5) {
-                                string nextValue = getOption(pcsx, cfg.inifile.values["pcsx"], false);
-                                cfg.inifile.values["pcsx"] = nextValue;
-
-                            }
-                            redrawOptions();
-                        }
-                    }
-
-
-                    break;
-
-
-            }
-
-        }
-    }
-*/
-}
 
 
 bool otherMenuShift = false;
@@ -359,7 +229,11 @@ void Gui::menuSelection() {
                             menuVisible = false;
                         };
                         if (e.jbutton.button == 8) {
-                            options();
+                            GuiOptions * options=new GuiOptions();
+                            options->init(renderer);
+                            options->render();
+                            options->loop();
+                            delete options;
                             menuSelection();
                             menuVisible = false;
                         };
