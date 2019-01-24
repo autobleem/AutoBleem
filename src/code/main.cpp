@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
 
     Memcard *memcardOperation = new Memcard(path);
     memcardOperation->restoreAll(path+Util::separator()+"!SaveStates");
-
+    delete memcardOperation;
 
     if (scanner->isFirstRun(path,db))
     {
@@ -78,22 +78,8 @@ int main(int argc, char *argv[]) {
     {
         scanGames(argc, argv,scanner);
     }
-    splash->logText("Linking shared memcards ...");
-    for (DirEntry entry: Util::dir(path)) {
-        if (entry.name[0] == '.') continue;
-        if (!entry.dir) continue;
-        if (entry.name == "!SaveStates") continue;
-        if (entry.name == "!MemCards") continue;
 
-        Inifile inifile;
-        inifile.load(path+Util::separator()+entry.name+Util::separator()+"Game.ini");
-        if (inifile.values["memcard"]!="SONY")
-        {
-            memcardOperation->backup(path+Util::separator()+"!SaveStates"+Util::separator()+entry.name);
-            memcardOperation->swapIn(path+Util::separator()+"!SaveStates"+Util::separator()+entry.name, inifile.values["memcard"]);
-        }
-    }
-    delete memcardOperation;
+
     splash->logText("Loading ... Please Wait ...");
     splash->finish();
 #ifndef NO_GUI

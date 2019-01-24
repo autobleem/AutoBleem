@@ -33,6 +33,7 @@ void Memcard::deleteCard(string name)
 
 void Memcard::swapIn(string path, string name)
 {
+    backup(path);
     string customPath = this->path+Util::separator()+"!MemCards/"+name;
     if (!Util::exists(customPath))
     {
@@ -40,14 +41,31 @@ void Memcard::swapIn(string path, string name)
     } else
     {
         Util::rmDir(path+Util::separator()+"memcards");
-        symlink(customPath.c_str(), (path+Util::separator()+"memcards").c_str());
+        Util::createDir(path+Util::separator()+"memcards");
+        for (DirEntry entry:Util::diru(customPath))
+        {
+            Util::copy(customPath+Util::separator()+entry.name,path+Util::separator()+"memcards"+Util::separator()+entry.name);
+        }
     }
 
 }
 
 void Memcard::swapOut(string path, string name)
 {
+    string customPath = this->path+Util::separator()+"!MemCards/"+name;
+    if (!Util::exists(customPath))
+    {
+        restore(path);
+    } else
+    {
 
+        for (DirEntry entry:Util::diru(customPath))
+        {
+            Util::copy(path+Util::separator()+"memcards"+Util::separator()+entry.name,customPath+Util::separator()+entry.name);
+        }
+        restore(path);
+
+    }
 }
 
 void Memcard::restoreAll(string mainDir)
@@ -84,7 +102,8 @@ void Memcard::restore(string path)
     }
 
     string original = path+Util::separator()+"memcards";
-    remove(original.c_str());
+    Util::rmDir(original);
+    Util::createDir(original);
 
     for (DirEntry entry:Util::diru(curPath))
     {

@@ -45,6 +45,7 @@ add_executable(starter
 		src/code/util.cpp
 		src/code/inifile.cpp
 		src/code/inifile.cpp
+		src/code/memcard.cpp src/code/memcard.h
 		)
 
 target_link_libraries(autobleem-gui

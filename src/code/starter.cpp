@@ -2,6 +2,7 @@
 #include <string>
 #include "util.h"
 #include "inifile.h"
+#include "memcard.h"
 
 using namespace std;
 
@@ -24,18 +25,32 @@ string valueOrDefault(string name, string def, map<string,string> iniValues) {
 
 void execute(int argc, char** argv)
 {
-    execvp(PCSX,argv);
-
+    int pid = fork();
+    if (!pid) {
+        execvp(PCSX, argv);
+    }
+    waitpid(pid, NULL, 0);
 }
 
 int main (int argc, char *argv[])
 {
 
     string path="/data/AppData/sony/title/";
-
+    string sourceCard="/media/Games/!MemCards/";
     Inifile ini;
     ini.load(path+"Game.ini");
     string imageType=valueOrDefault("imagetype","0",ini.values);
+    string memcard=valueOrDefault("memcard","SONY",ini.values);
+
+    if (memcard!="SONY")
+    {
+        if (Util::exists(sourceCard+memcard))
+        {
+            Memcard * card = new Memcard("/media/Games/");
+            card->swapIn("./.pcsx",memcard);
+            delete card;
+        }
+    }
 
     std::vector<std::string> arguments;
     for (int i=0;i<argc;i++)
@@ -67,5 +82,15 @@ int main (int argc, char *argv[])
 
     argvNew.push_back(nullptr);
     execute(argvNew.size() - 1, argvNew.data());
+
+    if (memcard!="SONY")
+    {
+
+            Memcard * card = new Memcard("/media/Games/");
+            card->swapOut("./.pcsx",memcard);
+            delete card;
+
+    }
+
     return 0;
 }
