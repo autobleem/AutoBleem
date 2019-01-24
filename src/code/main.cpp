@@ -8,7 +8,7 @@
 #include <iostream>
 #include "database.h"
 #include "scanner.h"
-#include "splash.h"
+#include "guirender.h"
 
 
 using namespace std;
@@ -16,7 +16,7 @@ using namespace std;
 #include "memcard.h"
 
 
-int scanGames(int argc, char *argv[], Scanner * scanner) {
+int scanGames( char *argv[], Scanner * scanner) {
     Database *db = new Database();
     if (!db->connect(argv[1])) {
         delete db;
@@ -69,22 +69,22 @@ int main(int argc, char *argv[]) {
     delete db;
 
 
-    shared_ptr<Splash> splash(Splash::getInstance());
-    splash->display(scanner->forceScan);
-    splash->drawText("AutoBleem");
-    splash->menuSelection();
-    splash->saveSelection();
-    if (splash->menuOption==MENU_OPTION_SCAN)
+    shared_ptr<GuiRender> gui(GuiRender::getInstance());
+    gui->display(scanner->forceScan);
+    gui->drawText("AutoBleem");
+    gui->menuSelection();
+    gui->saveSelection();
+    if (gui->menuOption==MENU_OPTION_SCAN)
     {
-        scanGames(argc, argv,scanner);
+        scanGames( argv,scanner);
     }
 
 
-    splash->logText("Loading ... Please Wait ...");
-    splash->finish();
-#ifndef NO_GUI
+    gui->logText("Loading ... Please Wait ...");
+    gui->finish();
+
     SDL_Quit();
-#endif
+
     delete scanner;
     return 0;
 }

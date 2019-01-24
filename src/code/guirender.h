@@ -25,29 +25,35 @@ using namespace std;
 #define MENU_OPTION_SONY  3
 #define MENU_OPTION_RETRO 4
 
-class Splash {
+#define OCD_ALPHA 170
+
+class GuiRender {
 private:
-    Splash() {}
-    Config cfg;
-    Inifile themeData;
+    GuiRender() {}
+
+
     string themePath;
-#ifndef NO_GUI
-    void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
-            TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
-#endif
+
+
 public:
+    Config cfg;
+
+    Inifile themeData;
     void display(bool forceScan);
     void finish();
     void drawText(string text);
     void getEmojiTextTexture(SDL_Renderer *renderer, string text,
                          TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
-    void drawIcons(bool forceScan);
     void logText(string message);
     void menuSelection();
     void saveSelection();
-    void aboutBox();
+   // void aboutBox();
     void options();
     void redrawOptions();
+
+    void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
+                        TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
+
     int selOption=0;
     int menuOption=MENU_OPTION_SCAN;
 
@@ -81,10 +87,10 @@ public:
     Mix_Music * music;
     TTF_Font *Sans =  NULL;
     bool forceScan=false;
-    Splash(Splash const &) = delete;
-    Splash &operator=(Splash const &) = delete;
-    static std::shared_ptr<Splash> getInstance() {
-        static std::shared_ptr<Splash> s{new Splash};
+    GuiRender(GuiRender const &) = delete;
+    GuiRender &operator=(GuiRender const &) = delete;
+    static std::shared_ptr<GuiRender> getInstance() {
+        static std::shared_ptr<GuiRender> s{new GuiRender};
         return s;
     }
 };

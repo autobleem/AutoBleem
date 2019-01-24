@@ -2,14 +2,14 @@
 // Created by screemer on 2018-12-19.
 //
 
-#include "splash.h"
+#include "guirender.h"
 #include "util.h"
+#include "gui_about.h"
+#include "gui_splash.h"
 
-#define OCD_ALPHA 170
 
-
-void Splash::logText(string message) {
-    shared_ptr<Splash> splash(Splash::getInstance());
+void GuiRender::logText(string message) {
+    shared_ptr<GuiRender> splash(GuiRender::getInstance());
     splash->drawText(message);
 }
 
@@ -17,14 +17,13 @@ void Splash::logText(string message) {
 extern "C"
 {
 void logText(char *message) {
-    shared_ptr<Splash> splash(Splash::getInstance());
+    shared_ptr<GuiRender> splash(GuiRender::getInstance());
     splash->drawText(message);
 }
 }
 
-#ifndef NO_GUI
 
-void Splash::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text, TTF_Font *font,
+void GuiRender::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text, TTF_Font *font,
                             SDL_Texture **texture, SDL_Rect *rect) {
     int text_width;
     int text_height;
@@ -51,9 +50,8 @@ void Splash::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *te
     rect->h = text_height;
 }
 
-#endif
 
-void Splash::loadAssets() {
+void GuiRender::loadAssets() {
     themePath = Util::getWorkingPath() + Util::separator() + "theme" + Util::separator() + cfg.inifile.values["theme"] +
                 Util::separator();
     themeData.load(themePath + "theme.ini");
@@ -134,7 +132,7 @@ void Splash::loadAssets() {
 
 }
 
-string Splash::getOption(vector<string> list, string current, bool next) {
+string GuiRender::getOption(vector<string> list, string current, bool next) {
     int pos = 0;
     for (int i = 0; i < list.size(); i++) {
         if (list[i] == current) {
@@ -155,89 +153,26 @@ string Splash::getOption(vector<string> list, string current, bool next) {
     return list[pos];
 }
 
-void Splash::display(bool forceScan) {
+void GuiRender::display(bool forceScan) {
     this->forceScan = forceScan;
-
-
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO);
     Mix_Init(0);
     TTF_Init();
-
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
-
-
-
     SDL_Window *window = SDL_CreateWindow("AutoBleem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720,
-                                         0);
-    int w, h; // texture width & height
+                                          0);
+
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
     loadAssets();
-
-    SDL_SetTextureBlendMode(img, SDL_BLENDMODE_BLEND);
-    SDL_QueryTexture(img, NULL, NULL, &w, &h);
-
-    texr.x = 0;
-    texr.y = 0;
-    texr.w = w;
-    texr.h = h;
-    SDL_QueryTexture(logo, NULL, NULL, &w, &h);
+    GuiSplash *splashScreen = new GuiSplash();
+    splashScreen->init(renderer);
+    splashScreen->loop();
+    delete splashScreen;
 
 
-    int start = SDL_GetTicks();
-
-    Mix_VolumeMusic(0);
-    int alpha = 0;
-    while (1) {
-        SDL_Event e;
-        if (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT)
-                break;
-            else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
-                break;
-        }
-
-        SDL_Texture *textTex;
-        SDL_Rect textRec;
-        getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()),
-                       ("AutoBleem " + cfg.inifile.values["version"]).c_str(), Sans, &textTex, &textRec);
-        int screencenter = 1280 / 2;
-        textRec.x = screencenter - (textRec.w / 2);
-        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-        SDL_RenderClear(renderer);
-        SDL_SetTextureAlphaMod(img, alpha);
-        SDL_SetTextureAlphaMod(logo, alpha);
-        SDL_SetTextureAlphaMod(textTex, alpha);
-        Mix_VolumeMusic(alpha / 3);
-        int current = SDL_GetTicks();
-        int time = current - start;
-        if (time > 5) {
-            if (alpha < 255) {
-                alpha += 1;
-            } else {
-
-                break;
-            }
-            start = SDL_GetTicks();
-        }
-        SDL_RenderCopy(renderer, img, NULL, &texr);
-        SDL_RenderCopy(renderer, logo, NULL, &logor);
-
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
-        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-        SDL_Rect rect;
-        rect.x = atoi(themeData.values["textx"].c_str());
-        rect.y = atoi(themeData.values["texty"].c_str());
-        rect.w = atoi(themeData.values["textw"].c_str());
-        rect.h = atoi(themeData.values["texth"].c_str());
-        SDL_RenderFillRect(renderer, &rect);
-
-        SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-        SDL_RenderPresent(renderer);
-    }
 }
 
-void Splash::saveSelection() {
+void GuiRender::saveSelection() {
     ofstream os;
     string path = cfg.inifile.values["cfg"];
     os.open(path);
@@ -251,7 +186,7 @@ void Splash::saveSelection() {
     os.close();
 }
 
-void Splash::renderMenuOption(string text, int line, SDL_Rect rect2, SDL_Rect logoRect, SDL_Rect textRec) {
+void GuiRender::renderMenuOption(string text, int line, SDL_Rect rect2, SDL_Rect logoRect, SDL_Rect textRec) {
     SDL_Texture *textTex;
     getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * line,
                    text.c_str(), Sans, &textTex,
@@ -260,7 +195,7 @@ void Splash::renderMenuOption(string text, int line, SDL_Rect rect2, SDL_Rect lo
     SDL_DestroyTexture(textTex);
 }
 
-void Splash::redrawOptions() {
+void GuiRender::redrawOptions() {
     SDL_Texture *textTex;
     SDL_Rect textRec;
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
@@ -307,7 +242,7 @@ void Splash::redrawOptions() {
     renderMenuOption("Overmount PCSX: " + cfg.inifile.values["pcsx"], 6, rect2, logoRect, textRec);
 
 
-    getEmojiTextTexture(renderer,"Press |@X| to go back|",Sans,  &textTex,
+    getEmojiTextTexture(renderer, "Press |@X| to go back|", Sans, &textTex,
                         &textRec);
 
     textRec.y = atoi(themeData.values["ttop"].c_str());
@@ -333,7 +268,7 @@ void Splash::redrawOptions() {
     SDL_RenderPresent(renderer);
 }
 
-void Splash::options() {
+void GuiRender::options() {
 
     selOption = 0;
     redrawOptions();
@@ -459,116 +394,13 @@ void Splash::options() {
 
 }
 
-void Splash::aboutBox() {
-    SDL_Texture *textTex;
-    SDL_Rect textRec;
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, img, NULL, &texr);
 
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, img, NULL, &texr);
+bool otherMenuShift = false;
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_Rect rect;
-    rect.x = atoi(themeData.values["textx"].c_str());
-    rect.y = atoi(themeData.values["texty"].c_str());
-    rect.w = atoi(themeData.values["textw"].c_str());
-    rect.h = atoi(themeData.values["texth"].c_str());
-    SDL_RenderFillRect(renderer, &rect);
-
-    SDL_Rect rect2;
-    rect2.x = atoi(themeData.values["opscreenx"].c_str());
-    rect2.y = atoi(themeData.values["opscreeny"].c_str());
-    rect2.w = atoi(themeData.values["opscreenw"].c_str());
-    rect2.h = atoi(themeData.values["opscreenh"].c_str());
-    SDL_RenderFillRect(renderer, &rect2);
-
-    SDL_Rect logoRect;
-    logoRect.x = rect2.x;
-    logoRect.y = rect2.y;
-    logoRect.w = logor.w / 3;
-    logoRect.h = logor.h / 3;
-    SDL_RenderCopy(renderer, logo, NULL, &logoRect);
-
-    getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h,
-                   "AutoBleem - Automatic PlayStation Classic game scanner and Boot Menu", Sans, &textTex, &textRec);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-    getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h,
-                   "2018-2019 code by ScreemerPL / testing nex and justAndy", Sans, &textTex, &textRec);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-
-    getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * 3,
-                   "Support WWW: https://github.com/screemerpl/cbleemsync", Sans, &textTex, &textRec);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-    getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * 4,
-                   "This is free and open source software. It works AS IS and I take no reponsibility for any issues.",
-                   Sans, &textTex, &textRec);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-    getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * 5,
-                   "If you want to donate this project send me some small amount to PayPal: screemer1@o2.pl ", Sans,
-                   &textTex, &textRec);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-
-    getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * 7,
-                   "If you want just to chat join ModMyClassic Discord channel and .. find 'screemer' ... ", Sans,
-                   &textTex, &textRec);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-
-    getEmojiTextTexture(renderer,"Press |@X| to go back|",Sans,  &textTex,
-                        &textRec);
-    textRec.y = atoi(themeData.values["ttop"].c_str());
-
-    if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
-    int screencenter = 1280 / 2;
-    textRec.x = screencenter - (textRec.w / 2);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-
-    SDL_RenderPresent(renderer);
-
-
-    bool menuVisible = true;
-    while (menuVisible) {
-        SDL_Event e;
-        if (SDL_PollEvent(&e)) {
-            // this is for pc Only
-            if (e.type == SDL_QUIT) {
-                menuVisible = false;
-            }
-            switch (e.type) {
-                case SDL_JOYBUTTONUP:  /* Handle Joystick Button Presses */
-                    //drawText("Button:"+to_string(e.jbutton.button));
-
-                    if (e.jbutton.button == 2) {
-
-                        menuVisible = false;
-
-                    };
-
-
-            }
-
-        }
-    }
-
-}
-
-bool otherMenuShift =false;
-
-void Splash::menuSelection() {
+void GuiRender::menuSelection() {
     string mainMenu = "|@Start| AutoBleem    |@X|  Re/Scan   |@O|  Original  |@S|  RetroArch   |@T|  About   |@Select|  Options  |@R1| Other|";
     string forceScanMenu = "Games changed. Press  |@X|  to scan|";
-    string otherMenu =  "|@X|  Memory Cards   |@O|  Game Manager |";
-#ifndef NO_GUI
+    string otherMenu = "|@X|  Memory Cards   |@O|  Game Manager |";
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
     SDL_Joystick *joystick;
     for (int i = 0; i < SDL_NumJoysticks(); i++) {
@@ -634,7 +466,12 @@ void Splash::menuSelection() {
                             menuVisible = false;
                         };
                         if (e.jbutton.button == 0) {
-                            aboutBox();
+                            GuiAbout *aboutScreen = new GuiAbout();
+                            aboutScreen->init(renderer);
+                            aboutScreen->render();
+                            aboutScreen->loop();
+                            delete aboutScreen;
+
                             menuSelection();
                             menuVisible = false;
                         };
@@ -657,12 +494,10 @@ void Splash::menuSelection() {
         }
     }
 
-
-#endif
 }
 
-void Splash::finish() {
-#ifndef NO_GUI
+void GuiRender::finish() {
+
     SDL_DestroyTexture(img);
     SDL_DestroyTexture(logo);
     SDL_DestroyTexture(buttonT);
@@ -673,35 +508,11 @@ void Splash::finish() {
     SDL_DestroyTexture(buttonSelect);
     SDL_DestroyTexture(buttonR1);
     SDL_DestroyRenderer(renderer);
-#endif
 
 }
 
-void Splash::drawIcons(bool forceScan) {
-    SDL_Rect iconRect;
-    iconRect.w = atoi(themeData.values["iconw"].c_str());
-    iconRect.h = atoi(themeData.values["iconh"].c_str());
-    iconRect.y = atoi(themeData.values["texty"].c_str());
-    if (!forceScan) {
-        iconRect.x = atoi(themeData.values["iconstart"].c_str());;
-        SDL_RenderCopy(renderer, buttonStart, NULL, &iconRect);
-        iconRect.x = atoi(themeData.values["iconx"].c_str());
-        SDL_RenderCopy(renderer, buttonX, NULL, &iconRect);
-        iconRect.x = atoi(themeData.values["icono"].c_str());
-        SDL_RenderCopy(renderer, buttonO, NULL, &iconRect);
-        iconRect.x = atoi(themeData.values["icons"].c_str());
-        SDL_RenderCopy(renderer, buttonS, NULL, &iconRect);
-        iconRect.x = atoi(themeData.values["icont"].c_str());
-        SDL_RenderCopy(renderer, buttonT, NULL, &iconRect);
-        iconRect.x = atoi(themeData.values["iconselect"].c_str());
-        SDL_RenderCopy(renderer, buttonSelect, NULL, &iconRect);
-    } else {
-        iconRect.x = atoi(themeData.values["iconrescan"].c_str());
-        SDL_RenderCopy(renderer, buttonX, NULL, &iconRect);
-    }
-}
 
-void Splash::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *font, SDL_Texture **texture,
+void GuiRender::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *font, SDL_Texture **texture,
                                  SDL_Rect *rect) {
     if (text.find("|") == std::string::npos) {
         text = text + "|";
@@ -803,7 +614,8 @@ void Splash::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *
     SDL_SetRenderTarget(renderer, NULL);
 
     for (SDL_Texture *tex:textTexures) {
-        if ((tex != buttonSelect) && (tex != buttonS) && (tex != buttonStart) && (tex != buttonO) && (tex != buttonT) && (tex != buttonR1) &&
+        if ((tex != buttonSelect) && (tex != buttonS) && (tex != buttonStart) && (tex != buttonO) && (tex != buttonT) &&
+            (tex != buttonR1) &&
             (tex != buttonX))
 
             SDL_DestroyTexture(tex);
@@ -811,8 +623,7 @@ void Splash::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *
     textTexures.clear();
 }
 
-void Splash::drawText(string text) {
-#ifndef NO_GUI
+void GuiRender::drawText(string text) {
 
 
     SDL_Texture *textTex;
@@ -846,8 +657,6 @@ void Splash::drawText(string text) {
     SDL_RenderPresent(renderer);
 
     SDL_DestroyTexture(textTex);
-#else
-    cout <<"## UI: "<< text << endl;
-#endif
+
 
 }

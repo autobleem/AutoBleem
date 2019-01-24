@@ -27,8 +27,8 @@ add_executable(autobleem-gui
         src/code/metadata.h
         src/code/ecmhelper.cpp
         src/code/ecmhelper.h
-	    src/code/splash.h
-        src/code/splash.cpp
+		src/code/guirender.h
+		src/code/guirender.cpp
 		src/code/inifile.cpp
 		src/code/inifile.h
 		src/code/isodir.cpp
@@ -37,7 +37,7 @@ add_executable(autobleem-gui
 		src/code/config.h
 		src/code/cfgprocessor.cpp
 		src/code/cfgprocessor.h
-        src/code/memcard.cpp src/code/memcard.h)
+        src/code/memcard.cpp src/code/memcard.h src/code/gui_about.cpp src/code/gui_about.h src/code/gui_screen.cpp src/code/gui_screen.h src/code/gui_splash.cpp src/code/gui_splash.h src/code/gui_options.cpp src/code/gui_options.h)
 
 add_executable(starter
 		src/code/starter.cpp
