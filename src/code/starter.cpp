@@ -48,7 +48,12 @@ int main (int argc, char *argv[])
         if (Util::exists(sourceCard+memcard))
         {
             Memcard * card = new Memcard("/media/Games/");
-            card->swapIn("./.pcsx",memcard);
+            if (!card->swapIn("./.pcsx",memcard))
+            {
+                memcard = "SONY";
+                ini.values['memcard']="SONY";
+                ini.save(path+"Game.ini");
+            };
             delete card;
         }
     }

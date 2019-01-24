@@ -17,7 +17,11 @@ const char *Util::separator() {
 }
 
 bool wayToSort(DirEntry i, DirEntry j) {
-    return i.name < j.name;
+    string name1=i.name;
+    string name2=j.name;
+    name1=lcase(name1);
+    name2=lcase(name2);
+    return name1 < name2;
 }
 
 void Util::replaceAll(std::string &str, const std::string &from, const std::string &to) {

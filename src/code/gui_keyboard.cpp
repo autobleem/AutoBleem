@@ -149,15 +149,15 @@ void GuiKeyboard::loop() {
                     if (e.jaxis.axis == 0) {
                         if (e.jaxis.value > 3200) {
                             selx++;
-                            if (selx > 10) {
-                                selx = 10;
+                            if (selx > 9) {
+                                selx = 0;
                             }
                             render();
                         }
                         if (e.jaxis.value < -3200) {
                             selx--;
                             if (selx < 0) {
-                                selx = 0;
+                                selx = 9;
                             }
                             render();
                         }
@@ -166,14 +166,14 @@ void GuiKeyboard::loop() {
                         if (e.jaxis.value > 3200) {
                             sely++;
                             if (sely > 3) {
-                                sely = 3;
+                                sely = 0;
                             }
                             render();
                         }
                         if (e.jaxis.value < -3200) {
                             sely--;
                             if (sely < 0) {
-                                sely = 0;
+                                sely = 3;
                             }
                             render();
                         }

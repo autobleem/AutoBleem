@@ -31,13 +31,14 @@ void Memcard::deleteCard(string name)
     }
 }
 
-void Memcard::swapIn(string path, string name)
+bool Memcard::swapIn(string path, string name)
 {
     backup(path);
     string customPath = this->path+Util::separator()+"!MemCards/"+name;
     if (!Util::exists(customPath))
     {
         restore(path);
+        return false;
     } else
     {
         Util::rmDir(path+Util::separator()+"memcards");
@@ -46,6 +47,7 @@ void Memcard::swapIn(string path, string name)
         {
             Util::copy(customPath+Util::separator()+entry.name,path+Util::separator()+"memcards"+Util::separator()+entry.name);
         }
+        return true;
     }
 
 }

@@ -15,7 +15,7 @@ public:
     void deleteCard(string name);
     void backup(string path);
     void restore(string path);
-    void swapIn(string path, string name);
+    bool swapIn(string path, string name);
     void swapOut(string path, string name);
     vector<string> list();
     void storeToRepo(string path, string name);

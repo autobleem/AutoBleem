@@ -13,56 +13,54 @@
 #include "gui_confirm.h"
 #include "gui_keyboard.h"
 
-void GuiMemcards::init(SDL_Renderer *renderer1)
-{
+void GuiMemcards::init(SDL_Renderer *renderer1) {
     renderer = renderer1;
     shared_ptr<Gui> gui(Gui::getInstance());
-    Memcard * memcardOps=new Memcard(gui->path);
+    Memcard *memcardOps = new Memcard(gui->path);
     cards = memcardOps->list();
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
     firstVisible = 0;
-    lastVisible=firstVisible+maxVisible;
+    lastVisible = firstVisible + maxVisible;
     delete memcardOps;
 
 }
-void GuiMemcards::render()
-{
+
+void GuiMemcards::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=Custom Memory Cards=-",0,offset,true);
+    gui->renderTextLine("-=Custom Memory Cards=-", 0, offset, true);
 
-    if (selectedCards>=cards.size())
-    {
-        selectedCards=cards.size()-1;
+    if (selectedCards >= cards.size()) {
+        selectedCards = cards.size() - 1;
     }
 
-    if (selectedCards<firstVisible)
-    {
+    if (selectedCards < firstVisible) {
         firstVisible--;
         lastVisible--;
     }
-    if (selectedCards>=lastVisible)
-    {
+    if (selectedCards >= lastVisible) {
         firstVisible++;
         lastVisible++;
     }
 
 
-    int pos=1;
-    for (int i=firstVisible;i<lastVisible;i++)
-    {
-        if (i>=cards.size())
-        {
+    int pos = 1;
+    for (int i = firstVisible; i < lastVisible; i++) {
+        if (i >= cards.size()) {
             break;
         }
-        gui->renderTextLine(cards[i],pos,offset);
+        gui->renderTextLine(cards[i], pos, offset);
         pos++;
     }
 
-    gui->renderSelectionBox(selectedCards-firstVisible+1,offset);
-    gui->renderStatus("Card "+to_string(selectedCards+1)+"/"+to_string(cards.size())+"   |@S| New Card   |@O| Delete Card   |@X| Go back|");
+    if (!cards.size() == 0) {
+        gui->renderSelectionBox(selectedCards - firstVisible + 1, offset);
+    }
+
+    gui->renderStatus("Card " + to_string(selectedCards + 1) + "/" + to_string(cards.size()) +
+                      "   |@S| New Card   |@O| Delete Card   |@X| Go back|");
     SDL_RenderPresent(renderer);
 }
 
@@ -82,7 +80,7 @@ void GuiMemcards::loop() {
                         if (e.jaxis.value > 3200) {
                             selectedCards++;
                             if (selectedCards >= cards.size()) {
-                                selectedCards = cards.size()-1;
+                                selectedCards = cards.size() - 1;
                             }
                             render();
                         }
@@ -105,56 +103,63 @@ void GuiMemcards::loop() {
                     };
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
 
-                        GuiConfirm * guiConfirm = new GuiConfirm();
-                        guiConfirm->init(renderer);
-                        guiConfirm->label="Really delete card '"+cards[selectedCards]+"'";
-                        guiConfirm->render();
-                        guiConfirm->loop();
-                        bool result = guiConfirm->result;
-                        delete(guiConfirm);
+                        if (cards.size() != 0) {
 
-                        if (result) {
-                            Memcard *memcardOps = new Memcard(gui->path);
-                            memcardOps->deleteCard(cards[selectedCards]);
-                            cards = memcardOps->list();
-                            delete memcardOps;
+
+                            GuiConfirm *guiConfirm = new GuiConfirm();
+                            guiConfirm->init(renderer);
+                            guiConfirm->label = "Delete card '" + cards[selectedCards] + "' ?";
+                            guiConfirm->render();
+                            guiConfirm->loop();
+                            bool result = guiConfirm->result;
+                            delete (guiConfirm);
+
+                            if (result) {
+                                Memcard *memcardOps = new Memcard(gui->path);
+                                memcardOps->deleteCard(cards[selectedCards]);
+                                cards = memcardOps->list();
+                                delete memcardOps;
+                            }
+                            render();
                         }
-                        render();
                     };
 
                     if (e.jbutton.button == PCS_BTN_SQUARE) {
 
-                        GuiKeyboard * keyboard = new GuiKeyboard();
+                        GuiKeyboard *keyboard = new GuiKeyboard();
                         keyboard->init(renderer);
-                        keyboard->label="Enter new card name";
+                        keyboard->label = "Enter new card name";
                         keyboard->render();
                         keyboard->loop();
                         string result = keyboard->result;
-                        bool cancelled=keyboard->cancelled;
-                        delete(keyboard);
+                        bool cancelled = keyboard->cancelled;
+                        delete (keyboard);
 
-                        if (result.empty())
-                        {
-                            cancelled=true;
+                        if (result.empty()) {
+                            cancelled = true;
+                        }
+
+                        string testResult = result;
+                        if (Util::matchesLowercase("sony", testResult)) {
+                            cancelled = true;
                         }
 
                         if (!cancelled) {
                             Memcard *memcardOps = new Memcard(gui->path);
                             memcardOps->newCard(result);
                             cards = memcardOps->list();
-                            int i=0;
-                            for (string card:cards)
-                            {
-                                if (card==result)
-                                {
-                                    selectedCards=i;
-                                    firstVisible=i;
-                                    lastVisible = firstVisible+maxVisible;
+                            int i = 0;
+                            for (string card:cards) {
+                                if (card == result) {
+                                    selectedCards = i;
+                                    firstVisible = i;
+                                    lastVisible = firstVisible + maxVisible;
 
-                                    if (lastVisible>=cards.size())
-                                    {
-                                        lastVisible=cards.size()-1;
-                                        firstVisible=lastVisible-maxVisible;
+                                    if (cards.size() > maxVisible) {
+                                        if (lastVisible >= cards.size()) {
+                                            lastVisible = cards.size() - 1;
+                                            firstVisible = lastVisible - maxVisible;
+                                        }
                                     }
                                 }
                                 i++;
