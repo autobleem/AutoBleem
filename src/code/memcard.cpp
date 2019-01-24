@@ -50,6 +50,20 @@ void Memcard::swapIn(string path, string name)
 
 }
 
+vector<string> Memcard::list()
+{
+    vector<string> memcards;
+    string customPath = this->path+Util::separator()+"!MemCards";
+    for (DirEntry entry: Util::diru(customPath))
+    {
+        if (entry.dir)
+        {
+            memcards.push_back(entry.name);
+        }
+    }
+    return memcards;
+}
+
 void Memcard::swapOut(string path, string name)
 {
     string customPath = this->path+Util::separator()+"!MemCards/"+name;

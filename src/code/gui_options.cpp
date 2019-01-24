@@ -63,7 +63,7 @@ void GuiOptions::render()
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=Configuration=-",0,offset);
+    gui->renderTextLine("-=Configuration=-",0,offset,true);
     gui->renderTextLine("AutoBleem Theme: " + gui->cfg.inifile.values["theme"], 1, offset);
     gui->renderTextLine("Menu Theme: " + gui->cfg.inifile.values["stheme"], 2, offset);
     gui->renderTextLine("Disable Theme BGM: " + gui->cfg.inifile.values["nomusic"], 3, offset);

@@ -10,18 +10,20 @@
 #include <string>
 #include "gui.h"
 
+
 void GuiAbout::render()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("AutoBleem - Automatic PlayStation Classic game scanner and Boot Menu",0,offset);
-    gui->renderTextLine("2018-2019 code by ScreemerPL / testing nex and justAndy",1,offset);
+    gui->renderTextLine("-=About=-",0,offset,true);
+    gui->renderTextLine("AutoBleem "+gui->cfg.inifile.values["version"]+" - Automatic PlayStation Classic game scanner and Boot Menu",1,offset);
+    gui->renderTextLine("2018-2019 code by ScreemerPL / testing nex ",2,offset);
     gui->renderTextLine("Support WWW: https://github.com/screemerpl/cbleemsync",3,offset);
-    gui->renderTextLine("This is free and open source software. It works AS IS and I take no reponsibility for any issues.",4,offset);
-    gui->renderTextLine("If you want to donate this project send me some small amount to PayPal: screemer1@o2.pl ",5,offset);
-    gui->renderTextLine("If you want just to chat join ModMyClassic Discord channel and .. find 'screemer' ...",7,offset);
+    gui->renderTextLine("This is free and open source software. It works AS IS and I take no reponsibility for any issues.",5,offset);
+    gui->renderTextLine("If you want to donate this project send me some small amount to PayPal: screemer1@o2.pl ",6,offset);
+    gui->renderTextLine("If you want just to chat join ModMyClassic Discord channel and .. find 'screemer' ...",8,offset);
     gui->renderStatus("Press |@X| to go back|");
     SDL_RenderPresent(renderer);
 }

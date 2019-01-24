@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
     }
 
     shared_ptr<Gui> gui(Gui::getInstance());
-    gui->display(scanner->forceScan);
+    gui->display(scanner->forceScan,path);
     gui->drawText("AutoBleem");
     gui->menuSelection();
     gui->saveSelection();

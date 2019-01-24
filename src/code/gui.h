@@ -6,17 +6,22 @@
 #define CBLEEMSYNC_SPLASH_H
 
 #include "main.h"
-
-#ifndef NO_GUI
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include <string>
-#endif
-
 #include <memory>
 #include "config.h"
+
+#define PCS_BTN_R1       6
+#define PCS_BTN_START    9
+#define PCS_BTN_SQUARE   3
+#define PCS_BTN_TRIANGLE 0
+#define PCS_BTN_CROSS    2
+#define PCS_BTN_CIRCLE   1
+#define PCS_BTN_SELECT   8
+
 
 using namespace std;
 
@@ -39,7 +44,7 @@ public:
     Config cfg;
 
     Inifile themeData;
-    void display(bool forceScan);
+    void display(bool forceScan, string path);
     void finish();
     void drawText(string text);
     void getEmojiTextTexture(SDL_Renderer *renderer, string text,
@@ -52,9 +57,11 @@ public:
     int renderLogo(bool small);
     void renderStatus(string text);
     void renderTextBar();
+    void renderTextLine(string text, int line, int offset, bool center);
     void renderTextLine(string text, int line, int offset);
     void renderSelectionBox(int line, int offset);
-
+    void renderLabelBox(int line, int offset);
+    void renderTextChar(string text, int line, int offset, int posx);
 
     void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
@@ -77,6 +84,7 @@ public:
     SDL_Texture *buttonR1 = NULL;
 
 
+    string path;
 
     void loadAssets();
 

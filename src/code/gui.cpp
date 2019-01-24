@@ -7,6 +7,8 @@
 #include "gui_about.h"
 #include "gui_splash.h"
 #include "gui_options.h"
+#include "gui_memcards.h"
+#include "gui_keyboard.h"
 
 
 void Gui::logText(string message) {
@@ -62,6 +64,7 @@ int Gui::renderLogo(bool small)
 {
     if (!small) {
         SDL_RenderCopy(renderer, logo, NULL, &logoRect);
+        return 0;
     } else
     {
         SDL_Rect rect;
@@ -134,7 +137,8 @@ void Gui::loadAssets() {
 
 
 
-void Gui::display(bool forceScan) {
+void Gui::display(bool forceScan, string path) {
+    this->path=path;
     this->forceScan = forceScan;
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO);
     Mix_Init(0);
@@ -145,6 +149,9 @@ void Gui::display(bool forceScan) {
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     loadAssets();
+
+
+
     GuiSplash *splashScreen = new GuiSplash();
     splashScreen->init(renderer);
     splashScreen->loop();
@@ -175,6 +182,9 @@ void Gui::saveSelection() {
 bool otherMenuShift = false;
 
 void Gui::menuSelection() {
+
+
+    otherMenuShift = false;
     string mainMenu = "|@Start| AutoBleem    |@X|  Re/Scan   |@O|  Original  |@S|  RetroArch   |@T|  About   |@Select|  Options  |@R1| Other|";
     string forceScanMenu = "Games changed. Press  |@X|  to scan|";
     string otherMenu = "|@X|  Memory Cards   |@O|  Game Manager |";
@@ -184,6 +194,8 @@ void Gui::menuSelection() {
         joystick = SDL_JoystickOpen(i);
         cout << "--" << SDL_JoystickName(joystick) << endl;
     }
+
+
 
     if (!forceScan) {
         drawText(mainMenu);
@@ -204,7 +216,7 @@ void Gui::menuSelection() {
             switch (e.type) {
                 case SDL_JOYBUTTONUP:
                     if (!forceScan) {
-                        if (e.jbutton.button == 6) {
+                        if (e.jbutton.button == PCS_BTN_R1) {
                             drawText(mainMenu);
                             otherMenuShift = false;
                         }
@@ -214,7 +226,7 @@ void Gui::menuSelection() {
 
 
                     if (!forceScan) {
-                        if (e.jbutton.button == 6) {
+                        if (e.jbutton.button == PCS_BTN_R1) {
                             drawText(otherMenu);
                             otherMenuShift = true;
                         }
@@ -222,7 +234,7 @@ void Gui::menuSelection() {
 
                     if (!otherMenuShift) {
                         if (!forceScan)
-                            if (e.jbutton.button == 9) {
+                            if (e.jbutton.button == PCS_BTN_START) {
                                 this->menuOption = MENU_OPTION_RUN;
 
                                 menuVisible = false;
@@ -230,18 +242,18 @@ void Gui::menuSelection() {
                             };
 
                         if (!forceScan)
-                            if (e.jbutton.button == 3) {
+                            if (e.jbutton.button == PCS_BTN_SQUARE) {
                                 this->menuOption = MENU_OPTION_RETRO;
 
                                 menuVisible = false;
 
                             };
-                        if (e.jbutton.button == 2) {
+                        if (e.jbutton.button == PCS_BTN_CROSS) {
                             this->menuOption = MENU_OPTION_SCAN;
 
                             menuVisible = false;
                         };
-                        if (e.jbutton.button == 0) {
+                        if (e.jbutton.button == PCS_BTN_TRIANGLE) {
                             GuiAbout *aboutScreen = new GuiAbout();
                             aboutScreen->init(renderer);
                             aboutScreen->render();
@@ -251,7 +263,7 @@ void Gui::menuSelection() {
                             menuSelection();
                             menuVisible = false;
                         };
-                        if (e.jbutton.button == 8) {
+                        if (e.jbutton.button == PCS_BTN_SELECT) {
                             GuiOptions * options=new GuiOptions();
                             options->init(renderer);
                             options->render();
@@ -261,13 +273,25 @@ void Gui::menuSelection() {
                             menuVisible = false;
                         };
                         if (!forceScan)
-                            if (e.jbutton.button == 1) {
+                            if (e.jbutton.button == PCS_BTN_CIRCLE) {
                                 this->menuOption = MENU_OPTION_SONY;
                                 menuVisible = false;
 
 
                             };
                         break;
+                    } else
+                    {
+                        if (e.jbutton.button == PCS_BTN_CROSS) {
+                            GuiMemcards *memcardsScreen = new GuiMemcards();
+                            memcardsScreen->init(renderer);
+                            memcardsScreen->render();
+                            memcardsScreen->loop();
+                            delete memcardsScreen;
+
+                            menuSelection();
+                            menuVisible = false;
+                        };
                     }
             }
 
@@ -432,6 +456,31 @@ void Gui::drawText(string text) {
     SDL_RenderPresent(renderer);
 }
 
+void Gui::renderLabelBox(int line, int offset)
+{
+    SDL_Texture *textTex;
+    SDL_Rect textRec;
+
+    getTextAndRect(renderer,0,0,"*",font,&textTex, &textRec);
+
+    SDL_Rect rect2;
+    rect2.x = atoi(themeData.values["opscreenx"].c_str());
+    rect2.y = atoi(themeData.values["opscreeny"].c_str());
+    rect2.w = atoi(themeData.values["opscreenw"].c_str());
+    rect2.h = atoi(themeData.values["opscreenh"].c_str());
+
+
+    SDL_Rect rectSelection;
+    rectSelection.x = rect2.x + 5;
+    rectSelection.y = offset + textRec.h * (line);
+    rectSelection.w = rect2.w - 10;
+    rectSelection.h = textRec.h;
+
+    SDL_SetRenderDrawColor(renderer, 230, 230, 230, OCD_ALPHA);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_RenderFillRect(renderer, &rectSelection);
+}
+
 void Gui::renderSelectionBox(int line, int offset)
 {
     SDL_Texture *textTex;
@@ -458,6 +507,10 @@ void Gui::renderSelectionBox(int line, int offset)
 }
 void Gui::renderTextLine(string text, int line, int offset)
 {
+    renderTextLine(text,line,offset,false);
+}
+void Gui::renderTextLine(string text, int line, int offset, bool center)
+{
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
@@ -471,6 +524,36 @@ void Gui::renderTextLine(string text, int line, int offset)
 
     getTextAndRect(renderer, rect2.x + 10,  (textRec.h*line) + offset,
                         text.c_str(), font, &textTex, &textRec);
+
+    if (textRec.w>=(1280-rect2.x*4))
+    {
+        textRec.w=(1280-rect2.x*4);
+    }
+    if (center)
+    {
+        textRec.x = (1280/2)-textRec.w/2;
+    }
+
+
+    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
+    SDL_DestroyTexture(textTex);
+}
+
+void Gui::renderTextChar(string text, int line, int offset, int posx)
+{
+    SDL_Rect rect2;
+    rect2.x = atoi(themeData.values["opscreenx"].c_str());
+    rect2.y = atoi(themeData.values["opscreeny"].c_str());
+    rect2.w = atoi(themeData.values["opscreenw"].c_str());
+    rect2.h = atoi(themeData.values["opscreenh"].c_str());
+
+    SDL_Texture *textTex;
+    SDL_Rect textRec;
+
+    getTextAndRect(renderer,0,0,"*",font,&textTex, &textRec);
+    getTextAndRect(renderer, posx,  (textRec.h*line) + offset,
+                   text.c_str(), font, &textTex, &textRec);
+
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
     SDL_DestroyTexture(textTex);
 }

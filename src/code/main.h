@@ -56,5 +56,13 @@ static inline std::string &lcase(std::string &s, int nchars = 0) {
     return s;
 }
 
+static inline std::string &ucase(std::string &s, int nchars = 0) {
+    if (nchars == 0) nchars = s.length();
+    for (int i = 0; i < nchars; i++) {
+        s[i] = toupper(s[i]);
+    }
+    return s;
+}
+
 
 #endif //CBLEEMSYNC_MAIN_H
