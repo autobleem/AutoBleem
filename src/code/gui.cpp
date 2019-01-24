@@ -51,6 +51,29 @@ void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
     rect->h = text_height;
 }
 
+void Gui::renderBackground()
+{
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, backgroundImg, NULL, &backgroundRect);
+}
+
+int Gui::renderLogo(bool small)
+{
+    if (!small) {
+        SDL_RenderCopy(renderer, logo, NULL, &logoRect);
+    } else
+    {
+        SDL_Rect rect;
+        rect.x = atoi(themeData.values["opscreenx"].c_str());
+        rect.y = atoi(themeData.values["opscreeny"].c_str());
+        rect.w = logoRect.w / 3;
+        rect.h = logoRect.h / 3;
+        SDL_RenderCopy(renderer, logo, NULL, &rect);
+        return rect.y+rect.h;
+    }
+}
+
 
 void Gui::loadAssets() {
     themePath = Util::getWorkingPath() + Util::separator() + "theme" + Util::separator() + cfg.inifile.values["theme"] +
@@ -380,25 +403,10 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     textTexures.clear();
 }
 
-void Gui::drawText(string text) {
-
-
+void Gui::renderStatus(string text)
+{
     SDL_Texture *textTex;
     SDL_Rect textRec;
-
-    getEmojiTextTexture(renderer, text, font, &textTex, &textRec);
-
-    int screencenter = 1280 / 2;
-    textRec.x = screencenter - (textRec.w / 2);
-    textRec.y = atoi(themeData.values["ttop"].c_str());
-    if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
-
-
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, backgroundImg, NULL, &backgroundRect);
-    SDL_RenderCopy(renderer, logo, NULL, &logoRect);
-
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_Rect rect;
@@ -408,12 +416,76 @@ void Gui::drawText(string text) {
     rect.h = atoi(themeData.values["texth"].c_str());
     SDL_RenderFillRect(renderer, &rect);
 
+    getEmojiTextTexture(renderer, text, font, &textTex, &textRec);
+    int screencenter = 1280 / 2;
+    textRec.x = screencenter - (textRec.w / 2);
+    textRec.y = atoi(themeData.values["ttop"].c_str());
+    if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-
-
-    SDL_RenderPresent(renderer);
-
     SDL_DestroyTexture(textTex);
+}
 
+void Gui::drawText(string text) {
+    renderBackground();
+    renderLogo(false);
+    renderStatus(text);
+    SDL_RenderPresent(renderer);
+}
+
+void Gui::renderSelectionBox(int line, int offset)
+{
+    SDL_Texture *textTex;
+    SDL_Rect textRec;
+
+    getTextAndRect(renderer,0,0,"*",font,&textTex, &textRec);
+
+    SDL_Rect rect2;
+    rect2.x = atoi(themeData.values["opscreenx"].c_str());
+    rect2.y = atoi(themeData.values["opscreeny"].c_str());
+    rect2.w = atoi(themeData.values["opscreenw"].c_str());
+    rect2.h = atoi(themeData.values["opscreenh"].c_str());
+
+
+    SDL_Rect rectSelection;
+    rectSelection.x = rect2.x + 5;
+    rectSelection.y = offset + textRec.h * (line);
+    rectSelection.w = rect2.w - 10;
+    rectSelection.h = textRec.h;
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, OCD_ALPHA);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_RenderDrawRect(renderer, &rectSelection);
+}
+void Gui::renderTextLine(string text, int line, int offset)
+{
+    SDL_Rect rect2;
+    rect2.x = atoi(themeData.values["opscreenx"].c_str());
+    rect2.y = atoi(themeData.values["opscreeny"].c_str());
+    rect2.w = atoi(themeData.values["opscreenw"].c_str());
+    rect2.h = atoi(themeData.values["opscreenh"].c_str());
+
+    SDL_Texture *textTex;
+    SDL_Rect textRec;
+
+    getTextAndRect(renderer,0,0,"*",font,&textTex, &textRec);
+
+    getTextAndRect(renderer, rect2.x + 10,  (textRec.h*line) + offset,
+                        text.c_str(), font, &textTex, &textRec);
+    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
+    SDL_DestroyTexture(textTex);
+}
+
+void Gui::renderTextBar()
+{
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+
+    SDL_Rect rect2;
+    rect2.x = atoi(themeData.values["opscreenx"].c_str());
+    rect2.y = atoi(themeData.values["opscreeny"].c_str());
+    rect2.w = atoi(themeData.values["opscreenw"].c_str());
+    rect2.h = atoi(themeData.values["opscreenh"].c_str());
+
+    SDL_RenderFillRect(renderer, &rect2);
 
 }

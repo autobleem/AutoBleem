@@ -18,7 +18,6 @@ public:
     void render();
     void loop();
     string getOption(vector<string> list, string current, bool next);
-    void renderMenuOption(string text, int line, SDL_Rect rect2, SDL_Rect logoRect, SDL_Rect textRec);
     int selOption=0;
 
     vector<string> themes;

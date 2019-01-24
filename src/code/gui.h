@@ -48,6 +48,13 @@ public:
     void menuSelection();
     void saveSelection();
 
+    void renderBackground();
+    int renderLogo(bool small);
+    void renderStatus(string text);
+    void renderTextBar();
+    void renderTextLine(string text, int line, int offset);
+    void renderSelectionBox(int line, int offset);
+
 
     void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);

@@ -28,15 +28,6 @@ string GuiOptions::getOption(vector<string> list, string current, bool next) {
     return list[pos];
 }
 
-void GuiOptions::renderMenuOption(string text, int line, SDL_Rect rect2, SDL_Rect logoRect, SDL_Rect textRec) {
-    shared_ptr<Gui> gui(Gui::getInstance());
-    SDL_Texture *textTex;
-    gui->getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * line,
-                   text.c_str(), gui->font, &textTex,
-                   &textRec);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-}
 
 
 void GuiOptions::init(SDL_Renderer *renderer1)
@@ -69,75 +60,19 @@ void GuiOptions::init(SDL_Renderer *renderer1)
 void GuiOptions::render()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
+    gui->renderBackground();
+    gui->renderTextBar();
+    int offset = gui->renderLogo(true);
+    gui->renderTextLine("-=Configuration=-",0,offset);
+    gui->renderTextLine("AutoBleem Theme: " + gui->cfg.inifile.values["theme"], 1, offset);
+    gui->renderTextLine("Menu Theme: " + gui->cfg.inifile.values["stheme"], 2, offset);
+    gui->renderTextLine("Disable Theme BGM: " + gui->cfg.inifile.values["nomusic"], 3, offset);
+    gui->renderTextLine("Process configuration on scan: " + gui->cfg.inifile.values["autoregion"], 4, offset);
+    gui->renderTextLine("Mipmap patch: " + gui->cfg.inifile.values["mip"], 5, offset);
+    gui->renderTextLine("Overmount PCSX: " + gui->cfg.inifile.values["pcsx"], 6, offset);
+    gui->renderStatus("Press |@X| to go back|");
 
-    SDL_Texture *textTex;
-    SDL_Rect textRec;
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, gui->backgroundImg, NULL, &gui->backgroundRect);
-
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, gui->backgroundImg, NULL, &gui->backgroundRect);
-
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_Rect rect;
-    rect.x = atoi(gui->themeData.values["textx"].c_str());
-    rect.y = atoi(gui->themeData.values["texty"].c_str());
-    rect.w = atoi(gui->themeData.values["textw"].c_str());
-    rect.h = atoi(gui->themeData.values["texth"].c_str());
-    SDL_RenderFillRect(renderer, &rect);
-
-    SDL_Rect rect2;
-    rect2.x = atoi(gui->themeData.values["opscreenx"].c_str());
-    rect2.y = atoi(gui->themeData.values["opscreeny"].c_str());
-    rect2.w = atoi(gui->themeData.values["opscreenw"].c_str());
-    rect2.h = atoi(gui->themeData.values["opscreenh"].c_str());
-    SDL_RenderFillRect(renderer, &rect2);
-
-    SDL_Rect logoRect;
-    logoRect.x = rect2.x;
-    logoRect.y = rect2.y;
-    logoRect.w = gui->logoRect.w / 3;
-    logoRect.h = gui->logoRect.h / 3;
-    SDL_RenderCopy(renderer, gui->logo, NULL, &logoRect);
-
-    gui->getTextAndRect(renderer, rect2.x + 10, logoRect.y + logoRect.h + textRec.h * 0,
-                   "Configuration:", gui->font, &textTex, &textRec);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-
-    renderMenuOption("AutoBleem Theme: " + gui->cfg.inifile.values["theme"], 1, rect2, logoRect, textRec);
-    renderMenuOption("Menu Theme: " + gui->cfg.inifile.values["stheme"], 2, rect2, logoRect, textRec);
-    renderMenuOption("Disable Theme BGM: " + gui->cfg.inifile.values["nomusic"], 3, rect2, logoRect, textRec);
-    renderMenuOption("Process configuration on scan: " + gui->cfg.inifile.values["autoregion"], 4, rect2, logoRect, textRec);
-    renderMenuOption("Mipmap patch: " + gui->cfg.inifile.values["mip"], 5, rect2, logoRect, textRec);
-    renderMenuOption("Overmount PCSX: " + gui->cfg.inifile.values["pcsx"], 6, rect2, logoRect, textRec);
-
-
-    gui->getEmojiTextTexture(renderer, "Press |@X| to go back|", gui->font, &textTex,
-                        &textRec);
-
-    textRec.y = atoi(gui->themeData.values["ttop"].c_str());
-
-
-    if (textRec.w > atoi(gui->themeData.values["textw"].c_str())) textRec.w = atoi(gui->themeData.values["textw"].c_str());
-    int screencenter = 1280 / 2;
-    textRec.x = screencenter - (textRec.w / 2);
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
-    SDL_DestroyTexture(textTex);
-
-
-    SDL_Rect rectSelection;
-    rectSelection.x = rect2.x + 10;
-    rectSelection.y = logoRect.y + logoRect.h + textRec.h * (selOption + 1);
-    rectSelection.w = rect2.w - 20;
-    rectSelection.h = textRec.h;
-
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, OCD_ALPHA);
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_RenderDrawRect(renderer, &rectSelection);
+    gui->renderSelectionBox(selOption+1,offset);
 
     SDL_RenderPresent(renderer);
 }
