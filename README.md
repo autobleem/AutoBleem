@@ -22,6 +22,8 @@ AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4
 
 ## Features 
 
+1. AutoBleem does not need to run anything on the PC. Just copy games to usb dongle and plug it in. 
+1. Does not use any internet or usb connection 
 1. Overmounts portions of the PSC's filesystem to safely allow PCS modifications
 1. Modifies the stock UI to show added games
 1. Uses **GAME NAMES as folders** instead of numbered folders
