@@ -1,5 +1,6 @@
 
 #include <string>
+#include <sys/wait.h>
 #include "util.h"
 #include "inifile.h"
 #include "memcard.h"
