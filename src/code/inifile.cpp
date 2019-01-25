@@ -6,6 +6,7 @@
 
 
 void Inifile::load(string path) {
+    this->path = path;
     ifstream file;
     string iniLine;
     file.open(path);

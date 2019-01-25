@@ -10,7 +10,9 @@
 
 class Inifile {
 public:
-    string section;
+    string section="";
+    string path;
+    string entry;
     map<string, string> values;
 
     void load(string path);

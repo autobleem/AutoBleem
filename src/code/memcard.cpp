@@ -52,6 +52,27 @@ bool Memcard::swapIn(string path, string name)
 
 }
 
+void Memcard::storeToRepo(string path, string name)
+{
+
+    string customPath = this->path+Util::separator()+"!MemCards/"+name;
+    if (!Util::exists(customPath))
+    {
+        newCard(name);
+    }
+
+    // copy memcard from game to repository
+    for (DirEntry entry:Util::diru(path))
+    {
+        string input = path+Util::separator()+entry.name;
+        string output = customPath+Util::separator()+name+Util::separator()+entry.name;
+        Util::copy(input,output);
+    }
+
+
+
+}
+
 vector<string> Memcard::list()
 {
     vector<string> memcards;

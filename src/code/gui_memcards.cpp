@@ -32,15 +32,15 @@ void GuiMemcards::render() {
     int offset = gui->renderLogo(true);
     gui->renderTextLine("-=Custom Memory Cards=-", 0, offset, true);
 
-    if (selectedCards >= cards.size()) {
-        selectedCards = cards.size() - 1;
+    if (selected >= cards.size()) {
+        selected = cards.size() - 1;
     }
 
-    if (selectedCards < firstVisible) {
+    if (selected < firstVisible) {
         firstVisible--;
         lastVisible--;
     }
-    if (selectedCards >= lastVisible) {
+    if (selected >= lastVisible) {
         firstVisible++;
         lastVisible++;
     }
@@ -56,10 +56,10 @@ void GuiMemcards::render() {
     }
 
     if (!cards.size() == 0) {
-        gui->renderSelectionBox(selectedCards - firstVisible + 1, offset);
+        gui->renderSelectionBox(selected - firstVisible + 1, offset);
     }
 
-    gui->renderStatus("Card " + to_string(selectedCards + 1) + "/" + to_string(cards.size()) +
+    gui->renderStatus("Card " + to_string(selected + 1) + "/" + to_string(cards.size()) +
                       "   |@S| New Card   |@O| Delete Card   |@X| Go back|");
     SDL_RenderPresent(renderer);
 }
@@ -78,16 +78,16 @@ void GuiMemcards::loop() {
                 case SDL_JOYAXISMOTION:
                     if (e.jaxis.axis == 1) {
                         if (e.jaxis.value > 3200) {
-                            selectedCards++;
-                            if (selectedCards >= cards.size()) {
-                                selectedCards = cards.size() - 1;
+                            selected++;
+                            if (selected >= cards.size()) {
+                                selected = cards.size() - 1;
                             }
                             render();
                         }
                         if (e.jaxis.value < -3200) {
-                            selectedCards--;
-                            if (selectedCards < 0) {
-                                selectedCards = 0;
+                            selected--;
+                            if (selected < 0) {
+                                selected = 0;
                             }
                             render();
                         }
@@ -108,7 +108,7 @@ void GuiMemcards::loop() {
 
                             GuiConfirm *guiConfirm = new GuiConfirm();
                             guiConfirm->init(renderer);
-                            guiConfirm->label = "Delete card '" + cards[selectedCards] + "' ?";
+                            guiConfirm->label = "Delete card '" + cards[selected] + "' ?";
                             guiConfirm->render();
                             guiConfirm->loop();
                             bool result = guiConfirm->result;
@@ -116,7 +116,7 @@ void GuiMemcards::loop() {
 
                             if (result) {
                                 Memcard *memcardOps = new Memcard(gui->path);
-                                memcardOps->deleteCard(cards[selectedCards]);
+                                memcardOps->deleteCard(cards[selected]);
                                 cards = memcardOps->list();
                                 delete memcardOps;
                             }
@@ -151,7 +151,7 @@ void GuiMemcards::loop() {
                             int i = 0;
                             for (string card:cards) {
                                 if (card == result) {
-                                    selectedCards = i;
+                                    selected = i;
                                     firstVisible = i;
                                     lastVisible = firstVisible + maxVisible;
 

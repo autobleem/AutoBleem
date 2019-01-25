@@ -70,7 +70,7 @@ void GuiOptions::render()
     gui->renderTextLine("Process configuration on scan: " + gui->cfg.inifile.values["autoregion"], 4, offset);
     gui->renderTextLine("Mipmap patch: " + gui->cfg.inifile.values["mip"], 5, offset);
     gui->renderTextLine("Overmount PCSX: " + gui->cfg.inifile.values["pcsx"], 6, offset);
-    gui->renderStatus("Press |@X| to go back|");
+    gui->renderStatus("|@X| Go back|");
 
     gui->renderSelectionBox(selOption+1,offset);
 

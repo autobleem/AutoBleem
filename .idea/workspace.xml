@@ -13,16 +13,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f377571-016b-4a6e-91a8-99bb578502df" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/code/gui_manager.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/code/gui_manager.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/code/gui_editor.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/code/gui_editor.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/gui_keyboard.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui_keyboard.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/gui.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/gui_about.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui_about.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/gui_manager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui_manager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/gui_manager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui_manager.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/code/gui_memcards.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui_memcards.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/gui_memcards.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui_memcards.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/gui_options.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui_options.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/inifile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/inifile.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/inifile.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/inifile.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/code/memcard.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/memcard.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/memcard.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/memcard.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/starter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/starter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/util.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/util.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -50,22 +54,25 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/starter.cpp">
+        <entry file="file://$PROJECT_DIR$/src/code/gui_manager.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="281">
-              <caret line="54" column="42" selection-start-line="54" selection-start-column="42" selection-end-line="54" selection-end-column="42" />
+            <state relative-caret-position="386">
+              <caret line="44" column="29" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
               <folding>
-                <element signature="e#1#18#0" expanded="true" />
+                <element signature="e#45#69#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/memcard.cpp">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/code/gui_editor.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="438">
-              <caret line="68" column="18" selection-start-line="68" selection-start-column="18" selection-end-line="68" selection-end-column="18" />
+            <state relative-caret-position="182">
+              <caret line="86" selection-start-line="86" selection-end-line="86" />
+              <folding>
+                <element signature="e#45#68#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -73,8 +80,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/memcard.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+            <state relative-caret-position="300">
+              <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
               <folding>
                 <element signature="e#110#127#0" expanded="true" />
               </folding>
@@ -83,74 +90,75 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/code/memcard.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="182">
+              <caret line="73" selection-start-line="73" selection-end-line="73" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/code/gui_about.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="54" selection-end-column="5" />
+              <folding>
+                <element signature="e#45#67#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/code/gui_editor.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
+              <folding>
+                <element signature="e#115#138#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/code/inifile.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="533">
+              <caret line="38" column="14" selection-start-line="38" selection-start-column="14" selection-end-line="38" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/code/inifile.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="14" column="17" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/gui_memcards.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="82" column="64" selection-start-line="82" selection-start-column="48" selection-end-line="82" selection-end-column="64" />
+            <state relative-caret-position="518">
+              <caret line="146" column="41" selection-start-line="128" selection-start-column="22" selection-end-line="146" selection-end-column="41" />
               <folding>
                 <element signature="e#45#70#0" expanded="true" />
               </folding>
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/gui_keyboard.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
-              <folding>
-                <element signature="e#120#137#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/code/gui_keyboard.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="175" column="40" selection-start-line="175" selection-start-column="40" selection-end-line="175" selection-end-column="40" />
-              <folding>
-                <element signature="e#45#70#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/gui_manager.cpp">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/gui_manager.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/util.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="219" column="11" selection-start-line="219" selection-start-column="11" selection-end-line="219" selection-end-column="11" />
+            <state relative-caret-position="345">
+              <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
               <folding>
-                <element signature="e#0#17#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/gui_memcards.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="12" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
-              <folding>
-                <element signature="e#119#142#0" expanded="true" />
+                <element signature="e#117#140#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -213,14 +221,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/include/database.h" />
-        <option value="/Volumes/SONY/Games/AutoLoad Sample/GameData/SLUS-01115.cue" />
-        <option value="$PROJECT_DIR$/src/code/unecm.c" />
         <option value="$PROJECT_DIR$/src/code/ecmhelper.cpp" />
         <option value="$PROJECT_DIR$/src/code/ecmhelper.h" />
         <option value="$PROJECT_DIR$/src/code/metadata.h" />
         <option value="$PROJECT_DIR$/src/code/database.h" />
-        <option value="$PROJECT_DIR$/src/code/inifile.h" />
         <option value="$PROJECT_DIR$/src/code/database.cpp" />
         <option value="$PROJECT_DIR$/src/code/metadata.cpp" />
         <option value="$PROJECT_DIR$/src/code/isodir.h" />
@@ -229,11 +233,9 @@
         <option value="$PROJECT_DIR$/src/code/config.cpp" />
         <option value="$PROJECT_DIR$/src/code/scanner.h" />
         <option value="$PROJECT_DIR$/src/code/starter.c" />
-        <option value="$PROJECT_DIR$/src/code/inifile.cpp" />
         <option value="$PROJECT_DIR$/src/code/game.h" />
         <option value="$PROJECT_DIR$/src/code/game.cpp" />
         <option value="$PROJECT_DIR$/src/code/util.h" />
-        <option value="$PROJECT_DIR$/src/code/scanner.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/code/gui_about.h" />
         <option value="$PROJECT_DIR$/src/code/gui_screen.h" />
@@ -246,24 +248,30 @@
         <option value="$PROJECT_DIR$/src/code/gui_splash.cpp" />
         <option value="$PROJECT_DIR$/src/code/gui_options.h" />
         <option value="$PROJECT_DIR$/src/code/main.cpp" />
-        <option value="$PROJECT_DIR$/src/code/gui_memcards.h" />
         <option value="$PROJECT_DIR$/src/resources/theme/default/theme.ini" />
         <option value="$PROJECT_DIR$/src/resources/theme/psone/theme.ini" />
         <option value="$PROJECT_DIR$/src/code/gui_confirm.h" />
-        <option value="$PROJECT_DIR$/src/code/gui_options.cpp" />
-        <option value="$PROJECT_DIR$/src/code/gui_about.cpp" />
         <option value="$PROJECT_DIR$/src/code/gui_confirm.cpp" />
         <option value="$PROJECT_DIR$/src/code/gui.h" />
         <option value="$PROJECT_DIR$/src/code/gui_keyboard.h" />
-        <option value="$PROJECT_DIR$/src/code/main.h" />
-        <option value="$PROJECT_DIR$/src/code/gui.cpp" />
         <option value="$PROJECT_DIR$/src/code/util.cpp" />
-        <option value="$PROJECT_DIR$/src/code/memcard.cpp" />
         <option value="$PROJECT_DIR$/src/code/memcard.h" />
         <option value="$PROJECT_DIR$/src/code/starter.cpp" />
-        <option value="$PROJECT_DIR$/src/code/gui_manager.h" />
         <option value="$PROJECT_DIR$/src/code/gui_memcards.cpp" />
         <option value="$PROJECT_DIR$/src/code/gui_keyboard.cpp" />
+        <option value="$PROJECT_DIR$/src/code/gui.cpp" />
+        <option value="$PROJECT_DIR$/src/code/gui_options.cpp" />
+        <option value="$PROJECT_DIR$/src/code/gui_about.cpp" />
+        <option value="$PROJECT_DIR$/src/code/scanner.cpp" />
+        <option value="$PROJECT_DIR$/src/code/main.h" />
+        <option value="$PROJECT_DIR$/src/code/gui_memcards.h" />
+        <option value="$PROJECT_DIR$/src/code/inifile.cpp" />
+        <option value="$PROJECT_DIR$/src/code/gui_editor.h" />
+        <option value="$PROJECT_DIR$/src/code/gui_manager.h" />
+        <option value="$PROJECT_DIR$/src/code/inifile.h" />
+        <option value="$PROJECT_DIR$/src/code/gui_manager.cpp" />
+        <option value="$PROJECT_DIR$/src/code/gui_editor.cpp" />
+        <option value="$PROJECT_DIR$/src/code/memcard.cpp" />
       </list>
     </option>
   </component>
@@ -307,21 +315,6 @@
               <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="autobleem-gui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="theme" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="autobleem-gui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="theme" type="462c0819:PsiDirectoryNode" />
-              <item name="psone" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -418,14 +411,7 @@
       <workItem from="1547755424200" duration="15000" />
       <workItem from="1547755550219" duration="279000" />
       <workItem from="1547934567961" duration="6637000" />
-      <workItem from="1548194594028" duration="41806000" />
-    </task>
-    <task id="LOCAL-00020" summary="Cleanups">
-      <created>1544989885214</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1544989885214</updated>
+      <workItem from="1548194594028" duration="51834000" />
     </task>
     <task id="LOCAL-00021" summary="Cleanups">
       <created>1544989940547</created>
@@ -763,23 +749,29 @@
       <option name="project" value="LOCAL" />
       <updated>1548368970414</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="Card Support - first screen">
+      <created>1548370203317</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1548370203317</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="256772000" />
+    <option name="totallyTimeSpent" value="266800000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-3" y="47" width="1920" height="1009" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7355263" visible="true" weight="0.18370607" />
-      <window_info id="Structure" order="1" sideWeight="0.26447368" side_tool="true" visible="true" weight="0.18370607" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7344538" visible="true" weight="0.18370607" />
+      <window_info id="Structure" order="1" sideWeight="0.26554623" side_tool="true" visible="true" weight="0.18370607" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49733758" weight="0.32824427" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.2971246" visible="true" weight="0.17121047" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.45047924" weight="0.35114503" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.2971246" weight="0.17121047" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.45047924" visible="true" weight="0.35114503" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -841,23 +833,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Card Support - first screen" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/resources/theme/psone/ab.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/sqlite3.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="882360">
-          <caret line="58824" column="28" selection-start-line="58824" selection-start-column="28" selection-end-line="58824" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/isodir.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="15" selection-start-line="33" selection-start-column="15" selection-end-line="33" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/isodir.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -884,32 +859,12 @@
     <entry file="file://$PROJECT_DIR$/src/resources/theme/default/r1.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/inifile.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="38" selection-start-line="38" selection-end-line="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/scanner.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="200" column="48" selection-start-line="196" selection-start-column="3" selection-end-line="200" selection-end-column="48" />
-          <folding>
-            <element signature="e#45#65#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="452">
           <caret line="47" column="47" selection-start-line="47" selection-start-column="47" selection-end-line="47" selection-end-column="47" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_screen.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/code/gui_splash.h">
       <provider selected="true" editor-type-id="text-editor">
@@ -964,37 +919,10 @@
     <entry file="file://$PROJECT_DIR$/src/code/ecmhelper.h">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5955">
-          <caret line="397" column="36" selection-start-line="397" selection-start-column="36" selection-end-line="397" selection-end-column="36" />
-          <folding>
-            <element signature="e#44#61#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/game.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="48" column="15" selection-start-line="48" selection-start-column="15" selection-end-line="48" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/resources/config.ini">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1" column="12" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_options.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="69" selection-start-line="19" selection-start-column="69" selection-end-line="19" selection-end-column="69" />
-          <folding>
-            <element signature="e#118#141#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1032,40 +960,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_about.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="23" selection-start-line="7" selection-end-line="7" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_about.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="19" column="49" selection-start-line="19" selection-start-column="49" selection-end-line="19" selection-end-column="49" />
-          <folding>
-            <element signature="e#45#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_confirm.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-          <folding>
-            <element signature="e#118#135#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_confirm.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="5" selection-start-line="5" selection-end-line="11" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/gui_splash.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="67">
@@ -1086,49 +980,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_options.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
-          <caret line="117" column="21" selection-start-line="101" selection-start-column="14" selection-end-line="117" selection-end-column="21" />
-          <folding>
-            <element signature="e#45#69#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/main.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="639">
-          <caret line="61" column="23" selection-start-line="61" selection-start-column="23" selection-end-line="61" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="453">
-          <caret line="197" selection-start-line="197" selection-end-line="197" />
-          <folding>
-            <element signature="e#45#61#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/util.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="47" column="30" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
           <folding>
             <element signature="e#304#322#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/memcard.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
-          <folding>
-            <element signature="e#110#127#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1143,49 +1000,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/memcard.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
-          <caret line="68" column="18" selection-start-line="68" selection-start-column="18" selection-end-line="68" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/util.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="237">
           <caret line="219" column="11" selection-start-line="219" selection-start-column="11" selection-end-line="219" selection-end-column="11" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_memcards.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="12" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
-          <folding>
-            <element signature="e#119#142#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_manager.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_manager.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_memcards.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="82" column="64" selection-start-line="82" selection-start-column="48" selection-end-line="82" selection-end-column="64" />
-          <folding>
-            <element signature="e#45#70#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1200,12 +1020,198 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_screen.cpp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_confirm.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="5" selection-start-line="5" selection-end-line="11" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_confirm.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" selection-start-line="8" selection-end-line="9" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_about.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" selection-start-line="11" selection-end-line="12" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/gui_keyboard.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="175" column="40" selection-start-line="175" selection-start-column="40" selection-end-line="175" selection-end-column="40" />
+        <state relative-caret-position="90">
+          <caret line="6" selection-start-line="6" selection-end-line="11" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_options.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="69" selection-start-line="19" selection-start-column="69" selection-end-line="19" selection-end-column="69" />
+          <folding>
+            <element signature="e#118#141#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_options.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="72" column="29" selection-start-line="72" selection-start-column="29" selection-end-line="72" selection-end-column="29" />
+          <folding>
+            <element signature="e#45#69#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/game.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="560">
+          <caret line="48" column="15" selection-start-line="48" selection-start-column="15" selection-end-line="48" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="434">
+          <caret line="479" column="15" selection-start-line="479" selection-start-column="15" selection-end-line="479" selection-end-column="15" />
+          <folding>
+            <element signature="e#44#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/main.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="50" column="27" selection-start-line="50" selection-start-column="27" selection-end-line="50" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/scanner.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4589">
+          <caret line="306" column="48" selection-start-line="306" selection-start-column="3" selection-end-line="306" selection-end-column="48" />
+          <folding>
+            <element signature="e#45#65#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_memcards.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="2" selection-start-line="19" selection-start-column="2" selection-end-line="22" selection-end-column="22" />
+          <folding>
+            <element signature="e#119#142#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="297" column="46" selection-start-line="297" selection-start-column="46" selection-end-line="297" selection-end-column="46" />
+          <folding>
+            <element signature="e#45#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_about.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="54" selection-end-column="5" />
+          <folding>
+            <element signature="e#45#67#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_memcards.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="518">
+          <caret line="146" column="41" selection-start-line="128" selection-start-column="22" selection-end-line="146" selection-end-column="41" />
           <folding>
             <element signature="e#45#70#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_manager.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+          <folding>
+            <element signature="e#117#140#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/inifile.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="533">
+          <caret line="38" column="14" selection-start-line="38" selection-start-column="14" selection-end-line="38" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/memcard.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
+          <folding>
+            <element signature="e#110#127#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/inifile.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="14" column="17" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_manager.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="386">
+          <caret line="44" column="29" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
+          <folding>
+            <element signature="e#45#69#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_editor.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+          <folding>
+            <element signature="e#115#138#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/memcard.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_editor.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="86" selection-start-line="86" selection-end-line="86" />
+          <folding>
+            <element signature="e#45#68#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -8,7 +8,7 @@
 #include "gui_splash.h"
 #include "gui_options.h"
 #include "gui_memcards.h"
-#include "gui_keyboard.h"
+#include "gui_manager.h"
 
 
 void Gui::logText(string message) {
@@ -185,7 +185,7 @@ void Gui::menuSelection() {
 
 
     otherMenuShift = false;
-    string mainMenu = "|@Start| AutoBleem    |@X|  Re/Scan   |@O|  Original  |@S|  RetroArch   |@T|  About   |@Select|  Options  |@R1| Other|";
+    string mainMenu = "|@Start| AutoBleem    |@X|  Re/Scan   |@O|  Original  |@S|  RetroArch   |@T|  About   |@Select|  Options  |@R1| Advanced|";
     string forceScanMenu = "Games changed. Press  |@X|  to scan|";
     string otherMenu = "|@X|  Memory Cards   |@O|  Game Manager |";
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
@@ -288,6 +288,17 @@ void Gui::menuSelection() {
                             memcardsScreen->render();
                             memcardsScreen->loop();
                             delete memcardsScreen;
+
+                            menuSelection();
+                            menuVisible = false;
+                        };
+
+                        if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                            GuiManager *managerScreen = new GuiManager();
+                            managerScreen->init(renderer);
+                            managerScreen->render();
+                            managerScreen->loop();
+                            delete managerScreen;
 
                             menuSelection();
                             menuVisible = false;

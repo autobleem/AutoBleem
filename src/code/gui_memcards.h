@@ -17,7 +17,7 @@ public:
     void loop();
 
     vector<string> cards;
-    int selectedCards=0;
+    int selected=0;
     int maxVisible=8;
     int firstVisible=0;
     int lastVisible=8;
