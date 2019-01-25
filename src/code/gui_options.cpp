@@ -55,6 +55,13 @@ void GuiOptions::init()
     autoregion.clear();
     autoregion.push_back("true");
     autoregion.push_back("false");
+    retroarch.clear();
+    retroarch.push_back("true");
+    retroarch.push_back("false");
+    adv.clear();
+    adv.push_back("true");
+    adv.push_back("false");
+
 }
 void GuiOptions::render()
 {
@@ -69,6 +76,8 @@ void GuiOptions::render()
     gui->renderTextLine("Process configuration on scan: " + gui->cfg.inifile.values["autoregion"], 4, offset);
     gui->renderTextLine("Mipmap patch: " + gui->cfg.inifile.values["mip"], 5, offset);
     gui->renderTextLine("Overmount PCSX: " + gui->cfg.inifile.values["pcsx"], 6, offset);
+    gui->renderTextLine("Show RetroArch: " + gui->cfg.inifile.values["retroarch"], 7, offset);
+    gui->renderTextLine("Advanced: " + gui->cfg.inifile.values["adv"], 8, offset);
     gui->renderStatus("|@O| Go back|");
 
     gui->renderSelectionBox(selOption+1,offset);
@@ -102,8 +111,8 @@ void GuiOptions::loop()
                     if (e.jaxis.axis == 1) {
                         if (e.jaxis.value > 3200) {
                             selOption++;
-                            if (selOption > 5) {
-                                selOption = 5;
+                            if (selOption > 7) {
+                                selOption = 7;
                             }
                             render();
                         }
@@ -155,6 +164,17 @@ void GuiOptions::loop()
 
 
                             }
+                            if (selOption == 6) {
+                                string nextValue = getOption(retroarch, gui->cfg.inifile.values["retroarch"], true);
+                                gui->cfg.inifile.values["retroarch"] = nextValue;
+
+                            }
+                            if (selOption == 7) {
+                                string nextValue = getOption(adv, gui->cfg.inifile.values["adv"], true);
+                                gui->cfg.inifile.values["adv"] = nextValue;
+
+                            }
+
                             render();
                         }
                         if (e.jaxis.value < -3200) {
@@ -189,6 +209,16 @@ void GuiOptions::loop()
                             if (selOption == 5) {
                                 string nextValue = getOption(pcsx, gui->cfg.inifile.values["pcsx"], false);
                                 gui->cfg.inifile.values["pcsx"] = nextValue;
+
+                            }
+                            if (selOption == 6) {
+                                string nextValue = getOption(retroarch, gui->cfg.inifile.values["retroarch"], false);
+                                gui->cfg.inifile.values["retroarch"] = nextValue;
+
+                            }
+                            if (selOption == 7) {
+                                string nextValue = getOption(adv, gui->cfg.inifile.values["adv"], false);
+                                gui->cfg.inifile.values["adv"] = nextValue;
 
                             }
                             render();

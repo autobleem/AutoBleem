@@ -51,7 +51,7 @@ int main (int argc, char *argv[])
             if (!card->swapIn("./.pcsx",memcard))
             {
                 memcard = "SONY";
-                ini.values['memcard']="SONY";
+                ini.values["memcard"]="SONY";
                 ini.save(path+"Game.ini");
             };
             delete card;

@@ -27,6 +27,9 @@ public:
     vector<string> nomusic;
     vector<string> autoregion;
 
+    vector<string> retroarch;
+    vector<string> adv;
+
     using GuiScreen::GuiScreen;
 };
 

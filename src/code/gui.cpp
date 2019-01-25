@@ -27,7 +27,7 @@ void logText(char *message) {
 
 
 void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text, TTF_Font *font,
-                               SDL_Texture **texture, SDL_Rect *rect) {
+                         SDL_Texture **texture, SDL_Rect *rect) {
     int text_width;
     int text_height;
     SDL_Surface *surface;
@@ -53,27 +53,24 @@ void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
     rect->h = text_height;
 }
 
-void Gui::renderBackground()
-{
+void Gui::renderBackground() {
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, backgroundImg, NULL, &backgroundRect);
 }
 
-int Gui::renderLogo(bool small)
-{
+int Gui::renderLogo(bool small) {
     if (!small) {
         SDL_RenderCopy(renderer, logo, NULL, &logoRect);
         return 0;
-    } else
-    {
+    } else {
         SDL_Rect rect;
         rect.x = atoi(themeData.values["opscreenx"].c_str());
         rect.y = atoi(themeData.values["opscreeny"].c_str());
         rect.w = logoRect.w / 3;
         rect.h = logoRect.h / 3;
         SDL_RenderCopy(renderer, logo, NULL, &rect);
-        return rect.y+rect.h;
+        return rect.y + rect.h;
     }
 }
 
@@ -136,9 +133,8 @@ void Gui::loadAssets() {
 }
 
 
-
 void Gui::display(bool forceScan, string path) {
-    this->path=path;
+    this->path = path;
     this->forceScan = forceScan;
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO);
     Mix_Init(0);
@@ -149,7 +145,6 @@ void Gui::display(bool forceScan, string path) {
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     loadAssets();
-
 
 
     GuiSplash *splashScreen = new GuiSplash(renderer);
@@ -175,17 +170,24 @@ void Gui::saveSelection() {
 }
 
 
-
-
-
-
 bool otherMenuShift = false;
 
 void Gui::menuSelection() {
 
 
     otherMenuShift = false;
-    string mainMenu = "|@Start| AutoBleem    |@X|  Re/Scan   |@O|  Original  |@S|  RetroArch   |@T|  About   |@Select|  Options  |@R1| Advanced|";
+    string retroarch = cfg.inifile.values["retroarch"];
+    string adv = cfg.inifile.values["adv"];
+    string mainMenu = "|@Start| AutoBleem    |@X|  Re/Scan   |@O|  Original  ";
+
+    if (retroarch == "true") {
+        mainMenu += "|@S|  RetroArch   ";
+    }
+    mainMenu += "|@T|  About   |@Select|  Options ";
+    if (adv == "true") {
+        mainMenu += "|@R1| Advanced";
+    }
+
     string forceScanMenu = "Games changed. Press  |@X|  to scan|";
     string otherMenu = "|@X|  Memory Cards   |@O|  Game Manager |";
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
@@ -194,7 +196,6 @@ void Gui::menuSelection() {
         joystick = SDL_JoystickOpen(i);
         cout << "--" << SDL_JoystickName(joystick) << endl;
     }
-
 
 
     if (!forceScan) {
@@ -215,20 +216,23 @@ void Gui::menuSelection() {
             }
             switch (e.type) {
                 case SDL_JOYBUTTONUP:
-                    if (!forceScan) {
-                        if (e.jbutton.button == PCS_BTN_R1) {
-                            drawText(mainMenu);
-                            otherMenuShift = false;
+                    if (retroarch != "false") {
+                        if (!forceScan) {
+                            if (e.jbutton.button == PCS_BTN_R1) {
+                                drawText(mainMenu);
+                                otherMenuShift = false;
+                            }
                         }
                     }
                     break;
                 case SDL_JOYBUTTONDOWN:
 
-
-                    if (!forceScan) {
-                        if (e.jbutton.button == PCS_BTN_R1) {
-                            drawText(otherMenu);
-                            otherMenuShift = true;
+                    if (retroarch != "false") {
+                        if (!forceScan) {
+                            if (e.jbutton.button == PCS_BTN_R1) {
+                                drawText(otherMenu);
+                                otherMenuShift = true;
+                            }
                         }
                     }
 
@@ -242,12 +246,15 @@ void Gui::menuSelection() {
                             };
 
                         if (!forceScan)
-                            if (e.jbutton.button == PCS_BTN_SQUARE) {
-                                this->menuOption = MENU_OPTION_RETRO;
+                            if (retroarch != "false") {
+                                if (e.jbutton.button == PCS_BTN_SQUARE) {
+                                    this->menuOption = MENU_OPTION_RETRO;
 
-                                menuVisible = false;
+                                    menuVisible = false;
 
-                            };
+                                };
+                            }
+
                         if (e.jbutton.button == PCS_BTN_CROSS) {
                             this->menuOption = MENU_OPTION_SCAN;
 
@@ -262,7 +269,7 @@ void Gui::menuSelection() {
                             menuVisible = false;
                         };
                         if (e.jbutton.button == PCS_BTN_SELECT) {
-                            GuiOptions * options=new GuiOptions(renderer);
+                            GuiOptions *options = new GuiOptions(renderer);
                             options->show();
                             delete options;
                             menuSelection();
@@ -276,8 +283,7 @@ void Gui::menuSelection() {
 
                             };
                         break;
-                    } else
-                    {
+                    } else {
                         if (e.jbutton.button == PCS_BTN_CROSS) {
                             GuiMemcards *memcardsScreen = new GuiMemcards(renderer);
                             memcardsScreen->show();
@@ -320,10 +326,12 @@ void Gui::finish() {
 
 
 void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *font, SDL_Texture **texture,
-                                    SDL_Rect *rect) {
-    if (text.find("|") == std::string::npos) {
+                              SDL_Rect *rect) {
+    if (text.empty()) text = " ";
+    if (text.back() != '|') {
         text = text + "|";
     }
+
     vector<SDL_Texture *> textTexures;
     vector<string> textParts;
     std::string delimiter = "|";
@@ -430,8 +438,9 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     textTexures.clear();
 }
 
-void Gui::renderStatus(string text)
-{
+void Gui::renderStatus(string text) {
+
+
     SDL_Texture *textTex;
     SDL_Rect textRec;
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
@@ -459,12 +468,11 @@ void Gui::drawText(string text) {
     SDL_RenderPresent(renderer);
 }
 
-void Gui::renderLabelBox(int line, int offset)
-{
+void Gui::renderLabelBox(int line, int offset) {
     SDL_Texture *textTex;
     SDL_Rect textRec;
 
-    getTextAndRect(renderer,0,0,"*",font,&textTex, &textRec);
+    getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
 
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
@@ -484,12 +492,11 @@ void Gui::renderLabelBox(int line, int offset)
     SDL_RenderFillRect(renderer, &rectSelection);
 }
 
-void Gui::renderSelectionBox(int line, int offset)
-{
+void Gui::renderSelectionBox(int line, int offset) {
     SDL_Texture *textTex;
     SDL_Rect textRec;
 
-    getTextAndRect(renderer,0,0,"*",font,&textTex, &textRec);
+    getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
 
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
@@ -508,12 +515,12 @@ void Gui::renderSelectionBox(int line, int offset)
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_RenderDrawRect(renderer, &rectSelection);
 }
-void Gui::renderTextLine(string text, int line, int offset)
-{
-    renderTextLine(text,line,offset,false);
+
+void Gui::renderTextLine(string text, int line, int offset) {
+    renderTextLine(text, line, offset, false);
 }
-void Gui::renderTextLine(string text, int line, int offset, bool center)
-{
+
+void Gui::renderTextLine(string text, int line, int offset, bool center) {
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
@@ -523,18 +530,16 @@ void Gui::renderTextLine(string text, int line, int offset, bool center)
     SDL_Texture *textTex;
     SDL_Rect textRec;
 
-    getTextAndRect(renderer,0,0,"*",font,&textTex, &textRec);
+    getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
 
-    getTextAndRect(renderer, rect2.x + 10,  (textRec.h*line) + offset,
-                        text.c_str(), font, &textTex, &textRec);
+    getTextAndRect(renderer, rect2.x + 10, (textRec.h * line) + offset,
+                   text.c_str(), font, &textTex, &textRec);
 
-    if (textRec.w>=(1280-rect2.x*4))
-    {
-        textRec.w=(1280-rect2.x*4);
+    if (textRec.w >= (1280 - rect2.x * 4)) {
+        textRec.w = (1280 - rect2.x * 4);
     }
-    if (center)
-    {
-        textRec.x = (1280/2)-textRec.w/2;
+    if (center) {
+        textRec.x = (1280 / 2) - textRec.w / 2;
     }
 
 
@@ -542,8 +547,7 @@ void Gui::renderTextLine(string text, int line, int offset, bool center)
     SDL_DestroyTexture(textTex);
 }
 
-void Gui::renderTextChar(string text, int line, int offset, int posx)
-{
+void Gui::renderTextChar(string text, int line, int offset, int posx) {
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
@@ -553,16 +557,15 @@ void Gui::renderTextChar(string text, int line, int offset, int posx)
     SDL_Texture *textTex;
     SDL_Rect textRec;
 
-    getTextAndRect(renderer,0,0,"*",font,&textTex, &textRec);
-    getTextAndRect(renderer, posx,  (textRec.h*line) + offset,
+    getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
+    getTextAndRect(renderer, posx, (textRec.h * line) + offset,
                    text.c_str(), font, &textTex, &textRec);
 
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
     SDL_DestroyTexture(textTex);
 }
 
-void Gui::renderTextBar()
-{
+void Gui::renderTextBar() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
