@@ -92,6 +92,46 @@ static const char cue2[] = "FILE \"{binName}\" BINARY\n"
                            "    INDEX 00 00:00:00\n"
                            "    INDEX 01 00:02:00\n";
 
+void repairBinCommaNames(string path)
+{
+    for (DirEntry entry:Util::diru(path)) {
+        if (entry.name.find(",")!=string::npos)
+        {
+            string newName = entry.name;
+            Util::replaceAll(newName,",","-");
+            rename( (path + entry.name).c_str(), (path + newName).c_str());
+            entry.name = newName;
+            if (Util::matchExtension(entry.name,EXT_CUE))
+            {
+                // process cue inside
+                ifstream is(path+Util::separator()+entry.name);
+                ofstream os(path+Util::separator()+entry.name+".new");
+                string line;
+                while (getline(is, line)) {
+                    trim(line);
+                    if (!line.empty())
+                    {
+                       if ((line.rfind("FILE",0)==0) || (line.rfind("file",0)==0))
+                       {
+                           Util::replaceAll(line,",","-");
+                       }
+                    }
+                    os << line << endl;
+                }
+
+                os.flush();
+                os.close();
+                is.close();
+
+                remove((path+Util::separator()+entry.name).c_str());
+                rename((path+Util::separator()+entry.name+".new").c_str(),(path+Util::separator()+entry.name ).c_str());
+
+            }
+        }
+
+
+    }
+}
 
 void repairMissingCue(string path, string folderName) {
     vector<string> binFiles;
@@ -200,6 +240,17 @@ void Scanner::scanDirectory(string path) {
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
 
+
+        // fix for comma in dirname
+        if (entry.name.find(",")!=string::npos)
+        {
+            string newName = entry.name;
+            Util::replaceAll(newName,",","-");
+            rename( (path + entry.name).c_str(), (path + newName).c_str());
+            entry.name = newName;
+        }
+
+        repairBinCommaNames(path + entry.name+ Util::separator());
         prev << entry.name << endl;
 
         string saveStateDir = path+Util::separator()+"!SaveStates"+Util::separator()+entry.name;
@@ -224,6 +275,7 @@ void Scanner::scanDirectory(string path) {
 
         if (game.imageType==0) // only cue/bin
         {
+
             repairMissingCue(gameDataPath, entry.name);
             unecm(gameDataPath);
         }
