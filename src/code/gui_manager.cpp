@@ -21,11 +21,11 @@ bool wayToSort(Inifile i, Inifile j) {
     return title1 < title2;
 }
 
-void GuiManager::init(SDL_Renderer *renderer1)
+void GuiManager::init()
 {
     games.clear();
     // Create list of games
-    renderer=renderer1;
+
     shared_ptr<Gui> gui(Gui::getInstance());
     string path = gui->path;
     for (DirEntry entry: Util::dir(path)) {
@@ -87,7 +87,7 @@ void GuiManager::render()
     }
 
 
-    gui->renderStatus("Game " + to_string(selected + 1) + "/" + to_string(games.size()) +"|@X| Select Game |@O| Close |");
+    gui->renderStatus("Game " + to_string(selected + 1) + "/" + to_string(games.size()) +"    |@X| Select  |@O| Close |");
     SDL_RenderPresent(renderer);
 }
 
@@ -138,15 +138,14 @@ void GuiManager::loop()
                     if (e.jbutton.button == PCS_BTN_CROSS) {
                         if (!games.empty())
                         {
-                            GuiEditor *editor = new GuiEditor();
-                            editor->init(renderer,games[selected]);
-                            editor->render();
-                            editor->loop();
+                            GuiEditor *editor = new GuiEditor(renderer);
+                            editor->game = games[selected];
+                            editor->show();
                             if (editor->changes)
                             {
                                 changes = true;
                                 int selectedNow=selected;
-                                init(renderer);
+                                init();
                                 selected = selectedNow;
                             }
                             render();

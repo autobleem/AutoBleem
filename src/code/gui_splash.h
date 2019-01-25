@@ -13,6 +13,8 @@ public:
 
     int alpha;
     int start;
+
+    using GuiScreen::GuiScreen;
 };
 
 

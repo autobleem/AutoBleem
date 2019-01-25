@@ -15,6 +15,8 @@ public:
 
     string label="";
     bool result=false;
+
+    using GuiScreen::GuiScreen;
 };
 
 

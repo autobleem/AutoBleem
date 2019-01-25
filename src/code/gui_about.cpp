@@ -24,7 +24,7 @@ void GuiAbout::render()
     gui->renderTextLine("This is free and open source software. It works AS IS and I take no reponsibility for any issues.",5,offset);
     gui->renderTextLine("If you want to donate this project send me some small amount to PayPal: screemer1@o2.pl ",6,offset);
     gui->renderTextLine("If you want just to chat join ModMyClassic Discord channel and .. find 'screemer' ...",8,offset);
-    gui->renderStatus("|@X| Go back|");
+    gui->renderStatus("|@O| Go back|");
     SDL_RenderPresent(renderer);
 }
 
@@ -42,7 +42,7 @@ void GuiAbout::loop()
                 case SDL_JOYBUTTONUP:
 
 
-                    if (e.jbutton.button == 2) {
+                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
 
                         menuVisible = false;
 

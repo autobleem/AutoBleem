@@ -11,7 +11,7 @@ class GuiAbout : public GuiScreen {
 public:
     void render();
     void loop();
-
+    using GuiScreen::GuiScreen;
 };
 
 

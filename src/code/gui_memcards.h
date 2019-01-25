@@ -12,7 +12,7 @@ using namespace std;
 
 class GuiMemcards : public GuiScreen {
 public:
-    void init(SDL_Renderer * renderer1);
+    void init();
     void render();
     void loop();
 
@@ -21,7 +21,7 @@ public:
     int maxVisible=8;
     int firstVisible=0;
     int lastVisible=8;
-
+    using GuiScreen::GuiScreen;
 };
 
 

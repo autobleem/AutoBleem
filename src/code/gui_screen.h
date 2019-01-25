@@ -13,10 +13,22 @@
 
 class GuiScreen {
 public:
-    void init(SDL_Renderer * renderer1) { renderer = renderer1; };
+    virtual void init(){};
     virtual void render()=0;
     virtual void loop()=0;
 
+    void show()
+    {
+        init();
+        render();
+        loop();
+    }
+
+    GuiScreen(SDL_Renderer * renderer1)
+    {
+        renderer=renderer1;
+
+    };
     SDL_Renderer * renderer;
 };
 

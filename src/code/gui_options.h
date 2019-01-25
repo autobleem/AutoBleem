@@ -14,7 +14,7 @@ using namespace std;
 
 class GuiOptions : public GuiScreen{
 public:
-    void init(SDL_Renderer * renderer1);
+    void init();
     void render();
     void loop();
     string getOption(vector<string> list, string current, bool next);
@@ -26,6 +26,8 @@ public:
     vector<string> mip;
     vector<string> nomusic;
     vector<string> autoregion;
+
+    using GuiScreen::GuiScreen;
 };
 
 

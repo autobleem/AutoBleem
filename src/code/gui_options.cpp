@@ -30,9 +30,8 @@ string GuiOptions::getOption(vector<string> list, string current, bool next) {
 
 
 
-void GuiOptions::init(SDL_Renderer *renderer1)
+void GuiOptions::init()
 {
-    this->renderer = renderer1;
     themes.clear();
     sthemes.clear();
     sthemes.push_back("default");
@@ -70,7 +69,7 @@ void GuiOptions::render()
     gui->renderTextLine("Process configuration on scan: " + gui->cfg.inifile.values["autoregion"], 4, offset);
     gui->renderTextLine("Mipmap patch: " + gui->cfg.inifile.values["mip"], 5, offset);
     gui->renderTextLine("Overmount PCSX: " + gui->cfg.inifile.values["pcsx"], 6, offset);
-    gui->renderStatus("|@X| Go back|");
+    gui->renderStatus("|@O| Go back|");
 
     gui->renderSelectionBox(selOption+1,offset);
 
@@ -94,7 +93,7 @@ void GuiOptions::loop()
             switch (e.type) {
                 case SDL_JOYBUTTONUP:  /* Handle Joystick Button Presses */
 
-                    if (e.jbutton.button == 2) {
+                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         gui->cfg.save();
                         menuVisible = false;
                     };
@@ -122,7 +121,7 @@ void GuiOptions::loop()
                             if (selOption == 0) {
                                 string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], true);
                                 gui->cfg.inifile.values["theme"] = nextValue;
-                                init(renderer);
+                                init();
                                 gui->loadAssets();
                             }
 
@@ -134,7 +133,7 @@ void GuiOptions::loop()
                             if (selOption == 2) {
                                 string nextValue = getOption(nomusic, gui->cfg.inifile.values["nomusic"], true);
                                 gui->cfg.inifile.values["nomusic"] = nextValue;
-                                init(renderer);
+                                init();
                                 gui->loadAssets();
 
                             }
@@ -162,7 +161,7 @@ void GuiOptions::loop()
                             if (selOption == 0) {
                                 string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], false);
                                 gui->cfg.inifile.values["theme"] = nextValue;
-                                init(renderer);
+                                init();
                                 gui->loadAssets();
                             }
                             if (selOption == 1) {
@@ -173,7 +172,7 @@ void GuiOptions::loop()
                             if (selOption == 2) {
                                 string nextValue = getOption(nomusic, gui->cfg.inifile.values["nomusic"], false);
                                 gui->cfg.inifile.values["nomusic"] = nextValue;
-                                init(renderer);
+                                init();
                                 gui->loadAssets();
 
                             }

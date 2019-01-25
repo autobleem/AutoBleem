@@ -10,13 +10,13 @@
 #include <string>
 #include "gui.h"
 #include "gui_keyboard.h"
+#include "gui_selectmemcard.h"
 #include "memcard.h"
 
 
-void GuiEditor::init(SDL_Renderer *renderer1, Inifile game) {
+void GuiEditor::init() {
     shared_ptr<Gui> gui(Gui::getInstance());
-    this->renderer = renderer1;
-    this->game = game;
+
 
     if (this->game.values["memcard"] != "SONY") {
         string cardpath =
@@ -44,19 +44,17 @@ void GuiEditor::render() {
                         offset, true);
     gui->renderTextLine("", 5, offset, false);
 
-    string guiMenu = "|@O| Rename  |@S| Change MC ";
-    if (game.values["memcard"]=="SONY")
-    {
+    string guiMenu = "|@X| Rename  |@S| Change MC ";
+    if (game.values["memcard"] == "SONY") {
         guiMenu += "|@T| Share MC  ";
     }
 
 
-    if (game.values["automation"]=="1")
-    {
+    if (game.values["automation"] == "1") {
         guiMenu += "|@Start| Block Data  ";
     }
 
-    guiMenu += "|@X| Go back|";
+    guiMenu += "|@O| Go back|";
 
     gui->renderStatus(guiMenu);
     SDL_RenderPresent(renderer);
@@ -75,15 +73,12 @@ void GuiEditor::loop() {
             switch (e.type) {
                 case SDL_JOYBUTTONDOWN:
 
-                    if (game.values["memcard"]=="SONY")
-                    {
+                    if (game.values["memcard"] == "SONY") {
                         if (e.jbutton.button == PCS_BTN_TRIANGLE) {
-                            GuiKeyboard *keyboard = new GuiKeyboard();
-                            keyboard->init(renderer);
+                            GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                             keyboard->label = "Enter new name for memory card";
                             keyboard->result = game.values["title"];
-                            keyboard->render();
-                            keyboard->loop();
+                            keyboard->show();
                             string result = keyboard->result;
                             bool cancelled = keyboard->cancelled;
                             delete (keyboard);
@@ -94,10 +89,12 @@ void GuiEditor::loop() {
 
 
                             if (!cancelled) {
-                                Memcard * memcard = new Memcard(gui->path);
-                                string savePath = gui->path+Util::separator()+"!SaveStates"+Util::separator()+game.entry+Util::separator()+"memcards";
-                                memcard->storeToRepo(savePath,result);
-                                game.values["memcard"]=result;
+                                Memcard *memcard = new Memcard(gui->path);
+                                string savePath =
+                                        gui->path + Util::separator() + "!SaveStates" + Util::separator() + game.entry +
+                                        Util::separator() + "memcards";
+                                memcard->storeToRepo(savePath, result);
+                                game.values["memcard"] = result;
                                 game.save(game.path);
                             }
                             render();
@@ -105,8 +102,7 @@ void GuiEditor::loop() {
                         };
                     }
 
-                    if (game.values["automation"]=="1")
-                    {
+                    if (game.values["automation"] == "1") {
                         if (e.jbutton.button == PCS_BTN_START) {
                             game.values["automation"] = "0";
                             game.save(game.path);
@@ -115,19 +111,37 @@ void GuiEditor::loop() {
                         };
                     }
 
-                    if (e.jbutton.button == PCS_BTN_CROSS) {
+
+                    if (e.jbutton.button == PCS_BTN_SQUARE) {
+                        GuiSelectMemcard *selector = new GuiSelectMemcard(renderer);
+                        selector->cardSelected = game.values["memcard"];
+                        selector->show();
+
+                        if (selector->selected != -1)
+                            if (selector->selected == 0) {
+                                game.values["memcard"] = "SONY";
+                                game.save(game.path);
+                            } else {
+                                game.values["memcard"] = selector->cards[selector->selected];
+                                game.save(game.path);
+                            }
+                        delete (selector);
+                        render();
+
+                    };
+
+
+                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
 
                         menuVisible = false;
 
                     };
 
-                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
-                        GuiKeyboard *keyboard = new GuiKeyboard();
-                        keyboard->init(renderer);
+                    if (e.jbutton.button == PCS_BTN_CROSS) {
+                        GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                         keyboard->label = "Enter new game name";
                         keyboard->result = game.values["title"];
-                        keyboard->render();
-                        keyboard->loop();
+                        keyboard->show();
                         string result = keyboard->result;
                         bool cancelled = keyboard->cancelled;
                         delete (keyboard);
@@ -139,6 +153,7 @@ void GuiEditor::loop() {
 
                         if (!cancelled) {
                             game.values["title"] = result;
+                            game.values["automation"] = "0";
                             game.save(game.path);
                             changes = true;
                         }

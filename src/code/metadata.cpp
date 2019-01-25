@@ -5,7 +5,7 @@
 #include "metadata.h"
 #include "database.h"
 
-static const char *jDatabases[] = {"coversU.db", "coversP.db", "coversJ.db"};
+static const char *jDatabases[] = {"../db/coversU.db", "../db/coversP.db", "../db/coversJ.db"};
 
 bool Metadata::lookup(string serial) {
     for (int i = 0; i < 3; i++) {

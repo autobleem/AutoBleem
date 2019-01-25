@@ -12,12 +12,15 @@ using namespace std;
 
 class GuiEditor : public GuiScreen{
 public:
-    void init(SDL_Renderer *renderer1, Inifile game);
+    void init();
     void render();
     void loop();
     Inifile game;
 
+
     bool changes=false;
+
+    using GuiScreen::GuiScreen;
 };
 
 

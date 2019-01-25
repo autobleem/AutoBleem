@@ -11,7 +11,7 @@ using namespace std;
 
 class GuiManager : public GuiScreen{
 public:
-    void init(SDL_Renderer *renderer1);
+    void init();
     void render();
     void loop();
     vector<Inifile> games;
@@ -22,6 +22,8 @@ public:
     int lastVisible=8;
 
     bool changes=false;
+
+    using GuiScreen::GuiScreen;
 
 };
 

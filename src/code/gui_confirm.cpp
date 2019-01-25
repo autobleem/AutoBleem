@@ -21,7 +21,7 @@ void GuiConfirm::render()
     gui->renderTextLine(label,2,offset, true);
 
 
-    gui->renderStatus("Press |@X| Confirm  |@O| to Cancel |");
+    gui->renderStatus("|@X| Confirm  |@O| Cancel |");
     SDL_RenderPresent(renderer);
 }
 

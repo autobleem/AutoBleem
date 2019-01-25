@@ -19,6 +19,8 @@ public:
     string result="";
     bool cancelled=true;
     bool caps = false;
+
+    using GuiScreen::GuiScreen;
 };
 
 

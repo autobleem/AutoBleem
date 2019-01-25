@@ -152,9 +152,9 @@ void Gui::display(bool forceScan, string path) {
 
 
 
-    GuiSplash *splashScreen = new GuiSplash();
-    splashScreen->init(renderer);
-    splashScreen->loop();
+    GuiSplash *splashScreen = new GuiSplash(renderer);
+    splashScreen->show();
+
     delete splashScreen;
 
 
@@ -254,20 +254,16 @@ void Gui::menuSelection() {
                             menuVisible = false;
                         };
                         if (e.jbutton.button == PCS_BTN_TRIANGLE) {
-                            GuiAbout *aboutScreen = new GuiAbout();
-                            aboutScreen->init(renderer);
-                            aboutScreen->render();
-                            aboutScreen->loop();
+                            GuiAbout *aboutScreen = new GuiAbout(renderer);
+                            aboutScreen->show();
                             delete aboutScreen;
 
                             menuSelection();
                             menuVisible = false;
                         };
                         if (e.jbutton.button == PCS_BTN_SELECT) {
-                            GuiOptions * options=new GuiOptions();
-                            options->init(renderer);
-                            options->render();
-                            options->loop();
+                            GuiOptions * options=new GuiOptions(renderer);
+                            options->show();
                             delete options;
                             menuSelection();
                             menuVisible = false;
@@ -283,10 +279,8 @@ void Gui::menuSelection() {
                     } else
                     {
                         if (e.jbutton.button == PCS_BTN_CROSS) {
-                            GuiMemcards *memcardsScreen = new GuiMemcards();
-                            memcardsScreen->init(renderer);
-                            memcardsScreen->render();
-                            memcardsScreen->loop();
+                            GuiMemcards *memcardsScreen = new GuiMemcards(renderer);
+                            memcardsScreen->show();
                             delete memcardsScreen;
 
                             menuSelection();
@@ -294,10 +288,8 @@ void Gui::menuSelection() {
                         };
 
                         if (e.jbutton.button == PCS_BTN_CIRCLE) {
-                            GuiManager *managerScreen = new GuiManager();
-                            managerScreen->init(renderer);
-                            managerScreen->render();
-                            managerScreen->loop();
+                            GuiManager *managerScreen = new GuiManager(renderer);
+                            managerScreen->show();
                             delete managerScreen;
 
                             menuSelection();

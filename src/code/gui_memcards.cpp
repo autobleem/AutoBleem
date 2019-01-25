@@ -13,8 +13,7 @@
 #include "gui_confirm.h"
 #include "gui_keyboard.h"
 
-void GuiMemcards::init(SDL_Renderer *renderer1) {
-    renderer = renderer1;
+void GuiMemcards::init() {
     shared_ptr<Gui> gui(Gui::getInstance());
     Memcard *memcardOps = new Memcard(gui->path);
     cards = memcardOps->list();
@@ -60,7 +59,7 @@ void GuiMemcards::render() {
     }
 
     gui->renderStatus("Card " + to_string(selected + 1) + "/" + to_string(cards.size()) +
-                      "   |@S| New Card   |@O| Delete Card   |@X| Go back|");
+                      "    |@X| New Card   |@T| Delete Card   |@O| Go back|");
     SDL_RenderPresent(renderer);
 }
 
@@ -96,21 +95,19 @@ void GuiMemcards::loop() {
                 case SDL_JOYBUTTONDOWN:
 
 
-                    if (e.jbutton.button == PCS_BTN_CROSS) {
+                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
 
                         menuVisible = false;
 
                     };
-                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                    if (e.jbutton.button == PCS_BTN_TRIANGLE) {
 
                         if (cards.size() != 0) {
 
 
-                            GuiConfirm *guiConfirm = new GuiConfirm();
-                            guiConfirm->init(renderer);
+                            GuiConfirm *guiConfirm = new GuiConfirm(renderer);
                             guiConfirm->label = "Delete card '" + cards[selected] + "' ?";
-                            guiConfirm->render();
-                            guiConfirm->loop();
+                            guiConfirm->show();
                             bool result = guiConfirm->result;
                             delete (guiConfirm);
 
@@ -124,13 +121,11 @@ void GuiMemcards::loop() {
                         }
                     };
 
-                    if (e.jbutton.button == PCS_BTN_SQUARE) {
+                    if (e.jbutton.button == PCS_BTN_CROSS) {
 
-                        GuiKeyboard *keyboard = new GuiKeyboard();
-                        keyboard->init(renderer);
+                        GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                         keyboard->label = "Enter new card name";
-                        keyboard->render();
-                        keyboard->loop();
+                        keyboard->show();
                         string result = keyboard->result;
                         bool cancelled = keyboard->cancelled;
                         delete (keyboard);
