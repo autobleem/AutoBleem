@@ -216,7 +216,7 @@ void Gui::menuSelection() {
             }
             switch (e.type) {
                 case SDL_JOYBUTTONUP:
-                    if (retroarch != "false") {
+                    if (adv != "false") {
                         if (!forceScan) {
                             if (e.jbutton.button == PCS_BTN_R1) {
                                 drawText(mainMenu);
@@ -227,7 +227,7 @@ void Gui::menuSelection() {
                     break;
                 case SDL_JOYBUTTONDOWN:
 
-                    if (retroarch != "false") {
+                    if (adv != "false") {
                         if (!forceScan) {
                             if (e.jbutton.button == PCS_BTN_R1) {
                                 drawText(otherMenu);

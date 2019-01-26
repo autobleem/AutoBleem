@@ -144,9 +144,12 @@ void GuiManager::loop()
                             if (editor->changes)
                             {
                                 changes = true;
-                                int selectedNow=selected;
+                                selected=0;
+                                firstVisible=0;
+                                lastVisible=firstVisible+maxVisible;
                                 init();
-                                selected = selectedNow;
+
+
                             }
                             render();
                             delete editor;
