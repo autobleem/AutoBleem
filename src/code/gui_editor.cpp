@@ -35,12 +35,13 @@ void GuiEditor::render() {
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     gui->renderTextLine("-=" + game.values["title"] + "=-", 0, offset, true);
+    gui->renderTextLine("Folder: " + game.entry + "", 1, offset, true);
     gui->renderTextLine("Published by: " + game.values["publisher"] + "   Year:" + game.values["year"] + "   Players:" +
-                        game.values["players"], 1, offset, true);
+                        game.values["players"], 2, offset, true);
     gui->renderTextLine("Memory Card: " +
                         (game.values["memcard"] == "SONY" ? string("Internal") : game.values["memcard"] + "(Custom)"),
-                        2, offset, true);
-    gui->renderTextLine("Block updates: " + (game.values["automation"] == "0" ? string("True") : string("False")), 3,
+                        3, offset, true);
+    gui->renderTextLine("Block updates: " + (game.values["automation"] == "0" ? string("True") : string("False")), 4,
                         offset, true);
     gui->renderTextLine("", 5, offset, false);
 
