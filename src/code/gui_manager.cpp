@@ -138,16 +138,31 @@ void GuiManager::loop()
                     if (e.jbutton.button == PCS_BTN_CROSS) {
                         if (!games.empty())
                         {
+                            string selectedEntry = games[selected].entry;
                             GuiEditor *editor = new GuiEditor(renderer);
                             editor->game = games[selected];
                             editor->show();
                             if (editor->changes)
                             {
                                 changes = true;
+
+
                                 selected=0;
                                 firstVisible=0;
                                 lastVisible=firstVisible+maxVisible;
+
                                 init();
+                                int pos=0;
+                                for (Inifile game:games)
+                                {
+                                    if (game.entry==selectedEntry)
+                                    {
+                                        selected=pos;
+                                        firstVisible=pos;
+                                        lastVisible=firstVisible+maxVisible;
+                                    }
+                                    pos++;
+                                }
 
 
                             }

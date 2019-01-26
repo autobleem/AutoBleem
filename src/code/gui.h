@@ -14,7 +14,7 @@
 #include <memory>
 #include "config.h"
 
-#define PCS_BTN_R1       6
+#define PCS_BTN_L1       6
 #define PCS_BTN_START    9
 #define PCS_BTN_SQUARE   3
 #define PCS_BTN_TRIANGLE 0
@@ -81,7 +81,7 @@ public:
     SDL_Texture *buttonS = NULL;
     SDL_Texture *buttonStart = NULL;
     SDL_Texture *buttonSelect = NULL;
-    SDL_Texture *buttonR1 = NULL;
+    SDL_Texture *buttonL1 = NULL;
 
 
     string path;

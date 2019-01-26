@@ -9,6 +9,7 @@
 #include "database.h"
 #include "scanner.h"
 #include "gui.h"
+#include "main.h"
 
 
 using namespace std;
@@ -35,6 +36,9 @@ int scanGames( string path, string dbpath, Scanner * scanner) {
 
 
     db->disconnect();
+    shared_ptr<Gui> gui(Gui::getInstance());
+    gui->drawText("Total: "+to_string(scanner->games.size())+" games scanned.");
+    sleep(1);
     delete db;
     return (EXIT_SUCCESS);
 }
@@ -70,15 +74,23 @@ int main(int argc, char *argv[]) {
     }
 
     shared_ptr<Gui> gui(Gui::getInstance());
-    gui->display(scanner->forceScan,path);
+    gui->display(scanner->forceScan, path);
     gui->drawText("AutoBleem");
-    gui->menuSelection();
-    gui->saveSelection();
-    if (gui->menuOption==MENU_OPTION_SCAN)
-    {
-        scanGames( path, dbpath,scanner);
-    }
+    while (gui->menuOption==MENU_OPTION_SCAN) {
+        gui->menuSelection();
+        gui->saveSelection();
+        if (gui->menuOption == MENU_OPTION_SCAN) {
+            scanGames(path, dbpath, scanner);
+            if (gui->forceScan)
+            {
+                gui->forceScan=false;
+            } else
+            {
+                break;
+            }
 
+        }
+    }
 
     gui->logText("Loading ... Please Wait ...");
     gui->finish();
