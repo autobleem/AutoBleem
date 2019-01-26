@@ -1,4 +1,8 @@
-# Version 0.4.0 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
+#### WARNING: You do not need to uninstall BleemSync 0.4/0.7/1.0 from your console prior to use AutoBleem. Actually I DO NOT recommend this. Both installation and removal of BleemSync mod modifies the internal memory and if something goes wrong at that stage ... it may "soft" brick your PCS, so if BS1.0 was installed ... leave it, prepare new USB stick with AutoBleem and it will work as expected. 
+
+#### AutoBleem 0.5.0 is now in testing/debug stage and will be released soon
+
+#### Version 0.4.0 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
 # AutoBleem 
 AutoBleem is a tool to make your PlayStation Classic more usefull.
