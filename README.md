@@ -1,3 +1,5 @@
+Join our discord server: [https://discord.gg/AHUS3RM](https://discord.gg/AHUS3RM)
+
 #### WARNING: You do not need to uninstall BleemSync 0.4/0.7/1.0 from your console prior to use AutoBleem. Actually I DO NOT recommend this. Both installation and removal of BleemSync mod modifies the internal memory and if something goes wrong at that stage ... it may "soft" brick your PCS, so if BS1.0 was installed ... leave it, prepare new USB stick with AutoBleem and it will work as expected. 
 
 #### AutoBleem 0.5.0 is now in testing/debug stage and will be released soon
