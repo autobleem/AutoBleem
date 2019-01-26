@@ -1,7 +1,8 @@
-# AutoBleem - former cbleemsync
-BleemSync implementation in C++ that works on PlayStation Classic 
-It is relatively safe way to add games to your PlayStation Classic.
+# Version 0.4.0 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
+# AutoBleem 
+AutoBleem is a tool to make your PlayStation Classic more usefull.
+It is relatively safe way to add games , change look and feel, change advanced configuration of your mini console.
 
      
 ## Why this project
@@ -13,33 +14,43 @@ As BleemSync 0.4.0 was released during my development of first version I leverag
 If you want some new feature, or you find a bug please raise the issue. As I am single developler without any community support it my take some time to sort it out, so any other help welcome. 
 
 ## Is it stable and is it safe to use ?
+Version 0.4 is stable. It is well tested by multiple users. It is still pre-release ... I am planning to make version 0.5 a long time support version as the features seams to be complete then.
 
-**This is getting stable now ... but ...  use it ONLY if you know what you are doing.** 
+AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4 used, so it is SAFE TO THE SAME LEVEL. It should not brick you console, but... if you brick it I am not responsible. Your risk.... from the other side, I use this solution for some time and nothing wrong happened.
 
-## REMEBER: THIS IS STILL BETA AND MAY NEED MORE TESTING - ANY HELP WITH THIS WELCOME
+#### NOTE: This tool is made to use only with legal licenced games. The whole project does not use any licenced source code, also it does not alter any of the Sony files inside the mini console, it just uses what is already there and not alter it in any way.
 
-In general as it uses same overmounting scripts that BleemSync use it is SAFE TO THE SAME LEVEL. It should not brick you console, but... if you brick it I am not responsible. Your risk.... from the other side, I use this solution for some time and nothing wrong happened.
+## Features 
 
-## Features similar to BleemSync or upgraded
-
-1. Overmounts portions of the PSC's filesystem to safely allow modifications
-2. Modifies the stock UI to show added games
-3. Uses **GAME NAMES as folders** instead of numbered folders
-4. Supports multi-disc games(not tested yet)
-5. **Includes offline metadata and cover art databases - no download needed during sync**
-6. **Runs on boot of the PlayStation Classic** as it was designed to do so from the beginning
-7. Intelligent algorithm is trying to "fix" missing files like .cue, unpack .ecm (currently switched off)
-8. Small footprint on USB drive as no .NET Core runtime needed
-9. As written in native language for PlayStation Classic it is fast
-10. Should work with no issue with multitrack games (I had no problem with it)
+1. AutoBleem does not need to run anything on the PC. Just copy games to usb dongle and plug it in. 
+1. Does not use any internet or usb connection 
+1. Overmounts portions of the PSC's filesystem to safely allow PCS modifications
+1. Modifies the stock UI to show added games
+1. Uses **GAME NAMES as folders** instead of numbered folders
+1. Supports multi-disc games
+1. **Includes offline metadata and cover art databases - no download needed during sync**
+1. **Runs on boot of the PlayStation Classic** as it was designed to do so from the beginning
+1. Intelligent algorithm is trying to "fix" missing files like .cue, unpack .ecm 
+1. **Nice GUI that replaces need for BootMenu**
+1. Small footprint on USB drive as no .NET Core runtime needed
+1. As written in native language for PlayStation Classic it is fast
+1. Work with no issue with multitrack games (I had no problem with it)
+1. Supports **CUE/BIN** and **Not encrypted PBP (popstation created - PSN downloads will not work)** file formats
+1. Replaces BootMenu and Bleemsync..intergates with RetroArch sotware **no need to run anything on the PC**
+1. Supports themes of both AutoBleem and Sony menu
+1. **configurable filter settings**
+1. Supports multi disc games
+1. Makes your PlayStation Classic a great device
 
 ## Installation
 
-1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/AutoBleem-0.1b.zip)
-2. Extract the contents to the root of your FAT32 or ext4 formatted USB flash drive
-3. Name your flash drive SONY. This is a requirement.
-4. Download Cover Repository databases (three separate files for NTSC-U, PAL and NTSC-J)
-5. Copy Cover Repository databases into /{Your USB}/cbleemsync
+1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases/download/0.4/autobleem-v0.4.0.zip)
+1. Extract the contents to the root of your FAT32(recommended) or ext4 formatted USB flash drive
+1. Name your flash drive SONY. This is a requirement.
+1. Download Cover Repository databases (three separate files for NTSC-U, PAL and NTSC-J)
+1. Copy Cover Repository databases into /{Your USB}/cbleemsync
+1. You may want to install RetroArch (the folder is empty) - find it on ModMyClassic website - I do not distribute this software.
+1. You may want to install additional themes ... find them on reddit and copy to themes folder (follow folder structure)
 
 ## Automatic Game scanning
 
@@ -52,8 +63,10 @@ Games/
      Silent Hill/
             Silent Hill.cue
             Silent Hill.bin
+     Revolt/
+             Revolt.PBP
 ```
-AutoBleem will  find all games and create GameData folder, then move all files make it compatible with Sony UI. There are databases attached to this file with all covers and metadata.
+AutoBleem will  find all games and create GameData folder, then move all files make it compatible with Sony UI. There are databases attached to this file with all covers and metadata. Also AutoBleem will create folders to store your save data and configuration.
 
 ## Database files
 
@@ -65,7 +78,7 @@ Database is split into three separate files by region. If you do not for example
 
 The files are:
 
-[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/coversU.db) NTSC-U coversU.db  ~47MB  - 1320 games
+[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/v0.2/coversU.db) NTSC-U coversU.db  ~47MB  - 1320 games
 
 [DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/coversP.db) PAL-E  coversP.db  ~88MB  - 2582 games
 
@@ -79,7 +92,7 @@ So it is up to you to decide which files you inslude into your USB dongle. With 
 
 This software uses some parts of code based on open licences:
 
-[BleemSync](https://github.com/pathartl/BleemSync) - original implementation in C# with some different functionality
+[BleemSync](https://github.com/pathartl/BleemSync) - similar implementation in C# with some different functionality
 
 [SQLite](https://www.sqlite.org/index.html) (sqlite.c / sqlite.h)
 
@@ -97,43 +110,26 @@ Of course ... it is fully open source using GPL3.0
 AutoBleem is analysing the game folder during boot and using smart algorithm it is trying to generate all files needed to run the game, but sometimes it fails. In this case AutoBleem WILL NOT ADD THE GAME to the MENU, so if you do not see your game ... something is broken in it.
 
 ### Known Issues/Limitations
-- Games have to be in cue/bin same as on BleemSync
+- Sometimes the wrong region is set by Sony's PCSX in PlaystationClassic (example WipeoutXL) - use GUI to change Bios setting 
+- Encrypted PBP files are not loaded by PCSX ... you can only use files created using Popstation/PSX2PSP software
+- Try to set compression level to 1 (Worst) in PSX2PSP for quick load times
+
 
 ## Road Map
-v0.0 - finished - proof of concept version in plain c, same functionality as first public BleemSync - finished 
+     
+v0.4 - (current)
+     - *pbp file support
+     - gui updates
+     - pcsx configuration
+     
+v0.5 - Future (final) release
 
-v0.1 - released - rewrite with C++, ported serial scan, custom downloadable cover repository - released
-
-v0.2 - ready for testing - 
-
-     - quickboot/GUI with ability to skip scrapper, run internal games with USB in place
-     
-     - better folder structures (.pcsx is not hidden anymore)
-     
-     - quick check on boot if rescan may be needed
-     
-     - ECM decompression on boot (this is slow)
-     
-     - general fixes in code
-     
-v0.3 - planned - auto update pcsx.cfg with proper region, based on repository data
-
-     - fast, more inteligent serial number scan (bin file parser)
-     
-     - fixes in scanner to repair cue's that have invalid bin names
-     
-v0.4 - planned - integration with p7zip/unrar/zip to unzip games on boot
-
-     - rename iso to bin and create cue
-     
-v0.5 - future plans - retroarch integration as option in menu
-
-     - code cleanup and stability fixes
+     - config repository support
      
      - autoconfig high resolution based on repository data
      
      - backup of save games
      
-     - ... to be continued
+     - all other ideas not yet listed
 
 
