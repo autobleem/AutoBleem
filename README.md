@@ -24,7 +24,7 @@ AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4
 
 1. Integrated simple **Game Manager** (that you can rename games, attach custom memory cards, block autobleem owerwritting game metadata and covers )
 1. Integrated functionality to share memory cards between games
-1. Separates 
+1. Separates games and it's save states into separate folders
 1. AutoBleem does not need to run anything on the PC. Just copy games to usb dongle and plug it in. 
 1. Does not use any internet or usb connection 
 1. Overmounts portions of the PSC's filesystem to safely allow PCS modifications
