@@ -166,7 +166,9 @@ bool Game::validateCue(string cuePath, string path) {
             result = false;
         } else {
             if (i == 0) {
-                firstBinPath = binPath;
+                if (firstBinPath.empty()) {
+                    firstBinPath = binPath;
+                }
             }
 
         }
