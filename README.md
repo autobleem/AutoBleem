@@ -1,4 +1,4 @@
-# Version 0.4.0 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
+# Version 0.5.0 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
 # AutoBleem 
 AutoBleem is a tool to make your PlayStation Classic more usefull.
@@ -22,6 +22,9 @@ AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4
 
 ## Features 
 
+1. Integrated simple **Game Manager** (that you can rename games, attach custom memory cards, block autobleem owerwritting game metadata and covers )
+1. Integrated functionality to share memory cards between games
+1. Separates 
 1. AutoBleem does not need to run anything on the PC. Just copy games to usb dongle and plug it in. 
 1. Does not use any internet or usb connection 
 1. Overmounts portions of the PSC's filesystem to safely allow PCS modifications
@@ -44,11 +47,11 @@ AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4
 
 ## Installation
 
-1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases/download/0.4/autobleem-v0.4.0.zip)
+1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases/download/0.5/autobleem-v0.5.0.zip)
 1. Extract the contents to the root of your FAT32(recommended) or ext4 formatted USB flash drive
 1. Name your flash drive SONY. This is a requirement.
 1. Download Cover Repository databases (three separate files for NTSC-U, PAL and NTSC-J)
-1. Copy Cover Repository databases into /{Your USB}/cbleemsync
+1. Copy Cover Repository databases into /{Your USB}/Autobleem/bin/db
 1. You may want to install RetroArch (the folder is empty) - find it on ModMyClassic website - I do not distribute this software.
 1. You may want to install additional themes ... find them on reddit and copy to themes folder (follow folder structure)
 
@@ -92,11 +95,11 @@ So it is up to you to decide which files you inslude into your USB dongle. With 
 
 This software uses some parts of code based on open licences:
 
-[BleemSync](https://github.com/pathartl/BleemSync) - similar implementation in C# with some different functionality
+[BleemSync](https://github.com/pathartl/BleemSync) - similar implementation in C# with some different functionality (no code reused - just idea for some solutions)
 
-[SQLite](https://www.sqlite.org/index.html) (sqlite.c / sqlite.h)
+[SQLite](https://www.sqlite.org/index.html) (sqlite.c / sqlite.h) Public domain - no license
 
-UNECM - Copyright (C) 2002 Neill Corlett (GPL) (unecm.c)
+UNECM - Copyright (C) 2002 Neill Corlett (GPLv2) (unecm.c)
 
 ## Frequently Asked Questions
 ### Why not contribute to BleemSync ?
@@ -113,14 +116,11 @@ AutoBleem is analysing the game folder during boot and using smart algorithm it 
 - Sometimes the wrong region is set by Sony's PCSX in PlaystationClassic (example WipeoutXL) - use GUI to change Bios setting 
 - Encrypted PBP files are not loaded by PCSX ... you can only use files created using Popstation/PSX2PSP software
 - Try to set compression level to 1 (Worst) in PSX2PSP for quick load times
+- Some games may not be properly discovered or have missing covers
 
 
 ## Road Map
      
-v0.4 - (current)
-     - *pbp file support
-     - gui updates
-     - pcsx configuration
      
 v0.5 - Future (final) release
 
