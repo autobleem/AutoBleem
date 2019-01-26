@@ -1,0 +1,6 @@
+#!/bin/sh
+
+AB_SELECTION=2
+AB_THEME=pschd
+AB_PCSX=bleemsync
+AB_MIP=true
