@@ -78,7 +78,7 @@ void GuiManager::render()
         if (i >= games.size()) {
             break;
         }
-        gui->renderTextLine(games[i].values["title"], pos, offset);
+        gui->renderTextLine(games[i].values["title"]+"   ( "+games[i].entry+" )", pos, offset);
         pos++;
     }
 
