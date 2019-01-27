@@ -1,13 +1,15 @@
 
 # Version 0.5.0 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
+### NOTE: If you want to use RetroArch you need a christmas 2018 package from BootMenu not a retroarch folder from BleemSync 1.0. I am going to prepare my own RetroArch package at some point, but until then stick to it. Also make sure that in your RetroArch folder there is a hidden .config folder - RetroArch will not start without it. 
+
 Watch on YouTube: [New Features video](https://www.youtube.com/watch?v=NMf_CZsSLJ0)
 
 Watch on YouTube: [Installation Tutorial](https://youtu.be/QRocmHUuc20) 
 
 Join our discord server: [https://discord.gg/AHUS3RM](https://discord.gg/AHUS3RM)
 
-#### WARNING: You do not need to uninstall BleemSync 0.4/0.7/1.0 from your console prior to use AutoBleem. Actually I DO NOT recommend this. Both installation and removal of BleemSync mod modifies the internal memory and if something goes wrong at that stage ... it may "soft" brick your PCS, so if BS1.0 was installed ... leave it, prepare new USB stick with AutoBleem and it will work as expected. 
+#### NOTE: You do not need to uninstall BleemSync 0.4/0.7/1.0 from your console prior to use AutoBleem. Prepare new USB stick with AutoBleem and it will work as expected. 
 
 
 # AutoBleem 
