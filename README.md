@@ -136,6 +136,10 @@ AutoBleem is analysing the game folder during boot and using smart algorithm it 
 
 
 ## Road Map
-     
-0.5 and still have lot of ideas .... more to come
+This is just bare milestone ideas
+0.6 - upgrade UI experience and engine on existing features
+0.7 - savestate manager in starter (multiple slots)
+0.8 - coverdb editor, updater app (this might be PC ap, but optional)
+0.9 - all bugfixes and polishing what already done
+1.0 - stable release - hotfixes - develop 2.0 in parallel
 
