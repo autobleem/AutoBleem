@@ -1,6 +1,6 @@
 # Version 0.5.0 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
-Watch on YouTube: [New Features video](https://www.youtube.com/watch?v=NMf_CZsSLJ0&lc=z23dhnxwroyagriif04t1aokg0l3boqp1uvm3xlma41cbk0h00410.1548559704787881)
+Watch on YouTube: [New Features video](https://www.youtube.com/watch?v=NMf_CZsSLJ0)
 
 Watch on YouTube: [Installation Tutorial](https://youtu.be/QRocmHUuc20) 
 
@@ -18,9 +18,9 @@ As BleemSync 0.4.0 was released during my development of first version I leverag
 If you want some new feature, or you find a bug please raise the issue. As I am single developler without any community support it my take some time to sort it out, so any other help welcome. 
 
 ## Is it stable and is it safe to use ?
-Version 0.4 is stable. It is well tested by multiple users. It is still pre-release ... I am planning to make version 0.5 a long time support version as the features seams to be complete then.
+Version 0.5 is "pretty" stable. It is well tested by multiple users, but until 1.0 it is still pre-release. New features may be added over the time.
 
-AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4 used, so it is SAFE TO THE SAME LEVEL. It should not brick you console, but... if you brick it I am not responsible. Your risk.... from the other side, I use this solution for some time and nothing wrong happened.
+AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4 used, so it is SAFE TO THE SAME LEVEL. It should not brick you console, but... if you brick it I am not responsible. Your risk.... from the other side, I use this solution for some time and nothing wrong happened. **NOTE: Do not uninstall BleemSync 1.0 if it was installed.. this step is not needed.**
 
 #### NOTE: This tool is made to use only with legal licenced games. The whole project does not use any licenced source code, also it does not alter any of the Sony files inside the mini console, it just uses what is already there and not alter it in any way.
 
@@ -85,11 +85,11 @@ Database is split into three separate files by region. If you do not for example
 
 The files are:
 
-[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/v0.2/coversU.db) NTSC-U coversU.db  ~47MB  - 1320 games
+[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/v0.5/coversU.db) NTSC-U coversU.db  ~47MB  - 1320 games
 
-[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/coversP.db) PAL-E  coversP.db  ~88MB  - 2582 games
+[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/v0.5/coversP.db) PAL-E  coversP.db  ~88MB  - 2582 games
 
-[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/0.1b/coversJ.db) NTSC-J coversJ.db ~173MB  - 4785 games
+[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/v0.5/coversJ.db) NTSC-J coversJ.db ~173MB  - 4785 games
 
 So it is up to you to decide which files you inslude into your USB dongle. With all three files AutoBleem should be able to match most of the available games. If the game can not be found, it will still try to use "Generic" image, it will put the same name as the folder in Games and unknown Publisher.
 
@@ -108,10 +108,10 @@ UNECM - Copyright (C) 2002 Neill Corlett (GPLv2) (unecm.c)
 ## Frequently Asked Questions
 ### Why not contribute to BleemSync ?
 
-I am not C# developer, but Java and C++... those are totally different technologies. I will try to support BleemSync as agreed with pathartl
+I am not C# developer, but Java and C++... those are totally different technologies. I will try to support BleemSync as agreed with pathartl, but BleemSync is based on totally different ideas and visions. AutoBleem has to be simple tool and should reduce usage of PC computer to bare minimum.
 
 ### Can I extend this project ? 
-Of course ... it is fully open source using GPL3.0
+Of course ... it is fully open source using GPL3.0, also if you know any C++, SQL, Java or even how to make youtube videos talk to us on our Discord and join our team.
 
 ### I can not see my game
 AutoBleem is analysing the game folder during boot and using smart algorithm it is trying to generate all files needed to run the game, but sometimes it fails. In this case AutoBleem WILL NOT ADD THE GAME to the MENU, so if you do not see your game ... something is broken in it.
@@ -121,19 +121,11 @@ AutoBleem is analysing the game folder during boot and using smart algorithm it 
 - Encrypted PBP files are not loaded by PCSX ... you can only use files created using Popstation/PSX2PSP software
 - Try to set compression level to 1 (Worst) in PSX2PSP for quick load times
 - Some games may not be properly discovered or have missing covers
+- To enable usage of shared Memory cards you need to run a game at least once before switching cards
+- Shared cards can not be edited using SonyUI manager... The game selector shows content of Internal card all the time
 
 
 ## Road Map
      
-     
-v0.5 - Future (final) release
-
-     - config repository support
-     
-     - autoconfig high resolution based on repository data
-     
-     - backup of save games
-     
-     - all other ideas not yet listed
-
+0.5 and still have lot of ideas .... more to come
 
