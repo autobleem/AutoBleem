@@ -1,7 +1,8 @@
 # Version 0.5.0 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
-Watch [New Features video](https://www.youtube.com/watch?v=NMf_CZsSLJ0&lc=z23dhnxwroyagriif04t1aokg0l3boqp1uvm3xlma41cbk0h00410.1548559704787881)
-Watch [Installation Tutorial](https://youtu.be/QRocmHUuc20) 
+Watch on YouTube: [New Features video](https://www.youtube.com/watch?v=NMf_CZsSLJ0&lc=z23dhnxwroyagriif04t1aokg0l3boqp1uvm3xlma41cbk0h00410.1548559704787881)
+
+Watch on YouTube: [Installation Tutorial](https://youtu.be/QRocmHUuc20) 
 
 # AutoBleem 
 AutoBleem is a tool to make your PlayStation Classic more usefull.
