@@ -57,7 +57,7 @@ AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4
 
 ## Installation
 
-1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases/download/0.5/autobleem-v0.5.0.zip)
+1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases/download/v0.5/autobleem-0.5.zip)
 1. Extract the contents to the root of your FAT32(recommended) or ext4 formatted USB flash drive
 1. Name your flash drive SONY. This is a requirement.
 1. Download Cover Repository databases (three separate files for NTSC-U, PAL and NTSC-J)
