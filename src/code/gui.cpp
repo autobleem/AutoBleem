@@ -9,7 +9,7 @@
 #include "gui_options.h"
 #include "gui_memcards.h"
 #include "gui_manager.h"
-
+#include "ver_migration.h"
 
 void Gui::logText(string message) {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -133,7 +133,7 @@ void Gui::loadAssets() {
 }
 
 
-void Gui::display(bool forceScan, string path) {
+void Gui::display(bool forceScan, string path, Database * db) {
     this->path = path;
     this->forceScan = forceScan;
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO);
@@ -149,6 +149,10 @@ void Gui::display(bool forceScan, string path) {
 
     GuiSplash *splashScreen = new GuiSplash(renderer);
     splashScreen->show();
+
+    drawText("Upgrading AutoBleem - Please wait...");
+    VerMigration *migration=new VerMigration();
+    migration->migrate(db);
 
     delete splashScreen;
 

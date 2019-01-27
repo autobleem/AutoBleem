@@ -63,10 +63,8 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    VerMigration *migration=new VerMigration();
-    migration->migrate(db);
-    db->disconnect();
-    delete db;
+
+
 
     string dbpath = argv[1];
     string path = argv[2];
@@ -81,7 +79,9 @@ int main(int argc, char *argv[]) {
     }
 
     shared_ptr<Gui> gui(Gui::getInstance());
-    gui->display(scanner->forceScan, path);
+    gui->display(scanner->forceScan, path,db);
+    db->disconnect();
+    delete db;
     gui->drawText("AutoBleem");
     while (gui->menuOption==MENU_OPTION_SCAN) {
         gui->menuSelection();
@@ -98,6 +98,8 @@ int main(int argc, char *argv[]) {
 
         }
     }
+
+
 
     gui->logText("Loading ... Please Wait ...");
     gui->finish();

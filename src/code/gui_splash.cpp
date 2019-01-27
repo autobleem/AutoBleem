@@ -4,6 +4,7 @@
 
 #include "gui_splash.h"
 #include "gui.h"
+#include "ver_migration.h"
 
 void GuiSplash::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -73,4 +74,5 @@ void GuiSplash::loop() {
         }
 
     }
+
 }

@@ -12,6 +12,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include <memory>
+#include "database.h"
 #include "config.h"
 
 #define PCS_BTN_L1       6
@@ -44,7 +45,7 @@ public:
     Config cfg;
 
     Inifile themeData;
-    void display(bool forceScan, string path);
+    void display(bool forceScan, string path, Database * db);
     void finish();
     void drawText(string text);
     void getEmojiTextTexture(SDL_Renderer *renderer, string text,
