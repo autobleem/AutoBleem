@@ -12,9 +12,10 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include <memory>
+#include "database.h"
 #include "config.h"
 
-#define PCS_BTN_R1       6
+#define PCS_BTN_L1       6
 #define PCS_BTN_START    9
 #define PCS_BTN_SQUARE   3
 #define PCS_BTN_TRIANGLE 0
@@ -44,7 +45,7 @@ public:
     Config cfg;
 
     Inifile themeData;
-    void display(bool forceScan, string path);
+    void display(bool forceScan, string path, Database * db);
     void finish();
     void drawText(string text);
     void getEmojiTextTexture(SDL_Renderer *renderer, string text,
@@ -81,7 +82,7 @@ public:
     SDL_Texture *buttonS = NULL;
     SDL_Texture *buttonStart = NULL;
     SDL_Texture *buttonSelect = NULL;
-    SDL_Texture *buttonR1 = NULL;
+    SDL_Texture *buttonL1 = NULL;
 
 
     string path;

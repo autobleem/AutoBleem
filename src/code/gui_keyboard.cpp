@@ -95,14 +95,14 @@ void GuiKeyboard::loop() {
             }
             switch (e.type) {
                 case SDL_JOYBUTTONUP:
-                    if (e.jbutton.button == PCS_BTN_R1) {
+                    if (e.jbutton.button == PCS_BTN_L1) {
                         caps = false;
                         render();
                     }
                     break;
                 case SDL_JOYBUTTONDOWN:
 
-                    if (e.jbutton.button == PCS_BTN_R1) {
+                    if (e.jbutton.button == PCS_BTN_L1) {
                         caps = true;
                         render();
                     }

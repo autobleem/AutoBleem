@@ -9,7 +9,7 @@
 #include "gui_options.h"
 #include "gui_memcards.h"
 #include "gui_manager.h"
-
+#include "ver_migration.h"
 
 void Gui::logText(string message) {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -89,7 +89,7 @@ void Gui::loadAssets() {
         SDL_DestroyTexture(buttonS);
         SDL_DestroyTexture(buttonStart);
         SDL_DestroyTexture(buttonSelect);
-        SDL_DestroyTexture(buttonR1);
+        SDL_DestroyTexture(buttonL1);
         TTF_CloseFont(font);
         backgroundImg = NULL;
     }
@@ -108,7 +108,7 @@ void Gui::loadAssets() {
     buttonS = IMG_LoadTexture(renderer, (themePath + themeData.values["square"]).c_str());
     buttonSelect = IMG_LoadTexture(renderer, (themePath + themeData.values["select"]).c_str());
     buttonStart = IMG_LoadTexture(renderer, (themePath + themeData.values["start"]).c_str());
-    buttonR1 = IMG_LoadTexture(renderer, (themePath + themeData.values["r1"]).c_str());
+    buttonL1 = IMG_LoadTexture(renderer, (themePath + themeData.values["r1"]).c_str());
 
     string fontPath = (themePath + themeData.values["font"]).c_str();
     font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
@@ -133,7 +133,7 @@ void Gui::loadAssets() {
 }
 
 
-void Gui::display(bool forceScan, string path) {
+void Gui::display(bool forceScan, string path, Database * db) {
     this->path = path;
     this->forceScan = forceScan;
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO);
@@ -149,6 +149,10 @@ void Gui::display(bool forceScan, string path) {
 
     GuiSplash *splashScreen = new GuiSplash(renderer);
     splashScreen->show();
+
+    drawText("Upgrading AutoBleem - Please wait...");
+    VerMigration *migration=new VerMigration();
+    migration->migrate(db);
 
     delete splashScreen;
 
@@ -218,7 +222,7 @@ void Gui::menuSelection() {
                 case SDL_JOYBUTTONUP:
                     if (adv != "false") {
                         if (!forceScan) {
-                            if (e.jbutton.button == PCS_BTN_R1) {
+                            if (e.jbutton.button == PCS_BTN_L1) {
                                 drawText(mainMenu);
                                 otherMenuShift = false;
                             }
@@ -229,7 +233,7 @@ void Gui::menuSelection() {
 
                     if (adv != "false") {
                         if (!forceScan) {
-                            if (e.jbutton.button == PCS_BTN_R1) {
+                            if (e.jbutton.button == PCS_BTN_L1) {
                                 drawText(otherMenu);
                                 otherMenuShift = true;
                             }
@@ -319,7 +323,7 @@ void Gui::finish() {
     SDL_DestroyTexture(buttonS);
     SDL_DestroyTexture(buttonStart);
     SDL_DestroyTexture(buttonSelect);
-    SDL_DestroyTexture(buttonR1);
+    SDL_DestroyTexture(buttonL1);
     SDL_DestroyRenderer(renderer);
 
 }
@@ -362,7 +366,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
                 textTexures.push_back(buttonSelect);
             }
             if (icon == "R1") {
-                textTexures.push_back(buttonR1);
+                textTexures.push_back(buttonL1);
             }
             if (icon == "T") {
                 textTexures.push_back(buttonT);
@@ -430,7 +434,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
 
     for (SDL_Texture *tex:textTexures) {
         if ((tex != buttonSelect) && (tex != buttonS) && (tex != buttonStart) && (tex != buttonO) && (tex != buttonT) &&
-            (tex != buttonR1) &&
+            (tex != buttonL1) &&
             (tex != buttonX))
 
             SDL_DestroyTexture(tex);
