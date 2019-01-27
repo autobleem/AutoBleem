@@ -14,7 +14,7 @@ static const char SELECT_TITLE[] = "SELECT SERIAL,TITLE, PUBLISHER, \
                                 JOIN GAME g on s.GAME=g.id \
                                 WHERE TITLE=?";
 
-static const char UPDATE_YEAR[] = "UPDATE GAME SET RELEASE_YEAR=? WHERE ID=?";
+static const char UPDATE_YEAR[] = "UPDATE GAME SET RELEASE_YEAR=? WHERE GAME_ID=?";
 
 static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
 static const char CREATE_GAME_SQL[] = "CREATE TABLE IF NOT EXISTS GAME  \
