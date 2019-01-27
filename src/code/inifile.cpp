@@ -21,7 +21,7 @@ void Inifile::load(string path) {
         if (iniLine[0]=='[')
         {
             iniLine = ltrim(iniLine);
-            iniLine = iniLine.substr(1,iniLine.length()-1);
+            iniLine = iniLine.substr(1,iniLine.find(']')-1);
             section = iniLine;
         }
         if (iniLine.find('=') != string::npos) {

@@ -10,6 +10,7 @@
 #include "scanner.h"
 #include "gui.h"
 #include "main.h"
+#include "ver_migration.h"
 
 
 using namespace std;
@@ -52,12 +53,18 @@ int main(int argc, char *argv[]) {
 
 
 
+
+
+
     Scanner *scanner = new Scanner();
     Database *db = new Database();
     if (!db->connect(argv[1])) {
         delete db;
         return EXIT_FAILURE;
     }
+
+    VerMigration *migration=new VerMigration();
+    migration->migrate(db);
     db->disconnect();
     delete db;
 

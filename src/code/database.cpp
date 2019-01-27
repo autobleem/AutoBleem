@@ -8,6 +8,14 @@ static const char SELECT_META[] = "SELECT SERIAL,TITLE, PUBLISHER, \
                                 RELEASE,PLAYERS, COVER FROM SERIALS s \
                                 JOIN GAME g on s.GAME=g.id \
                                 WHERE SERIAL=? OR SERIAL LIKE ?";
+
+static const char SELECT_TITLE[] = "SELECT SERIAL,TITLE, PUBLISHER, \
+                                RELEASE,PLAYERS, COVER FROM SERIALS s \
+                                JOIN GAME g on s.GAME=g.id \
+                                WHERE TITLE=?";
+
+static const char UPDATE_YEAR[] = "UPDATE GAME SET RELEASE=? WHERE ID=?";
+
 static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
 static const char CREATE_GAME_SQL[] = "CREATE TABLE IF NOT EXISTS GAME  \
      ( [GAME_ID] integer NOT NULL UNIQUE, \
@@ -60,6 +68,61 @@ int Database::getNumGames() {
     sqlite3_finalize(res);
     return 0;
 }
+
+bool Database::updateYear(int id, int year)
+{
+    char *errorReport = nullptr;
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, UPDATE_YEAR, -1, &res, nullptr);
+    if (rc != SQLITE_OK) {
+        cerr <<  sqlite3_errmsg(db) << endl;
+        if (!errorReport) sqlite3_free(errorReport);
+        sqlite3_close(db);
+        return false;
+    }
+    sqlite3_bind_int(res, 1, year);
+    sqlite3_bind_int(res, 2, id);
+    sqlite3_step(res);
+    sqlite3_finalize(res);
+    return true;
+}
+bool Database::queryTitle(string title, Metadata *md) {
+
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, SELECT_TITLE, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+
+        sqlite3_bind_text(res, 1, title.c_str(), -1, nullptr);
+        int result = sqlite3_step(res);
+        if (result == SQLITE_ROW) {
+            const unsigned char *title = sqlite3_column_text(res, 1);
+            const unsigned char *publisher = sqlite3_column_text(res, 2);
+            const int year = sqlite3_column_int(res, 3);
+            const int players = sqlite3_column_int(res, 4);
+            const void *bytes = sqlite3_column_blob(res, 5);
+            size_t size = sqlite3_column_bytes(res, 5);
+            if (size != 0) {
+                md->dataSize = size;
+                md->bytes = new char[size];
+                memcpy(md->bytes, bytes, size);
+            }
+            md->title = std::string(reinterpret_cast<const char *>(title));
+            md->publisher = std::string(reinterpret_cast<const char *>(publisher));
+            md->year = year;
+            md->players = players;
+            md->valid = true;
+            return true;
+
+        }
+    } else {
+        cerr << "Failed to execute statement: " << sqlite3_errmsg(db) << endl;
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+    return false;
+}
+
 bool Database::querySerial(string serial, Metadata *md) {
     string serialLike = serial+"-%";
     sqlite3_stmt *res = nullptr;
