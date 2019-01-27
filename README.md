@@ -1,6 +1,6 @@
 
 
-### NOTE: There is some problem with memory card sharing - I am investigating this at the moment.
+### NOTE: Release is now updated with fixed memory card support. If you have problems with this functionality redownload autobleem-0.5.zip and reinstall AutoBleem folder (and cover db's)
 
 # Version 0.5.0 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
