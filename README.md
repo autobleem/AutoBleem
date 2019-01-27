@@ -1,7 +1,9 @@
 
 # Version 0.5.0 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
-### NOTE: If you want to use RetroArch you need a christmas 2018 package from BootMenu not a retroarch folder from BleemSync 1.0. I am going to prepare my own RetroArch package at some point, but until then stick to it. Also make sure that in your RetroArch folder there is a hidden .config folder - RetroArch will not start without it. 
+### NOTE: Confirmed RetroArch working fine - the version from BS1.0 ... Just make sure that in your RetroArch folder there is  .config folder (it is hidden on macOS and Linuxes)- RetroArch will not start without it.
+
+### NOTE: There is some problem with memory card sharing - I am investigating this.
 
 Watch on YouTube: [New Features video](https://www.youtube.com/watch?v=NMf_CZsSLJ0)
 
