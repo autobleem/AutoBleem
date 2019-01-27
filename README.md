@@ -93,7 +93,7 @@ The files are:
 
 So it is up to you to decide which files you inslude into your USB dongle. With all three files AutoBleem should be able to match most of the available games. If the game can not be found, it will still try to use "Generic" image, it will put the same name as the folder in Games and unknown Publisher.
 
-**REMEBER COPY DATABASE FILES TO /cbleemsync/ folder on USB, not any other place**
+**REMEBER COPY DATABASE FILES TO /Autobleem/bin/db folder on USB, not any other place**
 
 ## Credits and links 
 
