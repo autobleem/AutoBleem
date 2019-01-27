@@ -1,9 +1,11 @@
 
+
+### NOTE: There is some problem with memory card sharing - I am investigating this at the moment.
+
 # Version 0.5.0 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
 ### NOTE: Confirmed RetroArch working fine - the version from BS1.0 ... Just make sure that in your RetroArch folder there is  .config folder (it is hidden on macOS and Linuxes)- RetroArch will not start without it.
 
-### NOTE: There is some problem with memory card sharing - I am investigating this.
 
 Watch on YouTube: [New Features video](https://www.youtube.com/watch?v=NMf_CZsSLJ0)
 
