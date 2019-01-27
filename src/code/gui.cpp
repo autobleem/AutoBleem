@@ -90,6 +90,7 @@ void Gui::loadAssets() {
         SDL_DestroyTexture(buttonStart);
         SDL_DestroyTexture(buttonSelect);
         SDL_DestroyTexture(buttonL1);
+        SDL_DestroyTexture(buttonR1);
         TTF_CloseFont(font);
         backgroundImg = NULL;
     }
@@ -108,7 +109,8 @@ void Gui::loadAssets() {
     buttonS = IMG_LoadTexture(renderer, (themePath + themeData.values["square"]).c_str());
     buttonSelect = IMG_LoadTexture(renderer, (themePath + themeData.values["select"]).c_str());
     buttonStart = IMG_LoadTexture(renderer, (themePath + themeData.values["start"]).c_str());
-    buttonL1 = IMG_LoadTexture(renderer, (themePath + themeData.values["r1"]).c_str());
+    buttonL1 = IMG_LoadTexture(renderer, (themePath + themeData.values["l1"]).c_str());
+    buttonR1 = IMG_LoadTexture(renderer, (themePath + themeData.values["r1"]).c_str());
 
     string fontPath = (themePath + themeData.values["font"]).c_str();
     font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
@@ -189,7 +191,7 @@ void Gui::menuSelection() {
     }
     mainMenu += "|@T|  About   |@Select|  Options ";
     if (adv == "true") {
-        mainMenu += "|@R1| Advanced";
+        mainMenu += "|@L1| Advanced";
     }
 
     string forceScanMenu = "Games changed. Press  |@X|  to scan|";
@@ -324,6 +326,7 @@ void Gui::finish() {
     SDL_DestroyTexture(buttonStart);
     SDL_DestroyTexture(buttonSelect);
     SDL_DestroyTexture(buttonL1);
+    SDL_DestroyTexture(buttonR1);
     SDL_DestroyRenderer(renderer);
 
 }
@@ -365,8 +368,11 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
             if (icon == "Select") {
                 textTexures.push_back(buttonSelect);
             }
-            if (icon == "R1") {
+            if (icon == "L1") {
                 textTexures.push_back(buttonL1);
+            }
+            if (icon == "R1") {
+                textTexures.push_back(buttonR1);
             }
             if (icon == "T") {
                 textTexures.push_back(buttonT);
@@ -435,6 +441,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     for (SDL_Texture *tex:textTexures) {
         if ((tex != buttonSelect) && (tex != buttonS) && (tex != buttonStart) && (tex != buttonO) && (tex != buttonT) &&
             (tex != buttonL1) &&
+            (tex != buttonR1) &&
             (tex != buttonX))
 
             SDL_DestroyTexture(tex);

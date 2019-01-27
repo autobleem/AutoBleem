@@ -81,7 +81,7 @@ void GuiSelectMemcard::render() {
     }
 
     gui->renderStatus("Card " + to_string(selected + 1) + "/" + to_string(cards.size()) +
-                      "    |@X| Select  |@O| Cancel|");
+                      "   |@L1|/|@R1| Page     |@X| Select  |@O| Cancel|");
     SDL_RenderPresent(renderer);
 }
 
@@ -101,21 +101,42 @@ void GuiSelectMemcard::loop() {
                         if (e.jaxis.value > 3200) {
                             selected++;
                             if (selected >= cards.size()) {
-                                selected = cards.size() - 1;
+                                selected = 0;
+                                firstVisible = selected;
+                                lastVisible = firstVisible+maxVisible;
                             }
                             render();
                         }
                         if (e.jaxis.value < -3200) {
                             selected--;
                             if (selected < 0) {
-                                selected = 0;
+                                selected = cards.size()-1;
+                                firstVisible = selected;
+                                lastVisible = firstVisible+maxVisible;
                             }
                             render();
                         }
                     }
                     break;
                 case SDL_JOYBUTTONDOWN:
-
+                    if (e.jbutton.button == PCS_BTN_R1) {
+                        selected+=maxVisible;
+                        if (selected >= cards.size()) {
+                            selected = cards.size() - 1;
+                        }
+                        firstVisible = selected;
+                        lastVisible = firstVisible+maxVisible;
+                        render();
+                    };
+                    if (e.jbutton.button == PCS_BTN_L1) {
+                        selected-=maxVisible;
+                        if (selected < 0) {
+                            selected = 0;
+                        }
+                        firstVisible = selected;
+                        lastVisible = firstVisible+maxVisible;
+                        render();
+                    };
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         selected=-1;

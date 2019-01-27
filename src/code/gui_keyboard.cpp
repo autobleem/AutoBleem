@@ -79,7 +79,7 @@ void GuiKeyboard::render() {
     }
 
 
-    gui->renderStatus("|@X| Select  |@T|  Delete  |@R1| Caps |@S| Space      |@Start| Confirm  |@O| Cancel |");
+    gui->renderStatus("|@X| Select  |@T|  Delete  |@L1| Caps |@S| Space      |@Start| Confirm  |@O| Cancel |");
     SDL_RenderPresent(renderer);
 }
 

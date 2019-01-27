@@ -58,17 +58,30 @@ void Memcard::storeToRepo(string path, string name)
     string customPath = this->path+Util::separator()+"!MemCards/"+name;
     if (!Util::exists(customPath))
     {
-        newCard(name);
+        Util::createDir(customPath);
     }
 
     // copy memcard from game to repository
     for (DirEntry entry:Util::diru(path))
     {
         string input = path+Util::separator()+entry.name;
-        string output = customPath+Util::separator()+name+Util::separator()+entry.name;
+        string output = customPath+Util::separator()+entry.name;
         Util::copy(input,output);
     }
 
+    // update all games if needed
+
+
+
+
+}
+
+void Memcard::rename(string oldName, string newName)
+{
+    string oldPath = this->path+Util::separator()+"!MemCards/"+oldName;
+    string newPath = this->path+Util::separator()+"!MemCards/"+newName;
+    cout << oldPath << endl;
+   // rename(oldPath.c_str(),newPath.c_str());
 
 
 }
