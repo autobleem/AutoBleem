@@ -35,7 +35,7 @@ string fixSerial(string serial) {
 
 string Game::scanSerial() {
     if (imageType == 1) {
-        string destinationDir = fullPath + GAME_DATA + Util::separator();
+        string destinationDir = fullPath ;
         string pbpFileName = Util::findFirstFile(EXT_PBP, destinationDir);
         if (pbpFileName != "") {
             ifstream is;
@@ -50,7 +50,6 @@ string Game::scanSerial() {
                 return "";
             }
             long sfoStart = Util::readDword(&is);
-            long sfoEnd = Util::readDword(&is);
 
             is.seekg(sfoStart, ios::beg);
 
@@ -98,8 +97,7 @@ string Game::scanSerial() {
 
         string prefixes[] = {
                 "CPCS", "ESPM", "HPS", "LPS", "LSP", "SCAJ", "SCED", "SCES", "SCPS", "SCUS", "SIPS", "SLES", "SLKA",
-                "SLPM",
-                "SLPS", "SLUS"};
+                "SLPM", "SLPS", "SLUS"};
 
         if (firstBinPath == "") {
             return ""; // not at this stage
@@ -164,11 +162,13 @@ bool Game::validateCue(string cuePath, string path) {
     for (int i = 0; i < binFiles.size(); i++) {
         string binPath = path + binFiles[i];
         if (!Util::exists(binPath)) {
-            // check if it is ecm
+
             result = false;
         } else {
             if (i == 0) {
-                firstBinPath = binPath;
+                if (firstBinPath.empty()) {
+                    firstBinPath = binPath;
+                }
             }
 
         }
@@ -211,11 +211,7 @@ bool Game::verify() {
     if (!result) {
         cerr << "Game: " << title << " Validation Failed" << endl;
     }
-    /*
-    if (automationUsed) {
-        result = result || automationUsed;
-    }
-     */
+
     return result;
 }
 
@@ -264,7 +260,7 @@ void Game::recoverMissingFiles() {
     if (this->imageType == 1) {
 
         // disc link
-        string destinationDir = fullPath + GAME_DATA + Util::separator();
+        string destinationDir = fullPath ;
         string pbpFileName = Util::findFirstFile(EXT_PBP, destinationDir);
         if (pbpFileName != "") {
             if (discs.size() == 0) {
@@ -285,7 +281,7 @@ void Game::recoverMissingFiles() {
         if (discs.size() == 0) {
             automationUsed = true;
             // find cue files
-            string destination = fullPath + GAME_DATA + Util::separator();
+            string destination = fullPath ;
             for (DirEntry entry: Util::diru(destination)) {
                 if (Util::matchExtension(entry.name, EXT_CUE)) {
                     string discEntry = entry.name.substr(0, entry.name.size() - 4);
@@ -293,7 +289,7 @@ void Game::recoverMissingFiles() {
                     disc.diskName = discEntry;
                     disc.cueFound = true;
                     disc.cueName = discEntry;
-                    disc.binVerified = validateCue(destination + entry.name, fullPath + GAME_DATA + Util::separator());
+                    disc.binVerified = validateCue(destination + entry.name, fullPath );
                     discs.push_back(disc);
                 }
             }
@@ -304,7 +300,7 @@ void Game::recoverMissingFiles() {
         if (!licFound) {
             automationUsed = true;
             string source = path + Util::separator() + "default.lic";
-            string destination = fullPath + GAME_DATA + Util::separator() + discs[0].diskName + ".lic";
+            string destination = fullPath  + discs[0].diskName + ".lic";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             Util::copy(source, destination);
             licFound = true;
@@ -313,7 +309,7 @@ void Game::recoverMissingFiles() {
             automationUsed = true;
 
             string source = path + Util::separator() + "default.png";
-            string destination = fullPath + GAME_DATA + Util::separator() + discs[0].diskName + ".png";
+            string destination = fullPath  + discs[0].diskName + ".png";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             Util::copy(source, destination);
             // maybe we can do better ?
@@ -343,7 +339,7 @@ void Game::recoverMissingFiles() {
     if (!pcsxCfgFound) {
         automationUsed = true;
         string source = path + Util::separator() + "pcsx.cfg";
-        string destination = fullPath + GAME_DATA + Util::separator() + "pcsx.cfg";
+        string destination = fullPath + "pcsx.cfg";
         cerr << "SRC:" << source << " DST:" << destination << endl;
         CfgProcessor *pcsxProcessor = new CfgProcessor();
 
@@ -387,7 +383,7 @@ void Game::updateObj() {
     string tmp;
     discs.clear();
     title = valueOrDefault("title", pathName);
-    //title = pathName;
+    memcard = valueOrDefault("memcard", "");
 
     publisher = valueOrDefault("publisher", "Other");
     string automation = valueOrDefault("automation", "0");
@@ -409,17 +405,17 @@ void Game::updateObj() {
             Disc disc;
             disc.diskName = strings[i];
             if (imageType == 0) {
-                string cueFile = fullPath + GAME_DATA + Util::separator() + disc.diskName + EXT_CUE;
+                string cueFile = fullPath  + disc.diskName + EXT_CUE;
                 bool discCueExists = Util::exists(cueFile);
                 if (discCueExists) {
-                    disc.binVerified = validateCue(cueFile, fullPath + GAME_DATA + Util::separator());
+                    disc.binVerified = validateCue(cueFile, fullPath );
                     disc.cueFound = true;
                     disc.cueName = disc.diskName;
                 }
                 discs.push_back(disc);
             }
             if (imageType == 1) {
-                string pbpName = Util::findFirstFile(EXT_PBP, fullPath + GAME_DATA + Util::separator());
+                string pbpName = Util::findFirstFile(EXT_PBP, fullPath );
                 if (pbpName == disc.diskName) {
                     disc.cueFound = true;
                 } else {
@@ -448,6 +444,14 @@ void Game::saveIni(string path) {
     ini->values["players"] = to_string(players);
     ini->values["automation"] = to_string(automationUsed);
     ini->values["imagetype"] = to_string(imageType);
+    if (memcard.empty())
+    {
+        ini->values["memcard"] = "SONY";
+    } else
+    {
+        ini->values["memcard"] = memcard;
+    }
+
     stringstream ss;
     for (int i = 0; i < discs.size(); i++) {
         ss << Util::escape(discs[i].diskName);

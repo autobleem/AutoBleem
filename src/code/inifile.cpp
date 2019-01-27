@@ -6,6 +6,7 @@
 
 
 void Inifile::load(string path) {
+    this->path = path;
     ifstream file;
     string iniLine;
     file.open(path);
@@ -19,7 +20,8 @@ void Inifile::load(string path) {
         if (iniLine.length() == 0) continue;
         if (iniLine[0]=='[')
         {
-            iniLine = iniLine.substr(1,iniLine.length()-1);
+            iniLine = ltrim(iniLine);
+            iniLine = iniLine.substr(1,iniLine.find(']')-1);
             section = iniLine;
         }
         if (iniLine.find('=') != string::npos) {

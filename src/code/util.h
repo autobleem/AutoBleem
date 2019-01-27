@@ -49,6 +49,7 @@ public:
     static bool copy(string source, string dest);
     static bool exists(const std::string &name);
     static bool createDir(const std::string name);
+    static int rmDir(string path);
     static std::string getWorkingPath();
     static bool isInteger(const char *input);
     static bool matchExtension(string path, string ext);
@@ -60,6 +61,7 @@ public:
     static string readString(int size, ifstream * stream);
     static string readString(ifstream * stream);
     static void skipZeros(ifstream * stream);
+
 
 };
 

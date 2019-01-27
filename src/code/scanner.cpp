@@ -6,6 +6,7 @@
 #include "ecmhelper.h"
 
 
+
 bool wayToSort(Game i, Game j) {
     return i.title < j.title;
 }
@@ -30,6 +31,8 @@ bool Scanner::isFirstRun(string path, Database * db)
     vector<DirEntry> entries =  Util::diru(path);
     for (DirEntry entry:entries)
     {
+        if (entry.name == "!SaveStates") continue;
+        if (entry.name == "!MemCards") continue;
         string nameInFile;
         getline(prev,nameInFile);
         if (nameInFile!=entry.name)
@@ -48,7 +51,7 @@ void Scanner::unecm(string path) {
         if (entry.name[0] == '.') continue;
         if (Util::matchExtension(entry.name, EXT_ECM)) {
             Ecmhelper ecm;
-            shared_ptr<Splash> splash(Splash::getInstance());
+            shared_ptr<Gui> splash(Gui::getInstance());
             splash->logText("Decompressing ecm:");
             if (ecm.unecm(path + entry.name, path + entry.name.substr(0, entry.name.length() - 4))) {
 
@@ -61,7 +64,7 @@ void Scanner::unecm(string path) {
 }
 
 void Scanner::updateDB(Database *db) {
-    shared_ptr<Splash> splash(Splash::getInstance());
+    shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText("Updating regional.db...");
     string path = Util::getWorkingPath() + Util::separator() + "autobleem.list";
     ofstream outfile;
@@ -74,7 +77,7 @@ void Scanner::updateDB(Database *db) {
             for (int j = 0; j < data.discs.size(); j++) {
                 db->insertDisc(i + 1, j + 1, data.discs[j].diskName);
             }
-            outfile << i + 1 << "," << Util::escape(data.fullPath.substr(0, data.fullPath.size() - 1)) << endl;
+            outfile << i + 1 << "," << Util::escape(data.fullPath.substr(0, data.fullPath.size() - 1)) << "," << Util::escape(data.saveStatePath.substr(0, data.saveStatePath.size() - 1)) << endl;
 
         }
     outfile.flush();
@@ -89,6 +92,46 @@ static const char cue2[] = "FILE \"{binName}\" BINARY\n"
                            "    INDEX 00 00:00:00\n"
                            "    INDEX 01 00:02:00\n";
 
+void repairBinCommaNames(string path)
+{
+    for (DirEntry entry:Util::diru(path)) {
+        if (entry.name.find(",")!=string::npos)
+        {
+            string newName = entry.name;
+            Util::replaceAll(newName,",","-");
+            rename( (path + entry.name).c_str(), (path + newName).c_str());
+            entry.name = newName;
+            if (Util::matchExtension(entry.name,EXT_CUE))
+            {
+                // process cue inside
+                ifstream is(path+Util::separator()+entry.name);
+                ofstream os(path+Util::separator()+entry.name+".new");
+                string line;
+                while (getline(is, line)) {
+                    trim(line);
+                    if (!line.empty())
+                    {
+                       if ((line.rfind("FILE",0)==0) || (line.rfind("file",0)==0))
+                       {
+                           Util::replaceAll(line,",","-");
+                       }
+                    }
+                    os << line << endl;
+                }
+
+                os.flush();
+                os.close();
+                is.close();
+
+                remove((path+Util::separator()+entry.name).c_str());
+                rename((path+Util::separator()+entry.name+".new").c_str(),(path+Util::separator()+entry.name ).c_str());
+
+            }
+        }
+
+
+    }
+}
 
 void repairMissingCue(string path, string folderName) {
     vector<string> binFiles;
@@ -137,21 +180,21 @@ void repairMissingCue(string path, string folderName) {
 
 void Scanner::moveFolderIfNeeded(DirEntry entry, string gameDataPath, string path) {
     bool gameDataExists = Util::exists(gameDataPath);
-    if (!gameDataExists) {
-        cerr << "Game: " << entry.name << " - GameData Not found" << endl;
-        Util::createDir(gameDataPath);
 
-        for (DirEntry entryGame:  Util::dir(path + entry.name + Util::separator())) {
-
-            if (entryGame.name[0] == '.') continue;
-            if (entryGame.name == GAME_DATA) continue;
-
-            string oldName = path + entry.name + Util::separator() + entryGame.name;
-            string newName = gameDataPath + entryGame.name;
+    if (gameDataExists)
+    {
+        cerr << "Game: " << entry.name << " - Moving GameData to 0.5" << endl;
+        for (DirEntry entryGame:  Util::diru(gameDataPath)) {
+            string newName = path + entry.name + Util::separator() + entryGame.name;
+            string oldName = gameDataPath + entryGame.name;
             cerr << "Moving: " << oldName << "  to: " << newName << endl;
             rename(oldName.c_str(), newName.c_str());
         }
     }
+
+    Util::rmDir(gameDataPath);
+
+
 }
 
 int Scanner::getImageType(string path)
@@ -173,25 +216,51 @@ void Scanner::scanDirectory(string path) {
 
     games.clear();
     complete = false;
-    shared_ptr<Splash> splash(Splash::getInstance());
+    shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText("Scanning...");
 
     ofstream prev;
     string prevFileName = Util::getWorkingPath()+Util::separator()+"autobleem.prev";
     prev.open(prevFileName.c_str(),ios::binary);
 
+    if (!Util::exists(path+Util::separator()+"!SaveStates"))
+    {
+        Util::createDir(path+Util::separator()+"!SaveStates");
+    }
+
+    if (!Util::exists(path+Util::separator()+"!MemCards"))
+    {
+        Util::createDir(path+Util::separator()+"!MemCards");
+    }
 
 
     for (DirEntry entry: Util::dir(path)) {
         if (entry.name[0] == '.') continue;
         if (!entry.dir) continue;
+        if (entry.name == "!SaveStates") continue;
+        if (entry.name == "!MemCards") continue;
 
+
+        // fix for comma in dirname
+        if (entry.name.find(",")!=string::npos)
+        {
+            string newName = entry.name;
+            Util::replaceAll(newName,",","-");
+            rename( (path + entry.name).c_str(), (path + newName).c_str());
+            entry.name = newName;
+        }
+
+        repairBinCommaNames(path + entry.name+ Util::separator());
         prev << entry.name << endl;
+
+        string saveStateDir = path+Util::separator()+"!SaveStates"+Util::separator()+entry.name;
+        Util::createDir(saveStateDir);
+
         Game game;
 
         game.folder_id = 0; // this will not be in use;
         game.fullPath = path + entry.name + Util::separator();
-
+        game.saveStatePath = path + "!SaveStates" + Util::separator() + entry.name + Util::separator();
 
         game.pathName = entry.name;
         splash->logText("Game: " + entry.name);
@@ -199,11 +268,14 @@ void Scanner::scanDirectory(string path) {
         string gameDataPath = path + entry.name + Util::separator() + GAME_DATA + Util::separator();
 
         moveFolderIfNeeded(entry, gameDataPath, path);
+        gameDataPath = path + entry.name + Util::separator();
+
         game.imageType = this->getImageType(gameDataPath);
         game.gameDataFound = true;
 
         if (game.imageType==0) // only cue/bin
         {
+
             repairMissingCue(gameDataPath, entry.name);
             unecm(gameDataPath);
         }

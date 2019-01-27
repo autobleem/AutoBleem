@@ -25,7 +25,9 @@ public:
     bool insertGame(int id, string title, string publisher, int players, int year);
     bool insertDisc(int id, int discNum, string discName);
     bool querySerial(string serial, Metadata *md);
+    bool queryTitle(string title, Metadata *md);
     int getNumGames();
+    bool updateYear(int id, int year);
 private:
     sqlite3 *db;
     bool executeCreateStatement(char *sql, string tableName);
