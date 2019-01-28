@@ -263,7 +263,13 @@ void Scanner::repairBrokenCueFiles(string path) {
                         cueElement = cue2;
                     }
 
-                    Util::replaceAll(cueElement, "{binName}", allBinFiles[startPos+binId]);
+                    string newBinName = "BinDoesNotExists.bin";
+                    if ((startPos+binId)<allBinFiles.size())
+                    {
+                        newBinName =  allBinFiles[startPos+binId];
+                    }
+
+                    Util::replaceAll(cueElement, "{binName}", newBinName);
                     if (track < 10) {
                         Util::replaceAll(cueElement, "{track}", "0" + to_string(track));
                     } else {
