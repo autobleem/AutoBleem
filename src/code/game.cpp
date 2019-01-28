@@ -264,7 +264,7 @@ void Game::recoverMissingFiles() {
         string pbpFileName = Util::findFirstFile(EXT_PBP, destinationDir);
         if (pbpFileName != "") {
             if (discs.size() == 0) {
-                automationUsed = true;
+                automationUsed = false;
                 Disc disc;
                 disc.diskName = pbpFileName;
                 disc.cueFound = true;
@@ -273,6 +273,9 @@ void Game::recoverMissingFiles() {
                 discs.push_back(disc);
 
             }
+        } else
+        {
+            automationUsed = true;
         }
     }
     if (this->imageType == 0) {
