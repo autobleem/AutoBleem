@@ -59,7 +59,7 @@ void GuiMemcards::render() {
     }
 
     gui->renderStatus("Card " + to_string(selected + 1) + "/" + to_string(cards.size()) +
-                              "   |@L1|/|@R1| Page   |@S| New Card   |@T| Delete Card   |@O| Go back|");
+                              "   |@L1|/|@R1| Page   |@X| Rename  |@S| New Card   |@T| Delete Card   |@O| Go back|");
     SDL_RenderPresent(renderer);
 }
 
@@ -144,7 +144,7 @@ void GuiMemcards::loop() {
                         }
                     };
 
-                    if (e.jbutton.button == 500) {
+                    if (e.jbutton.button == PCS_BTN_CROSS) {
                         GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                         keyboard->label = "Enter new name for card '"+cards[selected]+"'";
                         keyboard->result = cards[selected];

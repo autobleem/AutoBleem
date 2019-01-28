@@ -3,6 +3,8 @@
 //
 
 #include "memcard.h"
+#include "inifile.h"
+
 void Memcard::newCard(string name)
 {
     string curPath = path+Util::separator()+"!MemCards/"+name;
@@ -69,7 +71,8 @@ void Memcard::storeToRepo(string path, string name)
         Util::copy(input,output);
     }
 
-    // update all games if needed
+
+
 
 
 
@@ -78,10 +81,40 @@ void Memcard::storeToRepo(string path, string name)
 
 void Memcard::rename(string oldName, string newName)
 {
+
     string oldPath = this->path+Util::separator()+"!MemCards/"+oldName;
     string newPath = this->path+Util::separator()+"!MemCards/"+newName;
-    cout << oldPath << endl;
-   // rename(oldPath.c_str(),newPath.c_str());
+
+    if (Util::exists(newPath))
+    {
+        // we already have memcard with this name
+        return;
+    }
+
+    std::rename(oldPath.c_str(),newPath.c_str());
+
+    // now go to all game ini's and find out if needs updated
+    for (DirEntry entry: Util::dir(path)) {
+        if (entry.name[0] == '.') continue;
+        if (!entry.dir) continue;
+        if (entry.name == "!SaveStates") continue;
+        if (entry.name == "!MemCards") continue;
+
+        string gameIniPath = this->path+Util::separator()+entry.name+Util::separator()+GAME_INI;
+        if (Util::exists(gameIniPath))
+        {
+            Inifile inifile;
+            inifile.load(gameIniPath);
+
+            if (inifile.values["memcard"]==oldName)
+            {
+                inifile.values["memcard"]=newName;
+                inifile.save(gameIniPath);
+            }
+        }
+
+    }
+
 
 
 }
