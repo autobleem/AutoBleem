@@ -25,13 +25,27 @@ void logText(char *message) {
 }
 }
 
+Uint8 Gui::getR(string val)
+{
+    return atoi(Util::commaSep(val,0).c_str());
+}
+Uint8 Gui::getG(string val)
+{
+    return atoi(Util::commaSep(val,1).c_str());
+}
+Uint8 Gui::getB(string val)
+{
+    return atoi(Util::commaSep(val,2).c_str());
+}
+
 
 void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text, TTF_Font *font,
                          SDL_Texture **texture, SDL_Rect *rect) {
     int text_width;
     int text_height;
     SDL_Surface *surface;
-    SDL_Color textColor = {255, 255, 255, 0};
+    string fg = themeData.values["text_fg"];
+    SDL_Color textColor = {getR(fg), getG(fg), getB(fg), 0};
 
     if (strlen(text) == 0) {
         *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, 0, 0);
@@ -451,10 +465,11 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
 
 void Gui::renderStatus(string text) {
 
+    string bg = themeData.values["text_bg"];
 
     SDL_Texture *textTex;
     SDL_Rect textRec;
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
+    SDL_SetRenderDrawColor(renderer, getR(bg), getG(bg), getB(bg), atoi(themeData.values["textalpha"].c_str()));
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_Rect rect;
     rect.x = atoi(themeData.values["textx"].c_str());
@@ -483,6 +498,8 @@ void Gui::renderLabelBox(int line, int offset) {
     SDL_Texture *textTex;
     SDL_Rect textRec;
 
+    string bg = themeData.values["label_bg"];
+
     getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
 
     SDL_Rect rect2;
@@ -498,7 +515,8 @@ void Gui::renderLabelBox(int line, int offset) {
     rectSelection.w = rect2.w - 10;
     rectSelection.h = textRec.h;
 
-    SDL_SetRenderDrawColor(renderer, 230, 230, 230, OCD_ALPHA);
+
+    SDL_SetRenderDrawColor(renderer, getR(bg), getG(bg), getB(bg), atoi(themeData.values["keyalpha"].c_str()));
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_RenderFillRect(renderer, &rectSelection);
 }
@@ -507,6 +525,8 @@ void Gui::renderSelectionBox(int line, int offset) {
     SDL_Texture *textTex;
     SDL_Rect textRec;
 
+    string fg = themeData.values["text_fg"];
+
     getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
 
     SDL_Rect rect2;
@@ -522,7 +542,7 @@ void Gui::renderSelectionBox(int line, int offset) {
     rectSelection.w = rect2.w - 10;
     rectSelection.h = textRec.h;
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, OCD_ALPHA);
+    SDL_SetRenderDrawColor(renderer, getR(fg), getG(fg), getB(fg), 255);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_RenderDrawRect(renderer, &rectSelection);
 }
@@ -532,6 +552,7 @@ void Gui::renderTextLine(string text, int line, int offset) {
 }
 
 void Gui::renderTextLine(string text, int line, int offset, bool center) {
+
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
@@ -577,7 +598,8 @@ void Gui::renderTextChar(string text, int line, int offset, int posx) {
 }
 
 void Gui::renderTextBar() {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
+    string bg = themeData.values["main_bg"];
+    SDL_SetRenderDrawColor(renderer, getR(bg), getG(bg), getB(bg), atoi(themeData.values["mainalpha"].c_str()));
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
     SDL_Rect rect2;

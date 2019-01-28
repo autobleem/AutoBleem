@@ -17,10 +17,10 @@ const char *Util::separator() {
 }
 
 bool wayToSort(DirEntry i, DirEntry j) {
-    string name1=i.name;
-    string name2=j.name;
-    name1=lcase(name1);
-    name2=lcase(name2);
+    string name1 = i.name;
+    string name2 = j.name;
+    name1 = lcase(name1);
+    name2 = lcase(name2);
     return name1 < name2;
 }
 
@@ -266,5 +266,28 @@ unsigned long Util::readDword(ifstream *stream) {
     res += c << (3 * 8);
     return res;
 
+}
+
+string Util::commaSep(string s, int pos) {
+    vector<string> v;
+    v.clear();
+    char c = ',';
+    int i = 0;
+    int j = s.find(c);
+
+    while (j >= 0) {
+        v.push_back(s.substr(i, j - i));
+        i = ++j;
+        j = s.find(c, j);
+
+        if (j < 0) {
+            v.push_back(s.substr(i, s.length()));
+        }
+    }
+    if (pos<v.size())
+    {
+        return v[pos];
+    }
+    return "";
 }
 

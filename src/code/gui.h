@@ -32,7 +32,6 @@ using namespace std;
 #define MENU_OPTION_SONY  3
 #define MENU_OPTION_RETRO 4
 
-#define OCD_ALPHA 170
 
 class Gui {
 private:
@@ -67,6 +66,10 @@ public:
 
     void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
+
+    Uint8 getR(string val);
+    Uint8 getG(string val);
+    Uint8 getB(string val);
 
 
     int menuOption=MENU_OPTION_SCAN;
