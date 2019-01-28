@@ -275,14 +275,13 @@ string Util::getAvailableSpace(){
     int gb = (1024 * 1024) * 1024;
     float freeSpace;
     float totalSpace;
-    int usedSpace;
+    int freeSpacePerc;
     struct statvfs usbDiskInfo;
     statvfs("/media/", &usbDiskInfo);
     totalSpace = ((float)(usbDiskInfo.f_blocks * usbDiskInfo.f_frsize)) / gb;
     freeSpace = ((float)(usbDiskInfo.f_bavail * usbDiskInfo.f_frsize)) / gb;
-    usedSpace = totalSpace - freeSpace;
-    usedSpace = (usedSpace / totalSpace) * 100;
-    str = floatToString(freeSpace, 2) + " GB / " + floatToString(totalSpace,2)+ " GB (" + to_string(usedSpace)+"%)";
+    freeSpacePerc = (freeSpace / totalSpace) * 100;
+    str = floatToString(freeSpace, 2) + " GB / " + floatToString(totalSpace,2)+ " GB (" + to_string(freeSpacePerc)+"%)";
     return str;
 }
 
