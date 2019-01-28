@@ -1,4 +1,4 @@
-
+### Note - Game Rename does not currently work with PBP images. This will be fixed in 0.6.
 
 ### NOTE: Release is now updated with fixed memory card support. If you have problems with this functionality redownload autobleem-0.5.zip and reinstall AutoBleem folder (and cover db's)
 
