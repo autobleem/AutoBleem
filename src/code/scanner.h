@@ -17,7 +17,7 @@ public:
     vector<Game> games;
 
     void scanDirectory(string path);
-
+    void repairBrokenCueFiles(string path);
     bool isFirstRun(string path, Database * db);
     void unecm(string path);
     void updateDB(Database *db);
