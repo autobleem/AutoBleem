@@ -38,14 +38,17 @@ void GuiEditor::render() {
     gui->renderTextLine("Folder: " + game.entry + "", 1, offset, true);
     gui->renderTextLine("Published by: " + game.values["publisher"] + "   Year:" + game.values["year"] + "   Players:" +
                         game.values["players"], 2, offset, true);
+
+
     gui->renderTextLine("Memory Card: " +
                         (game.values["memcard"] == "SONY" ? string("Internal") : game.values["memcard"] + "(Custom)"),
                         3, offset, true);
-    gui->renderTextLine("Block updates: " + (game.values["automation"] == "0" ? string("True") : string("False")), 4,
-                        offset, true);
-    gui->renderTextLine("", 5, offset, false);
+    gui->renderTextLine("Block Data:" + (game.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|"))
+                        + "  High res:" + (game.values["highres"] != "0" ? string("|@Check|") : string("|@Uncheck|")), 4, offset,
+                        true);
 
-    string guiMenu = "|@X| Rename  |@S| Change MC ";
+
+    string guiMenu = "|@L1|/|@R1| Hi/Lo Res |@X| Rename  |@S| Change MC ";
     if (game.values["memcard"] == "SONY") {
         guiMenu += "|@T| Share MC  ";
     }
@@ -55,7 +58,7 @@ void GuiEditor::render() {
         guiMenu += "|@Start| Block Data  ";
     }
 
-    guiMenu += "|@O| Go back|";
+    guiMenu += " |@O| Go back|";
 
     gui->renderStatus(guiMenu);
     SDL_RenderPresent(renderer);
@@ -112,6 +115,17 @@ void GuiEditor::loop() {
                         };
                     }
 
+                    if (e.jbutton.button == PCS_BTN_L1) {
+                        game.values["highres"] = "1";
+                        game.save(game.path);
+                        render();
+                    };
+
+                    if (e.jbutton.button == PCS_BTN_R1) {
+                        game.values["highres"] = "0";
+                        game.save(game.path);
+                        render();
+                    };
 
                     if (e.jbutton.button == PCS_BTN_SQUARE) {
                         GuiSelectMemcard *selector = new GuiSelectMemcard(renderer);

@@ -25,17 +25,16 @@ void logText(char *message) {
 }
 }
 
-Uint8 Gui::getR(string val)
-{
-    return atoi(Util::commaSep(val,0).c_str());
+Uint8 Gui::getR(string val) {
+    return atoi(Util::commaSep(val, 0).c_str());
 }
-Uint8 Gui::getG(string val)
-{
-    return atoi(Util::commaSep(val,1).c_str());
+
+Uint8 Gui::getG(string val) {
+    return atoi(Util::commaSep(val, 1).c_str());
 }
-Uint8 Gui::getB(string val)
-{
-    return atoi(Util::commaSep(val,2).c_str());
+
+Uint8 Gui::getB(string val) {
+    return atoi(Util::commaSep(val, 2).c_str());
 }
 
 
@@ -105,6 +104,8 @@ void Gui::loadAssets() {
         SDL_DestroyTexture(buttonSelect);
         SDL_DestroyTexture(buttonL1);
         SDL_DestroyTexture(buttonR1);
+        SDL_DestroyTexture(buttonCheck);
+        SDL_DestroyTexture(buttonUncheck);
         TTF_CloseFont(font);
         backgroundImg = NULL;
     }
@@ -125,6 +126,9 @@ void Gui::loadAssets() {
     buttonStart = IMG_LoadTexture(renderer, (themePath + themeData.values["start"]).c_str());
     buttonL1 = IMG_LoadTexture(renderer, (themePath + themeData.values["l1"]).c_str());
     buttonR1 = IMG_LoadTexture(renderer, (themePath + themeData.values["r1"]).c_str());
+    buttonCheck = IMG_LoadTexture(renderer, (themePath + themeData.values["check"]).c_str());
+    buttonUncheck = IMG_LoadTexture(renderer, (themePath + themeData.values["uncheck"]).c_str());
+
 
     string fontPath = (themePath + themeData.values["font"]).c_str();
     font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
@@ -149,7 +153,7 @@ void Gui::loadAssets() {
 }
 
 
-void Gui::display(bool forceScan, string path, Database * db) {
+void Gui::display(bool forceScan, string path, Database *db) {
     this->path = path;
     this->forceScan = forceScan;
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO);
@@ -167,7 +171,7 @@ void Gui::display(bool forceScan, string path, Database * db) {
     splashScreen->show();
 
     drawText("Upgrading AutoBleem - Please wait...");
-    VerMigration *migration=new VerMigration();
+    VerMigration *migration = new VerMigration();
     migration->migrate(db);
 
     delete splashScreen;
@@ -341,6 +345,8 @@ void Gui::finish() {
     SDL_DestroyTexture(buttonSelect);
     SDL_DestroyTexture(buttonL1);
     SDL_DestroyTexture(buttonR1);
+    SDL_DestroyTexture(buttonCheck);
+    SDL_DestroyTexture(buttonUncheck);
     SDL_DestroyRenderer(renderer);
 
 }
@@ -393,6 +399,12 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
             }
             if (icon == "X") {
                 textTexures.push_back(buttonX);
+            }
+            if (icon == "Check") {
+                textTexures.push_back(buttonCheck);
+            }
+            if (icon == "Uncheck") {
+                textTexures.push_back(buttonUncheck);
             }
         } else {
             SDL_Texture *textTex;
@@ -453,9 +465,15 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     SDL_SetRenderTarget(renderer, NULL);
 
     for (SDL_Texture *tex:textTexures) {
-        if ((tex != buttonSelect) && (tex != buttonS) && (tex != buttonStart) && (tex != buttonO) && (tex != buttonT) &&
+        if ((tex != buttonSelect) &&
+            (tex != buttonS) &&
+            (tex != buttonStart) &&
+            (tex != buttonO) &&
+            (tex != buttonT) &&
             (tex != buttonL1) &&
             (tex != buttonR1) &&
+                (tex != buttonCheck) &&
+                (tex != buttonUncheck) &&
             (tex != buttonX))
 
             SDL_DestroyTexture(tex);
@@ -563,10 +581,13 @@ void Gui::renderTextLine(string text, int line, int offset, bool center) {
     SDL_Rect textRec;
 
     getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
-
+    getEmojiTextTexture(renderer, text.c_str(), font, &textTex, &textRec);
+    textRec.x = rect2.x + 10;
+    textRec.y = (textRec.h * line) + offset;
+    /*
     getTextAndRect(renderer, rect2.x + 10, (textRec.h * line) + offset,
                    text.c_str(), font, &textTex, &textRec);
-
+    */
     if (textRec.w >= (1280 - rect2.x * 4)) {
         textRec.w = (1280 - rect2.x * 4);
     }

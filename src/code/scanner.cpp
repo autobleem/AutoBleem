@@ -7,7 +7,11 @@
 
 
 bool wayToSort(Game i, Game j) {
-    return i.title < j.title;
+    string name1=i.title;
+    string name2=j.title;
+    lcase(name1);
+    lcase(name2);
+    return name1 < name2;
 }
 
 bool Scanner::isFirstRun(string path, Database *db) {
