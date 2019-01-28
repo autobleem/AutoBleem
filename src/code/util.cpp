@@ -3,7 +3,10 @@
 
 #include <fstream>
 #include <sys/stat.h>
+#include <sys/statvfs.h>
+#include <math.h>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 #define FILE_BUFFER 524288
@@ -267,4 +270,24 @@ unsigned long Util::readDword(ifstream *stream) {
     return res;
 
 }
+string Util::getAvailableSpace(){
+    string str;
+    int gb = (1024 * 1024) * 1024;
+    float freeSpace;
+    float totalSpace;
+    int usedSpace;
+    struct statvfs usbDiskInfo;
+    statvfs("/media/", &usbDiskInfo);
+    totalSpace = ((float)(usbDiskInfo.f_blocks * usbDiskInfo.f_frsize)) / gb;
+    freeSpace = ((float)(usbDiskInfo.f_bavail * usbDiskInfo.f_frsize)) / gb;
+    usedSpace = totalSpace - freeSpace;
+    usedSpace = (usedSpace / totalSpace) * 100;
+    str = floatToString(freeSpace, 2) + " GB / " + floatToString(totalSpace,2)+ " GB (" + to_string(usedSpace)+"%)";
+    return str;
+}
 
+string Util::floatToString(float f, int n){
+    std::ostringstream stringStream;
+    stringStream << std::fixed << std::setprecision(n) << f;
+    return stringStream.str();
+}

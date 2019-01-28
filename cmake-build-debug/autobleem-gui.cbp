@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="autobleem-gui"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\src\resources\;CMake Files\db\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/mggk/projects/cbleemsync/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/mggk/projects/cbleemsync/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/mggk/projects/cbleemsync/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="autobleem-gui">
+				<Option output="/home/mggk/projects/cbleemsync/cmake-build-debug/autobleem-gui" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/mggk/projects/cbleemsync/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/mggk/projects/cbleemsync/src/include"/>
+					<Add directory="/usr/local/cross-tools/arm-linux-gnueabihf/include"/>
+					<Add directory="/usr/include/c++/8"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/8"/>
+					<Add directory="/usr/include/c++/8/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 autobleem-gui"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="autobleem-gui/fast">
+				<Option output="/home/mggk/projects/cbleemsync/cmake-build-debug/autobleem-gui" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/mggk/projects/cbleemsync/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/mggk/projects/cbleemsync/src/include"/>
+					<Add directory="/usr/local/cross-tools/arm-linux-gnueabihf/include"/>
+					<Add directory="/usr/include/c++/8"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/8"/>
+					<Add directory="/usr/include/c++/8/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 autobleem-gui/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="starter">
+				<Option output="/home/mggk/projects/cbleemsync/cmake-build-debug/starter" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/mggk/projects/cbleemsync/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/mggk/projects/cbleemsync/src/include"/>
+					<Add directory="/usr/local/cross-tools/arm-linux-gnueabihf/include"/>
+					<Add directory="/usr/include/c++/8"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/8"/>
+					<Add directory="/usr/include/c++/8/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 starter"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="starter/fast">
+				<Option output="/home/mggk/projects/cbleemsync/cmake-build-debug/starter" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/mggk/projects/cbleemsync/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/mggk/projects/cbleemsync/src/include"/>
+					<Add directory="/usr/local/cross-tools/arm-linux-gnueabihf/include"/>
+					<Add directory="/usr/include/c++/8"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/8"/>
+					<Add directory="/usr/include/c++/8/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 starter/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/mggk/projects/cbleemsync/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/cfgprocessor.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/cfgprocessor.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/config.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/config.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/database.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/database.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/ecmhelper.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/ecmhelper.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/game.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/game.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_about.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_about.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_confirm.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_confirm.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_editor.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_editor.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_keyboard.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_keyboard.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_manager.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_manager.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_memcards.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_memcards.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_options.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_options.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_screen.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_screen.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_selectmemcard.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_selectmemcard.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_splash.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/gui_splash.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/inifile.cpp">
+			<Option target="autobleem-gui"/>
+			<Option target="starter"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/inifile.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/isodir.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/isodir.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/main.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/main.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/memcard.cpp">
+			<Option target="autobleem-gui"/>
+			<Option target="starter"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/memcard.h">
+			<Option target="autobleem-gui"/>
+			<Option target="starter"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/metadata.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/metadata.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/scanner.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/scanner.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/sqlite3.c">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/sqlite3.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/starter.cpp">
+			<Option target="starter"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/unecm.c">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/util.cpp">
+			<Option target="autobleem-gui"/>
+			<Option target="starter"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/util.h">
+			<Option target="autobleem-gui"/>
+			<Option target="starter"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/ver_migration.cpp">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/code/ver_migration.h">
+			<Option target="autobleem-gui"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/resources/default.lic">
+			<Option virtualFolder="CMake Files\src\resources\"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/resources/default.png">
+			<Option virtualFolder="CMake Files\src\resources\"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/src/resources/pcsx.cfg">
+			<Option virtualFolder="CMake Files\src\resources\"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/db/coversP.db">
+			<Option virtualFolder="CMake Files\db\"/>
+		</Unit>
+		<Unit filename="/home/mggk/projects/cbleemsync/db/coversU.db">
+			<Option virtualFolder="CMake Files\db\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

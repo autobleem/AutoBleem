@@ -62,6 +62,8 @@ public:
     static string readString(ifstream * stream);
     static void skipZeros(ifstream * stream);
 
+    static string getAvailableSpace();
+    static string floatToString(float f, int n);
 
 };
 

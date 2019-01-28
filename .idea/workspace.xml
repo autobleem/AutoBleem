@@ -14,7 +14,16 @@
   <component name="ChangeListManager">
     <list default="true" id="0f377571-016b-4a6e-91a8-99bb578502df" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/code/scanner.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/scanner.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build_arm/autobleem-gui" beforeDir="false" afterPath="$PROJECT_DIR$/build_arm/autobleem-gui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build_arm/starter" beforeDir="false" afterPath="$PROJECT_DIR$/build_arm/starter" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build_arm/theme/default/r1.png" beforeDir="false" afterPath="$PROJECT_DIR$/build_arm/theme/default/r1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build_arm/theme/default/theme.ini" beforeDir="false" afterPath="$PROJECT_DIR$/build_arm/theme/default/theme.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build_arm/theme/psone/r1.png" beforeDir="false" afterPath="$PROJECT_DIR$/build_arm/theme/psone/r1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build_arm/theme/psone/theme.ini" beforeDir="false" afterPath="$PROJECT_DIR$/build_arm/theme/psone/theme.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/config.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/gui_manager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/gui_manager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/util.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/util.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/util.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/code/util.h" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -42,100 +51,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/gui_memcards.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="175" selection-start-line="175" selection-end-line="175" />
-              <folding>
-                <element signature="e#45#70#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/gui.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="264" selection-start-line="264" selection-end-line="264" />
-              <folding>
-                <element signature="e#45#61#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/gui_editor.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="545">
-              <caret line="96" column="47" selection-start-line="96" selection-start-column="47" selection-end-line="96" selection-end-column="47" />
-              <folding>
-                <element signature="e#45#68#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/memcard.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="387">
-              <caret line="105" selection-start-line="105" selection-end-line="105" />
-              <folding>
-                <element signature="e#45#65#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3322">
-              <caret line="160" column="5" lean-forward="true" selection-start-line="148" selection-start-column="4" selection-end-line="160" selection-end-column="5" />
-              <folding>
-                <element signature="e#44#61#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///usr/local/Cellar/gcc/8.2.0/include/c++/8.2.0/bits/basic_string.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="5957" selection-start-line="5957" selection-end-line="5957" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/code/scanner.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="195" selection-start-line="195" selection-end-line="195" />
-              <folding>
-                <element signature="e#45#65#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/scanner.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="19" column="41" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/code/util.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="160" selection-start-line="160" selection-end-line="160" />
+            <state relative-caret-position="709">
+              <caret line="285" selection-start-line="285" selection-end-line="285" />
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
               </folding>
@@ -144,10 +63,70 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/code/metadata.cpp">
+        <entry file="file://$PROJECT_DIR$/src/code/gui.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="675">
-              <caret line="45" column="36" selection-start-line="45" selection-start-column="36" selection-end-line="45" selection-end-column="36" />
+            <state>
+              <caret line="528" selection-start-line="528" selection-end-line="528" />
+              <folding>
+                <element signature="e#45#61#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/code/util.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="50" column="12" selection-start-line="50" selection-start-column="12" selection-end-line="50" selection-end-column="12" />
+              <folding>
+                <element signature="e#304#322#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build_arm/run.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="25" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/code/gui_editor.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="555">
+              <caret line="65" column="28" selection-start-line="65" selection-start-column="28" selection-end-line="65" selection-end-column="28" />
+              <folding>
+                <element signature="e#45#68#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/code/gui_manager.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="21" column="22" selection-start-line="18" selection-start-column="4" selection-end-line="21" selection-end-column="22" />
+              <folding>
+                <element signature="e#117#140#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/code/gui_manager.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="39" column="61" lean-forward="true" selection-start-line="39" selection-start-column="61" selection-end-line="39" selection-end-column="61" />
+              <folding>
+                <element signature="e#45#69#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -211,13 +190,11 @@
       <list>
         <option value="$PROJECT_DIR$/src/code/config.cpp" />
         <option value="$PROJECT_DIR$/src/code/starter.c" />
-        <option value="$PROJECT_DIR$/src/code/util.h" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/code/splash.h" />
         <option value="$PROJECT_DIR$/src/code/splash.cpp" />
         <option value="$PROJECT_DIR$/src/code/guirender.cpp" />
         <option value="$PROJECT_DIR$/src/code/guirender.h" />
-        <option value="$PROJECT_DIR$/src/code/util.cpp" />
         <option value="$PROJECT_DIR$/src/code/main.h" />
         <option value="$PROJECT_DIR$/src/code/inifile.h" />
         <option value="$PROJECT_DIR$/src/code/gui_confirm.cpp" />
@@ -252,7 +229,6 @@
         <option value="$PROJECT_DIR$/src/code/gui_keyboard.cpp" />
         <option value="$PROJECT_DIR$/src/code/gui.h" />
         <option value="$PROJECT_DIR$/src/code/gui.cpp" />
-        <option value="$PROJECT_DIR$/src/code/gui_manager.cpp" />
         <option value="$PROJECT_DIR$/src/code/gui_selectmemcard.cpp" />
         <option value="$PROJECT_DIR$/src/code/memcard.h" />
         <option value="$PROJECT_DIR$/src/code/gui_memcards.cpp" />
@@ -260,14 +236,17 @@
         <option value="$PROJECT_DIR$/src/code/scanner.h" />
         <option value="$PROJECT_DIR$/src/code/game.cpp" />
         <option value="$PROJECT_DIR$/src/code/scanner.cpp" />
+        <option value="$PROJECT_DIR$/src/code/util.h" />
+        <option value="$PROJECT_DIR$/src/code/util.cpp" />
+        <option value="$PROJECT_DIR$/src/code/gui_manager.cpp" />
       </list>
     </option>
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
-    <option name="width" value="1920" />
-    <option name="height" value="1009" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="2333" />
+    <option name="width" value="1384" />
+    <option name="height" value="1030" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -278,16 +257,26 @@
         <subPane>
           <expand>
             <path>
-              <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
+              <item name="autobleem-gui" type="b2602c69:ProjectViewProjectNode" />
               <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
+              <item name="autobleem-gui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
+              <item name="build_arm" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="autobleem-gui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
+              <item name="payload" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="autobleem-gui" type="b2602c69:ProjectViewProjectNode" />
               <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="cbleemsync" type="b2602c69:ProjectViewProjectNode" />
+              <item name="autobleem-gui" type="b2602c69:ProjectViewProjectNode" />
               <item name="cbleemsync" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="code" type="462c0819:PsiDirectoryNode" />
@@ -303,6 +292,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
@@ -335,7 +325,7 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.autobleem-gui">
-    <configuration name="autobleem-gui" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="$USER_HOME$/Desktop/psx.db $USER_HOME$/Sony/Games/" PASS_PARENT_ENVS_2="true" PROJECT_NAME="autobleem-gui" TARGET_NAME="autobleem-gui" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="autobleem-gui" RUN_TARGET_NAME="autobleem-gui">
+    <configuration name="autobleem-gui" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="$USER_HOME$/cbs/psx.db $USER_HOME$/cbs/games/" PASS_PARENT_ENVS_2="true" PROJECT_NAME="autobleem-gui" TARGET_NAME="autobleem-gui" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="autobleem-gui" RUN_TARGET_NAME="autobleem-gui">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -391,6 +381,7 @@
       <workItem from="1548194594028" duration="66304000" />
       <workItem from="1548474615740" duration="13534000" />
       <workItem from="1548616031324" duration="10362000" />
+      <workItem from="1548703279427" duration="4644000" />
     </task>
     <task id="LOCAL-00039" summary="Small Code Cleanup + GUI (0.11)">
       <created>1546550458563</created>
@@ -739,7 +730,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="313519000" />
+    <option name="totallyTimeSpent" value="318163000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -751,27 +742,27 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1920" height="1009" extended-state="0" />
+    <frame x="1920" y="0" width="1920" height="1080" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.73109245" visible="true" weight="0.18849841" />
-      <window_info id="Structure" order="1" sideWeight="0.26890758" side_tool="true" visible="true" weight="0.18849841" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7292645" visible="true" weight="0.13631523" />
+      <window_info id="Structure" order="1" sideWeight="0.27073553" side_tool="true" visible="true" weight="0.13631523" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49733758" weight="0.32824427" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.2971246" weight="0.17121047" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.45047924" visible="true" weight="0.35114503" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.2971246" weight="0.17016807" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.45047924" weight="0.35084033" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3293348" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49893504" weight="0.32715377" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49893504" weight="0.32668066" />
       <window_info anchor="bottom" id="File Transfer" order="8" sideWeight="0.4765708" weight="0.32824427" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="CMake" order="10" sideWeight="0.46219382" weight="0.32824427" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.3293348" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32878152" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.7028754" side_tool="true" weight="0.36314067" />
-      <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.3519702" weight="0.32824427" />
-      <window_info anchor="bottom" id="Inspection Results" order="14" sideWeight="0.49946752" weight="0.3293348" />
+      <window_info anchor="bottom" id="Inspection Results" order="13" sideWeight="0.49946752" weight="0.3293348" />
+      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.3519702" weight="0.3277311" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -831,43 +822,84 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/code/memcard.cpp</url>
-          <line>59</line>
+          <line>61</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="watch">
+      <expression>
+        <expression-string>freeSpace/1000000</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>freeSpace/1000000000</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>freeSpace/1000</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>((float)(usbDiskInfo.f_blocks * usbDiskInfo.f_frsize))/1024/1024/1024</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>((float)(usbDiskInfo.f_blocks * usbDiskInfo.f_frsize))/1024/1024</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>((float)(usbDiskInfo.f_blocks * usbDiskInfo.f_frsize))/1024</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>((float)(usbDiskInfo.f_blocks * usbDiskInfo.f_frsize))/1000</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>(float)(usbDiskInfo.f_blocks * usbDiskInfo.f_frsize)</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>(usbDiskInfo.f_blocks * usbDiskInfo.f_frsize)</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>(float)((usbDiskInfo.f_blocks * usbDiskInfo.f_frsize)/1000000000)</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>(float)((usbDiskInfo.f_blocks * usbDiskInfo.f_frsize)/1000000)</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>(float)((usbDiskInfo.f_blocks * usbDiskInfo.f_frsize)/1000)</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>(usbDiskInfo.f_blocks * usbDiskInfo.f_frsize)/1000</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/code/gui_keyboard.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="31" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="31" />
-          <folding>
-            <element signature="e#120#137#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/util.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="39" column="6" selection-start-line="39" selection-start-column="6" selection-end-line="39" selection-end-column="6" />
-          <folding>
-            <element signature="e#304#322#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_manager.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="22" selection-start-line="18" selection-start-column="4" selection-end-line="21" selection-end-column="22" />
-          <folding>
-            <element signature="e#117#140#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/payload/Autobleem/rc/autobleem.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -1116,16 +1148,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/ver_migration.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1380">
-          <caret line="92" selection-start-line="92" selection-end-line="92" />
-          <folding>
-            <element signature="e#45#71#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/code/memcard.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -1156,12 +1178,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_manager.cpp">
+    <entry file="file:///usr/local/Cellar/gcc/8.2.0/include/c++/8.2.0/bits/basic_string.h" />
+    <entry file="file://$PROJECT_DIR$/src/code/gui_memcards.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2790">
-          <caret line="186" column="33" selection-start-line="176" selection-start-column="31" selection-end-line="186" selection-end-column="33" />
+        <state relative-caret-position="2595">
+          <caret line="243" selection-start-line="243" selection-end-line="243" />
           <folding>
-            <element signature="e#45#69#0" expanded="true" />
+            <element signature="e#45#70#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/memcard.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1575">
+          <caret line="151" selection-start-line="151" selection-end-line="151" />
+          <folding>
+            <element signature="e#45#65#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1173,47 +1206,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_editor.cpp">
+    <entry file="file://$PROJECT_DIR$/src/code/ver_migration.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="545">
-          <caret line="96" column="47" selection-start-line="96" selection-start-column="47" selection-end-line="96" selection-end-column="47" />
+        <state relative-caret-position="735">
+          <caret line="92" selection-start-line="92" selection-end-line="92" />
           <folding>
-            <element signature="e#45#68#0" expanded="true" />
+            <element signature="e#45#71#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/util.cpp">
+    <entry file="file://$PROJECT_DIR$/build_arm/run.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="160" selection-start-line="160" selection-end-line="160" />
+        <state relative-caret-position="30">
+          <caret line="2" column="25" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="160" column="5" selection-start-line="148" selection-start-column="4" selection-end-line="160" selection-end-column="5" />
           <folding>
-            <element signature="e#0#17#0" expanded="true" />
+            <element signature="e#44#61#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/gui_memcards.cpp">
+    <entry file="file://$PROJECT_DIR$/src/code/scanner.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="175" selection-start-line="175" selection-end-line="175" />
-          <folding>
-            <element signature="e#45#70#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/Cellar/gcc/8.2.0/include/c++/8.2.0/bits/basic_string.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="5957" selection-start-line="5957" selection-end-line="5957" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/memcard.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="105" selection-start-line="105" selection-end-line="105" />
+        <state relative-caret-position="467">
+          <caret line="214" column="32" selection-start-line="214" selection-start-column="32" selection-end-line="214" selection-end-column="32" />
           <folding>
             <element signature="e#45#65#0" expanded="true" />
           </folding>
@@ -1223,36 +1246,66 @@
     <entry file="file://$PROJECT_DIR$/src/code/scanner.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
-          <caret line="19" column="41" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_manager.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="22" selection-start-line="18" selection-start-column="4" selection-end-line="21" selection-end-column="22" />
+          <folding>
+            <element signature="e#117#140#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/gui_editor.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="65" column="28" selection-start-line="65" selection-start-column="28" selection-end-line="65" selection-end-column="28" />
+          <folding>
+            <element signature="e#45#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/code/util.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="709">
+          <caret line="285" selection-start-line="285" selection-end-line="285" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/code/gui.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="264" selection-start-line="264" selection-end-line="264" />
+        <state>
+          <caret line="528" selection-start-line="528" selection-end-line="528" />
           <folding>
             <element signature="e#45#61#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/game.cpp">
+    <entry file="file://$PROJECT_DIR$/src/code/util.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3322">
-          <caret line="160" column="5" lean-forward="true" selection-start-line="148" selection-start-column="4" selection-end-line="160" selection-end-column="5" />
+        <state relative-caret-position="255">
+          <caret line="50" column="12" selection-start-line="50" selection-start-column="12" selection-end-line="50" selection-end-column="12" />
           <folding>
-            <element signature="e#44#61#0" expanded="true" />
+            <element signature="e#304#322#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/code/scanner.cpp">
+    <entry file="file://$PROJECT_DIR$/src/code/gui_manager.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="195" selection-start-line="195" selection-end-line="195" />
+        <state relative-caret-position="315">
+          <caret line="39" column="61" lean-forward="true" selection-start-line="39" selection-start-column="61" selection-end-line="39" selection-end-column="61" />
           <folding>
-            <element signature="e#45#65#0" expanded="true" />
+            <element signature="e#45#69#0" expanded="true" />
           </folding>
         </state>
       </provider>
