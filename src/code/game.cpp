@@ -388,14 +388,20 @@ void Game::updateObj() {
     title = valueOrDefault("title", pathName);
     memcard = valueOrDefault("memcard", "");
 
+
     publisher = valueOrDefault("publisher", "Other");
     string automation = valueOrDefault("automation", "0");
     automationUsed = atoi(automation.c_str());
     tmp = valueOrDefault("players", "1");
     if (Util::isInteger(tmp.c_str())) players = atoi(tmp.c_str()); else players = 1;
     tmp = valueOrDefault("year", "2018");
+
+
     if (Util::isInteger(tmp.c_str())) year = atoi(tmp.c_str()); else year = 2018;
+    tmp = valueOrDefault("highres","0");
+    if (Util::isInteger(tmp.c_str())) highRes = atoi(tmp.c_str()); else highRes = 0;
     tmp = valueOrDefault("discs", "");
+
     if (!tmp.empty()) {
         vector<string> strings;
         istringstream f(tmp);
@@ -447,6 +453,7 @@ void Game::saveIni(string path) {
     ini->values["players"] = to_string(players);
     ini->values["automation"] = to_string(automationUsed);
     ini->values["imagetype"] = to_string(imageType);
+    ini->values["highres"] = to_string(highRes);
     if (memcard.empty())
     {
         ini->values["memcard"] = "SONY";

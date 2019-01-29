@@ -7,6 +7,65 @@
 
 using namespace std;
 
+void CfgProcessor::replaceInternal(string filePath, string property, string newline) {
+    std::fstream file(filePath, std::ios::in);
+
+    vector<string> lines;
+    lines.clear();
+
+    if (file.is_open()) {
+
+        std::string line;
+        std::vector<std::string> lines;
+
+        while (std::getline(file, line)) {
+
+            std::string::size_type pos = 0;
+            string lcaseline = line;
+            string lcasepattern = property;
+            lcase(lcaseline);
+            lcase(lcasepattern);
+
+            if (lcaseline.rfind(lcasepattern, 0) == 0) {
+                lines.push_back(newline);
+            } else {
+                lines.push_back(line);
+            }
+
+
+        }
+        file.close();
+        file.open(filePath, std::ios::out | std::ios::trunc);
+
+        for (const auto &i : lines) {
+            file << i << std::endl;
+        }
+        file.flush();
+        file.close();
+
+    }
+}
+
+void CfgProcessor::replace(string entry, string gamePath, string property, string newline) {
+    if (!Util::exists(gamePath + "!SaveStates" + Util::separator() + entry + Util::separator() + PCSX_CFG)) {
+        Util::copy(gamePath + Util::separator() + entry + Util::separator() + PCSX_CFG,
+                   gamePath + "!SaveStates" + Util::separator() + entry + Util::separator() + PCSX_CFG);
+    }
+
+    string realCfgPath = gamePath + "!SaveStates" + Util::separator() + entry + Util::separator() + PCSX_CFG;
+    replaceInternal(realCfgPath,property,newline);
+
+    for (DirEntry cfgEntry:Util::diru(gamePath + "!SaveStates" + Util::separator() + entry + Util::separator()+"cfg"))
+    {
+        string path = gamePath + "!SaveStates" + Util::separator() + entry + Util::separator()+"cfg"+Util::separator()+cfgEntry.name;
+        replaceInternal(path,property,newline);
+    }
+
+
+
+
+}
+
 void CfgProcessor::process(string source, string destination, int region, bool japan, int soundFilter, bool highres,
                            int clock) {
     if (config.inifile.values["autoregion"] == "true") {
@@ -23,29 +82,27 @@ void CfgProcessor::process(string source, string destination, int region, bool j
                 } else {
                     if (japan) {
                         line = "Bios = romJP.bin";
-                    } else
-                    {
+                    } else {
                         line = "Bios = romw.bin";
                     }
                 }
             }
             if (line.rfind("region", 0) == 0) {
-                line = "region = "+to_string(region);
+                line = "region = " + to_string(region);
             }
             if (line.rfind("gpu_neon.enhancement_enable", 0) == 0) {
                 if (highres) {
                     line = "gpu_neon.enhancement_enable = 1";
-                } else
-                {
+                } else {
                     line = "gpu_neon.enhancement_enable = 0";
                 }
             }
             if (line.rfind("spu_config.iUseInterpolation", 0) == 0) {
-                line = "spu_config.iUseInterpolation = "+to_string(soundFilter);
+                line = "spu_config.iUseInterpolation = " + to_string(soundFilter);
             }
 
             if (line.rfind("psx_clock", 0) == 0) {
-                line = "psx_clock = "+to_string(clock);
+                line = "psx_clock = " + to_string(clock);
             }
 
 

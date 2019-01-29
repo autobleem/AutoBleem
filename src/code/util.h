@@ -61,6 +61,7 @@ public:
     static string readString(int size, ifstream * stream);
     static string readString(ifstream * stream);
     static void skipZeros(ifstream * stream);
+    static string commaSep(string input, int pos);
 
 
 };
