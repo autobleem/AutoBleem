@@ -12,6 +12,7 @@
 #include "gui_keyboard.h"
 #include "gui_selectmemcard.h"
 #include "memcard.h"
+#include "cfgprocessor.h"
 
 
 void GuiEditor::init() {
@@ -118,12 +119,19 @@ void GuiEditor::loop() {
                     if (e.jbutton.button == PCS_BTN_L1) {
                         game.values["highres"] = "1";
                         game.save(game.path);
+                        CfgProcessor * processor = new CfgProcessor();
+                        //gpu_neon.enhancement_enable = 1
+                        processor->replace(game.entry,gui->path,"gpu_neon.enhancement_enable","gpu_neon.enhancement_enable = 1");
+                        delete processor;
                         render();
                     };
 
                     if (e.jbutton.button == PCS_BTN_R1) {
                         game.values["highres"] = "0";
                         game.save(game.path);
+                        CfgProcessor * processor = new CfgProcessor();
+                        processor->replace(game.entry,gui->path,"gpu_neon.enhancement_enable","gpu_neon.enhancement_enable = 0");
+                        delete processor;
                         render();
                     };
 

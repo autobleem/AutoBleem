@@ -10,6 +10,8 @@ class CfgProcessor {
 public:
     Config config;
     void process(string source, string destination, int region, bool japan, int soundFilter, bool highres, int clock);
+    void replace(string entry, string gamePath,  string property, string newline);
+
 };
 
 
