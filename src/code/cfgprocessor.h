@@ -12,6 +12,10 @@ public:
     void process(string source, string destination, int region, bool japan, int soundFilter, bool highres, int clock);
     void replace(string entry, string gamePath,  string property, string newline);
 
+private:
+    void replaceInternal(string filePath, string property, string newline);
+
+
 };
 
 

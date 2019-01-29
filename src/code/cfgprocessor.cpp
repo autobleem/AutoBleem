@@ -7,14 +7,8 @@
 
 using namespace std;
 
-void CfgProcessor::replace(string entry, string gamePath, string property, string newline) {
-    if (!Util::exists(gamePath + "!SaveStates" + Util::separator() + entry + Util::separator() + PCSX_CFG)) {
-        Util::copy(gamePath + Util::separator() + entry + Util::separator() + PCSX_CFG,
-                   gamePath + "!SaveStates" + Util::separator() + entry + Util::separator() + PCSX_CFG);
-    }
-
-    string realCfgPath = gamePath + "!SaveStates" + Util::separator() + entry + Util::separator() + PCSX_CFG;
-    std::fstream file(realCfgPath, std::ios::in);
+void CfgProcessor::replaceInternal(string filePath, string property, string newline) {
+    std::fstream file(filePath, std::ios::in);
 
     vector<string> lines;
     lines.clear();
@@ -41,14 +35,34 @@ void CfgProcessor::replace(string entry, string gamePath, string property, strin
 
         }
         file.close();
-        file.open(realCfgPath, std::ios::out | std::ios::trunc);
+        file.open(filePath, std::ios::out | std::ios::trunc);
 
         for (const auto &i : lines) {
             file << i << std::endl;
         }
         file.flush();
         file.close();
+
     }
+}
+
+void CfgProcessor::replace(string entry, string gamePath, string property, string newline) {
+    if (!Util::exists(gamePath + "!SaveStates" + Util::separator() + entry + Util::separator() + PCSX_CFG)) {
+        Util::copy(gamePath + Util::separator() + entry + Util::separator() + PCSX_CFG,
+                   gamePath + "!SaveStates" + Util::separator() + entry + Util::separator() + PCSX_CFG);
+    }
+
+    string realCfgPath = gamePath + "!SaveStates" + Util::separator() + entry + Util::separator() + PCSX_CFG;
+    replaceInternal(realCfgPath,property,newline);
+
+    for (DirEntry cfgEntry:Util::diru(gamePath + "!SaveStates" + Util::separator() + entry + Util::separator()+"cfg"))
+    {
+        string path = gamePath + "!SaveStates" + Util::separator() + entry + Util::separator()+"cfg"+Util::separator()+cfgEntry.name;
+        replaceInternal(path,property,newline);
+    }
+
+
+
 
 }
 

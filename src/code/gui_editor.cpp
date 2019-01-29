@@ -60,7 +60,7 @@ void GuiEditor::render() {
                         (game.values["memcard"] == "SONY" ? string("Internal") : game.values["memcard"] + "(Custom)"),
                         4, offset, true);
     gui->renderTextLine("Block Data:" + (game.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|"))
-                        + "  High res:" + (game.values["highres"] != "0" ? string("|@Check|") : string("|@Uncheck|")), 5, offset,
+                        + "  High res:" + (game.values["highres"] == "1" ? string("|@Check|") : string("|@Uncheck|")), 5, offset,
                         true);
 
 
