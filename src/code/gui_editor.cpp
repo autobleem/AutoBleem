@@ -26,6 +26,20 @@ void GuiEditor::init() {
             this->game.values["memcard"] = "SONY";
         }
     }
+
+    bool pngLoaded=false;
+    for (DirEntry entry:Util::diru(gui->path+Util::separator()+game.entry))
+    {
+        if (Util::matchExtension(entry.name,EXT_PNG))
+        {
+            cover = IMG_LoadTexture(renderer, (gui->path+Util::separator()+game.entry+Util::separator()+entry.name).c_str());
+            pngLoaded = true;
+        }
+    }
+    if (!pngLoaded)
+    {
+        cover = IMG_LoadTexture(renderer, (Util::getWorkingPath()+Util::separator()+"default.png").c_str());
+    }
 }
 
 void GuiEditor::render() {
@@ -37,15 +51,16 @@ void GuiEditor::render() {
     int offset = gui->renderLogo(true);
     gui->renderTextLine("-=" + game.values["title"] + "=-", 0, offset, true);
     gui->renderTextLine("Folder: " + game.entry + "", 1, offset, true);
-    gui->renderTextLine("Published by: " + game.values["publisher"] + "   Year:" + game.values["year"] + "   Players:" +
-                        game.values["players"], 2, offset, true);
+    gui->renderTextLine("Published by: " + game.values["publisher"],2,offset,true);
+    gui->renderTextLine("Year:" + game.values["year"] + "   Players:" +
+                        game.values["players"], 3, offset, true);
 
 
     gui->renderTextLine("Memory Card: " +
                         (game.values["memcard"] == "SONY" ? string("Internal") : game.values["memcard"] + "(Custom)"),
-                        3, offset, true);
+                        4, offset, true);
     gui->renderTextLine("Block Data:" + (game.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|"))
-                        + "  High res:" + (game.values["highres"] != "0" ? string("|@Check|") : string("|@Uncheck|")), 4, offset,
+                        + "  High res:" + (game.values["highres"] != "0" ? string("|@Check|") : string("|@Uncheck|")), 5, offset,
                         true);
 
 
@@ -62,6 +77,15 @@ void GuiEditor::render() {
     guiMenu += " |@O| Go back|";
 
     gui->renderStatus(guiMenu);
+
+    SDL_Rect rect;
+    rect.x=atoi(gui->themeData.values["ecoverx"].c_str());
+    rect.y=atoi(gui->themeData.values["ecovery"].c_str());
+    rect.w=226;
+    rect.h=226;
+
+    SDL_RenderCopy(renderer, cover, NULL, &rect);
+
     SDL_RenderPresent(renderer);
 }
 
@@ -156,6 +180,8 @@ void GuiEditor::loop() {
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
 
+                        SDL_DestroyTexture(cover);
+                        cover= nullptr;
                         menuVisible = false;
 
                     };

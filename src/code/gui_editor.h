@@ -21,6 +21,7 @@ public:
     bool changes=false;
 
     using GuiScreen::GuiScreen;
+    SDL_Texture * cover= nullptr;
 };
 
 
