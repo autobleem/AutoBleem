@@ -87,10 +87,26 @@ int Gui::renderLogo(bool small) {
     }
 }
 
+SDL_Texture *  Gui::loadThemeTexture(SDL_Renderer * renderer, string themePath, string defaultPath, string texname)
+{
+    SDL_Texture *tex;
+    if (Util::exists(themePath + themeData.values[texname])) {
+        tex = IMG_LoadTexture(renderer, (themePath + themeData.values[texname]).c_str());
+    } else
+    {
+        tex = IMG_LoadTexture(renderer, (defaultPath + defaultData.values[texname]).c_str());
+    }
+    return tex;
+}
 
 void Gui::loadAssets() {
+    string defaultPath = Util::getWorkingPath() + Util::separator() + "theme" + Util::separator() + "default" +
+                Util::separator();
     themePath = Util::getWorkingPath() + Util::separator() + "theme" + Util::separator() + cfg.inifile.values["theme"] +
                 Util::separator();
+
+    themeData.load(defaultPath + "theme.ini");
+    defaultData.load(defaultPath + "theme.ini");
     themeData.load(themePath + "theme.ini");
 
     if (backgroundImg != NULL) {
@@ -115,21 +131,19 @@ void Gui::loadAssets() {
     logoRect.w = atoi(themeData.values["lw"].c_str());
     logoRect.h = atoi(themeData.values["lh"].c_str());
 
-    backgroundImg = IMG_LoadTexture(renderer, (themePath + themeData.values["background"]).c_str());
-    logo = IMG_LoadTexture(renderer, (themePath + themeData.values["logo"]).c_str());
+    backgroundImg = loadThemeTexture(renderer,themePath,defaultPath,"background");
+    logo = loadThemeTexture(renderer,themePath,defaultPath,"logo");
 
-    buttonO = IMG_LoadTexture(renderer, (themePath + themeData.values["circle"]).c_str());
-    buttonX = IMG_LoadTexture(renderer, (themePath + themeData.values["cross"]).c_str());
-    buttonT = IMG_LoadTexture(renderer, (themePath + themeData.values["triangle"]).c_str());
-    buttonS = IMG_LoadTexture(renderer, (themePath + themeData.values["square"]).c_str());
-    buttonSelect = IMG_LoadTexture(renderer, (themePath + themeData.values["select"]).c_str());
-    buttonStart = IMG_LoadTexture(renderer, (themePath + themeData.values["start"]).c_str());
-    buttonL1 = IMG_LoadTexture(renderer, (themePath + themeData.values["l1"]).c_str());
-    buttonR1 = IMG_LoadTexture(renderer, (themePath + themeData.values["r1"]).c_str());
-    buttonCheck = IMG_LoadTexture(renderer, (themePath + themeData.values["check"]).c_str());
-    buttonUncheck = IMG_LoadTexture(renderer, (themePath + themeData.values["uncheck"]).c_str());
-
-
+    buttonO = loadThemeTexture(renderer,themePath,defaultPath,"circle");
+    buttonX = loadThemeTexture(renderer,themePath,defaultPath,"cross");
+    buttonT = loadThemeTexture(renderer,themePath,defaultPath,"triangle");
+    buttonS = loadThemeTexture(renderer,themePath,defaultPath,"square");
+    buttonSelect = loadThemeTexture(renderer,themePath,defaultPath,"select");
+    buttonStart = loadThemeTexture(renderer,themePath,defaultPath,"start");
+    buttonL1 = loadThemeTexture(renderer,themePath,defaultPath,"l1");
+    buttonR1 = loadThemeTexture(renderer,themePath,defaultPath,"r1");
+    buttonCheck = loadThemeTexture(renderer,themePath,defaultPath,"check");
+    buttonUncheck = loadThemeTexture(renderer,themePath,defaultPath,"uncheck");
     string fontPath = (themePath + themeData.values["font"]).c_str();
     font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
 

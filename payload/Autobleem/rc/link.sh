@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-#This should replace links created by bleemsync with autobleem 
 echo "Linking games"  >> /media/System/Logs/autobleem.log
 INPUT=/media/Autobleem/bin/autobleem/autobleem.list
 OLDIFS=$IFS

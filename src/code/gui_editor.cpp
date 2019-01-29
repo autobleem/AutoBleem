@@ -57,13 +57,15 @@ void GuiEditor::render() {
     gui->renderTextLine("Memory Card: " +
                         (game.values["memcard"] == "SONY" ? string("Internal") : game.values["memcard"] + "(Custom)"),
                         4, offset, true);
-    gui->renderTextLine("Block Data:" + (game.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|"))
+
+    gui->renderTextLine("Lock data:" + (game.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|"))
                         + "  High res:" + (game.values["highres"] == "1" ? string("|@Check|") : string("|@Uncheck|")),
                         5, offset,
                         true);
 
 
-    string guiMenu = "|@Select| Block/Rescan Data  |@Start| Hi/Lo Res   |@X| Rename  |@S| Change MC ";
+    string guiMenu = "|@Select| Lock  |@Start| Hi/Lo Res   |@X| Rename  |@S| Change MC ";
+
     if (game.values["memcard"] == "SONY") {
         guiMenu += "|@T| Share MC  ";
     }

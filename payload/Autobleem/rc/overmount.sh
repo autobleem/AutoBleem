@@ -1,3 +1,5 @@
+#The only left part from bleemsync code ... those 58 lines that does not need to be changed
+
 #!/bin/sh
 
 # Copy the BIOS files to USB
