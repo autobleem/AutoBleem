@@ -63,7 +63,7 @@ void GuiEditor::render() {
                         true);
 
 
-    string guiMenu = "|@Select| Block/Rescan Data  |@Start| Hi/Lo Res   |@X| Rename  |@S| Change MC ";
+    string guiMenu = "|@Select| Lock  |@Start| Hi/Lo Res   |@X| Rename  |@S| Change MC ";
     if (game.values["memcard"] == "SONY") {
         guiMenu += "|@T| Share MC  ";
     }

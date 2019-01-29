@@ -45,6 +45,7 @@ public:
     Config cfg;
 
     Inifile themeData;
+    Inifile defaultData;
     void display(bool forceScan, string path, Database * db);
     void finish();
     void drawText(string text);
@@ -70,6 +71,8 @@ public:
     Uint8 getR(string val);
     Uint8 getG(string val);
     Uint8 getB(string val);
+
+    SDL_Texture *  loadThemeTexture(SDL_Renderer * renderer, string themePath, string defaultPath, string texname);
 
 
     int menuOption=MENU_OPTION_SCAN;
