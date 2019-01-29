@@ -27,18 +27,16 @@ void GuiEditor::init() {
         }
     }
 
-    bool pngLoaded=false;
-    for (DirEntry entry:Util::diru(gui->path+Util::separator()+game.entry))
-    {
-        if (Util::matchExtension(entry.name,EXT_PNG))
-        {
-            cover = IMG_LoadTexture(renderer, (gui->path+Util::separator()+game.entry+Util::separator()+entry.name).c_str());
+    bool pngLoaded = false;
+    for (DirEntry entry:Util::diru(gui->path + Util::separator() + game.entry)) {
+        if (Util::matchExtension(entry.name, EXT_PNG)) {
+            cover = IMG_LoadTexture(renderer, (gui->path + Util::separator() + game.entry + Util::separator() +
+                                               entry.name).c_str());
             pngLoaded = true;
         }
     }
-    if (!pngLoaded)
-    {
-        cover = IMG_LoadTexture(renderer, (Util::getWorkingPath()+Util::separator()+"default.png").c_str());
+    if (!pngLoaded) {
+        cover = IMG_LoadTexture(renderer, (Util::getWorkingPath() + Util::separator() + "default.png").c_str());
     }
 }
 
@@ -51,7 +49,7 @@ void GuiEditor::render() {
     int offset = gui->renderLogo(true);
     gui->renderTextLine("-=" + game.values["title"] + "=-", 0, offset, true);
     gui->renderTextLine("Folder: " + game.entry + "", 1, offset, true);
-    gui->renderTextLine("Published by: " + game.values["publisher"],2,offset,true);
+    gui->renderTextLine("Published by: " + game.values["publisher"], 2, offset, true);
     gui->renderTextLine("Year:" + game.values["year"] + "   Players:" +
                         game.values["players"], 3, offset, true);
 
@@ -60,29 +58,29 @@ void GuiEditor::render() {
                         (game.values["memcard"] == "SONY" ? string("Internal") : game.values["memcard"] + "(Custom)"),
                         4, offset, true);
     gui->renderTextLine("Block Data:" + (game.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|"))
-                        + "  High res:" + (game.values["highres"] == "1" ? string("|@Check|") : string("|@Uncheck|")), 5, offset,
+                        + "  High res:" + (game.values["highres"] == "1" ? string("|@Check|") : string("|@Uncheck|")),
+                        5, offset,
                         true);
 
 
-    string guiMenu = "|@L1|/|@R1| Hi/Lo Res |@X| Rename  |@S| Change MC ";
+    string guiMenu = "|@Select| Block/Rescan Data  |@Start| Hi/Lo Res   |@X| Rename  |@S| Change MC ";
     if (game.values["memcard"] == "SONY") {
         guiMenu += "|@T| Share MC  ";
     }
 
 
-    if (game.values["automation"] == "1") {
-        guiMenu += "|@Start| Block Data  ";
-    }
+
+
 
     guiMenu += " |@O| Go back|";
 
     gui->renderStatus(guiMenu);
 
     SDL_Rect rect;
-    rect.x=atoi(gui->themeData.values["ecoverx"].c_str());
-    rect.y=atoi(gui->themeData.values["ecovery"].c_str());
-    rect.w=226;
-    rect.h=226;
+    rect.x = atoi(gui->themeData.values["ecoverx"].c_str());
+    rect.y = atoi(gui->themeData.values["ecovery"].c_str());
+    rect.w = 226;
+    rect.h = 226;
 
     SDL_RenderCopy(renderer, cover, NULL, &rect);
 
@@ -131,33 +129,36 @@ void GuiEditor::loop() {
                         };
                     }
 
-                    if (game.values["automation"] == "1") {
-                        if (e.jbutton.button == PCS_BTN_START) {
+
+                    if (e.jbutton.button == PCS_BTN_SELECT) {
+                        if (game.values["automation"] == "1") {
                             game.values["automation"] = "0";
-                            game.save(game.path);
-                            render();
-
-                        };
-                    }
-
-                    if (e.jbutton.button == PCS_BTN_L1) {
-                        game.values["highres"] = "1";
+                        } else {
+                            game.values["automation"] = "1";
+                        }
                         game.save(game.path);
-                        CfgProcessor * processor = new CfgProcessor();
-                        //gpu_neon.enhancement_enable = 1
-                        processor->replace(game.entry,gui->path,"gpu_neon.enhancement_enable","gpu_neon.enhancement_enable = 1");
+                        render();
+
+                    };
+
+
+                    if (e.jbutton.button == PCS_BTN_START) {
+                        if (game.values["highres"] == "1") {
+                            game.values["highres"] = "0";
+                        } else {
+                            game.values["highres"] = "1";
+                        }
+
+                        game.save(game.path);
+                        CfgProcessor *processor = new CfgProcessor();
+
+                        processor->replace(game.entry, gui->path, "gpu_neon.enhancement_enable",
+                                           "gpu_neon.enhancement_enable = " + game.values["highres"]);
                         delete processor;
                         render();
                     };
 
-                    if (e.jbutton.button == PCS_BTN_R1) {
-                        game.values["highres"] = "0";
-                        game.save(game.path);
-                        CfgProcessor * processor = new CfgProcessor();
-                        processor->replace(game.entry,gui->path,"gpu_neon.enhancement_enable","gpu_neon.enhancement_enable = 0");
-                        delete processor;
-                        render();
-                    };
+
 
                     if (e.jbutton.button == PCS_BTN_SQUARE) {
                         GuiSelectMemcard *selector = new GuiSelectMemcard(renderer);
@@ -181,7 +182,7 @@ void GuiEditor::loop() {
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
 
                         SDL_DestroyTexture(cover);
-                        cover= nullptr;
+                        cover = nullptr;
                         menuVisible = false;
 
                     };
