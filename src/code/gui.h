@@ -74,7 +74,6 @@ public:
 
     SDL_Texture *  loadThemeTexture(SDL_Renderer * renderer, string themePath, string defaultPath, string texname);
 
-
     int menuOption=MENU_OPTION_SCAN;
 
     SDL_Rect backgroundRect;

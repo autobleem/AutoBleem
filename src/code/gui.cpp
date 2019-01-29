@@ -144,8 +144,6 @@ void Gui::loadAssets() {
     buttonR1 = loadThemeTexture(renderer,themePath,defaultPath,"r1");
     buttonCheck = loadThemeTexture(renderer,themePath,defaultPath,"check");
     buttonUncheck = loadThemeTexture(renderer,themePath,defaultPath,"uncheck");
-
-
     string fontPath = (themePath + themeData.values["font"]).c_str();
     font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
 
