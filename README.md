@@ -112,6 +112,10 @@ This software uses some parts of code based on open licences:
 UNECM - Copyright (C) 2002 Neill Corlett (GPLv2) (unecm.c)
 
 ## Frequently Asked Questions
+
+### Is 0.5 the final version ??
+No it is not ... when I wrote that on last release I just run out of ideas as thought the functionality is enough for most usages and users ...but ... then BS1.0 hapeened and ... again I was not 100% happy how it works... also people from AutoBleem community discovered so many great ideas... I changed my mind. I am going to develop new features (also with helping hand from new AutoBleem people) and release new version as soon some big milestone will be hit.
+
 ### Why not contribute to BleemSync ?
 
 I am not C# developer, but Java and C++... those are totally different technologies. I will try to support BleemSync as agreed with pathartl, but BleemSync is based on totally different ideas and visions. AutoBleem has to be simple tool and should reduce usage of PC computer to bare minimum.
@@ -132,6 +136,11 @@ AutoBleem is analysing the game folder during boot and using smart algorithm it 
 
 
 ## Road Map
-     
-0.5 and still have lot of ideas .... more to come
+This is just bare milestone ideas
+
+- 0.6 - upgrade UI experience and engine on existing features
+- 0.7 - savestate manager in starter (multiple slots)
+- 0.8 - coverdb editor, updater app (this might be PC ap, but optional)
+- 0.9 - all bugfixes and polishing what already done
+- 1.0 - stable release - hotfixes - develop 2.0 in parallel
 

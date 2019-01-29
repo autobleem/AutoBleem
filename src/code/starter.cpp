@@ -36,6 +36,7 @@ void execute(int argc, char** argv)
 int main (int argc, char *argv[])
 {
 
+    
     string path="/data/AppData/sony/title/";
     string sourceCard="/media/Games/!MemCards/";
     Inifile ini;

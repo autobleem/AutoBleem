@@ -59,7 +59,7 @@ void GuiMemcards::render() {
     }
 
     gui->renderStatus("Card " + to_string(selected + 1) + "/" + to_string(cards.size()) +
-                      "    |@X| New Card   |@T| Delete Card   |@O| Go back|");
+                              "   |@L1|/|@R1| Page   |@X| Rename  |@S| New Card   |@T| Delete Card   |@O| Go back|");
     SDL_RenderPresent(renderer);
 }
 
@@ -79,20 +79,43 @@ void GuiMemcards::loop() {
                         if (e.jaxis.value > 3200) {
                             selected++;
                             if (selected >= cards.size()) {
-                                selected = cards.size() - 1;
+                                selected = 0;
+                                firstVisible = selected;
+                                lastVisible = firstVisible+maxVisible;
                             }
                             render();
                         }
                         if (e.jaxis.value < -3200) {
                             selected--;
                             if (selected < 0) {
-                                selected = 0;
+                                selected = cards.size()-1;
+                                firstVisible = selected;
+                                lastVisible = firstVisible+maxVisible;
                             }
                             render();
                         }
                     }
                     break;
                 case SDL_JOYBUTTONDOWN:
+
+                    if (e.jbutton.button == PCS_BTN_R1) {
+                        selected+=maxVisible;
+                        if (selected >= cards.size()) {
+                            selected = cards.size() - 1;
+                        }
+                        firstVisible = selected;
+                        lastVisible = firstVisible+maxVisible;
+                        render();
+                    };
+                    if (e.jbutton.button == PCS_BTN_L1) {
+                        selected-=maxVisible;
+                        if (selected < 0) {
+                            selected = 0;
+                        }
+                        firstVisible = selected;
+                        lastVisible = firstVisible+maxVisible;
+                        render();
+                    };
 
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
@@ -122,6 +145,53 @@ void GuiMemcards::loop() {
                     };
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
+                        GuiKeyboard *keyboard = new GuiKeyboard(renderer);
+                        keyboard->label = "Enter new name for card '"+cards[selected]+"'";
+                        keyboard->result = cards[selected];
+                        keyboard->show();
+                        string result = keyboard->result;
+                        bool cancelled = keyboard->cancelled;
+                        delete (keyboard);
+
+                        if (result.empty()) {
+                            cancelled = true;
+                        }
+
+                        string testResult = result;
+                        if (Util::matchesLowercase("sony", testResult)) {
+                            cancelled = true;
+                        }
+
+                        for (string card:cards)
+                        {
+                            if (card==result)
+                            {
+                                // orevent overwrite other card
+                                cancelled = true;
+                            }
+                        }
+
+                        if (!cancelled) {
+                            Memcard *memcardOps = new Memcard(gui->path);
+                            memcardOps->rename(cards[selected],result);
+                            delete memcardOps;
+                            init();
+                            int pos=0;
+                            for (string card:cards)
+                            {
+                                if (card==result)
+                                {
+                                    selected=pos;
+                                    firstVisible=pos;
+                                    lastVisible=firstVisible+maxVisible;
+                                }
+                                pos++;
+                            }
+                        }
+                        render();
+                    }
+
+                    if (e.jbutton.button == PCS_BTN_SQUARE) {
 
                         GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                         keyboard->label = "Enter new card name";

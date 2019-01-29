@@ -39,6 +39,7 @@ public:
     bool licFound = false;
     bool automationUsed = false;
     int imageType=0;
+    bool highRes = false;
 
     void readIni(string path);
     void saveIni(string path);

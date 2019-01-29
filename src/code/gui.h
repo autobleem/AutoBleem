@@ -16,6 +16,7 @@
 #include "config.h"
 
 #define PCS_BTN_L1       6
+#define PCS_BTN_R1       7
 #define PCS_BTN_START    9
 #define PCS_BTN_SQUARE   3
 #define PCS_BTN_TRIANGLE 0
@@ -31,7 +32,6 @@ using namespace std;
 #define MENU_OPTION_SONY  3
 #define MENU_OPTION_RETRO 4
 
-#define OCD_ALPHA 170
 
 class Gui {
 private:
@@ -45,6 +45,7 @@ public:
     Config cfg;
 
     Inifile themeData;
+    Inifile defaultData;
     void display(bool forceScan, string path, Database * db);
     void finish();
     void drawText(string text);
@@ -67,6 +68,11 @@ public:
     void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
 
+    Uint8 getR(string val);
+    Uint8 getG(string val);
+    Uint8 getB(string val);
+
+    SDL_Texture *  loadThemeTexture(SDL_Renderer * renderer, string themePath, string defaultPath, string texname);
 
     int menuOption=MENU_OPTION_SCAN;
 
@@ -83,6 +89,9 @@ public:
     SDL_Texture *buttonStart = NULL;
     SDL_Texture *buttonSelect = NULL;
     SDL_Texture *buttonL1 = NULL;
+    SDL_Texture *buttonR1 = NULL;
+    SDL_Texture *buttonCheck = NULL;
+    SDL_Texture *buttonUncheck = NULL;
 
 
     string path;

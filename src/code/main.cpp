@@ -51,20 +51,12 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-
-
-
-
-
     Scanner *scanner = new Scanner();
     Database *db = new Database();
     if (!db->connect(argv[1])) {
         delete db;
         return EXIT_FAILURE;
     }
-
-
-
 
     string dbpath = argv[1];
     string path = argv[2];

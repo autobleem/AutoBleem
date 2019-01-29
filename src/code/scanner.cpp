@@ -6,37 +6,36 @@
 #include "ecmhelper.h"
 
 
-
 bool wayToSort(Game i, Game j) {
-    return i.title < j.title;
+    string name1=i.title;
+    string name2=j.title;
+    lcase(name1);
+    lcase(name2);
+    return name1 < name2;
 }
 
-bool Scanner::isFirstRun(string path, Database * db)
-{
+bool Scanner::isFirstRun(string path, Database *db) {
 
-    bool listFile =  !Util::exists(Util::getWorkingPath() + Util::separator() + "autobleem.list");
+    bool listFile = !Util::exists(Util::getWorkingPath() + Util::separator() + "autobleem.list");
     if (listFile) {
         return listFile;
     }
 
 
-    bool prevFileExists = Util::exists(Util::getWorkingPath() + Util::separator()+ "autobleem.prev");
-    if (!prevFileExists)
-    {
+    bool prevFileExists = Util::exists(Util::getWorkingPath() + Util::separator() + "autobleem.prev");
+    if (!prevFileExists) {
         return true;
     }
     ifstream prev;
-    string prevName = Util::getWorkingPath() + Util::separator()+ "autobleem.prev";
-    prev.open(prevName.c_str(),ios::binary);
-    vector<DirEntry> entries =  Util::diru(path);
-    for (DirEntry entry:entries)
-    {
+    string prevName = Util::getWorkingPath() + Util::separator() + "autobleem.prev";
+    prev.open(prevName.c_str(), ios::binary);
+    vector<DirEntry> entries = Util::diru(path);
+    for (DirEntry entry:entries) {
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
         string nameInFile;
-        getline(prev,nameInFile);
-        if (nameInFile!=entry.name)
-        {
+        getline(prev, nameInFile);
+        if (nameInFile != entry.name) {
             return true;
         }
     }
@@ -77,7 +76,8 @@ void Scanner::updateDB(Database *db) {
             for (int j = 0; j < data.discs.size(); j++) {
                 db->insertDisc(i + 1, j + 1, data.discs[j].diskName);
             }
-            outfile << i + 1 << "," << Util::escape(data.fullPath.substr(0, data.fullPath.size() - 1)) << "," << Util::escape(data.saveStatePath.substr(0, data.saveStatePath.size() - 1)) << endl;
+            outfile << i + 1 << "," << Util::escape(data.fullPath.substr(0, data.fullPath.size() - 1)) << ","
+                    << Util::escape(data.saveStatePath.substr(0, data.saveStatePath.size() - 1)) << endl;
 
         }
     outfile.flush();
@@ -92,29 +92,25 @@ static const char cue2[] = "FILE \"{binName}\" BINARY\n"
                            "    INDEX 00 00:00:00\n"
                            "    INDEX 01 00:02:00\n";
 
-void repairBinCommaNames(string path)
-{
+void repairBinCommaNames(string path) {
+    // TODO: Add support for German diactrics for nex here
     for (DirEntry entry:Util::diru(path)) {
-        if (entry.name.find(",")!=string::npos)
-        {
+        if (entry.name.find(",") != string::npos) {
             string newName = entry.name;
-            Util::replaceAll(newName,",","-");
-            rename( (path + entry.name).c_str(), (path + newName).c_str());
+            Util::replaceAll(newName, ",", "-");
+            rename((path + entry.name).c_str(), (path + newName).c_str());
             entry.name = newName;
-            if (Util::matchExtension(entry.name,EXT_CUE))
-            {
+            if (Util::matchExtension(entry.name, EXT_CUE)) {
                 // process cue inside
-                ifstream is(path+Util::separator()+entry.name);
-                ofstream os(path+Util::separator()+entry.name+".new");
+                ifstream is(path + Util::separator() + entry.name);
+                ofstream os(path + Util::separator() + entry.name + ".new");
                 string line;
                 while (getline(is, line)) {
                     trim(line);
-                    if (!line.empty())
-                    {
-                       if ((line.rfind("FILE",0)==0) || (line.rfind("file",0)==0))
-                       {
-                           Util::replaceAll(line,",","-");
-                       }
+                    if (!line.empty()) {
+                        if ((line.rfind("FILE", 0) == 0) || (line.rfind("file", 0) == 0)) {
+                            Util::replaceAll(line, ",", "-");
+                        }
                     }
                     os << line << endl;
                 }
@@ -123,8 +119,9 @@ void repairBinCommaNames(string path)
                 os.close();
                 is.close();
 
-                remove((path+Util::separator()+entry.name).c_str());
-                rename((path+Util::separator()+entry.name+".new").c_str(),(path+Util::separator()+entry.name ).c_str());
+                remove((path + Util::separator() + entry.name).c_str());
+                rename((path + Util::separator() + entry.name + ".new").c_str(),
+                       (path + Util::separator() + entry.name).c_str());
 
             }
         }
@@ -181,8 +178,7 @@ void repairMissingCue(string path, string folderName) {
 void Scanner::moveFolderIfNeeded(DirEntry entry, string gameDataPath, string path) {
     bool gameDataExists = Util::exists(gameDataPath);
 
-    if (gameDataExists)
-    {
+    if (gameDataExists) {
         cerr << "Game: " << entry.name << " - Moving GameData to 0.5" << endl;
         for (DirEntry entryGame:  Util::diru(gameDataPath)) {
             string newName = path + entry.name + Util::separator() + entryGame.name;
@@ -197,8 +193,110 @@ void Scanner::moveFolderIfNeeded(DirEntry entry, string gameDataPath, string pat
 
 }
 
-int Scanner::getImageType(string path)
-{
+void Scanner::repairBrokenCueFiles(string path) {
+    vector<string> allBinFiles;
+    vector<string> allCues;
+    vector<bool> validCue;
+    vector<int> cueTracks;
+
+    allBinFiles.clear();
+    allCues.clear();
+    validCue.clear();
+    cueTracks.clear();
+
+    for (DirEntry entryGame:Util::diru(path)) {
+
+
+        if (Util::matchExtension(entryGame.name, EXT_CUE)) {
+            allCues.push_back(entryGame.name);
+        }
+
+        if (Util::matchExtension(entryGame.name, EXT_BIN)) {
+            allBinFiles.push_back(entryGame.name);
+        }
+    }
+
+        for (string cue:allCues) {
+            ifstream cueStream;
+
+
+            cueStream.open(path + Util::separator() + cue);
+            string line;
+            bool cueOk = true;
+            int bins = 0;
+            while (getline(cueStream, line)) {
+                line = trim(line);
+                if (line.empty()) continue;
+                if (line.substr(0, 4) == "FILE") {
+                    line = line.substr(6, string::npos);
+                    line = line.substr(0, line.find('"'));
+                    bins++;
+                    if (std::find(allBinFiles.begin(), allBinFiles.end(), line) == allBinFiles.end()) {
+                        cueOk = false;
+                    }
+
+                }
+
+            }
+            validCue.push_back(cueOk);
+            cueTracks.push_back(bins);
+            cueStream.close();
+        }
+
+
+        // now we know cues that are corrupted - regenerate them
+
+        int startPos = 0;
+        for (int i=0;i<allCues.size();i++) {
+            bool cueOk = validCue[i];
+            string cuePath = path+Util::separator()+allCues[i];
+            if (!cueOk)
+            {
+                remove(cuePath.c_str());
+
+                ofstream os;
+                os.open(cuePath);
+                // let's create new one
+                bool first = true;
+                int track = 1;
+                for (int binId=0;binId!=cueTracks[i];binId++) {
+                    string cueElement;
+                    if (first) {
+                        cueElement = cue1;
+                    } else {
+                        cueElement = cue2;
+                    }
+
+                    string newBinName = "BinDoesNotExists.bin";
+                    if ((startPos+binId)<allBinFiles.size())
+                    {
+                        newBinName =  allBinFiles[startPos+binId];
+                    }
+
+                    Util::replaceAll(cueElement, "{binName}", newBinName);
+                    if (track < 10) {
+                        Util::replaceAll(cueElement, "{track}", "0" + to_string(track));
+                    } else {
+                        Util::replaceAll(cueElement, "{track}", to_string(track));
+                    }
+                    track++;
+                    first = false;
+                    os << cueElement;
+                }
+                os.flush();
+                os.close();
+
+            }
+            startPos+=cueTracks[i];
+
+
+
+    }
+
+
+}
+
+int Scanner::getImageType(string path) {
     for (DirEntry entry: Util::diru(path)) {
         if (Util::matchExtension(entry.name, EXT_BIN)) {
             return 0;
@@ -220,17 +318,15 @@ void Scanner::scanDirectory(string path) {
     splash->logText("Scanning...");
 
     ofstream prev;
-    string prevFileName = Util::getWorkingPath()+Util::separator()+"autobleem.prev";
-    prev.open(prevFileName.c_str(),ios::binary);
+    string prevFileName = Util::getWorkingPath() + Util::separator() + "autobleem.prev";
+    prev.open(prevFileName.c_str(), ios::binary);
 
-    if (!Util::exists(path+Util::separator()+"!SaveStates"))
-    {
-        Util::createDir(path+Util::separator()+"!SaveStates");
+    if (!Util::exists(path + Util::separator() + "!SaveStates")) {
+        Util::createDir(path + Util::separator() + "!SaveStates");
     }
 
-    if (!Util::exists(path+Util::separator()+"!MemCards"))
-    {
-        Util::createDir(path+Util::separator()+"!MemCards");
+    if (!Util::exists(path + Util::separator() + "!MemCards")) {
+        Util::createDir(path + Util::separator() + "!MemCards");
     }
 
 
@@ -242,18 +338,17 @@ void Scanner::scanDirectory(string path) {
 
 
         // fix for comma in dirname
-        if (entry.name.find(",")!=string::npos)
-        {
+        if (entry.name.find(",") != string::npos) {
             string newName = entry.name;
-            Util::replaceAll(newName,",","-");
-            rename( (path + entry.name).c_str(), (path + newName).c_str());
+            Util::replaceAll(newName, ",", "-");
+            rename((path + entry.name).c_str(), (path + newName).c_str());
             entry.name = newName;
         }
 
-        repairBinCommaNames(path + entry.name+ Util::separator());
+        repairBinCommaNames(path + entry.name + Util::separator());
         prev << entry.name << endl;
 
-        string saveStateDir = path+Util::separator()+"!SaveStates"+Util::separator()+entry.name;
+        string saveStateDir = path + Util::separator() + "!SaveStates" + Util::separator() + entry.name;
         Util::createDir(saveStateDir);
 
         Game game;
@@ -273,10 +368,11 @@ void Scanner::scanDirectory(string path) {
         game.imageType = this->getImageType(gameDataPath);
         game.gameDataFound = true;
 
-        if (game.imageType==0) // only cue/bin
+        if (game.imageType == 0) // only cue/bin
         {
 
             repairMissingCue(gameDataPath, entry.name);
+            repairBrokenCueFiles(gameDataPath);
             unecm(gameDataPath);
         }
 

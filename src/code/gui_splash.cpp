@@ -33,7 +33,11 @@ void GuiSplash::render() {
     SDL_RenderCopy(renderer, gui->backgroundImg, NULL, &gui->backgroundRect);
     SDL_RenderCopy(renderer, gui->logo, NULL, &gui->logoRect);
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
+    string bg = gui->themeData.values["text_bg"];
+
+    int bg_alpha = atoi(gui->themeData.values["textalpha"].c_str())*alpha/255;
+
+    SDL_SetRenderDrawColor(renderer, gui->getR(bg), gui->getG(bg), gui->getB(bg), bg_alpha);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_Rect rect;
     rect.x = atoi(gui->themeData.values["textx"].c_str());
