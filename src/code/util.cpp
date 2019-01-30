@@ -24,6 +24,16 @@ bool wayToSort(DirEntry i, DirEntry j) {
     return name1 < name2;
 }
 
+string fixPath(string path)
+{
+    trim(path);
+    if (path.back()==Util::separator()[0])
+    {
+        path = path.substr(0,path.size()-1);
+    }
+    return path;
+}
+
 void Util::replaceAll(std::string &str, const std::string &from, const std::string &to) {
     if (from.empty())
         return;
@@ -52,6 +62,7 @@ std::string Util::getWorkingPath() {
 }
 
 vector<DirEntry> Util::dir(string path) {
+    fixPath(path);
     vector<DirEntry> result;
     DIR *dir = opendir(path.c_str());
     if (dir != NULL) {
@@ -69,6 +80,7 @@ vector<DirEntry> Util::dir(string path) {
 }
 
 vector<DirEntry> Util::diru(string path) {
+    fixPath(path);
     vector<DirEntry> result;
     DIR *dir = opendir(path.c_str());
     if (dir != NULL) {
@@ -88,19 +100,20 @@ vector<DirEntry> Util::diru(string path) {
 }
 
 bool Util::exists(const std::string &name) {
-
+    fixPath(name);
     struct stat buffer;
     return (stat(name.c_str(), &buffer) == 0);
 
 }
 
 bool Util::createDir(const std::string name) {
+    fixPath(name);
     const int dir_err = mkdir(name.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     return (-1 != dir_err);
-
 }
 
 int Util::rmDir(string path) {
+    fixPath(path);
     DIR *d = opendir(path.c_str());
     size_t path_len = path.size();
     int r = -1;
@@ -181,6 +194,7 @@ bool Util::copy(string source, string dest) {
 }
 
 string Util::findFirstFile(string ext, string path) {
+    fixPath(path);
     vector<DirEntry> entries = diru(path);
     for (DirEntry entry:entries) {
         if (matchExtension(entry.name, ext)) {
@@ -191,6 +205,7 @@ string Util::findFirstFile(string ext, string path) {
 }
 
 bool Util::matchExtension(string path, string ext) {
+    fixPath(path);
     if (path.length() >= 4) {
         string fileExt = path.substr(path.length() - 4, path.length());
         if (fileExt[0] != '.') {
