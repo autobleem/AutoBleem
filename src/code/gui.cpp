@@ -589,3 +589,17 @@ void Gui::renderTextBar() {
     SDL_RenderFillRect(renderer, &rect2);
 
 }
+
+void Gui::renderFreeSpace(){
+    SDL_Texture *textTex;
+    SDL_Rect textRec;
+    SDL_Rect rect;
+    rect.x = atoi(themeData.values["fsposx"].c_str());
+    rect.y = atoi(themeData.values["fsposy"].c_str());
+    getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
+    getEmojiTextTexture(renderer, "Free space : "+Util::getAvailableSpace(), font, &textTex, &textRec);
+    rect.w = textRec.w;
+    rect.h = textRec.h;
+    SDL_RenderFillRect(renderer, &rect);
+    SDL_RenderCopy(renderer, textTex, NULL, &rect);
+}
