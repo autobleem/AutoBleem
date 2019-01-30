@@ -168,26 +168,22 @@ void GuiManager::loop()
                             if (editor->changes)
                             {
                                 changes = true;
+                            }
+                            selected=0;
+                            firstVisible=0;
+                            lastVisible=firstVisible+maxVisible;
 
-
-                                selected=0;
-                                firstVisible=0;
-                                lastVisible=firstVisible+maxVisible;
-
-                                init();
-                                int pos=0;
-                                for (Inifile game:games)
+                            init();
+                            int pos=0;
+                            for (Inifile game:games)
+                            {
+                                if (game.entry==selectedEntry)
                                 {
-                                    if (game.entry==selectedEntry)
-                                    {
-                                        selected=pos;
-                                        firstVisible=pos;
-                                        lastVisible=firstVisible+maxVisible;
-                                    }
-                                    pos++;
+                                    selected=pos;
+                                    firstVisible=pos;
+                                    lastVisible=firstVisible+maxVisible;
                                 }
-
-
+                                pos++;
                             }
                             render();
                             delete editor;

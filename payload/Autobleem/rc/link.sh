@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-#This should replace links created by bleemsync with autobleem 
 echo "Linking games"  >> /media/System/Logs/autobleem.log
 INPUT=/media/Autobleem/bin/autobleem/autobleem.list
 OLDIFS=$IFS
@@ -35,7 +33,7 @@ then
 fi
 #overwrite configuration 
 echo "Overwrite CFG $number"  >> /media/System/Logs/autobleem.log
-cp $game_path/pcsx.cfg $pcsx_path/
+cp -n $game_path/pcsx.cfg $pcsx_path/
 
 echo "Cleanup $number"  >> /media/System/Logs/autobleem.log
 # remove data from savestates ??

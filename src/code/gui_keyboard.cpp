@@ -23,9 +23,10 @@ void GuiKeyboard::render() {
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
+    gui->renderLabelBox(1, offset);
     gui->renderTextLine("-= " + label + " =-", 0, offset, true);
     gui->renderTextLine(result + "#", 1, offset, true);
-    gui->renderLabelBox(1, offset);
+
 
     SDL_Rect rect2;
     rect2.x = atoi(gui->themeData.values["opscreenx"].c_str());
@@ -57,7 +58,8 @@ void GuiKeyboard::render() {
             rectSelection.x = rectSelection.x + ((buttonWidth + 11) * x);
 
 
-            SDL_SetRenderDrawColor(renderer, 100, 100, 100, OCD_ALPHA);
+            string bg = gui->themeData.values["key_bg"];
+            SDL_SetRenderDrawColor(renderer, gui->getR(bg), gui->getG(bg), gui->getB(bg), atoi(gui->themeData.values["keyalpha"].c_str()));
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
             SDL_RenderFillRect(renderer, &rectSelection);
 
@@ -70,9 +72,17 @@ void GuiKeyboard::render() {
             gui->renderTextChar(text, 3 + y, offset, rectSelection.x + 10);
 
             if ((selx == x) && (sely == y)) {
-                SDL_SetRenderDrawColor(renderer, 255, 255, 255, OCD_ALPHA);
+                string fg = gui->themeData.values["text_fg"];
+                SDL_SetRenderDrawColor(renderer, gui->getR(fg), gui->getG(fg), gui->getB(fg), 255);
                 SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
                 SDL_RenderDrawRect(renderer, &rectSelection);
+                SDL_Rect rectSelection2;
+                rectSelection2.x=rectSelection.x+1;
+                rectSelection2.y=rectSelection.y+1;
+                rectSelection2.w=rectSelection.w-2;
+                rectSelection2.h=rectSelection.h-2;
+                SDL_RenderDrawRect(renderer, &rectSelection2);
+
             }
 
         }

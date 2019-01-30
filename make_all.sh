@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 git pull
 rm -rf ./build
 rm -rf ./build_arm
