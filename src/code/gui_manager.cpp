@@ -28,9 +28,8 @@ void GuiManager::init()
 
     shared_ptr<Gui> gui(Gui::getInstance());
     string path = gui->path;
-    for (DirEntry entry: Util::dir(path)) {
-        if (entry.name[0] == '.') continue;
-        if (!entry.dir) continue;
+    for (DirEntry entry: Util::diru(path)) {
+        if (!Util::isDirectory(gui->path+Util::separator()+entry.name)) continue;
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
 

@@ -61,6 +61,13 @@ std::string Util::getWorkingPath() {
     return (getcwd(temp, sizeof(temp)) ? std::string(temp) : std::string(""));
 }
 
+bool Util::isDirectory(string path)
+{
+    struct stat path_stat;
+    stat(path.c_str(), &path_stat);
+    return S_ISDIR(path_stat.st_mode);
+}
+
 vector<DirEntry> Util::dir(string path) {
     fixPath(path);
     vector<DirEntry> result;

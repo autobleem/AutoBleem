@@ -28,10 +28,8 @@ using namespace std;
 class DirEntry {
 public:
     string name;
-    bool dir;
 
     DirEntry(string name, bool dir) {
-        this->dir = dir;
         this->name = name;
     }
 
@@ -55,6 +53,7 @@ public:
     static bool matchExtension(string path, string ext);
     static bool matchesLowercase(string first, string second);
     static string findFirstFile(string ext, string path);
+    static bool isDirectory(string path);
 
     static unsigned char readChar(ifstream * stream);
     static unsigned long  readDword(ifstream * stream);
@@ -62,6 +61,8 @@ public:
     static string readString(ifstream * stream);
     static void skipZeros(ifstream * stream);
     static string commaSep(string input, int pos);
+
+
 
 
 };
