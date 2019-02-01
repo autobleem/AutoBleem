@@ -61,8 +61,28 @@ void GuiOptions::init()
     adv.clear();
     adv.push_back("true");
     adv.push_back("false");
+    quickboot.clear();
+    quickboot.push_back("true");
+    quickboot.push_back("false");
 
 }
+
+#define CFG_THEME      0
+#define CFG_MENUTH     1
+#define CFG_PCSX       2
+#define CFG_QUICK      3
+#define CFG_BGM        4
+#define CFG_MIP        5
+#define CFG_RA         6
+#define CFG_ADV        7
+
+string GuiOptions::getBooleanIcon(string input)
+{
+    shared_ptr<Gui> gui(Gui::getInstance());
+    string value = gui->cfg.inifile.values[input];
+    if (value=="true") return "|@Check|"; else return "|@Uncheck|";
+}
+
 void GuiOptions::render()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -70,14 +90,18 @@ void GuiOptions::render()
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     gui->renderTextLine("-=Configuration=-",0,offset,true);
-    gui->renderTextLine("AutoBleem Theme: " + gui->cfg.inifile.values["theme"], 1, offset);
-    gui->renderTextLine("Menu Theme: " + gui->cfg.inifile.values["stheme"], 2, offset);
-    gui->renderTextLine("Disable Theme BGM: " + gui->cfg.inifile.values["nomusic"], 3, offset);
-    gui->renderTextLine("Process configuration on scan: " + gui->cfg.inifile.values["autoregion"], 4, offset);
-    gui->renderTextLine("Mipmap patch: " + gui->cfg.inifile.values["mip"], 5, offset);
-    gui->renderTextLine("Overmount PCSX: " + gui->cfg.inifile.values["pcsx"], 6, offset);
-    gui->renderTextLine("Show RetroArch: " + gui->cfg.inifile.values["retroarch"], 7, offset);
-    gui->renderTextLine("Advanced: " + gui->cfg.inifile.values["adv"], 8, offset);
+    gui->renderTextLine("AutoBleem Theme: " + gui->cfg.inifile.values["theme"], CFG_THEME+1, offset);
+    gui->renderTextLine("Menu Theme: " + gui->cfg.inifile.values["stheme"], CFG_MENUTH+1, offset);
+    gui->renderTextLine("PCSX version: " + gui->cfg.inifile.values["pcsx"], CFG_PCSX+1, offset);
+    gui->renderTextLine("Disable Theme BGM: " + getBooleanIcon("nomusic"), CFG_BGM+1, offset);
+    gui->renderTextLine("QuickBoot: " + getBooleanIcon("quick"), CFG_QUICK+1, offset);
+    gui->cfg.inifile.values["autoregion"]="true"; // removing this as an option - not needed - just set to true
+
+    gui->renderTextLine("GFX Filter patch: " + getBooleanIcon("mip"), CFG_MIP+1, offset);
+
+    gui->renderTextLine("Show RetroArch: " + getBooleanIcon("retroarch"), CFG_RA+1, offset);
+    gui->renderTextLine("Advanced: " + getBooleanIcon("adv"), CFG_ADV+1, offset);
+
     gui->renderStatus("|@O| Go back|");
 
     gui->renderSelectionBox(selOption+1,offset);
@@ -127,100 +151,101 @@ void GuiOptions::loop()
 
                     if (e.jaxis.axis == 0) {
                         if (e.jaxis.value > 3200) {
-                            if (selOption == 0) {
+                            if (selOption == CFG_THEME) {
                                 string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], true);
                                 gui->cfg.inifile.values["theme"] = nextValue;
                                 init();
                                 gui->loadAssets();
                             }
 
-                            if (selOption == 1) {
+                            if (selOption == CFG_MENUTH) {
                                 string nextValue = getOption(sthemes, gui->cfg.inifile.values["stheme"], true);
                                 gui->cfg.inifile.values["stheme"] = nextValue;
 
                             }
-                            if (selOption == 2) {
+                            if (selOption == CFG_BGM) {
                                 string nextValue = getOption(nomusic, gui->cfg.inifile.values["nomusic"], true);
                                 gui->cfg.inifile.values["nomusic"] = nextValue;
                                 init();
                                 gui->loadAssets();
 
                             }
-                            if (selOption == 3) {
-                                string nextValue = getOption(autoregion, gui->cfg.inifile.values["autoregion"], true);
-                                gui->cfg.inifile.values["autoregion"] = nextValue;
 
-
-                            }
-                            if (selOption == 4) {
+                            if (selOption == CFG_MIP) {
                                 string nextValue = getOption(mip, gui->cfg.inifile.values["mip"], true);
                                 gui->cfg.inifile.values["mip"] = nextValue;
 
 
                             }
-                            if (selOption == 5) {
+                            if (selOption == CFG_PCSX) {
                                 string nextValue = getOption(pcsx, gui->cfg.inifile.values["pcsx"], true);
                                 gui->cfg.inifile.values["pcsx"] = nextValue;
 
 
                             }
-                            if (selOption == 6) {
+                            if (selOption == CFG_RA) {
                                 string nextValue = getOption(retroarch, gui->cfg.inifile.values["retroarch"], true);
                                 gui->cfg.inifile.values["retroarch"] = nextValue;
 
                             }
-                            if (selOption == 7) {
+                            if (selOption == CFG_ADV) {
                                 string nextValue = getOption(adv, gui->cfg.inifile.values["adv"], true);
                                 gui->cfg.inifile.values["adv"] = nextValue;
 
                             }
+                            if (selOption == CFG_QUICK) {
+                                string nextValue = getOption(quickboot, gui->cfg.inifile.values["quick"], true);
+                                gui->cfg.inifile.values["quick"] = nextValue;
+                            }
+
 
                             render();
                         }
                         if (e.jaxis.value < -3200) {
-                            if (selOption == 0) {
+                            if (selOption == CFG_THEME) {
                                 string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], false);
                                 gui->cfg.inifile.values["theme"] = nextValue;
                                 init();
                                 gui->loadAssets();
                             }
-                            if (selOption == 1) {
+                            if (selOption == CFG_MENUTH) {
                                 string nextValue = getOption(sthemes, gui->cfg.inifile.values["stheme"], false);
                                 gui->cfg.inifile.values["stheme"] = nextValue;
 
                             }
-                            if (selOption == 2) {
+                            if (selOption == CFG_BGM) {
                                 string nextValue = getOption(nomusic, gui->cfg.inifile.values["nomusic"], false);
                                 gui->cfg.inifile.values["nomusic"] = nextValue;
                                 init();
                                 gui->loadAssets();
 
                             }
-                            if (selOption == 3) {
-                                string nextValue = getOption(autoregion, gui->cfg.inifile.values["autoregion"], false);
-                                gui->cfg.inifile.values["autoregion"] = nextValue;
 
-                            }
-                            if (selOption == 4) {
+                            if (selOption == CFG_MIP) {
                                 string nextValue = getOption(mip, gui->cfg.inifile.values["mip"], false);
                                 gui->cfg.inifile.values["mip"] = nextValue;
 
                             }
-                            if (selOption == 5) {
+                            if (selOption == CFG_PCSX) {
                                 string nextValue = getOption(pcsx, gui->cfg.inifile.values["pcsx"], false);
                                 gui->cfg.inifile.values["pcsx"] = nextValue;
 
                             }
-                            if (selOption == 6) {
+                            if (selOption == CFG_RA) {
                                 string nextValue = getOption(retroarch, gui->cfg.inifile.values["retroarch"], false);
                                 gui->cfg.inifile.values["retroarch"] = nextValue;
 
                             }
-                            if (selOption == 7) {
+                            if (selOption == CFG_ADV) {
                                 string nextValue = getOption(adv, gui->cfg.inifile.values["adv"], false);
                                 gui->cfg.inifile.values["adv"] = nextValue;
 
                             }
+                            if (selOption == CFG_QUICK) {
+                                string nextValue = getOption(quickboot, gui->cfg.inifile.values["quick"], false);
+                                gui->cfg.inifile.values["quick"] = nextValue;
+                            }
+
                             render();
                         }
                     }

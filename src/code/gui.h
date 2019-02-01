@@ -47,6 +47,7 @@ public:
     Inifile themeData;
     Inifile defaultData;
     void display(bool forceScan, string path, Database * db);
+    void waitForGamepad();
     void finish();
     void drawText(string text);
     void getEmojiTextTexture(SDL_Renderer *renderer, string text,
@@ -71,6 +72,7 @@ public:
     Uint8 getR(string val);
     Uint8 getG(string val);
     Uint8 getB(string val);
+
 
     SDL_Texture *  loadThemeTexture(SDL_Renderer * renderer, string themePath, string defaultPath, string texname);
 

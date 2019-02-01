@@ -18,6 +18,8 @@ public:
     void render();
     void loop();
     string getOption(vector<string> list, string current, bool next);
+    string getBooleanIcon(string input);
+
     int selOption=0;
 
     vector<string> themes;
@@ -26,7 +28,7 @@ public:
     vector<string> mip;
     vector<string> nomusic;
     vector<string> autoregion;
-
+    vector<string> quickboot;
     vector<string> retroarch;
     vector<string> adv;
 
