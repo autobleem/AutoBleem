@@ -8,44 +8,38 @@ IFS=,
 while read number game_path pcsx_path
 do
 	echo "$number -  $game_path  -  $pcsx_path"  >> /media/System/Logs/autobleem.log
-	
-game_path=${game_path//|@/,}	
-game_path=${game_path//||/|}
+    echo "Linking gaadata $number"  >> /media/System/Logs/autobleem.log
 
-pcsx_path=${pcsx_path//|@/,}	
-pcsx_path=${pcsx_path//||/|}
+    # link back $game_path/GameData folder
+    ln -s $game_path/ /tmp/gaadatatmp/$number
 
-echo "$number -ESC  $game_path  -  $pcsx_path"  >> /media/System/Logs/autobleem.log
+    echo "Cleaning PcsxState $number"  >> /media/System/Logs/autobleem.log
+    # check if old pcsx folder exists
+    if [ -f $game_path/PcsxState/pcsx.cfg ]
+    then
+       echo "Moving $number"  >> /media/System/Logs/autobleem.log
+       mv -f $game_path/PcsxState/* $pcsx_path/
 
-echo "Linking gaadata $number"  >> /media/System/Logs/autobleem.log
+       echo "Deleting $number"  >> /media/System/Logs/autobleem.log
+       rm -rf $game_path/PcsxState
+    fi
 
-# link back $game_path/GameData folder
-ln -s $game_path/ /tmp/gaadatatmp/$number 
+    #configuration (remove this for 0.6 and save directly pcsx.cfg in savestates)
+    echo "Overwrite CFG $number"  >> /media/System/Logs/autobleem.log
+    cp -n $game_path/pcsx.cfg $pcsx_path/
 
-echo "Cleaning PcsxState $number"  >> /media/System/Logs/autobleem.log
-# check if old pcsx folder exists
-if [ -f $game_path/PcsxState/pcsx.cfg ]
-then
-   echo "Moving $number"  >> /media/System/Logs/autobleem.log
-   mv -f $game_path/PcsxState/* $pcsx_path/
-   echo "Deleting $number"  >> /media/System/Logs/autobleem.log
-   rm -rf $game_path/PcsxState
-fi
-#overwrite configuration 
-echo "Overwrite CFG $number"  >> /media/System/Logs/autobleem.log
-cp -n $game_path/pcsx.cfg $pcsx_path/
+    echo "Cleanup $number"  >> /media/System/Logs/autobleem.log
+    # Cleanup game data
 
-echo "Cleanup $number"  >> /media/System/Logs/autobleem.log
-# remove data from savestates ??
-rm -rf /tmp/datatmp/AppData/sony/pcsx/$number
-#create nice folder to link
-mkdir -p /tmp/datatmp/AppData/sony/pcsx/$number
-# link back save states to folder 
-echo "Linking data $number"  >> /media/System/Logs/autobleem.log
-ln -s  $pcsx_path/ /tmp/datatmp/AppData/sony/pcsx/$number/.pcsx 
+    rm -rf /tmp/datatmp/AppData/sony/pcsx/$number
+    mkdir -p /tmp/datatmp/AppData/sony/pcsx/$number
 
+    #link back save states to folder
+    echo "Linking data $number"  >> /media/System/Logs/autobleem.log
+    ln -s  $pcsx_path/ /tmp/datatmp/AppData/sony/pcsx/$number/.pcsx
 
-echo "Done  $number"  >> /media/System/Logs/autobleem.log
+    echo "Done  $number"  >> /media/System/Logs/autobleem.log
+
 done < $INPUT
 IFS=$OLDIFS
 sync
