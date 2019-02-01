@@ -55,6 +55,7 @@ public:
     void logText(string message);
     void menuSelection();
     void saveSelection();
+    bool quickBoot();
 
     void renderBackground();
     int renderLogo(bool small);
@@ -95,6 +96,8 @@ public:
     SDL_Texture *buttonCheck = NULL;
     SDL_Texture *buttonUncheck = NULL;
 
+
+    bool overrideQuickBoot = false;
 
     string path;
 

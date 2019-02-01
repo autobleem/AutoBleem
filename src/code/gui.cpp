@@ -11,6 +11,8 @@
 #include "gui_manager.h"
 #include "ver_migration.h"
 
+#define QUICKBOOT_DELAY 3000
+
 void Gui::logText(string message) {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->drawText(message);
@@ -149,7 +151,6 @@ void Gui::loadAssets() {
     font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
 
 
-
     if (music != NULL) {
         Mix_HaltMusic();
     }
@@ -172,7 +173,6 @@ void Gui::loadAssets() {
 
 void Gui::waitForGamepad() {
     int joysticksFound = SDL_NumJoysticks();
-    cout << joysticksFound << endl;
     while (joysticksFound == 0) {
         drawText("PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC");
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
@@ -204,7 +204,8 @@ void Gui::display(bool forceScan, string path, Database *db) {
     VerMigration *migration = new VerMigration();
     migration->migrate(db);
 
-    waitForGamepad();
+    //if (cfg.inifile.values["quick"] != "true")
+        waitForGamepad();
 
     delete splashScreen;
 
@@ -228,9 +229,51 @@ void Gui::saveSelection() {
 
 bool otherMenuShift = false;
 
+
+bool Gui::quickBoot() {
+
+    int currentTime = SDL_GetTicks();
+    while (1) {
+        SDL_Event e;
+        if (SDL_PollEvent(&e)) {
+            if (e.type == SDL_QUIT)
+                return false;
+            else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
+                return false;
+
+            if (e.type == SDL_JOYBUTTONDOWN) {
+                overrideQuickBoot = true;
+                return false;
+            }
+        }
+
+        int newTime = SDL_GetTicks();
+        int secs = QUICKBOOT_DELAY/1000-(newTime-currentTime)/1000;
+        drawText("Booting Game Selector in ... "+to_string(secs)+" (Any button to stop)");
+        if (newTime - currentTime == QUICKBOOT_DELAY) {
+            return true;
+        }
+    }
+}
+
+
 void Gui::menuSelection() {
+    SDL_Joystick *joystick;
+    for (int i = 0; i < SDL_NumJoysticks(); i++) {
+        joystick = SDL_JoystickOpen(i);
+        cout << "--" << SDL_JoystickName(joystick) << endl;
+    }
+    if (!overrideQuickBoot) {
+        bool quickBootCfg = (cfg.inifile.values["quick"] == "true");
+        if (quickBootCfg && !forceScan) {
+            if (quickBoot()) {
 
+                this->menuOption = MENU_OPTION_RUN;
+                return;
+            };
 
+        }
+    }
     otherMenuShift = false;
     string retroarch = cfg.inifile.values["retroarch"];
     string adv = cfg.inifile.values["adv"];
@@ -247,11 +290,7 @@ void Gui::menuSelection() {
     string forceScanMenu = "Games changed. Press  |@X|  to scan|";
     string otherMenu = "|@X|  Memory Cards   |@O|  Game Manager |";
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
-    SDL_Joystick *joystick;
-    for (int i = 0; i < SDL_NumJoysticks(); i++) {
-        joystick = SDL_JoystickOpen(i);
-        cout << "--" << SDL_JoystickName(joystick) << endl;
-    }
+
 
 
     if (!forceScan) {

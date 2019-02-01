@@ -128,6 +128,7 @@ void GuiOptions::loop()
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         gui->cfg.save();
+                        gui->overrideQuickBoot=true;
                         menuVisible = false;
                     };
                     break;
