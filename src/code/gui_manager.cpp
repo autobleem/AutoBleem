@@ -57,6 +57,7 @@ void GuiManager::render()
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
+    gui->renderFreeSpace();
     gui->renderTextLine("-=Game manager - Select game=-",0,offset,true);
     if (selected >= games.size()) {
         selected = games.size() - 1;

@@ -64,7 +64,7 @@ public:
     void renderSelectionBox(int line, int offset);
     void renderLabelBox(int line, int offset);
     void renderTextChar(string text, int line, int offset, int posx);
-
+    void renderFreeSpace();
     void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
 

@@ -62,6 +62,8 @@ public:
     static void skipZeros(ifstream * stream);
     static string commaSep(string input, int pos);
 
+    static string getAvailableSpace();
+    static string floatToString(float f, int n);
 
 
 
