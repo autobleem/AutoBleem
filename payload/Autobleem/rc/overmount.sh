@@ -19,6 +19,8 @@
 # Init the ui_menu.log
 [ ! -f /media/System/Logs/ui_menu.log ] && touch /media/System/Logs/ui_menu.log
 sync
+sync
+sleep 2
 
 # Unmount partitons and create tmpfs - Shut system down on failure
 MOUNT_FAIL=0
