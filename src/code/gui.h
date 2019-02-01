@@ -47,6 +47,7 @@ public:
     Inifile themeData;
     Inifile defaultData;
     void display(bool forceScan, string path, Database * db);
+    void waitForGamepad();
     void finish();
     void drawText(string text);
     void getEmojiTextTexture(SDL_Renderer *renderer, string text,
@@ -54,6 +55,7 @@ public:
     void logText(string message);
     void menuSelection();
     void saveSelection();
+    bool quickBoot();
 
     void renderBackground();
     int renderLogo(bool small);
@@ -71,6 +73,7 @@ public:
     Uint8 getR(string val);
     Uint8 getG(string val);
     Uint8 getB(string val);
+
 
     SDL_Texture *  loadThemeTexture(SDL_Renderer * renderer, string themePath, string defaultPath, string texname);
 
@@ -93,6 +96,8 @@ public:
     SDL_Texture *buttonCheck = NULL;
     SDL_Texture *buttonUncheck = NULL;
 
+
+    bool overrideQuickBoot = false;
 
     string path;
 

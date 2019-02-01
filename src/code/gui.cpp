@@ -11,6 +11,8 @@
 #include "gui_manager.h"
 #include "ver_migration.h"
 
+#define QUICKBOOT_DELAY 1000
+
 void Gui::logText(string message) {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->drawText(message);
@@ -87,13 +89,11 @@ int Gui::renderLogo(bool small) {
     }
 }
 
-SDL_Texture *  Gui::loadThemeTexture(SDL_Renderer * renderer, string themePath, string defaultPath, string texname)
-{
+SDL_Texture *Gui::loadThemeTexture(SDL_Renderer *renderer, string themePath, string defaultPath, string texname) {
     SDL_Texture *tex;
     if (Util::exists(themePath + themeData.values[texname])) {
         tex = IMG_LoadTexture(renderer, (themePath + themeData.values[texname]).c_str());
-    } else
-    {
+    } else {
         tex = IMG_LoadTexture(renderer, (defaultPath + defaultData.values[texname]).c_str());
     }
     return tex;
@@ -101,13 +101,15 @@ SDL_Texture *  Gui::loadThemeTexture(SDL_Renderer * renderer, string themePath, 
 
 void Gui::loadAssets() {
     string defaultPath = Util::getWorkingPath() + Util::separator() + "theme" + Util::separator() + "default" +
-                Util::separator();
+                         Util::separator();
     themePath = Util::getWorkingPath() + Util::separator() + "theme" + Util::separator() + cfg.inifile.values["theme"] +
                 Util::separator();
 
     themeData.load(defaultPath + "theme.ini");
     defaultData.load(defaultPath + "theme.ini");
     themeData.load(themePath + "theme.ini");
+
+    bool reloading = false;
 
     if (backgroundImg != NULL) {
         SDL_DestroyTexture(backgroundImg);
@@ -123,6 +125,7 @@ void Gui::loadAssets() {
         SDL_DestroyTexture(buttonCheck);
         SDL_DestroyTexture(buttonUncheck);
         TTF_CloseFont(font);
+        reloading = true;
         backgroundImg = NULL;
     }
 
@@ -131,19 +134,19 @@ void Gui::loadAssets() {
     logoRect.w = atoi(themeData.values["lw"].c_str());
     logoRect.h = atoi(themeData.values["lh"].c_str());
 
-    backgroundImg = loadThemeTexture(renderer,themePath,defaultPath,"background");
-    logo = loadThemeTexture(renderer,themePath,defaultPath,"logo");
+    backgroundImg = loadThemeTexture(renderer, themePath, defaultPath, "background");
+    logo = loadThemeTexture(renderer, themePath, defaultPath, "logo");
 
-    buttonO = loadThemeTexture(renderer,themePath,defaultPath,"circle");
-    buttonX = loadThemeTexture(renderer,themePath,defaultPath,"cross");
-    buttonT = loadThemeTexture(renderer,themePath,defaultPath,"triangle");
-    buttonS = loadThemeTexture(renderer,themePath,defaultPath,"square");
-    buttonSelect = loadThemeTexture(renderer,themePath,defaultPath,"select");
-    buttonStart = loadThemeTexture(renderer,themePath,defaultPath,"start");
-    buttonL1 = loadThemeTexture(renderer,themePath,defaultPath,"l1");
-    buttonR1 = loadThemeTexture(renderer,themePath,defaultPath,"r1");
-    buttonCheck = loadThemeTexture(renderer,themePath,defaultPath,"check");
-    buttonUncheck = loadThemeTexture(renderer,themePath,defaultPath,"uncheck");
+    buttonO = loadThemeTexture(renderer, themePath, defaultPath, "circle");
+    buttonX = loadThemeTexture(renderer, themePath, defaultPath, "cross");
+    buttonT = loadThemeTexture(renderer, themePath, defaultPath, "triangle");
+    buttonS = loadThemeTexture(renderer, themePath, defaultPath, "square");
+    buttonSelect = loadThemeTexture(renderer, themePath, defaultPath, "select");
+    buttonStart = loadThemeTexture(renderer, themePath, defaultPath, "start");
+    buttonL1 = loadThemeTexture(renderer, themePath, defaultPath, "l1");
+    buttonR1 = loadThemeTexture(renderer, themePath, defaultPath, "r1");
+    buttonCheck = loadThemeTexture(renderer, themePath, defaultPath, "check");
+    buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
     string fontPath = (themePath + themeData.values["font"]).c_str();
     font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
 
@@ -162,14 +165,28 @@ void Gui::loadAssets() {
             if (Mix_PlayMusic(music, themeData.values["loop"] == "1" ? -1 : 0) == -1) {
                 printf("Unable to play music file: %s\n", Mix_GetError());
             }
+            if (!reloading)
+                Mix_VolumeMusic(0);
         }
 
+}
+
+void Gui::waitForGamepad() {
+    int joysticksFound = SDL_NumJoysticks();
+    while (joysticksFound == 0) {
+        drawText("PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC");
+        SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+        SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+        joysticksFound = SDL_NumJoysticks();
+    }
 }
 
 
 void Gui::display(bool forceScan, string path, Database *db) {
     this->path = path;
     this->forceScan = forceScan;
+    if (forceScan) overrideQuickBoot = true;
+
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO);
     Mix_Init(0);
     TTF_Init();
@@ -181,12 +198,16 @@ void Gui::display(bool forceScan, string path, Database *db) {
     loadAssets();
 
 
+
     GuiSplash *splashScreen = new GuiSplash(renderer);
     splashScreen->show();
 
     drawText("Upgrading AutoBleem - Please wait...");
     VerMigration *migration = new VerMigration();
     migration->migrate(db);
+
+    if (cfg.inifile.values["quick"] != "true")
+        waitForGamepad();
 
     delete splashScreen;
 
@@ -210,9 +231,58 @@ void Gui::saveSelection() {
 
 bool otherMenuShift = false;
 
+
+bool Gui::quickBoot() {
+
+    int currentTime = SDL_GetTicks();
+    string splashText = "AutoBleem " + cfg.inifile.values["version"];
+    if (cfg.inifile.values["quick"] == "true") {
+        splashText += " (Quick boot - |@O| Menu";
+        splashText += ")";
+    }
+
+    while (1) {
+        SDL_Event e;
+        if (SDL_PollEvent(&e)) {
+            if (e.type == SDL_QUIT)
+                return false;
+            else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
+                return false;
+
+            if (e.type == SDL_JOYBUTTONDOWN) {
+                overrideQuickBoot = true;
+                return false;
+            }
+        }
+        drawText(splashText);
+
+
+        int newTime = SDL_GetTicks();
+        int secs = QUICKBOOT_DELAY/1000-(newTime-currentTime)/1000;
+        if (newTime - currentTime > QUICKBOOT_DELAY) {
+            return true;
+        }
+    }
+}
+
+
 void Gui::menuSelection() {
+    SDL_Joystick *joystick;
+    for (int i = 0; i < SDL_NumJoysticks(); i++) {
+        joystick = SDL_JoystickOpen(i);
+        cout << "--" << SDL_JoystickName(joystick) << endl;
+    }
+    if (!overrideQuickBoot) {
+        bool quickBootCfg = (cfg.inifile.values["quick"] == "true");
+        if (quickBootCfg && !forceScan) {
+            if (quickBoot()) {
 
+                this->menuOption = MENU_OPTION_RUN;
+                return;
+            };
 
+        }
+    }
     otherMenuShift = false;
     string retroarch = cfg.inifile.values["retroarch"];
     string adv = cfg.inifile.values["adv"];
@@ -229,11 +299,7 @@ void Gui::menuSelection() {
     string forceScanMenu = "Games changed. Press  |@X|  to scan|";
     string otherMenu = "|@X|  Memory Cards   |@O|  Game Manager |";
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
-    SDL_Joystick *joystick;
-    for (int i = 0; i < SDL_NumJoysticks(); i++) {
-        joystick = SDL_JoystickOpen(i);
-        cout << "--" << SDL_JoystickName(joystick) << endl;
-    }
+
 
 
     if (!forceScan) {
@@ -486,8 +552,8 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
             (tex != buttonT) &&
             (tex != buttonL1) &&
             (tex != buttonR1) &&
-                (tex != buttonCheck) &&
-                (tex != buttonUncheck) &&
+            (tex != buttonCheck) &&
+            (tex != buttonUncheck) &&
             (tex != buttonX))
 
             SDL_DestroyTexture(tex);
@@ -647,7 +713,7 @@ void Gui::renderTextBar() {
 
 }
 
-void Gui::renderFreeSpace(){
+void Gui::renderFreeSpace() {
     SDL_Texture *textTex;
     SDL_Rect textRec;
     SDL_Rect rect;
@@ -655,7 +721,7 @@ void Gui::renderFreeSpace(){
     rect.x = atoi(themeData.values["fsposx"].c_str());
     rect.y = atoi(themeData.values["fsposy"].c_str());
     getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
-    getEmojiTextTexture(renderer, "Free space : "+Util::getAvailableSpace(), font, &textTex, &textRec);
+    getEmojiTextTexture(renderer, "Free space : " + Util::getAvailableSpace(), font, &textTex, &textRec);
     rect.w = textRec.w;
     rect.h = textRec.h;
     SDL_RenderFillRect(renderer, &rect);

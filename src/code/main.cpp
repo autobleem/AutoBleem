@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
     gui->display(scanner->forceScan, path,db);
     db->disconnect();
     delete db;
-    gui->drawText("AutoBleem");
+    //gui->drawText("AutoBleem");
     while (gui->menuOption==MENU_OPTION_SCAN) {
         gui->menuSelection();
         gui->saveSelection();
