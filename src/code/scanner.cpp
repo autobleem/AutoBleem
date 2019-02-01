@@ -329,10 +329,9 @@ void Scanner::scanDirectory(string path) {
         Util::createDir(path + Util::separator() + "!MemCards");
     }
 
-
-    for (DirEntry entry: Util::dir(path)) {
+    for (DirEntry entry: Util::diru(path)) {
         if (entry.name[0] == '.') continue;
-        if (!entry.dir) continue;
+        if (!Util::isDirectory(path+Util::separator()+entry.name)) continue;
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
 

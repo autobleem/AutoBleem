@@ -96,7 +96,7 @@ void Memcard::rename(string oldName, string newName)
     // now go to all game ini's and find out if needs updated
     for (DirEntry entry: Util::dir(path)) {
         if (entry.name[0] == '.') continue;
-        if (!entry.dir) continue;
+        if (!Util::isDirectory(path+Util::separator()+entry.name)) continue;
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
 
@@ -125,8 +125,7 @@ vector<string> Memcard::list()
     string customPath = this->path+Util::separator()+"!MemCards";
     for (DirEntry entry: Util::diru(customPath))
     {
-        if (entry.dir)
-        {
+        if (Util::isDirectory(customPath+Util::separator()+entry.name)) {
             memcards.push_back(entry.name);
         }
     }
