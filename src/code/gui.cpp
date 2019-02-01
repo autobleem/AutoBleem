@@ -11,7 +11,7 @@
 #include "gui_manager.h"
 #include "ver_migration.h"
 
-#define QUICKBOOT_DELAY 3000
+#define QUICKBOOT_DELAY 1000
 
 void Gui::logText(string message) {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -178,7 +178,6 @@ void Gui::waitForGamepad() {
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
         SDL_InitSubSystem(SDL_INIT_JOYSTICK);
         joysticksFound = SDL_NumJoysticks();
-        cout << joysticksFound << endl;
     }
 }
 
@@ -186,6 +185,8 @@ void Gui::waitForGamepad() {
 void Gui::display(bool forceScan, string path, Database *db) {
     this->path = path;
     this->forceScan = forceScan;
+    if (forceScan) overrideQuickBoot = true;
+
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO);
     Mix_Init(0);
     TTF_Init();
@@ -197,6 +198,7 @@ void Gui::display(bool forceScan, string path, Database *db) {
     loadAssets();
 
 
+
     GuiSplash *splashScreen = new GuiSplash(renderer);
     splashScreen->show();
 
@@ -204,7 +206,7 @@ void Gui::display(bool forceScan, string path, Database *db) {
     VerMigration *migration = new VerMigration();
     migration->migrate(db);
 
-    //if (cfg.inifile.values["quick"] != "true")
+    if (cfg.inifile.values["quick"] != "true")
         waitForGamepad();
 
     delete splashScreen;
@@ -233,6 +235,12 @@ bool otherMenuShift = false;
 bool Gui::quickBoot() {
 
     int currentTime = SDL_GetTicks();
+    string splashText = "AutoBleem " + cfg.inifile.values["version"];
+    if (cfg.inifile.values["quick"] == "true") {
+        splashText += " (Quick boot - |@O| Menu";
+        splashText += ")";
+    }
+
     while (1) {
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
@@ -246,11 +254,12 @@ bool Gui::quickBoot() {
                 return false;
             }
         }
+        drawText(splashText);
+
 
         int newTime = SDL_GetTicks();
         int secs = QUICKBOOT_DELAY/1000-(newTime-currentTime)/1000;
-        drawText("Booting Game Selector in ... "+to_string(secs)+" (Any button to stop)");
-        if (newTime - currentTime == QUICKBOOT_DELAY) {
+        if (newTime - currentTime > QUICKBOOT_DELAY) {
             return true;
         }
     }
