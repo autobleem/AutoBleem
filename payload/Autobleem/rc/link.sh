@@ -19,9 +19,11 @@ do
     then
        echo "Moving $number"  >> /media/System/Logs/autobleem.log
        mv -f $game_path/PcsxState/* $pcsx_path/
+
        echo "Deleting $number"  >> /media/System/Logs/autobleem.log
        rm -rf $game_path/PcsxState
     fi
+
 
     #overwrite configuration
     echo "Overwrite CFG $number"  >> /media/System/Logs/autobleem.log
@@ -41,6 +43,7 @@ do
 
     echo "Done  $number"  >> /media/System/Logs/autobleem.log
     done < $INPUT
+
 IFS=$OLDIFS
 sync
 

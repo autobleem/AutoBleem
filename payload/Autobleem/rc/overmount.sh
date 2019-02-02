@@ -20,8 +20,10 @@
 [ ! -f /media/System/Logs/ui_menu.log ] && touch /media/System/Logs/ui_menu.log
 sync
 
+
 # It crashes here as when device is busy it can not be umounted - need to retry in a for loop
 # TODO: make some prevention !!!
+
 
 # Unmount partitons and create tmpfs - Shut system down on failure
 MOUNT_FAIL=0

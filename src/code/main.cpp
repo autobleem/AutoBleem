@@ -78,8 +78,8 @@ int main(int argc, char *argv[]) {
     gui->display(scanner->forceScan, path, db);
     db->disconnect();
     delete db;
-
     while (gui->menuOption == MENU_OPTION_SCAN) {
+
         gui->menuSelection();
         gui->saveSelection();
         if (gui->menuOption == MENU_OPTION_SCAN) {

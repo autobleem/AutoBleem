@@ -65,7 +65,6 @@ void GuiOptions::init()
     quickboot.push_back("true");
     quickboot.push_back("false");
 
-}
 
 #define CFG_THEME      0
 #define CFG_MENUTH     1
@@ -75,6 +74,7 @@ void GuiOptions::init()
 #define CFG_MIP        5
 #define CFG_RA         6
 #define CFG_ADV        7
+
 
 string GuiOptions::getBooleanIcon(string input)
 {
@@ -100,16 +100,12 @@ void GuiOptions::render()
     gui->renderTextLine("Background Music: " + getBooleanIcon("nomusic"), CFG_BGM+1, offset);
     gui->renderTextLine("QuickBoot: " + getBooleanIcon("quick"), CFG_QUICK+1, offset);
     gui->cfg.inifile.values["autoregion"]="true"; // removing this as an option - not needed - just set to true
-
     gui->renderTextLine("GFX Filter patch: " + getBooleanIcon("mip"), CFG_MIP+1, offset);
-
     gui->renderTextLine("Show RetroArch: " + getBooleanIcon("retroarch"), CFG_RA+1, offset);
     gui->renderTextLine("Advanced: " + getBooleanIcon("adv"), CFG_ADV+1, offset);
-
     gui->renderStatus("|@O| Go back|");
 
     gui->renderSelectionBox(selOption+1,offset);
-
     SDL_RenderPresent(renderer);
 }
 

@@ -237,7 +237,7 @@ bool Gui::quickBoot() {
     int currentTime = SDL_GetTicks();
     string splashText = "AutoBleem " + cfg.inifile.values["version"];
     if (cfg.inifile.values["quick"] == "true") {
-        splashText += " (Quick boot - |@O| Menu";
+        splashText += " (Quick boot - Hold |@O| Menu";
         splashText += ")";
     }
 
