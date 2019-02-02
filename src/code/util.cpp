@@ -3,7 +3,7 @@
 
 #include <fstream>
 #include <sys/stat.h>
-#include <sys/statvfs.h>
+#include <unistd.h>
 #include <math.h>
 #include <algorithm>
 #include <iomanip>
@@ -294,14 +294,13 @@ unsigned long Util::readDword(ifstream *stream) {
 }
 string Util::getAvailableSpace(){
     string str;
-    int gb = (1024 * 1024) * 1024;
+    int gb = 1024 * 1024;
+    string dfResult;
     float freeSpace;
     float totalSpace;
     int freeSpacePerc;
-    struct statvfs usbDiskInfo;
-    statvfs("/media/", &usbDiskInfo);
-    totalSpace = ((float)(usbDiskInfo.f_blocks * usbDiskInfo.f_frsize)) / gb;
-    freeSpace = ((float)(usbDiskInfo.f_bavail * usbDiskInfo.f_frsize)) / gb;
+    freeSpace = ((float)(stoi(execUnixCommad("df | grep \"media\" | head -1 | awk '{print $4}'"))))/gb;
+    totalSpace = ((float)(stoi(execUnixCommad("df | grep \"media\" | head -1 | awk '{print $2}'"))))/gb;
     freeSpacePerc = (freeSpace / totalSpace) * 100;
     str = floatToString(freeSpace, 2) + " GB / " + floatToString(totalSpace,2)+ " GB (" + to_string(freeSpacePerc)+"%)";
     return str;
@@ -335,4 +334,18 @@ string Util::commaSep(string s, int pos) {
         return v[pos];
     }
     return "";
+}
+
+string Util::execUnixCommad(const char* cmd){
+    array<char, 128> buffer;
+    string result;
+    unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+    if (!pipe) {
+        throw runtime_error("popen() failed!");
+    }
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+        result += buffer.data();
+    }
+    result.erase(remove(result.begin(),result.end(),'\n'));
+    return result;
 }
