@@ -412,7 +412,7 @@ void Scanner::scanDirectory(string path) {
             if (!serial.empty()) {
                 cout << "Accessing metadata for serial: " << serial << endl;
                 Metadata md;
-                if (md.lookup(serial)) {
+                if (md.lookupBySerial(serial)) {
                     // at this stage we have more data;
                     game.title = md.title;
                     game.publisher = md.publisher;

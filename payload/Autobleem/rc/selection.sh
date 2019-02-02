@@ -61,6 +61,7 @@ function start_autobleem
      mount -o bind /media/Autobleem/bin/autobleem/starter /usr/sony/bin/pcsx
 	 ./overmount.sh
      ./link.sh
+     mipmap
      ./startsony.sh
 }
 
