@@ -30,8 +30,7 @@ string GuiOptions::getOption(vector<string> list, string current, bool next) {
 
 
 
-void GuiOptions::init()
-{
+void GuiOptions::init() {
     themes.clear();
     sthemes.clear();
     sthemes.push_back("default");
@@ -64,6 +63,8 @@ void GuiOptions::init()
     quickboot.clear();
     quickboot.push_back("true");
     quickboot.push_back("false");
+
+}
 
 
 #define CFG_THEME      0
