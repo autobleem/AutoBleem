@@ -12,6 +12,7 @@ public:
     Database *covers[3];
     string regionStr[3];
 
+    bool isValid();
     Coverdb();
     ~Coverdb();
 

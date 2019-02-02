@@ -37,3 +37,13 @@ Coverdb::~Coverdb()
     }
 
 }
+
+bool Coverdb::isValid()
+{
+    bool valid = false;
+    for (Database *db:covers)
+    {
+        if (db!= nullptr) valid = true;
+    }
+    return valid;
+}

@@ -19,7 +19,8 @@ using namespace std;
 #include "memcard.h"
 
 
-int scanGames(string path, string dbpath, Scanner *scanner) {
+int scanGames(string path, string dbpath) {
+    shared_ptr <Scanner> scanner(Scanner::getInstance());
     Database *db = new Database();
     if (!db->connect(dbpath)) {
         delete db;
@@ -52,11 +53,12 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
     shared_ptr <Gui> gui(Gui::getInstance());
+    shared_ptr <Scanner> scanner(Scanner::getInstance());
+
     Coverdb *coverdb = new Coverdb();
     gui->coverdb = coverdb;
 
 
-    Scanner *scanner = new Scanner();
     Database *db = new Database();
     if (!db->connect(argv[1])) {
         delete db;
@@ -75,6 +77,8 @@ int main(int argc, char *argv[]) {
     }
 
 
+
+
     gui->display(scanner->forceScan, path, db);
     db->disconnect();
     delete db;
@@ -83,7 +87,7 @@ int main(int argc, char *argv[]) {
         gui->menuSelection();
         gui->saveSelection();
         if (gui->menuOption == MENU_OPTION_SCAN) {
-            scanGames(path, dbpath, scanner);
+            scanGames(path, dbpath);
             if (gui->forceScan) {
                 gui->forceScan = false;
             } else {
@@ -99,7 +103,6 @@ int main(int argc, char *argv[]) {
     sync();
     SDL_Quit();
     delete coverdb;
-    delete scanner;
 
     return 0;
 }
