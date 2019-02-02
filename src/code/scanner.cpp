@@ -30,9 +30,11 @@ bool Scanner::isFirstRun(string path, Database *db) {
     string prevName = Util::getWorkingPath() + Util::separator() + "autobleem.prev";
     prev.open(prevName.c_str(), ios::binary);
     vector<DirEntry> entries = Util::diru(path);
+    noGamesFound = true;
     for (DirEntry entry:entries) {
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
+        noGamesFound = false;
         string nameInFile;
         getline(prev, nameInFile);
         if (nameInFile != entry.name) {

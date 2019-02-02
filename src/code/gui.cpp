@@ -181,6 +181,22 @@ void Gui::waitForGamepad() {
     }
 }
 
+void Gui::criticalException(string text) {
+    drawText(text);
+    while (1) {
+        SDL_Event e;
+        if (SDL_PollEvent(&e)) {
+            if (e.type == SDL_QUIT)
+                return;
+            else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
+                return;
+
+            if (e.type == SDL_JOYBUTTONDOWN) {
+                return;
+            }
+        }
+    }
+}
 
 void Gui::display(bool forceScan, string path, Database *db) {
     this->path = path;
@@ -196,7 +212,6 @@ void Gui::display(bool forceScan, string path, Database *db) {
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     loadAssets();
-
 
 
     GuiSplash *splashScreen = new GuiSplash(renderer);
@@ -258,7 +273,7 @@ bool Gui::quickBoot() {
 
 
         int newTime = SDL_GetTicks();
-        int secs = QUICKBOOT_DELAY/1000-(newTime-currentTime)/1000;
+        int secs = QUICKBOOT_DELAY / 1000 - (newTime - currentTime) / 1000;
         if (newTime - currentTime > QUICKBOOT_DELAY) {
             return true;
         }
@@ -267,10 +282,22 @@ bool Gui::quickBoot() {
 
 
 void Gui::menuSelection() {
+    shared_ptr <Scanner> scanner(Scanner::getInstance());
+
     SDL_Joystick *joystick;
     for (int i = 0; i < SDL_NumJoysticks(); i++) {
         joystick = SDL_JoystickOpen(i);
         cout << "--" << SDL_JoystickName(joystick) << endl;
+    }
+    // Check if all OK
+    if (scanner->noGamesFound)
+    {
+        criticalException("WARNING: NO GAMES FOUND. PRESS ANY BUTTON.");
+    }
+    //
+    if (!coverdb->isValid())
+    {
+        criticalException("WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.");
     }
     if (!overrideQuickBoot) {
         bool quickBootCfg = (cfg.inifile.values["quick"] == "true");
@@ -299,7 +326,6 @@ void Gui::menuSelection() {
     string forceScanMenu = "Games changed. Press  |@X|  to scan|";
     string otherMenu = "|@X|  Memory Cards   |@O|  Game Manager |";
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
-
 
 
     if (!forceScan) {
@@ -489,7 +515,8 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
         } else {
             SDL_Texture *textTex;
             SDL_Rect textRec;
-            getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), str.c_str(), font, &textTex, &textRec);
+            getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), str.c_str(), font, &textTex,
+                           &textRec);
             textTexures.push_back(textTex);
         }
     }

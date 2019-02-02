@@ -15,6 +15,7 @@
 #include "database.h"
 #include "config.h"
 #include "coverdb.h"
+#include "scanner.h"
 
 #define PCS_BTN_L1       6
 #define PCS_BTN_R1       7
@@ -76,6 +77,8 @@ public:
     Uint8 getR(string val);
     Uint8 getG(string val);
     Uint8 getB(string val);
+
+    void criticalException(string text);
 
 
     SDL_Texture *  loadThemeTexture(SDL_Renderer * renderer, string themePath, string defaultPath, string texname);
