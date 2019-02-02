@@ -64,7 +64,6 @@ void VerMigration::migrate04_05(Database * db)
             cout << id << endl;
             cout << folder << endl;
 
-            // try to open game.ini
             string gameIniLoc = folder+Util::separator()+"GameData"+Util::separator()+"Game.ini";
             if (!Util::exists(gameIniLoc))
             {
@@ -80,7 +79,7 @@ void VerMigration::migrate04_05(Database * db)
             cout << title << endl;
 
             Metadata * md = new Metadata();
-            md->lookup2(title);
+            md->lookupByTitle(title);
             {
                 if(md->valid)
                 {

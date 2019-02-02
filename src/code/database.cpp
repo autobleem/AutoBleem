@@ -236,10 +236,12 @@ bool Database::connect(string fileName) {
 }
 
 void Database::disconnect() {
-    if (db != nullptr) {}
-    sqlite3_close(db);
-    db = nullptr;
-
+    if (db != nullptr) {
+        cout << "Disconnecting DBs"  << endl;
+        sqlite3_db_cacheflush(db);
+        sqlite3_close(db);
+        db = nullptr;
+    }
 }
 
 bool Database::createInitialDatabase() {

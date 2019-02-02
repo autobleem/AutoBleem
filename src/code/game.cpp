@@ -6,6 +6,7 @@
 #include "isodir.h"
 #include "inifile.h"
 #include "cfgprocessor.h"
+#include "gui.h"
 
 using namespace std;
 
@@ -319,7 +320,7 @@ void Game::recoverMissingFiles() {
             string serial = scanSerial();
             if (serial != "") {
 
-                if (md.lookup(serial)) {
+                if (md.lookupBySerial(serial)) {
                     metadataLoaded = true;
                     cout << "Updating cover" << destination << endl;
                     ofstream pngFile;
@@ -344,7 +345,6 @@ void Game::recoverMissingFiles() {
         string source = path + Util::separator() + "pcsx.cfg";
         string destination = fullPath + "pcsx.cfg";
         cerr << "SRC:" << source << " DST:" << destination << endl;
-        CfgProcessor *pcsxProcessor = new CfgProcessor();
 
         int region = 0;
         bool japan = false;
@@ -353,7 +353,7 @@ void Game::recoverMissingFiles() {
         if (!metadataLoaded) {
             string serial = scanSerial();
             if (serial != "") {
-                metadataLoaded = md.lookup(serial);
+                metadataLoaded = md.lookupBySerial(serial);
             }
 
         }
@@ -374,9 +374,11 @@ void Game::recoverMissingFiles() {
 
         }
         md.clean();
-        pcsxProcessor->process(source, destination, region, japan, 1, false, 39);
-        delete pcsxProcessor;
-        // Util::copy(source, destination);
+        shared_ptr<Gui> gui(Gui::getInstance());
+        Util::copy(source, destination);
+        CfgProcessor * processor=new CfgProcessor();
+        processor->replace(pathName, gui->path, "region", "region = " + to_string(region));
+        delete(processor);
         pcsxCfgFound = true;
     }
 

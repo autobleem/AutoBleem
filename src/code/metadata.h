@@ -22,8 +22,8 @@ public:
 
     string lastRegion="U";
 
-    bool lookup(string serial);
-    bool lookup2(string title);
+    bool lookupBySerial(string serial);
+    bool lookupByTitle(string title);
     void clean()
     {
         if (bytes!=NULL)

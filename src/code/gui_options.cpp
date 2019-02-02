@@ -50,8 +50,8 @@ void GuiOptions::init()
     mip.push_back("true");
     mip.push_back("false");
     nomusic.clear();
-    nomusic.push_back("true");
     nomusic.push_back("false");
+    nomusic.push_back("true");
     autoregion.clear();
     autoregion.push_back("true");
     autoregion.push_back("false");
@@ -65,7 +65,6 @@ void GuiOptions::init()
     quickboot.push_back("true");
     quickboot.push_back("false");
 
-}
 
 #define CFG_THEME      0
 #define CFG_MENUTH     1
@@ -76,11 +75,16 @@ void GuiOptions::init()
 #define CFG_RA         6
 #define CFG_ADV        7
 
+
 string GuiOptions::getBooleanIcon(string input)
 {
     shared_ptr<Gui> gui(Gui::getInstance());
     string value = gui->cfg.inifile.values[input];
-    if (value=="true") return "|@Check|"; else return "|@Uncheck|";
+    if (input!="nomusic") {
+        if (value == "true") return "|@Check|"; else return "|@Uncheck|";
+    } else {
+        if (value != "true") return "|@Check|"; else return "|@Uncheck|";
+    }
 }
 
 void GuiOptions::render()
@@ -92,20 +96,16 @@ void GuiOptions::render()
     gui->renderTextLine("-=Configuration=-",0,offset,true);
     gui->renderTextLine("AutoBleem Theme: " + gui->cfg.inifile.values["theme"], CFG_THEME+1, offset);
     gui->renderTextLine("Menu Theme: " + gui->cfg.inifile.values["stheme"], CFG_MENUTH+1, offset);
-    gui->renderTextLine("PCSX version: " + gui->cfg.inifile.values["pcsx"], CFG_PCSX+1, offset);
-    gui->renderTextLine("Disable Theme BGM: " + getBooleanIcon("nomusic"), CFG_BGM+1, offset);
+    gui->renderTextLine("PCSX Version: " + gui->cfg.inifile.values["pcsx"], CFG_PCSX+1, offset);
+    gui->renderTextLine("Background Music: " + getBooleanIcon("nomusic"), CFG_BGM+1, offset);
     gui->renderTextLine("QuickBoot: " + getBooleanIcon("quick"), CFG_QUICK+1, offset);
     gui->cfg.inifile.values["autoregion"]="true"; // removing this as an option - not needed - just set to true
-
     gui->renderTextLine("GFX Filter patch: " + getBooleanIcon("mip"), CFG_MIP+1, offset);
-
     gui->renderTextLine("Show RetroArch: " + getBooleanIcon("retroarch"), CFG_RA+1, offset);
     gui->renderTextLine("Advanced: " + getBooleanIcon("adv"), CFG_ADV+1, offset);
-
     gui->renderStatus("|@O| Go back|");
 
     gui->renderSelectionBox(selOption+1,offset);
-
     SDL_RenderPresent(renderer);
 }
 

@@ -14,6 +14,7 @@
 #include <memory>
 #include "database.h"
 #include "config.h"
+#include "coverdb.h"
 
 #define PCS_BTN_L1       6
 #define PCS_BTN_R1       7
@@ -41,8 +42,10 @@ private:
     string themePath;
 
 
+
 public:
     Config cfg;
+    Coverdb *coverdb;
 
     Inifile themeData;
     Inifile defaultData;

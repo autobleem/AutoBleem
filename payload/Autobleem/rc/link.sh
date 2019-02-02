@@ -24,23 +24,26 @@ do
        rm -rf $game_path/PcsxState
     fi
 
-    #configuration (remove this for 0.6 and save directly pcsx.cfg in savestates)
+
+    #overwrite configuration
     echo "Overwrite CFG $number"  >> /media/System/Logs/autobleem.log
-    cp -n $game_path/pcsx.cfg $pcsx_path/
+    cp $game_path/pcsx.cfg $pcsx_path/
 
     echo "Cleanup $number"  >> /media/System/Logs/autobleem.log
-    # Cleanup game data
+    # remove data from savestates ??
 
     rm -rf /tmp/datatmp/AppData/sony/pcsx/$number
-    mkdir -p /tmp/datatmp/AppData/sony/pcsx/$number
+    #create nice folder to link
 
-    #link back save states to folder
+    mkdir -p /tmp/datatmp/AppData/sony/pcsx/$number
+    # link back save states to folder
+
     echo "Linking data $number"  >> /media/System/Logs/autobleem.log
     ln -s  $pcsx_path/ /tmp/datatmp/AppData/sony/pcsx/$number/.pcsx
 
     echo "Done  $number"  >> /media/System/Logs/autobleem.log
+    done < $INPUT
 
-done < $INPUT
 IFS=$OLDIFS
 sync
 
