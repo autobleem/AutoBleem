@@ -1,4 +1,6 @@
 #!/bin/bash
+mount -o remount,ro /gaadata
+mount -o remount,ro /data
 
 mkdir -p /media/System/Bios
 mkdir -p /media/System/Preferences

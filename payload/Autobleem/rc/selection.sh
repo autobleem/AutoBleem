@@ -46,6 +46,7 @@ function set_theme
 function start_sony
 {
 
+   mount -o remount,rw /data
    mount -o bind /tmp/pcsx /usr/sony/bin/pcsx
    mipmap
    ./startsony.sh
