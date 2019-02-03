@@ -57,7 +57,7 @@ void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
         return;
     }
 
-    surface = TTF_RenderText_Blended(font, text, textColor);
+    surface = TTF_RenderUTF8_Blended(font, text, textColor);
     *texture = SDL_CreateTextureFromSurface(renderer, surface);
     text_width = surface->w;
     text_height = surface->h;
@@ -216,6 +216,7 @@ void Gui::display(bool forceScan, string path, Database *db) {
 
     GuiSplash *splashScreen = new GuiSplash(renderer);
     splashScreen->show();
+    delete splashScreen;
 
     drawText("Upgrading AutoBleem - Please wait...");
     VerMigration *migration = new VerMigration();
@@ -224,7 +225,7 @@ void Gui::display(bool forceScan, string path, Database *db) {
     if (cfg.inifile.values["quick"] != "true")
         waitForGamepad();
 
-    delete splashScreen;
+
 
 
 }
@@ -252,8 +253,7 @@ bool Gui::quickBoot() {
     int currentTime = SDL_GetTicks();
     string splashText = "AutoBleem " + cfg.inifile.values["version"];
     if (cfg.inifile.values["quick"] == "true") {
-        splashText += " (Quick boot - Hold |@O| Menu";
-        splashText += ")";
+        splashText += " (Quick boot - Hold |@O| Menu)";
     }
 
     while (1) {
@@ -318,7 +318,7 @@ void Gui::menuSelection() {
     if (retroarch == "true") {
         mainMenu += "|@S|  RetroArch   ";
     }
-    mainMenu += "|@T|  About   |@Select|  Options ";
+    mainMenu += "|@T|  About  |@Select|  Options ";
     if (adv == "true") {
         mainMenu += "|@L1| Advanced";
     }
@@ -672,11 +672,11 @@ void Gui::renderSelectionBox(int line, int offset) {
     SDL_RenderDrawRect(renderer, &rectSelection);
 }
 
-void Gui::renderTextLine(string text, int line, int offset) {
-    renderTextLine(text, line, offset, false);
+int Gui::renderTextLine(string text, int line, int offset) {
+    return renderTextLine(text, line, offset, false);
 }
 
-void Gui::renderTextLine(string text, int line, int offset, bool center) {
+int Gui::renderTextLine(string text, int line, int offset, bool center) {
 
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
@@ -705,6 +705,7 @@ void Gui::renderTextLine(string text, int line, int offset, bool center) {
 
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
     SDL_DestroyTexture(textTex);
+    return textRec.h;
 }
 
 void Gui::renderTextChar(string text, int line, int offset, int posx) {

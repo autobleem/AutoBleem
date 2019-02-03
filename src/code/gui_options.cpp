@@ -29,7 +29,6 @@ string GuiOptions::getOption(vector<string> list, string current, bool next) {
 }
 
 
-
 void GuiOptions::init() {
     themes.clear();
     sthemes.clear();
@@ -77,41 +76,65 @@ void GuiOptions::init() {
 #define CFG_ADV        7
 
 
-string GuiOptions::getBooleanIcon(string input)
-{
+string GuiOptions::getBooleanIcon(string input) {
     shared_ptr<Gui> gui(Gui::getInstance());
     string value = gui->cfg.inifile.values[input];
-    if (input!="nomusic") {
+    if (input != "nomusic") {
         if (value == "true") return "|@Check|"; else return "|@Uncheck|";
     } else {
         if (value != "true") return "|@Check|"; else return "|@Uncheck|";
     }
 }
 
-void GuiOptions::render()
-{
+void GuiOptions::renderOptionLine(string text, int pos, int offset) {
+    shared_ptr<Gui> gui(Gui::getInstance());
+    string fg = gui->themeData.values["text_fg"];
+    int height = gui->renderTextLine(text, pos, offset);
+    totalHeight += height;
+
+    if (selOption+1 == pos) {
+        SDL_Rect rect2;
+        rect2.x = atoi(gui->themeData.values["opscreenx"].c_str());
+        rect2.y = atoi(gui->themeData.values["opscreeny"].c_str());
+        rect2.w = atoi(gui->themeData.values["opscreenw"].c_str());
+        rect2.h = atoi(gui->themeData.values["opscreenh"].c_str());
+
+
+        SDL_Rect rectSelection;
+        rectSelection.x = rect2.x + 5;
+        rectSelection.y = offset + totalHeight;
+        rectSelection.w = rect2.w - 10;
+        rectSelection.h = height;
+
+        SDL_SetRenderDrawColor(renderer, gui->getR(fg), gui->getG(fg), gui->getB(fg), 255);
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+        SDL_RenderDrawRect(renderer, &rectSelection);
+    }
+}
+
+void GuiOptions::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=Configuration=-",0,offset,true);
-    gui->renderTextLine("AutoBleem Theme: " + gui->cfg.inifile.values["theme"], CFG_THEME+1, offset);
-    gui->renderTextLine("Menu Theme: " + gui->cfg.inifile.values["stheme"], CFG_MENUTH+1, offset);
-    gui->renderTextLine("PCSX Version: " + gui->cfg.inifile.values["pcsx"], CFG_PCSX+1, offset);
-    gui->renderTextLine("Background Music: " + getBooleanIcon("nomusic"), CFG_BGM+1, offset);
-    gui->renderTextLine("QuickBoot: " + getBooleanIcon("quick"), CFG_QUICK+1, offset);
-    gui->cfg.inifile.values["autoregion"]="true"; // removing this as an option - not needed - just set to true
-    gui->renderTextLine("GFX Filter patch: " + getBooleanIcon("mip"), CFG_MIP+1, offset);
-    gui->renderTextLine("Show RetroArch: " + getBooleanIcon("retroarch"), CFG_RA+1, offset);
-    gui->renderTextLine("Advanced: " + getBooleanIcon("adv"), CFG_ADV+1, offset);
+    totalHeight = 0;
+    gui->renderTextLine("-=Configuration=-", 0, offset, true);
+    renderOptionLine("AutoBleem Theme: " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
+    renderOptionLine("Menu Theme: " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);
+    renderOptionLine("PCSX Version: " + gui->cfg.inifile.values["pcsx"], CFG_PCSX + 1, offset);
+    renderOptionLine("QuickBoot: " + getBooleanIcon("quick"), CFG_QUICK + 1, offset);
+    renderOptionLine("Background Music: " + getBooleanIcon("nomusic"), CFG_BGM + 1, offset);
+    gui->cfg.inifile.values["autoregion"] = "true"; // removing this as an option - not needed - just set to true
+    renderOptionLine("GFX Filter patch: " + getBooleanIcon("mip"), CFG_MIP + 1, offset);
+    renderOptionLine("Show RetroArch: " + getBooleanIcon("retroarch"), CFG_RA + 1, offset);
+    renderOptionLine("Advanced: " + getBooleanIcon("adv"), CFG_ADV + 1, offset);
     gui->renderStatus("|@O| Go back|");
 
-    gui->renderSelectionBox(selOption+1,offset);
+    //   gui->renderSelectionBox(selOption+1,offset);
     SDL_RenderPresent(renderer);
 }
 
-void GuiOptions::loop()
-{
+void GuiOptions::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
 
     render();
@@ -129,7 +152,7 @@ void GuiOptions::loop()
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         gui->cfg.save();
-                        gui->overrideQuickBoot=true;
+                        gui->overrideQuickBoot = true;
                         menuVisible = false;
                     };
                     break;

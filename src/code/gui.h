@@ -65,8 +65,8 @@ public:
     int renderLogo(bool small);
     void renderStatus(string text);
     void renderTextBar();
-    void renderTextLine(string text, int line, int offset, bool center);
-    void renderTextLine(string text, int line, int offset);
+    int renderTextLine(string text, int line, int offset, bool center);
+    int renderTextLine(string text, int line, int offset);
     void renderSelectionBox(int line, int offset);
     void renderLabelBox(int line, int offset);
     void renderTextChar(string text, int line, int offset, int posx);
@@ -110,7 +110,7 @@ public:
     void loadAssets();
 
 
-    Mix_Music * music;
+    Mix_Music * music = NULL;
     TTF_Font *font =  NULL;
     bool forceScan=false;
 
