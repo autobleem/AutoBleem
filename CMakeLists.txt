@@ -93,6 +93,4 @@ add_custom_command(TARGET autobleem-gui PRE_BUILD
 configure_file(src/resources/default.lic default.lic COPYONLY)
 configure_file(src/resources/default.png default.png COPYONLY)
 configure_file(src/resources/pcsx.cfg pcsx.cfg COPYONLY)
-configure_file(db/coversU.db coversU.db COPYONLY)
-configure_file(db/coversP.db coversP.db COPYONLY)
 
