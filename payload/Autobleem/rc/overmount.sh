@@ -1,30 +1,9 @@
-#The only left part from bleemsync code ... those 58 lines that does not need to be changed
-
 #!/bin/sh
-
-# Copy the BIOS files to USB
-[ ! -f /media/System/Bios/romw.bin ] && cp -r /gaadata/system/bios/* /media/System/Bios
-# Copy the regional.pre to USB
-# This contains settings for the UI region
-[ ! -f /media/System/Preferences/System/regional.pre ] && cp /gaadata/preferences/* /media/System/Preferences/System
-# Copy out the user.pre to USB
-# This contains things like language setting
-[ ! -f /media/System/Preferences/User/user.pre ] && cp /data/AppData/sony/ui/* /media/System/Preferences/User
-# Copy out the auto dimming config to USB
-[ ! -f /media/System/Preferences/AutoDimmer/config.cnf ] && cp /data/AppData/sony/auto_dimmer/* /media/System/Preferences/AutoDimmer
-# Copy out the region info
-[ ! -f /media/System/Region/REGION ] && cp /gaadata/geninfo/* /media/System/Region
-# Copy ui error log
-[ ! -f /media/System/UI/error.log ] && cp /data/sony/ui/* /media/System/UI
-# Init the ui_menu.log
-[ ! -f /media/System/Logs/ui_menu.log ] && touch /media/System/Logs/ui_menu.log
-sync
-
 
 # It crashes here as when device is busy it can not be umounted - need to retry in a for loop
 # TODO: make some prevention !!!
 
-
+sync
 # Unmount partitons and create tmpfs - Shut system down on failure
 MOUNT_FAIL=0
 umount /data || MOUNT_FAIL=1 
