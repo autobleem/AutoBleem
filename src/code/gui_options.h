@@ -19,8 +19,10 @@ public:
     void loop();
     string getOption(vector<string> list, string current, bool next);
     string getBooleanIcon(string input);
+    void renderOptionLine(string text, int pos, int offset);
 
     int selOption=0;
+    int totalHeight=0;
 
     vector<string> themes;
     vector<string> sthemes;

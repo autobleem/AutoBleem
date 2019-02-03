@@ -4,6 +4,7 @@
 
 #include "cfgprocessor.h"
 #include "util.h"
+#include "inifile.h"
 
 using namespace std;
 
@@ -11,8 +12,10 @@ void CfgProcessor::replaceInternal(string filePath, string property, string newl
     if (!Util::exists(filePath)) {
         return;
     }
-    std::fstream file(filePath, std::ios::in);
+    // do not store if file not updated (one less iocall on filesystem)
+    bool fileUpdated = false;
 
+    std::fstream file(filePath, std::ios::in);
     vector<string> lines;
     lines.clear();
 
@@ -30,6 +33,7 @@ void CfgProcessor::replaceInternal(string filePath, string property, string newl
             lcase(lcasepattern);
 
             if (lcaseline.rfind(lcasepattern, 0) == 0) {
+                fileUpdated = true;
                 lines.push_back(newline);
             } else {
                 lines.push_back(line);
@@ -38,14 +42,15 @@ void CfgProcessor::replaceInternal(string filePath, string property, string newl
 
         }
         file.close();
-        file.open(filePath, std::ios::out | std::ios::trunc);
+        if (fileUpdated) {
+            file.open(filePath, std::ios::out | std::ios::trunc);
 
-        for (const auto &i : lines) {
-            file << i << std::endl;
+            for (const auto &i : lines) {
+                file << i << std::endl;
+            }
+            file.flush();
+            file.close();
         }
-        file.flush();
-        file.close();
-
     }
 }
 
@@ -62,6 +67,23 @@ void CfgProcessor::replace(string entry, string gamePath, string property, strin
         replaceInternal(path, property, newline);
     }
 
+
+}
+
+void CfgProcessor::patchHLEbios(string entry, string path)
+{
+    //TODO: This is just a workaround patch - let's patch PCSX properly instead use hacks !
+    string discName = "";
+    string gameIniLoc = path+Util::separator()+entry+Util::separator()+"Game.ini";
+    Inifile *inifile =new Inifile();
+    inifile->load(gameIniLoc);
+    discName = inifile->values["discs"];
+    delete inifile;
+    if (discName.size()>3) {
+        if ((discName[2] == 'P') || (discName[2] == 'p')) {
+            replace(entry, path, "Bios", "AUTOBLEEM_FIX = HLE_BIOS");
+        }
+    }
 
 }
 
