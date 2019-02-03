@@ -70,20 +70,4 @@ void CfgProcessor::replace(string entry, string gamePath, string property, strin
 
 }
 
-void CfgProcessor::patchHLEbios(string entry, string path)
-{
-    //TODO: This is just a workaround patch - let's patch PCSX properly instead use hacks !
-    string discName = "";
-    string gameIniLoc = path+Util::separator()+entry+Util::separator()+"Game.ini";
-    Inifile *inifile =new Inifile();
-    inifile->load(gameIniLoc);
-    discName = inifile->values["discs"];
-    delete inifile;
-    if (discName.size()>3) {
-        if ((discName[2] == 'P') || (discName[2] == 'p')) {
-            replace(entry, path, "Bios", "AUTOBLEEM_FIX = HLE_BIOS");
-        }
-    }
-
-}
 

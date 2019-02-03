@@ -56,3 +56,5 @@ cmake-build-debug/
 
 #ARM Build folder
 build_arm/
+db/
+

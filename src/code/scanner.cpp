@@ -5,6 +5,7 @@
 #include "scanner.h"
 #include "ecmhelper.h"
 #include "cfgprocessor.h"
+#include "serialscanner.h"
 
 
 bool wayToSort(Game i, Game j) {
@@ -370,7 +371,7 @@ void Scanner::scanDirectory(string path) {
         game.imageType = this->getImageType(gameDataPath);
         game.gameDataFound = true;
 
-        if (game.imageType == 0) // only cue/bin
+        if (game.imageType == IMAGE_CUE_BIN) // only cue/bin
         {
 
             repairMissingCue(gameDataPath, entry.name);
@@ -408,11 +409,12 @@ void Scanner::scanDirectory(string path) {
 
         }
 
+        // FIXME: This may not be needed
         if ((game.pcsxCfgFound) && (game.gameIniFound))
         {
             // pcsx config already there - game was scrapped already - check and apply bios fix (if needed)
             CfgProcessor * processor=new CfgProcessor();
-                processor->patchHLEbios(entry.name,path);
+           //     processor->patchHLEbios(entry.name,path);
             delete processor;
         }
 
@@ -420,7 +422,10 @@ void Scanner::scanDirectory(string path) {
 
         if (!game.gameIniFound || game.automationUsed) {
 
-            string serial = game.scanSerial();
+            SerialScanner * serialScanner = new SerialScanner();
+            string serial = serialScanner->scanSerial(game.imageType, game.fullPath, game.firstBinPath);
+            delete serialScanner;
+
             if (!serial.empty()) {
                 cout << "Accessing metadata for serial: " << serial << endl;
                 Metadata md;
