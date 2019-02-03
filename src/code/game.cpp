@@ -376,8 +376,22 @@ void Game::recoverMissingFiles() {
         md.clean();
         shared_ptr<Gui> gui(Gui::getInstance());
         Util::copy(source, destination);
+
         CfgProcessor * processor=new CfgProcessor();
         processor->replace(pathName, gui->path, "region", "region = " + to_string(region));
+
+        if (discs.size()!=0)
+        {
+            string discName = discs[0].cueName;
+            if (discName.size()>3)
+            {
+                if ((discName[2]=='P') || (discName[2]=='p'))
+                {
+                    processor->replace(pathName, gui->path, "Bios", "AUTOBLEEM_FIX = HLE_BIOS");
+                }
+            }
+        }
+
         delete(processor);
         pcsxCfgFound = true;
     }
