@@ -65,7 +65,6 @@ add_executable(autobleem-gui
 		src/code/coverdb.h
 		src/code/serialscanner.cpp
 		src/code/serialscanner.h
-		src/code/md5.c
         )
 
 add_executable(starter

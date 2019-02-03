@@ -1,5 +1,14 @@
 #!/bin/bash
 
+mkdir -p /media/System/Bios
+mkdir -p /media/System/Preferences
+mkdir -p /media/System/Preferences/System
+mkdir -p /media/System/Preferences/User
+mkdir -p /media/System/Preferences/AutoDimmer
+mkdir -p /media/System/Databases
+mkdir -p /media/System/Region
+mkdir -p /media/System/Logs
+mkdir -p /media/System/UI
 
 # Copy the BIOS files to USB
 [ ! -f /media/System/Bios/romw.bin ] && cp -r /gaadata/system/bios/romw.bin /media/System/Bios/romw.bin
@@ -24,4 +33,24 @@
 
 # Init the ui_menu.log
 [ ! -f /media/System/Logs/ui_menu.log ] && touch /media/System/Logs/ui_menu.log
+
+mkdir -p /tmp/gaadatatmp /tmp/datatmp
+# Create gaadata on tmpfs
+mkdir -p /tmp/gaadatatmp/system/
+ln -s /media/System/Databases /tmp/gaadatatmp/databases
+ln -s /media/System/Region /tmp/gaadatatmp/geninfo
+ln -s /media/System/Bios /tmp/gaadatatmp/system/bios
+ln -s /media/System/Preferences/System /tmp/gaadatatmp/preferences
+
+# Create data on tmpfs
+mkdir -p /tmp/datatmp/sony/sgmo /tmp/datatmp/AppData/sony
+ln -s /tmp/diag /tmp/datatmp/sony/sgmo/diag
+ln -s /dev/shm/power /tmp/datatmp/power
+ln -s /media/System/UI /tmp/datatmp/sony/ui
+ln -s /media/System/Preferences/User /tmp/datatmp/AppData/sony/ui
+ln -s /media/System/Preferences/AutoDimmer /tmp/datatmp/AppData/sony/auto_dimmer
+cp -r /usr/sony/share/recovery/AppData/sony/pcsx /tmp/datatmp/AppData/sony/pcsx
+ln -s /media/System/Bios /tmp/datatmp/AppData/sony/pcsx/bios
+ln -s /usr/sony/bin/plugins /tmp/datatmp/AppData/sony/pcsx/plugins
+
 sync

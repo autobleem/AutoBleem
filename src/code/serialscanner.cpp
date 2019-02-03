@@ -9,22 +9,6 @@
 
 using namespace std;
 
-/* typedef a 32 bit type */
-typedef unsigned long int UINT4;
-
-/* Data structure for MD5 (Message Digest) computation */
-typedef struct {
-    UINT4 i[2];                   /* number of _bits_ handled mod 2^64 */
-    UINT4 buf[4];                                    /* scratch buffer */
-    unsigned char in[64];                              /* input buffer */
-    unsigned char digest[16];     /* actual digest after MD5Final call */
-} MD5_CTX;
-
-extern "C" {
-void MD5Init(MD5_CTX *mdContext);
-void MD5Update(MD5_CTX *mdContext, unsigned char *inBuf, unsigned int inLen);
-void MD5Final(MD5_CTX *mdContext);
-}
 
 string SerialScanner::fixSerial(string serial) {
     replace(serial.begin(), serial.end(), '_', '-');
@@ -195,33 +179,6 @@ string SerialScanner::workarounds(int imageType, string path, string firstBinPat
 
 string SerialScanner::serialByMd5(string scanFile)
 {
-    FILE *inFile = fopen (scanFile.c_str(), "rb");
-    MD5_CTX mdContext;
-    int bytes;
-    unsigned char data[32768];
-
-    MD5Init (&mdContext);
-    while ((bytes = fread (data, 1, 4096, inFile)) != 0)
-        MD5Update (&mdContext, data, bytes);
-    MD5Final (&mdContext);
-
-    static const char hexchars[] = "0123456789abcdef";
-    string result;
-
-    for (int i = 0; i < 16; i++)
-    {
-        unsigned char b = mdContext.digest[i];
-        char hex[3];
-
-        hex[0] = hexchars[b >> 4];
-        hex[1] = hexchars[b & 0xF];
-        hex[2] = 0;
-
-        result.append(hex);
-    }
-
-    fclose (inFile);
-
-    return result;
-
+    string sum=Util::execUnixCommad(("md5sum \""+scanFile+"\" | awk '{print $1}'").c_str());
+    return sum;
 }
