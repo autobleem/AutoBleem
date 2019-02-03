@@ -6,8 +6,10 @@
 sync
 # Unmount partitons and create tmpfs - Shut system down on failure
 MOUNT_FAIL=0
-umount /data || MOUNT_FAIL=1 
-umount /gaadata || MOUNT_FAIL=1 
+
+#umount /data || MOUNT_FAIL=1
+#umount /gaadata || MOUNT_FAIL=1 // we do not need to umunt gaadata
+
 # Create gaadata and data folders in tmp then mount over original folders
 mkdir -p /tmp/gaadatatmp /tmp/datatmp
 mount -o bind /tmp/gaadatatmp /gaadata || MOUNT_FAIL=1 

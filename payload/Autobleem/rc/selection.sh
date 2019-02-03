@@ -90,4 +90,6 @@ then
 fi
 
 sync
+umount /media
+sync
 reboot
