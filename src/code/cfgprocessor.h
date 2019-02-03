@@ -10,6 +10,7 @@ class CfgProcessor {
 public:
     Config config;
     void replace(string entry, string gamePath,  string property, string newline);
+    void patchHLEbios(string entry, string gamePath);
 
 private:
     void replaceInternal(string filePath, string property, string newline);

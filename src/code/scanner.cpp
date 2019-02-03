@@ -4,6 +4,7 @@
 
 #include "scanner.h"
 #include "ecmhelper.h"
+#include "cfgprocessor.h"
 
 
 bool wayToSort(Game i, Game j) {
@@ -407,9 +408,16 @@ void Scanner::scanDirectory(string path) {
 
         }
 
-        game.recoverMissingFiles();
+        if ((game.pcsxCfgFound) && (game.gameIniFound))
+        {
+            // pcsx config already there - game was scrapped already - check and apply bios fix (if needed)
+            CfgProcessor * processor=new CfgProcessor();
+                processor->patchHLEbios(entry.name,path);
+            delete processor;
+        }
 
         if (!game.gameIniFound || game.automationUsed) {
+            game.recoverMissingFiles();
             string serial = game.scanSerial();
             if (!serial.empty()) {
                 cout << "Accessing metadata for serial: " << serial << endl;
