@@ -16,6 +16,8 @@
 
 #include "util.h"
 
+#define IMAGE_CUE_BIN 0
+#define IMAGE_PBP     1
 
 static const char GAME_DATA[] = "GameData";
 static const char GAME_INI[] = "Game.ini";
