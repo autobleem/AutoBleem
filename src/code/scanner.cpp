@@ -416,8 +416,10 @@ void Scanner::scanDirectory(string path) {
             delete processor;
         }
 
+        game.recoverMissingFiles();
+
         if (!game.gameIniFound || game.automationUsed) {
-            game.recoverMissingFiles();
+
             string serial = game.scanSerial();
             if (!serial.empty()) {
                 cout << "Accessing metadata for serial: " << serial << endl;
