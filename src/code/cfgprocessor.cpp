@@ -70,5 +70,4 @@ void CfgProcessor::replace(string entry, string gamePath, string property, strin
 
 }
 
-/
 
