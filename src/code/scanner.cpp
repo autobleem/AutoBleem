@@ -408,11 +408,12 @@ void Scanner::scanDirectory(string path) {
 
         }
 
+        // FIXME: This may not be needed
         if ((game.pcsxCfgFound) && (game.gameIniFound))
         {
             // pcsx config already there - game was scrapped already - check and apply bios fix (if needed)
             CfgProcessor * processor=new CfgProcessor();
-                processor->patchHLEbios(entry.name,path);
+           //     processor->patchHLEbios(entry.name,path);
             delete processor;
         }
 
