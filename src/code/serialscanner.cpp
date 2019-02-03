@@ -179,6 +179,8 @@ string SerialScanner::workarounds(int imageType, string path, string firstBinPat
 
 string SerialScanner::serialByMd5(string scanFile)
 {
-    string sum=Util::execUnixCommad(("md5sum \""+scanFile+"\" | awk '{print $1}'").c_str());
-    return sum;
+    string head=Util::execUnixCommad(("head -c 1M \""+scanFile+"\" | md5sum | awk '{print $1}'").c_str());
+    string tail=Util::execUnixCommad(("tail -c 1M \""+scanFile+"\" | md5sum | awk '{print $1}'").c_str());
+
+    return head+tail;
 }
