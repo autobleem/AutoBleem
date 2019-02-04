@@ -11,6 +11,7 @@
 #include "gui.h"
 #include "gui_editor.h"
 #include "main.h"
+#include "lang.h"
 
 bool wayToSort(Inifile i, Inifile j) {
     string title1 = i.values["title"];
@@ -58,7 +59,7 @@ void GuiManager::render()
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     gui->renderFreeSpace();
-    gui->renderTextLine("-=Game manager - Select game=-",0,offset,true);
+    gui->renderTextLine(_("-=Game manager - Select game=-"),0,offset,true);
     if (selected >= games.size()) {
         selected = games.size() - 1;
     }
@@ -87,7 +88,7 @@ void GuiManager::render()
     }
 
 
-    gui->renderStatus("Game " + to_string(selected + 1) + "/" + to_string(games.size()) +"    |@L1|/|@R1| Page   |@X| Select  |@O| Close |");
+    gui->renderStatus(_("Game")+" " + to_string(selected + 1) + "/" + to_string(games.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"  |@O| "+_("Close")+" |");
     SDL_RenderPresent(renderer);
 }
 

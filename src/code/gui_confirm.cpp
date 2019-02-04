@@ -10,6 +10,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include "gui.h"
+#include "lang.h"
 
 void GuiConfirm::render()
 {
@@ -17,11 +18,11 @@ void GuiConfirm::render()
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=Please confirm=-",0,offset, true);
+    gui->renderTextLine(_("-=Please confirm=-"),0,offset, true);
     gui->renderTextLine(label,2,offset, true);
 
 
-    gui->renderStatus("|@X| Confirm  |@O| Cancel |");
+    gui->renderStatus("|@X| "+_("Confirm")+"  |@O| "+_("Cancel")+" |");
     SDL_RenderPresent(renderer);
 }
 

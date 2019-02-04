@@ -5,6 +5,7 @@
 #include "gui_splash.h"
 #include "gui.h"
 #include "ver_migration.h"
+#include "lang.h"
 
 void GuiSplash::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -19,9 +20,9 @@ void GuiSplash::render() {
 
     SDL_Texture *textTex;
     SDL_Rect textRec;
-    string splashText = "AutoBleem " + gui->cfg.inifile.values["version"];
+    string splashText = _("AutoBleem")+" " + gui->cfg.inifile.values["version"];
     if (gui->cfg.inifile.values["quick"] == "true") {
-        splashText += " (Quick boot - |@O| Menu";
+        splashText += " ("+_("Quick boot")+" - |@O| "+_("Menu");
         splashText += ")";
     }
 

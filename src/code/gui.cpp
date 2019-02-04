@@ -10,6 +10,7 @@
 #include "gui_memcards.h"
 #include "gui_manager.h"
 #include "ver_migration.h"
+#include "lang.h"
 
 #define QUICKBOOT_DELAY 1000
 
@@ -174,7 +175,7 @@ void Gui::loadAssets() {
 void Gui::waitForGamepad() {
     int joysticksFound = SDL_NumJoysticks();
     while (joysticksFound == 0) {
-        drawText("PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC");
+        drawText(_("PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC"));
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
         SDL_InitSubSystem(SDL_INIT_JOYSTICK);
         joysticksFound = SDL_NumJoysticks();
@@ -218,7 +219,7 @@ void Gui::display(bool forceScan, string path, Database *db) {
     splashScreen->show();
     delete splashScreen;
 
-    drawText("Upgrading AutoBleem - Please wait...");
+    drawText(_("Upgrading AutoBleem - Please wait..."));
     VerMigration *migration = new VerMigration();
     migration->migrate(db);
 
@@ -251,9 +252,9 @@ bool otherMenuShift = false;
 bool Gui::quickBoot() {
 
     int currentTime = SDL_GetTicks();
-    string splashText = "AutoBleem " + cfg.inifile.values["version"];
+    string splashText = _("AutoBleem")+" " + cfg.inifile.values["version"];
     if (cfg.inifile.values["quick"] == "true") {
-        splashText += " (Quick boot - Hold |@O| Menu)";
+        splashText += " ("+_("Quick boot")+" - "+_("Hold")+" |@O| "+_("Menu")+")";
     }
 
     while (1) {
@@ -292,12 +293,12 @@ void Gui::menuSelection() {
     // Check if all OK
     if (scanner->noGamesFound)
     {
-        criticalException("WARNING: NO GAMES FOUND. PRESS ANY BUTTON.");
+        criticalException(_("WARNING: NO GAMES FOUND. PRESS ANY BUTTON."));
     }
     //
     if (!coverdb->isValid())
     {
-        criticalException("WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.");
+        criticalException(_("WARNING: NO COVER DB FOUND. PRESS ANY BUTTON."));
     }
     if (!overrideQuickBoot) {
         bool quickBootCfg = (cfg.inifile.values["quick"] == "true");
@@ -313,18 +314,18 @@ void Gui::menuSelection() {
     otherMenuShift = false;
     string retroarch = cfg.inifile.values["retroarch"];
     string adv = cfg.inifile.values["adv"];
-    string mainMenu = "|@Start| AutoBleem    |@X|  Re/Scan   |@O|  Original  ";
+    string mainMenu = "|@Start| "+_("AutoBleem")+"    |@X|  "+_("Re/Scan")+"   |@O|  "+("Original")+"  ";
 
     if (retroarch == "true") {
-        mainMenu += "|@S|  RetroArch   ";
+        mainMenu += "|@S|  "+_("RetroArch")+"   ";
     }
-    mainMenu += "|@T|  About  |@Select|  Options ";
+    mainMenu += "|@T|  "+_("About")+"  |@Select|  "+_("Options")+" ";
     if (adv == "true") {
-        mainMenu += "|@L1| Advanced";
+        mainMenu += "|@L1| "+_("Advanced");
     }
 
-    string forceScanMenu = "Games changed. Press  |@X|  to scan|";
-    string otherMenu = "|@X|  Memory Cards   |@O|  Game Manager |";
+    string forceScanMenu = _("Games changed. Press")+"  |@X|  "+_("to scan")+"|";
+    string otherMenu = "|@X|  "+_("Memory Cards")+"   |@O|  "+_("Game Manager")+" |";
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
 
 
@@ -749,7 +750,7 @@ void Gui::renderFreeSpace() {
     rect.x = atoi(themeData.values["fsposx"].c_str());
     rect.y = atoi(themeData.values["fsposy"].c_str());
     getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
-    getEmojiTextTexture(renderer, "Free space : " + Util::getAvailableSpace(), font, &textTex, &textRec);
+    getEmojiTextTexture(renderer, _("Free space")+" : " + Util::getAvailableSpace(), font, &textTex, &textRec);
     rect.w = textRec.w;
     rect.h = textRec.h;
     SDL_RenderFillRect(renderer, &rect);

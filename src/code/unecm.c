@@ -32,6 +32,8 @@
 #include <stdio.h>
 #include <string.h>
 
+
+
 void logText(char *message);
 
 /***************************************************************************/

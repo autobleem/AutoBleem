@@ -6,6 +6,7 @@
 #include "ecmhelper.h"
 #include "cfgprocessor.h"
 #include "serialscanner.h"
+#include "lang.h"
 
 
 bool wayToSort(Game i, Game j) {
@@ -55,7 +56,7 @@ void Scanner::unecm(string path) {
         if (Util::matchExtension(entry.name, EXT_ECM)) {
             Ecmhelper ecm;
             shared_ptr<Gui> splash(Gui::getInstance());
-            splash->logText("Decompressing ecm:");
+            splash->logText(_("Decompressing ecm:"));
             if (ecm.unecm(path + entry.name, path + entry.name.substr(0, entry.name.length() - 4))) {
 
                 remove((path + entry.name).c_str());
@@ -68,7 +69,7 @@ void Scanner::unecm(string path) {
 
 void Scanner::updateDB(Database *db) {
     shared_ptr<Gui> splash(Gui::getInstance());
-    splash->logText("Updating regional.db...");
+    splash->logText(_("Updating regional.db..."));
     string path = Util::getWorkingPath() + Util::separator() + "autobleem.list";
     ofstream outfile;
     outfile.open(path);
@@ -319,7 +320,7 @@ void Scanner::scanDirectory(string path) {
     games.clear();
     complete = false;
     shared_ptr<Gui> splash(Gui::getInstance());
-    splash->logText("Scanning...");
+    splash->logText(_("Scanning..."));
 
     ofstream prev;
     string prevFileName = Util::getWorkingPath() + Util::separator() + "autobleem.prev";
@@ -361,7 +362,7 @@ void Scanner::scanDirectory(string path) {
         game.saveStatePath = path + "!SaveStates" + Util::separator() + entry.name + Util::separator();
 
         game.pathName = entry.name;
-        splash->logText("Game: " + entry.name);
+        splash->logText(_("Game:")+" " + entry.name);
 
         string gameDataPath = path + entry.name + Util::separator() + GAME_DATA + Util::separator();
 

@@ -10,6 +10,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include "gui.h"
+#include "lang.h"
 
 vector<string> row0 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
 vector<string> row1 = {"q", "w", "e", "r", "t", "y", "u", "i", "o", "p"};
@@ -89,7 +90,7 @@ void GuiKeyboard::render() {
     }
 
 
-    gui->renderStatus("|@X| Select  |@T|  Delete  |@L1| Caps |@S| Space      |@Start| Confirm  |@O| Cancel |");
+    gui->renderStatus("|@X| "+_("Select")+"  |@T|  "+_("Delete")+"  |@L1| "+("Caps")+" |@S| "+_("Space")+"      |@Start| "+_("Confirm")+"  |@O| "+_("Cancel")+" |");
     SDL_RenderPresent(renderer);
 }
 

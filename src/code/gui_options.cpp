@@ -5,6 +5,7 @@
 #include "gui_options.h"
 #include "util.h"
 #include "gui.h"
+#include "lang.h"
 
 
 string GuiOptions::getOption(vector<string> list, string current, bool next) {
@@ -118,17 +119,17 @@ void GuiOptions::render() {
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     totalHeight = 0;
-    gui->renderTextLine("-=Configuration=-", 0, offset, true);
-    renderOptionLine("AutoBleem Theme: " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
-    renderOptionLine("Menu Theme: " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);
-    renderOptionLine("PCSX Version: " + gui->cfg.inifile.values["pcsx"], CFG_PCSX + 1, offset);
-    renderOptionLine("QuickBoot: " + getBooleanIcon("quick"), CFG_QUICK + 1, offset);
-    renderOptionLine("Background Music: " + getBooleanIcon("nomusic"), CFG_BGM + 1, offset);
+    gui->renderTextLine(_("-=Configuration=-"), 0, offset, true);
+    renderOptionLine(_("AutoBleem Theme:")+" " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
+    renderOptionLine(_("Menu Theme:")+" " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);
+    renderOptionLine(_("PCSX Version:")+" " + gui->cfg.inifile.values["pcsx"], CFG_PCSX + 1, offset);
+    renderOptionLine(_("QuickBoot:")+" " + getBooleanIcon("quick"), CFG_QUICK + 1, offset);
+    renderOptionLine(_("Background Music:")+" " + getBooleanIcon("nomusic"), CFG_BGM + 1, offset);
     gui->cfg.inifile.values["autoregion"] = "true"; // removing this as an option - not needed - just set to true
-    renderOptionLine("GFX Filter patch: " + getBooleanIcon("mip"), CFG_MIP + 1, offset);
-    renderOptionLine("Show RetroArch: " + getBooleanIcon("retroarch"), CFG_RA + 1, offset);
-    renderOptionLine("Advanced: " + getBooleanIcon("adv"), CFG_ADV + 1, offset);
-    gui->renderStatus("|@O| Go back|");
+    renderOptionLine(_("GFX Filter patch:")+" " + getBooleanIcon("mip"), CFG_MIP + 1, offset);
+    renderOptionLine(_("Show RetroArch:")+" " + getBooleanIcon("retroarch"), CFG_RA + 1, offset);
+    renderOptionLine(_("Advanced:")+" " + getBooleanIcon("adv"), CFG_ADV + 1, offset);
+    gui->renderStatus("|@O| "+_("Go back")+"|");
 
     //   gui->renderSelectionBox(selOption+1,offset);
     SDL_RenderPresent(renderer);
