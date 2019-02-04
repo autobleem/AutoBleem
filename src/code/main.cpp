@@ -59,7 +59,6 @@ int main(int argc, char *argv[]) {
 
     lang->load(gui->cfg.inifile.values["language"]);
 
-    lang->load("German");
     Coverdb *coverdb = new Coverdb();
     gui->coverdb = coverdb;
 

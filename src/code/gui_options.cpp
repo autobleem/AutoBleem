@@ -31,7 +31,7 @@ string GuiOptions::getOption(vector<string> list, string current, bool next) {
 
 
 void GuiOptions::init() {
-    shared_ptr <Lang> lang(Lang::getInstance());
+    shared_ptr<Lang> lang(Lang::getInstance());
     themes.clear();
     sthemes.clear();
     sthemes.push_back("default");
@@ -65,20 +65,20 @@ void GuiOptions::init() {
     quickboot.push_back("true");
     quickboot.push_back("false");
     languages.clear();
-    languages=lang->listLanguages();
+    languages = lang->listLanguages();
 
 
 }
 
-
-#define CFG_THEME      0
-#define CFG_MENUTH     1
-#define CFG_PCSX       2
-#define CFG_QUICK      3
-#define CFG_BGM        4
-#define CFG_MIP        5
-#define CFG_RA         6
-#define CFG_ADV        7
+#define CFG_LANG       0
+#define CFG_THEME      1
+#define CFG_MENUTH     2
+#define CFG_PCSX       3
+#define CFG_QUICK      4
+#define CFG_BGM        5
+#define CFG_MIP        6
+#define CFG_RA         7
+#define CFG_ADV        8
 
 
 string GuiOptions::getBooleanIcon(string input) {
@@ -97,7 +97,7 @@ void GuiOptions::renderOptionLine(string text, int pos, int offset) {
     int height = gui->renderTextLine(text, pos, offset);
     totalHeight += height;
 
-    if (selOption+1 == pos) {
+    if (selOption + 1 == pos) {
         SDL_Rect rect2;
         rect2.x = atoi(gui->themeData.values["opscreenx"].c_str());
         rect2.y = atoi(gui->themeData.values["opscreeny"].c_str());
@@ -124,16 +124,17 @@ void GuiOptions::render() {
     int offset = gui->renderLogo(true);
     totalHeight = 0;
     gui->renderTextLine(_("-=Configuration=-"), 0, offset, true);
-    renderOptionLine(_("AutoBleem Theme:")+" " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
-    renderOptionLine(_("Menu Theme:")+" " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);
-    renderOptionLine(_("PCSX Version:")+" " + gui->cfg.inifile.values["pcsx"], CFG_PCSX + 1, offset);
-    renderOptionLine(_("QuickBoot:")+" " + getBooleanIcon("quick"), CFG_QUICK + 1, offset);
-    renderOptionLine(_("Background Music:")+" " + getBooleanIcon("nomusic"), CFG_BGM + 1, offset);
+    renderOptionLine(_("Language:") + " " + gui->cfg.inifile.values["language"], CFG_LANG + 1, offset);
+    renderOptionLine(_("AutoBleem Theme:") + " " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
+    renderOptionLine(_("Menu Theme:") + " " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);
+    renderOptionLine(_("PCSX Version:") + " " + gui->cfg.inifile.values["pcsx"], CFG_PCSX + 1, offset);
+    renderOptionLine(_("QuickBoot:") + " " + getBooleanIcon("quick"), CFG_QUICK + 1, offset);
+    renderOptionLine(_("Background Music:") + " " + getBooleanIcon("nomusic"), CFG_BGM + 1, offset);
     gui->cfg.inifile.values["autoregion"] = "true"; // removing this as an option - not needed - just set to true
-    renderOptionLine(_("GFX Filter patch:")+" " + getBooleanIcon("mip"), CFG_MIP + 1, offset);
-    renderOptionLine(_("Show RetroArch:")+" " + getBooleanIcon("retroarch"), CFG_RA + 1, offset);
-    renderOptionLine(_("Advanced:")+" " + getBooleanIcon("adv"), CFG_ADV + 1, offset);
-    gui->renderStatus("|@O| "+_("Go back")+"|");
+    renderOptionLine(_("GFX Filter patch:") + " " + getBooleanIcon("mip"), CFG_MIP + 1, offset);
+    renderOptionLine(_("Show RetroArch:") + " " + getBooleanIcon("retroarch"), CFG_RA + 1, offset);
+    renderOptionLine(_("Advanced:") + " " + getBooleanIcon("adv"), CFG_ADV + 1, offset);
+    gui->renderStatus("|@O| " + _("Go back") + "|");
 
     //   gui->renderSelectionBox(selOption+1,offset);
     SDL_RenderPresent(renderer);
@@ -141,6 +142,7 @@ void GuiOptions::render() {
 
 void GuiOptions::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
+    shared_ptr<Lang> lang(Lang::getInstance());
 
     render();
 
@@ -181,6 +183,13 @@ void GuiOptions::loop() {
 
                     if (e.jaxis.axis == 0) {
                         if (e.jaxis.value > 3200) {
+                            if (selOption == CFG_LANG) {
+                                string nextValue = getOption(languages, gui->cfg.inifile.values["language"], true);
+                                gui->cfg.inifile.values["language"] = nextValue;
+                                lang->load(nextValue);
+                                init();
+
+                            }
                             if (selOption == CFG_THEME) {
                                 string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], true);
                                 gui->cfg.inifile.values["theme"] = nextValue;
@@ -232,6 +241,14 @@ void GuiOptions::loop() {
                             render();
                         }
                         if (e.jaxis.value < -3200) {
+                            if (selOption == CFG_LANG) {
+                                string nextValue = getOption(languages, gui->cfg.inifile.values["language"], false);
+                                gui->cfg.inifile.values["language"] = nextValue;
+                                lang->load(nextValue);
+                                init();
+
+
+                            }
                             if (selOption == CFG_THEME) {
                                 string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], false);
                                 gui->cfg.inifile.values["theme"] = nextValue;
