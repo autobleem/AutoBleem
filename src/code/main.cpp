@@ -49,6 +49,7 @@ int scanGames(string path, string dbpath) {
 
 
 int main(int argc, char *argv[]) {
+    shared_ptr <Lang> lang(Lang::getInstance());
     if (argc < 3) {
         cout << "USAGE: bleemsync /path/dbfilename.db /path/to/games" << endl;
         return EXIT_FAILURE;
@@ -56,6 +57,9 @@ int main(int argc, char *argv[]) {
     shared_ptr <Gui> gui(Gui::getInstance());
     shared_ptr <Scanner> scanner(Scanner::getInstance());
 
+    lang->load(gui->cfg.inifile.values["language"]);
+
+    lang->load("German");
     Coverdb *coverdb = new Coverdb();
     gui->coverdb = coverdb;
 
@@ -105,8 +109,8 @@ int main(int argc, char *argv[]) {
     SDL_Quit();
     delete coverdb;
 
-    shared_ptr <Lang> lang(Lang::getInstance());
-    lang->dump("output.txt");
+
+   // lang->dump("output.txt");
     return 0;
 }
 

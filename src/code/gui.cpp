@@ -314,7 +314,7 @@ void Gui::menuSelection() {
     otherMenuShift = false;
     string retroarch = cfg.inifile.values["retroarch"];
     string adv = cfg.inifile.values["adv"];
-    string mainMenu = "|@Start| "+_("AutoBleem")+"    |@X|  "+_("Re/Scan")+"   |@O|  "+("Original")+"  ";
+    string mainMenu = "|@Start| "+_("AutoBleem")+"    |@X|  "+_("Re/Scan")+"   |@O|  "+_("Original")+"  ";
 
     if (retroarch == "true") {
         mainMenu += "|@S|  "+_("RetroArch")+"   ";

@@ -18,9 +18,11 @@ string _(string input);
 class Lang {
 public:
 
+    string currentLang;
     string translate(string input);
     void dump(string fileName);
     void load(string langfile);
+    vector<string> listLanguages();
 
     Lang(Lang const &) = delete;
     Lang &operator=(Lang const &) = delete;
@@ -31,6 +33,7 @@ public:
 private:
     Lang() {};
     map<string,string> langData;
+    vector<string> newData;
 
 };
 

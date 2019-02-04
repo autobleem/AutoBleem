@@ -56,7 +56,7 @@ void GuiEditor::render() {
 
 
     gui->renderTextLine(_("Memory Card:")+" " +
-                        (game.values["memcard"] == "SONY" ? string("Internal") : game.values["memcard"] + _("(Custom)")),
+                        (game.values["memcard"] == "SONY" ? string(_("Internal")) : game.values["memcard"] + _("(Custom)")),
                         4, offset, true);
 
     gui->renderTextLine(_("Lock data:") + (game.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|"))
@@ -65,7 +65,7 @@ void GuiEditor::render() {
                         true);
 
 
-    string guiMenu = "|@Select| "+_("Lock")+"  |@Start| "+_("Hi/Lo Res")+"   |@X| "+("Rename")+"  |@S| "+_("Change MC")+" ";
+    string guiMenu = "|@Select| "+_("Lock")+"  |@Start| "+_("Hi/Lo Res")+"   |@X| "+_("Rename")+"  |@S| "+_("Change MC")+" ";
 
     if (game.values["memcard"] == "SONY") {
         guiMenu += "|@T| "+_("Share MC")+"  ";

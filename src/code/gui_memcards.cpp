@@ -197,10 +197,7 @@ void GuiMemcards::loop() {
                     }
 
                     if (e.jbutton.button == PCS_BTN_SQUARE) {
-                        if (cards.empty())
-                        {
-                            continue;
-                        }
+
 
                         GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                         keyboard->label = _("Enter new card name");

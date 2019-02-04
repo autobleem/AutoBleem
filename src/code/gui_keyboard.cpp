@@ -90,7 +90,7 @@ void GuiKeyboard::render() {
     }
 
 
-    gui->renderStatus("|@X| "+_("Select")+"  |@T|  "+_("Delete")+"  |@L1| "+("Caps")+" |@S| "+_("Space")+"      |@Start| "+_("Confirm")+"  |@O| "+_("Cancel")+" |");
+    gui->renderStatus("|@X| "+_("Select")+"  |@T|  "+_("Delete")+"  |@L1| "+_("Caps")+" |@S| "+_("Space")+"      |@Start| "+_("Confirm")+"  |@O| "+_("Cancel")+" |");
     SDL_RenderPresent(renderer);
 }
 
