@@ -1,11 +1,6 @@
-### Note - Renaming games does not currently work with PBP images. This will be fixed in 0.6.
 
-### NOTE: Release is now updated with fixed memory card support. If you have problems with this functionality redownload autobleem-0.5.zip and reinstall AutoBleem folder (and cover db's)
 
-# Version 0.5.0 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
-
-### NOTE: Confirmed RetroArch working fine - the version from BS1.0 ... Just make sure that in your RetroArch folder there is  .config folder (it is hidden on macOS and Linuxes)- RetroArch will not start without it.
-
+# Version 0.5.1 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
 Watch on YouTube: [New Features video](https://www.youtube.com/watch?v=NMf_CZsSLJ0)
 
@@ -30,7 +25,7 @@ As BleemSync 0.4.0 was released during my development of first version I leverag
 If you want some new feature, or you find a bug please raise the issue. As I am single developler without any community support it my take some time to sort it out, so any other help welcome. 
 
 ## Is it stable and is it safe to use ?
-Version 0.5 is "pretty" stable. It is well tested by multiple users, but until 1.0 it is still pre-release. New features may be added over the time.
+Version 0.5.1 is "pretty" stable. It is well tested by multiple users, but until 1.0 it is still pre-release. New features may be added over the time.
 
 AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4 used, so it is SAFE TO THE SAME LEVEL. It should not brick you console, but... if you brick it I am not responsible. Your risk.... from the other side, I use this solution for some time and nothing wrong happened. **NOTE: Do not uninstall BleemSync 1.0 if it was installed.. this step is not needed.**
 
@@ -59,11 +54,16 @@ AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4
 1. Supports themes of both AutoBleem and Sony menu
 1. **configurable filter settings**
 1. Supports multi disc games
+1. Speaks your language
+1. Ability to QuickBoot and change game resolution
 1. Makes your PlayStation Classic a great device
 
 ## Installation
 
-1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases/download/v0.5/autobleem-0.5.zip)
+1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases/download/v0.5.1/autobleem-0.5.1-full.zip) - you can select one of the packages 
+  - Full - contains all covers
+  - U/P/J - contains only covers for region
+  - clean - no cover databases
 1. Extract the contents to the root of your FAT32(recommended) or ext4 formatted USB flash drive
 1. Name your flash drive SONY. This is a requirement.
 1. Download Cover Repository databases (three separate files for NTSC-U, PAL and NTSC-J)
@@ -97,11 +97,11 @@ Database is split into three separate files by region. If you do not for example
 
 The files are:
 
-[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/v0.5/coversU.db) NTSC-U coversU.db  ~47MB  - 1320 games
+[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/v0.5.1/coversU.db) NTSC-U coversU.db  ~70MB  - 1321 games
 
-[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/v0.5/coversP.db) PAL-E  coversP.db  ~88MB  - 2582 games
+[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/v0.5.1/coversP.db) PAL-E  coversP.db  ~88MB  - 2582 games
 
-[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/v0.5/coversJ.db) NTSC-J coversJ.db ~173MB  - 4785 games
+[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/v0.5.1/coversJ.db) NTSC-J coversJ.db ~173MB  - 4785 games
 
 So it is up to you to decide which files you inslude into your USB dongle. With all three files AutoBleem should be able to match most of the available games. If the game can not be found, it will still try to use "Generic" image, it will put the same name as the folder in Games and unknown Publisher.
 
@@ -144,7 +144,8 @@ AutoBleem is analysing the game folder during boot and using smart algorithm it 
 ## Road Map
 This is just bare milestone ideas
 
-- 0.6 - upgrade UI experience and engine on existing features
+- 0.5.1 - upgrade UI experience and engine on existing features
+- 0.6 - further engine updates file2folder
 - 0.7 - savestate manager in starter (multiple slots)
 - 0.8 - coverdb editor, updater app (this might be PC ap, but optional)
 - 0.9 - all bugfixes and polishing what already done
