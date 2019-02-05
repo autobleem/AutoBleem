@@ -9,21 +9,21 @@
 -=Game manager - Select game=-
 -=Game manager - Selecteer je game=-
 About
-Over
+over
 Advanced
 Geavanceerd
 Advanced:
-Geavanceerd:
+Geavanceerd
 AutoBleem
 AutoBleem
 AutoBleem Theme:
 AutoBleem Thema:
 Background Music:
-Achtergrond Muziek:
+Achtergrond Muziek
 Close
-Sluit
+Sluiten
 Download latest: https://github.com/autobleem/autobleem
-Download latest: https://github.com/autobleem/autobleem
+Download laatste versie: https://github.com/autobleem/autobleem
 Free space
 Vrije ruimte
 GFX Filter patch:
@@ -33,19 +33,19 @@ Game
 Game Manager
 Game Manager
 Games changed. Press
-Games veranderd. Druk
+Games geupdate. Druk
 Go back
 Ga Terug
 Loading ... Please Wait ...
-Laden... Klein moment ...
+Laden... Een klein moment ...
 Memory Cards
-Memory Cards
+Memory Kaarten
 Menu Theme:
 Menu Thema:
 Options
 Options
 PCSX Version:
-PCSX versie:
+PCSX Versie:
 Page
 Pagina
 QuickBoot:
@@ -59,9 +59,9 @@ Scanning....
 Select
 Selecteer
 Show RetroArch:
-RetroArch:
+Laat RetroArch zien:
 Support via Discord: https://discord.gg/AHUS3RM
-Support via Discord: https://discord.gg/AHUS3RM
+Support ons via Discord: https://discord.gg/AHUS3RM
 This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
 Autobleem is een gratis open source project, onze revisie worden gebouwd "AS IS" het is geheel op eigen risico. 
 Total:
@@ -73,23 +73,23 @@ Upgrading AutoBleem - Moment...
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
 WARNING: GEEN GAMES GEVONDEN. DRUK OP EEN KNOP.
 games scanned
-games scanned
+games gescanned
 to scan
-scan
+Scan
 Game:
 Game:
 Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
 Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
 Folder:
-Folder
+Map:
 Published by:
 Gepubliceerd door:
 Players:
-Players:
+Spelers:
 Year:
 Jaar:
 Memory Card:
-Memory Card:
+Memory Kaart:
 High res:
 High res:
 Lock data:
@@ -107,35 +107,35 @@ Deel MC
 -=Select memory card=-
 -=Selecteer memory card=-
 Card
-Card
+Kaart
 -=Custom Memory Cards=-
--=Custom Memory Cards=-
+-=Custom Memory Kaart=-
 Delete
-Delete
+Verwijderen
 New Card
 Nieuwe Kaart
 Rename
 Hernoem
 Enter new name for memory card
-Enter niewe naam voor memory card
+Niewe naam voor memory card
 Cancel
-Cancel
+Annuleer
 Confirm
 Bevestig
 Space
 Plaats
 Enter new game name
-Plaats nieuwe game aan
+Nieuwe game
 Original
 origineel
 Enter new card name
-Plaats nieuwe kaart naam
+Nieuwe kaart naam
 Delete card
 Delete Kaart
 -=Please confirm=-
 -=Bevestig=-
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
-SLUIT PLAYSTATION CONTROLLER AAN
+SLUIT EEB PLAYSTATION CLASSIC CONTROLLER AAN
 Caps
 Caps
 Internal
@@ -143,7 +143,7 @@ Internal
 (Custom)
 (Custom)
 Enter new name for card
-Plaats nieuwe naam voor kaart
+Nieuwe naam voor kaart
 Menu
 Menu
 Quick boot
@@ -152,7 +152,5 @@ Hold
 Pauze
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 WAARSCHUWING: GEEN COVER DATANASE GEVONDEN. DRUK OP KNOP
-Language:
-Taal:
 
 
