@@ -17,6 +17,7 @@
 using namespace std;
 
 #include "memcard.h"
+#include "lang.h"
 
 
 int scanGames(string path, string dbpath) {
@@ -40,7 +41,7 @@ int scanGames(string path, string dbpath) {
 
     db->disconnect();
     shared_ptr <Gui> gui(Gui::getInstance());
-    gui->drawText("Total: " + to_string(scanner->games.size()) + " games scanned.");
+    gui->drawText(_("Total:")+" " + to_string(scanner->games.size()) + " "+_("games scanned")+".");
     sleep(1);
     delete db;
     return (EXIT_SUCCESS);
@@ -48,12 +49,15 @@ int scanGames(string path, string dbpath) {
 
 
 int main(int argc, char *argv[]) {
+    shared_ptr <Lang> lang(Lang::getInstance());
     if (argc < 3) {
         cout << "USAGE: bleemsync /path/dbfilename.db /path/to/games" << endl;
         return EXIT_FAILURE;
     }
     shared_ptr <Gui> gui(Gui::getInstance());
     shared_ptr <Scanner> scanner(Scanner::getInstance());
+
+    lang->load(gui->cfg.inifile.values["language"]);
 
     Coverdb *coverdb = new Coverdb();
     gui->coverdb = coverdb;
@@ -98,12 +102,14 @@ int main(int argc, char *argv[]) {
     }
 
 
-    gui->logText("Loading ... Please Wait ...");
+    gui->logText(_("Loading ... Please Wait ..."));
     gui->finish();
     sync();
     SDL_Quit();
     delete coverdb;
 
+
+   // lang->dump("output.txt");
     return 0;
 }
 

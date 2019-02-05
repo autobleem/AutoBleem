@@ -8,6 +8,10 @@ Config::Config()
 {
     string path=Util::getWorkingPath()+Util::separator()+"config.ini";
     inifile.load(path);
+    if (inifile.values["language"]=="")
+    {
+        inifile.values["language"]="English";
+    }
 }
 
 void Config::save()

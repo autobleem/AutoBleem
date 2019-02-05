@@ -33,6 +33,7 @@ public:
     vector<string> quickboot;
     vector<string> retroarch;
     vector<string> adv;
+    vector<string> languages;
 
     using GuiScreen::GuiScreen;
 };

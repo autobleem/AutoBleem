@@ -9,7 +9,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include "gui.h"
-
+#include "lang.h"
 
 void GuiAbout::render()
 {
@@ -17,16 +17,16 @@ void GuiAbout::render()
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=About=-",0,offset,true);
-    gui->renderTextLine("AutoBleem "+gui->cfg.inifile.values["version"]+" - Automatic PlayStation Classic USB launcher",1,offset);
-    gui->renderTextLine("Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge) ",2,offset);
-    gui->renderTextLine("'Tenchu' theme by Kevzombie ",3,offset);
+    gui->renderTextLine(_("-=About=-"),0,offset,true);
+    gui->renderTextLine(_("AutoBleem")+" "+gui->cfg.inifile.values["version"]+_(" - Automatic PlayStation Classic USB launcher"),1,offset);
+    gui->renderTextLine(_("Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge) "),2,offset);
+    gui->renderTextLine(_("'Tenchu' theme by Kevzombie"),3,offset);
 
-    gui->renderTextLine("Support via Discord: https://discord.gg/AHUS3RM",5,offset);
-    gui->renderTextLine("This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.",6,offset);
+    gui->renderTextLine(_("Support via Discord: https://discord.gg/AHUS3RM"),5,offset);
+    gui->renderTextLine(_("This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage."),6,offset);
 
-    gui->renderTextLine("Download latest: https://github.com/screemerpl/cbleemsync",8,offset);
-    gui->renderStatus("|@O| Go back|");
+    gui->renderTextLine(_("Download latest: https://github.com/screemerpl/cbleemsync"),8,offset);
+    gui->renderStatus("|@O| "+_("Go back")+"|");
     SDL_RenderPresent(renderer);
 }
 

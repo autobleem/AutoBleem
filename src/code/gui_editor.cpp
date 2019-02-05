@@ -13,6 +13,7 @@
 #include "gui_selectmemcard.h"
 #include "memcard.h"
 #include "cfgprocessor.h"
+#include "lang.h"
 
 
 void GuiEditor::init() {
@@ -48,33 +49,33 @@ void GuiEditor::render() {
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     gui->renderTextLine("-=" + game.values["title"] + "=-", 0, offset, true);
-    gui->renderTextLine("Folder: " + game.entry + "", 1, offset, true);
-    gui->renderTextLine("Published by: " + game.values["publisher"], 2, offset, true);
-    gui->renderTextLine("Year:" + game.values["year"] + "   Players:" +
+    gui->renderTextLine(_("Folder:")+" " + game.entry + "", 1, offset, true);
+    gui->renderTextLine(_("Published by:")+" " + game.values["publisher"], 2, offset, true);
+    gui->renderTextLine(_("Year:") + game.values["year"] + "   "+_("Players:") +
                         game.values["players"], 3, offset, true);
 
 
-    gui->renderTextLine("Memory Card: " +
-                        (game.values["memcard"] == "SONY" ? string("Internal") : game.values["memcard"] + "(Custom)"),
+    gui->renderTextLine(_("Memory Card:")+" " +
+                        (game.values["memcard"] == "SONY" ? string(_("Internal")) : game.values["memcard"] + _("(Custom)")),
                         4, offset, true);
 
-    gui->renderTextLine("Lock data:" + (game.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|"))
-                        + "  High res:" + (game.values["highres"] == "1" ? string("|@Check|") : string("|@Uncheck|")),
+    gui->renderTextLine(_("Lock data:") + (game.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|"))
+                        + "  "+_("High res:") + (game.values["highres"] == "1" ? string("|@Check|") : string("|@Uncheck|")),
                         5, offset,
                         true);
 
 
-    string guiMenu = "|@Select| Lock  |@Start| Hi/Lo Res   |@X| Rename  |@S| Change MC ";
+    string guiMenu = "|@Select| "+_("Lock")+"  |@Start| "+_("Hi/Lo Res")+"   |@X| "+_("Rename")+"  |@S| "+_("Change MC")+" ";
 
     if (game.values["memcard"] == "SONY") {
-        guiMenu += "|@T| Share MC  ";
+        guiMenu += "|@T| "+_("Share MC")+"  ";
     }
 
 
 
 
 
-    guiMenu += " |@O| Go back|";
+    guiMenu += " |@O| "+_("Go back")+"|";
 
     gui->renderStatus(guiMenu);
 
@@ -105,7 +106,7 @@ void GuiEditor::loop() {
                     if (game.values["memcard"] == "SONY") {
                         if (e.jbutton.button == PCS_BTN_TRIANGLE) {
                             GuiKeyboard *keyboard = new GuiKeyboard(renderer);
-                            keyboard->label = "Enter new name for memory card";
+                            keyboard->label = _("Enter new name for memory card");
                             keyboard->result = game.values["title"];
                             keyboard->show();
                             string result = keyboard->result;
@@ -191,7 +192,7 @@ void GuiEditor::loop() {
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
                         GuiKeyboard *keyboard = new GuiKeyboard(renderer);
-                        keyboard->label = "Enter new game name";
+                        keyboard->label = _("Enter new game name");
                         keyboard->result = game.values["title"];
                         keyboard->show();
                         string result = keyboard->result;

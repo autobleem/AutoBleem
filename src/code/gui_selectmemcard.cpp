@@ -13,6 +13,7 @@
 #include "memcard.h"
 #include "gui_confirm.h"
 #include "gui_keyboard.h"
+#include "lang.h"
 
 void GuiSelectMemcard::init() {
     cards.clear();
@@ -40,7 +41,7 @@ void GuiSelectMemcard::init() {
 
     vector<string>::iterator it;
     it = cards.begin();
-    cards.insert(it,string("(Internal)"));
+    cards.insert(it,string(_("(Internal)")));
 
     delete memcardOps;
 
@@ -51,7 +52,7 @@ void GuiSelectMemcard::render() {
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=Select memory card=-", 0, offset, true);
+    gui->renderTextLine(_("-=Select memory card=-"), 0, offset, true);
 
     if (selected >= cards.size()) {
         selected = cards.size() - 1;
@@ -80,8 +81,8 @@ void GuiSelectMemcard::render() {
         gui->renderSelectionBox(selected - firstVisible + 1, offset);
     }
 
-    gui->renderStatus("Card " + to_string(selected + 1) + "/" + to_string(cards.size()) +
-                      "   |@L1|/|@R1| Page     |@X| Select  |@O| Cancel|");
+    gui->renderStatus(_("Card")+" " + to_string(selected + 1) + "/" + to_string(cards.size()) +
+                      "   |@L1|/|@R1| "+_("Page")+"     |@X| "+_("Select")+"  |@O| "+("Cancel")+"|");
     SDL_RenderPresent(renderer);
 }
 
