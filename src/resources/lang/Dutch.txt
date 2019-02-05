@@ -9,17 +9,17 @@
 -=Game manager - Select game=-
 -=Game manager - Selecteer je game=-
 About
-over
+Over
 Advanced
-geavanceerd
+Geavanceerd
 Advanced:
-geavanceerd
+Geavanceerd:
 AutoBleem
 AutoBleem
 AutoBleem Theme:
 AutoBleem Thema:
 Background Music:
-Achtergrond Muziek
+Achtergrond Muziek:
 Close
 Sluit
 Download latest: https://github.com/autobleem/autobleem
@@ -45,7 +45,7 @@ Menu Thema:
 Options
 Options
 PCSX Version:
-PCSX Version:
+PCSX versie:
 Page
 Pagina
 QuickBoot:
@@ -59,7 +59,7 @@ Scanning....
 Select
 Selecteer
 Show RetroArch:
-Show RetroArch:
+RetroArch:
 Support via Discord: https://discord.gg/AHUS3RM
 Support via Discord: https://discord.gg/AHUS3RM
 This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
@@ -75,7 +75,7 @@ WARNING: GEEN GAMES GEVONDEN. DRUK OP EEN KNOP.
 games scanned
 games scanned
 to scan
-Scan
+scan
 Game:
 Game:
 Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
