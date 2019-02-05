@@ -2,8 +2,6 @@
 
 # Version 0.5.1 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
-Watch on YouTube: [New Features video](https://www.youtube.com/watch?v=NMf_CZsSLJ0)
-
 Watch on YouTube: [Installation Tutorial](https://youtu.be/QRocmHUuc20) 
 
 Join our discord server: [https://discord.gg/AHUS3RM](https://discord.gg/AHUS3RM)
