@@ -1,5 +1,11 @@
+### Note - Renaming games does not currently work with PBP images. This will be fixed in 0.6.
+
+### NOTE: Release is now updated with fixed memory card support. If you have problems with this functionality redownload autobleem-0.5.zip and reinstall AutoBleem folder (and cover db's)
 
 # Version 0.5.0 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
+
+### NOTE: Confirmed RetroArch working fine - the version from BS1.0 ... Just make sure that in your RetroArch folder there is  .config folder (it is hidden on macOS and Linuxes)- RetroArch will not start without it.
+
 
 Watch on YouTube: [New Features video](https://www.youtube.com/watch?v=NMf_CZsSLJ0)
 
@@ -7,7 +13,7 @@ Watch on YouTube: [Installation Tutorial](https://youtu.be/QRocmHUuc20)
 
 Join our discord server: [https://discord.gg/AHUS3RM](https://discord.gg/AHUS3RM)
 
-#### WARNING: You do not need to uninstall BleemSync 0.4/0.7/1.0 from your console prior to use AutoBleem. Actually I DO NOT recommend this. Both installation and removal of BleemSync mod modifies the internal memory and if something goes wrong at that stage ... it may "soft" brick your PCS, so if BS1.0 was installed ... leave it, prepare new USB stick with AutoBleem and it will work as expected. 
+#### NOTE: You do not need to uninstall BleemSync 0.4/0.7/1.0 from your console prior to use AutoBleem. Prepare new USB stick with AutoBleem and it will work as expected. 
 
 
 # AutoBleem 
@@ -57,7 +63,7 @@ AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4
 
 ## Installation
 
-1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases/download/0.5/autobleem-v0.5.0.zip)
+1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases/download/v0.5/autobleem-0.5.zip)
 1. Extract the contents to the root of your FAT32(recommended) or ext4 formatted USB flash drive
 1. Name your flash drive SONY. This is a requirement.
 1. Download Cover Repository databases (three separate files for NTSC-U, PAL and NTSC-J)
