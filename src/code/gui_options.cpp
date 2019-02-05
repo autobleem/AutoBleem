@@ -167,8 +167,8 @@ void GuiOptions::loop() {
                     if (e.jaxis.axis == 1) {
                         if (e.jaxis.value > 3200) {
                             selOption++;
-                            if (selOption > 7) {
-                                selOption = 7;
+                            if (selOption > 8) {
+                                selOption = 8;
                             }
                             render();
                         }
