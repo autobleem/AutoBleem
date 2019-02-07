@@ -26,8 +26,8 @@ Download latest: https://github.com/autobleem/autobleem
 Download laatste versie: https://github.com/autobleem/autobleem
 Free space
 Vrije ruimte
-GFX Filter patch:
-GFX Filter patch:
+GFX Filter:
+GFX Filter:
 Game
 Game
 Game Manager

@@ -47,8 +47,8 @@ void GuiOptions::init() {
     pcsx.push_back("original");
     pcsx.push_back("bleemsync");
     mip.clear();
-    mip.push_back("true");
     mip.push_back("false");
+    mip.push_back("true");
     nomusic.clear();
     nomusic.push_back("false");
     nomusic.push_back("true");
@@ -84,7 +84,7 @@ void GuiOptions::init() {
 string GuiOptions::getBooleanIcon(string input) {
     shared_ptr<Gui> gui(Gui::getInstance());
     string value = gui->cfg.inifile.values[input];
-    if (input != "nomusic") {
+    if ((input != "nomusic") && (input != "mip")) {
         if (value == "true") return "|@Check|"; else return "|@Uncheck|";
     } else {
         if (value != "true") return "|@Check|"; else return "|@Uncheck|";
@@ -131,7 +131,7 @@ void GuiOptions::render() {
     renderOptionLine(_("QuickBoot:") + " " + getBooleanIcon("quick"), CFG_QUICK + 1, offset);
     renderOptionLine(_("Background Music:") + " " + getBooleanIcon("nomusic"), CFG_BGM + 1, offset);
     gui->cfg.inifile.values["autoregion"] = "true"; // removing this as an option - not needed - just set to true
-    renderOptionLine(_("GFX Filter patch:") + " " + getBooleanIcon("mip"), CFG_MIP + 1, offset);
+    renderOptionLine(_("GFX Filter:") + " " + getBooleanIcon("mip"), CFG_MIP + 1, offset);
     renderOptionLine(_("Show RetroArch:") + " " + getBooleanIcon("retroarch"), CFG_RA + 1, offset);
     renderOptionLine(_("Advanced:") + " " + getBooleanIcon("adv"), CFG_ADV + 1, offset);
     gui->renderStatus("|@O| " + _("Go back") + "|");
