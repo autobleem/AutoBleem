@@ -3,6 +3,7 @@
 # Version 0.5.1 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
 Watch on YouTube: [Installation Tutorial](https://youtu.be/QRocmHUuc20) 
+### This is old one for 0.5.0, but the installation is the same except you already have coverdb's in the package
 
 Join our discord server: [https://discord.gg/AHUS3RM](https://discord.gg/AHUS3RM)
 
@@ -23,9 +24,9 @@ As BleemSync 0.4.0 was released during my development of first version I leverag
 If you want some new feature, or you find a bug please raise the issue. As I am single developler without any community support it my take some time to sort it out, so any other help welcome. 
 
 ## Is it stable and is it safe to use ?
-Version 0.5.1 is "pretty" stable. It is well tested by multiple users, but until 1.0 it is still pre-release. New features may be added over the time.
+Version 0.5.1 is "pretty" stable. Should be more stable than 0.5.0. It is well tested by multiple users, but until 1.0 it is still pre-release. New features may be added over the time, some issues may happen etc.
 
-AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4 used, so it is SAFE TO THE SAME LEVEL. It should not brick you console, but... if you brick it I am not responsible. Your risk.... from the other side, I use this solution for some time and nothing wrong happened. **NOTE: Do not uninstall BleemSync 1.0 if it was installed.. this step is not needed.**
+AutoBleem in general uses upgraded, but similar overmounting scripts that BleemSync 0.1-0.4 used, so it is SAFE TO THE SAME LEVEL. It should not brick you console, but... if you brick it I am not responsible. Your risk.... from the other side, I use this solution for some time and nothing wrong happened. **NOTE: Do not uninstall BleemSync 1.0 if it was installed.. this step is not needed.**
 
 #### NOTE: This tool is made to use only with legal licenced games. The whole project does not use any licenced source code, also it does not alter any of the Sony files inside the mini console, it just uses what is already there and not alter it in any way.
 
@@ -59,9 +60,9 @@ AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4
 ## Installation
 
 1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases) - you can select one of the packages 
-  - Full - contains all covers
-  - U/P/J - contains only covers for region
-  - clean - no cover databases
+  - autobleem-0.5.1-full - contains all covers
+  - autobleem-0.5.1-ntscU/palE/ntscJ - contains only covers for selected region
+  - autobleem-0.5.1-clean - no cover databases (they have to be installed manually)
 1. Extract the contents to the root of your FAT32(recommended) or ext4 formatted USB flash drive
 1. Name your flash drive SONY. This is a requirement.
 1. Download Cover Repository databases (three separate files for NTSC-U, PAL and NTSC-J)
@@ -89,7 +90,7 @@ AutoBleem will  find all games and create GameData folder, then move all files m
 
 ### General usage of database files
 
-The inital release package do not contain any Cover Repository databases. You have to download them separatelly.  In case you want to make the installation small, do not copy the databases to your USB dongle. In this case AutoBleem will not be able to generate "proper" Game.ini files, or match covers, and you may need to create them manually (that... just sucks) to have nice looking menu...but still AutoBleem will import the game with generic cover and metadata and game will be playable.
+The inital release package "Full version" DO contain Cover Repository databases. And this is probably everything you need to start your build.  In case you want to make the installation small, doenload "Clean version" and then copy the databases to your USB dongle as on previous releases. 
 
 Database is split into three separate files by region. If you do not for example plan to play JAP region games, you can install just US or PAL. The reason for that split is the file size. Original cover repository in 226x226 PNG was about 1GB in size. I managed to use a lot of optimisations and finally shrink this into much smaller size, but it still is bit big for a small USB dongle. 
 
@@ -104,6 +105,12 @@ The files are:
 So it is up to you to decide which files you inslude into your USB dongle. With all three files AutoBleem should be able to match most of the available games. If the game can not be found, it will still try to use "Generic" image, it will put the same name as the folder in Games and unknown Publisher.
 
 **REMEBER COPY DATABASE FILES TO /Autobleem/bin/db folder on USB, not any other place**
+
+### Custom DB Updates
+
+You can edit cover databases using SQLite Browser software available here: [DOWNLOAD](https://sqlitebrowser.org/) that works on MAC and WINDOWS.
+
+We also created a tool to dump and reload all png files in one shot. The tool is available here [DOWNLOAD](https://github.com/autobleem/abcoverpacker/graphs/traffic) 
 
 ## Credits and links 
 
