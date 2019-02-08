@@ -14,14 +14,24 @@ using namespace std;
 
 class Scanner {
 public:
+    Scanner() {}
     vector<Game> games;
 
     void scanDirectory(string path);
-
+    void repairBrokenCueFiles(string path);
     bool isFirstRun(string path, Database * db);
     void unecm(string path);
     void updateDB(Database *db);
     bool forceScan=false;
+    bool noGamesFound=false;
+
+    Scanner(Scanner const &) = delete;
+    Scanner &operator=(Scanner const &) = delete;
+    static std::shared_ptr<Scanner> getInstance() {
+        static std::shared_ptr<Scanner> s{new Scanner};
+        return s;
+    }
+
 private:
 
     int getImageType(string path);

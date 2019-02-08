@@ -5,6 +5,7 @@
 #include "gui_splash.h"
 #include "gui.h"
 #include "ver_migration.h"
+#include "lang.h"
 
 void GuiSplash::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -19,10 +20,17 @@ void GuiSplash::render() {
 
     SDL_Texture *textTex;
     SDL_Rect textRec;
-    gui->getTextAndRect(renderer, 0, atoi(gui->themeData.values["ttop"].c_str()),
-                   ("AutoBleem " + gui->cfg.inifile.values["version"]).c_str(), gui->font, &textTex, &textRec);
+    string splashText = _("AutoBleem")+" " + gui->cfg.inifile.values["version"];
+    if (gui->cfg.inifile.values["quick"] == "true") {
+        splashText += " ("+_("Quick boot")+" - |@O| "+_("Menu");
+        splashText += ")";
+    }
+
+
+    gui->getEmojiTextTexture(renderer, splashText.c_str(), gui->font, &textTex, &textRec);
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);
+    textRec.y = atoi(gui->themeData.values["ttop"].c_str());
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderClear(renderer);
     SDL_SetTextureAlphaMod(gui->backgroundImg, alpha);
@@ -33,7 +41,11 @@ void GuiSplash::render() {
     SDL_RenderCopy(renderer, gui->backgroundImg, NULL, &gui->backgroundRect);
     SDL_RenderCopy(renderer, gui->logo, NULL, &gui->logoRect);
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
+    string bg = gui->themeData.values["text_bg"];
+
+    int bg_alpha = atoi(gui->themeData.values["textalpha"].c_str()) * alpha / 255;
+
+    SDL_SetRenderDrawColor(renderer, gui->getR(bg), gui->getG(bg), gui->getB(bg), bg_alpha);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_Rect rect;
     rect.x = atoi(gui->themeData.values["textx"].c_str());
@@ -47,7 +59,7 @@ void GuiSplash::render() {
 }
 
 void GuiSplash::loop() {
-    shared_ptr<Gui> splash(Gui::getInstance());
+    shared_ptr<Gui> gui(Gui::getInstance());
 
     Mix_VolumeMusic(0);
     alpha = 0;
@@ -59,6 +71,11 @@ void GuiSplash::loop() {
                 break;
             else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
                 break;
+
+            if (e.type == SDL_JOYBUTTONDOWN) {
+                gui->overrideQuickBoot = true;
+
+            }
         }
         render();
         int current = SDL_GetTicks();

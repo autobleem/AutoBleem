@@ -38,19 +38,20 @@ public:
     bool imageFound = false;
     bool licFound = false;
     bool automationUsed = false;
-    int imageType=0;
+    int imageType=IMAGE_CUE_BIN;
+    bool highRes = false;
+    string firstBinPath = "";
 
     void readIni(string path);
     void saveIni(string path);
     void recoverMissingFiles();
     bool verify();
     bool print();
-    string scanSerial();
     void updateObj();
     bool validateCue(string cuePath, string path);
 private:
 
-    string firstBinPath = "";
+
     map<string, string> iniValues;
     void parseIni(string path);
     string valueOrDefault(string name, string def);

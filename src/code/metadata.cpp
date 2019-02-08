@@ -4,68 +4,36 @@
 
 #include "metadata.h"
 #include "database.h"
+#include "gui.h"
 
-static const char *jDatabases[] = {"../db/coversU.db", "../db/coversP.db", "../db/coversJ.db"};
 
-bool Metadata::lookup(string serial) {
+bool Metadata::lookupBySerial(string serial) {
+    shared_ptr<Gui> gui(Gui::getInstance());
     for (int i = 0; i < 3; i++) {
-        Database *db = new Database();
-        if (db->connect(jDatabases[i])) {
+            Database *db= gui->coverdb->covers[i];
+            if (db== nullptr) continue;
+
             if (db->querySerial(serial, this)) {
-                db->disconnect();
-                delete(db);
-                switch(i)
-                {
-                    case 0:
-                        this->lastRegion="U";
-                        break;
-                    case 1:
-                        this->lastRegion="P";
-                        break;
-                    case 2:
-                        this->lastRegion="J";
-                        break;
-                    default:
-                        this->lastRegion="U";
-                        break;
-                }
+                this->lastRegion = gui->coverdb->regionStr[i];
                 return true;
             }
-        };
-        db->disconnect();
-        delete(db);
+
     }
 
     return false;
 }
 
-bool Metadata::lookup2(string title) {
+bool Metadata::lookupByTitle(string title) {
+    shared_ptr<Gui> gui(Gui::getInstance());
     for (int i = 0; i < 3; i++) {
-        Database *db = new Database();
-        if (db->connect(jDatabases[i])) {
+        Database *db= gui->coverdb->covers[i];
+        if (db== nullptr) continue;
+
             if (db->queryTitle(title, this)) {
-                db->disconnect();
-                delete(db);
-                switch(i)
-                {
-                    case 0:
-                        this->lastRegion="U";
-                        break;
-                    case 1:
-                        this->lastRegion="P";
-                        break;
-                    case 2:
-                        this->lastRegion="J";
-                        break;
-                    default:
-                        this->lastRegion="U";
-                        break;
-                }
+                this->lastRegion = gui->coverdb->regionStr[i];
                 return true;
             }
-        };
-        db->disconnect();
-        delete(db);
+
     }
 
     return false;

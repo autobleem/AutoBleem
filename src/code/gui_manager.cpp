@@ -11,6 +11,7 @@
 #include "gui.h"
 #include "gui_editor.h"
 #include "main.h"
+#include "lang.h"
 
 bool wayToSort(Inifile i, Inifile j) {
     string title1 = i.values["title"];
@@ -28,9 +29,8 @@ void GuiManager::init()
 
     shared_ptr<Gui> gui(Gui::getInstance());
     string path = gui->path;
-    for (DirEntry entry: Util::dir(path)) {
-        if (entry.name[0] == '.') continue;
-        if (!entry.dir) continue;
+    for (DirEntry entry: Util::diru(path)) {
+        if (!Util::isDirectory(gui->path+Util::separator()+entry.name)) continue;
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
 
@@ -58,7 +58,8 @@ void GuiManager::render()
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=Game manager - Select game=-",0,offset,true);
+    gui->renderFreeSpace();
+    gui->renderTextLine(_("-=Game manager - Select game=-"),0,offset,true);
     if (selected >= games.size()) {
         selected = games.size() - 1;
     }
@@ -87,7 +88,7 @@ void GuiManager::render()
     }
 
 
-    gui->renderStatus("Game " + to_string(selected + 1) + "/" + to_string(games.size()) +"    |@X| Select  |@O| Close |");
+    gui->renderStatus(_("Game")+" " + to_string(selected + 1) + "/" + to_string(games.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"  |@O| "+_("Close")+" |");
     SDL_RenderPresent(renderer);
 }
 
@@ -108,20 +109,42 @@ void GuiManager::loop()
                         if (e.jaxis.value > 3200) {
                             selected++;
                             if (selected >= games.size()) {
-                                selected = games.size() - 1;
+                                selected = 0;
+                                firstVisible = selected;
+                                lastVisible = firstVisible+maxVisible;
                             }
                             render();
                         }
                         if (e.jaxis.value < -3200) {
                             selected--;
                             if (selected < 0) {
-                                selected = 0;
+                                selected = games.size()-1;
+                                firstVisible = selected;
+                                lastVisible = firstVisible+maxVisible;
                             }
                             render();
                         }
                     }
                     break;
                 case SDL_JOYBUTTONDOWN:
+                    if (e.jbutton.button == PCS_BTN_R1) {
+                        selected+=maxVisible;
+                        if (selected >= games.size()) {
+                            selected = games.size() - 1;
+                        }
+                        firstVisible = selected;
+                        lastVisible = firstVisible+maxVisible;
+                        render();
+                    };
+                    if (e.jbutton.button == PCS_BTN_L1) {
+                        selected-=maxVisible;
+                        if (selected < 0) {
+                            selected = 0;
+                        }
+                        firstVisible = selected;
+                        lastVisible = firstVisible+maxVisible;
+                        render();
+                    };
 
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
@@ -145,26 +168,22 @@ void GuiManager::loop()
                             if (editor->changes)
                             {
                                 changes = true;
+                            }
+                            selected=0;
+                            firstVisible=0;
+                            lastVisible=firstVisible+maxVisible;
 
-
-                                selected=0;
-                                firstVisible=0;
-                                lastVisible=firstVisible+maxVisible;
-
-                                init();
-                                int pos=0;
-                                for (Inifile game:games)
+                            init();
+                            int pos=0;
+                            for (Inifile game:games)
+                            {
+                                if (game.entry==selectedEntry)
                                 {
-                                    if (game.entry==selectedEntry)
-                                    {
-                                        selected=pos;
-                                        firstVisible=pos;
-                                        lastVisible=firstVisible+maxVisible;
-                                    }
-                                    pos++;
+                                    selected=pos;
+                                    firstVisible=pos;
+                                    lastVisible=firstVisible+maxVisible;
                                 }
-
-
+                                pos++;
                             }
                             render();
                             delete editor;

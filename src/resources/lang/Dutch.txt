@@ -1,0 +1,156 @@
+﻿ - Automatic PlayStation Classic USB launcher
+ - Automatische Playstation Classic USB Launcher
+'Tenchu' theme by Kevzombie
+'Tenchu' thema door Kevzombie
+-=About=-
+-=Over=-
+-=Configuration=-
+-=Configuratie=-
+-=Game manager - Select game=-
+-=Game manager - Selecteer je game=-
+About
+over
+Advanced
+Geavanceerd
+Advanced:
+Geavanceerd
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+AutoBleem Thema:
+Background Music:
+Achtergrond Muziek
+Close
+Sluiten
+Download latest: https://github.com/autobleem/autobleem
+Download laatste versie: https://github.com/autobleem/autobleem
+Free space
+Vrije ruimte
+GFX Filter:
+GFX Filter:
+Game
+Game
+Game Manager
+Game Manager
+Games changed. Press
+Games geupdate. Druk
+Go back
+Ga Terug
+Loading ... Please Wait ...
+Laden... Een klein moment ...
+Memory Cards
+Memory Kaarten
+Menu Theme:
+Menu Thema:
+Options
+Options
+PCSX Version:
+PCSX Versie:
+Page
+Pagina
+QuickBoot:
+Snel Starten:
+Re/Scan
+Re/Scan
+RetroArch
+RetroArch
+Scanning...
+Scanning....
+Select
+Selecteer
+Show RetroArch:
+Laat RetroArch zien:
+Support via Discord: https://discord.gg/AHUS3RM
+Support ons via Discord: https://discord.gg/AHUS3RM
+This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+Autobleem is een gratis open source project, onze revisie worden gebouwd "AS IS" het is geheel op eigen risico. 
+Total:
+Totaal:
+Updating regional.db...
+Updating regional.db...
+Upgrading AutoBleem - Please wait...
+Upgrading AutoBleem - Moment...
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+WARNING: GEEN GAMES GEVONDEN. DRUK OP EEN KNOP.
+games scanned
+games gescanned
+to scan
+Scan
+Game:
+Game:
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Folder:
+Map:
+Published by:
+Gepubliceerd door:
+Players:
+Spelers:
+Year:
+Jaar:
+Memory Card:
+Memory Kaart:
+High res:
+High res:
+Lock data:
+Lock data:
+Change MC
+Verander MC
+Hi/Lo Res
+Hi/Lo Res
+Lock
+Gesloten
+Share MC
+Deel MC
+(Internal)
+(Internal)
+-=Select memory card=-
+-=Selecteer memory card=-
+Card
+Kaart
+-=Custom Memory Cards=-
+-=Custom Memory Kaart=-
+Delete
+Verwijderen
+New Card
+Nieuwe Kaart
+Rename
+Hernoem
+Enter new name for memory card
+Niewe naam voor memory card
+Cancel
+Annuleer
+Confirm
+Bevestig
+Space
+Plaats
+Enter new game name
+Nieuwe game
+Original
+origineel
+Enter new card name
+Nieuwe kaart naam
+Delete card
+Delete Kaart
+-=Please confirm=-
+-=Bevestig=-
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+SLUIT EEB PLAYSTATION CLASSIC CONTROLLER AAN
+Caps
+Caps
+Internal
+Internal
+(Custom)
+(Custom)
+Enter new name for card
+Nieuwe naam voor kaart
+Menu
+Menu
+Quick boot
+Snel starten
+Hold
+Pauze
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+WAARSCHUWING: GEEN COVER DATANASE GEVONDEN. DRUK OP KNOP
+
+

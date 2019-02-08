@@ -10,6 +10,9 @@
 #include "gui_memcards.h"
 #include "gui_manager.h"
 #include "ver_migration.h"
+#include "lang.h"
+
+#define QUICKBOOT_DELAY 1000
 
 void Gui::logText(string message) {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -25,13 +28,26 @@ void logText(char *message) {
 }
 }
 
+Uint8 Gui::getR(string val) {
+    return atoi(Util::commaSep(val, 0).c_str());
+}
+
+Uint8 Gui::getG(string val) {
+    return atoi(Util::commaSep(val, 1).c_str());
+}
+
+Uint8 Gui::getB(string val) {
+    return atoi(Util::commaSep(val, 2).c_str());
+}
+
 
 void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text, TTF_Font *font,
                          SDL_Texture **texture, SDL_Rect *rect) {
     int text_width;
     int text_height;
     SDL_Surface *surface;
-    SDL_Color textColor = {255, 255, 255, 0};
+    string fg = themeData.values["text_fg"];
+    SDL_Color textColor = {getR(fg), getG(fg), getB(fg), 0};
 
     if (strlen(text) == 0) {
         *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, 0, 0);
@@ -42,7 +58,7 @@ void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
         return;
     }
 
-    surface = TTF_RenderText_Blended(font, text, textColor);
+    surface = TTF_RenderUTF8_Blended(font, text, textColor);
     *texture = SDL_CreateTextureFromSurface(renderer, surface);
     text_width = surface->w;
     text_height = surface->h;
@@ -74,11 +90,27 @@ int Gui::renderLogo(bool small) {
     }
 }
 
+SDL_Texture *Gui::loadThemeTexture(SDL_Renderer *renderer, string themePath, string defaultPath, string texname) {
+    SDL_Texture *tex;
+    if (Util::exists(themePath + themeData.values[texname])) {
+        tex = IMG_LoadTexture(renderer, (themePath + themeData.values[texname]).c_str());
+    } else {
+        tex = IMG_LoadTexture(renderer, (defaultPath + defaultData.values[texname]).c_str());
+    }
+    return tex;
+}
 
 void Gui::loadAssets() {
+    string defaultPath = Util::getWorkingPath() + Util::separator() + "theme" + Util::separator() + "default" +
+                         Util::separator();
     themePath = Util::getWorkingPath() + Util::separator() + "theme" + Util::separator() + cfg.inifile.values["theme"] +
                 Util::separator();
+
+    themeData.load(defaultPath + "theme.ini");
+    defaultData.load(defaultPath + "theme.ini");
     themeData.load(themePath + "theme.ini");
+
+    bool reloading = false;
 
     if (backgroundImg != NULL) {
         SDL_DestroyTexture(backgroundImg);
@@ -90,7 +122,11 @@ void Gui::loadAssets() {
         SDL_DestroyTexture(buttonStart);
         SDL_DestroyTexture(buttonSelect);
         SDL_DestroyTexture(buttonL1);
+        SDL_DestroyTexture(buttonR1);
+        SDL_DestroyTexture(buttonCheck);
+        SDL_DestroyTexture(buttonUncheck);
         TTF_CloseFont(font);
+        reloading = true;
         backgroundImg = NULL;
     }
 
@@ -99,17 +135,19 @@ void Gui::loadAssets() {
     logoRect.w = atoi(themeData.values["lw"].c_str());
     logoRect.h = atoi(themeData.values["lh"].c_str());
 
-    backgroundImg = IMG_LoadTexture(renderer, (themePath + themeData.values["background"]).c_str());
-    logo = IMG_LoadTexture(renderer, (themePath + themeData.values["logo"]).c_str());
+    backgroundImg = loadThemeTexture(renderer, themePath, defaultPath, "background");
+    logo = loadThemeTexture(renderer, themePath, defaultPath, "logo");
 
-    buttonO = IMG_LoadTexture(renderer, (themePath + themeData.values["circle"]).c_str());
-    buttonX = IMG_LoadTexture(renderer, (themePath + themeData.values["cross"]).c_str());
-    buttonT = IMG_LoadTexture(renderer, (themePath + themeData.values["triangle"]).c_str());
-    buttonS = IMG_LoadTexture(renderer, (themePath + themeData.values["square"]).c_str());
-    buttonSelect = IMG_LoadTexture(renderer, (themePath + themeData.values["select"]).c_str());
-    buttonStart = IMG_LoadTexture(renderer, (themePath + themeData.values["start"]).c_str());
-    buttonL1 = IMG_LoadTexture(renderer, (themePath + themeData.values["r1"]).c_str());
-
+    buttonO = loadThemeTexture(renderer, themePath, defaultPath, "circle");
+    buttonX = loadThemeTexture(renderer, themePath, defaultPath, "cross");
+    buttonT = loadThemeTexture(renderer, themePath, defaultPath, "triangle");
+    buttonS = loadThemeTexture(renderer, themePath, defaultPath, "square");
+    buttonSelect = loadThemeTexture(renderer, themePath, defaultPath, "select");
+    buttonStart = loadThemeTexture(renderer, themePath, defaultPath, "start");
+    buttonL1 = loadThemeTexture(renderer, themePath, defaultPath, "l1");
+    buttonR1 = loadThemeTexture(renderer, themePath, defaultPath, "r1");
+    buttonCheck = loadThemeTexture(renderer, themePath, defaultPath, "check");
+    buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
     string fontPath = (themePath + themeData.values["font"]).c_str();
     font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
 
@@ -128,15 +166,55 @@ void Gui::loadAssets() {
             if (Mix_PlayMusic(music, themeData.values["loop"] == "1" ? -1 : 0) == -1) {
                 printf("Unable to play music file: %s\n", Mix_GetError());
             }
+            if (!reloading)
+                Mix_VolumeMusic(0);
         }
 
 }
 
+void Gui::waitForGamepad() {
+    int joysticksFound = SDL_NumJoysticks();
+    while (joysticksFound == 0) {
+        drawText(_("PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC"));
+        SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+        SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+        joysticksFound = SDL_NumJoysticks();
+    }
+}
 
-void Gui::display(bool forceScan, string path, Database * db) {
+void Gui::criticalException(string text) {
+    drawText(text);
+    while (1) {
+        SDL_Event e;
+        if (SDL_PollEvent(&e)) {
+            if (e.type == SDL_QUIT)
+                return;
+            else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
+                return;
+
+            if (e.type == SDL_JOYBUTTONDOWN) {
+                return;
+            }
+        }
+    }
+}
+
+void Gui::display(bool forceScan, string path, Database *db) {
     this->path = path;
     this->forceScan = forceScan;
+    if (forceScan) overrideQuickBoot = true;
+
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO);
+    SDL_version compiled;
+    SDL_version linked;
+
+    SDL_VERSION(&compiled);
+    SDL_GetVersion(&linked);
+    printf("We compiled against SDL version %d.%d.%d ...\n",
+           compiled.major, compiled.minor, compiled.patch);
+    printf("But we are linking against SDL version %d.%d.%d.\n",
+           linked.major, linked.minor, linked.patch);
+
     Mix_Init(0);
     TTF_Init();
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
@@ -149,12 +227,16 @@ void Gui::display(bool forceScan, string path, Database * db) {
 
     GuiSplash *splashScreen = new GuiSplash(renderer);
     splashScreen->show();
+    delete splashScreen;
 
-    drawText("Upgrading AutoBleem - Please wait...");
-    VerMigration *migration=new VerMigration();
+    drawText(_("Upgrading AutoBleem - Please wait..."));
+    VerMigration *migration = new VerMigration();
     migration->migrate(db);
 
-    delete splashScreen;
+    if (cfg.inifile.values["quick"] != "true")
+        waitForGamepad();
+
+
 
 
 }
@@ -176,30 +258,85 @@ void Gui::saveSelection() {
 
 bool otherMenuShift = false;
 
+
+bool Gui::quickBoot() {
+
+    int currentTime = SDL_GetTicks();
+    string splashText = _("AutoBleem")+" " + cfg.inifile.values["version"];
+    if (cfg.inifile.values["quick"] == "true") {
+        splashText += " ("+_("Quick boot")+" - "+_("Hold")+" |@O| "+_("Menu")+")";
+    }
+
+    while (1) {
+        SDL_Event e;
+        if (SDL_PollEvent(&e)) {
+            if (e.type == SDL_QUIT)
+                return false;
+            else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
+                return false;
+
+            if (e.type == SDL_JOYBUTTONDOWN) {
+                overrideQuickBoot = true;
+                return false;
+            }
+        }
+        drawText(splashText);
+
+
+        int newTime = SDL_GetTicks();
+        int secs = QUICKBOOT_DELAY / 1000 - (newTime - currentTime) / 1000;
+        if (newTime - currentTime > QUICKBOOT_DELAY) {
+            return true;
+        }
+    }
+}
+
+
 void Gui::menuSelection() {
+    shared_ptr <Scanner> scanner(Scanner::getInstance());
 
-
-    otherMenuShift = false;
-    string retroarch = cfg.inifile.values["retroarch"];
-    string adv = cfg.inifile.values["adv"];
-    string mainMenu = "|@Start| AutoBleem    |@X|  Re/Scan   |@O|  Original  ";
-
-    if (retroarch == "true") {
-        mainMenu += "|@S|  RetroArch   ";
-    }
-    mainMenu += "|@T|  About   |@Select|  Options ";
-    if (adv == "true") {
-        mainMenu += "|@R1| Advanced";
-    }
-
-    string forceScanMenu = "Games changed. Press  |@X|  to scan|";
-    string otherMenu = "|@X|  Memory Cards   |@O|  Game Manager |";
-    cout << SDL_NumJoysticks() << "joysticks were found." << endl;
     SDL_Joystick *joystick;
     for (int i = 0; i < SDL_NumJoysticks(); i++) {
         joystick = SDL_JoystickOpen(i);
         cout << "--" << SDL_JoystickName(joystick) << endl;
     }
+    // Check if all OK
+    if (scanner->noGamesFound)
+    {
+        criticalException(_("WARNING: NO GAMES FOUND. PRESS ANY BUTTON."));
+    }
+    //
+    if (!coverdb->isValid())
+    {
+        criticalException(_("WARNING: NO COVER DB FOUND. PRESS ANY BUTTON."));
+    }
+    if (!overrideQuickBoot) {
+        bool quickBootCfg = (cfg.inifile.values["quick"] == "true");
+        if (quickBootCfg && !forceScan) {
+            if (quickBoot()) {
+
+                this->menuOption = MENU_OPTION_RUN;
+                return;
+            };
+
+        }
+    }
+    otherMenuShift = false;
+    string retroarch = cfg.inifile.values["retroarch"];
+    string adv = cfg.inifile.values["adv"];
+    string mainMenu = "|@Start| "+_("AutoBleem")+"    |@X|  "+_("Re/Scan")+"   |@O|  "+_("Original")+"  ";
+
+    if (retroarch == "true") {
+        mainMenu += "|@S|  "+_("RetroArch")+"   ";
+    }
+    mainMenu += "|@T|  "+_("About")+"  |@Select|  "+_("Options")+" ";
+    if (adv == "true") {
+        mainMenu += "|@L1| "+_("Advanced");
+    }
+
+    string forceScanMenu = _("Games changed. Press")+"  |@X|  "+_("to scan")+"|";
+    string otherMenu = "|@X|  "+_("Memory Cards")+"   |@O|  "+_("Game Manager")+" |";
+    cout << SDL_NumJoysticks() << "joysticks were found." << endl;
 
 
     if (!forceScan) {
@@ -324,6 +461,9 @@ void Gui::finish() {
     SDL_DestroyTexture(buttonStart);
     SDL_DestroyTexture(buttonSelect);
     SDL_DestroyTexture(buttonL1);
+    SDL_DestroyTexture(buttonR1);
+    SDL_DestroyTexture(buttonCheck);
+    SDL_DestroyTexture(buttonUncheck);
     SDL_DestroyRenderer(renderer);
 
 }
@@ -365,8 +505,11 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
             if (icon == "Select") {
                 textTexures.push_back(buttonSelect);
             }
-            if (icon == "R1") {
+            if (icon == "L1") {
                 textTexures.push_back(buttonL1);
+            }
+            if (icon == "R1") {
+                textTexures.push_back(buttonR1);
             }
             if (icon == "T") {
                 textTexures.push_back(buttonT);
@@ -374,10 +517,17 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
             if (icon == "X") {
                 textTexures.push_back(buttonX);
             }
+            if (icon == "Check") {
+                textTexures.push_back(buttonCheck);
+            }
+            if (icon == "Uncheck") {
+                textTexures.push_back(buttonUncheck);
+            }
         } else {
             SDL_Texture *textTex;
             SDL_Rect textRec;
-            getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), str.c_str(), font, &textTex, &textRec);
+            getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), str.c_str(), font, &textTex,
+                           &textRec);
             textTexures.push_back(textTex);
         }
     }
@@ -433,8 +583,15 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     SDL_SetRenderTarget(renderer, NULL);
 
     for (SDL_Texture *tex:textTexures) {
-        if ((tex != buttonSelect) && (tex != buttonS) && (tex != buttonStart) && (tex != buttonO) && (tex != buttonT) &&
+        if ((tex != buttonSelect) &&
+            (tex != buttonS) &&
+            (tex != buttonStart) &&
+            (tex != buttonO) &&
+            (tex != buttonT) &&
             (tex != buttonL1) &&
+            (tex != buttonR1) &&
+            (tex != buttonCheck) &&
+            (tex != buttonUncheck) &&
             (tex != buttonX))
 
             SDL_DestroyTexture(tex);
@@ -444,10 +601,11 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
 
 void Gui::renderStatus(string text) {
 
+    string bg = themeData.values["text_bg"];
 
     SDL_Texture *textTex;
     SDL_Rect textRec;
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
+    SDL_SetRenderDrawColor(renderer, getR(bg), getG(bg), getB(bg), atoi(themeData.values["textalpha"].c_str()));
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_Rect rect;
     rect.x = atoi(themeData.values["textx"].c_str());
@@ -476,6 +634,8 @@ void Gui::renderLabelBox(int line, int offset) {
     SDL_Texture *textTex;
     SDL_Rect textRec;
 
+    string bg = themeData.values["label_bg"];
+
     getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
 
     SDL_Rect rect2;
@@ -491,7 +651,8 @@ void Gui::renderLabelBox(int line, int offset) {
     rectSelection.w = rect2.w - 10;
     rectSelection.h = textRec.h;
 
-    SDL_SetRenderDrawColor(renderer, 230, 230, 230, OCD_ALPHA);
+
+    SDL_SetRenderDrawColor(renderer, getR(bg), getG(bg), getB(bg), atoi(themeData.values["keyalpha"].c_str()));
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_RenderFillRect(renderer, &rectSelection);
 }
@@ -500,6 +661,8 @@ void Gui::renderSelectionBox(int line, int offset) {
     SDL_Texture *textTex;
     SDL_Rect textRec;
 
+    string fg = themeData.values["text_fg"];
+
     getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
 
     SDL_Rect rect2;
@@ -515,16 +678,17 @@ void Gui::renderSelectionBox(int line, int offset) {
     rectSelection.w = rect2.w - 10;
     rectSelection.h = textRec.h;
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, OCD_ALPHA);
+    SDL_SetRenderDrawColor(renderer, getR(fg), getG(fg), getB(fg), 255);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_RenderDrawRect(renderer, &rectSelection);
 }
 
-void Gui::renderTextLine(string text, int line, int offset) {
-    renderTextLine(text, line, offset, false);
+int Gui::renderTextLine(string text, int line, int offset) {
+    return renderTextLine(text, line, offset, false);
 }
 
-void Gui::renderTextLine(string text, int line, int offset, bool center) {
+int Gui::renderTextLine(string text, int line, int offset, bool center) {
+
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
@@ -535,10 +699,13 @@ void Gui::renderTextLine(string text, int line, int offset, bool center) {
     SDL_Rect textRec;
 
     getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
-
+    getEmojiTextTexture(renderer, text.c_str(), font, &textTex, &textRec);
+    textRec.x = rect2.x + 10;
+    textRec.y = (textRec.h * line) + offset;
+    /*
     getTextAndRect(renderer, rect2.x + 10, (textRec.h * line) + offset,
                    text.c_str(), font, &textTex, &textRec);
-
+    */
     if (textRec.w >= (1280 - rect2.x * 4)) {
         textRec.w = (1280 - rect2.x * 4);
     }
@@ -549,6 +716,7 @@ void Gui::renderTextLine(string text, int line, int offset, bool center) {
 
     SDL_RenderCopy(renderer, textTex, NULL, &textRec);
     SDL_DestroyTexture(textTex);
+    return textRec.h;
 }
 
 void Gui::renderTextChar(string text, int line, int offset, int posx) {
@@ -570,7 +738,8 @@ void Gui::renderTextChar(string text, int line, int offset, int posx) {
 }
 
 void Gui::renderTextBar() {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, OCD_ALPHA);
+    string bg = themeData.values["main_bg"];
+    SDL_SetRenderDrawColor(renderer, getR(bg), getG(bg), getB(bg), atoi(themeData.values["mainalpha"].c_str()));
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
     SDL_Rect rect2;
@@ -581,4 +750,19 @@ void Gui::renderTextBar() {
 
     SDL_RenderFillRect(renderer, &rect2);
 
+}
+
+void Gui::renderFreeSpace() {
+    SDL_Texture *textTex;
+    SDL_Rect textRec;
+    SDL_Rect rect;
+
+    rect.x = atoi(themeData.values["fsposx"].c_str());
+    rect.y = atoi(themeData.values["fsposy"].c_str());
+    getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
+    getEmojiTextTexture(renderer, _("Free space")+" : " + Util::getAvailableSpace(), font, &textTex, &textRec);
+    rect.w = textRec.w;
+    rect.h = textRec.h;
+    SDL_RenderFillRect(renderer, &rect);
+    SDL_RenderCopy(renderer, textTex, NULL, &rect);
 }

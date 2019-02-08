@@ -6,142 +6,10 @@
 #include "isodir.h"
 #include "inifile.h"
 #include "cfgprocessor.h"
+#include "gui.h"
+#include "serialscanner.h"
 
 using namespace std;
-
-string fixSerial(string serial) {
-    replace(serial.begin(), serial.end(), '_', '-');
-    serial.erase(std::remove(serial.begin(), serial.end(), '.'), serial.end());
-    string fixed = "";
-    stringstream alpha;
-    stringstream digits;
-    bool digitsProcessing = false;
-    for (int i = 0; i < serial.size(); i++) {
-        int maxchars = serial[0] == 'L' ? 3 : 4;
-        if (!isdigit(serial[i])) {
-
-            if (digitsProcessing) continue;
-            if (serial[i] == '-') continue;
-            if (alpha.str().length() < maxchars) {
-                alpha << serial[i];
-            }
-        } else {
-            digitsProcessing = true;
-            digits << serial[i];
-        }
-    }
-    return alpha.str() + "-" + digits.str();
-}
-
-string Game::scanSerial() {
-    if (imageType == 1) {
-        string destinationDir = fullPath ;
-        string pbpFileName = Util::findFirstFile(EXT_PBP, destinationDir);
-        if (pbpFileName != "") {
-            ifstream is;
-            is.open(destinationDir + pbpFileName);
-
-            long magic = Util::readDword(&is);
-            if (magic != 0x50425000) {
-                return "";
-            }
-            long second = Util::readDword(&is);
-            if (second != 0x10000) {
-                return "";
-            }
-            long sfoStart = Util::readDword(&is);
-
-            is.seekg(sfoStart, ios::beg);
-
-            unsigned int signature = Util::readDword(&is);
-            if (signature != 1179865088) {
-                return "";
-            }
-            unsigned int version = Util::readDword(&is);;
-            unsigned int fields_table_offs = Util::readDword(&is);
-            unsigned int values_table_offs = Util::readDword(&is);
-            int nitems = Util::readDword(&is);
-
-            vector<string> fields;
-            vector<string> values;
-            fields.clear();
-            values.clear();
-            is.seekg(sfoStart, ios::beg);
-            is.seekg(fields_table_offs, ios::cur);
-            for (int i = 0; i < nitems; i++) {
-                string fieldName = Util::readString(&is);
-                Util::skipZeros(&is);
-                fields.push_back(fieldName);
-            }
-
-            is.seekg(sfoStart, ios::beg);
-            is.seekg(values_table_offs, ios::cur);
-            for (int i = 0; i < nitems; i++) {
-                string valueName = Util::readString(&is);
-                Util::skipZeros(&is);
-                values.push_back(valueName);
-            }
-
-            is.close();
-
-            for (int i = 0; i < nitems; i++) {
-                if (fields[i] == "DISC_ID") {
-                    string potentialSerial = values[i];
-                    return fixSerial(potentialSerial);
-                }
-            }
-        }
-    }
-    if (imageType == 0) {
-
-
-        string prefixes[] = {
-                "CPCS", "ESPM", "HPS", "LPS", "LSP", "SCAJ", "SCED", "SCES", "SCPS", "SCUS", "SIPS", "SLES", "SLKA",
-                "SLPM", "SLPS", "SLUS"};
-
-        if (firstBinPath == "") {
-            return ""; // not at this stage
-        }
-
-
-        for (int level = 1; level < 4; level++) {
-            Isodir *dirLoader = new Isodir();
-            IsoDirectory dir = dirLoader->getDir(firstBinPath, level);
-            delete dirLoader;
-            string serialFound = "";
-            if (!dir.rootDir.empty()) {
-                for (string entry:dir.rootDir) {
-                    cout << entry << endl;
-                    string potentialSerial = fixSerial(entry);
-                    for (string prefix:prefixes) {
-                        int pos = potentialSerial.find(prefix.c_str(), 0);
-                        if (pos == 0) {
-                            serialFound = potentialSerial;
-                            cout << "Serial number: " << serialFound << endl;
-                            return serialFound;
-                        }
-
-                    }
-                }
-                string volume = fixSerial(dir.volumeName);
-                for (string prefix:prefixes) {
-                    int pos = volume.find(prefix.c_str(), 0);
-                    if (pos == 0) {
-                        serialFound = volume;
-                        cout << "Serial number: " << serialFound << endl;
-                        return serialFound;
-                    }
-
-                }
-
-            } else {
-                return "";
-            }
-
-        }
-    }
-    return "";
-}
 
 bool Game::validateCue(string cuePath, string path) {
     vector<string> binFiles;
@@ -257,14 +125,14 @@ void Game::recoverMissingFiles() {
     Metadata md;
     bool metadataLoaded = false;
 
-    if (this->imageType == 1) {
+    if (this->imageType == IMAGE_PBP) {
 
         // disc link
         string destinationDir = fullPath ;
         string pbpFileName = Util::findFirstFile(EXT_PBP, destinationDir);
         if (pbpFileName != "") {
             if (discs.size() == 0) {
-                automationUsed = true;
+                automationUsed = false;
                 Disc disc;
                 disc.diskName = pbpFileName;
                 disc.cueFound = true;
@@ -273,9 +141,12 @@ void Game::recoverMissingFiles() {
                 discs.push_back(disc);
 
             }
+        } else
+        {
+            automationUsed = true;
         }
     }
-    if (this->imageType == 0) {
+    if (this->imageType == IMAGE_CUE_BIN) {
 
 
         if (discs.size() == 0) {
@@ -313,10 +184,12 @@ void Game::recoverMissingFiles() {
             cerr << "SRC:" << source << " DST:" << destination << endl;
             Util::copy(source, destination);
             // maybe we can do better ?
-            string serial = scanSerial();
+            SerialScanner * serialScanner = new SerialScanner();
+            string serial = serialScanner->scanSerial(imageType,fullPath,firstBinPath);
+            delete serialScanner;
             if (serial != "") {
 
-                if (md.lookup(serial)) {
+                if (md.lookupBySerial(serial)) {
                     metadataLoaded = true;
                     cout << "Updating cover" << destination << endl;
                     ofstream pngFile;
@@ -341,16 +214,17 @@ void Game::recoverMissingFiles() {
         string source = path + Util::separator() + "pcsx.cfg";
         string destination = fullPath + "pcsx.cfg";
         cerr << "SRC:" << source << " DST:" << destination << endl;
-        CfgProcessor *pcsxProcessor = new CfgProcessor();
 
         int region = 0;
         bool japan = false;
 
 
         if (!metadataLoaded) {
-            string serial = scanSerial();
+            SerialScanner * serialScanner = new SerialScanner();
+            string serial = serialScanner->scanSerial(imageType,fullPath,firstBinPath);
+            delete serialScanner;
             if (serial != "") {
-                metadataLoaded = md.lookup(serial);
+                metadataLoaded = md.lookupBySerial(serial);
             }
 
         }
@@ -371,9 +245,13 @@ void Game::recoverMissingFiles() {
 
         }
         md.clean();
-        pcsxProcessor->process(source, destination, region, japan, 1, false, 39);
-        delete pcsxProcessor;
-        // Util::copy(source, destination);
+        shared_ptr<Gui> gui(Gui::getInstance());
+        Util::copy(source, destination);
+
+        CfgProcessor * processor=new CfgProcessor();
+        processor->replace(pathName, gui->path, "region", "region = " + to_string(region));
+
+        delete(processor);
         pcsxCfgFound = true;
     }
 
@@ -385,14 +263,20 @@ void Game::updateObj() {
     title = valueOrDefault("title", pathName);
     memcard = valueOrDefault("memcard", "");
 
+
     publisher = valueOrDefault("publisher", "Other");
     string automation = valueOrDefault("automation", "0");
     automationUsed = atoi(automation.c_str());
     tmp = valueOrDefault("players", "1");
     if (Util::isInteger(tmp.c_str())) players = atoi(tmp.c_str()); else players = 1;
     tmp = valueOrDefault("year", "2018");
+
+
     if (Util::isInteger(tmp.c_str())) year = atoi(tmp.c_str()); else year = 2018;
+    tmp = valueOrDefault("highres","0");
+    if (Util::isInteger(tmp.c_str())) highRes = atoi(tmp.c_str()); else highRes = 0;
     tmp = valueOrDefault("discs", "");
+
     if (!tmp.empty()) {
         vector<string> strings;
         istringstream f(tmp);
@@ -404,7 +288,7 @@ void Game::updateObj() {
         for (int i = 0; i < strings.size(); i++) {
             Disc disc;
             disc.diskName = strings[i];
-            if (imageType == 0) {
+            if (imageType == IMAGE_CUE_BIN) {
                 string cueFile = fullPath  + disc.diskName + EXT_CUE;
                 bool discCueExists = Util::exists(cueFile);
                 if (discCueExists) {
@@ -414,7 +298,7 @@ void Game::updateObj() {
                 }
                 discs.push_back(disc);
             }
-            if (imageType == 1) {
+            if (imageType == IMAGE_PBP) {
                 string pbpName = Util::findFirstFile(EXT_PBP, fullPath );
                 if (pbpName == disc.diskName) {
                     disc.cueFound = true;
@@ -444,6 +328,7 @@ void Game::saveIni(string path) {
     ini->values["players"] = to_string(players);
     ini->values["automation"] = to_string(automationUsed);
     ini->values["imagetype"] = to_string(imageType);
+    ini->values["highres"] = to_string(highRes);
     if (memcard.empty())
     {
         ini->values["memcard"] = "SONY";

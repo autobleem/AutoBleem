@@ -12,6 +12,8 @@
 #include "gui_keyboard.h"
 #include "gui_selectmemcard.h"
 #include "memcard.h"
+#include "cfgprocessor.h"
+#include "lang.h"
 
 
 void GuiEditor::init() {
@@ -25,6 +27,18 @@ void GuiEditor::init() {
             this->game.values["memcard"] = "SONY";
         }
     }
+
+    bool pngLoaded = false;
+    for (DirEntry entry:Util::diru(gui->path + Util::separator() + game.entry)) {
+        if (Util::matchExtension(entry.name, EXT_PNG)) {
+            cover = IMG_LoadTexture(renderer, (gui->path + Util::separator() + game.entry + Util::separator() +
+                                               entry.name).c_str());
+            pngLoaded = true;
+        }
+    }
+    if (!pngLoaded) {
+        cover = IMG_LoadTexture(renderer, (Util::getWorkingPath() + Util::separator() + "default.png").c_str());
+    }
 }
 
 void GuiEditor::render() {
@@ -35,29 +49,44 @@ void GuiEditor::render() {
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     gui->renderTextLine("-=" + game.values["title"] + "=-", 0, offset, true);
-    gui->renderTextLine("Folder: " + game.entry + "", 1, offset, true);
-    gui->renderTextLine("Published by: " + game.values["publisher"] + "   Year:" + game.values["year"] + "   Players:" +
-                        game.values["players"], 2, offset, true);
-    gui->renderTextLine("Memory Card: " +
-                        (game.values["memcard"] == "SONY" ? string("Internal") : game.values["memcard"] + "(Custom)"),
-                        3, offset, true);
-    gui->renderTextLine("Block updates: " + (game.values["automation"] == "0" ? string("True") : string("False")), 4,
-                        offset, true);
-    gui->renderTextLine("", 5, offset, false);
+    gui->renderTextLine(_("Folder:")+" " + game.entry + "", 1, offset, true);
+    gui->renderTextLine(_("Published by:")+" " + game.values["publisher"], 2, offset, true);
+    gui->renderTextLine(_("Year:") + game.values["year"] + "   "+_("Players:") +
+                        game.values["players"], 3, offset, true);
 
-    string guiMenu = "|@X| Rename  |@S| Change MC ";
+
+    gui->renderTextLine(_("Memory Card:")+" " +
+                        (game.values["memcard"] == "SONY" ? string(_("Internal")) : game.values["memcard"] + _("(Custom)")),
+                        4, offset, true);
+
+    gui->renderTextLine(_("Lock data:") + (game.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|"))
+                        + "  "+_("High res:") + (game.values["highres"] == "1" ? string("|@Check|") : string("|@Uncheck|")),
+                        5, offset,
+                        true);
+
+
+    string guiMenu = "|@Select| "+_("Lock")+"  |@Start| "+_("Hi/Lo Res")+"   |@X| "+_("Rename")+"  |@S| "+_("Change MC")+" ";
+
     if (game.values["memcard"] == "SONY") {
-        guiMenu += "|@T| Share MC  ";
+        guiMenu += "|@T| "+_("Share MC")+"  ";
     }
 
 
-    if (game.values["automation"] == "1") {
-        guiMenu += "|@Start| Block Data  ";
-    }
 
-    guiMenu += "|@O| Go back|";
+
+
+    guiMenu += " |@O| "+_("Go back")+"|";
 
     gui->renderStatus(guiMenu);
+
+    SDL_Rect rect;
+    rect.x = atoi(gui->themeData.values["ecoverx"].c_str());
+    rect.y = atoi(gui->themeData.values["ecovery"].c_str());
+    rect.w = 226;
+    rect.h = 226;
+
+    SDL_RenderCopy(renderer, cover, NULL, &rect);
+
     SDL_RenderPresent(renderer);
 }
 
@@ -77,7 +106,7 @@ void GuiEditor::loop() {
                     if (game.values["memcard"] == "SONY") {
                         if (e.jbutton.button == PCS_BTN_TRIANGLE) {
                             GuiKeyboard *keyboard = new GuiKeyboard(renderer);
-                            keyboard->label = "Enter new name for memory card";
+                            keyboard->label = _("Enter new name for memory card");
                             keyboard->result = game.values["title"];
                             keyboard->show();
                             string result = keyboard->result;
@@ -103,14 +132,35 @@ void GuiEditor::loop() {
                         };
                     }
 
-                    if (game.values["automation"] == "1") {
-                        if (e.jbutton.button == PCS_BTN_START) {
-                            game.values["automation"] = "0";
-                            game.save(game.path);
-                            render();
 
-                        };
-                    }
+                    if (e.jbutton.button == PCS_BTN_SELECT) {
+                        if (game.values["automation"] == "1") {
+                            game.values["automation"] = "0";
+                        } else {
+                            game.values["automation"] = "1";
+                        }
+                        game.save(game.path);
+                        render();
+
+                    };
+
+
+                    if (e.jbutton.button == PCS_BTN_START) {
+                        if (game.values["highres"] == "1") {
+                            game.values["highres"] = "0";
+                        } else {
+                            game.values["highres"] = "1";
+                        }
+
+                        game.save(game.path);
+                        CfgProcessor *processor = new CfgProcessor();
+
+                        processor->replace(game.entry, gui->path, "gpu_neon.enhancement_enable",
+                                           "gpu_neon.enhancement_enable = " + game.values["highres"]);
+                        delete processor;
+                        render();
+                    };
+
 
 
                     if (e.jbutton.button == PCS_BTN_SQUARE) {
@@ -134,13 +184,15 @@ void GuiEditor::loop() {
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
 
+                        SDL_DestroyTexture(cover);
+                        cover = nullptr;
                         menuVisible = false;
 
                     };
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
                         GuiKeyboard *keyboard = new GuiKeyboard(renderer);
-                        keyboard->label = "Enter new game name";
+                        keyboard->label = _("Enter new game name");
                         keyboard->result = game.values["title"];
                         keyboard->show();
                         string result = keyboard->result;

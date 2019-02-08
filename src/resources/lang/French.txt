@@ -1,0 +1,156 @@
+ - Automatic PlayStation Classic USB launcher
+ - Launcher USB Automatique PlayStation Classic
+'Tenchu' theme by Kevzombie
+Thème 'Tenchu' par Kevzombie
+-=About=-
+-=A propos=-
+-=Configuration=-
+-=Paramètres=-
+-=Game manager - Select game=-
+-=Gestion des jeux - Choisir un jeu=-
+About
+A propos
+Advanced
+Paramètres avancés
+Advanced:
+Paramètres avancés:
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+Thème AutoBleem:
+Background Music:
+Musique de fond:
+Close
+Fermer
+Download latest: https://github.com/screemerpl/cbleemsync
+Dernière version: https://github.com/screemerpl/cbleemsync
+Free space
+Espace disponible
+GFX Filter:
+Filtre graphique:
+Game
+Jeu
+Game Manager
+Gestionnaire de jeux
+Games changed. Press
+Changement des jeux. Appuyer sur
+Go back
+Retour
+Loading ... Please Wait ...
+Veuillez patienter ...
+Memory Cards
+Cartes mémoires
+Menu Theme:
+Thème du menu:
+Options
+Options
+PCSX Version:
+Version PCSX:
+Page
+Page
+QuickBoot:
+Démarrage rapide:
+Re/Scan
+Relancer le scan
+RetroArch
+RetroArch
+Scanning...
+Scan en cours...
+Select
+Choisir
+Show RetroArch:
+Afficher RetroArch:
+Support via Discord: https://discord.gg/AHUS3RM
+Support via Discord: https://discord.gg/AHUS3RM
+This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+Ce logiciel est gratuit et open source. Il est fourni tel quel et aucun problème ou dommage ne pourra nous être imputé.
+Total:
+Total:
+Updating regional.db...
+Mise a jour du fichuer regional.db...
+Upgrading AutoBleem - Please wait...
+Mise a jour d'AutoBleem - Veuillez patienter...
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+ATTENTION : AUCUN JEU TROUVÉ. APPUYER SUR UNE TOUCHE.
+games scanned
+jeux scannés
+to scan
+à scanner
+Game:
+Jeu:
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Folder:
+Dossier:
+Published by:
+Publié par:
+Players:
+Joueurs:
+Year:
+Année:
+Memory Card:
+Carte mémoire:
+High res:
+Haute définition:
+Lock data:
+Verrouiller les données:
+Change MC
+Charger CM
+Hi/Lo Res
+Haute/Basse Définition
+Lock
+Verrouiller
+Share MC
+Partager CM
+(Internal)
+(Interne)
+-=Select memory card=-
+-=Sélection carte mémoire=-
+Card
+Carte
+-=Custom Memory Cards=-
+-=Cartes Mémoires personnalisées=-
+Delete
+Supprimer
+New Card
+Nouvelle Carte
+Rename
+Renommer
+Enter new name for memory card
+Nouveau nom de la carte mémoire
+Cancel
+Annuler
+Confirm
+Valider
+Space
+Espace
+Enter new game name
+Nouveau nom du jeu
+Original
+Original
+Enter new card name
+Nouveau nom de la carte
+Delete card
+Supprimer carte
+-=Please confirm=-
+-=Veuillez valider=-
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+VEUILLEZ CONNECTER UNE MANETTE A LA CONSOLE
+Caps
+Maj
+Internal
+Interne
+(Custom)
+(Personnalisée)
+Enter new name for card
+Nouveau nom de la carte
+Menu
+Menu
+Quick boot
+Démarrage rapide
+Hold
+Maintenir
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+ATTANTION : PAS DE BDD DE JAQUETTE TROUVÉES. APPUYER SUR UNE TOUCHE
+
+

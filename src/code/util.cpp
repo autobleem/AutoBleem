@@ -3,7 +3,10 @@
 
 #include <fstream>
 #include <sys/stat.h>
+#include <unistd.h>
+#include <math.h>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 #define FILE_BUFFER 524288
@@ -17,11 +20,21 @@ const char *Util::separator() {
 }
 
 bool wayToSort(DirEntry i, DirEntry j) {
-    string name1=i.name;
-    string name2=j.name;
-    name1=lcase(name1);
-    name2=lcase(name2);
+    string name1 = i.name;
+    string name2 = j.name;
+    name1 = lcase(name1);
+    name2 = lcase(name2);
     return name1 < name2;
+}
+
+string fixPath(string path)
+{
+    trim(path);
+    if (path.back()==Util::separator()[0])
+    {
+        path = path.substr(0,path.size()-1);
+    }
+    return path;
 }
 
 void Util::replaceAll(std::string &str, const std::string &from, const std::string &to) {
@@ -51,7 +64,15 @@ std::string Util::getWorkingPath() {
     return (getcwd(temp, sizeof(temp)) ? std::string(temp) : std::string(""));
 }
 
+bool Util::isDirectory(string path)
+{
+    struct stat path_stat;
+    stat(path.c_str(), &path_stat);
+    return S_ISDIR(path_stat.st_mode);
+}
+
 vector<DirEntry> Util::dir(string path) {
+    fixPath(path);
     vector<DirEntry> result;
     DIR *dir = opendir(path.c_str());
     if (dir != NULL) {
@@ -69,6 +90,7 @@ vector<DirEntry> Util::dir(string path) {
 }
 
 vector<DirEntry> Util::diru(string path) {
+    fixPath(path);
     vector<DirEntry> result;
     DIR *dir = opendir(path.c_str());
     if (dir != NULL) {
@@ -88,19 +110,20 @@ vector<DirEntry> Util::diru(string path) {
 }
 
 bool Util::exists(const std::string &name) {
-
+    fixPath(name);
     struct stat buffer;
     return (stat(name.c_str(), &buffer) == 0);
 
 }
 
 bool Util::createDir(const std::string name) {
+    fixPath(name);
     const int dir_err = mkdir(name.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     return (-1 != dir_err);
-
 }
 
 int Util::rmDir(string path) {
+    fixPath(path);
     DIR *d = opendir(path.c_str());
     size_t path_len = path.size();
     int r = -1;
@@ -181,6 +204,7 @@ bool Util::copy(string source, string dest) {
 }
 
 string Util::findFirstFile(string ext, string path) {
+    fixPath(path);
     vector<DirEntry> entries = diru(path);
     for (DirEntry entry:entries) {
         if (matchExtension(entry.name, ext)) {
@@ -191,6 +215,7 @@ string Util::findFirstFile(string ext, string path) {
 }
 
 bool Util::matchExtension(string path, string ext) {
+    fixPath(path);
     if (path.length() >= 4) {
         string fileExt = path.substr(path.length() - 4, path.length());
         if (fileExt[0] != '.') {
@@ -267,4 +292,60 @@ unsigned long Util::readDword(ifstream *stream) {
     return res;
 
 }
+string Util::getAvailableSpace(){
+    string str;
+    int gb = 1024 * 1024;
+    string dfResult;
+    float freeSpace;
+    float totalSpace;
+    int freeSpacePerc;
+    freeSpace = ((float)(stoi(execUnixCommad("df | grep \"media\" | head -1 | awk '{print $4}'"))))/gb;
+    totalSpace = ((float)(stoi(execUnixCommad("df | grep \"media\" | head -1 | awk '{print $2}'"))))/gb;
+    freeSpacePerc = (freeSpace / totalSpace) * 100;
+    str = floatToString(freeSpace, 2) + " GB / " + floatToString(totalSpace,2)+ " GB (" + to_string(freeSpacePerc)+"%)";
+    return str;
+}
 
+
+string Util::floatToString(float f, int n){
+    std::ostringstream stringStream;
+    stringStream << std::fixed << std::setprecision(n) << f;
+    return stringStream.str();
+}
+
+string Util::commaSep(string s, int pos) {
+    vector<string> v;
+    v.clear();
+    char c = ',';
+    int i = 0;
+    int j = s.find(c);
+
+    while (j >= 0) {
+        v.push_back(s.substr(i, j - i));
+        i = ++j;
+        j = s.find(c, j);
+
+        if (j < 0) {
+            v.push_back(s.substr(i, s.length()));
+        }
+    }
+    if (pos<v.size())
+    {
+        return v[pos];
+    }
+    return "";
+}
+
+string Util::execUnixCommad(const char* cmd){
+    array<char, 128> buffer;
+    string result;
+    unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+    if (!pipe) {
+        throw runtime_error("popen() failed!");
+    }
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+        result += buffer.data();
+    }
+    result.erase(remove(result.begin(),result.end(),'\n'));
+    return result;
+}

@@ -1,0 +1,156 @@
+﻿ - Automatic PlayStation Classic USB launcher
+ - Automatischer PlayStation Classic USB launcher
+'Tenchu' theme by Kevzombie
+'Tenchu' Theme von Kevzombie
+-=About=-
+-=Über=-
+-=Configuration=-
+-=Konfiguration=-
+-=Game manager - Select game=-
+-=Spielemanager - Spiel auswählen=-
+About
+Über
+Advanced
+Erweitert
+Advanced:
+Erweitert:
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+AutoBleem Theme:
+Background Music:
+Hintergrunds Musik:
+Close
+Schliessen
+Download latest: https://github.com/screemerpl/cbleemsync
+Aktuellste version: https://github.com/screemerpl/cbleemsync
+Free space
+Freier Speicher
+GFX Filter:
+Grafik Filter:
+Game
+Spiel
+Game Manager
+Spielemanager
+Games changed. Press
+Spiele aktualisiert. Drücke
+Go back
+Zurück
+Loading ... Please Wait ...
+Laden ... Bitte warten ...
+Memory Cards
+Memory Cards
+Menu Theme:
+Menü Theme:
+Options
+Optionen
+PCSX Version:
+PCSX Version:
+Page
+Seite
+QuickBoot:
+Schnellstart:
+Re/Scan
+Neu/Scannen
+RetroArch
+RetroArch
+Scanning...
+Scanne...
+Select
+Auswählen
+Show RetroArch:
+Zeige RetroArch:
+Support via Discord: https://discord.gg/AHUS3RM
+Support Discord: https://discord.gg/AHUS3RM
+This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+Dies ist eine freie und quelloffene Software. Es funktioniert wie vorgegeben und wir tragen keine Verantwortung für eventuelle Schäden.
+Total:
+Insgesamt:
+Updating regional.db...
+Aktualisiere regional.db...
+Upgrading AutoBleem - Please wait...
+Aktualisiere AutoBleem - Bitte warten...
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+WARNUNG: KEINE SPIELE GEFUNDEN. BELIEBIGE TASTE DRÜCKEN.
+games scanned
+Spiele gescanned
+to scan
+zum scannen
+Game:
+Spiel:
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Authoren: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Folder:
+Ordner:
+Published by:
+Veröffentlicht von:
+Players:
+Spieler:
+Year:
+Jahr:
+Memory Card:
+Memory Card:
+High res:
+Hohe Auflösung:
+Lock data:
+Daten Sperren:
+Change MC
+Memory Card wechseln
+Hi/Lo Res
+Hohe/Niedrige Auflösung
+Lock
+Sperren
+Share MC
+MC teilen
+(Internal)
+(Intern)
+-=Select memory card=-
+-=Memory card auswählen=-
+Card
+Karte
+-=Custom Memory Cards=-
+-=Benutzerdefinierte Memory Cards=-
+Delete
+Löschen
+New Card
+Neue Karte
+Rename
+Umbenennen
+Enter new name for memory card
+Neuen Namen für memorycard eingeben
+Cancel
+Abbrechen
+Confirm
+Bestätigen
+Space
+Leertaste
+Enter new game name
+Neuen Spielnamen eingeben
+Original
+Original
+Enter new card name
+Name für neue Karte
+Delete card
+Karte löschen
+-=Please confirm=-
+-=Bitte bestätigen=-
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+BITTE CONTROLLER AN DIE PLAYSTATION CLASSIC ANSCHLIESSEN
+Caps
+Großbuchstaben
+Internal
+Intern
+(Custom)
+(Benutzer)
+Enter new name for card
+Neuer Name für Karte eingeben
+Menu
+Menü
+Quick boot
+Schnellstart
+Hold
+Halten
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+WARNUNG: COVER DB/S NICHT GEFUNDEN. BELIEBIGE TASTE DRÜCKEN
+Language:
+Sprache:

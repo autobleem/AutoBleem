@@ -18,7 +18,11 @@ public:
     void render();
     void loop();
     string getOption(vector<string> list, string current, bool next);
+    string getBooleanIcon(string input);
+    void renderOptionLine(string text, int pos, int offset);
+
     int selOption=0;
+    int totalHeight=0;
 
     vector<string> themes;
     vector<string> sthemes;
@@ -26,9 +30,10 @@ public:
     vector<string> mip;
     vector<string> nomusic;
     vector<string> autoregion;
-
+    vector<string> quickboot;
     vector<string> retroarch;
     vector<string> adv;
+    vector<string> languages;
 
     using GuiScreen::GuiScreen;
 };

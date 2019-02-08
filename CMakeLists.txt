@@ -37,7 +37,35 @@ add_executable(autobleem-gui
 		src/code/config.h
 		src/code/cfgprocessor.cpp
 		src/code/cfgprocessor.h
-        src/code/memcard.cpp src/code/memcard.h src/code/gui_about.cpp src/code/gui_about.h src/code/gui_screen.cpp src/code/gui_screen.h src/code/gui_splash.cpp src/code/gui_splash.h src/code/gui_options.cpp src/code/gui_options.h src/code/gui_memcards.cpp src/code/gui_memcards.h src/code/gui_confirm.cpp src/code/gui_confirm.h src/code/gui_keyboard.cpp src/code/gui_keyboard.h src/code/gui_manager.cpp src/code/gui_manager.h src/code/gui_editor.cpp src/code/gui_editor.h src/code/gui_selectmemcard.cpp src/code/gui_selectmemcard.h src/code/ver_migration.cpp src/code/ver_migration.h)
+        src/code/memcard.cpp
+		src/code/memcard.h
+		src/code/gui_about.cpp
+		src/code/gui_about.h
+		src/code/gui_screen.cpp
+		src/code/gui_screen.h
+		src/code/gui_splash.cpp
+		src/code/gui_splash.h
+		src/code/gui_options.cpp
+		src/code/gui_options.h
+		src/code/gui_memcards.cpp
+		src/code/gui_memcards.h
+		src/code/gui_confirm.cpp
+		src/code/gui_confirm.h
+		src/code/gui_keyboard.cpp
+		src/code/gui_keyboard.h
+		src/code/gui_manager.cpp
+		src/code/gui_manager.h
+		src/code/gui_editor.cpp
+		src/code/gui_editor.h
+		src/code/gui_selectmemcard.cpp
+		src/code/gui_selectmemcard.h
+		src/code/ver_migration.cpp
+		src/code/ver_migration.h
+		src/code/coverdb.cpp
+		src/code/coverdb.h
+		src/code/serialscanner.cpp
+		src/code/serialscanner.h
+		src/code/lang.cpp src/code/lang.h)
 
 add_executable(starter
 		src/code/starter.cpp
@@ -65,6 +93,4 @@ add_custom_command(TARGET autobleem-gui PRE_BUILD
 configure_file(src/resources/default.lic default.lic COPYONLY)
 configure_file(src/resources/default.png default.png COPYONLY)
 configure_file(src/resources/pcsx.cfg pcsx.cfg COPYONLY)
-configure_file(db/coversU.db coversU.db COPYONLY)
-configure_file(db/coversP.db coversP.db COPYONLY)
 

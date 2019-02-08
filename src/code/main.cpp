@@ -11,14 +11,17 @@
 #include "gui.h"
 #include "main.h"
 #include "ver_migration.h"
+#include "coverdb.h"
 
 
 using namespace std;
 
 #include "memcard.h"
+#include "lang.h"
 
 
-int scanGames( string path, string dbpath, Scanner * scanner) {
+int scanGames(string path, string dbpath) {
+    shared_ptr <Scanner> scanner(Scanner::getInstance());
     Database *db = new Database();
     if (!db->connect(dbpath)) {
         delete db;
@@ -37,8 +40,8 @@ int scanGames( string path, string dbpath, Scanner * scanner) {
 
 
     db->disconnect();
-    shared_ptr<Gui> gui(Gui::getInstance());
-    gui->drawText("Total: "+to_string(scanner->games.size())+" games scanned.");
+    shared_ptr <Gui> gui(Gui::getInstance());
+    gui->drawText(_("Total:")+" " + to_string(scanner->games.size()) + " "+_("games scanned")+".");
     sleep(1);
     delete db;
     return (EXIT_SUCCESS);
@@ -46,53 +49,52 @@ int scanGames( string path, string dbpath, Scanner * scanner) {
 
 
 int main(int argc, char *argv[]) {
+    shared_ptr <Lang> lang(Lang::getInstance());
     if (argc < 3) {
         cout << "USAGE: bleemsync /path/dbfilename.db /path/to/games" << endl;
         return EXIT_FAILURE;
     }
+    shared_ptr <Gui> gui(Gui::getInstance());
+    shared_ptr <Scanner> scanner(Scanner::getInstance());
+
+    lang->load(gui->cfg.inifile.values["language"]);
+
+    Coverdb *coverdb = new Coverdb();
+    gui->coverdb = coverdb;
 
 
-
-
-
-
-    Scanner *scanner = new Scanner();
     Database *db = new Database();
     if (!db->connect(argv[1])) {
         delete db;
         return EXIT_FAILURE;
     }
 
-
-
-
     string dbpath = argv[1];
     string path = argv[2];
 
     Memcard *memcardOperation = new Memcard(path);
-    memcardOperation->restoreAll(path+Util::separator()+"!SaveStates");
+    memcardOperation->restoreAll(path + Util::separator() + "!SaveStates");
     delete memcardOperation;
 
-    if (scanner->isFirstRun(path,db))
-    {
+    if (scanner->isFirstRun(path, db)) {
         scanner->forceScan = true;
     }
 
-    shared_ptr<Gui> gui(Gui::getInstance());
-    gui->display(scanner->forceScan, path,db);
+
+
+
+    gui->display(scanner->forceScan, path, db);
     db->disconnect();
     delete db;
-    gui->drawText("AutoBleem");
-    while (gui->menuOption==MENU_OPTION_SCAN) {
+    while (gui->menuOption == MENU_OPTION_SCAN) {
+
         gui->menuSelection();
         gui->saveSelection();
         if (gui->menuOption == MENU_OPTION_SCAN) {
-            scanGames(path, dbpath, scanner);
-            if (gui->forceScan)
-            {
-                gui->forceScan=false;
-            } else
-            {
+            scanGames(path, dbpath);
+            if (gui->forceScan) {
+                gui->forceScan = false;
+            } else {
                 break;
             }
 
@@ -100,13 +102,14 @@ int main(int argc, char *argv[]) {
     }
 
 
-
-    gui->logText("Loading ... Please Wait ...");
+    gui->logText(_("Loading ... Please Wait ..."));
     gui->finish();
-
+    sync();
     SDL_Quit();
+    delete coverdb;
 
-    delete scanner;
+
+   // lang->dump("output.txt");
     return 0;
 }
 

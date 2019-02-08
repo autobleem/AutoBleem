@@ -19,7 +19,7 @@ public:
     void swapOut(string path, string name);
     vector<string> list();
     void storeToRepo(string path, string name);
-
+    void rename(string oldName, string newName);
     void restoreAll(string mainDir);
 
     Memcard(string path) {

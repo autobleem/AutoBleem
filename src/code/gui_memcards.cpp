@@ -12,6 +12,7 @@
 #include "memcard.h"
 #include "gui_confirm.h"
 #include "gui_keyboard.h"
+#include "lang.h"
 
 void GuiMemcards::init() {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -29,7 +30,7 @@ void GuiMemcards::render() {
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=Custom Memory Cards=-", 0, offset, true);
+    gui->renderTextLine(_("-=Custom Memory Cards=-"), 0, offset, true);
 
     if (selected >= cards.size()) {
         selected = cards.size() - 1;
@@ -58,8 +59,8 @@ void GuiMemcards::render() {
         gui->renderSelectionBox(selected - firstVisible + 1, offset);
     }
 
-    gui->renderStatus("Card " + to_string(selected + 1) + "/" + to_string(cards.size()) +
-                      "    |@X| New Card   |@T| Delete Card   |@O| Go back|");
+    gui->renderStatus(_("Card")+" " + to_string(selected + 1) + "/" + to_string(cards.size()) +
+                              "   |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Rename")+"  |@S| "+_("New Card")+"   |@T| "+_("Delete")+"  |@O| "+_("Go back")+"|");
     SDL_RenderPresent(renderer);
 }
 
@@ -79,20 +80,43 @@ void GuiMemcards::loop() {
                         if (e.jaxis.value > 3200) {
                             selected++;
                             if (selected >= cards.size()) {
-                                selected = cards.size() - 1;
+                                selected = 0;
+                                firstVisible = selected;
+                                lastVisible = firstVisible+maxVisible;
                             }
                             render();
                         }
                         if (e.jaxis.value < -3200) {
                             selected--;
                             if (selected < 0) {
-                                selected = 0;
+                                selected = cards.size()-1;
+                                firstVisible = selected;
+                                lastVisible = firstVisible+maxVisible;
                             }
                             render();
                         }
                     }
                     break;
                 case SDL_JOYBUTTONDOWN:
+
+                    if (e.jbutton.button == PCS_BTN_R1) {
+                        selected+=maxVisible;
+                        if (selected >= cards.size()) {
+                            selected = cards.size() - 1;
+                        }
+                        firstVisible = selected;
+                        lastVisible = firstVisible+maxVisible;
+                        render();
+                    };
+                    if (e.jbutton.button == PCS_BTN_L1) {
+                        selected-=maxVisible;
+                        if (selected < 0) {
+                            selected = 0;
+                        }
+                        firstVisible = selected;
+                        lastVisible = firstVisible+maxVisible;
+                        render();
+                    };
 
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
@@ -106,7 +130,7 @@ void GuiMemcards::loop() {
 
 
                             GuiConfirm *guiConfirm = new GuiConfirm(renderer);
-                            guiConfirm->label = "Delete card '" + cards[selected] + "' ?";
+                            guiConfirm->label = _("Delete card")+" '" + cards[selected] + "' ?";
                             guiConfirm->show();
                             bool result = guiConfirm->result;
                             delete (guiConfirm);
@@ -122,9 +146,61 @@ void GuiMemcards::loop() {
                     };
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
+                        if (cards.empty())
+                        {
+                            continue;
+                        }
+                        GuiKeyboard *keyboard = new GuiKeyboard(renderer);
+                        keyboard->label = _("Enter new name for card")+" '"+cards[selected]+"'";
+                        keyboard->result = cards[selected];
+                        keyboard->show();
+                        string result = keyboard->result;
+                        bool cancelled = keyboard->cancelled;
+                        delete (keyboard);
+
+                        if (result.empty()) {
+                            cancelled = true;
+                        }
+
+                        string testResult = result;
+                        if (Util::matchesLowercase("sony", testResult)) {
+                            cancelled = true;
+                        }
+
+                        for (string card:cards)
+                        {
+                            if (card==result)
+                            {
+                                // orevent overwrite other card
+                                cancelled = true;
+                            }
+                        }
+
+                        if (!cancelled) {
+                            Memcard *memcardOps = new Memcard(gui->path);
+                            memcardOps->rename(cards[selected],result);
+                            delete memcardOps;
+                            init();
+                            int pos=0;
+                            for (string card:cards)
+                            {
+                                if (card==result)
+                                {
+                                    selected=pos;
+                                    firstVisible=pos;
+                                    lastVisible=firstVisible+maxVisible;
+                                }
+                                pos++;
+                            }
+                        }
+                        render();
+                    }
+
+                    if (e.jbutton.button == PCS_BTN_SQUARE) {
+
 
                         GuiKeyboard *keyboard = new GuiKeyboard(renderer);
-                        keyboard->label = "Enter new card name";
+                        keyboard->label = _("Enter new card name");
                         keyboard->show();
                         string result = keyboard->result;
                         bool cancelled = keyboard->cancelled;
