@@ -58,7 +58,7 @@ AutoBleem general as it uses similar overmounting scripts that BleemSync 0.1-0.4
 
 ## Installation
 
-1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases/download/v0.5.1/autobleem-0.5.1-full.zip) - you can select one of the packages 
+1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases) - you can select one of the packages 
   - Full - contains all covers
   - U/P/J - contains only covers for region
   - clean - no cover databases
