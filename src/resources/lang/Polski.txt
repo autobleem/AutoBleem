@@ -26,8 +26,8 @@ Download latest: https://github.com/screemerpl/cbleemsync
 Pobierz najnowsze: https://github.com/screemerpl/cbleemsync
 Free space
 Wolne miejsce
-GFX Filter patch:
-Łatka filtra grafiki:
+GFX Filter:
+Filtr grafiki:
 Game
 Gra
 Game Manager
