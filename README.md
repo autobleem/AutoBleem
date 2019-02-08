@@ -1,5 +1,6 @@
+### If you want to stick to FLAT covers update your coverdb to coversU from AutoBleem 0.5.0 ! the new package has got 3d covers included that you may not like
 
-## WARNING: This version may overwrite your covers on first start - if you updated your covers/metadata to custom ones please wait for a patch - it should be available in couple hours !!!
+### WARNING: This version may overwrite your covers on first start - if you updated your covers/metadata to custom ones please wait for a patch - it should be available in couple hours !!!
 
 # Version 0.5.1 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
