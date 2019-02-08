@@ -26,7 +26,11 @@ If you want some new feature, or you find a bug please raise the issue. As I am 
 ## Is it stable and is it safe to use ?
 Version 0.5.1 is "pretty" stable. Should be more stable than 0.5.0. It is well tested by multiple users, but until 1.0 it is still pre-release. New features may be added over the time, some issues may happen etc.
 
-AutoBleem in general uses upgraded, but similar overmounting scripts that BleemSync 0.1-0.4 used, so it is SAFE TO THE SAME LEVEL. It should not brick you console, but... if you brick it I am not responsible. Your risk.... from the other side, I use this solution for some time and nothing wrong happened. **NOTE: Do not uninstall BleemSync 1.0 if it was installed.. this step is not needed.**
+AutoBleem in general uses upgraded, but similar overmounting scripts that BleemSync 0.1-0.4 used, so it is SAFE TO THE SAME LEVEL. It should not brick you console, but... if you brick it I am not responsible. Your risk.... from the other side, I use this solution for some time and nothing wrong happened. 
+
+If you found an issue - report it using "Issues" section on this website or better contact us directly on Discord.
+
+**NOTE: Do not uninstall BleemSync 1.0 if it was installed.. this step is not needed.**
 
 #### NOTE: This tool is made to use only with legal licenced games. The whole project does not use any licenced source code, also it does not alter any of the Sony files inside the mini console, it just uses what is already there and not alter it in any way.
 
