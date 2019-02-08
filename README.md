@@ -3,7 +3,7 @@
 # Version 0.5.1 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
 Watch on YouTube: [Installation Tutorial](https://youtu.be/QRocmHUuc20) 
-### This is old one for 0.5.0, but the installation is the same except you already have coverdb's in the package
+### This is old tutorial for 0.5.0, but the installation is the same except you already have coverdb's in the package if you downloaded "Full version"
 
 Join our discord server: [https://discord.gg/AHUS3RM](https://discord.gg/AHUS3RM)
 
