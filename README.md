@@ -1,5 +1,5 @@
 
-## WARNING: This version may overwrite your covers on first start - if you updated your covers to custom ones please wait for a patch !!!
+## WARNING: This version may overwrite your covers on first start - if you updated your covers/metadata to custom ones please wait for a patch - it should be available in couple hours !!!
 
 # Version 0.5.1 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
