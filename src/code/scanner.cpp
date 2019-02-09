@@ -219,6 +219,12 @@ void Scanner::repairBrokenCueFiles(string path) {
         if (Util::matchExtension(entryGame.name, EXT_BIN)) {
             allBinFiles.push_back(entryGame.name);
         }
+
+        if (Util::matchExtension(entryGame.name, EXT_IMG)) {
+            allBinFiles.push_back(entryGame.name);
+        }
+
+
     }
 
     for (string cue:allCues) {
