@@ -1,6 +1,6 @@
-### If you want to stick to FLAT covers update your coverdb to coversU from AutoBleem 0.5.0 ! the new package has got new 3D jewel case covers included and you may not like how they look alike. Please override coverU.db in this case from previous build before scanning games.
+#### If you want to stick to FLAT covers update your coverdb to coversU from AutoBleem 0.5.0 ! the new package has got new 3D jewel case covers included and you may not like how they look alike. Please override coverU.db in this case from previous build before scanning games.
 
-### We are unable to recreate with overwritten data on our builds at the moment. Please report any issues with covers/metadata overriden in 0.5.1 on Discrod
+#### We are unable to recreate with overwritten data on our builds at the moment. Please report any issues with covers/metadata overriden in 0.5.1 on Discrod
 
 # Version 0.5.1 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
