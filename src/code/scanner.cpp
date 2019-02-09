@@ -9,9 +9,9 @@
 #include "lang.h"
 
 
-bool wayToSort(Game i, Game j) {
-    string name1=i.title;
-    string name2=j.title;
+bool wayToSort(Game *i, Game *j) {
+    string name1 = i->title;
+    string name2 = j->title;
     lcase(name1);
     lcase(name2);
     return name1 < name2;
@@ -75,14 +75,14 @@ void Scanner::updateDB(Database *db) {
     outfile.open(path);
     if (complete)
         for (int i = 0; i < games.size(); i++) {
-            Game data = games[i];
-            cout << "Inserting game ID: " << i + 1 << " - " << data.title << endl;
-            db->insertGame(i + 1, data.title, data.publisher, data.players, data.year);
-            for (int j = 0; j < data.discs.size(); j++) {
-                db->insertDisc(i + 1, j + 1, data.discs[j].diskName);
+            Game *data = games[i];
+            cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
+            db->insertGame(i + 1, data->title, data->publisher, data->players, data->year);
+            for (int j = 0; j < data->discs.size(); j++) {
+                db->insertDisc(i + 1, j + 1, data->discs[j].diskName);
             }
-            outfile << i + 1 << "," << Util::escape(data.fullPath.substr(0, data.fullPath.size() - 1)) << ","
-                    << Util::escape(data.saveStatePath.substr(0, data.saveStatePath.size() - 1)) << endl;
+            outfile << i + 1 << "," << Util::escape(data->fullPath.substr(0, data->fullPath.size() - 1)) << ","
+                    << Util::escape(data->saveStatePath.substr(0, data->saveStatePath.size() - 1)) << endl;
 
         }
     outfile.flush();
@@ -221,79 +221,76 @@ void Scanner::repairBrokenCueFiles(string path) {
         }
     }
 
-        for (string cue:allCues) {
-            ifstream cueStream;
+    for (string cue:allCues) {
+        ifstream cueStream;
 
 
-            cueStream.open(path + Util::separator() + cue);
-            string line;
-            bool cueOk = true;
-            int bins = 0;
-            while (getline(cueStream, line)) {
-                line = trim(line);
-                if (line.empty()) continue;
-                if (line.substr(0, 4) == "FILE") {
-                    line = line.substr(6, string::npos);
-                    line = line.substr(0, line.find('"'));
-                    bins++;
-                    if (std::find(allBinFiles.begin(), allBinFiles.end(), line) == allBinFiles.end()) {
-                        cueOk = false;
-                    }
-
+        cueStream.open(path + Util::separator() + cue);
+        string line;
+        bool cueOk = true;
+        int bins = 0;
+        while (getline(cueStream, line)) {
+            line = trim(line);
+            if (line.empty()) continue;
+            if (line.substr(0, 4) == "FILE") {
+                line = line.substr(6, string::npos);
+                line = line.substr(0, line.find('"'));
+                bins++;
+                if (std::find(allBinFiles.begin(), allBinFiles.end(), line) == allBinFiles.end()) {
+                    cueOk = false;
                 }
 
             }
-            validCue.push_back(cueOk);
-            cueTracks.push_back(bins);
-            cueStream.close();
+
         }
+        validCue.push_back(cueOk);
+        cueTracks.push_back(bins);
+        cueStream.close();
+    }
 
 
-        // now we know cues that are corrupted - regenerate them
+    // now we know cues that are corrupted - regenerate them
 
-        int startPos = 0;
-        for (int i=0;i<allCues.size();i++) {
-            bool cueOk = validCue[i];
-            string cuePath = path+Util::separator()+allCues[i];
-            if (!cueOk)
-            {
-                remove(cuePath.c_str());
+    int startPos = 0;
+    for (int i = 0; i < allCues.size(); i++) {
+        bool cueOk = validCue[i];
+        string cuePath = path + Util::separator() + allCues[i];
+        if (!cueOk) {
+            remove(cuePath.c_str());
 
-                ofstream os;
-                os.open(cuePath);
-                // let's create new one
-                bool first = true;
-                int track = 1;
-                for (int binId=0;binId!=cueTracks[i];binId++) {
-                    string cueElement;
-                    if (first) {
-                        cueElement = cue1;
-                    } else {
-                        cueElement = cue2;
-                    }
-
-                    string newBinName = "BinDoesNotExists.bin";
-                    if ((startPos+binId)<allBinFiles.size())
-                    {
-                        newBinName =  allBinFiles[startPos+binId];
-                    }
-
-                    Util::replaceAll(cueElement, "{binName}", newBinName);
-                    if (track < 10) {
-                        Util::replaceAll(cueElement, "{track}", "0" + to_string(track));
-                    } else {
-                        Util::replaceAll(cueElement, "{track}", to_string(track));
-                    }
-                    track++;
-                    first = false;
-                    os << cueElement;
+            ofstream os;
+            os.open(cuePath);
+            // let's create new one
+            bool first = true;
+            int track = 1;
+            for (int binId = 0; binId != cueTracks[i]; binId++) {
+                string cueElement;
+                if (first) {
+                    cueElement = cue1;
+                } else {
+                    cueElement = cue2;
                 }
-                os.flush();
-                os.close();
 
+                string newBinName = "BinDoesNotExists.bin";
+                if ((startPos + binId) < allBinFiles.size()) {
+                    newBinName = allBinFiles[startPos + binId];
+                }
+
+                Util::replaceAll(cueElement, "{binName}", newBinName);
+                if (track < 10) {
+                    Util::replaceAll(cueElement, "{track}", "0" + to_string(track));
+                } else {
+                    Util::replaceAll(cueElement, "{track}", to_string(track));
+                }
+                track++;
+                first = false;
+                os << cueElement;
             }
-            startPos+=cueTracks[i];
+            os.flush();
+            os.close();
 
+        }
+        startPos += cueTracks[i];
 
 
     }
@@ -336,7 +333,7 @@ void Scanner::scanDirectory(string path) {
 
     for (DirEntry entry: Util::diru(path)) {
         if (entry.name[0] == '.') continue;
-        if (!Util::isDirectory(path+Util::separator()+entry.name)) continue;
+        if (!Util::isDirectory(path + Util::separator() + entry.name)) continue;
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
 
@@ -355,24 +352,25 @@ void Scanner::scanDirectory(string path) {
         string saveStateDir = path + Util::separator() + "!SaveStates" + Util::separator() + entry.name;
         Util::createDir(saveStateDir);
 
-        Game game;
+        Game *game = new Game();
 
-        game.folder_id = 0; // this will not be in use;
-        game.fullPath = path + entry.name + Util::separator();
-        game.saveStatePath = path + "!SaveStates" + Util::separator() + entry.name + Util::separator();
 
-        game.pathName = entry.name;
-        splash->logText(_("Game:")+" " + entry.name);
+        game->folder_id = 0; // this will not be in use;
+        game->fullPath = path + entry.name + Util::separator();
+        game->saveStatePath = path + "!SaveStates" + Util::separator() + entry.name + Util::separator();
 
-        string gameDataPath = path + entry.name + Util::separator() + GAME_DATA + Util::separator();
+        game->pathName = entry.name;
+        splash->logText(_("Game:") + " " + entry.name);
+
+        string gameDataPath = path + Util::separator() + entry.name + Util::separator() + GAME_DATA + Util::separator();
 
         moveFolderIfNeeded(entry, gameDataPath, path);
         gameDataPath = path + entry.name + Util::separator();
 
-        game.imageType = this->getImageType(gameDataPath);
-        game.gameDataFound = true;
+        game->imageType = this->getImageType(gameDataPath);
+        game->gameDataFound = true;
 
-        if (game.imageType == IMAGE_CUE_BIN) // only cue/bin
+        if (game->imageType == IMAGE_CUE_BIN) // only cue/bin
         {
 
             repairMissingCue(gameDataPath, entry.name);
@@ -382,49 +380,44 @@ void Scanner::scanDirectory(string path) {
 
 
         if (!Util::exists(gameDataPath + GAME_INI)) {
-            game.readIni(gameDataPath + GAME_INI);
-            game.gameIniFound = false;
+            game->readIni(gameDataPath + GAME_INI);
+            game->gameIniFound = false;
         } else {
-            game.gameIniFound = true;
+            game->gameIniFound = true;
         }
 
         for (DirEntry entryGame:Util::diru(gameDataPath)) {
 
             if (Util::matchesLowercase(entryGame.name, GAME_INI)) {
                 string gameIniPath = gameDataPath + GAME_INI;
-                game.readIni(gameIniPath);
+                game->readIni(gameIniPath);
             }
 
             if (Util::matchesLowercase(entryGame.name, PCSX_CFG)) {
-                game.pcsxCfgFound = true;
+                game->pcsxCfgFound = true;
             }
 
             if (Util::matchExtension(entryGame.name, EXT_PNG)) {
-                game.imageFound = true;
+                game->imageFound = true;
             }
 
             if (Util::matchExtension(entryGame.name, EXT_LIC)) {
-                game.licFound = true;
+                game->licFound = true;
             }
 
 
         }
 
-        // FIXME: This may not be needed
-        if ((game.pcsxCfgFound) && (game.gameIniFound))
-        {
-            // pcsx config already there - game was scrapped already - check and apply bios fix (if needed)
-            CfgProcessor * processor=new CfgProcessor();
-           //     processor->patchHLEbios(entry.name,path);
-            delete processor;
-        }
+        cout << game->automationUsed << endl;
 
-        game.recoverMissingFiles();
 
-        if (!game.gameIniFound || game.automationUsed) {
+        game->recoverMissingFiles();
+        cout << game->automationUsed << endl;
 
-            SerialScanner * serialScanner = new SerialScanner();
-            string serial = serialScanner->scanSerial(game.imageType, game.fullPath, game.firstBinPath);
+        if (!game->gameIniFound || game->automationUsed) {
+
+            SerialScanner *serialScanner = new SerialScanner();
+            string serial = serialScanner->scanSerial(game->imageType, game->fullPath, game->firstBinPath);
             delete serialScanner;
 
             if (!serial.empty()) {
@@ -432,36 +425,37 @@ void Scanner::scanDirectory(string path) {
                 Metadata md;
                 if (md.lookupBySerial(serial)) {
                     // at this stage we have more data;
-                    game.title = md.title;
-                    game.publisher = md.publisher;
-                    game.players = md.players;
-                    game.year = md.year;
+                    game->title = md.title;
+                    game->publisher = md.publisher;
+                    game->players = md.players;
+                    game->year = md.year;
 
-                    if (game.discs.size() > 0) {
+                    if (game->discs.size() > 0) {
                         // all recovered :)
-                        string newFilename = gameDataPath + game.discs[0].cueName + EXT_PNG;
-                        cout << "Updating cover" << newFilename << endl;
-                        ofstream pngFile;
-                        pngFile.open(newFilename);
-                        pngFile.write(md.bytes, md.dataSize);
-                        pngFile.flush();
-                        pngFile.close();
-                        game.automationUsed = false;
-                        game.imageFound = true;
+
+                            string newFilename = gameDataPath + game->discs[0].cueName + EXT_PNG;
+                            cout << "Updating cover" << newFilename << endl;
+                            ofstream pngFile;
+                            pngFile.open(newFilename);
+                            pngFile.write(md.bytes, md.dataSize);
+                            pngFile.flush();
+                            pngFile.close();
+                            game->automationUsed = false;
+                            game->imageFound = true;
 
                     }
 
                     md.clean();
                 } else {
-                    game.title = game.pathName;
+                    game->title = game->pathName;
                 }
 
             }
         }
-        game.saveIni(gameDataPath + GAME_INI);
-        game.print();
+        game->saveIni(gameDataPath + GAME_INI);
+        game->print();
 
-        if (game.verify()) {
+        if (game->verify()) {
             games.push_back(game);
         }
 
