@@ -1,0 +1,156 @@
+﻿ - Automatic PlayStation Classic USB launcher
+ - Automatický USB spúšťač Playstation Classic
+'Tenchu' theme by Kevzombie
+Téma 'Tenchu' od Kevzombie
+-=About=-
+-=O programe=-
+-=Configuration=-
+-=Nastavenia=-
+-=Game manager - Select game=-
+-=Manažér hier - Vybrať hru=-
+About
+O programe
+Advanced
+Rozšírené
+Advanced:
+Rozšírené:
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+Téma AutoBleemu:
+Background Music:
+Hudba na pozadí:
+Close
+Zatvoriť
+Download latest: https://github.com/screemerpl/cbleemsync
+Najnovšia verzia: https://github.com/screemerpl/cbleemsync
+Free space
+Voľné miesto
+GFX Filter:
+Grafický filter:
+Game
+Hra
+Game Manager
+Manažér hier
+Games changed. Press
+Zmenené hry. Stlač
+Go back
+Naspäť
+Loading ... Please Wait ...
+Nahrávam ... Čakajte prosím ...
+Memory Cards
+Pamäťová karta
+Menu Theme:
+Téma:
+Options
+Nastavenia
+PCSX Version:
+Verzia PCSX:
+Page
+Strana
+QuickBoot:
+Rýchly štart:
+Re/Scan
+Pre/Skenovať
+RetroArch
+RetroArch
+Scanning...
+Skenujem...
+Select
+Vybrať
+Show RetroArch:
+RetroArch:
+Support via Discord: https://discord.gg/AHUS3RM
+Podpora na Discorde: https://discord.gg/AHUS3RM
+This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+AutoBleem je bezplatný a open source softvér. Funguje TAK, AKO JE, a NENESIEME žiadnu zodpovednosť za akékoľvek problémy alebo škody.
+Total:
+Celkom:
+Updating regional.db...
+Aktualizujem regional.db...
+Upgrading AutoBleem - Please wait...
+Aktualizujem AutoBleem - Prosím čakajte...
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+POZOR: NEBOLA NÁJDENÁ ŽIADNA HRA. STLAČTE ĽUBOVOĽNÚ KLÁVESU.
+games scanned
+nájdené hry
+to scan
+nájsť
+Game:
+Hra:
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Autori: AutoBleem Team (screemer, mGGk, nex, ThaFridge); Slovak translation: Pardubák
+Folder:
+Priečinok:
+Published by:
+Vydavateľ:
+Players:
+Počet hráčov:
+Year:
+Rok:
+Memory Card:
+Pamäťová karta:
+High res:
+Vysoké rozlíšenie:
+Lock data:
+Uzamknúť zmeny:
+Change MC
+Vymeniť Pamäťovú kartu
+Hi/Lo Res
+Vysoké/Nízke rozlíšenie
+Lock
+Uzamknúť
+Share MC
+Zdieľať Pamäťovú kartu
+(Internal)
+(Vnútorná)
+-=Select memory card=-
+-=Vybrať Pamäťovú kartu=-
+Card
+Karta
+-=Custom Memory Cards=-
+-=Vlastná Pamäťová karta=-
+Delete
+Zmazať
+New Card
+Nová karta
+Rename
+Premenovať
+Enter new name for memory card
+Zadajte nový názov pamäťovej karty
+Cancel
+Zrušiť
+Confirm
+Potvrdiť
+Space
+Medzera
+Enter new game name
+Zadajte nový názov hry
+Original
+PSC hry
+Enter new card name
+Zadajte nový názov karty
+Delete card
+Zmazať kartu
+-=Please confirm=-
+-=Potvrďte prosím=-
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+PRIPOJTE PROSÍM GAMEPAD K PLAYSTATIONU CLASSIC
+Caps
+Veľké
+Internal
+Vnútorná
+(Custom)
+(Vlastná)
+Enter new name for card
+Zadajte nový názov karty
+Menu
+Menu
+Quick boot
+Rýchly štart
+Hold
+Čakajte
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+POZOR: NENAŠLA SA DATABÁZA OBALOV NA HRY. STLAČTE ĽUBOVOĽNÚ KLÁVESU.
+Language:
+Jazyk:
