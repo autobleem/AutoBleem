@@ -144,6 +144,7 @@ void Game::recoverMissingFiles() {
         } else
         {
             automationUsed = true;
+            cout << "Switching automation in PBP" << endl;
         }
     }
     if (this->imageType == IMAGE_CUE_BIN) {
@@ -151,6 +152,7 @@ void Game::recoverMissingFiles() {
 
         if (discs.size() == 0) {
             automationUsed = true;
+            cout << "Switching automation no discs" << endl;
             // find cue files
             string destination = fullPath ;
             for (DirEntry entry: Util::diru(destination)) {
@@ -170,6 +172,7 @@ void Game::recoverMissingFiles() {
     if (discs.size() > 0) {
         if (!licFound) {
             automationUsed = true;
+            cout << "Switching automation no lic" << endl;
             string source = path + Util::separator() + "default.lic";
             string destination = fullPath  + discs[0].diskName + ".lic";
             cerr << "SRC:" << source << " DST:" << destination << endl;
@@ -178,7 +181,7 @@ void Game::recoverMissingFiles() {
         }
         if (!imageFound) {
             automationUsed = true;
-
+            cout << "Switching automation no image" << endl;
             string source = path + Util::separator() + "default.png";
             string destination = fullPath  + discs[0].diskName + ".png";
             cerr << "SRC:" << source << " DST:" << destination << endl;
@@ -211,6 +214,7 @@ void Game::recoverMissingFiles() {
 
     if (!pcsxCfgFound) {
         automationUsed = true;
+        cout << "Switching automation no pcsx" << endl;
         string source = path + Util::separator() + "pcsx.cfg";
         string destination = fullPath + "pcsx.cfg";
         cerr << "SRC:" << source << " DST:" << destination << endl;
@@ -250,7 +254,6 @@ void Game::recoverMissingFiles() {
 
         CfgProcessor * processor=new CfgProcessor();
         processor->replace(pathName, gui->path, "region", "region = " + to_string(region));
-
         delete(processor);
         pcsxCfgFound = true;
     }

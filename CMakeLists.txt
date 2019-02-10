@@ -65,7 +65,7 @@ add_executable(autobleem-gui
 		src/code/coverdb.h
 		src/code/serialscanner.cpp
 		src/code/serialscanner.h
-		src/code/lang.cpp src/code/lang.h)
+		src/code/lang.cpp src/code/lang.h src/code/gui_launcher.cpp src/code/gui_launcher.h)
 
 add_executable(starter
 		src/code/starter.cpp

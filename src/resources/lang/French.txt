@@ -1,15 +1,15 @@
- - Automatic PlayStation Classic USB launcher
+﻿ - Automatic PlayStation Classic USB launcher
  - Launcher USB Automatique PlayStation Classic
 'Tenchu' theme by Kevzombie
 Thème 'Tenchu' par Kevzombie
 -=About=-
--=A propos=-
+-=À propos=-
 -=Configuration=-
 -=Paramètres=-
 -=Game manager - Select game=-
 -=Gestion des jeux - Choisir un jeu=-
 About
-A propos
+À propos
 Advanced
 Paramètres avancés
 Advanced:
@@ -67,9 +67,9 @@ Ce logiciel est gratuit et open source. Il est fourni tel quel et aucun problèm
 Total:
 Total:
 Updating regional.db...
-Mise a jour du fichuer regional.db...
+Mise à jour du fichier regional.db...
 Upgrading AutoBleem - Please wait...
-Mise a jour d'AutoBleem - Veuillez patienter...
+Mise à jour d'AutoBleem - Veuillez patienter...
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
 ATTENTION : AUCUN JEU TROUVÉ. APPUYER SUR UNE TOUCHE.
 games scanned

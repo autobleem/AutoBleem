@@ -15,7 +15,7 @@ using namespace std;
 class Scanner {
 public:
     Scanner() {}
-    vector<Game> games;
+    vector<Game*> games;
 
     void scanDirectory(string path);
     void repairBrokenCueFiles(string path);

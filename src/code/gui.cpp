@@ -72,12 +72,12 @@ void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
 void Gui::renderBackground() {
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, backgroundImg, NULL, &backgroundRect);
+    SDL_RenderCopy(renderer, backgroundImg, nullptr, &backgroundRect);
 }
 
 int Gui::renderLogo(bool small) {
     if (!small) {
-        SDL_RenderCopy(renderer, logo, NULL, &logoRect);
+        SDL_RenderCopy(renderer, logo, nullptr, &logoRect);
         return 0;
     } else {
         SDL_Rect rect;
@@ -85,7 +85,7 @@ int Gui::renderLogo(bool small) {
         rect.y = atoi(themeData.values["opscreeny"].c_str());
         rect.w = logoRect.w / 3;
         rect.h = logoRect.h / 3;
-        SDL_RenderCopy(renderer, logo, NULL, &rect);
+        SDL_RenderCopy(renderer, logo, nullptr, &rect);
         return rect.y + rect.h;
     }
 }
@@ -112,7 +112,7 @@ void Gui::loadAssets() {
 
     bool reloading = false;
 
-    if (backgroundImg != NULL) {
+    if (backgroundImg != nullptr) {
         SDL_DestroyTexture(backgroundImg);
         SDL_DestroyTexture(logo);
         SDL_DestroyTexture(buttonT);
@@ -127,7 +127,7 @@ void Gui::loadAssets() {
         SDL_DestroyTexture(buttonUncheck);
         TTF_CloseFont(font);
         reloading = true;
-        backgroundImg = NULL;
+        backgroundImg = nullptr;
     }
 
     logoRect.x = atoi(themeData.values["lpositionx"].c_str());
@@ -148,12 +148,13 @@ void Gui::loadAssets() {
     buttonR1 = loadThemeTexture(renderer, themePath, defaultPath, "r1");
     buttonCheck = loadThemeTexture(renderer, themePath, defaultPath, "check");
     buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
-    string fontPath = (themePath + themeData.values["font"]).c_str();
+    string fontPath = (themePath + themeData.values["font"]);
     font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
 
 
-    if (music != NULL) {
+    if (music != nullptr) {
         Mix_HaltMusic();
+        Mix_FreeMusic(music);
     }
     if (cfg.inifile.values["nomusic"] != "true")
         if (themeData.values["loop"] != "-1") {
@@ -162,7 +163,7 @@ void Gui::loadAssets() {
             }
 
             music = Mix_LoadMUS((themePath + themeData.values["music"]).c_str());
-            if (music == NULL) { printf("Unable to load Wav file: %s\n", Mix_GetError()); }
+            if (music == nullptr) { printf("Unable to load Wav file: %s\n", Mix_GetError()); }
             if (Mix_PlayMusic(music, themeData.values["loop"] == "1" ? -1 : 0) == -1) {
                 printf("Unable to play music file: %s\n", Mix_GetError());
             }
@@ -184,7 +185,7 @@ void Gui::waitForGamepad() {
 
 void Gui::criticalException(string text) {
     drawText(text);
-    while (1) {
+    while (true) {
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT)
@@ -225,13 +226,14 @@ void Gui::display(bool forceScan, string path, Database *db) {
     loadAssets();
 
 
-    GuiSplash *splashScreen = new GuiSplash(renderer);
+    auto *splashScreen = new GuiSplash(renderer);
     splashScreen->show();
     delete splashScreen;
 
     drawText(_("Upgrading AutoBleem - Please wait..."));
-    VerMigration *migration = new VerMigration();
+    auto *migration = new VerMigration();
     migration->migrate(db);
+    delete (migration);
 
     if (cfg.inifile.values["quick"] != "true")
         waitForGamepad();
@@ -267,7 +269,7 @@ bool Gui::quickBoot() {
         splashText += " ("+_("Quick boot")+" - "+_("Hold")+" |@O| "+_("Menu")+")";
     }
 
-    while (1) {
+    while (true) {
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT)
@@ -402,7 +404,7 @@ void Gui::menuSelection() {
                             menuVisible = false;
                         };
                         if (e.jbutton.button == PCS_BTN_TRIANGLE) {
-                            GuiAbout *aboutScreen = new GuiAbout(renderer);
+                            auto *aboutScreen = new GuiAbout(renderer);
                             aboutScreen->show();
                             delete aboutScreen;
 
@@ -410,7 +412,7 @@ void Gui::menuSelection() {
                             menuVisible = false;
                         };
                         if (e.jbutton.button == PCS_BTN_SELECT) {
-                            GuiOptions *options = new GuiOptions(renderer);
+                            auto *options = new GuiOptions(renderer);
                             options->show();
                             delete options;
                             menuSelection();
@@ -426,7 +428,7 @@ void Gui::menuSelection() {
                         break;
                     } else {
                         if (e.jbutton.button == PCS_BTN_CROSS) {
-                            GuiMemcards *memcardsScreen = new GuiMemcards(renderer);
+                            auto memcardsScreen = new GuiMemcards(renderer);
                             memcardsScreen->show();
                             delete memcardsScreen;
 
@@ -435,7 +437,7 @@ void Gui::menuSelection() {
                         };
 
                         if (e.jbutton.button == PCS_BTN_CIRCLE) {
-                            GuiManager *managerScreen = new GuiManager(renderer);
+                            auto managerScreen = new GuiManager(renderer);
                             managerScreen->show();
                             delete managerScreen;
 
@@ -465,6 +467,9 @@ void Gui::finish() {
     SDL_DestroyTexture(buttonCheck);
     SDL_DestroyTexture(buttonUncheck);
     SDL_DestroyRenderer(renderer);
+    TTF_CloseFont(font);
+    Mix_HaltMusic();
+    Mix_FreeMusic(music);
 
 }
 
@@ -484,7 +489,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     std::string token;
     while ((pos = text.find(delimiter)) != std::string::npos) {
         token = text.substr(0, pos);
-        if (token.size() > 0)
+        if (!token.empty())
             textParts.push_back(token);
         text.erase(0, pos + delimiter.length());
     }
@@ -574,13 +579,13 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
         posRect.w = tw;
         posRect.h = th;
         xpos += tw;
-        SDL_RenderCopy(renderer, tex, NULL, &posRect);
+        SDL_RenderCopy(renderer, tex, nullptr, &posRect);
     }
     rect->w = w;
     rect->h = h;
     rect->x = 0;
     rect->y = 0;
-    SDL_SetRenderTarget(renderer, NULL);
+    SDL_SetRenderTarget(renderer, nullptr);
 
     for (SDL_Texture *tex:textTexures) {
         if ((tex != buttonSelect) &&
@@ -619,7 +624,7 @@ void Gui::renderStatus(string text) {
     textRec.x = screencenter - (textRec.w / 2);
     textRec.y = atoi(themeData.values["ttop"].c_str());
     if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
+    SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
     SDL_DestroyTexture(textTex);
 }
 
@@ -699,7 +704,7 @@ int Gui::renderTextLine(string text, int line, int offset, bool center) {
     SDL_Rect textRec;
 
     getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
-    getEmojiTextTexture(renderer, text.c_str(), font, &textTex, &textRec);
+    getEmojiTextTexture(renderer, text, font, &textTex, &textRec);
     textRec.x = rect2.x + 10;
     textRec.y = (textRec.h * line) + offset;
     /*
@@ -714,7 +719,7 @@ int Gui::renderTextLine(string text, int line, int offset, bool center) {
     }
 
 
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
+    SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
     SDL_DestroyTexture(textTex);
     return textRec.h;
 }
@@ -733,7 +738,7 @@ void Gui::renderTextChar(string text, int line, int offset, int posx) {
     getTextAndRect(renderer, posx, (textRec.h * line) + offset,
                    text.c_str(), font, &textTex, &textRec);
 
-    SDL_RenderCopy(renderer, textTex, NULL, &textRec);
+    SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
     SDL_DestroyTexture(textTex);
 }
 
@@ -764,5 +769,5 @@ void Gui::renderFreeSpace() {
     rect.w = textRec.w;
     rect.h = textRec.h;
     SDL_RenderFillRect(renderer, &rect);
-    SDL_RenderCopy(renderer, textTex, NULL, &rect);
+    SDL_RenderCopy(renderer, textTex, nullptr, &rect);
 }
