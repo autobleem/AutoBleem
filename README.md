@@ -1,3 +1,5 @@
+#### Please read this page before downloading AutoBleem [USB compatibility FAQ](https://github.com/screemerpl/cbleemsync/wiki/USB-compatibility-FAQ)
+
 #### If you want to stick to FLAT covers update your coverdb to coversU from AutoBleem 0.5.0 ! the new package has got new 3D jewel case covers included and you may not like how they look alike. Please override coverU.db in this case from previous build before scanning games.
 
 #### Please report any issues with AutoBleem 0.5.1 on Discrod. Please attach your files from USB /System/Logs  
