@@ -9,6 +9,7 @@
 #include "gui_options.h"
 #include "gui_memcards.h"
 #include "gui_manager.h"
+#include "gui_confirm.h"
 #include "../ver_migration.h"
 #include "../lang.h"
 #include "../launcher/gui_launcher.h"
@@ -413,10 +414,25 @@ void Gui::menuSelection() {
                             if (retroarch != "false") {
                                 if (e.jbutton.button == PCS_BTN_SQUARE) {
                                     Mix_PlayChannel(-1, cursor, 0);
-                                    this->menuOption = MENU_OPTION_RETRO;
+                                    if (!Util::exists("/media/RetroArch/retroarch")) {
+                                        auto confirm = new GuiConfirm(renderer);
+                                        confirm->label = _("RetroArch is not installed");
+                                        confirm->show();
+                                        bool result = confirm->result;
+                                        delete confirm;
+                                        if (result) {
+                                            this->menuOption = MENU_OPTION_RETRO;
+                                            menuVisible = false;
+                                        } else {
+                                            menuSelection();
+                                            menuVisible = false;
+                                        }
 
-                                    menuVisible = false;
 
+                                    } else {
+                                        this->menuOption = MENU_OPTION_RETRO;
+                                        menuVisible = false;
+                                    }
                                 };
                             }
 
