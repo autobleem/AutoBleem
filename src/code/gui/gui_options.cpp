@@ -84,6 +84,10 @@ void GuiOptions::init() {
 string GuiOptions::getBooleanIcon(string input) {
     shared_ptr<Gui> gui(Gui::getInstance());
     string value = gui->cfg.inifile.values[input];
+    if (input == "quick") {
+        if (value == "true") return gui->cfg.inifile.values["delay"] + "s  " + "|@Check|"; else return "|@Uncheck|";
+    }
+
     if ((input != "nomusic") && (input != "mip")) {
         if (value == "true") return "|@Check|"; else return "|@Uncheck|";
     } else {
@@ -239,6 +243,9 @@ void GuiOptions::loop() {
                             }
                             if (selOption == CFG_QUICK) {
                                 string nextValue = getOption(quickboot, gui->cfg.inifile.values["quick"], true);
+                                int delay = atoi(gui->cfg.inifile.values["delay"].c_str());
+                                delay++;
+                                gui->cfg.inifile.values["delay"] = to_string(1);
                                 gui->cfg.inifile.values["quick"] = nextValue;
                             }
 
@@ -296,7 +303,12 @@ void GuiOptions::loop() {
                             }
                             if (selOption == CFG_QUICK) {
                                 string nextValue = getOption(quickboot, gui->cfg.inifile.values["quick"], false);
+                                string last = gui->cfg.inifile.values["quick"];
                                 gui->cfg.inifile.values["quick"] = nextValue;
+                                int delay = atoi(gui->cfg.inifile.values["delay"].c_str());
+                                delay++;
+                                if (last == "false") delay = 1;
+                                gui->cfg.inifile.values["delay"] = to_string(delay);
                             }
 
                             render();

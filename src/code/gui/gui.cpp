@@ -13,7 +13,6 @@
 #include "../lang.h"
 #include "../launcher/gui_launcher.h"
 
-#define QUICKBOOT_DELAY 1000
 
 void Gui::logText(string message) {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -299,10 +298,14 @@ bool Gui::quickBoot() {
         }
         drawText(splashText);
 
+        int delay = 1000;
 
+        if (cfg.inifile.values["delay"] != "") {
+            delay = delay * atoi(cfg.inifile.values["delay"].c_str());
+        }
         int newTime = SDL_GetTicks();
-        int secs = QUICKBOOT_DELAY / 1000 - (newTime - currentTime) / 1000;
-        if (newTime - currentTime > QUICKBOOT_DELAY) {
+        int secs = delay / 1000 - (newTime - currentTime) / 1000;
+        if (newTime - currentTime > delay) {
             return true;
         }
     }
@@ -822,7 +825,7 @@ string Gui::getSonyImagePath() {
     string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/images";
     if (!Util::exists(path))
     {
-        path = "/usr/sony/share/data/images"
+        path = "/usr/sony/share/data/images";
     }
     return path;
 #endif
@@ -835,7 +838,7 @@ string Gui::getSonySoundPath() {
     string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/sounds";
     if (!Util::exists(path))
     {
-        path = "/usr/sony/share/data/sounds"
+        path = "/usr/sony/share/data/sounds";
     }
     return path;
 #endif

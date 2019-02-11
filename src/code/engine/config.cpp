@@ -12,6 +12,9 @@ Config::Config()
     {
         inifile.values["language"]="English";
     }
+    if (inifile.values["delay"] == "") {
+        inifile.values["delay"] = "1";
+    }
 }
 
 void Config::save()
