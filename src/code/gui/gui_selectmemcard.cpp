@@ -10,10 +10,10 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include "gui.h"
-#include "memcard.h"
+#include "../engine/memcard.h"
 #include "gui_confirm.h"
 #include "gui_keyboard.h"
-#include "lang.h"
+#include "../lang.h"
 
 void GuiSelectMemcard::init() {
     cards.clear();
@@ -28,20 +28,17 @@ void GuiSelectMemcard::init() {
     lastVisible = firstVisible + maxVisible;
 
 
-    if (!cardSelected.empty())
-    {
-        for (int i=0;i<cards.size();i++)
-        {
-            if (cards[i]==cardSelected)
-            {
-                selected = i+1;
+    if (!cardSelected.empty()) {
+        for (int i = 0; i < cards.size(); i++) {
+            if (cards[i] == cardSelected) {
+                selected = i + 1;
             }
         }
     }
 
     vector<string>::iterator it;
     it = cards.begin();
-    cards.insert(it,string(_("(Internal)")));
+    cards.insert(it, string(_("(Internal)")));
 
     delete memcardOps;
 
@@ -81,8 +78,8 @@ void GuiSelectMemcard::render() {
         gui->renderSelectionBox(selected - firstVisible + 1, offset);
     }
 
-    gui->renderStatus(_("Card")+" " + to_string(selected + 1) + "/" + to_string(cards.size()) +
-                      "   |@L1|/|@R1| "+_("Page")+"     |@X| "+_("Select")+"  |@O| "+("Cancel")+"|");
+    gui->renderStatus(_("Card") + " " + to_string(selected + 1) + "/" + to_string(cards.size()) +
+                      "   |@L1|/|@R1| " + _("Page") + "     |@X| " + _("Select") + "  |@O| " + ("Cancel") + "|");
     SDL_RenderPresent(renderer);
 }
 
@@ -100,20 +97,24 @@ void GuiSelectMemcard::loop() {
                 case SDL_JOYAXISMOTION:
                     if (e.jaxis.axis == 1) {
                         if (e.jaxis.value > 3200) {
+
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             selected++;
                             if (selected >= cards.size()) {
                                 selected = 0;
                                 firstVisible = selected;
-                                lastVisible = firstVisible+maxVisible;
+                                lastVisible = firstVisible + maxVisible;
                             }
                             render();
                         }
                         if (e.jaxis.value < -3200) {
+
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             selected--;
                             if (selected < 0) {
-                                selected = cards.size()-1;
+                                selected = cards.size() - 1;
                                 firstVisible = selected;
-                                lastVisible = firstVisible+maxVisible;
+                                lastVisible = firstVisible + maxVisible;
                             }
                             render();
                         }
@@ -121,30 +122,38 @@ void GuiSelectMemcard::loop() {
                     break;
                 case SDL_JOYBUTTONDOWN:
                     if (e.jbutton.button == PCS_BTN_R1) {
-                        selected+=maxVisible;
+
+                        Mix_PlayChannel(-1, gui->home_up, 0);
+                        selected += maxVisible;
                         if (selected >= cards.size()) {
                             selected = cards.size() - 1;
                         }
                         firstVisible = selected;
-                        lastVisible = firstVisible+maxVisible;
+                        lastVisible = firstVisible + maxVisible;
                         render();
                     };
                     if (e.jbutton.button == PCS_BTN_L1) {
-                        selected-=maxVisible;
+
+                        Mix_PlayChannel(-1, gui->home_down, 0);
+                        selected -= maxVisible;
                         if (selected < 0) {
                             selected = 0;
                         }
                         firstVisible = selected;
-                        lastVisible = firstVisible+maxVisible;
+                        lastVisible = firstVisible + maxVisible;
                         render();
                     };
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
-                        selected=-1;
+
+                        Mix_PlayChannel(-1, gui->cancel, 0);
+                        selected = -1;
                         menuVisible = false;
 
                     };
                     if (e.jbutton.button == PCS_BTN_CROSS) {
+
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         menuVisible = false;
                     };
 

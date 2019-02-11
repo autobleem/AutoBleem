@@ -6,7 +6,7 @@
 #include "ecmhelper.h"
 #include "cfgprocessor.h"
 #include "serialscanner.h"
-#include "lang.h"
+#include "../lang.h"
 
 
 bool wayToSort(Game *i, Game *j) {

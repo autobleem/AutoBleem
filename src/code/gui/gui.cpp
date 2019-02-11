@@ -3,14 +3,15 @@
 //
 
 #include "gui.h"
-#include "util.h"
+#include "../util.h"
 #include "gui_about.h"
 #include "gui_splash.h"
 #include "gui_options.h"
 #include "gui_memcards.h"
 #include "gui_manager.h"
-#include "ver_migration.h"
-#include "lang.h"
+#include "../ver_migration.h"
+#include "../lang.h"
+#include "../launcher/gui_launcher.h"
 
 #define QUICKBOOT_DELAY 1000
 
@@ -69,6 +70,7 @@ void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
     rect->h = text_height;
 }
 
+
 void Gui::renderBackground() {
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderClear(renderer);
@@ -126,9 +128,14 @@ void Gui::loadAssets() {
         SDL_DestroyTexture(buttonCheck);
         SDL_DestroyTexture(buttonUncheck);
         TTF_CloseFont(font);
+        Mix_FreeChunk(cursor);
+        Mix_FreeChunk(cancel);
+        Mix_FreeChunk(home_down);
+        Mix_FreeChunk(home_up);
         reloading = true;
         backgroundImg = nullptr;
     }
+
 
     logoRect.x = atoi(themeData.values["lpositionx"].c_str());
     logoRect.y = atoi(themeData.values["lpositiony"].c_str());
@@ -153,22 +160,30 @@ void Gui::loadAssets() {
 
 
     if (music != nullptr) {
-        Mix_HaltMusic();
+
         Mix_FreeMusic(music);
+        music = nullptr;
     }
+
+    if (Mix_OpenAudio(32000, MIX_DEFAULT_FORMAT, 2, 2048) == -1) {
+        printf("Unable to open audio: %s\n", Mix_GetError());
+    }
+
+    cursor = Mix_LoadWAV((this->getSonySoundPath() + "/cursor.wav").c_str());
+    cancel = Mix_LoadWAV((this->getSonySoundPath() + "/cancel.wav").c_str());
+    home_up = Mix_LoadWAV((this->getSonySoundPath() + "/home_up.wav").c_str());
+    home_down = Mix_LoadWAV((this->getSonySoundPath() + "/home_down.wav").c_str());
+
     if (cfg.inifile.values["nomusic"] != "true")
         if (themeData.values["loop"] != "-1") {
-            if (Mix_OpenAudio(32000, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
-                printf("Unable to open audio: %s\n", Mix_GetError());
-            }
+
 
             music = Mix_LoadMUS((themePath + themeData.values["music"]).c_str());
             if (music == nullptr) { printf("Unable to load Wav file: %s\n", Mix_GetError()); }
             if (Mix_PlayMusic(music, themeData.values["loop"] == "1" ? -1 : 0) == -1) {
                 printf("Unable to play music file: %s\n", Mix_GetError());
             }
-            if (!reloading)
-                Mix_VolumeMusic(0);
+
         }
 
 }
@@ -337,7 +352,7 @@ void Gui::menuSelection() {
     }
 
     string forceScanMenu = _("Games changed. Press")+"  |@X|  "+_("to scan")+"|";
-    string otherMenu = "|@X|  "+_("Memory Cards")+"   |@O|  "+_("Game Manager")+" |";
+    string otherMenu = "|@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager") + "  |@T| " + _("GameUI") + " |";
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
 
 
@@ -362,6 +377,7 @@ void Gui::menuSelection() {
                     if (adv != "false") {
                         if (!forceScan) {
                             if (e.jbutton.button == PCS_BTN_L1) {
+                                Mix_PlayChannel(-1, cursor, 0);
                                 drawText(mainMenu);
                                 otherMenuShift = false;
                             }
@@ -373,6 +389,7 @@ void Gui::menuSelection() {
                     if (adv != "false") {
                         if (!forceScan) {
                             if (e.jbutton.button == PCS_BTN_L1) {
+                                Mix_PlayChannel(-1, cursor, 0);
                                 drawText(otherMenu);
                                 otherMenuShift = true;
                             }
@@ -382,6 +399,7 @@ void Gui::menuSelection() {
                     if (!otherMenuShift) {
                         if (!forceScan)
                             if (e.jbutton.button == PCS_BTN_START) {
+                                Mix_PlayChannel(-1, cursor, 0);
                                 this->menuOption = MENU_OPTION_RUN;
 
                                 menuVisible = false;
@@ -391,6 +409,7 @@ void Gui::menuSelection() {
                         if (!forceScan)
                             if (retroarch != "false") {
                                 if (e.jbutton.button == PCS_BTN_SQUARE) {
+                                    Mix_PlayChannel(-1, cursor, 0);
                                     this->menuOption = MENU_OPTION_RETRO;
 
                                     menuVisible = false;
@@ -399,11 +418,13 @@ void Gui::menuSelection() {
                             }
 
                         if (e.jbutton.button == PCS_BTN_CROSS) {
+                            Mix_PlayChannel(-1, cursor, 0);
                             this->menuOption = MENU_OPTION_SCAN;
 
                             menuVisible = false;
                         };
                         if (e.jbutton.button == PCS_BTN_TRIANGLE) {
+                            Mix_PlayChannel(-1, cursor, 0);
                             auto *aboutScreen = new GuiAbout(renderer);
                             aboutScreen->show();
                             delete aboutScreen;
@@ -412,7 +433,8 @@ void Gui::menuSelection() {
                             menuVisible = false;
                         };
                         if (e.jbutton.button == PCS_BTN_SELECT) {
-                            auto *options = new GuiOptions(renderer);
+                            Mix_PlayChannel(-1, cursor, 0);
+                            auto options = new GuiOptions(renderer);
                             options->show();
                             delete options;
                             menuSelection();
@@ -420,6 +442,7 @@ void Gui::menuSelection() {
                         };
                         if (!forceScan)
                             if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                                Mix_PlayChannel(-1, cancel, 0);
                                 this->menuOption = MENU_OPTION_SONY;
                                 menuVisible = false;
 
@@ -428,6 +451,7 @@ void Gui::menuSelection() {
                         break;
                     } else {
                         if (e.jbutton.button == PCS_BTN_CROSS) {
+                            Mix_PlayChannel(-1, cursor, 0);
                             auto memcardsScreen = new GuiMemcards(renderer);
                             memcardsScreen->show();
                             delete memcardsScreen;
@@ -437,9 +461,19 @@ void Gui::menuSelection() {
                         };
 
                         if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                            Mix_PlayChannel(-1, cursor, 0);
                             auto managerScreen = new GuiManager(renderer);
                             managerScreen->show();
                             delete managerScreen;
+
+                            menuSelection();
+                            menuVisible = false;
+                        };
+                        if (e.jbutton.button == PCS_BTN_TRIANGLE) {
+                            Mix_PlayChannel(-1, cursor, 0);
+                            auto launcherScreen = new GuiLauncher(renderer);
+                            launcherScreen->show();
+                            delete launcherScreen;
 
                             menuSelection();
                             menuVisible = false;
@@ -453,6 +487,11 @@ void Gui::menuSelection() {
 }
 
 void Gui::finish() {
+
+    Mix_FadeOutMusic(1000);
+    while (Mix_PlayingMusic()) {
+
+    }
 
     SDL_DestroyTexture(backgroundImg);
     SDL_DestroyTexture(logo);
@@ -470,6 +509,10 @@ void Gui::finish() {
     TTF_CloseFont(font);
     Mix_HaltMusic();
     Mix_FreeMusic(music);
+    Mix_FreeChunk(cursor);
+    Mix_FreeChunk(cancel);
+    Mix_FreeChunk(home_down);
+    Mix_FreeChunk(home_up);
 
 }
 
@@ -770,4 +813,30 @@ void Gui::renderFreeSpace() {
     rect.h = textRec.h;
     SDL_RenderFillRect(renderer, &rect);
     SDL_RenderCopy(renderer, textTex, nullptr, &rect);
+}
+
+string Gui::getSonyImagePath() {
+#if defined(__x86_64__) || defined(_M_X64)
+    return "./sony/images";
+#else
+    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/images";
+    if (!Util::exists(path))
+    {
+        path = "/usr/sony/share/data/images"
+    }
+    return path;
+#endif
+}
+
+string Gui::getSonySoundPath() {
+#if defined(__x86_64__) || defined(_M_X64)
+    return "./sony/sounds";
+#else
+    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/sounds";
+    if (!Util::exists(path))
+    {
+        path = "/usr/sony/share/data/sounds"
+    }
+    return path;
+#endif
 }

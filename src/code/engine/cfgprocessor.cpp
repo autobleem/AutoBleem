@@ -3,7 +3,7 @@
 //
 
 #include "cfgprocessor.h"
-#include "util.h"
+#include "../util.h"
 #include "inifile.h"
 
 using namespace std;

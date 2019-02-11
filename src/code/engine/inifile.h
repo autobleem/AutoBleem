@@ -5,7 +5,7 @@
 #ifndef CBLEEMSYNC_INIFILE_H
 #define CBLEEMSYNC_INIFILE_H
 
-#include "main.h"
+#include "../main.h"
 #include <map>
 
 class Inifile {

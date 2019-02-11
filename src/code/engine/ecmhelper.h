@@ -5,7 +5,7 @@
 #ifndef CBLEEMSYNC_ECMHELPER_H
 #define CBLEEMSYNC_ECMHELPER_H
 
-#include "main.h"
+#include "../main.h"
 using namespace std;
 
 class Ecmhelper {

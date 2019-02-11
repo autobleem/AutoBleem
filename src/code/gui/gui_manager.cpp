@@ -10,8 +10,8 @@
 #include <string>
 #include "gui.h"
 #include "gui_editor.h"
-#include "main.h"
-#include "lang.h"
+#include "../main.h"
+#include "../lang.h"
 
 bool wayToSort(Inifile i, Inifile j) {
     string title1 = i.values["title"];
@@ -107,6 +107,7 @@ void GuiManager::loop()
                 case SDL_JOYAXISMOTION:
                     if (e.jaxis.axis == 1) {
                         if (e.jaxis.value > 3200) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             selected++;
                             if (selected >= games.size()) {
                                 selected = 0;
@@ -116,6 +117,7 @@ void GuiManager::loop()
                             render();
                         }
                         if (e.jaxis.value < -3200) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             selected--;
                             if (selected < 0) {
                                 selected = games.size()-1;
@@ -128,6 +130,7 @@ void GuiManager::loop()
                     break;
                 case SDL_JOYBUTTONDOWN:
                     if (e.jbutton.button == PCS_BTN_R1) {
+                        Mix_PlayChannel(-1, gui->home_up, 0);
                         selected+=maxVisible;
                         if (selected >= games.size()) {
                             selected = games.size() - 1;
@@ -137,6 +140,7 @@ void GuiManager::loop()
                         render();
                     };
                     if (e.jbutton.button == PCS_BTN_L1) {
+                        Mix_PlayChannel(-1, gui->home_down, 0);
                         selected-=maxVisible;
                         if (selected < 0) {
                             selected = 0;
@@ -148,7 +152,7 @@ void GuiManager::loop()
 
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
-
+                        Mix_PlayChannel(-1, gui->cancel, 0);
                         if (changes)
                         {
                             gui->forceScan=true;
@@ -159,6 +163,7 @@ void GuiManager::loop()
 
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         if (!games.empty())
                         {
                             string selectedEntry = games[selected].entry;

@@ -2,7 +2,7 @@
 // Created by screemer on 2018-12-16.
 //
 
-#include "main.h"
+#include "../main.h"
 
 using namespace std;
 

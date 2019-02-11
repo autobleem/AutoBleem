@@ -4,8 +4,8 @@
 
 #include "gui_splash.h"
 #include "gui.h"
-#include "ver_migration.h"
-#include "lang.h"
+#include "../ver_migration.h"
+#include "../lang.h"
 
 void GuiSplash::render() {
     shared_ptr<Gui> gui(Gui::getInstance());

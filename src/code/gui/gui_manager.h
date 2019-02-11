@@ -5,7 +5,7 @@
 #ifndef AUTOBLEEM_GUI_GUI_MANAGER_H
 #define AUTOBLEEM_GUI_GUI_MANAGER_H
 #include "gui_screen.h"
-#include "inifile.h"
+#include "../engine/inifile.h"
 #include <vector>
 using namespace std;
 

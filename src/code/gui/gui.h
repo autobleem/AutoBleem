@@ -5,17 +5,18 @@
 #ifndef CBLEEMSYNC_SPLASH_H
 #define CBLEEMSYNC_SPLASH_H
 
-#include "main.h"
+#include "../main.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include <memory>
-#include "database.h"
-#include "config.h"
-#include "coverdb.h"
-#include "scanner.h"
+#include "../engine/database.h"
+#include "../engine/config.h"
+#include "../engine/coverdb.h"
+#include "../engine/scanner.h"
+
 
 #define PCS_BTN_L1       6
 #define PCS_BTN_R1       7
@@ -38,8 +39,6 @@ using namespace std;
 class Gui {
 private:
     Gui() {}
-
-
     string themePath;
 
 
@@ -73,6 +72,10 @@ public:
     void renderFreeSpace();
     void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
+
+    string getSonyImagePath();
+
+    string getSonySoundPath();
 
     Uint8 getR(string val);
     Uint8 getG(string val);
@@ -113,6 +116,11 @@ public:
     Mix_Music * music = NULL;
     TTF_Font *font =  NULL;
     bool forceScan=false;
+
+    Mix_Chunk *cancel = NULL;
+    Mix_Chunk *cursor = NULL;
+    Mix_Chunk *home_down = NULL;
+    Mix_Chunk *home_up = NULL;
 
     Gui(Gui const &) = delete;
     Gui &operator=(Gui const &) = delete;

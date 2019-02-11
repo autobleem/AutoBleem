@@ -11,9 +11,9 @@
 #include "gui.h"
 #include "gui_keyboard.h"
 #include "gui_selectmemcard.h"
-#include "memcard.h"
-#include "cfgprocessor.h"
-#include "lang.h"
+#include "../engine/memcard.h"
+#include "../engine/cfgprocessor.h"
+#include "../lang.h"
 
 
 void GuiEditor::init() {
@@ -105,6 +105,7 @@ void GuiEditor::loop() {
 
                     if (game.values["memcard"] == "SONY") {
                         if (e.jbutton.button == PCS_BTN_TRIANGLE) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                             keyboard->label = _("Enter new name for memory card");
                             keyboard->result = game.values["title"];
@@ -134,6 +135,7 @@ void GuiEditor::loop() {
 
 
                     if (e.jbutton.button == PCS_BTN_SELECT) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         if (game.values["automation"] == "1") {
                             game.values["automation"] = "0";
                         } else {
@@ -146,6 +148,7 @@ void GuiEditor::loop() {
 
 
                     if (e.jbutton.button == PCS_BTN_START) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         if (game.values["highres"] == "1") {
                             game.values["highres"] = "0";
                         } else {
@@ -164,6 +167,7 @@ void GuiEditor::loop() {
 
 
                     if (e.jbutton.button == PCS_BTN_SQUARE) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         GuiSelectMemcard *selector = new GuiSelectMemcard(renderer);
                         selector->cardSelected = game.values["memcard"];
                         selector->show();
@@ -183,7 +187,7 @@ void GuiEditor::loop() {
 
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
-
+                        Mix_PlayChannel(-1, gui->cancel, 0);
                         SDL_DestroyTexture(cover);
                         cover = nullptr;
                         menuVisible = false;
@@ -191,6 +195,7 @@ void GuiEditor::loop() {
                     };
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                         keyboard->label = _("Enter new game name");
                         keyboard->result = game.values["title"];

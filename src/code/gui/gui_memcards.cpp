@@ -9,10 +9,10 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include "gui.h"
-#include "memcard.h"
+#include "../engine/memcard.h"
 #include "gui_confirm.h"
 #include "gui_keyboard.h"
-#include "lang.h"
+#include "../lang.h"
 
 void GuiMemcards::init() {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -78,6 +78,7 @@ void GuiMemcards::loop() {
                 case SDL_JOYAXISMOTION:
                     if (e.jaxis.axis == 1) {
                         if (e.jaxis.value > 3200) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             selected++;
                             if (selected >= cards.size()) {
                                 selected = 0;
@@ -87,6 +88,7 @@ void GuiMemcards::loop() {
                             render();
                         }
                         if (e.jaxis.value < -3200) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             selected--;
                             if (selected < 0) {
                                 selected = cards.size()-1;
@@ -100,6 +102,7 @@ void GuiMemcards::loop() {
                 case SDL_JOYBUTTONDOWN:
 
                     if (e.jbutton.button == PCS_BTN_R1) {
+                        Mix_PlayChannel(-1, gui->home_up, 0);
                         selected+=maxVisible;
                         if (selected >= cards.size()) {
                             selected = cards.size() - 1;
@@ -109,6 +112,7 @@ void GuiMemcards::loop() {
                         render();
                     };
                     if (e.jbutton.button == PCS_BTN_L1) {
+                        Mix_PlayChannel(-1, gui->home_down, 0);
                         selected-=maxVisible;
                         if (selected < 0) {
                             selected = 0;
@@ -120,12 +124,12 @@ void GuiMemcards::loop() {
 
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
-
+                        Mix_PlayChannel(-1, gui->cancel, 0);
                         menuVisible = false;
 
                     };
                     if (e.jbutton.button == PCS_BTN_TRIANGLE) {
-
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         if (cards.size() != 0) {
 
 
@@ -146,6 +150,8 @@ void GuiMemcards::loop() {
                     };
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
+
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         if (cards.empty())
                         {
                             continue;
@@ -198,7 +204,7 @@ void GuiMemcards::loop() {
 
                     if (e.jbutton.button == PCS_BTN_SQUARE) {
 
-
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                         keyboard->label = _("Enter new card name");
                         keyboard->show();

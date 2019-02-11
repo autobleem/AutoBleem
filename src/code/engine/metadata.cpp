@@ -4,7 +4,7 @@
 
 #include "metadata.h"
 #include "database.h"
-#include "gui.h"
+#include "../gui/gui.h"
 
 
 bool Metadata::lookupBySerial(string serial) {

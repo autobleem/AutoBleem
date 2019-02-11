@@ -4,8 +4,8 @@
 
 #include "ver_migration.h"
 #include "util.h"
-#include "config.h"
-#include "inifile.h"
+#include "engine/config.h"
+#include "engine/inifile.h"
 #include <fstream>
 
 string verFile = "/media/System/Logs/ver.txt";

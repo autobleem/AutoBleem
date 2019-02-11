@@ -4,7 +4,7 @@
 
 #include "coverdb.h"
 
-#include "util.h"
+#include "../util.h"
 
 static const char *jDatabases[] = {"../db/coversU.db", "../db/coversP.db", "../db/coversJ.db"};
 

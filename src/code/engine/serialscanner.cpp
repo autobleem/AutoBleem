@@ -2,7 +2,7 @@
 // Created by screemer on 2/3/19.
 //
 
-#include "main.h"
+#include "../main.h"
 #include "serialscanner.h"
 #include "isodir.h"
 #include <sstream>

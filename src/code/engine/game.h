@@ -5,7 +5,8 @@
 
 #ifndef CBLEEMSYNC_GAME_H
 #define CBLEEMSYNC_GAME_H
-#include "main.h"
+
+#include "../main.h"
 using namespace std;
 
 class Disc {

@@ -5,7 +5,7 @@
 #ifndef CBLEEMSYNC_CONFIG_H
 #define CBLEEMSYNC_CONFIG_H
 
-#include "main.h"
+#include "../main.h"
 #include "inifile.h"
 
 

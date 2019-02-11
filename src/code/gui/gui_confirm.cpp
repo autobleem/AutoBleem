@@ -10,7 +10,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include "gui.h"
-#include "lang.h"
+#include "../lang.h"
 
 void GuiConfirm::render()
 {
@@ -28,6 +28,7 @@ void GuiConfirm::render()
 
 void GuiConfirm::loop()
 {
+    shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
     while (menuVisible) {
         SDL_Event e;
@@ -41,11 +42,13 @@ void GuiConfirm::loop()
 
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         result = true;
                         menuVisible = false;
 
                     };
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                        Mix_PlayChannel(-1, gui->cancel, 0);
                         result = false;
                         menuVisible = false;
 

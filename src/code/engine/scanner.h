@@ -5,10 +5,10 @@
 #ifndef CBLEEMSYNC_SCANNER_H
 #define CBLEEMSYNC_SCANNER_H
 
-#include "main.h"
+#include "../main.h"
 #include "game.h"
 #include "database.h"
-#include "gui.h"
+#include "../gui/gui.h"
 
 using namespace std;
 

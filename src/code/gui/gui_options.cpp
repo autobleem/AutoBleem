@@ -3,9 +3,9 @@
 //
 
 #include "gui_options.h"
-#include "util.h"
+#include "../util.h"
 #include "gui.h"
-#include "lang.h"
+#include "../lang.h"
 
 
 string GuiOptions::getOption(vector<string> list, string current, bool next) {
@@ -158,14 +158,17 @@ void GuiOptions::loop() {
                 case SDL_JOYBUTTONUP:  /* Handle Joystick Button Presses */
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                        Mix_PlayChannel(-1, gui->cancel, 0);
                         gui->cfg.save();
                         gui->overrideQuickBoot = true;
                         menuVisible = false;
                     };
                     break;
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
+
                     if (e.jaxis.axis == 1) {
                         if (e.jaxis.value > 3200) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             selOption++;
                             if (selOption > 8) {
                                 selOption = 8;
@@ -173,6 +176,7 @@ void GuiOptions::loop() {
                             render();
                         }
                         if (e.jaxis.value < -3200) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             selOption--;
                             if (selOption < 0) {
                                 selOption = 0;
@@ -183,6 +187,7 @@ void GuiOptions::loop() {
 
                     if (e.jaxis.axis == 0) {
                         if (e.jaxis.value > 3200) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             if (selOption == CFG_LANG) {
                                 string nextValue = getOption(languages, gui->cfg.inifile.values["language"], true);
                                 gui->cfg.inifile.values["language"] = nextValue;
@@ -241,6 +246,7 @@ void GuiOptions::loop() {
                             render();
                         }
                         if (e.jaxis.value < -3200) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             if (selOption == CFG_LANG) {
                                 string nextValue = getOption(languages, gui->cfg.inifile.values["language"], false);
                                 gui->cfg.inifile.values["language"] = nextValue;

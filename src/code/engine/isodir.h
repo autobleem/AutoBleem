@@ -5,7 +5,7 @@
 #ifndef CBLEEMSYNC_ISODIR_H
 #define CBLEEMSYNC_ISODIR_H
 
-#include "main.h"
+#include "../main.h"
 
 using namespace std;
 #define SECTOR_SIZE 2352

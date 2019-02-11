@@ -13,67 +13,67 @@ add_executable(autobleem-gui
         src/code/unecm.c
         src/code/sqlite3.c
         src/code/main.h
-        src/code/database.cpp
+        src/code/engine/database.cpp
         src/code/main.cpp
-        src/code/database.h
+        src/code/engine/database.h
         src/code/sqlite3.h
         src/code/util.h
         src/code/util.cpp
-        src/code/game.cpp
-        src/code/game.h
-        src/code/scanner.cpp
-        src/code/scanner.h
-        src/code/metadata.cpp
-        src/code/metadata.h
-        src/code/ecmhelper.cpp
-        src/code/ecmhelper.h
-        src/code/gui.h
-        src/code/gui.cpp
-		src/code/inifile.cpp
-		src/code/inifile.h
-		src/code/isodir.cpp
-		src/code/isodir.h
-		src/code/config.cpp
-		src/code/config.h
-		src/code/cfgprocessor.cpp
-		src/code/cfgprocessor.h
-        src/code/memcard.cpp
-		src/code/memcard.h
-		src/code/gui_about.cpp
-		src/code/gui_about.h
-		src/code/gui_screen.cpp
-		src/code/gui_screen.h
-		src/code/gui_splash.cpp
-		src/code/gui_splash.h
-		src/code/gui_options.cpp
-		src/code/gui_options.h
-		src/code/gui_memcards.cpp
-		src/code/gui_memcards.h
-		src/code/gui_confirm.cpp
-		src/code/gui_confirm.h
-		src/code/gui_keyboard.cpp
-		src/code/gui_keyboard.h
-		src/code/gui_manager.cpp
-		src/code/gui_manager.h
-		src/code/gui_editor.cpp
-		src/code/gui_editor.h
-		src/code/gui_selectmemcard.cpp
-		src/code/gui_selectmemcard.h
+        src/code/engine/game.cpp
+        src/code/engine/game.h
+        src/code/engine/scanner.cpp
+        src/code/engine/scanner.h
+        src/code/engine/metadata.cpp
+        src/code/engine/metadata.h
+        src/code/engine/ecmhelper.cpp
+        src/code/engine/ecmhelper.h
+        src/code/gui/gui.h
+        src/code/gui/gui.cpp
+        src/code/engine/inifile.cpp
+        src/code/engine/inifile.h
+        src/code/engine/isodir.cpp
+        src/code/engine/isodir.h
+        src/code/engine/config.cpp
+        src/code/engine/config.h
+        src/code/engine/cfgprocessor.cpp
+        src/code/engine/cfgprocessor.h
+        src/code/engine/memcard.cpp
+        src/code/engine/memcard.h
+        src/code/gui/gui_about.cpp
+        src/code/gui/gui_about.h
+        src/code/gui/gui_screen.cpp
+        src/code/gui/gui_screen.h
+        src/code/gui/gui_splash.cpp
+        src/code/gui/gui_splash.h
+        src/code/gui/gui_options.cpp
+        src/code/gui/gui_options.h
+        src/code/gui/gui_memcards.cpp
+        src/code/gui/gui_memcards.h
+        src/code/gui/gui_confirm.cpp
+        src/code/gui/gui_confirm.h
+        src/code/gui/gui_keyboard.cpp
+        src/code/gui/gui_keyboard.h
+        src/code/gui/gui_manager.cpp
+        src/code/gui/gui_manager.h
+        src/code/gui/gui_editor.cpp
+        src/code/gui/gui_editor.h
+        src/code/gui/gui_selectmemcard.cpp
+        src/code/gui/gui_selectmemcard.h
 		src/code/ver_migration.cpp
 		src/code/ver_migration.h
-		src/code/coverdb.cpp
-		src/code/coverdb.h
-		src/code/serialscanner.cpp
-		src/code/serialscanner.h
-		src/code/lang.cpp src/code/lang.h src/code/gui_launcher.cpp src/code/gui_launcher.h)
+        src/code/engine/coverdb.cpp
+        src/code/engine/coverdb.h
+        src/code/engine/serialscanner.cpp
+        src/code/engine/serialscanner.h
+        src/code/lang.cpp src/code/lang.h src/code/launcher/gui_launcher.cpp src/code/launcher/gui_launcher.h)
 
 add_executable(starter
 		src/code/starter.cpp
 		src/code/util.h
 		src/code/util.cpp
-		src/code/inifile.cpp
-		src/code/inifile.cpp
-		src/code/memcard.cpp src/code/memcard.h
+        src/code/engine/inifile.cpp
+        src/code/engine/inifile.cpp
+        src/code/engine/memcard.cpp src/code/engine/memcard.h
 		)
 
 target_link_libraries(autobleem-gui

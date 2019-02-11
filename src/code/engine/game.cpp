@@ -6,7 +6,7 @@
 #include "isodir.h"
 #include "inifile.h"
 #include "cfgprocessor.h"
-#include "gui.h"
+#include "../gui/gui.h"
 #include "serialscanner.h"
 
 using namespace std;

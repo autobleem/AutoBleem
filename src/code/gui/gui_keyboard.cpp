@@ -10,7 +10,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include "gui.h"
-#include "lang.h"
+#include "../lang.h"
 
 vector<string> row0 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
 vector<string> row1 = {"q", "w", "e", "r", "t", "y", "u", "i", "o", "p"};
@@ -60,7 +60,8 @@ void GuiKeyboard::render() {
 
 
             string bg = gui->themeData.values["key_bg"];
-            SDL_SetRenderDrawColor(renderer, gui->getR(bg), gui->getG(bg), gui->getB(bg), atoi(gui->themeData.values["keyalpha"].c_str()));
+            SDL_SetRenderDrawColor(renderer, gui->getR(bg), gui->getG(bg), gui->getB(bg),
+                                   atoi(gui->themeData.values["keyalpha"].c_str()));
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
             SDL_RenderFillRect(renderer, &rectSelection);
 
@@ -78,10 +79,10 @@ void GuiKeyboard::render() {
                 SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
                 SDL_RenderDrawRect(renderer, &rectSelection);
                 SDL_Rect rectSelection2;
-                rectSelection2.x=rectSelection.x+1;
-                rectSelection2.y=rectSelection.y+1;
-                rectSelection2.w=rectSelection.w-2;
-                rectSelection2.h=rectSelection.h-2;
+                rectSelection2.x = rectSelection.x + 1;
+                rectSelection2.y = rectSelection.y + 1;
+                rectSelection2.w = rectSelection.w - 2;
+                rectSelection2.h = rectSelection.h - 2;
                 SDL_RenderDrawRect(renderer, &rectSelection2);
 
             }
@@ -90,12 +91,14 @@ void GuiKeyboard::render() {
     }
 
 
-    gui->renderStatus("|@X| "+_("Select")+"  |@T|  "+_("Delete")+"  |@L1| "+_("Caps")+" |@S| "+_("Space")+"      |@Start| "+_("Confirm")+"  |@O| "+_("Cancel")+" |");
+    gui->renderStatus(
+            "|@X| " + _("Select") + "  |@T|  " + _("Delete") + "  |@L1| " + _("Caps") + " |@S| " + _("Space") +
+            "      |@Start| " + _("Confirm") + "  |@O| " + _("Cancel") + " |");
     SDL_RenderPresent(renderer);
 }
 
 void GuiKeyboard::loop() {
-
+    shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
     while (menuVisible) {
         SDL_Event e;
@@ -107,6 +110,7 @@ void GuiKeyboard::loop() {
             switch (e.type) {
                 case SDL_JOYBUTTONUP:
                     if (e.jbutton.button == PCS_BTN_L1) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         caps = false;
                         render();
                     }
@@ -114,26 +118,28 @@ void GuiKeyboard::loop() {
                 case SDL_JOYBUTTONDOWN:
 
                     if (e.jbutton.button == PCS_BTN_L1) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         caps = true;
                         render();
                     }
 
                     if (e.jbutton.button == PCS_BTN_TRIANGLE) {
-                        if (!result.empty())
-                        {
-                            result = result.substr(0,result.length()-1);
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        if (!result.empty()) {
+                            result = result.substr(0, result.length() - 1);
                         }
                         render();
                     }
 
                     if (e.jbutton.button == PCS_BTN_SQUARE) {
-
-                            result += " ";
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        result += " ";
 
                         render();
                     }
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         string character = rows[sely][selx];
                         if (caps) {
                             result += ucase(character);
@@ -146,11 +152,13 @@ void GuiKeyboard::loop() {
                     }
 
                     if (e.jbutton.button == PCS_BTN_START) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         cancelled = false;
                         menuVisible = false;
 
                     };
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
                         cancelled = true;
                         menuVisible = false;
 
@@ -159,6 +167,7 @@ void GuiKeyboard::loop() {
                 case SDL_JOYAXISMOTION:
                     if (e.jaxis.axis == 0) {
                         if (e.jaxis.value > 3200) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             selx++;
                             if (selx > 9) {
                                 selx = 0;
@@ -166,6 +175,7 @@ void GuiKeyboard::loop() {
                             render();
                         }
                         if (e.jaxis.value < -3200) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             selx--;
                             if (selx < 0) {
                                 selx = 9;
@@ -175,6 +185,7 @@ void GuiKeyboard::loop() {
                     }
                     if (e.jaxis.axis == 1) {
                         if (e.jaxis.value > 3200) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             sely++;
                             if (sely > 3) {
                                 sely = 0;
@@ -182,6 +193,7 @@ void GuiKeyboard::loop() {
                             render();
                         }
                         if (e.jaxis.value < -3200) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
                             sely--;
                             if (sely < 0) {
                                 sely = 3;
