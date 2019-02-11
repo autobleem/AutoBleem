@@ -155,3 +155,4 @@ ATTANTION : PAS DE BDD DE JAQUETTE TROUVÉES. APPUYER SUR UNE TOUCHE
 RetroArch is not installed
 RetroArch is niet geïnstalleerd
 
+
