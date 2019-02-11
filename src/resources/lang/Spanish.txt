@@ -152,5 +152,8 @@ Hold
 Mantener
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 ADVERTENCIA : CARÁTURA EN DB NO ENCONTRADO. PRESIONE CUALQUIER BOTÓN.
+RetroArch is not installed
+RetroArch no está instalado
+
 
 

@@ -154,3 +154,5 @@ WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 WARNUNG: COVER DB/S NICHT GEFUNDEN. BELIEBIGE TASTE DRÜCKEN
 Language:
 Sprache:
+RetroArch is not installed
+RetroArch ist nicht installiert
