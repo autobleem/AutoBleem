@@ -26,6 +26,8 @@ static const char EXT_PNG[] = ".png";
 static const char EXT_PBP[] = ".pbp";
 static const char EXT_ECM[] = ".ecm";
 static const char EXT_BIN[] = ".bin";
+static const char EXT_IMG[] = ".img";
+static const char EXT_ISO[] = ".iso";
 static const char EXT_CUE[] = ".cue";
 static const char EXT_LIC[] = ".lic";
 

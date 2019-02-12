@@ -152,5 +152,7 @@ Hold
 Pauze
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 WAARSCHUWING: GEEN COVER DATANASE GEVONDEN. DRUK OP KNOP
+RetroArch is not installed
+RetroArch is niet geïnstalleerd
 
 

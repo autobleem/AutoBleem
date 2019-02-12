@@ -1,0 +1,156 @@
+﻿ - Automatic PlayStation Classic USB launcher
+ - Launcher USB Automatique PlayStation Classic
+'Tenchu' theme by Kevzombie
+Tema 'Tenchu' por Kevzombie
+-=About=-
+-=Sobre=-
+-=Configuration=-
+-=Configuración=-
+-=Game manager - Select game=-
+-=Gestión de los juegos - Elige un juego=-
+About
+Sobre
+Advanced
+Configuración avanzada
+Advanced:
+Configuración avanzada:
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+Tema AutoBleem:
+Background Music:
+Música de fondo:
+Close
+Cerrar
+Download latest: https://github.com/screemerpl/cbleemsync
+Última version: https://github.com/screemerpl/cbleemsync
+Free space
+Espacio libre
+GFX Filter:
+Filtro gráfico:
+Game
+Juego
+Game Manager
+Administrador de juegos
+Games changed. Press
+Juegos cambiados. Prensa
+Go back
+Regreso
+Loading ... Please Wait ...
+Cargando ... Espere por favor ...
+Memory Cards
+Tarjetas de memoria
+Menu Theme:
+Tema del menú:
+Options
+Opciones
+PCSX Version:
+Versión PCSX:
+Page
+Pagina
+QuickBoot:
+Arranque rápido:
+Re/Scan
+Reinicie el escaneo
+RetroArch
+RetroArch
+Scanning...
+Escaneo en progreso...
+Select
+Eligir
+Show RetroArch:
+Mostrar RetroArch:
+Support via Discord: https://discord.gg/AHUS3RM
+Apoyo a través de Discord: https://discord.gg/AHUS3RM
+This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+Este software es gratuito y de código abierto. Funciona TAL CUAL y no nos hacemos responsables de cualquier problema o daño..
+Total:
+Total:
+Updating regional.db...
+Actualizando el archivo regional.db...
+Upgrading AutoBleem - Please wait...
+Actualizando AutoBleem - Espere por favor...
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+ADVERTENCIA: NO HAY JUEGOS ENCONTRADOS. PRESIONE CUALQUIER BOTÓN.
+games scanned
+juegos escaneados
+to scan
+para escanear
+Game:
+Juego:
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Código: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Folder:
+Carpeta:
+Published by:
+Publicado por:
+Players:
+Jugadores:
+Year:
+Año:
+Memory Card:
+Tarjeta de Memoria:
+High res:
+Alta definición:
+Lock data:
+Bloquear datos:
+Change MC
+Cambio TM
+Hi/Lo Res
+Alta/baja definición
+Lock
+Bloquear
+Share MC
+Compartir TM
+(Internal)
+(Interna)
+-=Select memory card=-
+-=Seleccione tarjeta de memoria=-
+Card
+Tarjeta
+-=Custom Memory Cards=-
+-=Tarjetas de memoria personalizadas=-
+Delete
+Eliminar
+New Card
+Nueva Tarjeta
+Rename
+poner nuevo nombre
+Enter new name for memory card
+Nuevo nombre de la tarjeta de memoria
+Cancel
+Cancelar
+Confirm
+Confirmar
+Space
+Espacio
+Enter new game name
+Introduce el nuevo nombre del juego
+Original
+Original
+Enter new card name
+Introduce el nuevo nombre de la tarjeta
+Delete card
+Eliminar tarjeta
+-=Please confirm=-
+-=Por favor confirmar=-
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+POR FAVOR CONECTE EL MANDO A LA PLAYSTATION CLASSIC
+Caps
+Maj
+Internal
+Interna
+(Custom)
+(Personalizada)
+Enter new name for card
+Introduce un nuevo nombre para la tarjeta
+Menu
+Menú
+Quick boot
+Arranque rápido
+Hold
+Mantener
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+ADVERTENCIA : CARÁTURA EN DB NO ENCONTRADO. PRESIONE CUALQUIER BOTÓN.
+RetroArch is not installed
+RetroArch no está instalado

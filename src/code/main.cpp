@@ -6,17 +6,17 @@
  */
 
 #include <iostream>
-#include "database.h"
-#include "scanner.h"
-#include "gui.h"
+#include "engine/database.h"
+#include "engine/scanner.h"
+#include "gui/gui.h"
 #include "main.h"
 #include "ver_migration.h"
-#include "coverdb.h"
+#include "engine/coverdb.h"
 
 
 using namespace std;
 
-#include "memcard.h"
+#include "engine/memcard.h"
 #include "lang.h"
 
 
@@ -44,6 +44,12 @@ int scanGames(string path, string dbpath) {
     gui->drawText(_("Total:")+" " + to_string(scanner->games.size()) + " "+_("games scanned")+".");
     sleep(1);
     delete db;
+    for (Game * game:scanner->games)
+    {
+        delete(game);
+
+    }
+    scanner->games.clear();
     return (EXIT_SUCCESS);
 }
 
@@ -104,7 +110,6 @@ int main(int argc, char *argv[]) {
 
     gui->logText(_("Loading ... Please Wait ..."));
     gui->finish();
-    sync();
     SDL_Quit();
     delete coverdb;
 
