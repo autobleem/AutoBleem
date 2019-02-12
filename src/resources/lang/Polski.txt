@@ -154,3 +154,5 @@ WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 UWAGA: BRAK BAZY OKŁADEK. NACIŚNIJ DOWOLNY PRZYCISK
 Language:
 Język:
+RetroArch is not installed
+RetroArch jest nie zainstalowany

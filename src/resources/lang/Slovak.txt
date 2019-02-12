@@ -154,3 +154,5 @@ WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 POZOR: NENAŠLA SA DATABÁZA OBALOV NA HRY. STLAČTE ĽUBOVOĽNÚ KLÁVESU.
 Language:
 Jazyk:
+RetroArch is not installed
+RetroArch nie je nainštalovaný
