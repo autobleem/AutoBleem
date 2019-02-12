@@ -10,6 +10,7 @@
 #include <vector>
 #include "ps_settings_back.h"
 #include "ps_zoom_btn.h"
+#include "ps_meta.h"
 
 class GuiLauncher : public GuiScreen{
 public:
@@ -30,6 +31,7 @@ public:
     PsSettingsBack *settingsBack;
     PsObj *playButton;
     PsZoomBtn *playText;
+    PsMeta *meta;
 
     TTF_Font *font30;
     TTF_Font *font15;
@@ -48,6 +50,7 @@ public:
     bool gameInfoVisible = true;
 
     using GuiScreen::GuiScreen;
+
 
 };
 

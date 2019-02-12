@@ -10,8 +10,6 @@
 class PsSettingsBack : public PsObj {
 public:
     void setCurLen(int len);
-
-
     void update(long time);
 
     int nextLen = 0;

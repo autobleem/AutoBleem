@@ -54,6 +54,7 @@ void GuiLauncher::renderMeta() {
         renderText(785, 285, gameName, 255, 255, 255, font30);
         renderText(785, 328, publisher, 255, 255, 255, font15);
         renderText(785, 350, year, 255, 255, 255, font15);
+        renderText(830, 380, players, 255, 255, 255, font15);
     }
 }
 void GuiLauncher::loadAssets() {
@@ -100,6 +101,16 @@ void GuiLauncher::loadAssets() {
     settingsBack->visible = true;
     staticElements.push_back(settingsBack);
 
+    meta = new PsMeta(renderer, "meta", gui->getSonyImagePath() + "/CB/PlayerOne.png");
+    meta->font15 = font15;
+    meta->font24 = font24;
+    meta->font30 = font30;
+    meta->x = 785;
+    meta->y = 285;
+    meta->visible = true;
+    meta->updateTexts(gameName, publisher, year, players);
+    staticElements.push_back(meta);
+
     // mockup
 
     auto cover = new PsObj(renderer, "cover", "./default.png");
@@ -140,17 +151,16 @@ void GuiLauncher::render()
         obj->render();
     }
 
-    renderMeta();
 
     renderText(638, 644, "Enter", 80, 80, 80, font24);
     renderText(892, 644, "Console Button Guide", 80, 80, 80, font24);
 
 
-    // gui->renderStatus("|@X| " + _("Play") + "  |@O| " + _("Go back") + "|");
     SDL_RenderPresent(renderer);
 }
 
 void GuiLauncher::loop() {
+    shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
     while (menuVisible) {
         long time = SDL_GetTicks();
@@ -177,20 +187,27 @@ void GuiLauncher::loop() {
                     };
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
-
-                        settingsBack->animEndTime = time + 200;
+                        Mix_PlayChannel(-1, gui->home_down, 0);
+                        settingsBack->animEndTime = time + 100;
                         settingsBack->nextLen = 280;
                         playButton->visible = false;
                         playText->visible = false;
+                        meta->animEndTime = time + 200;
+                        meta->nextPos = 215;
+                        meta->prevPos = meta->y;
+
 
 
                     };
                     if (e.jbutton.button == PCS_BTN_SQUARE) {
-
-                        settingsBack->animEndTime = time + 200;
+                        Mix_PlayChannel(-1, gui->home_up, 0);
+                        settingsBack->animEndTime = time + 100;
                         settingsBack->nextLen = 100;
                         playButton->visible = true;
                         playText->visible = true;
+                        meta->animEndTime = time + 200;
+                        meta->nextPos = 285;
+                        meta->prevPos = meta->y;
 
 
                     };

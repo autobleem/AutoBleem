@@ -10,8 +10,8 @@
 class PsZoomBtn : public PsObj {
 
     float zoom = 1.0f;
-    float maxZoom = 1.10f;
-    float zoomStep = 0.0003f;
+    float maxZoom = 1.20f;
+    float zoomStep = 0.0002f;
     bool up = true;
 
     void update(long time);
