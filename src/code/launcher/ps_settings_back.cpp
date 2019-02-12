@@ -15,7 +15,7 @@ void PsSettingsBack::setCurLen(int len) {
 }
 
 void PsSettingsBack::update(long time) {
-
+    if (visible)
     if (animEndTime != 0) {
         if (animStarted == 0) {
             animStarted = time;

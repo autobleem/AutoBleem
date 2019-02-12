@@ -27,7 +27,7 @@ void PsMeta::destroy() {
     if (gameNameTex != nullptr) SDL_DestroyTexture(gameNameTex);
     if (publisherTex != nullptr) SDL_DestroyTexture(publisherTex);
     if (yearTex != nullptr) SDL_DestroyTexture(yearTex);
-    if (playersTex != nullptr) SDL_DestroyTexture(gameNameTex);
+    if (playersTex != nullptr) SDL_DestroyTexture(playersTex);
     SDL_DestroyTexture(tex);
 
 }
@@ -129,30 +129,31 @@ SDL_Texture *PsMeta::createTextTex(string text, Uint8 r, Uint8 g, Uint8 b, TTF_F
 
 void PsMeta::update(long time) {
 
-    if (animEndTime != 0) {
-        if (animStarted == 0) {
-            animStarted = time;
+    if (visible)
+        if (animEndTime != 0) {
+            if (animStarted == 0) {
+                animStarted = time;
+
+            }
+
+            if (animStarted != 0) {
+                // calculate length for point in time
+                long currentAnim = time - animStarted;
+                long totalAnimTime = animEndTime - animStarted;
+                float position = currentAnim * 1.0f / totalAnimTime * 1.0f;
+                int newPos = prevPos + ((nextPos - prevPos) * position);
+                y = newPos;
+
+
+            }
+
+            if (time >= animEndTime) {
+                animStarted = 0;
+                animEndTime = 0;
+                y = nextPos;
+
+            }
 
         }
-
-        if (animStarted != 0) {
-            // calculate length for point in time
-            long currentAnim = time - animStarted;
-            long totalAnimTime = animEndTime - animStarted;
-            float position = currentAnim * 1.0f / totalAnimTime * 1.0f;
-            int newPos = prevPos + ((nextPos - prevPos) * position);
-            y = newPos;
-
-
-        }
-
-        if (time >= animEndTime) {
-            animStarted = 0;
-            animEndTime = 0;
-            y = nextPos;
-
-        }
-
-    }
     lastTime = time;
 }

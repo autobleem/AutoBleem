@@ -12,6 +12,8 @@
 #include "../lang.h"
 #include "ps_settings_back.h"
 
+int frame = 0;
+
 void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
     int text_width;
     int text_height;
@@ -49,14 +51,7 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
 
 }
 
-void GuiLauncher::renderMeta() {
-    if (gameInfoVisible) {
-        renderText(785, 285, gameName, 255, 255, 255, font30);
-        renderText(785, 328, publisher, 255, 255, 255, font15);
-        renderText(785, 350, year, 255, 255, 255, font15);
-        renderText(830, 380, players, 255, 255, 255, font15);
-    }
-}
+
 void GuiLauncher::loadAssets() {
     shared_ptr<Gui> gui(Gui::getInstance());
     long time = SDL_GetTicks();
@@ -144,7 +139,6 @@ void GuiLauncher::render()
     shared_ptr<Gui> gui(Gui::getInstance());
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderClear(renderer);
-
 
     for (auto obj:staticElements) {
 
