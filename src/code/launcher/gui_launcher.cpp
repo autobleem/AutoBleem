@@ -12,7 +12,6 @@
 #include "../lang.h"
 #include "ps_settings_back.h"
 
-int frame = 0;
 
 void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
     int text_width;
