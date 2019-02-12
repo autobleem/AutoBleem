@@ -859,3 +859,16 @@ string Gui::getSonySoundPath() {
     return path;
 #endif
 }
+
+string Gui::getSonyFontPath() {
+#if defined(__x86_64__) || defined(_M_X64)
+    return "./sony/font";
+#else
+    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/font";
+    if (!Util::exists(path))
+    {
+        path = "/usr/sony/share/data/font";
+    }
+    return path;
+#endif
+}

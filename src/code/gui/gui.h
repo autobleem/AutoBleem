@@ -75,6 +75,7 @@ public:
 
     string getSonyImagePath();
 
+    string getSonyFontPath();
     string getSonySoundPath();
 
     Uint8 getR(string val);
