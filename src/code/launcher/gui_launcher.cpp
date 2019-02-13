@@ -50,15 +50,42 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
 
 }
 
+void GuiLauncher::updateMeta() {
+    PsGame *game = gamesList[selGame];
+    gameName = game->title;
+    publisher = game->publisher;
+    year = to_string(game->year);
+    if (game->players == 1) {
+        players = to_string(game->players) + " " + _("Player");
+    } else {
+        players = to_string(game->players) + " " + _("Players");
+    }
+    meta->updateTexts(gameName, publisher, year, players);
+}
 
 void GuiLauncher::loadAssets() {
     shared_ptr<Gui> gui(Gui::getInstance());
+
+    gamesList.clear();
+    gui->db->getGames(&gamesList);
+    for (PsGame *game:gamesList) {
+        game->loadTex(renderer);
+    }
+
+    gameName = "";
+    publisher = "";
+    year = "";
+    players = "";
+
+    if (gamesList.empty()) {
+        selGame = -1;
+    } else {
+        selGame = 0;
+    }
+
+
     long time = SDL_GetTicks();
-    // mockup
-    gameName = "Resident Evil 2 - Leon";
-    publisher = "Capcom.";
-    year = "1999";
-    players = "2 players";
+
 
     font30 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Bold.ttf").c_str(), 28);
     font15 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Bold.ttf").c_str(), 15);
@@ -104,16 +131,17 @@ void GuiLauncher::loadAssets() {
     meta->visible = true;
     meta->updateTexts(gameName, publisher, year, players);
     staticElements.push_back(meta);
+    updateMeta();
 
     // mockup
 
+    /*
     auto cover = new PsObj(renderer, "cover", "./default.png");
     cover->x = 527;
     cover->y = 180;
     cover->visible = true;
     staticElements.push_back(cover);
-
-
+    */
 
 }
 
@@ -126,14 +154,19 @@ void GuiLauncher::freeAssets() {
     TTF_CloseFont(font30);
     TTF_CloseFont(font24);
     TTF_CloseFont(font15);
+    for (PsGame *game:gamesList) {
+        game->freeTex();
+        delete game;
+
+    }
+    gamesList.clear();
 }
 
 void GuiLauncher::init() {
     loadAssets();
 }
 
-void GuiLauncher::render()
-{
+void GuiLauncher::render() {
 
     shared_ptr<Gui> gui(Gui::getInstance());
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
@@ -144,6 +177,30 @@ void GuiLauncher::render()
         obj->render();
     }
 
+    // covers render
+
+    if (!gamesList.empty()) {
+        SDL_Texture *currentGameTex = gamesList[selGame]->coverPng;
+
+        SDL_Rect coverRect;
+        coverRect.x = 527;
+        coverRect.y = 180;
+        coverRect.w = 226;
+        coverRect.h = 226;
+
+
+        SDL_Rect fullRect;
+        fullRect.x = 0;
+        fullRect.y = 0;
+        fullRect.w = 226;
+        fullRect.h = 226;
+        SDL_SetTextureColorMod(currentGameTex, 255, 255, 255);
+        SDL_RenderCopy(renderer, currentGameTex, &fullRect, &coverRect);
+
+
+    }
+
+
 
     renderText(638, 644, "Enter", 80, 80, 80, font24);
     renderText(892, 644, "Console Button Guide", 80, 80, 80, font24);
@@ -152,15 +209,62 @@ void GuiLauncher::render()
     SDL_RenderPresent(renderer);
 }
 
+void GuiLauncher::nextGame() {
+    shared_ptr<Gui> gui(Gui::getInstance());
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    selGame++;
+    if (selGame >= gamesList.size()) {
+        selGame = 0;
+    }
+    updateMeta();
+}
+
+void GuiLauncher::prevGame() {
+    shared_ptr<Gui> gui(Gui::getInstance());
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    selGame--;
+    if (selGame < 0) {
+        selGame = gamesList.size() - 1;
+    }
+    updateMeta();
+}
+
 void GuiLauncher::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
+    long motionStart = 0;
+    long timespeed = 0;
+    int motionDir = 0;
+
     while (menuVisible) {
         long time = SDL_GetTicks();
         for (auto obj:staticElements) {
             obj->update(time);
         }
         render();
+
+        if (motionStart != 0) {
+            long timePressed = time - motionStart;
+
+            if (timePressed > 300) {
+
+                if (time - timespeed > 100) {
+                    if (motionDir == 0) {
+                        nextGame();
+                        timespeed = 0;
+                    } else {
+                        prevGame();
+                        timespeed = 0;
+                    }
+                    timespeed = time;
+                }
+                if (timespeed == 0) {
+                    timespeed = time;
+                }
+            } else {
+                timespeed = 0;
+            }
+        }
 
 
         SDL_Event e;
@@ -170,6 +274,23 @@ void GuiLauncher::loop() {
                 menuVisible = false;
             }
             switch (e.type) {
+                case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
+
+                    if (e.jaxis.axis == 0) {
+                        if (e.jaxis.value > 3200) {
+                            motionStart = time;
+                            motionDir = 0;
+                            nextGame();
+
+                        } else if (e.jaxis.value < -3200) {
+                            motionStart = time;
+                            motionDir = 1;
+                            prevGame();
+                        } else {
+                            motionStart = 0;
+                        }
+                    }
+                    break;
                 case SDL_JOYBUTTONUP:
 
 
@@ -178,6 +299,7 @@ void GuiLauncher::loop() {
                         menuVisible = false;
 
                     };
+
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
                         Mix_PlayChannel(-1, gui->home_down, 0);
@@ -188,7 +310,6 @@ void GuiLauncher::loop() {
                         meta->animEndTime = time + 200;
                         meta->nextPos = 215;
                         meta->prevPos = meta->y;
-
 
 
                     };

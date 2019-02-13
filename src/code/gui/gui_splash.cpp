@@ -80,9 +80,12 @@ void GuiSplash::loop() {
         render();
         int current = SDL_GetTicks();
         int time = current - start;
-        if (time > 5) {
+        if (time > 2) {
             if (alpha < 255) {
-                alpha += 1;
+                alpha += 2;
+                if (alpha > 255) {
+                    alpha = 255;
+                }
             } else {
 
                 break;

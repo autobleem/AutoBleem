@@ -21,29 +21,22 @@ using namespace std;
 
 
 int scanGames(string path, string dbpath) {
+    shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr <Scanner> scanner(Scanner::getInstance());
-    Database *db = new Database();
-    if (!db->connect(dbpath)) {
-        delete db;
-        return EXIT_FAILURE;
-    }
-    if (!db->createInitialDatabase()) {
+
+    if (!gui->db->createInitialDatabase()) {
         cout << "Error creating db structure" << endl;
-        db->disconnect();
-        delete db;
+
         return EXIT_FAILURE;
     };
 
 
     scanner->scanDirectory(path);
-    scanner->updateDB(db);
+    scanner->updateDB(gui->db);
 
 
-    db->disconnect();
-    shared_ptr <Gui> gui(Gui::getInstance());
     gui->drawText(_("Total:")+" " + to_string(scanner->games.size()) + " "+_("games scanned")+".");
     sleep(1);
-    delete db;
     for (Game * game:scanner->games)
     {
         delete(game);
@@ -90,8 +83,7 @@ int main(int argc, char *argv[]) {
 
 
     gui->display(scanner->forceScan, path, db);
-    db->disconnect();
-    delete db;
+
     while (gui->menuOption == MENU_OPTION_SCAN) {
 
         gui->menuSelection();
@@ -106,7 +98,8 @@ int main(int argc, char *argv[]) {
 
         }
     }
-
+    db->disconnect();
+    delete db;
 
     gui->logText(_("Loading ... Please Wait ..."));
     gui->finish();

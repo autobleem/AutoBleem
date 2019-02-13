@@ -216,6 +216,7 @@ void Gui::criticalException(string text) {
 }
 
 void Gui::display(bool forceScan, string path, Database *db) {
+    this->db = db;
     this->path = path;
     this->forceScan = forceScan;
     if (forceScan) overrideQuickBoot = true;

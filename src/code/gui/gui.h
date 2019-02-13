@@ -46,7 +46,7 @@ private:
 public:
     Config cfg;
     Coverdb *coverdb;
-
+    Database *db;
     Inifile themeData;
     Inifile defaultData;
     void display(bool forceScan, string path, Database * db);

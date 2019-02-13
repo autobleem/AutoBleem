@@ -11,6 +11,7 @@
 #include "ps_settings_back.h"
 #include "ps_zoom_btn.h"
 #include "ps_meta.h"
+#include "ps_game.h"
 
 class GuiLauncher : public GuiScreen{
 public:
@@ -20,10 +21,13 @@ public:
 
     void renderMeta();
 
+    void nextGame();
+
+    void prevGame();
+
+    void updateMeta();
     void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
-
     void loadAssets();
-
     void freeAssets();
 
     int len = 100;
@@ -51,7 +55,9 @@ public:
 
     using GuiScreen::GuiScreen;
 
+    vector<PsGame *> gamesList;
 
+    int selGame = 0;
 };
 
 

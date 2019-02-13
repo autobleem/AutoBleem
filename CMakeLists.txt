@@ -65,7 +65,7 @@ add_executable(autobleem-gui
         src/code/engine/coverdb.h
         src/code/engine/serialscanner.cpp
         src/code/engine/serialscanner.h
-		src/code/lang.cpp src/code/lang.h src/code/launcher/gui_launcher.cpp src/code/launcher/gui_launcher.h src/code/launcher/ps_obj.cpp src/code/launcher/ps_obj.h src/code/launcher/ps_static.cpp src/code/launcher/ps_static.h src/code/launcher/ps_settings_back.cpp src/code/launcher/ps_settings_back.h src/code/launcher/ps_zoom_btn.cpp src/code/launcher/ps_zoom_btn.h src/code/launcher/ps_meta.cpp src/code/launcher/ps_meta.h)
+		src/code/lang.cpp src/code/lang.h src/code/launcher/gui_launcher.cpp src/code/launcher/gui_launcher.h src/code/launcher/ps_obj.cpp src/code/launcher/ps_obj.h src/code/launcher/ps_static.cpp src/code/launcher/ps_static.h src/code/launcher/ps_settings_back.cpp src/code/launcher/ps_settings_back.h src/code/launcher/ps_zoom_btn.cpp src/code/launcher/ps_zoom_btn.h src/code/launcher/ps_meta.cpp src/code/launcher/ps_meta.h src/code/launcher/ps_game.cpp src/code/launcher/ps_game.h)
 
 add_executable(starter
 		src/code/starter.cpp

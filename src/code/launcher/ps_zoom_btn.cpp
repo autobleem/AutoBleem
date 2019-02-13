@@ -5,7 +5,6 @@
 #include "ps_zoom_btn.h"
 
 void PsZoomBtn::update(long time) {
-    if (!visible) return;
     long timeSinceLastFrame = time - lastTime;
 
     if (up) {
