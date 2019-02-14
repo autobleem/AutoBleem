@@ -54,6 +54,8 @@ public:
     static bool matchesLowercase(string first, string second);
     static string findFirstFile(string ext, string path);
     static bool isDirectory(string path);
+    static string getFileExtension(string fileName);
+    static string getFileNameWithoutExtension(string filename);
 
     static unsigned char readChar(ifstream * stream);
     static unsigned long  readDword(ifstream * stream);

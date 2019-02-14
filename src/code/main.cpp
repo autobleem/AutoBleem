@@ -34,7 +34,7 @@ int scanGames(string path, string dbpath) {
         return EXIT_FAILURE;
     };
 
-
+    scanner->detectAndSortGamefiles(path);
     scanner->scanDirectory(path);
     scanner->updateDB(db);
 
@@ -84,6 +84,7 @@ int main(int argc, char *argv[]) {
 
     if (scanner->isFirstRun(path, db)) {
         scanner->forceScan = true;
+
     }
 
 

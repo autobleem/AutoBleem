@@ -473,3 +473,34 @@ void Scanner::scanDirectory(string path) {
 
     complete = true;
 }
+
+/*
+ * Searching for games with supported extension and create associated folders
+ */
+void Scanner::detectAndSortGamefiles(string path){
+    string fileExt;
+    string filenameWE;
+    vector<string> extensions;
+    extensions.push_back("iso");
+    extensions.push_back("pbp");
+    extensions.push_back("cue");
+    extensions.push_back("bin");
+    extensions.push_back("img");
+    //Getting all files in Games Dir
+    vector<DirEntry> fileList = Util::diru(path);
+    for (auto &entry : fileList)
+    {
+        if(Util::isDirectory(path+"/"+entry.name)) continue;
+        //Checking for supported extension
+        fileExt = Util::getFileExtension(entry.name);
+        filenameWE = Util::getFileNameWithoutExtension(entry.name);
+        if(find(extensions.begin(),extensions.end(),fileExt) != extensions.end()){
+            Util::createDir(path+"/"+filenameWE);
+            if(fileExt == "cue" || fileExt == "bin"){
+
+            }else{
+                rename((path+"/"+entry.name).c_str(),(path+"/"+filenameWE+"/"+entry.name).c_str());
+            }
+        }
+    }
+}

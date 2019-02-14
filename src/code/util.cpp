@@ -349,3 +349,16 @@ string Util::execUnixCommad(const char* cmd){
     result.erase(remove(result.begin(),result.end(),'\n'));
     return result;
 }
+
+string Util::getFileExtension(string fileName) {
+    size_t i = fileName.rfind('.', fileName.length());
+    if (i != string::npos) {
+        return(fileName.substr(i+1, fileName.length() - i));
+    }
+    return "";
+}
+
+string Util::getFileNameWithoutExtension(string filename) {
+    size_t indexBeforeDot = filename.find_last_of(".");
+    return filename.substr(0, indexBeforeDot);
+}
