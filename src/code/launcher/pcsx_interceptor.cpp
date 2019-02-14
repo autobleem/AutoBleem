@@ -10,10 +10,12 @@
 
 bool PcsxInterceptor::execute(PsGame *game) {
     shared_ptr<Gui> gui(Gui::getInstance());
+    gui->saveSelection();
+
     std::vector<const char *> argvNew;
     string gameIso = "";
 
-    string region = "1"; // need to find out if console is jap to switch to 2
+    string region = "1"; // need to find out if console is jap to switch to 2 - later on
     string link = "/media/AutoBleem/rc/launch.sh";
 
     trim(game->ssFolder);
