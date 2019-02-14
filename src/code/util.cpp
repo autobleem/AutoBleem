@@ -346,6 +346,8 @@ string Util::execUnixCommad(const char* cmd){
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
         result += buffer.data();
     }
-    result.erase(remove(result.begin(),result.end(),'\n'));
+    if (!result.empty()) {
+        result.erase(remove(result.begin(), result.end(), '\n'));
+    }
     return result;
 }

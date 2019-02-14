@@ -11,6 +11,7 @@
 #include "../gui/gui.h"
 #include "../lang.h"
 #include "ps_settings_back.h"
+#include "pcsx_interceptor.h"
 
 
 void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
@@ -133,15 +134,6 @@ void GuiLauncher::loadAssets() {
     staticElements.push_back(meta);
     updateMeta();
 
-    // mockup
-
-    /*
-    auto cover = new PsObj(renderer, "cover", "./default.png");
-    cover->x = 527;
-    cover->y = 180;
-    cover->visible = true;
-    staticElements.push_back(cover);
-    */
 
 }
 
@@ -276,18 +268,53 @@ void GuiLauncher::loop() {
             switch (e.type) {
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
 
+
                     if (e.jaxis.axis == 0) {
+                        if (state == STATE_GAMES) {
+                            if (e.jaxis.value > 3200) {
+                                motionStart = time;
+                                motionDir = 0;
+                                nextGame();
+
+                            } else if (e.jaxis.value < -3200) {
+                                motionStart = time;
+                                motionDir = 1;
+                                prevGame();
+                            } else {
+                                motionStart = 0;
+                            }
+                        }
+                    }
+                    if (e.jaxis.axis == 1) {
                         if (e.jaxis.value > 3200) {
-                            motionStart = time;
-                            motionDir = 0;
-                            nextGame();
+                            if (state != STATE_SET) {
+                                Mix_PlayChannel(-1, gui->home_down, 0);
+                                settingsBack->animEndTime = time + 100;
+                                settingsBack->nextLen = 280;
+                                playButton->visible = false;
+                                playText->visible = false;
+                                meta->animEndTime = time + 200;
+                                meta->nextPos = 215;
+                                meta->prevPos = meta->y;
+                                state = STATE_SET;
+                                motionStart = 0;
+                            }
 
                         } else if (e.jaxis.value < -3200) {
-                            motionStart = time;
-                            motionDir = 1;
-                            prevGame();
+                            if (state != STATE_GAMES) {
+                                Mix_PlayChannel(-1, gui->home_up, 0);
+                                settingsBack->animEndTime = time + 100;
+                                settingsBack->nextLen = 100;
+                                playButton->visible = true;
+                                playText->visible = true;
+                                meta->animEndTime = time + 200;
+                                meta->nextPos = 285;
+                                meta->prevPos = meta->y;
+                                state = STATE_GAMES;
+                                motionStart = 0;
+                            }
                         } else {
-                            motionStart = 0;
+
                         }
                     }
                     break;
@@ -295,33 +322,35 @@ void GuiLauncher::loop() {
 
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                        if (state != STATE_GAMES) {
+                            Mix_PlayChannel(-1, gui->home_up, 0);
+                            settingsBack->animEndTime = time + 100;
+                            settingsBack->nextLen = 100;
+                            playButton->visible = true;
+                            playText->visible = true;
+                            meta->animEndTime = time + 200;
+                            meta->nextPos = 285;
+                            meta->prevPos = meta->y;
+                            state = STATE_GAMES;
+                        } else {
+                            menuVisible = false;
+                        }
 
-                        menuVisible = false;
 
                     };
 
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
-                        Mix_PlayChannel(-1, gui->home_down, 0);
-                        settingsBack->animEndTime = time + 100;
-                        settingsBack->nextLen = 280;
-                        playButton->visible = false;
-                        playText->visible = false;
-                        meta->animEndTime = time + 200;
-                        meta->nextPos = 215;
-                        meta->prevPos = meta->y;
+                        if (state == STATE_GAMES) {
+                            PcsxInterceptor *interceptor = new PcsxInterceptor();
+                            interceptor->execute(gamesList[selGame]);
+                            delete (interceptor);
+                        }
 
 
                     };
                     if (e.jbutton.button == PCS_BTN_SQUARE) {
-                        Mix_PlayChannel(-1, gui->home_up, 0);
-                        settingsBack->animEndTime = time + 100;
-                        settingsBack->nextLen = 100;
-                        playButton->visible = true;
-                        playText->visible = true;
-                        meta->animEndTime = time + 200;
-                        meta->nextPos = 285;
-                        meta->prevPos = meta->y;
+
 
 
                     };

@@ -13,6 +13,9 @@
 #include "ps_meta.h"
 #include "ps_game.h"
 
+#define STATE_GAMES 0
+#define STATE_SET   1
+
 class GuiLauncher : public GuiScreen{
 public:
     void init();
@@ -58,6 +61,8 @@ public:
     vector<PsGame *> gamesList;
 
     int selGame = 0;
+
+    int state = STATE_GAMES;
 };
 
 

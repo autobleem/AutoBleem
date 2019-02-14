@@ -215,13 +215,48 @@ void Gui::criticalException(string text) {
     }
 }
 
+void Gui::silenceOn() {
+    if (Mix_PlayingMusic()) {
+        Mix_HaltMusic();
+    }
+    Mix_CloseAudio();
+
+}
+
+void Gui::silenceOff() {
+    if (music != nullptr) {
+
+        Mix_FreeMusic(music);
+        music = nullptr;
+    }
+
+    if (Mix_OpenAudio(32000, MIX_DEFAULT_FORMAT, 2, 2048) == -1) {
+        printf("Unable to open audio: %s\n", Mix_GetError());
+    }
+
+
+    if (cfg.inifile.values["nomusic"] != "true")
+        if (themeData.values["loop"] != "-1") {
+
+
+            music = Mix_LoadMUS((themePath + themeData.values["music"]).c_str());
+            if (music == nullptr) { printf("Unable to load Wav file: %s\n", Mix_GetError()); }
+            if (Mix_PlayMusic(music, themeData.values["loop"] == "1" ? -1 : 0) == -1) {
+                printf("Unable to play music file: %s\n", Mix_GetError());
+            }
+
+        }
+
+}
+
 void Gui::display(bool forceScan, string path, Database *db) {
     this->db = db;
     this->path = path;
     this->forceScan = forceScan;
     if (forceScan) overrideQuickBoot = true;
 
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
+    SDL_InitSubSystem(SDL_INIT_AUDIO);
     SDL_version compiled;
     SDL_version linked;
 

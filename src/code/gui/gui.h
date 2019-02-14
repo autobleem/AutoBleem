@@ -84,6 +84,10 @@ public:
 
     void criticalException(string text);
 
+    void silenceOn();
+
+    void silenceOff();
+
 
     SDL_Texture *  loadThemeTexture(SDL_Renderer * renderer, string themePath, string defaultPath, string texname);
 
