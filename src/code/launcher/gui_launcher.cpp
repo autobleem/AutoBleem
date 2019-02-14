@@ -69,9 +69,7 @@ void GuiLauncher::loadAssets() {
 
     gamesList.clear();
     gui->db->getGames(&gamesList);
-    for (PsGame *game:gamesList) {
-        game->loadTex(renderer);
-    }
+
 
     gameName = "";
     publisher = "";

@@ -12,12 +12,7 @@
 using namespace std;
 
 class PsCarousel {
-    float ovalWidth;
-    float ovalHeight;
     int activeItem;
-    float offsetX;
-    float offsetY;
-    float angle;
     int cycleMax;
     int cycleDuration;
     int previousActiveElement;
