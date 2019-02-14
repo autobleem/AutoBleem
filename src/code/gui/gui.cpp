@@ -219,11 +219,17 @@ void Gui::silenceOn() {
     if (Mix_PlayingMusic()) {
         Mix_HaltMusic();
     }
+    while (Mix_PlayingMusic()) {
+        // do nothignf
+    }
     Mix_CloseAudio();
+    SDL_QuitSubSystem(SDL_INIT_AUDIO);
+
 
 }
 
 void Gui::silenceOff() {
+    SDL_InitSubSystem(SDL_INIT_AUDIO);
     if (music != nullptr) {
 
         Mix_FreeMusic(music);

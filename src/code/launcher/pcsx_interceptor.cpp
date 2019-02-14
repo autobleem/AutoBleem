@@ -11,7 +11,7 @@
 bool PcsxInterceptor::execute(PsGame *game) {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->saveSelection();
-
+    gui->silenceOn();
     std::vector<const char *> argvNew;
     string gameIso = "";
 
@@ -43,7 +43,6 @@ bool PcsxInterceptor::execute(PsGame *game) {
     argvNew.push_back(nullptr);
 
 
-    gui->silenceOn();
     int pid = fork();
     if (!pid) {
         execvp(link.c_str(), (char **) argvNew.data());
