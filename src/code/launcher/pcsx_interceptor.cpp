@@ -15,7 +15,7 @@ bool PcsxInterceptor::execute(PsGame *game) {
     std::vector<const char *> argvNew;
     string gameIso = "";
 
-    string region = "1"; // need to find out if console is jap to switch to 2 - later on
+    string region = "3"; // need to find out if console is jap to switch to 2 - later on
     string link = "/media/AutoBleem/rc/launch.sh";
 
     trim(game->ssFolder);
@@ -40,6 +40,7 @@ bool PcsxInterceptor::execute(PsGame *game) {
     }
     argvNew.push_back(langStr.c_str()); // lang by language file hack
     argvNew.push_back(region.c_str());
+    argvNew.push_back(game->folder.c_str());
     argvNew.push_back(nullptr);
 
 
@@ -50,6 +51,7 @@ bool PcsxInterceptor::execute(PsGame *game) {
 
     waitpid(pid, NULL, 0);
 
+    sleep(2);
 
     gui->silenceOff();
 
