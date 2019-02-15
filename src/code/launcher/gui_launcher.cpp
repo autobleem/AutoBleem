@@ -3,14 +3,8 @@
 //
 
 #include "gui_launcher.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_ttf.h>
-#include <string>
 #include "../gui/gui.h"
 #include "../lang.h"
-#include "ps_settings_back.h"
 #include "pcsx_interceptor.h"
 
 
@@ -69,6 +63,9 @@ void GuiLauncher::loadAssets() {
 
     gamesList.clear();
     gui->db->getGames(&gamesList);
+    for (PsGame *game:gamesList) {
+        game->loadTex(renderer);
+    }
 
 
     gameName = "";
@@ -76,10 +73,13 @@ void GuiLauncher::loadAssets() {
     year = "";
     players = "";
 
+
+    carouselPositions.initCoverPositions();
     if (gamesList.empty()) {
         selGame = -1;
     } else {
         selGame = 0;
+        setInitialPositions(0);
     }
 
 
@@ -156,6 +156,96 @@ void GuiLauncher::init() {
     loadAssets();
 }
 
+#define ANIM_SPEED 150
+
+void GuiLauncher::scrollLeft() {
+    scrolling = true;
+    long time = SDL_GetTicks();
+    for (PsGame *game:gamesList) {
+
+        if (game->visible) {
+            int nextIndex = game->screenPointIndex;
+
+            if (game->screenPointIndex != 0) {
+                nextIndex = game->screenPointIndex - 1;
+            } else {
+                game->visible = false;
+
+            }
+            game->destination = carouselPositions.coverPositions[nextIndex];
+            game->animationDuration = ANIM_SPEED;
+            game->animationStart = time;
+
+            game->screenPointIndex = nextIndex;
+            game->current = game->actual;
+        }
+    }
+}
+
+void GuiLauncher::scrollRight() {
+    scrolling = true;
+    long time = SDL_GetTicks();
+    for (PsGame *game:gamesList) {
+        if (game->visible) {
+            int nextIndex = game->screenPointIndex;
+            if (game->screenPointIndex != carouselPositions.coverPositions.size() - 1) {
+                nextIndex = game->screenPointIndex + 1;
+            } else {
+                game->visible = false;
+
+            }
+            game->destination = carouselPositions.coverPositions[nextIndex];
+            game->animationDuration = ANIM_SPEED;
+            game->animationStart = time;
+
+            game->screenPointIndex = nextIndex;
+            game->current = game->actual;
+        }
+    }
+}
+
+void GuiLauncher::updateVisibility() {
+    bool allAnimationFinished = true;
+    for (PsGame *game:gamesList) {
+        if ((game->animationStart != 0) && game->visible) {
+            allAnimationFinished = false;
+        }
+    }
+
+
+    if (allAnimationFinished && scrolling) {
+
+        setInitialPositions(selGame);
+        scrolling = false;
+    }
+}
+
+void GuiLauncher::updatePositions() {
+    long currentTime = SDL_GetTicks();
+    for (PsGame *game:gamesList) {
+        if (game->visible) {
+            if (game->animationStart != 0) {
+                long position = currentTime - game->animationStart;
+                float delta = position * 1.0f / game->animationDuration;
+                game->actual.x = game->current.x + (game->destination.x - game->current.x) * delta;
+                game->actual.y = game->current.y + (game->destination.y - game->current.y) * delta;
+                game->actual.scale = game->current.scale + (game->destination.scale - game->current.scale) * delta;
+                game->actual.shade = game->current.shade + (game->destination.shade - game->current.shade) * delta;
+
+                if (delta > 1.0f) {
+                    game->actual = game->destination;
+                    game->current = game->destination;
+                    game->animationStart = 0;
+                }
+
+
+            }
+
+        }
+    }
+    updateVisibility();
+}
+
 void GuiLauncher::render() {
 
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -168,28 +258,32 @@ void GuiLauncher::render() {
     }
 
     // covers render
-
+    ;
     if (!gamesList.empty()) {
-        SDL_Texture *currentGameTex = gamesList[selGame]->coverPng;
+        for (auto game:gamesList) {
+            if (game->visible) {
+                SDL_Texture *currentGameTex = game->coverPng;
+                PsScreenpoint point = game->actual;
 
-        SDL_Rect coverRect;
-        coverRect.x = 527;
-        coverRect.y = 180;
-        coverRect.w = 226;
-        coverRect.h = 226;
+                SDL_Rect coverRect;
+                coverRect.x = point.x;
+                coverRect.y = point.y;
+                coverRect.w = 226 * point.scale;
+                coverRect.h = 226 * point.scale;
 
 
-        SDL_Rect fullRect;
-        fullRect.x = 0;
-        fullRect.y = 0;
-        fullRect.w = 226;
-        fullRect.h = 226;
-        SDL_SetTextureColorMod(currentGameTex, 255, 255, 255);
-        SDL_RenderCopy(renderer, currentGameTex, &fullRect, &coverRect);
+                SDL_Rect fullRect;
+                fullRect.x = 0;
+                fullRect.y = 0;
+                fullRect.w = 226;
+                fullRect.h = 226;
+                SDL_SetTextureColorMod(currentGameTex, point.shade, point.shade, point.shade);
+                SDL_RenderCopy(renderer, currentGameTex, &fullRect, &coverRect);
+            }
+        }
 
 
     }
-
 
 
     renderText(638, 644, "Enter", 80, 80, 80, font24);
@@ -202,6 +296,7 @@ void GuiLauncher::render() {
 void GuiLauncher::nextGame() {
     shared_ptr<Gui> gui(Gui::getInstance());
     Mix_PlayChannel(-1, gui->cursor, 0);
+    scrollLeft();
     selGame++;
     if (selGame >= gamesList.size()) {
         selGame = 0;
@@ -212,11 +307,120 @@ void GuiLauncher::nextGame() {
 void GuiLauncher::prevGame() {
     shared_ptr<Gui> gui(Gui::getInstance());
     Mix_PlayChannel(-1, gui->cursor, 0);
+    scrollRight();
     selGame--;
     if (selGame < 0) {
         selGame = gamesList.size() - 1;
     }
     updateMeta();
+}
+
+int GuiLauncher::getNextId(int id) {
+    int next = id + 1;
+    if (next >= gamesList.size()) {
+        return 0;
+    }
+    return next;
+}
+
+int GuiLauncher::getPreviousId(int id) {
+    int prev = id - 1;
+    if (prev < 0) {
+        return gamesList.size() - 1;
+    }
+    return prev;
+}
+
+void GuiLauncher::setInitialPositions(int selected) {
+    for (PsGame *game:gamesList) {
+        game->visible = false;
+    }
+
+    gamesList[selected]->visible = true;
+    gamesList[selected]->current = this->carouselPositions.coverPositions[6];
+    gamesList[selected]->screenPointIndex = 6;
+
+    int prev = getPreviousId(selected);
+    if (!gamesList[prev]->visible) {
+        gamesList[prev]->current = this->carouselPositions.coverPositions[5];
+        gamesList[prev]->visible = true;
+        gamesList[prev]->screenPointIndex = 5;
+    }
+    prev = getPreviousId(prev);
+    if (!gamesList[prev]->visible) {
+        gamesList[prev]->current = this->carouselPositions.coverPositions[4];
+        gamesList[prev]->visible = true;
+        gamesList[prev]->screenPointIndex = 4;
+    }
+    prev = getPreviousId(prev);
+    if (!gamesList[prev]->visible) {
+        gamesList[prev]->current = this->carouselPositions.coverPositions[3];
+        gamesList[prev]->visible = true;
+        gamesList[prev]->screenPointIndex = 3;
+    }
+    prev = getPreviousId(prev);
+    if (!gamesList[prev]->visible) {
+        gamesList[prev]->current = this->carouselPositions.coverPositions[2];
+        gamesList[prev]->visible = true;
+        gamesList[prev]->screenPointIndex = 2;
+    }
+    prev = getPreviousId(prev);
+    if (!gamesList[prev]->visible) {
+        gamesList[prev]->current = this->carouselPositions.coverPositions[1];
+        gamesList[prev]->visible = true;
+        gamesList[prev]->screenPointIndex = 1;
+    }
+    prev = getPreviousId(prev);
+    if (!gamesList[prev]->visible) {
+        gamesList[prev]->current = this->carouselPositions.coverPositions[0];
+        gamesList[prev]->visible = true;
+        gamesList[prev]->screenPointIndex = 0;
+    }
+
+    int next = getNextId(selected);
+    if (!gamesList[next]->visible) {
+        gamesList[next]->current = this->carouselPositions.coverPositions[7];
+        gamesList[next]->visible = true;
+        gamesList[next]->screenPointIndex = 7;
+    }
+    next = getNextId(next);
+    if (!gamesList[next]->visible) {
+        gamesList[next]->current = this->carouselPositions.coverPositions[8];
+        gamesList[next]->visible = true;
+        gamesList[next]->screenPointIndex = 8;
+    }
+    next = getNextId(next);
+    if (!gamesList[next]->visible) {
+        gamesList[next]->current = this->carouselPositions.coverPositions[9];
+        gamesList[next]->visible = true;
+        gamesList[next]->screenPointIndex = 9;
+    }
+    next = getNextId(next);
+    if (!gamesList[next]->visible) {
+        gamesList[next]->current = this->carouselPositions.coverPositions[10];
+        gamesList[next]->visible = true;
+        gamesList[next]->screenPointIndex = 10;
+    }
+    next = getNextId(next);
+    if (!gamesList[next]->visible) {
+        gamesList[next]->current = this->carouselPositions.coverPositions[11];
+        gamesList[next]->visible = true;
+        gamesList[next]->screenPointIndex = 11;
+    }
+    next = getNextId(next);
+    if (!gamesList[next]->visible) {
+        gamesList[next]->current = this->carouselPositions.coverPositions[12];
+        gamesList[next]->visible = true;
+        gamesList[next]->screenPointIndex = 12;
+    }
+
+    for (PsGame *game:gamesList) {
+        game->actual = game->current;
+        game->destination = game->current;
+
+    }
+
+
 }
 
 void GuiLauncher::loop() {
@@ -231,6 +435,7 @@ void GuiLauncher::loop() {
         for (auto obj:staticElements) {
             obj->update(time);
         }
+        updatePositions();
         render();
 
         if (motionStart != 0) {
@@ -348,7 +553,6 @@ void GuiLauncher::loop() {
 
                     };
                     if (e.jbutton.button == PCS_BTN_SQUARE) {
-
 
 
                     };

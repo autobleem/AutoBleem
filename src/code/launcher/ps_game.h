@@ -9,7 +9,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
-
+#include "ps_carousel.h"
 #include <string>
 
 using namespace std;
@@ -30,6 +30,15 @@ public:
     void loadTex(SDL_Renderer *renderer);
 
     void freeTex();
+
+    PsScreenpoint current;
+    PsScreenpoint destination;
+    PsScreenpoint actual;
+    int screenPointIndex = -1;
+    int nextPointIndex = -1;
+    long animationStart = 0;
+    long animationDuration = 0;
+    bool visible = false;
 
 };
 

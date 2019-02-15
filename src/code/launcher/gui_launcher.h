@@ -12,6 +12,7 @@
 #include "ps_zoom_btn.h"
 #include "ps_meta.h"
 #include "ps_game.h"
+#include "ps_carousel.h"
 
 #define STATE_GAMES 0
 #define STATE_SET   1
@@ -32,6 +33,8 @@ public:
     void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
     void loadAssets();
     void freeAssets();
+
+    PsCarousel carouselPositions;
 
     int len = 100;
 
@@ -55,6 +58,7 @@ public:
     string players;
 
     bool gameInfoVisible = true;
+    bool scrolling = false;
 
     using GuiScreen::GuiScreen;
 
@@ -63,6 +67,20 @@ public:
     int selGame = 0;
 
     int state = STATE_GAMES;
+
+    void setInitialPositions(int selected);
+
+    int getPreviousId(int id);
+
+    int getNextId(int id);
+
+    void scrollLeft();
+
+    void scrollRight();
+
+    void updatePositions();
+
+    void updateVisibility();
 };
 
 
