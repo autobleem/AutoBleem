@@ -139,6 +139,7 @@ bool Database::getGames(vector<PsGame *> *result) {
     int rc = sqlite3_prepare_v2(db, GAMES_DATA, -1, &res, nullptr);
     if (rc == SQLITE_OK) {
         while (sqlite3_step(res) == SQLITE_ROW) {
+            int id = sqlite3_column_int(res, 0);
             const unsigned char *title = sqlite3_column_text(res, 1);
             const unsigned char *publisher = sqlite3_column_text(res, 2);
             int year = sqlite3_column_int(res, 3);
@@ -149,6 +150,7 @@ bool Database::getGames(vector<PsGame *> *result) {
             const unsigned char *base = sqlite3_column_text(res, 8);
 
             PsGame *game = new PsGame();
+            game->gameId = id;
             game->title = std::string(reinterpret_cast<const char *>(title));
             game->publisher = std::string(reinterpret_cast<const char *>(publisher));
             game->year = year;

@@ -13,6 +13,7 @@
 #include "ps_meta.h"
 #include "ps_game.h"
 #include "ps_carousel.h"
+#include "ps_move_bnt.h"
 
 #define STATE_GAMES 0
 #define STATE_SET   1
@@ -34,6 +35,8 @@ public:
     void loadAssets();
     void freeAssets();
 
+    void moveMainCover(int state);
+
     PsCarousel carouselPositions;
 
     int len = 100;
@@ -42,6 +45,7 @@ public:
     PsObj *playButton;
     PsZoomBtn *playText;
     PsMeta *meta;
+    PsMoveBtn *arrow;
 
     TTF_Font *font30;
     TTF_Font *font15;

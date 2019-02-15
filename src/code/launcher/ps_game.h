@@ -16,6 +16,7 @@ using namespace std;
 
 class PsGame {
 public:
+    int gameId;
     string title;
     string publisher;
     int year;

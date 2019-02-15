@@ -7,7 +7,9 @@
 #include "../lang.h"
 #include "pcsx_interceptor.h"
 
+#define ANIM_SPEED 150
 
+// Text rendering routines - places text at x,y with selected color and font
 void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
     int text_width;
     int text_height;
@@ -45,7 +47,13 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
 
 }
 
+// just update metadata section to be visible on the screen
 void GuiLauncher::updateMeta() {
+    if (gamesList.empty()) {
+        gameName = "";
+        meta->updateTexts(gameName, publisher, year, players);
+        return;
+    }
     PsGame *game = gamesList[selGame];
     gameName = game->title;
     publisher = game->publisher;
@@ -58,6 +66,7 @@ void GuiLauncher::updateMeta() {
     meta->updateTexts(gameName, publisher, year, players);
 }
 
+// load all assets needed by the screen
 void GuiLauncher::loadAssets() {
     shared_ptr<Gui> gui(Gui::getInstance());
 
@@ -103,13 +112,13 @@ void GuiLauncher::loadAssets() {
     playButton = new PsObj(renderer, "playButton", gui->getSonyImagePath() + "/GR/Acid_C_Btn.png");
     playButton->y = 428;
     playButton->x = 540;
-    playButton->visible = true;
+    playButton->visible = selGame != -1;
     staticElements.push_back(playButton);
 
     playText = new PsZoomBtn(renderer, "playText", gui->getSonyImagePath() + "/BMP_Text/Play_Text.png");
     playText->y = 428;
     playText->x = 640 - 262 / 2;
-    playText->visible = true;
+    playText->visible = selGame != -1;
     playText->ox = playText->x;
     playText->oy = playText->y;
     playText->lastTime = time;
@@ -121,6 +130,7 @@ void GuiLauncher::loadAssets() {
     settingsBack->visible = true;
     staticElements.push_back(settingsBack);
 
+
     meta = new PsMeta(renderer, "meta", gui->getSonyImagePath() + "/CB/PlayerOne.png");
     meta->font15 = font15;
     meta->font24 = font24;
@@ -130,11 +140,20 @@ void GuiLauncher::loadAssets() {
     meta->visible = true;
     meta->updateTexts(gameName, publisher, year, players);
     staticElements.push_back(meta);
+
+    arrow = new PsMoveBtn(renderer, "arrow", gui->getSonyImagePath() + "/GR/arrow.png");
+    arrow->x = 640 - 12;
+    arrow->y = 360;
+    arrow->originaly = arrow->y;
+    arrow->visible = false;
+    staticElements.push_back(arrow);
+
     updateMeta();
 
 
 }
 
+// memory cleanup for assets disposal
 void GuiLauncher::freeAssets() {
     for (auto obj:staticElements) {
         obj->destroy();
@@ -152,12 +171,13 @@ void GuiLauncher::freeAssets() {
     gamesList.clear();
 }
 
+// run when screen is loaded
 void GuiLauncher::init() {
     loadAssets();
 }
 
-#define ANIM_SPEED 150
 
+// start scroll animation to next game
 void GuiLauncher::scrollLeft() {
     scrolling = true;
     long time = SDL_GetTicks();
@@ -182,6 +202,7 @@ void GuiLauncher::scrollLeft() {
     }
 }
 
+// start scroll animation to previous game
 void GuiLauncher::scrollRight() {
     scrolling = true;
     long time = SDL_GetTicks();
@@ -204,6 +225,7 @@ void GuiLauncher::scrollRight() {
     }
 }
 
+// update potentially visible covers to save the memory
 void GuiLauncher::updateVisibility() {
     bool allAnimationFinished = true;
     for (PsGame *game:gamesList) {
@@ -220,7 +242,10 @@ void GuiLauncher::updateVisibility() {
     }
 }
 
+// this method runs during the loop to update positions of the covers during animation
 void GuiLauncher::updatePositions() {
+
+
     long currentTime = SDL_GetTicks();
     for (PsGame *game:gamesList) {
         if (game->visible) {
@@ -246,6 +271,7 @@ void GuiLauncher::updatePositions() {
     updateVisibility();
 }
 
+// render method called every loop
 void GuiLauncher::render() {
 
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -293,6 +319,7 @@ void GuiLauncher::render() {
     SDL_RenderPresent(renderer);
 }
 
+// handler of next game
 void GuiLauncher::nextGame() {
     shared_ptr<Gui> gui(Gui::getInstance());
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -304,6 +331,7 @@ void GuiLauncher::nextGame() {
     updateMeta();
 }
 
+// handler of prev game
 void GuiLauncher::prevGame() {
     shared_ptr<Gui> gui(Gui::getInstance());
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -315,6 +343,7 @@ void GuiLauncher::prevGame() {
     updateMeta();
 }
 
+// just small method to get next / prev game
 int GuiLauncher::getNextId(int id) {
     int next = id + 1;
     if (next >= gamesList.size()) {
@@ -331,6 +360,7 @@ int GuiLauncher::getPreviousId(int id) {
     return prev;
 }
 
+// initialize a table with positions for covers
 void GuiLauncher::setInitialPositions(int selected) {
     for (PsGame *game:gamesList) {
         game->visible = false;
@@ -423,6 +453,38 @@ void GuiLauncher::setInitialPositions(int selected) {
 
 }
 
+void GuiLauncher::moveMainCover(int state) {
+    if (selGame == -1) {
+        return;
+    }
+    PsScreenpoint point1;
+    point1.x = 640 - 113;
+    point1.y = 180;
+    point1.scale = 1;
+    point1.shade = 255;
+
+    PsScreenpoint point2;
+    point2.x = 640 - 113;
+    point2.y = 90;
+    point2.scale = 1;
+    point2.shade = 220;
+
+    long time = SDL_GetTicks();
+
+    if (state == STATE_GAMES) {
+        gamesList[selGame]->destination = point1;
+        gamesList[selGame]->animationStart = time;
+        gamesList[selGame]->animationDuration = 200;
+    } else {
+        gamesList[selGame]->destination = point2;
+        gamesList[selGame]->animationStart = time;
+        gamesList[selGame]->animationDuration = 200;
+
+
+    }
+}
+
+// event loop
 void GuiLauncher::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
@@ -490,6 +552,9 @@ void GuiLauncher::loop() {
                     }
                     if (e.jaxis.axis == 1) {
                         if (e.jaxis.value > 3200) {
+                            if (scrolling) {
+                                continue;
+                            }
                             if (state != STATE_SET) {
                                 Mix_PlayChannel(-1, gui->home_down, 0);
                                 settingsBack->animEndTime = time + 100;
@@ -500,10 +565,15 @@ void GuiLauncher::loop() {
                                 meta->nextPos = 215;
                                 meta->prevPos = meta->y;
                                 state = STATE_SET;
+                                arrow->visible = true;
                                 motionStart = 0;
+                                moveMainCover(state);
                             }
 
                         } else if (e.jaxis.value < -3200) {
+                            if (scrolling) {
+                                continue;
+                            }
                             if (state != STATE_GAMES) {
                                 Mix_PlayChannel(-1, gui->home_up, 0);
                                 settingsBack->animEndTime = time + 100;
@@ -514,7 +584,9 @@ void GuiLauncher::loop() {
                                 meta->nextPos = 285;
                                 meta->prevPos = meta->y;
                                 state = STATE_GAMES;
+                                arrow->visible = false;
                                 motionStart = 0;
+                                moveMainCover(state);
                             }
                         } else {
 
@@ -535,6 +607,9 @@ void GuiLauncher::loop() {
                             meta->nextPos = 285;
                             meta->prevPos = meta->y;
                             state = STATE_GAMES;
+                            arrow->visible = false;
+                            motionStart = 0;
+                            moveMainCover(state);
                         } else {
                             menuVisible = false;
                         }

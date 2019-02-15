@@ -33,6 +33,7 @@ void PsCarousel::initCoverPositions() {
     coverPositions.push_back(createCoverPoint(2, 100, 0));
     coverPositions.push_back(createCoverPoint(1, 128, 0));
     coverPositions.push_back(createCoverPoint(0, 150, 0));
+
     PsScreenpoint point;
     point.x = 640 - 113;
     point.y = 180;
@@ -46,6 +47,9 @@ void PsCarousel::initCoverPositions() {
     coverPositions.push_back(createCoverPoint(3, 90, 1));
     coverPositions.push_back(createCoverPoint(4, 70, 1));
     coverPositions.push_back(createCoverPoint(5, 40, 1));
+
+    // special point to move it up
+
 
 
 }
