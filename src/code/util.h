@@ -54,8 +54,7 @@ public:
     static bool matchesLowercase(string first, string second);
     static string findFirstFile(string ext, string path);
     static bool isDirectory(string path);
-    static string getFileExtension(string fileName);
-    static string getFileNameWithoutExtension(string filename);
+    static vector<DirEntry> getFilesWithExtension(string path, vector<DirEntry> entries, vector<string> extensions);
 
     static unsigned char readChar(ifstream * stream);
     static unsigned long  readDword(ifstream * stream);
@@ -63,11 +62,18 @@ public:
     static string readString(ifstream * stream);
     static void skipZeros(ifstream * stream);
     static string commaSep(string input, int pos);
+    static string getFileExtension(string fileName);
+    static string getFileNameWithoutExtension(string filename);
+    static string ltrim(const string& s);
+    static string rtrim(const string& s);
+    static string trim(const string& s);
+    static string getStringWithinChar(string s, char del);
 
     static string getAvailableSpace();
     static string floatToString(float f, int n);
     static string execUnixCommad(const char* cmd);
 
+    static vector<string> cueToBinList(string cueFile);
 
 
 };
