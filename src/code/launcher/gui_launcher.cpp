@@ -6,7 +6,6 @@
 #include "../gui/gui.h"
 #include "../lang.h"
 
-#define ANIM_SPEED 150
 
 // Text rendering routines - places text at x,y with selected color and font
 void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
@@ -500,6 +499,41 @@ void GuiLauncher::moveMainCover(int state) {
     }
 }
 
+void GuiLauncher::switchState(int state, int time)
+{
+    shared_ptr<Gui> gui(Gui::getInstance());
+    if (state==STATE_GAMES)
+    {
+        Mix_PlayChannel(-1, gui->home_up, 0);
+        settingsBack->animEndTime = time + 100;
+        settingsBack->nextLen = 100;
+        playButton->visible = true;
+        playText->visible = true;
+        meta->animEndTime = time + 200;
+        meta->nextPos = 285;
+        meta->prevPos = meta->y;
+        this->state = STATE_GAMES;
+        arrow->visible = false;
+        arrow->animationStarted = time;
+
+        moveMainCover(state);
+    } else
+    {
+        Mix_PlayChannel(-1, gui->home_down, 0);
+        settingsBack->animEndTime = time + 100;
+        settingsBack->nextLen = 280;
+        playButton->visible = false;
+        playText->visible = false;
+        meta->animEndTime = time + 200;
+        meta->nextPos = 215;
+        meta->prevPos = meta->y;
+        this->state = STATE_SET;
+        arrow->visible = true;
+        arrow->animationStarted = time;
+
+        moveMainCover(state);
+    }
+}
 // event loop
 void GuiLauncher::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -514,26 +548,20 @@ void GuiLauncher::loop() {
             obj->update(time);
         }
         updatePositions();
-
-
         render();
 
         if (motionStart != 0) {
             long timePressed = time - motionStart;
-
             if (timePressed > 300) {
-
                 if (time - timespeed > 100) {
                     if (motionDir == 0) {
                         if (!scrolling) {
                             nextGame(60);
                         }
-                        //  timespeed = 0;
                     } else {
                         if (!scrolling) {
                             prevGame(60);
                         }
-                        //  timespeed = 0;
                     }
                     timespeed = time;
                 }
@@ -545,7 +573,6 @@ void GuiLauncher::loop() {
             }
         }
 
-
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
             // this is for pc Only
@@ -554,7 +581,6 @@ void GuiLauncher::loop() {
             }
             switch (e.type) {
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
-
 
                     if (e.jaxis.axis == 0) {
                         if (state == STATE_GAMES) {
@@ -580,19 +606,8 @@ void GuiLauncher::loop() {
                                 continue;
                             }
                             if (state != STATE_SET) {
-                                Mix_PlayChannel(-1, gui->home_down, 0);
-                                settingsBack->animEndTime = time + 100;
-                                settingsBack->nextLen = 280;
-                                playButton->visible = false;
-                                playText->visible = false;
-                                meta->animEndTime = time + 200;
-                                meta->nextPos = 215;
-                                meta->prevPos = meta->y;
-                                state = STATE_SET;
-                                arrow->visible = true;
-                                arrow->animationStarted = time;
+                                switchState(STATE_SET,time);
                                 motionStart = 0;
-                                moveMainCover(state);
                             }
 
                         } else if (e.jaxis.value < -3200) {
@@ -600,19 +615,8 @@ void GuiLauncher::loop() {
                                 continue;
                             }
                             if (state != STATE_GAMES) {
-                                Mix_PlayChannel(-1, gui->home_up, 0);
-                                settingsBack->animEndTime = time + 100;
-                                settingsBack->nextLen = 100;
-                                playButton->visible = true;
-                                playText->visible = true;
-                                meta->animEndTime = time + 200;
-                                meta->nextPos = 285;
-                                meta->prevPos = meta->y;
-                                state = STATE_GAMES;
-                                arrow->visible = false;
-                                arrow->animationStarted = time;
+                                switchState(STATE_GAMES,time);
                                 motionStart = 0;
-                                moveMainCover(state);
                             }
                         } else {
 
@@ -620,23 +624,10 @@ void GuiLauncher::loop() {
                     }
                     break;
                 case SDL_JOYBUTTONUP:
-
-
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         if (state != STATE_GAMES) {
-                            Mix_PlayChannel(-1, gui->home_up, 0);
-                            settingsBack->animEndTime = time + 100;
-                            settingsBack->nextLen = 100;
-                            playButton->visible = true;
-                            playText->visible = true;
-                            meta->animEndTime = time + 200;
-                            meta->nextPos = 285;
-                            meta->prevPos = meta->y;
-                            state = STATE_GAMES;
-                            arrow->visible = false;
-                            arrow->animationStarted = time;
+                            switchState(STATE_GAMES,time);
                             motionStart = 0;
-                            moveMainCover(state);
                         } else {
                             menuVisible = false;
                         }

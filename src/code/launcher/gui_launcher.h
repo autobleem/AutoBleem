@@ -91,6 +91,8 @@ public:
 
     void updateVisibility();
 
+    void switchState(int state, int time);
+
 };
 
 
