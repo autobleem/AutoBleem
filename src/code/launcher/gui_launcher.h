@@ -51,6 +51,9 @@ public:
     PsZoomBtn *playText;
     PsMeta *meta;
     PsMoveBtn *arrow;
+    PsObj *xButton;
+    PsObj *oButton;
+    PsObj *tButton;
 
     TTF_Font *font30;
     TTF_Font *font15;
