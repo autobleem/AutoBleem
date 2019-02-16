@@ -18,21 +18,26 @@
 #define STATE_GAMES 0
 #define STATE_SET   1
 
-class GuiLauncher : public GuiScreen{
+class GuiLauncher : public GuiScreen {
 public:
     void init();
+
     void render();
+
     void loop();
 
-    void renderMeta();
+   // void renderMeta();
 
     void nextGame(int speed);
 
     void prevGame(int speed);
 
     void updateMeta();
+
     void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
+
     void loadAssets();
+
     void freeAssets();
 
     void moveMainCover(int state);
@@ -86,7 +91,6 @@ public:
 
     void updateVisibility();
 
-    void updateGameVisibility();
 };
 
 

@@ -32,5 +32,9 @@ PsGame *PsGame::clone() {
     clone->base = this->base;
     clone->ssFolder = this->ssFolder;
     clone->memcard = this->memcard;
+    clone->players = this->players;
+    clone->publisher = this->publisher;
+    clone->coverPng = this->coverPng;
+    clone->year = this->year;
     return clone;
 }

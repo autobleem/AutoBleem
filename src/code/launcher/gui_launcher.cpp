@@ -5,9 +5,6 @@
 #include "gui_launcher.h"
 #include "../gui/gui.h"
 #include "../lang.h"
-#include "pcsx_interceptor.h"
-
-#include <set>
 
 #define ANIM_SPEED 150
 
@@ -76,6 +73,18 @@ void GuiLauncher::loadAssets() {
     gui->db->getGames(&gamesList);
     for (PsGame *game:gamesList) {
         game->loadTex(renderer);
+    }
+
+    if (gamesList.size()>0)
+    {
+        while (gamesList.size()<13)
+        {
+            for (PsGame * game:gamesList)
+            {
+                gamesList.push_back(game->clone());
+            }
+
+        }
     }
 
 
@@ -366,10 +375,7 @@ int GuiLauncher::getPreviousId(int id) {
     return prev;
 }
 
-void GuiLauncher::updateGameVisibility() {
 
-
-}
 // initialize a table with positions for covers
 void GuiLauncher::setInitialPositions(int selected) {
     for (PsGame *game:gamesList) {
@@ -508,7 +514,7 @@ void GuiLauncher::loop() {
             obj->update(time);
         }
         updatePositions();
-        updateGameVisibility();
+
 
         render();
 
