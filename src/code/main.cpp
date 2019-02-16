@@ -8,17 +8,12 @@
 #include <iostream>
 #include "engine/database.h"
 #include "engine/scanner.h"
-#include "gui/gui.h"
-#include "main.h"
-#include "ver_migration.h"
-#include "engine/coverdb.h"
 
 
 using namespace std;
 
 #include "engine/memcard.h"
 #include "lang.h"
-#include "launcher/pcsx_interceptor.h"
 
 
 int scanGames(string path, string dbpath) {
@@ -99,18 +94,29 @@ int main(int argc, char *argv[]) {
         if (gui->menuOption == MENU_OPTION_START) {
             cout << "Starting game" << endl;
             gui->finish();
-            SDL_Quit();
+
+            int numtimesopened, frequency, channels;
+            Uint16 format;
+            numtimesopened=Mix_QuerySpec(&frequency, &format, &channels);
+            for (int i=0;i<numtimesopened;i++)
+            {
+                Mix_CloseAudio();
+            }
+            numtimesopened=Mix_QuerySpec(&frequency, &format, &channels);
+            cout << numtimesopened << endl;
+            SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
             sleep(1);
 #if defined(__x86_64__) || defined(_M_X64)
-            sleep(3);
+
 #else
             PcsxInterceptor *interceptor = new PcsxInterceptor();
             interceptor->execute(gui->runningGame);
             delete (interceptor);
 #endif
 
+            SDL_InitSubSystem(SDL_INIT_JOYSTICK);
             delete gui->runningGame;
-            sleep(1);
+            sync();
             gui->runningGame = nullptr;
             gui->startingGame = false;
             gui->display(false, path, db, true);

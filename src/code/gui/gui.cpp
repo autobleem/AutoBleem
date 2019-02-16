@@ -3,7 +3,6 @@
 //
 
 #include "gui.h"
-#include "../util.h"
 #include "gui_about.h"
 #include "gui_splash.h"
 #include "gui_options.h"
@@ -377,7 +376,7 @@ void Gui::menuSelection() {
     bool menuVisible = true;
     while (menuVisible) {
         if (startingGame) {
-            drawText("");
+            drawText(runningGame->title);
             this->menuOption = MENU_OPTION_START;
             menuVisible = false;
             startingGame = false;
@@ -388,13 +387,7 @@ void Gui::menuSelection() {
             auto launcherScreen = new GuiLauncher(renderer);
             launcherScreen->show();
             delete launcherScreen;
-            if (!forceScan) {
-                drawText(mainMenu);
-
-            } else {
-                drawText(forceScanMenu);
-
-            }
+            drawText("");
             resumingGui = false;
             menuSelection();
             menuVisible = false;

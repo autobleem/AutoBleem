@@ -13,7 +13,7 @@ mkdir -p build_arm
 #cd ..
 cd ./build_arm
 cmake -DCMAKE_TOOLCHAIN_FILE=../PS1Ctoolchain.cmake ..
-make
+make -j4
 cd ..
 
 
