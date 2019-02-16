@@ -7,6 +7,8 @@
 #include "../lang.h"
 #include "pcsx_interceptor.h"
 
+#include <set>
+
 #define ANIM_SPEED 150
 
 // Text rendering routines - places text at x,y with selected color and font
@@ -183,7 +185,7 @@ void GuiLauncher::init() {
 
 
 // start scroll animation to next game
-void GuiLauncher::scrollLeft() {
+void GuiLauncher::scrollLeft(int speed) {
     scrolling = true;
     long time = SDL_GetTicks();
     for (PsGame *game:gamesList) {
@@ -198,7 +200,7 @@ void GuiLauncher::scrollLeft() {
 
             }
             game->destination = carouselPositions.coverPositions[nextIndex];
-            game->animationDuration = ANIM_SPEED;
+            game->animationDuration = speed;
             game->animationStart = time;
 
             game->screenPointIndex = nextIndex;
@@ -208,7 +210,7 @@ void GuiLauncher::scrollLeft() {
 }
 
 // start scroll animation to previous game
-void GuiLauncher::scrollRight() {
+void GuiLauncher::scrollRight(int speed) {
     scrolling = true;
     long time = SDL_GetTicks();
     for (PsGame *game:gamesList) {
@@ -221,7 +223,7 @@ void GuiLauncher::scrollRight() {
 
             }
             game->destination = carouselPositions.coverPositions[nextIndex];
-            game->animationDuration = ANIM_SPEED;
+            game->animationDuration = speed;
             game->animationStart = time;
 
             game->screenPointIndex = nextIndex;
@@ -241,7 +243,6 @@ void GuiLauncher::updateVisibility() {
 
 
     if (allAnimationFinished && scrolling) {
-
         setInitialPositions(selGame);
         scrolling = false;
     }
@@ -325,10 +326,10 @@ void GuiLauncher::render() {
 }
 
 // handler of next game
-void GuiLauncher::nextGame() {
+void GuiLauncher::nextGame(int speed) {
     shared_ptr<Gui> gui(Gui::getInstance());
     Mix_PlayChannel(-1, gui->cursor, 0);
-    scrollLeft();
+    scrollLeft(speed);
     selGame++;
     if (selGame >= gamesList.size()) {
         selGame = 0;
@@ -337,10 +338,10 @@ void GuiLauncher::nextGame() {
 }
 
 // handler of prev game
-void GuiLauncher::prevGame() {
+void GuiLauncher::prevGame(int speed) {
     shared_ptr<Gui> gui(Gui::getInstance());
     Mix_PlayChannel(-1, gui->cursor, 0);
-    scrollRight();
+    scrollRight(speed);
     selGame--;
     if (selGame < 0) {
         selGame = gamesList.size() - 1;
@@ -365,6 +366,10 @@ int GuiLauncher::getPreviousId(int id) {
     return prev;
 }
 
+void GuiLauncher::updateGameVisibility() {
+
+
+}
 // initialize a table with positions for covers
 void GuiLauncher::setInitialPositions(int selected) {
     for (PsGame *game:gamesList) {
@@ -503,6 +508,8 @@ void GuiLauncher::loop() {
             obj->update(time);
         }
         updatePositions();
+        updateGameVisibility();
+
         render();
 
         if (motionStart != 0) {
@@ -512,10 +519,14 @@ void GuiLauncher::loop() {
 
                 if (time - timespeed > 100) {
                     if (motionDir == 0) {
-                        nextGame();
+                        if (!scrolling) {
+                            nextGame(60);
+                        }
                         //  timespeed = 0;
                     } else {
-                        prevGame();
+                        if (!scrolling) {
+                            prevGame(60);
+                        }
                         //  timespeed = 0;
                     }
                     timespeed = time;
@@ -541,18 +552,20 @@ void GuiLauncher::loop() {
 
                     if (e.jaxis.axis == 0) {
                         if (state == STATE_GAMES) {
+
                             if (e.jaxis.value > 3200) {
                                 motionStart = time;
                                 motionDir = 0;
-                                nextGame();
+                                nextGame(150);
 
                             } else if (e.jaxis.value < -3200) {
                                 motionStart = time;
                                 motionDir = 1;
-                                prevGame();
+                                prevGame(150);
                             } else {
                                 motionStart = 0;
                             }
+
                         }
                     }
                     if (e.jaxis.axis == 1) {

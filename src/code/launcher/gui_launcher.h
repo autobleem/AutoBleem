@@ -26,9 +26,9 @@ public:
 
     void renderMeta();
 
-    void nextGame();
+    void nextGame(int speed);
 
-    void prevGame();
+    void prevGame(int speed);
 
     void updateMeta();
     void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
@@ -78,13 +78,15 @@ public:
 
     int getNextId(int id);
 
-    void scrollLeft();
+    void scrollLeft(int speed);
 
-    void scrollRight();
+    void scrollRight(int speed);
 
     void updatePositions();
 
     void updateVisibility();
+
+    void updateGameVisibility();
 };
 
 
