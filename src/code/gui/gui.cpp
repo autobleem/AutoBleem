@@ -215,47 +215,8 @@ void Gui::criticalException(string text) {
     }
 }
 
-void Gui::silenceOn() {
-    if (Mix_PlayingMusic()) {
-        Mix_HaltMusic();
-    }
-    while (Mix_PlayingMusic()) {
-        // do nothignf
-    }
-    Mix_CloseAudio();
-    SDL_QuitSubSystem(SDL_INIT_AUDIO);
 
-
-}
-
-void Gui::silenceOff() {
-    SDL_InitSubSystem(SDL_INIT_AUDIO);
-    if (music != nullptr) {
-
-        Mix_FreeMusic(music);
-        music = nullptr;
-    }
-
-    if (Mix_OpenAudio(32000, MIX_DEFAULT_FORMAT, 2, 2048) == -1) {
-        printf("Unable to open audio: %s\n", Mix_GetError());
-    }
-
-
-    if (cfg.inifile.values["nomusic"] != "true")
-        if (themeData.values["loop"] != "-1") {
-
-
-            music = Mix_LoadMUS((themePath + themeData.values["music"]).c_str());
-            if (music == nullptr) { printf("Unable to load Wav file: %s\n", Mix_GetError()); }
-            if (Mix_PlayMusic(music, themeData.values["loop"] == "1" ? -1 : 0) == -1) {
-                printf("Unable to play music file: %s\n", Mix_GetError());
-            }
-
-        }
-
-}
-
-void Gui::display(bool forceScan, string path, Database *db) {
+void Gui::display(bool forceScan, string path, Database *db, bool resume) {
     this->db = db;
     this->path = path;
     this->forceScan = forceScan;
@@ -283,18 +244,22 @@ void Gui::display(bool forceScan, string path, Database *db) {
     loadAssets();
 
 
-    auto *splashScreen = new GuiSplash(renderer);
-    splashScreen->show();
-    delete splashScreen;
+    if (!resume) {
+        auto *splashScreen = new GuiSplash(renderer);
+        splashScreen->show();
+        delete splashScreen;
 
-    drawText(_("Upgrading AutoBleem - Please wait..."));
-    auto *migration = new VerMigration();
-    migration->migrate(db);
-    delete (migration);
+        drawText(_("Upgrading AutoBleem - Please wait..."));
+        auto *migration = new VerMigration();
+        migration->migrate(db);
+        delete (migration);
 
-    if (cfg.inifile.values["quick"] != "true")
-        waitForGamepad();
-
+        if (cfg.inifile.values["quick"] != "true")
+            waitForGamepad();
+    } else {
+        resumingGui = true;
+        overrideQuickBoot = true;
+    }
 
 
 
@@ -411,6 +376,29 @@ void Gui::menuSelection() {
     }
     bool menuVisible = true;
     while (menuVisible) {
+        if (startingGame) {
+            this->menuOption = MENU_OPTION_START;
+            menuVisible = false;
+            startingGame = false;
+            return;
+        }
+
+        if (resumingGui) {
+            auto launcherScreen = new GuiLauncher(renderer);
+            launcherScreen->show();
+            delete launcherScreen;
+            if (!forceScan) {
+                drawText(mainMenu);
+
+            } else {
+                drawText(forceScanMenu);
+
+            }
+            resumingGui = false;
+            menuSelection();
+            menuVisible = false;
+
+        }
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
             // this is for pc Only
@@ -574,6 +562,11 @@ void Gui::finish() {
     Mix_FreeChunk(cancel);
     Mix_FreeChunk(home_down);
     Mix_FreeChunk(home_up);
+
+    Mix_CloseAudio();
+
+    music = nullptr;
+    backgroundImg = nullptr;
 
 }
 

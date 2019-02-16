@@ -157,7 +157,8 @@ bool Database::getGames(vector<PsGame *> *result) {
             game->players = players;
             game->folder = std::string(reinterpret_cast<const char *>(path));
             game->ssFolder = std::string(reinterpret_cast<const char *>(sspath));
-            game->base = std::string(reinterpret_cast<const char *>(base));;
+            game->base = std::string(reinterpret_cast<const char *>(base));
+            game->memcard = std::string(reinterpret_cast<const char *>(memcard));
             result->push_back(game);
         }
     } else {

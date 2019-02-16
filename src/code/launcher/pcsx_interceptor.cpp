@@ -11,7 +11,6 @@
 bool PcsxInterceptor::execute(PsGame *game) {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->saveSelection();
-    gui->silenceOn();
     std::vector<const char *> argvNew;
     string gameIso = "";
 
@@ -52,8 +51,5 @@ bool PcsxInterceptor::execute(PsGame *game) {
     waitpid(pid, NULL, 0);
 
     sleep(2);
-
-    gui->silenceOff();
-
 
 }

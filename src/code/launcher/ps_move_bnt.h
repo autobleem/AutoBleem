@@ -13,6 +13,7 @@ public:
     int maxMove = 15;
     int originaly = 0;
     bool up = false;
+    int animationStarted = 0;
 
     void update(long time);
 

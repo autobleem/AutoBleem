@@ -18,11 +18,12 @@ using namespace std;
 
 #include "engine/memcard.h"
 #include "lang.h"
+#include "launcher/pcsx_interceptor.h"
 
 
 int scanGames(string path, string dbpath) {
     shared_ptr<Gui> gui(Gui::getInstance());
-    shared_ptr <Scanner> scanner(Scanner::getInstance());
+    shared_ptr<Scanner> scanner(Scanner::getInstance());
 
     if (!gui->db->createInitialDatabase()) {
         cout << "Error creating db structure" << endl;
@@ -35,11 +36,10 @@ int scanGames(string path, string dbpath) {
     scanner->updateDB(gui->db);
 
 
-    gui->drawText(_("Total:")+" " + to_string(scanner->games.size()) + " "+_("games scanned")+".");
+    gui->drawText(_("Total:") + " " + to_string(scanner->games.size()) + " " + _("games scanned") + ".");
     sleep(1);
-    for (Game * game:scanner->games)
-    {
-        delete(game);
+    for (Game *game:scanner->games) {
+        delete (game);
 
     }
     scanner->games.clear();
@@ -48,13 +48,13 @@ int scanGames(string path, string dbpath) {
 
 
 int main(int argc, char *argv[]) {
-    shared_ptr <Lang> lang(Lang::getInstance());
+    shared_ptr<Lang> lang(Lang::getInstance());
     if (argc < 3) {
         cout << "USAGE: bleemsync /path/dbfilename.db /path/to/games" << endl;
         return EXIT_FAILURE;
     }
-    shared_ptr <Gui> gui(Gui::getInstance());
-    shared_ptr <Scanner> scanner(Scanner::getInstance());
+    shared_ptr<Gui> gui(Gui::getInstance());
+    shared_ptr<Scanner> scanner(Scanner::getInstance());
 
     lang->load(gui->cfg.inifile.values["language"]);
 
@@ -80,11 +80,9 @@ int main(int argc, char *argv[]) {
     }
 
 
+    gui->display(scanner->forceScan, path, db, false);
 
-
-    gui->display(scanner->forceScan, path, db);
-
-    while (gui->menuOption == MENU_OPTION_SCAN) {
+    while (gui->menuOption == MENU_OPTION_SCAN || gui->menuOption == MENU_OPTION_START) {
 
         gui->menuSelection();
         gui->saveSelection();
@@ -97,6 +95,21 @@ int main(int argc, char *argv[]) {
             }
 
         }
+
+        if (gui->menuOption == MENU_OPTION_START) {
+            cout << "Starting game" << endl;
+            gui->finish();
+            SDL_Quit();
+            sleep(1);
+            PcsxInterceptor *interceptor = new PcsxInterceptor();
+            interceptor->execute(gui->runningGame);
+            delete (interceptor);
+            delete gui->runningGame;
+            sleep(1);
+            gui->runningGame = nullptr;
+            gui->startingGame = false;
+            gui->display(false, path, db, true);
+        }
     }
     db->disconnect();
     delete db;
@@ -107,8 +120,8 @@ int main(int argc, char *argv[]) {
     delete coverdb;
 
 
-   // lang->dump("output.txt");
-    return 0;
+    exit(0);
+
 }
 
 

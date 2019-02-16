@@ -18,6 +18,7 @@
 #include "../engine/scanner.h"
 
 
+
 #define PCS_BTN_L1       6
 #define PCS_BTN_R1       7
 #define PCS_BTN_START    9
@@ -34,6 +35,7 @@ using namespace std;
 #define MENU_OPTION_RUN   2
 #define MENU_OPTION_SONY  3
 #define MENU_OPTION_RETRO 4
+#define MENU_OPTION_START 5
 
 
 class Gui {
@@ -44,12 +46,14 @@ private:
 
 
 public:
+
     Config cfg;
     Coverdb *coverdb;
     Database *db;
     Inifile themeData;
     Inifile defaultData;
-    void display(bool forceScan, string path, Database * db);
+
+    void display(bool forceScan, string path, Database *db, bool resume);
     void waitForGamepad();
     void finish();
     void drawText(string text);
@@ -84,9 +88,7 @@ public:
 
     void criticalException(string text);
 
-    void silenceOn();
 
-    void silenceOff();
 
 
     SDL_Texture *  loadThemeTexture(SDL_Renderer * renderer, string themePath, string defaultPath, string texname);
@@ -126,6 +128,10 @@ public:
     Mix_Chunk *cursor = NULL;
     Mix_Chunk *home_down = NULL;
     Mix_Chunk *home_up = NULL;
+
+    bool startingGame = false;
+    bool resumingGui = false;
+    PsGame *runningGame;
 
     Gui(Gui const &) = delete;
     Gui &operator=(Gui const &) = delete;

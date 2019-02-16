@@ -6,23 +6,26 @@
 
 
 void PsMoveBtn::update(long time) {
-    long timeSinceLastFrame = time - lastTime;
+    int duration = 500;
+
+    float progress = time - animationStarted;
+
+    progress = progress / (duration * 1.0f);
+    if (progress > 1) progress = 1;
+    if (progress < 0) progress = 0;
 
     if (!up) {
-        y = y + (timeSinceLastFrame / 20.0f);
+        y = originaly + maxMove * progress;
 
     } else {
-        y = y - (timeSinceLastFrame / 20.0f);
+        y = (originaly + maxMove) - maxMove * progress;
     }
 
 
-    if (y >= originaly + maxMove) {
-        up = true;
-        y = originaly + maxMove;
-    }
-    if (y <= originaly) {
-        up = false;
-        y = originaly;
+    if (progress >= 1.0f) {
+        up = !up;
+
+        animationStarted = time;
     }
 
     lastTime = time;

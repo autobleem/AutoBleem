@@ -19,4 +19,18 @@ void PsGame::freeTex() {
         SDL_DestroyTexture(coverPng);
         coverPng = nullptr;
     }
+
+
+}
+
+PsGame *PsGame::clone() {
+    PsGame *clone = new PsGame();
+    clone->visible = this->visible;
+    clone->gameId = this->gameId;
+    clone->folder = this->folder;
+    clone->title = this->title;
+    clone->base = this->base;
+    clone->ssFolder = this->ssFolder;
+    clone->memcard = this->memcard;
+    return clone;
 }

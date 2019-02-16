@@ -566,6 +566,7 @@ void GuiLauncher::loop() {
                                 meta->prevPos = meta->y;
                                 state = STATE_SET;
                                 arrow->visible = true;
+                                arrow->animationStarted = time;
                                 motionStart = 0;
                                 moveMainCover(state);
                             }
@@ -585,6 +586,7 @@ void GuiLauncher::loop() {
                                 meta->prevPos = meta->y;
                                 state = STATE_GAMES;
                                 arrow->visible = false;
+                                arrow->animationStarted = time;
                                 motionStart = 0;
                                 moveMainCover(state);
                             }
@@ -608,6 +610,7 @@ void GuiLauncher::loop() {
                             meta->prevPos = meta->y;
                             state = STATE_GAMES;
                             arrow->visible = false;
+                            arrow->animationStarted = time;
                             motionStart = 0;
                             moveMainCover(state);
                         } else {
@@ -620,9 +623,16 @@ void GuiLauncher::loop() {
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
                         if (state == STATE_GAMES) {
+
+                            gui->startingGame = true;
+
+                            gui->runningGame = gamesList[selGame]->clone();
+                            /*
                             PcsxInterceptor *interceptor = new PcsxInterceptor();
                             interceptor->execute(gamesList[selGame]);
                             delete (interceptor);
+                             */
+                            menuVisible = false;
                         }
 
 

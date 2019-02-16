@@ -22,6 +22,8 @@ public:
     int year;
     int players;
 
+
+    string memcard;
     string folder;
     string ssFolder;
 
@@ -31,6 +33,8 @@ public:
     void loadTex(SDL_Renderer *renderer);
 
     void freeTex();
+
+    PsGame *clone();
 
     PsScreenpoint current;
     PsScreenpoint destination;
