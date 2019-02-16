@@ -183,6 +183,10 @@ void GuiLauncher::loadAssets() {
     tButton->visible = true;
     staticElements.push_back(tButton);
 
+
+    menu = new PsMenu(renderer, "menu", gui->getSonyImagePath());
+    menu->loadAssets();
+
     updateMeta();
 
 
@@ -204,6 +208,7 @@ void GuiLauncher::freeAssets() {
 
     }
     gamesList.clear();
+    menu->freeAssets();
 }
 
 // run when screen is loaded
@@ -349,6 +354,8 @@ void GuiLauncher::render() {
     renderText(638, 654, _("Enter"), 60, 60, 60, font24);
     renderText(760, 654, _("Cancel"), 60, 60, 60, font24);
     renderText(902, 654, _("Console Button Guide"), 60, 60, 60, font24);
+
+    menu->render();
 
 
     SDL_RenderPresent(renderer);

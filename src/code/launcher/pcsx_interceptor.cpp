@@ -35,7 +35,7 @@ bool PcsxInterceptor::execute(PsGame *game) {
     // hack to get language from lang file
     string langStr = _("|@lang|");
     if (langStr == "|@lang|") {
-        langStr = 1;
+        langStr = 13;
     }
     argvNew.push_back(langStr.c_str()); // lang by language file hack
     argvNew.push_back(region.c_str());

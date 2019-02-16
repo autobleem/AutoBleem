@@ -14,6 +14,7 @@
 #include "ps_game.h"
 #include "ps_carousel.h"
 #include "ps_move_bnt.h"
+#include "ps_menu.h"
 
 #define STATE_GAMES 0
 #define STATE_SET   1
@@ -54,6 +55,7 @@ public:
     PsObj *xButton;
     PsObj *oButton;
     PsObj *tButton;
+    PsMenu *menu;
 
     TTF_Font *font30;
     TTF_Font *font15;
