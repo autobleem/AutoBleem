@@ -131,6 +131,7 @@ public:
 
     bool startingGame = false;
     bool resumingGui = false;
+    int lastSelIndex = 0;
     PsGame *runningGame;
 
     Gui(Gui const &) = delete;

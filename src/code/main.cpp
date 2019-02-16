@@ -101,9 +101,14 @@ int main(int argc, char *argv[]) {
             gui->finish();
             SDL_Quit();
             sleep(1);
+#if defined(__x86_64__) || defined(_M_X64)
+            sleep(3);
+#else
             PcsxInterceptor *interceptor = new PcsxInterceptor();
             interceptor->execute(gui->runningGame);
             delete (interceptor);
+#endif
+
             delete gui->runningGame;
             sleep(1);
             gui->runningGame = nullptr;

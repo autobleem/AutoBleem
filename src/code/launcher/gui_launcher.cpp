@@ -91,6 +91,11 @@ void GuiLauncher::loadAssets() {
         setInitialPositions(0);
     }
 
+    if (gui->lastSelIndex != 0) {
+        selGame = gui->lastSelIndex;
+        setInitialPositions(selGame);
+    }
+
 
     long time = SDL_GetTicks();
 
@@ -508,10 +513,10 @@ void GuiLauncher::loop() {
                 if (time - timespeed > 100) {
                     if (motionDir == 0) {
                         nextGame();
-                        timespeed = 0;
+                        //  timespeed = 0;
                     } else {
                         prevGame();
-                        timespeed = 0;
+                        //  timespeed = 0;
                     }
                     timespeed = time;
                 }
@@ -623,15 +628,9 @@ void GuiLauncher::loop() {
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
                         if (state == STATE_GAMES) {
-
                             gui->startingGame = true;
-
                             gui->runningGame = gamesList[selGame]->clone();
-                            /*
-                            PcsxInterceptor *interceptor = new PcsxInterceptor();
-                            interceptor->execute(gamesList[selGame]);
-                            delete (interceptor);
-                             */
+                            gui->lastSelIndex = selGame;
                             menuVisible = false;
                         }
 

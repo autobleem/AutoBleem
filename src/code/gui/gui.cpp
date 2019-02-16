@@ -377,6 +377,7 @@ void Gui::menuSelection() {
     bool menuVisible = true;
     while (menuVisible) {
         if (startingGame) {
+            drawText("");
             this->menuOption = MENU_OPTION_START;
             menuVisible = false;
             startingGame = false;
