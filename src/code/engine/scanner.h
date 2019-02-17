@@ -24,7 +24,7 @@ public:
     void updateDB(Database *db);
     bool forceScan=false;
     bool noGamesFound=false;
-
+    void detectAndSortGamefiles(string path);
     Scanner(Scanner const &) = delete;
     Scanner &operator=(Scanner const &) = delete;
     static std::shared_ptr<Scanner> getInstance() {

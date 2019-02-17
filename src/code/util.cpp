@@ -292,6 +292,10 @@ unsigned long Util::readDword(ifstream *stream) {
     return res;
 
 }
+
+/*
+ * Return the available space of a usb device
+ */
 string Util::getAvailableSpace(){
     string str;
     int gb = 1024 * 1024;
@@ -306,7 +310,9 @@ string Util::getAvailableSpace(){
     return str;
 }
 
-
+/*
+ * Convert a float f to a string with precision of n
+ */
 string Util::floatToString(float f, int n){
     std::ostringstream stringStream;
     stringStream << std::fixed << std::setprecision(n) << f;
@@ -336,6 +342,9 @@ string Util::commaSep(string s, int pos) {
     return "";
 }
 
+/*
+ * Execute a shell command and return output
+ */
 string Util::execUnixCommad(const char* cmd){
     array<char, 128> buffer;
     string result;
@@ -348,4 +357,110 @@ string Util::execUnixCommad(const char* cmd){
     }
     result.erase(remove(result.begin(),result.end(),'\n'));
     return result;
+}
+
+/*
+ * Return the extension of a filename out of string
+ * myfile.txt will return txt
+ */
+string Util::getFileExtension(string fileName) {
+    size_t i = fileName.rfind('.', fileName.length());
+    if (i != string::npos) {
+        return(fileName.substr(i+1, fileName.length() - i));
+    }
+    return "";
+}
+
+/*
+ * Return the name of a file without extension
+ */
+string Util::getFileNameWithoutExtension(string filename) {
+    size_t indexBeforeDot = filename.find_last_of(".");
+    return filename.substr(0, indexBeforeDot);
+}
+
+/*
+ * Return the bin list declared in a cue file
+ */
+vector<string> Util::cueToBinList(string cueFile) {
+    vector<string> binList;
+    FILE *fp;
+    char *cline = NULL;
+    string line;
+    size_t length = 0;
+    ssize_t read;
+
+    //Opening file
+    fp = fopen(cueFile.c_str(),"r");
+    if(fp == NULL){
+        printf("Error opening cue file");
+        return binList;
+    }
+
+    //Reading line by line
+    while((read = getline(&cline, &length, fp)) != -1){
+        line = cline;
+        line = trim(line);
+        if(line.substr(0,4) == "FILE"){
+            binList.push_back(getStringWithinChar(line,'"').c_str());
+        }
+    }
+
+    //Closing file pointer
+    fclose(fp);
+
+    //Freeing line pointer
+    if(cline){
+        free(cline);
+    }
+
+    return binList;
+}
+
+/*
+ * Left trimming
+ */
+string Util::ltrim(const std::string& s){
+    size_t start = s.find_first_not_of(" \n\r\t\f\v");
+    return (start == std::string::npos) ? "" : s.substr(start);
+}
+
+/*
+ * Right trimming
+ */
+string Util::rtrim(const std::string& s){
+    size_t end = s.find_last_not_of(" \n\r\t\f\v");
+    return (end == std::string::npos) ? "" : s.substr(0, end + 1);
+}
+
+/*
+ * Trimming both left and right
+ */
+string Util::trim(const string &s) {
+    return rtrim(ltrim(s));
+}
+
+/*
+ * Return a char between separator like :
+ * Super "GAMENAME" baby
+ * Will return
+ * GAMENAME
+ */
+string Util::getStringWithinChar(string s, char del) {
+    int first = s.find(del);
+    int last = s.find_last_of(del);
+    return s.substr(first+1, last-first-1);
+}
+
+vector<DirEntry> Util::getFilesWithExtension(string path, vector<DirEntry> entries, vector<string> extensions) {
+    vector<DirEntry> fileList;
+    string fileExt;
+    for (auto &entry : entries){
+        if(Util::isDirectory(path+"/"+entry.name)) continue;
+        fileExt = Util::getFileExtension(entry.name);
+        if(find(extensions.begin(),extensions.end(),fileExt) != extensions.end()){
+            fileList.push_back(entry);
+        }
+    }
+    return fileList;
 }

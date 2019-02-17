@@ -473,3 +473,66 @@ void Scanner::scanDirectory(string path) {
 
     complete = true;
 }
+
+/*
+ * Searching for games with supported extension and create associated folders
+ */
+void Scanner::detectAndSortGamefiles(string path){
+    string fileExt;
+    string filenameWE;
+    vector<string> extensions;
+    vector<string> binList;
+    shared_ptr<Gui> splash(Gui::getInstance());
+    splash->logText(_("Sorting..."));
+    extensions.push_back("iso");
+    extensions.push_back("pbp");
+    extensions.push_back("cue");
+
+    //Getting all files in Games Dir
+    vector<DirEntry> globalFileList = Util::diru(path);
+    vector<DirEntry> fileList = Util::getFilesWithExtension(path, globalFileList, extensions);
+
+    //On first run, we won't process bin/img files, as cue file may handle a part of them
+    for (auto &entry : fileList){
+        splash->logText(_("Sorting : ")+entry.name);
+        fileExt = Util::getFileExtension(entry.name);
+        filenameWE = Util::getFileNameWithoutExtension(entry.name);
+        //Checking if file exists
+        if(access((path+"/"+entry.name).c_str(),F_OK) != -1){
+            if(fileExt == "cue"){
+                binList = Util::cueToBinList(path+"/"+entry.name);
+                if(!binList.empty()){
+                    //Create directory for game
+                    Util::createDir(path+"/"+filenameWE);
+                    //Move cue file
+                    rename((path+"/"+entry.name).c_str(),(path+"/"+filenameWE+"/"+entry.name).c_str());
+                    //Move bin files
+                    for(auto &bin : binList){
+                        splash->logText(_("Sorting : ")+bin);
+                        rename((path+"/"+bin).c_str(),(path+"/"+filenameWE+"/"+bin).c_str());
+                    }
+                }
+            }else{
+                Util::createDir(path+"/"+filenameWE);
+
+                rename((path+"/"+entry.name).c_str(),(path+"/"+filenameWE+"/"+entry.name).c_str());
+            }
+        }
+    }
+
+    //Next we will read only bin and img files
+    extensions.clear();
+    extensions.push_back("img");
+    extensions.push_back("bin");
+    fileList = Util::getFilesWithExtension(path, globalFileList, extensions);
+    for (auto &entry : fileList){
+        splash->logText(_("Sorting : ")+entry.name);
+        fileExt = Util::getFileExtension(entry.name);
+        filenameWE = Util::getFileNameWithoutExtension(entry.name);
+        //Checking if file exists
+        if(access((path+"/"+entry.name).c_str(),F_OK) != -1){
+            Util::createDir(path+"/"+filenameWE);
+            rename((path+"/"+entry.name).c_str(),(path+"/"+filenameWE+"/"+entry.name).c_str());
+        }
+    }
+}
