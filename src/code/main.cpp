@@ -14,6 +14,7 @@ using namespace std;
 
 #include "engine/memcard.h"
 #include "lang.h"
+#include "launcher/pcsx_interceptor.h"
 
 
 int scanGames(string path, string dbpath) {
@@ -110,7 +111,9 @@ int main(int argc, char *argv[]) {
 
 #else
             PcsxInterceptor *interceptor = new PcsxInterceptor();
+            interceptor->memcardIn(gui->runningGame);
             interceptor->execute(gui->runningGame);
+            interceptor->memcardOut(gui->runningGame);
             delete (interceptor);
 #endif
 

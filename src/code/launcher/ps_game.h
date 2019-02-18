@@ -36,6 +36,8 @@ public:
 
     PsGame *clone();
 
+    void setMemCard(string name);
+
     PsScreenpoint current;
     PsScreenpoint destination;
     PsScreenpoint actual;

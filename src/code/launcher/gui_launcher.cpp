@@ -166,20 +166,20 @@ void GuiLauncher::loadAssets() {
 
     xButton = new PsObj(renderer, "xbtn", gui->getSonyImagePath() + "/GR/X_Btn_ICN.png" );
     xButton->x = 605;
-    xButton->y = 655;
+    xButton->y = 640;
     xButton->visible = true;
     staticElements.push_back(xButton);
 
 
     oButton = new PsObj(renderer, "obtn", gui->getSonyImagePath() + "/GR/Circle_Btn_ICN.png" );
     oButton->x = 725;
-    oButton->y = 655;
+    oButton->y = 640;
     oButton->visible = true;
     staticElements.push_back(oButton);
 
     tButton = new PsObj(renderer, "tbtn", gui->getSonyImagePath() + "/GR/Tri_Btn_ICN.png" );
     tButton->x = 870;
-    tButton->y = 655;
+    tButton->y = 640;
     tButton->visible = true;
     staticElements.push_back(tButton);
 
@@ -351,9 +351,9 @@ void GuiLauncher::render() {
     }
 
 
-    renderText(638, 654, _("Enter"), 60, 60, 60, font24);
-    renderText(760, 654, _("Cancel"), 60, 60, 60, font24);
-    renderText(902, 654, _("Console Button Guide"), 60, 60, 60, font24);
+    renderText(638, 640, _("Enter"), 60, 60, 60, font24);
+    renderText(760, 640, _("Cancel"), 60, 60, 60, font24);
+    renderText(902, 640, _("Console Button Guide"), 60, 60, 60, font24);
 
     menu->render();
 

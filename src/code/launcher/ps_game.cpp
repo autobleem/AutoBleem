@@ -4,6 +4,8 @@
 
 #include "ps_game.h"
 #include "../util.h"
+#include "../engine/inifile.h"
+#include "../gui/gui.h"
 
 
 void PsGame::loadTex(SDL_Renderer *renderer) {
@@ -37,4 +39,15 @@ PsGame *PsGame::clone() {
     clone->coverPng = this->coverPng;
     clone->year = this->year;
     return clone;
+}
+
+void PsGame::setMemCard(string name)
+{
+   this->memcard = name;
+   Inifile * ini = new Inifile();
+   ini->load(this->folder+"/Game.ini");
+   ini->values["memcard"] = name;
+   ini->save(this->folder+"/Game.ini");
+   shared_ptr<Gui> gui(Gui::getInstance());
+   gui->db->updateMemcard(this->gameId,name);
 }

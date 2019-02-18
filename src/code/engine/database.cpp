@@ -16,6 +16,8 @@ static const char SELECT_TITLE[] = "SELECT SERIAL,TITLE, PUBLISHER, \
 
 static const char UPDATE_YEAR[] = "UPDATE GAME SET RELEASE_YEAR=? WHERE GAME_ID=?";
 
+static const char UPDATE_MEMCARD[] = "UPDATE GAME SET MEMCARD=? WHERE GAME_ID=?";
+
 static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
 
 static const char GAMES_DATA[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, PATH, SSPATH, MEMCARD, d.BASENAME \
@@ -96,6 +98,25 @@ bool Database::updateYear(int id, int year)
     sqlite3_finalize(res);
     return true;
 }
+
+bool Database::updateMemcard(int id, string memcard)
+{
+    char *errorReport = nullptr;
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, UPDATE_MEMCARD, -1, &res, nullptr);
+    if (rc != SQLITE_OK) {
+        cerr <<  sqlite3_errmsg(db) << endl;
+        if (!errorReport) sqlite3_free(errorReport);
+        sqlite3_close(db);
+        return false;
+    }
+    sqlite3_bind_text(res, 1, memcard.c_str(), -1, nullptr);
+    sqlite3_bind_int(res, 2, id);
+    sqlite3_step(res);
+    sqlite3_finalize(res);
+    return true;
+}
+
 bool Database::queryTitle(string title, Metadata *md) {
 
     sqlite3_stmt *res = nullptr;

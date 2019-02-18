@@ -31,6 +31,7 @@ public:
     bool queryTitle(string title, Metadata *md);
     int getNumGames();
     bool updateYear(int id, int year);
+    bool updateMemcard(int id, string memcard);
 
     bool getGames(vector<PsGame *> *result);
 private:

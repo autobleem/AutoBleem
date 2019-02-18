@@ -2,11 +2,12 @@
 // Created by screemer on 2/13/19.
 //
 
-#include <wait.h>
+#include <sys/wait.h>
 #include "pcsx_interceptor.h"
 #include "../util.h"
 #include "../gui/gui.h"
 #include "../lang.h"
+#include "../engine/memcard.h"
 
 bool PcsxInterceptor::execute(PsGame *game) {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -51,5 +52,34 @@ bool PcsxInterceptor::execute(PsGame *game) {
     waitpid(pid, NULL, 0);
 
     sleep(2);
-
+    return true;
 }
+
+void PcsxInterceptor::memcardIn(PsGame *game)
+{
+    if (game->memcard!="SONY")
+    {
+        if (Util::exists("/media/Games/!MemCards/"+game->memcard))
+        {
+            Memcard * card = new Memcard("/media/Games/");
+            if (!card->swapIn(game->ssFolder,game->memcard))
+            {
+                game->setMemCard("SONY");
+            };
+            delete card;
+        }
+    }
+}
+
+void PcsxInterceptor::memcardOut(PsGame *game)
+{
+    if (game->memcard!="SONY")
+    {
+        Memcard * card = new Memcard("/media/Games/");
+        card->swapOut(game->ssFolder,game->memcard);
+        delete card;
+
+    }
+}
+
+
