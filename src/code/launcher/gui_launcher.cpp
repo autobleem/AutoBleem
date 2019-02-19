@@ -543,7 +543,10 @@ void GuiLauncher::switchState(int state, int time)
         this->state = STATE_GAMES;
         arrow->visible = false;
         arrow->animationStarted = time;
-
+        menu->duration = 200;
+        menu->targety = 520;
+        menu->animationStarted = time;
+        menu->active=false;
         moveMainCover(state);
     } else
     {
@@ -558,7 +561,10 @@ void GuiLauncher::switchState(int state, int time)
         this->state = STATE_SET;
         arrow->visible = true;
         arrow->animationStarted = time;
-
+        menu->duration = 200;
+        menu->targety = 440;
+        menu->animationStarted = time;
+        menu->active=true;
         moveMainCover(state);
     }
 }
@@ -575,6 +581,7 @@ void GuiLauncher::loop() {
         for (auto obj:staticElements) {
             obj->update(time);
         }
+        menu->update(time);
         updatePositions();
         render();
 

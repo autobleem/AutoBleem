@@ -9,6 +9,9 @@
 #include <SDL2/SDL_system.h>
 #include "ps_obj.h"
 
+#define TR_MENUON 0
+#define TR_OPTION 1
+
 class PsMenu : public PsObj {
 public:
     SDL_Texture *settings;
@@ -17,21 +20,31 @@ public:
     SDL_Texture *savestate;
     SDL_Texture *separator;
 
-    int x,y;
+    int x,y,oy,ox;
+    int settingsxoff =0;
+    int settingsyoff =0;
+
     float settings_scale = 1.0f;
     float guide_scale = 1.0f;
     float mencard_scale = 1.0f;
     float savestate_scale = 1.0f;
 
+    float maxZoom = 1.5;
+
     int selOption=0;
     int animationStarted=0;
+    int targety;
+    int duration;
+    bool active = false;
 
     string path;
 
     void loadAssets();
     void freeAssets();
-    void update();
+    void update(long time);
     void render();
+
+    int transition =0;
 
     PsMenu(SDL_Renderer *renderer1, string name1, string texPath = "");
 };
