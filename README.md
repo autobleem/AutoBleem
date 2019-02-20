@@ -124,7 +124,7 @@ We also created a tool to dump and reload all png files in one shot. The tool is
 
 This software uses some parts of code based on open licences:
 
-[BleemSync](https://github.com/pathartl/BleemSync) - some code was reused from early BleemSync code. The credits go to ModMyClassic team (DoctorDalek/pathartl, Swingflip, cyanic and others).
+[BleemSync](https://github.com/pathartl/BleemSync) - some parts were reused from early BleemSync code. The credits go to ModMyClassic team (DoctorDalek/pathartl, compscom, Swingflip, cyanic and others).
 
 [Lolhack/GpgHax](https://github.com/justMaku/gpghax) - big greetings for a research on PCS bootloader to justMaku 
 
