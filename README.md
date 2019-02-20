@@ -124,7 +124,9 @@ We also created a tool to dump and reload all png files in one shot. The tool is
 
 This software uses some parts of code based on open licences:
 
-[BleemSync](https://github.com/pathartl/BleemSync) - similar implementation in C# with some different functionality (no code reused - just idea for some solutions)
+[BleemSync](https://github.com/pathartl/BleemSync) - some code was reused from early BleemSync code. The credits go to ModMyClassic team (DoctorDalek/pathartl, Swingflip, cyanic and others).
+
+[Lolhack/GpgHax](https://github.com/justMaku/gpghax) - big greetings for a research on PCS bootloader to justMaku 
 
 [SQLite](https://www.sqlite.org/index.html) (sqlite.c / sqlite.h) Public domain - no license
 
