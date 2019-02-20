@@ -621,18 +621,34 @@ void GuiLauncher::loop() {
                         if (state == STATE_GAMES) {
 
                             if (e.jaxis.value > 3200) {
-                                motionStart = time;
-                                motionDir = 0;
-                                nextGame(150);
+                                if (!scrolling) {
+                                    motionStart = time;
+                                    motionDir = 0;
+                                    scrolling = true;
+                                    nextGame(110);
+                                }
 
                             } else if (e.jaxis.value < -3200) {
-                                motionStart = time;
-                                motionDir = 1;
-                                prevGame(150);
+                                if (!scrolling) {
+                                    motionStart = time;
+                                    motionDir = 1;
+                                    scrolling = true;
+                                    prevGame(110);
+                                }
                             } else {
                                 motionStart = 0;
                             }
 
+                        } else
+                        {
+                            if (e.jaxis.value > 3200) {
+
+                                menu->transition = TR_OPTION;
+                            } else if (e.jaxis.value < -3200) {
+                                menu->transition = TR_OPTION;
+                            } else {
+
+                            }
                         }
                     }
                     if (e.jaxis.axis == 1) {
@@ -641,6 +657,7 @@ void GuiLauncher::loop() {
                                 continue;
                             }
                             if (state != STATE_SET) {
+                                menu->transition = TR_MENUON;
                                 switchState(STATE_SET,time);
                                 motionStart = 0;
                             }
@@ -650,6 +667,7 @@ void GuiLauncher::loop() {
                                 continue;
                             }
                             if (state != STATE_GAMES) {
+                                menu->transition = TR_MENUON;
                                 switchState(STATE_GAMES,time);
                                 motionStart = 0;
                             }
@@ -661,6 +679,7 @@ void GuiLauncher::loop() {
                 case SDL_JOYBUTTONUP:
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         if (state != STATE_GAMES) {
+                            menu->transition = TR_MENUON;
                             switchState(STATE_GAMES,time);
                             motionStart = 0;
                         } else {

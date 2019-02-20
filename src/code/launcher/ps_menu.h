@@ -37,6 +37,8 @@ public:
     int duration;
     bool active = false;
 
+    int direction = 0;
+
     string path;
 
     void loadAssets();

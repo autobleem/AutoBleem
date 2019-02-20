@@ -96,6 +96,17 @@ void PsMenu::update(long time)
                 }
             }
         }
+        else
+        {
+            // transition between menu options
+            if (direction ==0)
+            {
+                float progress = time - animationStarted;
+                progress = progress / (duration * 1.0f);
+                if (progress > 1) progress = 1;
+                if (progress < 0) progress = 0;
+            }
+        }
     }
 }
 
