@@ -75,12 +75,9 @@ void GuiLauncher::loadAssets() {
         game->loadTex(renderer);
     }
 
-    if (gamesList.size()>0)
-    {
-        while (gamesList.size()<13)
-        {
-            for (PsGame * game:gamesList)
-            {
+    if (gamesList.size() > 0) {
+        while (gamesList.size() < 13) {
+            for (PsGame *game:gamesList) {
                 gamesList.push_back(game->clone());
             }
 
@@ -164,20 +161,20 @@ void GuiLauncher::loadAssets() {
     arrow->visible = false;
     staticElements.push_back(arrow);
 
-    xButton = new PsObj(renderer, "xbtn", gui->getSonyImagePath() + "/GR/X_Btn_ICN.png" );
+    xButton = new PsObj(renderer, "xbtn", gui->getSonyImagePath() + "/GR/X_Btn_ICN.png");
     xButton->x = 605;
     xButton->y = 640;
     xButton->visible = true;
     staticElements.push_back(xButton);
 
 
-    oButton = new PsObj(renderer, "obtn", gui->getSonyImagePath() + "/GR/Circle_Btn_ICN.png" );
+    oButton = new PsObj(renderer, "obtn", gui->getSonyImagePath() + "/GR/Circle_Btn_ICN.png");
     oButton->x = 725;
     oButton->y = 640;
     oButton->visible = true;
     staticElements.push_back(oButton);
 
-    tButton = new PsObj(renderer, "tbtn", gui->getSonyImagePath() + "/GR/Tri_Btn_ICN.png" );
+    tButton = new PsObj(renderer, "tbtn", gui->getSonyImagePath() + "/GR/Tri_Btn_ICN.png");
     tButton->x = 870;
     tButton->y = 640;
     tButton->visible = true;
@@ -527,11 +524,9 @@ void GuiLauncher::moveMainCover(int state) {
     }
 }
 
-void GuiLauncher::switchState(int state, int time)
-{
+void GuiLauncher::switchState(int state, int time) {
     shared_ptr<Gui> gui(Gui::getInstance());
-    if (state==STATE_GAMES)
-    {
+    if (state == STATE_GAMES) {
         Mix_PlayChannel(-1, gui->home_up, 0);
         settingsBack->animEndTime = time + 100;
         settingsBack->nextLen = 100;
@@ -546,10 +541,9 @@ void GuiLauncher::switchState(int state, int time)
         menu->duration = 200;
         menu->targety = 520;
         menu->animationStarted = time;
-        menu->active=false;
+        menu->active = false;
         moveMainCover(state);
-    } else
-    {
+    } else {
         Mix_PlayChannel(-1, gui->home_down, 0);
         settingsBack->animEndTime = time + 100;
         settingsBack->nextLen = 280;
@@ -564,10 +558,11 @@ void GuiLauncher::switchState(int state, int time)
         menu->duration = 200;
         menu->targety = 440;
         menu->animationStarted = time;
-        menu->active=true;
+        menu->active = true;
         moveMainCover(state);
     }
 }
+
 // event loop
 void GuiLauncher::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -639,13 +634,31 @@ void GuiLauncher::loop() {
                                 motionStart = 0;
                             }
 
-                        } else
-                        {
+                        } else {
                             if (e.jaxis.value > 3200) {
 
-                                menu->transition = TR_OPTION;
+                                if (menu->selOption != 3) {
+                                    if (menu->animationStarted == 0) {
+                                        Mix_PlayChannel(-1, gui->cursor, 0);
+                                        menu->transition = TR_OPTION;
+                                        menu->direction = 1;
+                                        menu->duration = 100;
+                                        menu->animationStarted = time;
+                                    }
+
+                                }
+
                             } else if (e.jaxis.value < -3200) {
-                                menu->transition = TR_OPTION;
+                                if (menu->selOption != 0) {
+                                    if (menu->animationStarted == 0) {
+                                        Mix_PlayChannel(-1, gui->cursor, 0);
+                                        menu->transition = TR_OPTION;
+                                        menu->direction = 0;
+                                        menu->duration = 100;
+                                        menu->animationStarted = time;
+                                    }
+                                }
+
                             } else {
 
                             }
@@ -657,9 +670,11 @@ void GuiLauncher::loop() {
                                 continue;
                             }
                             if (state != STATE_SET) {
-                                menu->transition = TR_MENUON;
-                                switchState(STATE_SET,time);
-                                motionStart = 0;
+                                if (menu->animationStarted==0) {
+                                    menu->transition = TR_MENUON;
+                                    switchState(STATE_SET, time);
+                                    motionStart = 0;
+                                }
                             }
 
                         } else if (e.jaxis.value < -3200) {
@@ -667,9 +682,11 @@ void GuiLauncher::loop() {
                                 continue;
                             }
                             if (state != STATE_GAMES) {
-                                menu->transition = TR_MENUON;
-                                switchState(STATE_GAMES,time);
-                                motionStart = 0;
+                                if (menu->animationStarted==0) {
+                                    menu->transition = TR_MENUON;
+                                    switchState(STATE_GAMES, time);
+                                    motionStart = 0;
+                                }
                             }
                         } else {
 
@@ -679,9 +696,11 @@ void GuiLauncher::loop() {
                 case SDL_JOYBUTTONUP:
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         if (state != STATE_GAMES) {
-                            menu->transition = TR_MENUON;
-                            switchState(STATE_GAMES,time);
-                            motionStart = 0;
+                            if (menu->animationStarted==0) {
+                                menu->transition = TR_MENUON;
+                                switchState(STATE_GAMES, time);
+                                motionStart = 0;
+                            }
                         } else {
                             menuVisible = false;
                         }

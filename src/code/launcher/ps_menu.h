@@ -21,13 +21,11 @@ public:
     SDL_Texture *separator;
 
     int x,y,oy,ox;
-    int settingsxoff =0;
-    int settingsyoff =0;
+    int xoff[4] = {0,0,0,0};
+    int yoff[4] = {0,0,0,0};
 
-    float settings_scale = 1.0f;
-    float guide_scale = 1.0f;
-    float mencard_scale = 1.0f;
-    float savestate_scale = 1.0f;
+    float optionscales[4] = {1.0f,1.0f,1.0f,1.0f};
+
 
     float maxZoom = 1.5;
 
