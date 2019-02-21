@@ -15,6 +15,7 @@
 #include "ps_carousel.h"
 #include "ps_move_bnt.h"
 #include "ps_menu.h"
+#include "ps_centerlabel.h"
 
 #define STATE_GAMES 0
 #define STATE_SET   1
@@ -64,6 +65,10 @@ public:
     vector<PsObj *> staticElements;
     vector<PsObj *> menuElements;
     vector<PsObj *> carousel;
+
+    PsCenterLabel * menuHead;
+    PsCenterLabel * menuText;
+
 
 
     string gameName;

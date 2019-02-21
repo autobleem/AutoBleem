@@ -6,7 +6,8 @@
 #include "../gui/gui.h"
 #include "../lang.h"
 
-
+vector<string> headers = {_("SETTINGS"), _("GUIDE"), _("MEMORY CARD"), _("RESUME")};
+vector<string> texts = {_("Customize PlayStationClassic or AutoBleem settings"), _("Open quick manual"), _("Edit Memory Card information"), _("Resume game from saved state point")};
 // Text rendering routines - places text at x,y with selected color and font
 void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
     int text_width;
@@ -37,6 +38,8 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
     inputRect.x = 0;
     inputRect.y = 0;
     inputRect.w = rect.w;
+
+
     inputRect.h = rect.h;
 
     SDL_RenderCopy(renderer, texture, &inputRect, &rect);
@@ -183,6 +186,21 @@ void GuiLauncher::loadAssets() {
 
     menu = new PsMenu(renderer, "menu", gui->getSonyImagePath());
     menu->loadAssets();
+
+    menuHead = new PsCenterLabel(renderer, "header");
+    menuHead->font = font30;
+    menuHead->visible = false;
+    menuHead->y=540;
+    menuText = new PsCenterLabel(renderer, "menuText");
+    menuText->visible = false;
+    menuText->font = font24;
+    menuText->y=580;
+
+    menuHead->setText(headers[0],255,255,255);
+    menuText->setText(_("Customize PlayStationClassic or AutoBleem settings"),255,255,255);
+
+    staticElements.push_back(menuHead);
+    staticElements.push_back(menuText);
 
     updateMeta();
 
@@ -542,6 +560,9 @@ void GuiLauncher::switchState(int state, int time) {
         menu->targety = 520;
         menu->animationStarted = time;
         menu->active = false;
+        menuHead->visible = false;
+        menuText->visible = false;
+
         moveMainCover(state);
     } else {
         Mix_PlayChannel(-1, gui->home_down, 0);
@@ -559,6 +580,8 @@ void GuiLauncher::switchState(int state, int time) {
         menu->targety = 440;
         menu->animationStarted = time;
         menu->active = true;
+        menuHead->visible = true;
+        menuText->visible = true;
         moveMainCover(state);
     }
 }
@@ -643,6 +666,8 @@ void GuiLauncher::loop() {
                                         menu->transition = TR_OPTION;
                                         menu->direction = 1;
                                         menu->duration = 100;
+                                        menuHead->setText(headers[menu->selOption+1],255,255,255);
+                                        menuText->setText(texts[menu->selOption+1],255,255,255);
                                         menu->animationStarted = time;
                                     }
 
@@ -655,6 +680,8 @@ void GuiLauncher::loop() {
                                         menu->transition = TR_OPTION;
                                         menu->direction = 0;
                                         menu->duration = 100;
+                                        menuHead->setText(headers[menu->selOption-1],255,255,255);
+                                        menuText->setText(texts[menu->selOption-1],255,255,255);
                                         menu->animationStarted = time;
                                     }
                                 }
