@@ -7,7 +7,7 @@
 #include "../lang.h"
 
 vector<string> headers = {_("SETTINGS"), _("GUIDE"), _("MEMORY CARD"), _("RESUME")};
-vector<string> texts = {_("Customize PlayStationClassic or AutoBleem settings"), _("Open quick manual"), _("Edit Memory Card information"), _("Resume game from saved state point")};
+vector<string> texts = {_("Customize PlayStationClassic or AutoBleem settings"), _("Show authors information"), _("Edit Memory Card information"), _("Resume game from saved state point")};
 // Text rendering routines - places text at x,y with selected color and font
 void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
     int text_width;

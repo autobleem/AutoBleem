@@ -19,6 +19,7 @@ public:
     SDL_Texture *memcard;
     SDL_Texture *savestate;
     SDL_Texture *separator;
+    SDL_Texture *resume;
 
     int x,y,oy,ox;
     int xoff[4] = {0,0,0,0};
