@@ -7,7 +7,9 @@
 #include "../lang.h"
 
 vector<string> headers = {_("SETTINGS"), _("GUIDE"), _("MEMORY CARD"), _("RESUME")};
-vector<string> texts = {_("Customize PlayStationClassic or AutoBleem settings"), _("Show authors information"), _("Edit Memory Card information"), _("Resume game from saved state point")};
+vector<string> texts = {_("Customize PlayStationClassic or AutoBleem settings"), _("Show authors information"),
+                        _("Edit Memory Card information"), _("Resume game from saved state point")};
+
 // Text rendering routines - places text at x,y with selected color and font
 void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
     int text_width;
@@ -188,26 +190,29 @@ void GuiLauncher::loadAssets() {
     menu->loadAssets();
 
 
-
     menuHead = new PsCenterLabel(renderer, "header");
     menuHead->font = font30;
     menuHead->visible = false;
-    menuHead->y=545;
+    menuHead->y = 545;
     menuText = new PsCenterLabel(renderer, "menuText");
     menuText->visible = false;
     menuText->font = font24;
-    menuText->y=585;
+    menuText->y = 585;
 
-    menuHead->setText(headers[0],255,255,255);
-    menuText->setText(_("Customize PlayStationClassic or AutoBleem settings"),255,255,255);
+    menuHead->setText(headers[0], 255, 255, 255);
+    menuText->setText(_("Customize PlayStationClassic or AutoBleem settings"), 255, 255, 255);
 
     staticElements.push_back(menuHead);
     staticElements.push_back(menuText);
 
+    sselector = new PsStateSelector(renderer, "selector");
+    sselector->visible = false;
+
+    staticElements.push_back(sselector);
+
     updateMeta();
 
-    if (selGame>=0)
-    {
+    if (selGame >= 0) {
         menu->setResumePic(gamesList[selGame]->findResumePicture());
     }
 
@@ -333,6 +338,7 @@ void GuiLauncher::updatePositions() {
 
 // render method called every loop
 void GuiLauncher::render() {
+    sselector->frame = menu->savestate;
 
     shared_ptr<Gui> gui(Gui::getInstance());
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
@@ -344,7 +350,7 @@ void GuiLauncher::render() {
     }
 
     // covers render
-    ;
+    if (state!=STATE_RESUME) {
     if (!gamesList.empty()) {
         for (auto game:gamesList) {
             if (game->visible) {
@@ -372,13 +378,15 @@ void GuiLauncher::render() {
     }
 
 
+
+
+
+        menu->render();
+    }
+
     renderText(638, 640, _("Enter"), 60, 60, 60, font24);
     renderText(760, 640, _("Cancel"), 60, 60, 60, font24);
     renderText(902, 640, _("Console Button Guide"), 60, 60, 60, font24);
-
-    menu->render();
-
-
     SDL_RenderPresent(renderer);
 }
 
@@ -665,7 +673,7 @@ void GuiLauncher::loop() {
                                 motionStart = 0;
                             }
 
-                        } else {
+                        } else  if (state == STATE_SET) {
                             if (e.jaxis.value > 3200) {
 
                                 if (menu->selOption != 3) {
@@ -674,8 +682,8 @@ void GuiLauncher::loop() {
                                         menu->transition = TR_OPTION;
                                         menu->direction = 1;
                                         menu->duration = 100;
-                                        menuHead->setText(headers[menu->selOption+1],255,255,255);
-                                        menuText->setText(texts[menu->selOption+1],255,255,255);
+                                        menuHead->setText(headers[menu->selOption + 1], 255, 255, 255);
+                                        menuText->setText(texts[menu->selOption + 1], 255, 255, 255);
                                         menu->animationStarted = time;
                                     }
 
@@ -688,8 +696,8 @@ void GuiLauncher::loop() {
                                         menu->transition = TR_OPTION;
                                         menu->direction = 0;
                                         menu->duration = 100;
-                                        menuHead->setText(headers[menu->selOption-1],255,255,255);
-                                        menuText->setText(texts[menu->selOption-1],255,255,255);
+                                        menuHead->setText(headers[menu->selOption - 1], 255, 255, 255);
+                                        menuText->setText(texts[menu->selOption - 1], 255, 255, 255);
                                         menu->animationStarted = time;
                                     }
                                 }
@@ -704,8 +712,8 @@ void GuiLauncher::loop() {
                             if (scrolling) {
                                 continue;
                             }
-                            if (state != STATE_SET) {
-                                if (menu->animationStarted==0) {
+                            if (state == STATE_GAMES) {
+                                if (menu->animationStarted == 0) {
                                     menu->transition = TR_MENUON;
                                     switchState(STATE_SET, time);
                                     motionStart = 0;
@@ -716,8 +724,8 @@ void GuiLauncher::loop() {
                             if (scrolling) {
                                 continue;
                             }
-                            if (state != STATE_GAMES) {
-                                if (menu->animationStarted==0) {
+                            if (state == STATE_SET) {
+                                if (menu->animationStarted == 0) {
                                     menu->transition = TR_MENUON;
                                     switchState(STATE_GAMES, time);
                                     motionStart = 0;
@@ -730,14 +738,20 @@ void GuiLauncher::loop() {
                     break;
                 case SDL_JOYBUTTONUP:
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
-                        if (state != STATE_GAMES) {
-                            if (menu->animationStarted==0) {
+                        if (state == STATE_SET) {
+                            if (menu->animationStarted == 0) {
                                 menu->transition = TR_MENUON;
                                 switchState(STATE_GAMES, time);
                                 motionStart = 0;
                             }
-                        } else {
+                        } else if (state == STATE_GAMES) {
                             menuVisible = false;
+                        } else if (state == STATE_RESUME)
+                        {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
+                            sselector->visible = false;
+                            arrow->visible= true;
+                            state=STATE_SET;
                         }
 
 
@@ -751,16 +765,20 @@ void GuiLauncher::loop() {
                             gui->lastSelIndex = selGame;
                             gui->resumepoint = -1;
                             menuVisible = false;
-                        } else
-                        {
-                            if (menu->selOption==3)
-                            {
+                        } else if (state == STATE_SET) {
+                            if (menu->selOption == 3) {
+                                /*
                                 // resume game
                                 gui->startingGame = true;
                                 gui->runningGame = gamesList[selGame]->clone();
                                 gui->lastSelIndex = selGame;
                                 gui->resumepoint = 0;
                                 menuVisible = false;
+                                 */
+                                Mix_PlayChannel(-1, gui->cursor, 0);
+                                sselector->visible = true;
+                                arrow->visible=false;
+                                state = STATE_RESUME;
                             }
                         }
 

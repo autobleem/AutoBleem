@@ -16,7 +16,7 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
     std::vector<const char *> argvNew;
     string gameIso = "";
 
-    string region = "3"; // need to find out if console is jap to switch to 2 - later on
+    string region = "2"; // need to find out if console is jap to switch to 2 - later on
     string link = "/media/AutoBleem/rc/launch.sh";
 
     trim(game->ssFolder);
@@ -37,7 +37,7 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
     // hack to get language from lang file
     string langStr = _("|@lang|");
     if (langStr == "|@lang|") {
-        langStr = "13";
+        langStr = "2";
     }
 
 
@@ -85,5 +85,34 @@ void PcsxInterceptor::memcardOut(PsGame *game)
 
     }
 }
+
+void PcsxInterceptor::prepareResumePoint(PsGame *game, int pointId)
+{
+    if (pointId==-1)
+        return;
+    string filenamefile = game->ssFolder+"filename.txt.res";
+    if (Util::exists(filenamefile))
+    {
+        ifstream is(filenamefile.c_str());
+        if (is.is_open()) {
+
+            std::string line;
+            std::getline(is, line);
+            std::getline(is, line);
+
+            // last line is our filename
+            string ssfile =  game->ssFolder+"sstates/"+line+".00"+to_string(pointId)+".res";
+            string newName =  game->ssFolder+"sstates/"+line+".00"+to_string(pointId);
+            if (Util::exists(ssfile))
+            {
+                remove(newName.c_str());
+                Util::copy(ssfile.c_str(),newName.c_str());
+            }
+            is.close();
+        }
+    }
+}
+
+
 
 

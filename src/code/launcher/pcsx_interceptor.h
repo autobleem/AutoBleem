@@ -14,6 +14,8 @@ public:
     bool execute(PsGame *game, int resumepoint);
     void memcardIn(PsGame *game);
     void memcardOut(PsGame *game);
+    void prepareResumePoint(PsGame *game, int pointId);
+
 };
 
 

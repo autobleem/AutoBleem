@@ -110,6 +110,7 @@ int main(int argc, char *argv[]) {
 
             PcsxInterceptor *interceptor = new PcsxInterceptor();
             interceptor->memcardIn(gui->runningGame);
+            interceptor->prepareResumePoint(gui->runningGame, gui->resumepoint);
             interceptor->execute(gui->runningGame, gui->resumepoint );
             interceptor->memcardOut(gui->runningGame);
             delete (interceptor);

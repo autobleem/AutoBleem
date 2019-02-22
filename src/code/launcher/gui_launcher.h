@@ -16,32 +16,26 @@
 #include "ps_move_bnt.h"
 #include "ps_menu.h"
 #include "ps_centerlabel.h"
+#include "ps_stateselector.h"
 
-#define STATE_GAMES 0
-#define STATE_SET   1
+#define STATE_GAMES    0
+#define STATE_SET      1
+#define STATE_RESUME   2
 
 class GuiLauncher : public GuiScreen {
 public:
     void init();
-
     void render();
-
     void loop();
 
    // void renderMeta();
 
     void nextGame(int speed);
-
     void prevGame(int speed);
-
     void updateMeta();
-
     void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
-
     void loadAssets();
-
     void freeAssets();
-
     void moveMainCover(int state);
 
 
@@ -59,6 +53,7 @@ public:
     PsObj *oButton;
     PsObj *tButton;
     PsMenu *menu;
+    PsStateSelector * sselector;
 
     TTF_Font *font30;
     TTF_Font *font15;
