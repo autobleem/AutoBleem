@@ -18,8 +18,10 @@ public:
     SDL_Texture *guide;
     SDL_Texture *memcard;
     SDL_Texture *savestate;
-    SDL_Texture *separator;
-    SDL_Texture *resume;
+
+    SDL_Texture *resume= nullptr;
+
+
 
     int x,y,oy,ox;
     int xoff[4] = {0,0,0,0};
@@ -44,6 +46,8 @@ public:
     void freeAssets();
     void update(long time);
     void render();
+
+    void setResumePic(string picturePath);
 
     int transition =0;
 

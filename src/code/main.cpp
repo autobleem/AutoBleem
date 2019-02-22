@@ -107,15 +107,12 @@ int main(int argc, char *argv[]) {
             cout << numtimesopened << endl;
             SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
             sleep(1);
-#if defined(__x86_64__) || defined(_M_X64)
 
-#else
             PcsxInterceptor *interceptor = new PcsxInterceptor();
             interceptor->memcardIn(gui->runningGame);
-            interceptor->execute(gui->runningGame);
+            interceptor->execute(gui->runningGame, gui->resumepoint );
             interceptor->memcardOut(gui->runningGame);
             delete (interceptor);
-#endif
 
             SDL_InitSubSystem(SDL_INIT_JOYSTICK);
             delete gui->runningGame;

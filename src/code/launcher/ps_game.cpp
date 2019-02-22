@@ -51,3 +51,28 @@ void PsGame::setMemCard(string name)
    shared_ptr<Gui> gui(Gui::getInstance());
    gui->db->updateMemcard(this->gameId,name);
 }
+
+string PsGame::findResumePicture()
+{
+    // try to do it in silly Sony way
+    string filenamefile = ssFolder+"filename.txt.res";
+    if (Util::exists(filenamefile))
+    {
+        ifstream is(filenamefile.c_str());
+        if (is.is_open()) {
+
+            std::string line;
+            std::getline(is, line);
+            std::getline(is, line);
+
+            // last line is our filename
+            string pngfile = ssFolder+"screenshots/"+line+".png.res";
+            if (Util::exists(pngfile))
+            {
+                return pngfile;
+            }
+            is.close();
+        }
+    }
+    return "";
+}

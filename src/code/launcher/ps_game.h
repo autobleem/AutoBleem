@@ -38,6 +38,8 @@ public:
 
     void setMemCard(string name);
 
+    string findResumePicture();
+
     PsScreenpoint current;
     PsScreenpoint destination;
     PsScreenpoint actual;

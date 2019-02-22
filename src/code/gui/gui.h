@@ -133,6 +133,7 @@ public:
     bool resumingGui = false;
     int lastSelIndex = 0;
     PsGame *runningGame;
+    int resumepoint=-1;
 
     Gui(Gui const &) = delete;
     Gui &operator=(Gui const &) = delete;

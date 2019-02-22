@@ -11,7 +11,7 @@
 
 class PcsxInterceptor {
 public:
-    bool execute(PsGame *game);
+    bool execute(PsGame *game, int resumepoint);
     void memcardIn(PsGame *game);
     void memcardOut(PsGame *game);
 };

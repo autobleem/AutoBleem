@@ -26,6 +26,11 @@ void PsMenu::freeAssets() {
     SDL_DestroyTexture(guide);
     SDL_DestroyTexture(memcard);
     SDL_DestroyTexture(savestate);
+    if (resume!= nullptr)
+    {
+        SDL_DestroyTexture(resume);
+        resume = nullptr;
+    }
 }
 
 #define ICON_GAP 130.0f
@@ -207,4 +212,31 @@ void PsMenu::render() {
     output.h = h;
 
     SDL_RenderCopy(renderer, savestate, &input, &output);
+
+    if (resume!= nullptr)
+    {
+        Uint32 format;
+        int access;
+        int tw, th;
+        SDL_QueryTexture(resume, &format, &access, &tw, &th);
+        input.h=th;
+        input.w=tw;
+        output.x = x + 130 * 3 + 25*optionscales[3]+ xoff[3] ;
+        output.y = y + yoff[3] + 33*optionscales[3];
+        output.w = 70*optionscales[3];
+        output.h = 53*optionscales[3];
+        SDL_RenderCopy(renderer,resume,&input,&output);
+    }
+}
+
+void PsMenu::setResumePic(string picturePath)
+{
+    if (resume!=nullptr)
+    {
+        SDL_DestroyTexture(resume);
+    }
+
+    resume = IMG_LoadTexture(renderer,picturePath.c_str());
+
+
 }

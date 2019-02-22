@@ -9,7 +9,8 @@
 #include "../lang.h"
 #include "../engine/memcard.h"
 
-bool PcsxInterceptor::execute(PsGame *game) {
+bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
+
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->saveSelection();
     std::vector<const char *> argvNew;
@@ -36,8 +37,10 @@ bool PcsxInterceptor::execute(PsGame *game) {
     // hack to get language from lang file
     string langStr = _("|@lang|");
     if (langStr == "|@lang|") {
-        langStr = 13;
+        langStr = "13";
     }
+
+
     argvNew.push_back(langStr.c_str()); // lang by language file hack
     argvNew.push_back(region.c_str());
     argvNew.push_back(game->folder.c_str());

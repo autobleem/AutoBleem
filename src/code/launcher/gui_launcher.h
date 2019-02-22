@@ -44,6 +44,8 @@ public:
 
     void moveMainCover(int state);
 
+
+
     PsCarousel carouselPositions;
 
     int len = 100;

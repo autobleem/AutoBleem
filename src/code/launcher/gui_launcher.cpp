@@ -187,14 +187,16 @@ void GuiLauncher::loadAssets() {
     menu = new PsMenu(renderer, "menu", gui->getSonyImagePath());
     menu->loadAssets();
 
+
+
     menuHead = new PsCenterLabel(renderer, "header");
     menuHead->font = font30;
     menuHead->visible = false;
-    menuHead->y=540;
+    menuHead->y=545;
     menuText = new PsCenterLabel(renderer, "menuText");
     menuText->visible = false;
     menuText->font = font24;
-    menuText->y=580;
+    menuText->y=585;
 
     menuHead->setText(headers[0],255,255,255);
     menuText->setText(_("Customize PlayStationClassic or AutoBleem settings"),255,255,255);
@@ -204,6 +206,10 @@ void GuiLauncher::loadAssets() {
 
     updateMeta();
 
+    if (selGame>=0)
+    {
+        menu->setResumePic(gamesList[selGame]->findResumePicture());
+    }
 
 }
 
@@ -386,6 +392,7 @@ void GuiLauncher::nextGame(int speed) {
         selGame = 0;
     }
     updateMeta();
+    menu->setResumePic(gamesList[selGame]->findResumePicture());
 }
 
 // handler of prev game
@@ -398,6 +405,7 @@ void GuiLauncher::prevGame(int speed) {
         selGame = gamesList.size() - 1;
     }
     updateMeta();
+    menu->setResumePic(gamesList[selGame]->findResumePicture());
 }
 
 // just small method to get next / prev game
@@ -741,7 +749,19 @@ void GuiLauncher::loop() {
                             gui->startingGame = true;
                             gui->runningGame = gamesList[selGame]->clone();
                             gui->lastSelIndex = selGame;
+                            gui->resumepoint = -1;
                             menuVisible = false;
+                        } else
+                        {
+                            if (menu->selOption==3)
+                            {
+                                // resume game
+                                gui->startingGame = true;
+                                gui->runningGame = gamesList[selGame]->clone();
+                                gui->lastSelIndex = selGame;
+                                gui->resumepoint = 0;
+                                menuVisible = false;
+                            }
                         }
 
 
