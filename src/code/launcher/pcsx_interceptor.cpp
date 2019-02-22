@@ -44,6 +44,7 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
     argvNew.push_back(langStr.c_str()); // lang by language file hack
     argvNew.push_back(region.c_str());
     argvNew.push_back(game->folder.c_str());
+    argvNew.push_back(to_string(resumepoint+1).c_str());
     argvNew.push_back(nullptr);
 
 

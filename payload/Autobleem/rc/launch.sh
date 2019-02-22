@@ -46,6 +46,12 @@ ln -s "$1" /tmp/runpcsx/.pcsx
 ln -s /media/System/Bios /tmp/runpcsx/bios
 ln -s /data/AppData/sony/pcsx /tmp/runpcsx/plugins
 
-/tmp/pcsx -lang $3 -region $4  -cdfile "$2"
+if [ "$6" == "0" ]
+then
+  /tmp/pcsx -lang $3 -region $4  -cdfile "$2"
+else
+  /tmp/pcsx -lang $3 -region $4 -load %6 -cdfile "$2"
+endif
+
 echo FINISHED
 
