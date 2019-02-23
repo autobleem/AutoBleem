@@ -14,10 +14,10 @@
 
 class PsMenu : public PsObj {
 public:
-    SDL_Texture *settings;
-    SDL_Texture *guide;
-    SDL_Texture *memcard;
-    SDL_Texture *savestate;
+    SDL_Texture *settings= nullptr;
+    SDL_Texture *guide= nullptr;
+    SDL_Texture *memcard= nullptr;
+    SDL_Texture *savestate= nullptr;
 
     SDL_Texture *resume= nullptr;
 

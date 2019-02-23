@@ -3,6 +3,48 @@
 //
 
 #include "ps_stateselector.h"
+#include "../lang.h"
+
+void PsStateSelector::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool center) {
+    int text_width;
+    int text_height;
+    SDL_Surface *surface;
+    SDL_Texture *texture;
+    SDL_Rect rect;
+    SDL_Color textColor = {r, g, b, 0};
+
+    if (text.size() == 0) {
+        texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, 0, 0);
+        rect.x = 0;
+        rect.y = 0;
+        rect.h = 0;
+        rect.w = 0;
+    } else {
+        surface = TTF_RenderUTF8_Blended(font, text.c_str(), textColor);
+        texture = SDL_CreateTextureFromSurface(renderer, surface);
+        text_width = surface->w;
+        text_height = surface->h;
+        SDL_FreeSurface(surface);
+        rect.x = x;
+        rect.y = y;
+        rect.w = text_width;
+        rect.h = text_height;
+    }
+    SDL_Rect inputRect;
+    inputRect.x = 0;
+    inputRect.y = 0;
+    inputRect.w = rect.w;
+
+
+    inputRect.h = rect.h;
+
+    if (center) rect.x=640-text_width/2;
+
+    SDL_RenderCopy(renderer, texture, &inputRect, &rect);
+    SDL_DestroyTexture(texture);
+
+
+}
 
 void PsStateSelector::render()
 {
@@ -29,13 +71,33 @@ void PsStateSelector::render()
         output.w = w;
         output.h = h;
 
-        SDL_RenderCopy(renderer, frame, &input, &output);
+        string text = _("SELECT RESUME SLOT TO LOAD");
 
-        output.x = x+(118*scale);
-        SDL_RenderCopy(renderer, frame, &input, &output);
-        output.x = x+(118*scale)*2;
-        SDL_RenderCopy(renderer, frame, &input, &output);
-        output.x = x+(118*scale)*3;
-        SDL_RenderCopy(renderer, frame, &input, &output);
+        if (operation==OP_SAVE)
+        {
+            text = _("SELECT SLOT TO SAVE STATE");
+        }
+
+
+        renderText(0,110,_(text),255,255,255,font30,true);
+        for (int i=0;i<4;i++)
+        {
+            output.x = x+(118*scale)*i;
+
+            if (selSlot==i)
+            {
+                SDL_SetTextureColorMod(frame, 255, 128, 128);
+            } else
+            {
+                SDL_SetTextureColorMod(frame, 255, 255, 255);
+            }
+            SDL_RenderCopy(renderer, frame, &input, &output);
+
+            renderText(output.x+60, 270, _("Slot")+" "+to_string(i+1), 255, 255, 255, font24,false);
+            SDL_SetTextureColorMod(frame, 255, 255, 255);
+        }
+
+
+
     }
 }

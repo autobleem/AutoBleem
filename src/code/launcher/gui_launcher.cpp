@@ -206,6 +206,8 @@ void GuiLauncher::loadAssets() {
     staticElements.push_back(menuText);
 
     sselector = new PsStateSelector(renderer, "selector");
+    sselector->font30 = font30;
+    sselector->font24 = font24;
     sselector->visible = false;
 
     staticElements.push_back(sselector);
@@ -338,8 +340,9 @@ void GuiLauncher::updatePositions() {
 
 // render method called every loop
 void GuiLauncher::render() {
-    sselector->frame = menu->savestate;
-
+    if (sselector!= nullptr) {
+        sselector->frame = menu->savestate;
+    }
     shared_ptr<Gui> gui(Gui::getInstance());
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderClear(renderer);
@@ -705,6 +708,15 @@ void GuiLauncher::loop() {
                             } else {
 
                             }
+                        } else if (state == STATE_RESUME)
+                        {
+                            if ((e.jaxis.value > 3200) && (sselector->selSlot!=3)) {
+                                Mix_PlayChannel(-1, gui->cursor, 0);
+                                sselector->selSlot++;
+                            } else if (e.jaxis.value < -3200  && (sselector->selSlot!=0)) {
+                                Mix_PlayChannel(-1, gui->cursor, 0);
+                                sselector->selSlot--;
+                            }
                         }
                     }
                     if (e.jaxis.axis == 1) {
@@ -767,18 +779,12 @@ void GuiLauncher::loop() {
                             menuVisible = false;
                         } else if (state == STATE_SET) {
                             if (menu->selOption == 3) {
-                                /*
-                                // resume game
-                                gui->startingGame = true;
-                                gui->runningGame = gamesList[selGame]->clone();
-                                gui->lastSelIndex = selGame;
-                                gui->resumepoint = 0;
-                                menuVisible = false;
-                                 */
+
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 sselector->visible = true;
                                 arrow->visible=false;
                                 state = STATE_RESUME;
+                                sselector->selSlot= 0;
                             }
                         }
 

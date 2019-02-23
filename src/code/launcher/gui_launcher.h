@@ -53,7 +53,7 @@ public:
     PsObj *oButton;
     PsObj *tButton;
     PsMenu *menu;
-    PsStateSelector * sselector;
+    PsStateSelector * sselector= nullptr;
 
     TTF_Font *font30;
     TTF_Font *font15;
