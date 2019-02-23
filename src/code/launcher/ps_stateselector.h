@@ -6,6 +6,7 @@
 #define AUTOBLEEM_GUI_PS_STATESELECTOR_H
 
 #include "ps_obj.h"
+#include "ps_game.h"
 using namespace std;
 
 #define OP_LOAD 0
@@ -17,7 +18,16 @@ public:
     void render();
     void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool center);
 
+    void loadSaveStateImages(PsGame * game);
+    void freeImages();
+
     SDL_Texture * frame;
+
+    SDL_Texture *slot1img= nullptr;
+    SDL_Texture *slot2img= nullptr;
+    SDL_Texture *slot3img= nullptr;
+    SDL_Texture *slot4img= nullptr;
+
     TTF_Font * font30;
     TTF_Font * font24;
 

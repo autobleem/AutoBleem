@@ -73,6 +73,8 @@ void GuiLauncher::updateMeta() {
 void GuiLauncher::loadAssets() {
     shared_ptr<Gui> gui(Gui::getInstance());
 
+    staticElements.clear();
+    frontElemets.clear();
     gamesList.clear();
     gui->db->getGames(&gamesList);
 
@@ -210,7 +212,7 @@ void GuiLauncher::loadAssets() {
     sselector->font24 = font24;
     sselector->visible = false;
 
-    staticElements.push_back(sselector);
+    frontElemets.push_back(sselector);
 
     updateMeta();
 
@@ -226,7 +228,12 @@ void GuiLauncher::freeAssets() {
         obj->destroy();
         delete obj;
     }
+    for (auto obj:frontElemets) {
+        obj->destroy();
+        delete obj;
+    }
     staticElements.clear();
+    frontElemets.clear();
     TTF_CloseFont(font30);
     TTF_CloseFont(font24);
     TTF_CloseFont(font15);
@@ -340,7 +347,7 @@ void GuiLauncher::updatePositions() {
 
 // render method called every loop
 void GuiLauncher::render() {
-    if (sselector!= nullptr) {
+    if (sselector != nullptr) {
         sselector->frame = menu->savestate;
     }
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -353,7 +360,7 @@ void GuiLauncher::render() {
     }
 
     // covers render
-    if (state!=STATE_RESUME) {
+
     if (!gamesList.empty()) {
         for (auto game:gamesList) {
             if (game->visible) {
@@ -381,15 +388,18 @@ void GuiLauncher::render() {
     }
 
 
+    menu->render();
 
-
-
-        menu->render();
-    }
 
     renderText(638, 640, _("Enter"), 60, 60, 60, font24);
     renderText(760, 640, _("Cancel"), 60, 60, 60, font24);
     renderText(902, 640, _("Console Button Guide"), 60, 60, 60, font24);
+
+    for (auto obj:frontElemets) {
+
+        obj->render();
+    }
+
     SDL_RenderPresent(renderer);
 }
 
@@ -676,7 +686,7 @@ void GuiLauncher::loop() {
                                 motionStart = 0;
                             }
 
-                        } else  if (state == STATE_SET) {
+                        } else if (state == STATE_SET) {
                             if (e.jaxis.value > 3200) {
 
                                 if (menu->selOption != 3) {
@@ -708,12 +718,11 @@ void GuiLauncher::loop() {
                             } else {
 
                             }
-                        } else if (state == STATE_RESUME)
-                        {
-                            if ((e.jaxis.value > 3200) && (sselector->selSlot!=3)) {
+                        } else if (state == STATE_RESUME) {
+                            if ((e.jaxis.value > 3200) && (sselector->selSlot != 3)) {
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 sselector->selSlot++;
-                            } else if (e.jaxis.value < -3200  && (sselector->selSlot!=0)) {
+                            } else if (e.jaxis.value < -3200 && (sselector->selSlot != 0)) {
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 sselector->selSlot--;
                             }
@@ -758,12 +767,11 @@ void GuiLauncher::loop() {
                             }
                         } else if (state == STATE_GAMES) {
                             menuVisible = false;
-                        } else if (state == STATE_RESUME)
-                        {
+                        } else if (state == STATE_RESUME) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             sselector->visible = false;
-                            arrow->visible= true;
-                            state=STATE_SET;
+                            arrow->visible = true;
+                            state = STATE_SET;
                         }
 
 
@@ -779,12 +787,21 @@ void GuiLauncher::loop() {
                             menuVisible = false;
                         } else if (state == STATE_SET) {
                             if (menu->selOption == 3) {
+                                bool resumeAvailable = false;
+                                for (int i = 0; i < 4; i++) {
+                                    if (gamesList[selGame]->isResumeSlotActive(i)) {
+                                        resumeAvailable = true;
+                                    }
+                                }
 
-                                Mix_PlayChannel(-1, gui->cursor, 0);
-                                sselector->visible = true;
-                                arrow->visible=false;
-                                state = STATE_RESUME;
-                                sselector->selSlot= 0;
+                                if (resumeAvailable) {
+                                    Mix_PlayChannel(-1, gui->cursor, 0);
+                                    sselector->visible = true;
+                                    state = STATE_RESUME;
+                                    sselector->selSlot = 0;
+                                } else {
+                                    Mix_PlayChannel(-1, gui->cancel, 0);
+                                }
                             }
                         }
 

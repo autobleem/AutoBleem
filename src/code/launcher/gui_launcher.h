@@ -60,6 +60,7 @@ public:
     TTF_Font *font24;
 
     vector<PsObj *> staticElements;
+    vector<PsObj *> frontElemets;
     vector<PsObj *> menuElements;
     vector<PsObj *> carousel;
 

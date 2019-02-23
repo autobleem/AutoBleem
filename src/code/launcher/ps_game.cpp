@@ -52,6 +52,68 @@ void PsGame::setMemCard(string name)
    gui->db->updateMemcard(this->gameId,name);
 }
 
+bool PsGame::isResumeSlotActive(int slot)
+{
+    string filenamefile = ssFolder+"filename.txt.res";
+    if (Util::exists(filenamefile))
+    {
+        ifstream is(filenamefile.c_str());
+        if (is.is_open()) {
+
+            std::string line;
+            std::getline(is, line);
+            std::getline(is, line);
+
+            // last line is our filename
+            if (slot==0) {
+                string slot0img = ssFolder + "screenshots/" + line + ".png.res";
+                if (Util::exists(slot0img)) {
+                    return true;
+                }
+            } else
+            {
+                string slotnimg = ssFolder + "screenshots/" + line + "."+to_string(slot)+".png.res";
+                if (Util::exists(slotnimg)) {
+                    return true;
+                }
+            }
+            is.close();
+        }
+    }
+    return false;
+}
+
+string PsGame::findResumePicture(int slot)
+{
+    string filenamefile = ssFolder+"filename.txt.res";
+    if (Util::exists(filenamefile))
+    {
+        ifstream is(filenamefile.c_str());
+        if (is.is_open()) {
+
+            std::string line;
+            std::getline(is, line);
+            std::getline(is, line);
+
+            // last line is our filename
+            if (slot==0) {
+                string slot0img = ssFolder + "screenshots/" + line + ".png.res";
+                if (Util::exists(slot0img)) {
+                    return slot0img;
+                }
+            } else
+            {
+                string slotnimg = ssFolder + "screenshots/" + line + "."+to_string(slot)+".png.res";
+                if (Util::exists(slotnimg)) {
+                    return slotnimg;
+                }
+            }
+            is.close();
+        }
+    }
+    return "";
+}
+
 string PsGame::findResumePicture()
 {
     // try to do it in silly Sony way

@@ -39,6 +39,9 @@ public:
     void setMemCard(string name);
 
     string findResumePicture();
+    bool isResumeSlotActive(int slot);
+    string findResumePicture(int slot);
+
 
     PsScreenpoint current;
     PsScreenpoint destination;
