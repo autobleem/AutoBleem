@@ -46,6 +46,27 @@ void PsStateSelector::renderText(int x, int y, string text, Uint8 r, Uint8 g, Ui
 
 }
 
+void PsStateSelector::loadSaveStateImages(PsGame *game, bool saving)
+{
+    for (int i=0;i<4;i++)
+    {
+        slotActive[i]=false;
+        if (!saving) {
+            if (game->isResumeSlotActive(i)) {
+                slotImg[i] = IMG_LoadTexture(renderer, game->findResumePicture(i).c_str());
+                slotActive[i]=true;
+            }
+        } else
+        {
+            if (game->isResumeSlotActive(i)) {
+                slotImg[i] = IMG_LoadTexture(renderer, game->findResumePicture(i).c_str());
+
+            }
+            slotActive[i]=true;
+        }
+    }
+}
+
 void PsStateSelector::render()
 {
     if (visible)

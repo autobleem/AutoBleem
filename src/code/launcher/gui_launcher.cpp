@@ -78,7 +78,7 @@ void GuiLauncher::loadAssets() {
     gamesList.clear();
     gui->db->getGames(&gamesList);
 
-    for (PsGame *game:gamesList) {
+    for (auto game:gamesList) {
         game->loadTex(renderer);
     }
 
@@ -797,6 +797,7 @@ void GuiLauncher::loop() {
                                 if (resumeAvailable) {
                                     Mix_PlayChannel(-1, gui->cursor, 0);
                                     sselector->visible = true;
+                                    sselector->loadSaveStateImages(gamesList[selGame],false);
                                     state = STATE_RESUME;
                                     sselector->selSlot = 0;
                                 } else {

@@ -18,15 +18,13 @@ public:
     void render();
     void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool center);
 
-    void loadSaveStateImages(PsGame * game);
+    void loadSaveStateImages(PsGame * game, bool saving);
     void freeImages();
 
     SDL_Texture * frame;
 
-    SDL_Texture *slot1img= nullptr;
-    SDL_Texture *slot2img= nullptr;
-    SDL_Texture *slot3img= nullptr;
-    SDL_Texture *slot4img= nullptr;
+    SDL_Texture *slotImg[4];
+    bool slotActive[4];
 
     TTF_Font * font30;
     TTF_Font * font24;
