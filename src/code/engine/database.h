@@ -34,6 +34,7 @@ public:
     bool updateMemcard(int id, string memcard);
 
     bool getGames(vector<PsGame *> *result);
+    bool getInternalGames(vector<PsGame *> *result);
 private:
     sqlite3 *db;
     bool executeCreateStatement(char *sql, string tableName);

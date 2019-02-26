@@ -11,7 +11,9 @@
 void PsGame::loadTex(SDL_Renderer *renderer) {
     if (coverPng == nullptr) {
         string imagePath = this->folder + Util::separator() + this->base + ".png";
-        coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
+        if (Util::exists(imagePath)) {
+            coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
+        } else coverPng = nullptr;
     }
 
 }
