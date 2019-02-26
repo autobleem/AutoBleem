@@ -10,6 +10,14 @@ vector<string> headers = {_("SETTINGS"), _("GUIDE"), _("MEMORY CARD"), _("RESUME
 vector<string> texts = {_("Customize PlayStationClassic or AutoBleem settings"), _("Show authors information"),
                         _("Edit Memory Card information"), _("Resume game from saved state point")};
 
+bool wayToSort(PsGame * i, PsGame * j ) {
+    string name1 = i->title;
+    string name2 = j->title;
+    name1 = lcase(name1);
+    name2 = lcase(name2);
+    return name1 < name2;
+}
+
 // Text rendering routines - places text at x,y with selected color and font
 void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
     int text_width;
@@ -77,6 +85,24 @@ void GuiLauncher::loadAssets() {
     frontElemets.clear();
     gamesList.clear();
     gui->db->getGames(&gamesList);
+
+    vector<PsGame*> internal;
+    Database * internalDB = new Database();
+#if defined(__x86_64__) || defined(_M_X64)
+    internalDB->connect("internal.db");
+#else
+    internalDB->connect("/media/System/Databases/internal.db");
+#endif
+    internalDB->getInternalGames(&internal);
+    internalDB->disconnect();
+    delete internalDB;
+    for (auto internalGame:internal)
+    {
+        gamesList.push_back(internalGame);
+    }
+
+
+    sort(gamesList.begin(), gamesList.end(), wayToSort);
 
     for (auto game:gamesList) {
         game->loadTex(renderer);

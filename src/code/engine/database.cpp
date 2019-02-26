@@ -25,6 +25,11 @@ static const char GAMES_DATA[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
+static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME \
+                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
+                                     GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
+                                     ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
+
 static const char CREATE_GAME_SQL[] = "DROP TABLE GAME; CREATE TABLE IF NOT EXISTS GAME  \
      ( [GAME_ID] integer NOT NULL UNIQUE, \
        [GAME_TITLE_STRING] text, \
@@ -152,6 +157,42 @@ bool Database::queryTitle(string title, Metadata *md) {
     }
     sqlite3_finalize(res);
     return false;
+}
+
+bool Database::getInternalGames(vector<PsGame *> *result) {
+    result->clear();
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, GAMES_DATA_INTERNAL, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        while (sqlite3_step(res) == SQLITE_ROW) {
+            int id = sqlite3_column_int(res, 0);
+            const unsigned char *title = sqlite3_column_text(res, 1);
+            const unsigned char *publisher = sqlite3_column_text(res, 2);
+            int year = sqlite3_column_int(res, 3);
+            int players = sqlite3_column_int(res, 4);
+            const unsigned char *base = sqlite3_column_text(res, 5);
+
+            PsGame *game = new PsGame();
+            game->gameId = id;
+            game->title = std::string(reinterpret_cast<const char *>(title));
+            game->publisher = std::string(reinterpret_cast<const char *>(publisher));
+            game->year = year;
+            game->players = players;
+            game->folder = "/gaadata/"+to_string(id);
+            game->ssFolder = "/media/!SaveStates/"+to_string(id)+"/";
+            game->base = std::string(reinterpret_cast<const char *>(base));
+            game->memcard = "SONY";
+            game->internal = true;
+            result->push_back(game);
+        }
+    } else {
+
+
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+    return true;
 }
 
 bool Database::getGames(vector<PsGame *> *result) {

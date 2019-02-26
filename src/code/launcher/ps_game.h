@@ -30,6 +30,8 @@ public:
     string base;
     SDL_Texture *coverPng = nullptr;
 
+    bool internal = false;
+
     void loadTex(SDL_Renderer *renderer);
 
     void freeTex();
