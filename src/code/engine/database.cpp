@@ -178,7 +178,7 @@ bool Database::getInternalGames(vector<PsGame *> *result) {
             game->publisher = std::string(reinterpret_cast<const char *>(publisher));
             game->year = year;
             game->players = players;
-            game->folder = "/gaadata/"+to_string(id);
+            game->folder = "/gaadata/"+to_string(id)+"/";
             game->ssFolder = "/media/Games/!SaveStates/"+to_string(id)+"/";
             game->base = std::string(reinterpret_cast<const char *>(base));
             game->memcard = "SONY";
