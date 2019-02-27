@@ -117,8 +117,11 @@ int main(int argc, char *argv[]) {
             delete (interceptor);
 
             SDL_InitSubSystem(SDL_INIT_JOYSTICK);
-            SDL_FlushEvents(SDL_FIRSTEVENT,SDL_LASTEVENT);
-            SDL_PumpEvents();
+
+            for (int i=0;i<100;i++) {
+                SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
+            }
+
             delete gui->runningGame;
             sync();
             gui->runningGame = nullptr;

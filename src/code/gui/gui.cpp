@@ -395,6 +395,7 @@ void Gui::menuSelection() {
         }
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
+            cout << "Event:" << e.type << endl;
             // this is for pc Only
             if (e.type == SDL_QUIT) {
 

@@ -81,6 +81,9 @@ void GuiLauncher::updateMeta() {
 void GuiLauncher::loadAssets() {
     shared_ptr<Gui> gui(Gui::getInstance());
 
+    for (int i=0;i<100;i++) {
+        SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
+    }
     staticElements.clear();
     frontElemets.clear();
     gamesList.clear();
