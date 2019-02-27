@@ -395,7 +395,19 @@ void Gui::menuSelection() {
         }
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
-            cout << "Event:" << e.type << endl;
+
+            if (e.type == SDL_KEYDOWN)
+            {
+                if(e.key.keysym.scancode == SDL_SCANCODE_F10)
+                {
+                    drawText("POWERING OFF... PLEASE WAIT");
+#if defined(__x86_64__) || defined(_M_X64)
+                    exit(0);
+#else
+                    Util::execUnixCommad("shutdown -h now");
+#endif
+                }
+            }
             // this is for pc Only
             if (e.type == SDL_QUIT) {
 

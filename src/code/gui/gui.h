@@ -36,6 +36,7 @@ using namespace std;
 #define MENU_OPTION_SONY  3
 #define MENU_OPTION_RETRO 4
 #define MENU_OPTION_START 5
+#define MENU_OPTION_POWER 6
 
 
 class Gui {
