@@ -7,6 +7,7 @@
 #define SLOT_SIZE 120
 
 PsScreenpoint PsCarousel::createCoverPoint(int x, int shade, int side) {
+    shade=255;
     if (side == 0) {
         PsScreenpoint point;
         point.x = 405 - SLOT_SIZE * x;
@@ -27,6 +28,13 @@ PsScreenpoint PsCarousel::createCoverPoint(int x, int shade, int side) {
 void PsCarousel::initCoverPositions() {
     //405 x 100
     coverPositions.clear();
+    coverPositions.push_back(createCoverPoint(5, 40, 0));
+    coverPositions.push_back(createCoverPoint(4, 70, 0));
+    coverPositions.push_back(createCoverPoint(3, 90, 0));
+    coverPositions.push_back(createCoverPoint(2, 100, 0));
+    coverPositions.push_back(createCoverPoint(1, 128, 0));
+    coverPositions.push_back(createCoverPoint(0, 150, 0));
+
     coverPositions.push_back(createCoverPoint(5, 40, 0));
     coverPositions.push_back(createCoverPoint(4, 70, 0));
     coverPositions.push_back(createCoverPoint(3, 90, 0));

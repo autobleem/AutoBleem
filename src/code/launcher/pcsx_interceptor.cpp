@@ -17,7 +17,7 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
     string gameIso = "";
 
     string region = "2"; // need to find out if console is jap to switch to 2 - later on
-    string link = "/media/AutoBleem/rc/launch.sh";
+    string link = "/media/Autobleem/rc/launch.sh";
 
     trim(game->ssFolder);
     if (game->ssFolder.back() == Util::separator()[0]) {
