@@ -3,16 +3,19 @@ project(autobleem-gui)
 
 set(CMAKE_CXX_STANDARD 11)
 
-SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv8-a+simd ")
-SET(CMAKE_CXX_FLAGS " -mfloat-abi=hard -march=armv8-a+simd ")
+
+
+if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm" )
+	SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -s -Os")
+	SET(CMAKE_CXX_FLAGS " -mfloat-abi=hard -march=armv8-a+simd -s -Os")
+	include_directories(src/include /home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/include)
+	link_directories(/home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/lib$)
+	else()
+
+	endif()
 
 
 
-##include_directories(src/include /usr/local/cross-tools/arm-linux-gnueabihf/include/)
-##link_directories(/usr/local/cross-tools/arm-linux-gnueabihf/lib/)
-
-include_directories(src/include /home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/include)
-link_directories(/home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/lib$)
 
 find_package(Threads REQUIRED)
 
