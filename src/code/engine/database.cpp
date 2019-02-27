@@ -30,7 +30,7 @@ static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, 
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
-static const char CREATE_GAME_SQL[] = "DROP TABLE GAME; CREATE TABLE IF NOT EXISTS GAME  \
+static const char CREATE_GAME_SQL[] = "DROP TABLE IF EXISTS GAME; CREATE TABLE IF NOT EXISTS GAME  \
      ( [GAME_ID] integer NOT NULL UNIQUE, \
        [GAME_TITLE_STRING] text, \
        [PUBLISHER_NAME] text, \
@@ -43,7 +43,7 @@ static const char CREATE_GAME_SQL[] = "DROP TABLE GAME; CREATE TABLE IF NOT EXIS
        [SSPATH]  text null,   \
        [MEMCARD] text null,   \
          PRIMARY KEY ([GAME_ID]) )";
-static const char CREATE_DISC_SQL[] = "DROP TABLE DISC; CREATE TABLE IF NOT EXISTS DISC \
+static const char CREATE_DISC_SQL[] = "DROP TABLE IF EXISTS DISC; CREATE TABLE IF NOT EXISTS DISC \
      ( [GAME_ID] integer, \
        [DISC_NUMBER] integer, \
        [BASENAME] text, \

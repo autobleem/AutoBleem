@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
             if (gui->forceScan) {
                 gui->forceScan = false;
             } else {
-                break;
+                //break;
             }
 
         }
