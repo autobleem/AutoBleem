@@ -34,6 +34,7 @@ public:
     vector<string> retroarch;
     vector<string> adv;
     vector<string> languages;
+    vector<string> ui;
 
     using GuiScreen::GuiScreen;
 };

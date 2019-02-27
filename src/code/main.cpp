@@ -105,6 +105,12 @@ int main(int argc, char *argv[]) {
             }
             numtimesopened=Mix_QuerySpec(&frequency, &format, &channels);
             cout << numtimesopened << endl;
+
+            for (SDL_Joystick* joy:gui->joysticks) {
+                if (SDL_JoystickGetAttached(joy)) {
+                    SDL_JoystickClose(joy);
+                }
+            }
             SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
             sleep(1);
 
@@ -117,10 +123,6 @@ int main(int argc, char *argv[]) {
             delete (interceptor);
 
             SDL_InitSubSystem(SDL_INIT_JOYSTICK);
-
-            for (int i=0;i<100;i++) {
-                SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
-            }
 
             delete gui->runningGame;
             sync();

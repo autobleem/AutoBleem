@@ -216,12 +216,14 @@ void Gui::criticalException(string text) {
 
 
 void Gui::display(bool forceScan, string path, Database *db, bool resume) {
+    joysticks.clear();
     this->db = db;
     this->path = path;
     this->forceScan = forceScan;
     if (forceScan) overrideQuickBoot = true;
 
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
+    SDL_Init(SDL_INIT_VIDEO);
+    SDL_InitSubSystem(SDL_INIT_JOYSTICK);
     SDL_InitSubSystem(SDL_INIT_AUDIO);
     SDL_version compiled;
     SDL_version linked;
@@ -261,7 +263,6 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
     }
 
 
-
 }
 
 void Gui::saveSelection() {
@@ -285,9 +286,9 @@ bool otherMenuShift = false;
 bool Gui::quickBoot() {
 
     int currentTime = SDL_GetTicks();
-    string splashText = _("AutoBleem")+" " + cfg.inifile.values["version"];
+    string splashText = _("AutoBleem") + " " + cfg.inifile.values["version"];
     if (cfg.inifile.values["quick"] == "true") {
-        splashText += " ("+_("Quick boot")+" - "+_("Hold")+" |@O| "+_("Menu")+")";
+        splashText += " (" + _("Quick boot") + " - " + _("Hold") + " |@O| " + _("Menu") + ")";
     }
 
     while (true) {
@@ -320,30 +321,35 @@ bool Gui::quickBoot() {
 
 
 void Gui::menuSelection() {
-    shared_ptr <Scanner> scanner(Scanner::getInstance());
+    shared_ptr<Scanner> scanner(Scanner::getInstance());
 
     SDL_Joystick *joystick;
-    for (int i = 0; i < SDL_NumJoysticks(); i++) {
-        joystick = SDL_JoystickOpen(i);
-        cout << "--" << SDL_JoystickName(joystick) << endl;
-    }
+    if (joysticks.empty())
+        for (int i = 0; i < SDL_NumJoysticks(); i++) {
+            joystick = SDL_JoystickOpen(i);
+            joysticks.push_back(joystick);
+            cout << "--" << SDL_JoystickName(joystick) << endl;
+        }
     // Check if all OK
-    if (scanner->noGamesFound)
-    {
+    if (scanner->noGamesFound) {
         criticalException(_("WARNING: NO GAMES FOUND. PRESS ANY BUTTON."));
     }
     //
-    if (!coverdb->isValid())
-    {
+    if (!coverdb->isValid()) {
         criticalException(_("WARNING: NO COVER DB FOUND. PRESS ANY BUTTON."));
     }
     if (!overrideQuickBoot) {
         bool quickBootCfg = (cfg.inifile.values["quick"] == "true");
         if (quickBootCfg && !forceScan) {
             if (quickBoot()) {
-
-                this->menuOption = MENU_OPTION_RUN;
-                return;
+                if (cfg.inifile.values["ui"]=="classic") {
+                    this->menuOption = MENU_OPTION_RUN;
+                    return;
+                } else {
+                    auto launcherScreen = new GuiLauncher(renderer);
+                    launcherScreen->show();
+                    delete launcherScreen;
+                }
             };
 
         }
@@ -351,18 +357,20 @@ void Gui::menuSelection() {
     otherMenuShift = false;
     string retroarch = cfg.inifile.values["retroarch"];
     string adv = cfg.inifile.values["adv"];
-    string mainMenu = "|@Start| "+_("AutoBleem")+"    |@X|  "+_("Re/Scan")+"   |@O|  "+_("Original")+"  ";
-
+    string mainMenu = "|@Start| " + _("AutoBleem") + "    |@X|  " + _("Re/Scan") + " ";
+    if (cfg.inifile.values["ui"] == "classic") {
+        mainMenu += "  |@O|  " + _("Original") + "  ";
+    }
     if (retroarch == "true") {
-        mainMenu += "|@S|  "+_("RetroArch")+"   ";
+        mainMenu += "|@S|  " + _("RetroArch") + "   ";
     }
-    mainMenu += "|@T|  "+_("About")+"  |@Select|  "+_("Options")+" ";
+    mainMenu += "|@T|  " + _("About") + "  |@Select|  " + _("Options") + " ";
     if (adv == "true") {
-        mainMenu += "|@L1| "+_("Advanced");
+        mainMenu += "|@L1| " + _("Advanced");
     }
 
-    string forceScanMenu = _("Games changed. Press")+"  |@X|  "+_("to scan")+"|";
-    string otherMenu = "|@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager") + "  |@T| " + _("GameUI") + " |";
+    string forceScanMenu = _("Games changed. Press") + "  |@X|  " + _("to scan") + "|";
+    string otherMenu = "|@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager") + "|";
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
 
 
@@ -396,10 +404,8 @@ void Gui::menuSelection() {
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
 
-            if (e.type == SDL_KEYDOWN)
-            {
-                if(e.key.keysym.scancode == SDL_SCANCODE_F10)
-                {
+            if (e.type == SDL_KEYDOWN) {
+                if (e.key.keysym.scancode == SDL_SCANCODE_F10) {
                     drawText("POWERING OFF... PLEASE WAIT");
 #if defined(__x86_64__) || defined(_M_X64)
                     exit(0);
@@ -440,11 +446,21 @@ void Gui::menuSelection() {
                     if (!otherMenuShift) {
                         if (!forceScan)
                             if (e.jbutton.button == PCS_BTN_START) {
-                                Mix_PlayChannel(-1, cursor, 0);
-                                this->menuOption = MENU_OPTION_RUN;
+                                if (cfg.inifile.values["ui"] == "classic") {
+                                    Mix_PlayChannel(-1, cursor, 0);
+                                    this->menuOption = MENU_OPTION_RUN;
 
-                                menuVisible = false;
+                                    menuVisible = false;
+                                } else
+                                {
+                                    Mix_PlayChannel(-1, cursor, 0);
+                                    auto launcherScreen = new GuiLauncher(renderer);
+                                    launcherScreen->show();
+                                    delete launcherScreen;
 
+                                    menuSelection();
+                                    menuVisible = false;
+                                }
                             };
 
                         if (!forceScan)
@@ -497,6 +513,7 @@ void Gui::menuSelection() {
                             menuVisible = false;
                         };
                         if (!forceScan)
+                            if (cfg.inifile.values["ui"] == "classic")
                             if (e.jbutton.button == PCS_BTN_CIRCLE) {
                                 Mix_PlayChannel(-1, cancel, 0);
                                 this->menuOption = MENU_OPTION_SONY;
@@ -525,6 +542,7 @@ void Gui::menuSelection() {
                             menuSelection();
                             menuVisible = false;
                         };
+                        /*
                         if (e.jbutton.button == PCS_BTN_TRIANGLE) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto launcherScreen = new GuiLauncher(renderer);
@@ -534,6 +552,7 @@ void Gui::menuSelection() {
                             menuSelection();
                             menuVisible = false;
                         };
+                         */
                     }
             }
 
@@ -869,7 +888,7 @@ void Gui::renderFreeSpace() {
     rect.x = atoi(themeData.values["fsposx"].c_str());
     rect.y = atoi(themeData.values["fsposy"].c_str());
     getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
-    getEmojiTextTexture(renderer, _("Free space")+" : " + Util::getAvailableSpace(), font, &textTex, &textRec);
+    getEmojiTextTexture(renderer, _("Free space") + " : " + Util::getAvailableSpace(), font, &textTex, &textRec);
     rect.w = textRec.w;
     rect.h = textRec.h;
     SDL_RenderFillRect(renderer, &rect);

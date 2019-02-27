@@ -786,7 +786,7 @@ void GuiLauncher::loop() {
                         }
                     }
                     break;
-                case SDL_JOYBUTTONUP:
+                case SDL_JOYBUTTONDOWN:
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         if (state == STATE_SET) {
                             if (menu->animationStarted == 0) {

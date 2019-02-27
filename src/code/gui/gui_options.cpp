@@ -66,6 +66,9 @@ void GuiOptions::init() {
     quickboot.push_back("false");
     languages.clear();
     languages = lang->listLanguages();
+    ui.clear();
+    ui.push_back("classic");
+    ui.push_back("EvolutionUI");
 
 
 }
@@ -73,7 +76,7 @@ void GuiOptions::init() {
 #define CFG_LANG       0
 #define CFG_THEME      1
 #define CFG_MENUTH     2
-#define CFG_PCSX       3
+#define CFG_UI         3
 #define CFG_QUICK      4
 #define CFG_BGM        5
 #define CFG_MIP        6
@@ -131,7 +134,7 @@ void GuiOptions::render() {
     renderOptionLine(_("Language:") + " " + gui->cfg.inifile.values["language"], CFG_LANG + 1, offset);
     renderOptionLine(_("AutoBleem Theme:") + " " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
     renderOptionLine(_("Menu Theme:") + " " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);
-    renderOptionLine(_("PCSX Version:") + " " + gui->cfg.inifile.values["pcsx"], CFG_PCSX + 1, offset);
+    renderOptionLine(_("UI:") + " " + gui->cfg.inifile.values["ui"], CFG_UI + 1, offset);
     renderOptionLine(_("QuickBoot:") + " " + getBooleanIcon("quick"), CFG_QUICK + 1, offset);
     renderOptionLine(_("Background Music:") + " " + getBooleanIcon("nomusic"), CFG_BGM + 1, offset);
     gui->cfg.inifile.values["autoregion"] = "true"; // removing this as an option - not needed - just set to true
@@ -225,12 +228,13 @@ void GuiOptions::loop() {
 
 
                             }
-                            if (selOption == CFG_PCSX) {
-                                string nextValue = getOption(pcsx, gui->cfg.inifile.values["pcsx"], true);
-                                gui->cfg.inifile.values["pcsx"] = nextValue;
 
+                            if (selOption == CFG_UI) {
+                                string nextValue = getOption(ui, gui->cfg.inifile.values["ui"], true);
+                                gui->cfg.inifile.values["ui"] = nextValue;
 
                             }
+
                             if (selOption == CFG_RA) {
                                 string nextValue = getOption(retroarch, gui->cfg.inifile.values["retroarch"], true);
                                 gui->cfg.inifile.values["retroarch"] = nextValue;
@@ -286,11 +290,13 @@ void GuiOptions::loop() {
                                 gui->cfg.inifile.values["mip"] = nextValue;
 
                             }
-                            if (selOption == CFG_PCSX) {
-                                string nextValue = getOption(pcsx, gui->cfg.inifile.values["pcsx"], false);
-                                gui->cfg.inifile.values["pcsx"] = nextValue;
+
+                            if (selOption == CFG_UI) {
+                                string nextValue = getOption(ui, gui->cfg.inifile.values["ui"], false);
+                                gui->cfg.inifile.values["ui"] = nextValue;
 
                             }
+
                             if (selOption == CFG_RA) {
                                 string nextValue = getOption(retroarch, gui->cfg.inifile.values["retroarch"], false);
                                 gui->cfg.inifile.values["retroarch"] = nextValue;

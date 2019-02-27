@@ -46,7 +46,10 @@ private:
 
 
 
+
 public:
+
+    vector<SDL_Joystick*> joysticks;
 
     Config cfg;
     Coverdb *coverdb;

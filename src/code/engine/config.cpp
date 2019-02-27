@@ -15,10 +15,16 @@ Config::Config()
     if (inifile.values["delay"] == "") {
         inifile.values["delay"] = "1";
     }
+    if (inifile.values["ui"]=="")
+    {
+        inifile.values["ui"]="classic";
+    }
+    inifile.values["pcsx"]="bleemsync";
 }
 
 void Config::save()
 {
+    inifile.values["pcsx"]="bleemsync";
     string path=Util::getWorkingPath()+Util::separator()+"config.ini";
     inifile.save(path);
 }
