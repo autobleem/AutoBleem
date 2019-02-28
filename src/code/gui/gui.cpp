@@ -551,6 +551,7 @@ void Gui::menuSelection() {
                             exit(0);
 #else
                             Util::execUnixCommad("shutdown -h now");
+                            sync();
                             exit(1);
 #endif
                         };
