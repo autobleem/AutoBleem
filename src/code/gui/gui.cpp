@@ -370,7 +370,7 @@ void Gui::menuSelection() {
     }
 
     string forceScanMenu = _("Games changed. Press") + "  |@X|  " + _("to scan") + "|";
-    string otherMenu = "|@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager") + "|";
+    string otherMenu = "|@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager") + " |@R1| "+_("Power Off")+"|";
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
 
 
@@ -454,6 +454,7 @@ void Gui::menuSelection() {
                                 } else
                                 {
                                     Mix_PlayChannel(-1, cursor, 0);
+                                    drawText(_("Starting EvolutionUI"));
                                     auto launcherScreen = new GuiLauncher(renderer);
                                     launcherScreen->show();
                                     delete launcherScreen;
@@ -542,17 +543,16 @@ void Gui::menuSelection() {
                             menuSelection();
                             menuVisible = false;
                         };
-                        /*
-                        if (e.jbutton.button == PCS_BTN_TRIANGLE) {
-                            Mix_PlayChannel(-1, cursor, 0);
-                            auto launcherScreen = new GuiLauncher(renderer);
-                            launcherScreen->show();
-                            delete launcherScreen;
 
-                            menuSelection();
-                            menuVisible = false;
+                        if (e.jbutton.button == PCS_BTN_R1) {
+                            drawText(_("POWERING OFF... PLEASE WAIT"));
+#if defined(__x86_64__) || defined(_M_X64)
+                            exit(0);
+#else
+                            Util::execUnixCommad("shutdown -h now");
+#endif
                         };
-                         */
+
                     }
             }
 
