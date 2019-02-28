@@ -411,6 +411,7 @@ void Gui::menuSelection() {
                     exit(0);
 #else
                     Util::execUnixCommad("shutdown -h now");
+                    exit(1);
 #endif
                 }
             }
@@ -550,6 +551,7 @@ void Gui::menuSelection() {
                             exit(0);
 #else
                             Util::execUnixCommad("shutdown -h now");
+                            exit(1);
 #endif
                         };
 
