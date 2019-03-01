@@ -24,6 +24,16 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
         aspect = "1";
     }
 
+    string filter = "0";
+    if (gui->cfg.inifile.values["mip"]=="true")
+    {
+        filter = "0";
+    }
+    else
+    {
+        filter = "1";
+    }
+
     trim(game->ssFolder);
     if (game->ssFolder.back() == Util::separator()[0]) {
         game->ssFolder = game->ssFolder.substr(0, game->ssFolder.size() - 1);
@@ -49,6 +59,7 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
     argvNew.push_back(game->folder.c_str());
     argvNew.push_back(to_string(resumepoint+1).c_str());
     argvNew.push_back(aspect.c_str());
+    argvNew.push_back(filter.c_str());
     argvNew.push_back(nullptr);
 
 
