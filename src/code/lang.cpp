@@ -40,7 +40,9 @@ void Lang::load(string lang) {
         lines.push_back(line);
     }
     for (int i = 0; i < lines.size(); i += 2) {
-        langData[lines[i]] = lines[i + 1];
+        if (i+1<lines.size()) {
+            langData[lines[i]] = lines[i + 1];
+        }
     }
     is.close();
 }

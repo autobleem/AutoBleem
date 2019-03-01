@@ -77,7 +77,8 @@ void Scanner::updateDB(Database *db) {
         for (int i = 0; i < games.size(); i++) {
             Game *data = games[i];
             cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
-            db->insertGame(i + 1, data->title, data->publisher, data->players, data->year);
+            db->insertGame(i + 1, data->title, data->publisher, data->players, data->year, data->fullPath,
+                           data->saveStatePath, data->memcard);
             for (int j = 0; j < data->discs.size(); j++) {
                 db->insertDisc(i + 1, j + 1, data->discs[j].diskName);
             }

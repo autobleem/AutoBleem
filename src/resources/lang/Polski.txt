@@ -156,3 +156,8 @@ Language:
 Język:
 RetroArch is not installed
 RetroArch jest nie zainstalowany
+Enter
+Wejdź
+Console Button Guide
+Opis funkcji konsoli
+

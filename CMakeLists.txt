@@ -4,8 +4,18 @@ project(autobleem-gui)
 set(CMAKE_CXX_STANDARD 11)
 
 
-include_directories(src/include /usr/local/cross-tools/arm-linux-gnueabihf/include/)
-link_directories(/usr/local/cross-tools/arm-linux-gnueabihf/lib/)
+
+if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm" )
+	SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -s -Os")
+	SET(CMAKE_CXX_FLAGS " -mfloat-abi=hard -march=armv8-a+simd -s -Os")
+	include_directories(src/include /home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/include)
+	link_directories(/home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/lib$)
+	else()
+
+	endif()
+
+
+
 
 find_package(Threads REQUIRED)
 
@@ -65,7 +75,35 @@ add_executable(autobleem-gui
         src/code/engine/coverdb.h
         src/code/engine/serialscanner.cpp
         src/code/engine/serialscanner.h
-		src/code/lang.cpp src/code/lang.h src/code/launcher/gui_launcher.cpp src/code/launcher/gui_launcher.h src/code/launcher/ps_obj.cpp src/code/launcher/ps_obj.h src/code/launcher/ps_static.cpp src/code/launcher/ps_static.h src/code/launcher/ps_settings_back.cpp src/code/launcher/ps_settings_back.h src/code/launcher/ps_zoom_btn.cpp src/code/launcher/ps_zoom_btn.h src/code/launcher/ps_meta.cpp src/code/launcher/ps_meta.h)
+        src/code/lang.cpp
+        src/code/lang.h 
+        src/code/launcher/gui_launcher.cpp
+        src/code/launcher/gui_launcher.h 
+        src/code/launcher/ps_obj.cpp
+        src/code/launcher/ps_obj.h 
+        src/code/launcher/ps_static.cpp
+        src/code/launcher/ps_static.h
+        src/code/launcher/ps_settings_back.cpp 
+        src/code/launcher/ps_settings_back.h
+        src/code/launcher/ps_zoom_btn.cpp
+        src/code/launcher/ps_zoom_btn.h
+        src/code/launcher/ps_meta.cpp
+        src/code/launcher/ps_meta.h
+        src/code/launcher/ps_game.cpp 
+        src/code/launcher/ps_game.h 
+        src/code/launcher/ps_carousel.cpp
+        src/code/launcher/ps_carousel.h
+        src/code/launcher/pcsx_interceptor.cpp
+        src/code/launcher/pcsx_interceptor.h
+        src/code/launcher/ps_move_bnt.cpp
+        src/code/launcher/ps_move_bnt.h 
+        src/code/launcher/ps_menu.cpp
+        src/code/launcher/ps_menu.h
+        src/code/launcher/ps_centerlabel.cpp
+        src/code/launcher/ps_centerlabel.h
+        src/code/launcher/ps_stateselector.cpp
+        src/code/launcher/ps_stateselector.h
+        )
 
 add_executable(starter
 		src/code/starter.cpp

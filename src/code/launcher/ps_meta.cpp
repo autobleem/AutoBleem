@@ -45,6 +45,8 @@ void PsMeta::render() {
         rect.x = x;
         rect.y = y;
         rect.w = w;
+
+        if (rect.w > 490) rect.w = 490;
         rect.h = h;
         fullRect.x = 0;
         fullRect.y = 0;
