@@ -4,6 +4,7 @@
 #include "util.h"
 #include "engine/inifile.h"
 #include "engine/memcard.h"
+#include "engine/config.h"
 
 using namespace std;
 
@@ -35,14 +36,15 @@ void execute(int argc, char** argv)
 
 int main (int argc, char *argv[])
 {
-
-    
     string path="/data/AppData/sony/title/";
     string sourceCard="/media/Games/!MemCards/";
     Inifile ini;
     ini.load(path+"Game.ini");
     string imageType=valueOrDefault("imagetype","0",ini.values);
     string memcard=valueOrDefault("memcard","SONY",ini.values);
+
+    Inifile cfg;
+    cfg.load("/media/Autobleem/bin/autobleem/config.ini");
 
     if (memcard!="SONY")
     {
@@ -63,6 +65,28 @@ int main (int argc, char *argv[])
     for (int i=0;i<argc;i++)
     {
         arguments.push_back(argv[i]);
+    }
+
+    if (cfg.values["aspect"]=="true")
+    {
+        arguments.push_back("-ratio");
+        arguments.push_back("1");
+
+    } else
+    {
+        arguments.push_back("-ratio");
+        arguments.push_back("0");
+    }
+
+    if (cfg.values["mip"]=="true")
+    {
+        arguments.push_back("-filter");
+        arguments.push_back("1");
+
+    } else
+    {
+        arguments.push_back("-filter");
+        arguments.push_back("0");
     }
 
 

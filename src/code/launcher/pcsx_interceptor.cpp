@@ -18,6 +18,11 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
 
     string region = "2"; // need to find out if console is jap to switch to 2 - later on
     string link = "/media/Autobleem/rc/launch.sh";
+    string aspect = "0";
+    if (gui->cfg.inifile.values["aspect"]=="true")
+    {
+        aspect = "1";
+    }
 
     trim(game->ssFolder);
     if (game->ssFolder.back() == Util::separator()[0]) {
@@ -39,13 +44,11 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
     if (langStr == "|@lang|") {
         langStr = "2";
     }
-
-
     argvNew.push_back(langStr.c_str()); // lang by language file hack
     argvNew.push_back(region.c_str());
     argvNew.push_back(game->folder.c_str());
     argvNew.push_back(to_string(resumepoint+1).c_str());
-
+    argvNew.push_back(aspect.c_str());
     argvNew.push_back(nullptr);
 
 

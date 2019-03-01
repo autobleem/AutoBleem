@@ -69,19 +69,21 @@ void GuiOptions::init() {
     ui.clear();
     ui.push_back("classic");
     ui.push_back("EvolutionUI");
-
-
+    aspect.clear();
+    aspect.push_back("true");
+    aspect.push_back("false");
 }
 
 #define CFG_LANG       0
 #define CFG_THEME      1
 #define CFG_MENUTH     2
 #define CFG_UI         3
-#define CFG_QUICK      4
-#define CFG_BGM        5
-#define CFG_MIP        6
-#define CFG_RA         7
-#define CFG_ADV        8
+#define CFG_ASPECT     4
+#define CFG_QUICK      5
+#define CFG_BGM        6
+#define CFG_MIP        7
+#define CFG_RA         8
+#define CFG_ADV        9
 
 
 string GuiOptions::getBooleanIcon(string input) {
@@ -135,6 +137,7 @@ void GuiOptions::render() {
     renderOptionLine(_("AutoBleem Theme:") + " " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
     renderOptionLine(_("Menu Theme:") + " " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);
     renderOptionLine(_("UI:") + " " + gui->cfg.inifile.values["ui"], CFG_UI + 1, offset);
+    renderOptionLine(_("16:9:") + " " + getBooleanIcon("aspect"), CFG_ASPECT + 1, offset);
     renderOptionLine(_("QuickBoot:") + " " + getBooleanIcon("quick"), CFG_QUICK + 1, offset);
     renderOptionLine(_("Background Music:") + " " + getBooleanIcon("nomusic"), CFG_BGM + 1, offset);
     gui->cfg.inifile.values["autoregion"] = "true"; // removing this as an option - not needed - just set to true
@@ -245,6 +248,11 @@ void GuiOptions::loop() {
                                 gui->cfg.inifile.values["adv"] = nextValue;
 
                             }
+                            if (selOption == CFG_ASPECT) {
+                                string nextValue = getOption(aspect, gui->cfg.inifile.values["aspect"], true);
+                                gui->cfg.inifile.values["aspect"] = nextValue;
+
+                            }
                             if (selOption == CFG_QUICK) {
                                 string nextValue = getOption(quickboot, gui->cfg.inifile.values["quick"], true);
                                 int delay = atoi(gui->cfg.inifile.values["delay"].c_str());
@@ -305,6 +313,11 @@ void GuiOptions::loop() {
                             if (selOption == CFG_ADV) {
                                 string nextValue = getOption(adv, gui->cfg.inifile.values["adv"], false);
                                 gui->cfg.inifile.values["adv"] = nextValue;
+
+                            }
+                            if (selOption == CFG_ASPECT) {
+                                string nextValue = getOption(aspect, gui->cfg.inifile.values["aspect"], false);
+                                gui->cfg.inifile.values["aspect"] = nextValue;
 
                             }
                             if (selOption == CFG_QUICK) {

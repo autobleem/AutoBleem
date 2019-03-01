@@ -20,6 +20,10 @@ Config::Config()
     {
         inifile.values["ui"]="classic";
     }
+    if (inifile.values["aspect"]=="")
+    {
+        inifile.values["aspect"]="false";
+    }
     inifile.values["pcsx"]="bleemsync";
 }
 
