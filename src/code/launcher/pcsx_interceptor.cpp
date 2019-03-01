@@ -27,11 +27,11 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
     string filter = "0";
     if (gui->cfg.inifile.values["mip"]=="true")
     {
-        filter = "0";
+        filter = "1";
     }
     else
     {
-        filter = "1";
+        filter = "0";
     }
 
     trim(game->ssFolder);
