@@ -4,7 +4,6 @@ project(autobleem-gui)
 set(CMAKE_CXX_STANDARD 11)
 
 
-
 if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm" )
 	SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -s -Os")
 	SET(CMAKE_CXX_FLAGS " -mfloat-abi=hard -march=armv8-a+simd -s -Os")
