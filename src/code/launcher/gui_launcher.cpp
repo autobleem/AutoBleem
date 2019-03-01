@@ -3,15 +3,6 @@
 //
 
 #include "gui_launcher.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_ttf.h>
-#include <string>
-#include "../gui/gui.h"
-#include "../lang.h"
-#include "ps_settings_back.h"
-
 #include "../gui/gui.h"
 #include "../lang.h"
 
@@ -19,7 +10,7 @@ vector<string> headers = {_("SETTINGS"), _("GUIDE"), _("MEMORY CARD"), _("RESUME
 vector<string> texts = {_("Customize PlayStationClassic or AutoBleem settings"), _("Show authors information"),
                         _("Edit Memory Card information"), _("Resume game from saved state point")};
 
-bool wayToSort(PsGame * i, PsGame * j ) {
+bool wayToSort(PsGame *i, PsGame *j) {
     string name1 = i->title;
     string name2 = j->title;
     name1 = lcase(name1);
@@ -88,7 +79,7 @@ void GuiLauncher::updateMeta() {
 void GuiLauncher::loadAssets() {
     shared_ptr<Gui> gui(Gui::getInstance());
 
-    for (int i=0;i<100;i++) {
+    for (int i = 0; i < 100; i++) {
         SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
     }
     staticElements.clear();
@@ -96,8 +87,8 @@ void GuiLauncher::loadAssets() {
     gamesList.clear();
     gui->db->getGames(&gamesList);
 
-    vector<PsGame*> internal;
-    Database * internalDB = new Database();
+    vector<PsGame *> internal;
+    Database *internalDB = new Database();
 #if defined(__x86_64__) || defined(_M_X64)
     internalDB->connect("internal.db");
 #else
@@ -106,8 +97,7 @@ void GuiLauncher::loadAssets() {
     internalDB->getInternalGames(&internal);
     internalDB->disconnect();
     delete internalDB;
-    for (auto internalGame:internal)
-    {
+    for (auto internalGame:internal) {
         gamesList.push_back(internalGame);
     }
 
@@ -800,6 +790,7 @@ void GuiLauncher::loop() {
                                 motionStart = 0;
                             }
                         } else if (state == STATE_GAMES) {
+                            Mix_PlayChannel(-1, gui->cancel, 0);
                             menuVisible = false;
                         } else if (state == STATE_RESUME) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
@@ -831,13 +822,29 @@ void GuiLauncher::loop() {
                                 if (resumeAvailable) {
                                     Mix_PlayChannel(-1, gui->cursor, 0);
                                     sselector->visible = true;
-                                    sselector->loadSaveStateImages(gamesList[selGame],false);
+                                    sselector->loadSaveStateImages(gamesList[selGame], false);
                                     state = STATE_RESUME;
                                     sselector->selSlot = 0;
                                 } else {
                                     Mix_PlayChannel(-1, gui->cancel, 0);
                                 }
                             }
+                        } else if (state == STATE_RESUME) {
+                             PsGame * game = gamesList[selGame];
+                             int slot = sselector->selSlot;
+
+                             if (game->isResumeSlotActive(slot))
+                             {
+                                 Mix_PlayChannel(-1, gui->cursor, 0);
+                                 gui->startingGame = true;
+                                 gui->runningGame = gamesList[selGame]->clone();
+                                 gui->lastSelIndex = selGame;
+                                 gui->resumepoint = slot;
+                                 menuVisible = false;
+                             } else
+                             {
+                                 Mix_PlayChannel(-1, gui->cancel, 0);
+                             }
                         }
 
                     };

@@ -4,6 +4,9 @@
 
 #include "ps_stateselector.h"
 #include "../lang.h"
+#include "../gui/gui.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 void PsStateSelector::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool center) {
     int text_width;
@@ -50,6 +53,7 @@ void PsStateSelector::loadSaveStateImages(PsGame *game, bool saving)
 {
     for (int i=0;i<4;i++)
     {
+        slotImg[i] = nullptr;
         slotActive[i]=false;
         if (!saving) {
             if (game->isResumeSlotActive(i)) {
@@ -101,6 +105,20 @@ void PsStateSelector::render()
 
 
         renderText(0,110,_(text),255,255,255,font30,true);
+
+        shared_ptr<Gui> gui(Gui::getInstance());
+        SDL_Texture *infoText;
+        SDL_Rect infoRect, infoDest;
+        gui->getEmojiTextTexture(renderer,"|@X| "+_("Select")+"     |@O| "+_("Cancel")+"|",font24, &infoText, &infoRect);
+
+        infoDest.x=640-infoRect.w/2;
+        infoDest.y=150;
+        infoDest.w=infoRect.w;
+        infoDest.h=infoRect.h;
+
+        SDL_RenderCopy(renderer,infoText,&infoRect, &infoDest);
+        SDL_DestroyTexture(infoText);
+
         for (int i=0;i<4;i++)
         {
             output.x = x+(118*scale)*i;
@@ -113,9 +131,30 @@ void PsStateSelector::render()
                 SDL_SetTextureColorMod(frame, 255, 255, 255);
             }
             SDL_RenderCopy(renderer, frame, &input, &output);
+            SDL_SetTextureColorMod(frame, 255, 255, 255);
+
+
+            if (slotImg[i]!= nullptr)
+            {
+                Uint32 format;
+                int access;
+                int wt,ht;
+
+                SDL_QueryTexture(slotImg[i], &format, &access, &wt, &ht);
+                input.x=0; input.y=0; input.w=wt; input.h=ht;
+                SDL_Rect imgOut;
+                imgOut.x = x+(118*scale)*i + 67;
+                imgOut.y = y+90;
+                imgOut.w=184;
+                imgOut.h=140;
+
+                SDL_RenderCopy(renderer, slotImg[i], &input, &imgOut);
+            }
 
             renderText(output.x+60, 270, _("Slot")+" "+to_string(i+1), 255, 255, 255, font24,false);
-            SDL_SetTextureColorMod(frame, 255, 255, 255);
+
+
+
         }
 
 

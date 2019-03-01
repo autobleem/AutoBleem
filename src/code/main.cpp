@@ -118,6 +118,7 @@ int main(int argc, char *argv[]) {
             SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
             sleep(1);
 
+
             gui->saveSelection();
             PcsxInterceptor *interceptor = new PcsxInterceptor();
             interceptor->memcardIn(gui->runningGame);
