@@ -251,10 +251,15 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
         splashScreen->show();
         delete splashScreen;
 
+        drawText(_("Importing internal games"));
+        Util::execUnixCommad("/media/Autobleem/rc/backup_internal.sh");
+
         drawText(_("Upgrading AutoBleem - Please wait..."));
         auto *migration = new VerMigration();
         migration->migrate(db);
         delete (migration);
+
+
 
         if (cfg.inifile.values["quick"] != "true")
             waitForGamepad();
