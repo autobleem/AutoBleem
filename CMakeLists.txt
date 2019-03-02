@@ -102,7 +102,7 @@ add_executable(autobleem-gui
         src/code/launcher/ps_centerlabel.h
         src/code/launcher/ps_stateselector.cpp
         src/code/launcher/ps_stateselector.h
-        )
+		)
 
 add_executable(starter
 		src/code/starter.cpp

@@ -20,7 +20,7 @@ bool wayToSort(PsGame *i, PsGame *j) {
 }
 
 // Text rendering routines - places text at x,y with selected color and font
-void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
+void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background) {
     int text_width;
     int text_height;
     SDL_Surface *surface;
@@ -50,6 +50,12 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
     inputRect.y = 0;
     inputRect.w = rect.w;
     inputRect.h = rect.h;
+
+    if (background)
+    {
+        SDL_SetRenderDrawColor(renderer,0,0,0,70);
+        SDL_RenderFillRect(renderer,&rect);
+    }
 
     SDL_RenderCopy(renderer, texture, &inputRect, &rect);
     SDL_DestroyTexture(texture);
@@ -427,9 +433,19 @@ void GuiLauncher::render() {
     menu->render();
 
 
-    renderText(638, 640, _("Enter"), 60, 60, 60, font24);
-    renderText(760, 640, _("Cancel"), 60, 60, 60, font24);
-    renderText(902, 640, _("Console Button Guide"), 60, 60, 60, font24);
+    renderText(638, 640, _("Enter"), 60, 60, 60, font24,false);
+    renderText(760, 640, _("Cancel"), 60, 60, 60, font24,false);
+    renderText(902, 640, _("Console Button Guide"), 60, 60, 60, font24,false);
+
+    if (notificationTime!=0)
+    {
+        renderText(10,10,notificationText,255,255,255,font24,true);
+        long time = SDL_GetTicks();
+        if (time-notificationTime>2000)
+        {
+            notificationTime=0;
+        }
+    }
 
     for (auto obj:frontElemets) {
 
@@ -651,6 +667,13 @@ void GuiLauncher::switchState(int state, int time) {
     }
 }
 
+void GuiLauncher::showNotification(string text)
+{
+    long time = SDL_GetTicks();
+    notificationText = text;
+    notificationTime = time;
+}
+
 // event loop
 void GuiLauncher::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -865,13 +888,17 @@ void GuiLauncher::loop() {
                                  }
                              } else
                              {
-                                 Mix_PlayChannel(-1, gui->cursor, 0);
+                                 //Mix_PlayChannel(-1, gui->cursor, 0);
                                  PcsxInterceptor * interceptor = new PcsxInterceptor();
                                  interceptor->saveResumePoint(gamesList[selGame],sselector->selSlot);
                                  delete interceptor;
                                  gamesList[selGame]->storeResumePicture(sselector->selSlot);
                                  sselector->visible = false;
                                  arrow->visible = true;
+                                 Mix_PlayChannel(-1, gui->resume, 0);
+                                 showNotification(_("Resume point saved to slot")+" "+to_string(sselector->selSlot));
+
+                                 menu->setResumePic(gamesList[selGame]->findResumePicture(sselector->selSlot));
 
                                  if (sselector->operation==OP_LOAD) {
                                      state = STATE_SET;

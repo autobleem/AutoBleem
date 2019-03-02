@@ -173,6 +173,7 @@ void Gui::loadAssets() {
     cancel = Mix_LoadWAV((this->getSonySoundPath() + "/cancel.wav").c_str());
     home_up = Mix_LoadWAV((this->getSonySoundPath() + "/home_up.wav").c_str());
     home_down = Mix_LoadWAV((this->getSonySoundPath() + "/home_down.wav").c_str());
+    resume = Mix_LoadWAV((this->getSonySoundPath() + "/resume_new.wav").c_str());
 
     if (cfg.inifile.values["nomusic"] != "true")
         if (themeData.values["loop"] != "-1") {

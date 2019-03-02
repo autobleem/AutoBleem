@@ -31,7 +31,7 @@ public:
     void nextGame(int speed);
     void prevGame(int speed);
     void updateMeta();
-    void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
+    void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background);
     void loadAssets();
     void freeAssets();
     void moveMainCover(int state);
@@ -70,6 +70,11 @@ public:
     string publisher;
     string year;
     string players;
+
+    string notificationText;
+    long notificationTime=0;
+
+    void showNotification(string text);
 
     bool gameInfoVisible = true;
     bool scrolling = false;

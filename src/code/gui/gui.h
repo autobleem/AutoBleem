@@ -130,6 +130,7 @@ public:
     Mix_Chunk *cursor = NULL;
     Mix_Chunk *home_down = NULL;
     Mix_Chunk *home_up = NULL;
+    Mix_Chunk *resume = NULL;
 
     bool startingGame = false;
     bool resumingGui = false;
