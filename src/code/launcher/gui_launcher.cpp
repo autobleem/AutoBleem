@@ -20,7 +20,7 @@ bool wayToSort(PsGame *i, PsGame *j) {
 }
 
 // Text rendering routines - places text at x,y with selected color and font
-void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background) {
+void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background, bool center) {
     int text_width;
     int text_height;
     SDL_Surface *surface;
@@ -51,10 +51,20 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
     inputRect.w = rect.w;
     inputRect.h = rect.h;
 
-    if (background)
+    if (center)
     {
-        SDL_SetRenderDrawColor(renderer,0,0,0,70);
-        SDL_RenderFillRect(renderer,&rect);
+        rect.x = 640-text_height/2;
+    }
+
+    if (background) {
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 70);
+        SDL_Rect backRect;
+        backRect.x = rect.x-10;
+        backRect.y = rect.y-2;
+        backRect.w = rect.w+20;
+        backRect.h = rect.h+4;
+
+        SDL_RenderFillRect(renderer, &backRect);
     }
 
     SDL_RenderCopy(renderer, texture, &inputRect, &rect);
@@ -143,8 +153,6 @@ void GuiLauncher::loadAssets() {
         selGame = gui->lastSelIndex;
         setInitialPositions(selGame);
     }
-
-
 
 
     long time = SDL_GetTicks();
@@ -245,10 +253,9 @@ void GuiLauncher::loadAssets() {
     sselector->font24 = font24;
     sselector->visible = false;
 
-    if (gui->resumingGui)
-    {
-        PsGame * game=gamesList[selGame];
-        sselector->loadSaveStateImages(game,true);
+    if (gui->resumingGui) {
+        PsGame *game = gamesList[selGame];
+        sselector->loadSaveStateImages(game, true);
         sselector->visible = true;
         state = STATE_RESUME;
 
@@ -433,17 +440,15 @@ void GuiLauncher::render() {
     menu->render();
 
 
-    renderText(638, 640, _("Enter"), 60, 60, 60, font24,false);
-    renderText(760, 640, _("Cancel"), 60, 60, 60, font24,false);
-    renderText(902, 640, _("Console Button Guide"), 60, 60, 60, font24,false);
+    renderText(638, 640, _("Enter"), 60, 60, 60, font24, false,false);
+    renderText(760, 640, _("Cancel"), 60, 60, 60, font24, false,false);
+    renderText(902, 640, _("Console Button Guide"), 60, 60, 60, font24, false,false);
 
-    if (notificationTime!=0)
-    {
-        renderText(10,10,notificationText,255,255,255,font24,true);
+    if (notificationTime != 0) {
+        renderText(10, 10, notificationText, 255, 255, 255, font24, true,true);
         long time = SDL_GetTicks();
-        if (time-notificationTime>2000)
-        {
-            notificationTime=0;
+        if (time - notificationTime > 2000) {
+            notificationTime = 0;
         }
     }
 
@@ -667,8 +672,7 @@ void GuiLauncher::switchState(int state, int time) {
     }
 }
 
-void GuiLauncher::showNotification(string text)
-{
+void GuiLauncher::showNotification(string text) {
     long time = SDL_GetTicks();
     notificationText = text;
     notificationTime = time;
@@ -817,6 +821,76 @@ void GuiLauncher::loop() {
                     }
                     break;
                 case SDL_JOYBUTTONDOWN:
+                    if (e.jbutton.button == PCS_BTN_L1) {
+                        if (state == STATE_GAMES) {
+                            // find prev game
+                            int nextGame = selGame;
+                            string currentFirst = gamesList[selGame]->title.substr(0, 1);
+                            string futureFirst = gamesList[selGame]->title.substr(0, 1);
+                            for (int i = selGame; i >=0; i--) {
+                                futureFirst = gamesList[i]->title.substr(0, 1);
+                                if (currentFirst != futureFirst) {
+                                    nextGame = i;
+                                    break;
+                                }
+                            }
+                            // now find the same
+                            for (int i = nextGame; i >=0; i--) {
+                                string foundFirst = gamesList[i]->title.substr(0, 1);
+                                if (futureFirst == foundFirst) {
+                                    nextGame = i;
+
+                                } else
+                                {
+                                    break;
+                                }
+                            }
+                            if (nextGame != selGame) {
+                                // we have next game;
+                                Mix_PlayChannel(-1, gui->cursor, 0);
+                                notificationTime = time;
+                                notificationText = futureFirst;
+                                selGame = nextGame;
+                                setInitialPositions(selGame);
+                                updateMeta();
+                                menu->setResumePic(gamesList[selGame]->findResumePicture());
+                            } else {
+                                Mix_PlayChannel(-1, gui->cancel, 0);
+                                notificationTime = time;
+                                notificationText = futureFirst;
+                            }
+                        }
+                    }
+                    if (e.jbutton.button == PCS_BTN_R1) {
+                        if (state == STATE_GAMES) {
+                            // find next game
+                            int nextGame = selGame;
+                            string currentFirst = gamesList[selGame]->title.substr(0, 1);
+                            string futureFirst = gamesList[selGame]->title.substr(0, 1);
+                            for (int i = selGame; i < gamesList.size(); i++) {
+                                futureFirst = gamesList[i]->title.substr(0, 1);
+                                if (currentFirst != futureFirst) {
+                                    nextGame = i;
+                                    break;
+                                }
+                            }
+                            if (nextGame != selGame) {
+                                // we have next game;
+                                Mix_PlayChannel(-1, gui->cursor, 0);
+                                notificationTime = time;
+                                notificationText = futureFirst;
+                                selGame = nextGame;
+                                setInitialPositions(selGame);
+                                updateMeta();
+                                menu->setResumePic(gamesList[selGame]->findResumePicture());
+                            } else {
+                                Mix_PlayChannel(-1, gui->cancel, 0);
+                                notificationTime = time;
+                                notificationText = futureFirst;
+                            }
+                        }
+                    }
+
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         if (state == STATE_SET) {
                             if (menu->animationStarted == 0) {
@@ -832,10 +906,9 @@ void GuiLauncher::loop() {
                             sselector->visible = false;
                             arrow->visible = true;
 
-                            if (sselector->operation==OP_LOAD) {
+                            if (sselector->operation == OP_LOAD) {
                                 state = STATE_SET;
-                            } else
-                            {
+                            } else {
                                 state = STATE_GAMES;
                             }
                         }
@@ -872,46 +945,40 @@ void GuiLauncher::loop() {
                                 }
                             }
                         } else if (state == STATE_RESUME) {
-                             PsGame * game = gamesList[selGame];
-                             int slot = sselector->selSlot;
+                            PsGame *game = gamesList[selGame];
+                            int slot = sselector->selSlot;
 
-                             if (sselector->operation == OP_LOAD) {
-                                 if (game->isResumeSlotActive(slot)) {
-                                     Mix_PlayChannel(-1, gui->cursor, 0);
-                                     gui->startingGame = true;
-                                     gui->runningGame = gamesList[selGame]->clone();
-                                     gui->lastSelIndex = selGame;
-                                     gui->resumepoint = slot;
-                                     menuVisible = false;
-                                 } else {
-                                     Mix_PlayChannel(-1, gui->cancel, 0);
-                                 }
-                             } else
-                             {
-                                 //Mix_PlayChannel(-1, gui->cursor, 0);
-                                 PcsxInterceptor * interceptor = new PcsxInterceptor();
-                                 interceptor->saveResumePoint(gamesList[selGame],sselector->selSlot);
-                                 delete interceptor;
-                                 gamesList[selGame]->storeResumePicture(sselector->selSlot);
-                                 sselector->visible = false;
-                                 arrow->visible = true;
-                                 Mix_PlayChannel(-1, gui->resume, 0);
-                                 showNotification(_("Resume point saved to slot")+" "+to_string(sselector->selSlot));
+                            if (sselector->operation == OP_LOAD) {
+                                if (game->isResumeSlotActive(slot)) {
+                                    Mix_PlayChannel(-1, gui->cursor, 0);
+                                    gui->startingGame = true;
+                                    gui->runningGame = gamesList[selGame]->clone();
+                                    gui->lastSelIndex = selGame;
+                                    gui->resumepoint = slot;
+                                    menuVisible = false;
+                                } else {
+                                    Mix_PlayChannel(-1, gui->cancel, 0);
+                                }
+                            } else {
+                                //Mix_PlayChannel(-1, gui->cursor, 0);
+                                PcsxInterceptor *interceptor = new PcsxInterceptor();
+                                interceptor->saveResumePoint(gamesList[selGame], sselector->selSlot);
+                                delete interceptor;
+                                gamesList[selGame]->storeResumePicture(sselector->selSlot);
+                                sselector->visible = false;
+                                arrow->visible = true;
+                                Mix_PlayChannel(-1, gui->resume, 0);
+                                showNotification(_("Resume point saved to slot") + " " + to_string(sselector->selSlot));
 
-                                 menu->setResumePic(gamesList[selGame]->findResumePicture(sselector->selSlot));
+                                menu->setResumePic(gamesList[selGame]->findResumePicture(sselector->selSlot));
 
-                                 if (sselector->operation==OP_LOAD) {
-                                     state = STATE_SET;
-                                 } else
-                                 {
-                                     state = STATE_GAMES;
-                                 }
+                                if (sselector->operation == OP_LOAD) {
+                                    state = STATE_SET;
+                                } else {
+                                    state = STATE_GAMES;
+                                }
 
-                                 //ToDO: update
-
-                                 // refresh Image
-
-                             }
+                            }
                         }
 
                     };

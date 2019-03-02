@@ -21,6 +21,7 @@
 #define STATE_GAMES    0
 #define STATE_SET      1
 #define STATE_RESUME   2
+#define STATE_INFO     3
 
 class GuiLauncher : public GuiScreen {
 public:
@@ -31,7 +32,7 @@ public:
     void nextGame(int speed);
     void prevGame(int speed);
     void updateMeta();
-    void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background);
+    void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background, bool center);
     void loadAssets();
     void freeAssets();
     void moveMainCover(int state);
