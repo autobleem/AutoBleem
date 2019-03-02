@@ -1,9 +1,5 @@
 #!/bin/bash
 
-source ./autobleem_cfg.sh
-echo MipMap: $AB_MIP
-echo PCSX: $AB_PCSX
-
 
 function select_pcsx
 {
@@ -23,8 +19,8 @@ select_pcsx
 echo AUTOBLEEM: Starting PCSX
 echo Cmd $@
 
+rm -rf /tmp/runpcsx
 mkdir -p /tmp/runpcsx
-rm -rf /tmp/runpcsx/*
 
 cd /tmp/runpcsx
 ln -s "$1" /tmp/runpcsx/.pcsx
@@ -32,17 +28,12 @@ ln -s "$1" /tmp/runpcsx/.pcsx
 ln -s /media/System/Bios /tmp/runpcsx/bios
 ln -s /data/AppData/sony/pcsx /tmp/runpcsx/plugins
 
-FILTER=0;
-
-if [ "$AB_MIP" = "true" ]
+if [ "$6" == "0" ]
 then
-  FILTER=1
+  /tmp/pcsx -filter $8 -ratio $7 -lang $3 -region 4 -enter 1 -cdfile "$2"
 else
-  FILTER=0
+  /tmp/pcsx -filter $8 -ratio $7 -lang $3 -region 4 -enter 1 -load $6 -cdfile "$2"
 fi
-
-/tmp/pcsx -filter $FILTER -ratio 1 -lang 2 -region 4 -enter 1 -cdfile "$2"
-
 
 echo FINISHED
 
