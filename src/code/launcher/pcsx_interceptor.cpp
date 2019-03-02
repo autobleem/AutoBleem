@@ -138,6 +138,34 @@ void PcsxInterceptor::saveResumePoint(PsGame *game, int pointId)
 
 void PcsxInterceptor::prepareResumePoint(PsGame *game, int pointId)
 {
+
+    // cleanup after previous crash as pcsx doest not want to save
+    string filenameTrash = game->ssFolder+"filename.txt";
+    if (Util::exists(filenameTrash))
+    {
+        remove(filenameTrash.c_str());
+    }
+
+    string ssfile =  game->ssFolder+"sstates";
+    for (DirEntry sstate:Util::diru(ssfile))
+    {
+        if (Util::getFileExtension(sstate.name)=="000")
+        {
+            string toDelete = ssfile+"/"+sstate.name;
+            remove(toDelete.c_str());
+        }
+    }
+
+    ssfile =  game->ssFolder+"screenshots";
+    for (DirEntry sstate:Util::diru(ssfile))
+    {
+        if (Util::getFileExtension(sstate.name)=="png")
+        {
+            string toDelete = ssfile+"/"+sstate.name;
+            remove(toDelete.c_str());
+        }
+    }
+
     if (pointId==-1)
         return;
     string filenamefile = game->ssFolder+"filename.txt.res";
