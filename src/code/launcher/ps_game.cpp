@@ -84,7 +84,43 @@ bool PsGame::isResumeSlotActive(int slot)
     }
     return false;
 }
+void PsGame::storeResumePicture(int slot)
+{
+    string filenamefile = ssFolder+"filename.txt.res";
+    if (Util::exists(filenamefile))
+    {
+        ifstream is(filenamefile.c_str());
+        if (is.is_open()) {
 
+            std::string line;
+            std::getline(is, line);
+            std::getline(is, line);
+
+            string inputImg=ssFolder + "screenshots/" + line + ".png";
+            if (!Util::exists(inputImg))
+            {
+                return;
+            }
+            string slotImg;
+            // last line is our filename
+            if (slot==0) {
+                 slotImg = ssFolder + "screenshots/" + line + ".png.res";
+
+            } else
+            {
+                 slotImg = ssFolder + "screenshots/" + line + "."+to_string(slot)+".png.res";
+
+            }
+            is.close();
+
+            remove(slotImg.c_str());
+            Util::copy(inputImg,slotImg);
+            remove(inputImg.c_str());
+
+        }
+    }
+
+}
 string PsGame::findResumePicture(int slot)
 {
     string filenamefile = ssFolder+"filename.txt.res";
@@ -115,6 +151,7 @@ string PsGame::findResumePicture(int slot)
     }
     return "";
 }
+
 
 string PsGame::findResumePicture()
 {

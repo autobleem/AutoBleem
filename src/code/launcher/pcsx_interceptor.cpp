@@ -57,7 +57,12 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
     argvNew.push_back(langStr.c_str()); // lang by language file hack
     argvNew.push_back(region.c_str());
     argvNew.push_back(game->folder.c_str());
-    argvNew.push_back(to_string(resumepoint+1).c_str());
+    if (resumepoint!=-1) {
+        argvNew.push_back("1");
+    } else
+    {
+        argvNew.push_back("0");
+    }
     argvNew.push_back(aspect.c_str());
     argvNew.push_back(filter.c_str());
     argvNew.push_back(nullptr);
@@ -101,11 +106,10 @@ void PcsxInterceptor::memcardOut(PsGame *game)
     }
 }
 
-void PcsxInterceptor::prepareResumePoint(PsGame *game, int pointId)
+void PcsxInterceptor::saveResumePoint(PsGame *game, int pointId)
 {
-    if (pointId==-1)
-        return;
-    string filenamefile = game->ssFolder+"filename.txt.res";
+    string filenamefile = game->ssFolder+"filename.txt";
+    string filenamefileX = game->ssFolder+"filename.txt.res";
     if (Util::exists(filenamefile))
     {
         ifstream is(filenamefile.c_str());
@@ -117,7 +121,40 @@ void PcsxInterceptor::prepareResumePoint(PsGame *game, int pointId)
 
             // last line is our filename
             string ssfile =  game->ssFolder+"sstates/"+line+".00"+to_string(pointId)+".res";
-            string newName =  game->ssFolder+"sstates/"+line+".00"+to_string(pointId);
+            string newName =  game->ssFolder+"sstates/"+line+".000";
+
+            remove(ssfile.c_str());
+            Util::copy(newName.c_str(),ssfile.c_str());
+            remove(newName.c_str());
+
+            // update image
+
+            is.close();
+        }
+        remove(filenamefileX.c_str());
+        rename(filenamefile.c_str(),filenamefileX.c_str());
+    }
+}
+
+void PcsxInterceptor::prepareResumePoint(PsGame *game, int pointId)
+{
+    if (pointId==-1)
+        return;
+    string filenamefile = game->ssFolder+"filename.txt.res";
+    string filenamefileX = game->ssFolder+"filename.txt";
+    remove(filenamefileX.c_str());
+    if (Util::exists(filenamefile))
+    {
+        ifstream is(filenamefile.c_str());
+        if (is.is_open()) {
+
+            std::string line;
+            std::getline(is, line);
+            std::getline(is, line);
+
+            // last line is our filename
+            string ssfile =  game->ssFolder+"sstates/"+line+".00"+to_string(pointId)+".res";
+            string newName =  game->ssFolder+"sstates/"+line+".000";
             if (Util::exists(ssfile))
             {
                 remove(newName.c_str());

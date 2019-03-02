@@ -51,6 +51,13 @@ void PsStateSelector::renderText(int x, int y, string text, Uint8 r, Uint8 g, Ui
 
 void PsStateSelector::loadSaveStateImages(PsGame *game, bool saving)
 {
+    if (saving)
+    {
+        operation = OP_SAVE;
+    } else
+    {
+        operation = OP_LOAD;
+    }
     for (int i=0;i<4;i++)
     {
         slotImg[i] = nullptr;

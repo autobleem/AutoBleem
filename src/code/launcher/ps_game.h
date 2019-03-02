@@ -43,6 +43,7 @@ public:
     string findResumePicture();
     bool isResumeSlotActive(int slot);
     string findResumePicture(int slot);
+    void storeResumePicture(int slot);
 
 
     PsScreenpoint current;

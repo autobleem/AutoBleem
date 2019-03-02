@@ -15,6 +15,7 @@ public:
     void memcardIn(PsGame *game);
     void memcardOut(PsGame *game);
     void prepareResumePoint(PsGame *game, int pointId);
+    void saveResumePoint(PsGame *game, int pointId);
 
 };
 

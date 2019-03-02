@@ -5,6 +5,7 @@
 #include "gui_launcher.h"
 #include "../gui/gui.h"
 #include "../lang.h"
+#include "pcsx_interceptor.h"
 
 vector<string> headers = {_("SETTINGS"), _("GUIDE"), _("MEMORY CARD"), _("RESUME")};
 vector<string> texts = {_("Customize PlayStationClassic or AutoBleem settings"), _("Show authors information"),
@@ -138,6 +139,8 @@ void GuiLauncher::loadAssets() {
     }
 
 
+
+
     long time = SDL_GetTicks();
 
     font30 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Bold.ttf").c_str(), 28);
@@ -235,6 +238,15 @@ void GuiLauncher::loadAssets() {
     sselector->font30 = font30;
     sselector->font24 = font24;
     sselector->visible = false;
+
+    if (gui->resumingGui)
+    {
+        PsGame * game=gamesList[selGame];
+        sselector->loadSaveStateImages(game,true);
+        sselector->visible = true;
+        state = STATE_RESUME;
+
+    }
 
     frontElemets.push_back(sselector);
 
@@ -796,7 +808,13 @@ void GuiLauncher::loop() {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             sselector->visible = false;
                             arrow->visible = true;
-                            state = STATE_SET;
+
+                            if (sselector->operation==OP_LOAD) {
+                                state = STATE_SET;
+                            } else
+                            {
+                                state = STATE_GAMES;
+                            }
                         }
 
 
@@ -825,6 +843,7 @@ void GuiLauncher::loop() {
                                     sselector->loadSaveStateImages(gamesList[selGame], false);
                                     state = STATE_RESUME;
                                     sselector->selSlot = 0;
+                                    sselector->operation = OP_LOAD;
                                 } else {
                                     Mix_PlayChannel(-1, gui->cancel, 0);
                                 }
@@ -833,17 +852,38 @@ void GuiLauncher::loop() {
                              PsGame * game = gamesList[selGame];
                              int slot = sselector->selSlot;
 
-                             if (game->isResumeSlotActive(slot))
-                             {
-                                 Mix_PlayChannel(-1, gui->cursor, 0);
-                                 gui->startingGame = true;
-                                 gui->runningGame = gamesList[selGame]->clone();
-                                 gui->lastSelIndex = selGame;
-                                 gui->resumepoint = slot;
-                                 menuVisible = false;
+                             if (sselector->operation == OP_LOAD) {
+                                 if (game->isResumeSlotActive(slot)) {
+                                     Mix_PlayChannel(-1, gui->cursor, 0);
+                                     gui->startingGame = true;
+                                     gui->runningGame = gamesList[selGame]->clone();
+                                     gui->lastSelIndex = selGame;
+                                     gui->resumepoint = slot;
+                                     menuVisible = false;
+                                 } else {
+                                     Mix_PlayChannel(-1, gui->cancel, 0);
+                                 }
                              } else
                              {
-                                 Mix_PlayChannel(-1, gui->cancel, 0);
+                                 Mix_PlayChannel(-1, gui->cursor, 0);
+                                 PcsxInterceptor * interceptor = new PcsxInterceptor();
+                                 interceptor->saveResumePoint(gamesList[selGame],sselector->selSlot);
+                                 delete interceptor;
+                                 gamesList[selGame]->storeResumePicture(sselector->selSlot);
+                                 sselector->visible = false;
+                                 arrow->visible = true;
+
+                                 if (sselector->operation==OP_LOAD) {
+                                     state = STATE_SET;
+                                 } else
+                                 {
+                                     state = STATE_GAMES;
+                                 }
+
+                                 //ToDO: update
+
+                                 // refresh Image
+
                              }
                         }
 
