@@ -6,6 +6,7 @@
 #include "../gui/gui.h"
 #include "../lang.h"
 #include "pcsx_interceptor.h"
+#include "gui_btn_guide.h"
 
 vector<string> headers = {_("SETTINGS"), _("GUIDE"), _("MEMORY CARD"), _("RESUME")};
 vector<string> texts = {_("Customize PlayStationClassic or AutoBleem settings"), _("Show authors information"),
@@ -53,7 +54,7 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
 
     if (center)
     {
-        rect.x = 640-text_height/2;
+        rect.x = 640-(rect.w/2);
     }
 
     if (background) {
@@ -943,6 +944,10 @@ void GuiLauncher::loop() {
                                 } else {
                                     Mix_PlayChannel(-1, gui->cancel, 0);
                                 }
+                            } if (menu->selOption == 2) {
+                                Mix_PlayChannel(-1, gui->cancel, 0);
+                                notificationTime = time;
+                                notificationText = _("MemCard Manager will be available in 0.7");
                             }
                         } else if (state == STATE_RESUME) {
                             PsGame *game = gamesList[selGame];
@@ -982,7 +987,11 @@ void GuiLauncher::loop() {
                         }
 
                     };
-                    if (e.jbutton.button == PCS_BTN_SQUARE) {
+                    if (e.jbutton.button == PCS_BTN_TRIANGLE) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        GuiBtnGuide * guide = new GuiBtnGuide(renderer);
+                        guide->show();
+                        delete guide;
 
                     };
 
