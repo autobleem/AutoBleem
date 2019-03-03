@@ -21,12 +21,13 @@ void GuiBtnGuide::render() {
     gui->renderTextLine(_("DPAD - Same as classic menu"), 1, offset,true);
     gui->renderTextLine("|@X| / |@O|   "+_("Select or cancel highlighted option"), 2, offset,true);
     gui->renderTextLine("|@R1| / |@L1|   "+_("Quick scroll to next letter"), 3, offset,true);
+    gui->renderTextLine("|@Select|   "+_("Games filter"), 4, offset,true);
 
-    gui->renderTextLine(_("-=In Game=-"),5,offset,true);
-    gui->renderTextLine("|@Select| + |@T|   "+_("Emulator config MENU"), 6, offset,true);
-    gui->renderTextLine("RESET   "+_("Quit emulation - back to AutoBleem"), 7, offset,true);
+    gui->renderTextLine(_("-=In Game=-"),6,offset,true);
+    gui->renderTextLine("|@Select| + |@T|   "+_("Emulator config MENU"), 7, offset,true);
+    gui->renderTextLine("RESET   "+_("Quit emulation - back to AutoBleem"), 8, offset,true);
 
-    gui->renderTextLine("|@R1| + |@L1|  "+_("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 9, offset,true);
+    gui->renderTextLine("|@R1| + |@L1|  "+_("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 10, offset,true);
 
 
     gui->renderStatus("|@O| " + _("Go back") + "|");

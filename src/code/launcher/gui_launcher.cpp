@@ -9,9 +9,10 @@
 #include "pcsx_interceptor.h"
 #include "gui_btn_guide.h"
 
-vector<string> headers = {_("SETTINGS"), _("GUIDE"), _("MEMORY CARD"), _("RESUME")};
-vector<string> texts = {_("Customize PlayStationClassic or AutoBleem settings"), _("Show authors information"),
+vector<string> headers = {_("SETTINGS"), _("GAME"), _("MEMORY CARD"), _("RESUME")};
+vector<string> texts = {_("Customize AutoBleem settings"), _("Edit game parameters"),
                         _("Edit Memory Card information"), _("Resume game from saved state point")};
+vector<string> sets = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),  _("Showing: Favourite games")};
 
 bool wayToSort(PsGame *i, PsGame *j) {
     string name1 = i->title;
@@ -94,6 +95,51 @@ void GuiLauncher::updateMeta() {
     meta->updateTexts(gameName, publisher, year, players, false,false,false);
 }
 
+void GuiLauncher::switchSet(int newSet)
+{
+    shared_ptr<Gui> gui(Gui::getInstance());
+    gamesList.clear();
+    if (currentSet==SET_ALL || currentSet==SET_EXTERNAL) {
+        gui->db->getGames(&gamesList);
+    }
+    if (currentSet==SET_ALL || currentSet==SET_INTERNAL) {
+        vector<PsGame *> internal;
+        Database *internalDB = new Database();
+#if defined(__x86_64__) || defined(_M_X64)
+        internalDB->connect("internal.db");
+#else
+        internalDB->connect("/media/System/Databases/internal.db");
+#endif
+        internalDB->getInternalGames(&internal);
+        internalDB->disconnect();
+        delete internalDB;
+        for (auto internalGame:internal) {
+            gamesList.push_back(internalGame);
+        }
+
+        sort(gamesList.begin(), gamesList.end(), wayToSort);
+    }
+    if (gamesList.size() > 0) {
+        while (gamesList.size() < 13) {
+            for (PsGame *game:gamesList) {
+                gamesList.push_back(game->clone());
+            }
+
+        }
+    }
+    if (gamesList.empty()) {
+        selGame = -1;
+    } else {
+        selGame = 0;
+        setInitialPositions(0);
+    }
+}
+
+void GuiLauncher::showSetNotification()
+{
+    showNotification(sets[currentSet]);
+}
+
 // load all assets needed by the screen
 void GuiLauncher::loadAssets() {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -104,37 +150,9 @@ void GuiLauncher::loadAssets() {
     staticElements.clear();
     frontElemets.clear();
     gamesList.clear();
-    gui->db->getGames(&gamesList);
-
-    vector<PsGame *> internal;
-    Database *internalDB = new Database();
-#if defined(__x86_64__) || defined(_M_X64)
-    internalDB->connect("internal.db");
-#else
-    internalDB->connect("/media/System/Databases/internal.db");
-#endif
-    internalDB->getInternalGames(&internal);
-    internalDB->disconnect();
-    delete internalDB;
-    for (auto internalGame:internal) {
-        gamesList.push_back(internalGame);
-    }
-
-
-    sort(gamesList.begin(), gamesList.end(), wayToSort);
-
-    for (auto game:gamesList) {
-        game->loadTex(renderer);
-    }
-
-    if (gamesList.size() > 0) {
-        while (gamesList.size() < 13) {
-            for (PsGame *game:gamesList) {
-                gamesList.push_back(game->clone());
-            }
-
-        }
-    }
+    carouselPositions.initCoverPositions();
+    switchSet(currentSet);
+    showSetNotification();
 
 
     gameName = "";
@@ -143,13 +161,8 @@ void GuiLauncher::loadAssets() {
     players = "";
 
 
-    carouselPositions.initCoverPositions();
-    if (gamesList.empty()) {
-        selGame = -1;
-    } else {
-        selGame = 0;
-        setInitialPositions(0);
-    }
+
+
 
     if (gui->lastSelIndex != 0) {
         selGame = gui->lastSelIndex;
@@ -593,6 +606,13 @@ void GuiLauncher::setInitialPositions(int selected) {
     for (PsGame *game:gamesList) {
         game->actual = game->current;
         game->destination = game->current;
+        if (game->visible)
+        {
+            game->loadTex(renderer);
+        } else
+        {
+            game->freeTex();
+        }
 
     }
 
@@ -999,6 +1019,16 @@ void GuiLauncher::loop() {
                         GuiBtnGuide * guide = new GuiBtnGuide(renderer);
                         guide->show();
                         delete guide;
+
+                    };
+
+                    if (e.jbutton.button == PCS_BTN_SELECT) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+
+                        currentSet++;
+                        if (currentSet>2) currentSet = 0;
+                        switchSet(currentSet);
+                        showSetNotification();
 
                     };
 

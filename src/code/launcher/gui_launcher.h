@@ -23,6 +23,11 @@
 #define STATE_RESUME   2
 #define STATE_INFO     3
 
+#define SET_ALL      0
+#define SET_INTERNAL 1
+#define SET_EXTERNAL 2
+
+
 class GuiLauncher : public GuiScreen {
 public:
     void init();
@@ -36,6 +41,10 @@ public:
     void loadAssets();
     void freeAssets();
     void moveMainCover(int state);
+
+    int currentSet=SET_ALL;
+    void switchSet(int newSet);
+    void showSetNotification();
 
 
 
