@@ -1029,6 +1029,8 @@ void GuiLauncher::loop() {
                         if (currentSet>2) currentSet = 0;
                         switchSet(currentSet);
                         showSetNotification();
+                        updateMeta();
+                        menu->setResumePic(gamesList[selGame]->findResumePicture());
 
                     };
 
