@@ -180,8 +180,8 @@ void GuiOptions::loop() {
                         if (e.jaxis.value > 3200) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             selOption++;
-                            if (selOption > 8) {
-                                selOption = 8;
+                            if (selOption > 9) {
+                                selOption = 9;
                             }
                             render();
                         }
