@@ -4,6 +4,7 @@
 
 #include "gui_launcher.h"
 #include "../gui/gui.h"
+#include "../gui/gui_options.h"
 #include "../lang.h"
 #include "pcsx_interceptor.h"
 #include "gui_btn_guide.h"
@@ -78,7 +79,7 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
 void GuiLauncher::updateMeta() {
     if (gamesList.empty()) {
         gameName = "";
-        meta->updateTexts(gameName, publisher, year, players);
+        meta->updateTexts(gameName, publisher, year, players,false,false,false);
         return;
     }
     PsGame *game = gamesList[selGame];
@@ -90,7 +91,7 @@ void GuiLauncher::updateMeta() {
     } else {
         players = to_string(game->players) + " " + _("Players");
     }
-    meta->updateTexts(gameName, publisher, year, players);
+    meta->updateTexts(gameName, publisher, year, players, false,false,false);
 }
 
 // load all assets needed by the screen
@@ -200,7 +201,7 @@ void GuiLauncher::loadAssets() {
     meta->x = 785;
     meta->y = 285;
     meta->visible = true;
-    meta->updateTexts(gameName, publisher, year, players);
+    meta->updateTexts(gameName, publisher, year, players,false,false,false);
     staticElements.push_back(meta);
 
     arrow = new PsMoveBtn(renderer, "arrow", gui->getSonyImagePath() + "/GR/arrow.png");
@@ -948,6 +949,12 @@ void GuiLauncher::loop() {
                                 Mix_PlayChannel(-1, gui->cancel, 0);
                                 notificationTime = time;
                                 notificationText = _("MemCard Manager will be available in 0.7");
+                            } else
+                            if (menu->selOption == 0) {
+                                Mix_PlayChannel(-1, gui->cursor, 0);
+                                GuiOptions * option = new GuiOptions(renderer);
+                                option->show();
+                                delete option;
                             }
                         } else if (state == STATE_RESUME) {
                             PsGame *game = gamesList[selGame];

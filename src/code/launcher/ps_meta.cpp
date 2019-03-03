@@ -4,7 +4,10 @@
 
 #include "ps_meta.h"
 
-void PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, string playersTxt) {
+void PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, string playersTxt, bool internal, bool hd, bool locked) {
+    this->internal = internal;
+    this->hd=hd;
+    this->locked=locked;
     this->gameName = gameNameTxt;
     this->publisher = publisherTxt;
     this->year = yearTxt;
