@@ -1,20 +1,14 @@
 #!/bin/bash
 
 
-function select_pcsx
-{
-      echo "Custom PCSX ONLY in EvolutionUI !!!"
-      cp -f /media/Autobleem/bin/emu/pcsx-ab /tmp/pcsx
-      [ -f /tmp/pcsx ] && chmod +x /tmp/pcsx
-}
-
 # copy configuration to it's place
 cp "$5/pcsx.cfg" "$1/pcsx.cfg"
 # select pcsx to use
-select_pcsx
-# apply filter
-# mipmap
-# run the game
+
+echo "Custom PCSX ONLY in EvolutionUI !!!"
+cp -f /media/Autobleem/bin/emu/pcsx-ab /tmp/pcsx
+[ -f /tmp/pcsx ] && chmod +x /tmp/pcsx
+
 
 echo AUTOBLEEM: Starting PCSX
 echo Cmd $@
@@ -26,7 +20,7 @@ cd /tmp/runpcsx
 ln -s "$1" /tmp/runpcsx/.pcsx
 
 ln -s /media/System/Bios /tmp/runpcsx/bios
-ln -s /data/AppData/sony/pcsx /tmp/runpcsx/plugins
+ln -s /media/Autobleem/bin/emu/plugins /tmp/runpcsx/plugins
 
 if [ "$6" == "0" ]
 then
