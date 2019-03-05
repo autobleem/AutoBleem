@@ -1000,7 +1000,7 @@ void GuiLauncher::loop() {
                                 sselector->visible = false;
                                 arrow->visible = true;
                                 Mix_PlayChannel(-1, gui->resume, 0);
-                                showNotification(_("Resume point saved to slot") + " " + to_string(sselector->selSlot));
+                                showNotification(_("Resume point saved to slot") + " " + to_string(sselector->selSlot+1));
 
                                 menu->setResumePic(gamesList[selGame]->findResumePicture(sselector->selSlot));
 
@@ -1023,15 +1023,16 @@ void GuiLauncher::loop() {
                     };
 
                     if (e.jbutton.button == PCS_BTN_SELECT) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        if (state==STATE_GAMES) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
 
-                        currentSet++;
-                        if (currentSet>2) currentSet = 0;
-                        switchSet(currentSet);
-                        showSetNotification();
-                        updateMeta();
-                        menu->setResumePic(gamesList[selGame]->findResumePicture());
-
+                            currentSet++;
+                            if (currentSet > 2) currentSet = 0;
+                            switchSet(currentSet);
+                            showSetNotification();
+                            updateMeta();
+                            menu->setResumePic(gamesList[selGame]->findResumePicture());
+                        }
                     };
 
 
