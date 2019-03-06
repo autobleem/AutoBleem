@@ -92,7 +92,7 @@ void GuiLauncher::updateMeta() {
     } else {
         players = to_string(game->players) + " " + _("Players");
     }
-    meta->updateTexts(gameName, publisher, year, players, false,false,false);
+    meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal,false,false);
 }
 
 void GuiLauncher::switchSet(int newSet)
@@ -215,7 +215,12 @@ void GuiLauncher::loadAssets() {
     meta->x = 785;
     meta->y = 285;
     meta->visible = true;
-    meta->updateTexts(gameName, publisher, year, players,false,false,false);
+    if (selGame!=-1) {
+        meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal, false, false);
+    } else
+    {
+        meta->updateTexts(gameName, publisher, year, players, false, false, false);
+    }
     staticElements.push_back(meta);
 
     arrow = new PsMoveBtn(renderer, "arrow", gui->getSonyImagePath() + "/GR/arrow.png");

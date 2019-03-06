@@ -30,6 +30,7 @@ public:
     SDL_Texture *hdOffTex = nullptr;
     SDL_Texture *lockOnTex= nullptr;
     SDL_Texture *lockOffTex = nullptr;
+    SDL_Texture *cdTex = nullptr;
 
     int nextPos = 0;
     int prevPos = 0;
