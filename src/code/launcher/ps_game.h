@@ -33,17 +33,16 @@ public:
     bool internal = false;
 
     void loadTex(SDL_Renderer *renderer);
-
     void freeTex();
 
     PsGame *clone();
 
     void setMemCard(string name);
-
     string findResumePicture();
     bool isResumeSlotActive(int slot);
     string findResumePicture(int slot);
     void storeResumePicture(int slot);
+    bool isCleanExit();
 
 
     PsScreenpoint current;

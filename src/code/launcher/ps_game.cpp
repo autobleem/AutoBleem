@@ -27,6 +27,12 @@ void PsGame::freeTex() {
 
 }
 
+bool PsGame::isCleanExit()
+{
+    string filenamefile = ssFolder+"filename.txt";
+    return Util::exists(filenamefile);
+}
+
 PsGame *PsGame::clone() {
     PsGame *clone = new PsGame();
     clone->visible = this->visible;

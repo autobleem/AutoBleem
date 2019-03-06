@@ -142,8 +142,9 @@ void GuiLauncher::showSetNotification()
 
 // load all assets needed by the screen
 void GuiLauncher::loadAssets() {
-    shared_ptr<Gui> gui(Gui::getInstance());
 
+    shared_ptr<Gui> gui(Gui::getInstance());
+    currentSet = gui->lastSet;
     for (int i = 0; i < 100; i++) {
         SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
     }
@@ -269,11 +270,16 @@ void GuiLauncher::loadAssets() {
     sselector->visible = false;
 
     if (gui->resumingGui) {
-        PsGame *game = gamesList[selGame];
-        sselector->loadSaveStateImages(game, true);
-        sselector->visible = true;
-        state = STATE_RESUME;
 
+        PsGame *game = gamesList[selGame];
+        if (game->isCleanExit()) {
+            sselector->loadSaveStateImages(game, true);
+            sselector->visible = true;
+            state = STATE_RESUME;
+        } else
+        {
+            showNotification(_("OOPS! Game crashed. Resume point not available."));
+        }
     }
 
     frontElemets.push_back(sselector);
@@ -945,6 +951,7 @@ void GuiLauncher::loop() {
                             gui->runningGame = gamesList[selGame]->clone();
                             gui->lastSelIndex = selGame;
                             gui->resumepoint = -1;
+                            gui->lastSet = currentSet;
                             menuVisible = false;
                         } else if (state == STATE_SET) {
                             if (menu->selOption == 3) {
@@ -987,6 +994,7 @@ void GuiLauncher::loop() {
                                     gui->runningGame = gamesList[selGame]->clone();
                                     gui->lastSelIndex = selGame;
                                     gui->resumepoint = slot;
+                                    gui->lastSet = currentSet;
                                     menuVisible = false;
                                 } else {
                                     Mix_PlayChannel(-1, gui->cancel, 0);
