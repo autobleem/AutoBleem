@@ -1,4 +1,5 @@
 #include "database.h"
+#include "inifile.h"
 
 
 using namespace std;
@@ -86,13 +87,12 @@ int Database::getNumGames() {
     return 0;
 }
 
-bool Database::updateYear(int id, int year)
-{
+bool Database::updateYear(int id, int year) {
     char *errorReport = nullptr;
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, UPDATE_YEAR, -1, &res, nullptr);
     if (rc != SQLITE_OK) {
-        cerr <<  sqlite3_errmsg(db) << endl;
+        cerr << sqlite3_errmsg(db) << endl;
         if (!errorReport) sqlite3_free(errorReport);
         sqlite3_close(db);
         return false;
@@ -104,13 +104,12 @@ bool Database::updateYear(int id, int year)
     return true;
 }
 
-bool Database::updateMemcard(int id, string memcard)
-{
+bool Database::updateMemcard(int id, string memcard) {
     char *errorReport = nullptr;
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, UPDATE_MEMCARD, -1, &res, nullptr);
     if (rc != SQLITE_OK) {
-        cerr <<  sqlite3_errmsg(db) << endl;
+        cerr << sqlite3_errmsg(db) << endl;
         if (!errorReport) sqlite3_free(errorReport);
         sqlite3_close(db);
         return false;
@@ -179,8 +178,8 @@ bool Database::getInternalGames(vector<PsGame *> *result) {
             game->publisher = std::string(reinterpret_cast<const char *>(publisher));
             game->year = year;
             game->players = players;
-            game->folder = "/gaadata/"+to_string(id)+"/";
-            game->ssFolder = "/media/Games/!SaveStates/"+to_string(id)+"/";
+            game->folder = "/gaadata/" + to_string(id) + "/";
+            game->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
             game->base = std::string(reinterpret_cast<const char *>(base));
             game->memcard = "SONY";
             game->internal = true;
@@ -225,6 +224,26 @@ bool Database::getGames(vector<PsGame *> *result) {
             game->base = std::string(reinterpret_cast<const char *>(base));
             game->memcard = std::string(reinterpret_cast<const char *>(memcard));
             game->cds = discs;
+
+            string gameIniPath = game->folder + "/Game.ini";
+            if (Util::exists(gameIniPath)) {
+                Inifile ini;
+                ini.load(gameIniPath);
+                if (ini.values["automation"]=="1")
+                {
+                    game->locked = false;
+                } else
+                {
+                    game->locked = true;
+                }
+                if (ini.values["highres"]=="1")
+                {
+                    game->hd=true;
+                } else
+                {
+                    game->hd=false;
+                }
+            }
             result->push_back(game);
         }
     } else {
@@ -238,7 +257,7 @@ bool Database::getGames(vector<PsGame *> *result) {
 }
 
 bool Database::querySerial(string serial, Metadata *md) {
-    string serialLike = serial+"-%";
+    string serialLike = serial + "-%";
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, SELECT_META, -1, &res, nullptr);
     if (rc == SQLITE_OK) {
@@ -357,7 +376,7 @@ bool Database::connect(string fileName) {
 
 void Database::disconnect() {
     if (db != nullptr) {
-        cout << "Disconnecting DBs"  << endl;
+        cout << "Disconnecting DBs" << endl;
         sqlite3_db_cacheflush(db);
         sqlite3_close(db);
         db = nullptr;
