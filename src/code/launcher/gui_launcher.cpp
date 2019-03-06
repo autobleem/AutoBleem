@@ -979,9 +979,21 @@ void GuiLauncher::loop() {
                             } else
                             if (menu->selOption == 0) {
                                 Mix_PlayChannel(-1, gui->cursor, 0);
+                                int lastSet = currentSet;
+                                int lastGame = selGame;
                                 GuiOptions * option = new GuiOptions(renderer);
                                 option->show();
                                 delete option;
+                                freeAssets();
+                                loadAssets();
+                                gui->resumingGui=false;
+                                currentSet = lastSet;
+                                switchSet(currentSet);
+                                showSetNotification();
+                                selGame = lastGame;
+                                updateMeta();
+                                menu->setResumePic(gamesList[selGame]->findResumePicture());
+                                state = STATE_GAMES;
                             }
                         } else if (state == STATE_RESUME) {
                             PsGame *game = gamesList[selGame];
