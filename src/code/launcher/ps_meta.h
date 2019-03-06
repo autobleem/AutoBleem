@@ -19,6 +19,7 @@ public:
     TTF_Font *font15;
     TTF_Font *font24;
 
+    SDL_Texture *discsTex = nullptr;
     SDL_Texture *gameNameTex = nullptr;
     SDL_Texture *publisherTex = nullptr;
     SDL_Texture *yearTex = nullptr;
@@ -40,10 +41,11 @@ public:
     bool internal = false;
     bool hd=false;
     bool locked=false;
+    bool discs=1;
 
 
     void updateTexts(string gameNameTxt, string publisherTxt,
-                     string yearTxt, string playersTxt,bool internal, bool hd, bool locked);
+                     string yearTxt, string playersTxt,bool internal, bool hd, bool locked, int discs);
 
     void destroy();
 

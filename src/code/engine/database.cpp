@@ -20,12 +20,12 @@ static const char UPDATE_MEMCARD[] = "UPDATE GAME SET MEMCARD=? WHERE GAME_ID=?"
 
 static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
 
-static const char GAMES_DATA[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, PATH, SSPATH, MEMCARD, d.BASENAME \
+static const char GAMES_DATA[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, PATH, SSPATH, MEMCARD, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
                                   FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
-static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME \
+static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
                                   FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
@@ -171,6 +171,7 @@ bool Database::getInternalGames(vector<PsGame *> *result) {
             int year = sqlite3_column_int(res, 3);
             int players = sqlite3_column_int(res, 4);
             const unsigned char *base = sqlite3_column_text(res, 5);
+            int discs = sqlite3_column_int(res, 6);
 
             PsGame *game = new PsGame();
             game->gameId = id;
@@ -183,6 +184,7 @@ bool Database::getInternalGames(vector<PsGame *> *result) {
             game->base = std::string(reinterpret_cast<const char *>(base));
             game->memcard = "SONY";
             game->internal = true;
+            game->cds = discs;
             result->push_back(game);
         }
     } else {
@@ -210,6 +212,7 @@ bool Database::getGames(vector<PsGame *> *result) {
             const unsigned char *sspath = sqlite3_column_text(res, 6);
             const unsigned char *memcard = sqlite3_column_text(res, 7);
             const unsigned char *base = sqlite3_column_text(res, 8);
+            int discs = sqlite3_column_int(res, 9);
 
             PsGame *game = new PsGame();
             game->gameId = id;
@@ -221,6 +224,7 @@ bool Database::getGames(vector<PsGame *> *result) {
             game->ssFolder = std::string(reinterpret_cast<const char *>(sspath));
             game->base = std::string(reinterpret_cast<const char *>(base));
             game->memcard = std::string(reinterpret_cast<const char *>(memcard));
+            game->cds = discs;
             result->push_back(game);
         }
     } else {

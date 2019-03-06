@@ -80,7 +80,7 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
 void GuiLauncher::updateMeta() {
     if (gamesList.empty()) {
         gameName = "";
-        meta->updateTexts(gameName, publisher, year, players,false,false,false);
+        meta->updateTexts(gameName, publisher, year, players,false,false,false,0);
         return;
     }
     PsGame *game = gamesList[selGame];
@@ -92,7 +92,7 @@ void GuiLauncher::updateMeta() {
     } else {
         players = to_string(game->players) + " " + _("Players");
     }
-    meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal,false,false);
+    meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal,gamesList[selGame]->hd,gamesList[selGame]->locked,gamesList[selGame]->cds);
 }
 
 void GuiLauncher::switchSet(int newSet)
@@ -216,10 +216,10 @@ void GuiLauncher::loadAssets() {
     meta->y = 285;
     meta->visible = true;
     if (selGame!=-1) {
-        meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal, false, false);
+        meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal, gamesList[selGame]->hd, gamesList[selGame]->locked, gamesList[selGame]->cds);
     } else
     {
-        meta->updateTexts(gameName, publisher, year, players, false, false, false);
+        meta->updateTexts(gameName, publisher, year, players, false, false, false,0);
     }
     staticElements.push_back(meta);
 

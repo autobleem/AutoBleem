@@ -27,6 +27,8 @@ void PsGame::freeTex() {
 
 }
 
+
+
 bool PsGame::isCleanExit()
 {
     string filenamefile = ssFolder+"filename.txt";
@@ -46,6 +48,9 @@ PsGame *PsGame::clone() {
     clone->publisher = this->publisher;
     clone->coverPng = this->coverPng;
     clone->year = this->year;
+    clone->internal = this->internal;
+
+
     return clone;
 }
 

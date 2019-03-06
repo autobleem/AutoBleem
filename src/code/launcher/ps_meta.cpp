@@ -6,7 +6,8 @@
 
 void
 PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, string playersTxt, bool internal, bool hd,
-                    bool locked) {
+                    bool locked, int discs) {
+    this->discs = discs;
     this->internal = internal;
     this->hd = hd;
     this->locked = locked;
@@ -15,6 +16,7 @@ PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, str
     this->year = yearTxt;
     this->players = playersTxt;
 
+    if (discsTex != nullptr) SDL_DestroyTexture(discsTex);
     if (gameNameTex != nullptr) SDL_DestroyTexture(gameNameTex);
     if (publisherTex != nullptr) SDL_DestroyTexture(publisherTex);
     if (yearTex != nullptr) SDL_DestroyTexture(yearTex);
@@ -24,6 +26,7 @@ PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, str
     publisherTex = createTextTex(publisher, 255, 255, 255, font15);
     yearTex = createTextTex(year, 255, 255, 255, font15);
     playersTex = createTextTex(playersTxt, 255, 255, 255, font15);
+    discsTex = createTextTex(to_string(discs),255,255,255,font15);
 
 
 }
@@ -34,6 +37,7 @@ void PsMeta::destroy() {
     if (yearTex != nullptr) SDL_DestroyTexture(yearTex);
     if (playersTex != nullptr) SDL_DestroyTexture(playersTex);
     SDL_DestroyTexture(tex);
+    SDL_DestroyTexture(discsTex);
 
     if (internalOffTex != nullptr) {
 
@@ -130,8 +134,25 @@ void PsMeta::render() {
         fullRect.h = h;
         SDL_RenderCopy(renderer, tex, &fullRect, &rect);
 
-        int offset = 150, spread=40;
+        int offset = 190, spread=40;
         // render internal icon
+        rect.x = x+120;
+        SDL_RenderCopy(renderer, cdTex, &fullRect, &rect);
+
+        SDL_QueryTexture(discsTex, &format, &access, &w, &h);
+        rect.x =  x+155;
+        rect.y = y + 43 + 22 + 30;
+        rect.w = w;
+        rect.h = h;
+
+        fullRect.x = 0;
+        fullRect.y = 0;
+        fullRect.w = w;
+        fullRect.h = h;
+        SDL_RenderCopy(renderer, discsTex, &fullRect, &rect);
+
+
+
         rect.x = x+offset;
         rect.y = y + 43 + 22 + 28;
         rect.w = 30;

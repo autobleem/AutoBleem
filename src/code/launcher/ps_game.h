@@ -31,6 +31,9 @@ public:
     SDL_Texture *coverPng = nullptr;
 
     bool internal = false;
+    bool hd = false;
+    bool locked = false;
+    int cds =1;
 
     void loadTex(SDL_Renderer *renderer);
     void freeTex();
