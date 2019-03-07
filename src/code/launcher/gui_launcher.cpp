@@ -1013,6 +1013,7 @@ void GuiLauncher::loop() {
                                 switchSet(currentSet);
                                 showSetNotification();
                                 selGame = lastGame;
+                                setInitialPositions(selGame);
                                 updateMeta();
                                 menu->setResumePic(gamesList[selGame]->findResumePicture());
                                 state = STATE_GAMES;
