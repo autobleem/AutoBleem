@@ -123,14 +123,21 @@ void GuiLauncher::switchSet(int newSet) {
 
         sort(gamesList.begin(), gamesList.end(), wayToSort);
     }
+
     if (gamesList.size() > 0) {
         while (gamesList.size() < 13) {
+            vector<PsGame*> temp;
             for (PsGame *game:gamesList) {
-                gamesList.push_back(game->clone());
+                temp.push_back(game->clone());
+            }
+            for (PsGame *game:temp)
+            {
+                gamesList.push_back(game);
             }
 
         }
     }
+
     if (gamesList.empty()) {
         selGame = -1;
     } else {
@@ -275,7 +282,6 @@ void GuiLauncher::loadAssets() {
     sselector->visible = false;
 
     if (gui->resumingGui) {
-
         PsGame *game = gamesList[selGame];
         if (game->isCleanExit()) {
             sselector->loadSaveStateImages(game, true);
