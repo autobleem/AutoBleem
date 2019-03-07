@@ -5,14 +5,18 @@
 #include "gui_launcher.h"
 #include "../gui/gui.h"
 #include "../gui/gui_options.h"
+#include "../gui/gui_editor.h"
 #include "../lang.h"
 #include "pcsx_interceptor.h"
 #include "gui_btn_guide.h"
+#include <libgen.h>
+
 
 vector<string> headers = {_("SETTINGS"), _("GAME"), _("MEMORY CARD"), _("RESUME")};
 vector<string> texts = {_("Customize AutoBleem settings"), _("Edit game parameters"),
                         _("Edit Memory Card information"), _("Resume game from saved state point")};
-vector<string> sets = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),  _("Showing: Favourite games")};
+vector<string> sets = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
+                       _("Showing: Favourite games")};
 
 bool wayToSort(PsGame *i, PsGame *j) {
     string name1 = i->title;
@@ -23,7 +27,8 @@ bool wayToSort(PsGame *i, PsGame *j) {
 }
 
 // Text rendering routines - places text at x,y with selected color and font
-void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background, bool center) {
+void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background,
+                             bool center) {
     int text_width;
     int text_height;
     SDL_Surface *surface;
@@ -54,18 +59,17 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
     inputRect.w = rect.w;
     inputRect.h = rect.h;
 
-    if (center)
-    {
-        rect.x = 640-(rect.w/2);
+    if (center) {
+        rect.x = 640 - (rect.w / 2);
     }
 
     if (background) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 70);
         SDL_Rect backRect;
-        backRect.x = rect.x-10;
-        backRect.y = rect.y-2;
-        backRect.w = rect.w+20;
-        backRect.h = rect.h+4;
+        backRect.x = rect.x - 10;
+        backRect.y = rect.y - 2;
+        backRect.w = rect.w + 20;
+        backRect.h = rect.h + 4;
 
         SDL_RenderFillRect(renderer, &backRect);
     }
@@ -80,7 +84,7 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
 void GuiLauncher::updateMeta() {
     if (gamesList.empty()) {
         gameName = "";
-        meta->updateTexts(gameName, publisher, year, players,false,false,false,0);
+        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0);
         return;
     }
     PsGame *game = gamesList[selGame];
@@ -92,17 +96,17 @@ void GuiLauncher::updateMeta() {
     } else {
         players = to_string(game->players) + " " + _("Players");
     }
-    meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal,gamesList[selGame]->hd,gamesList[selGame]->locked,gamesList[selGame]->cds);
+    meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal, gamesList[selGame]->hd,
+                      gamesList[selGame]->locked, gamesList[selGame]->cds);
 }
 
-void GuiLauncher::switchSet(int newSet)
-{
+void GuiLauncher::switchSet(int newSet) {
     shared_ptr<Gui> gui(Gui::getInstance());
     gamesList.clear();
-    if (currentSet==SET_ALL || currentSet==SET_EXTERNAL) {
+    if (currentSet == SET_ALL || currentSet == SET_EXTERNAL) {
         gui->db->getGames(&gamesList);
     }
-    if (currentSet==SET_ALL || currentSet==SET_INTERNAL) {
+    if (currentSet == SET_ALL || currentSet == SET_INTERNAL) {
         vector<PsGame *> internal;
         Database *internalDB = new Database();
 #if defined(__x86_64__) || defined(_M_X64)
@@ -135,8 +139,7 @@ void GuiLauncher::switchSet(int newSet)
     }
 }
 
-void GuiLauncher::showSetNotification()
-{
+void GuiLauncher::showSetNotification() {
     showNotification(sets[currentSet]);
 }
 
@@ -160,9 +163,6 @@ void GuiLauncher::loadAssets() {
     publisher = "";
     year = "";
     players = "";
-
-
-
 
 
     if (gui->lastSelIndex != 0) {
@@ -215,11 +215,11 @@ void GuiLauncher::loadAssets() {
     meta->x = 785;
     meta->y = 285;
     meta->visible = true;
-    if (selGame!=-1) {
-        meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal, gamesList[selGame]->hd, gamesList[selGame]->locked, gamesList[selGame]->cds);
-    } else
-    {
-        meta->updateTexts(gameName, publisher, year, players, false, false, false,0);
+    if (selGame != -1) {
+        meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal, gamesList[selGame]->hd,
+                          gamesList[selGame]->locked, gamesList[selGame]->cds);
+    } else {
+        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0);
     }
     staticElements.push_back(meta);
 
@@ -281,8 +281,7 @@ void GuiLauncher::loadAssets() {
             sselector->loadSaveStateImages(game, true);
             sselector->visible = true;
             state = STATE_RESUME;
-        } else
-        {
+        } else {
             showNotification(_("OOPS! Game crashed. Resume point not available."));
         }
     }
@@ -466,12 +465,12 @@ void GuiLauncher::render() {
     menu->render();
 
 
-    renderText(638, 640, _("Enter"), 60, 60, 60, font24, false,false);
-    renderText(760, 640, _("Cancel"), 60, 60, 60, font24, false,false);
-    renderText(902, 640, _("Console Button Guide"), 60, 60, 60, font24, false,false);
+    renderText(638, 640, _("Enter"), 60, 60, 60, font24, false, false);
+    renderText(760, 640, _("Cancel"), 60, 60, 60, font24, false, false);
+    renderText(902, 640, _("Console Button Guide"), 60, 60, 60, font24, false, false);
 
     if (notificationTime != 0) {
-        renderText(10, 10, notificationText, 255, 255, 255, font24, true,true);
+        renderText(10, 10, notificationText, 255, 255, 255, font24, true, true);
         long time = SDL_GetTicks();
         if (time - notificationTime > 2000) {
             notificationTime = 0;
@@ -617,11 +616,9 @@ void GuiLauncher::setInitialPositions(int selected) {
     for (PsGame *game:gamesList) {
         game->actual = game->current;
         game->destination = game->current;
-        if (game->visible)
-        {
+        if (game->visible) {
             game->loadTex(renderer);
-        } else
-        {
+        } else {
             game->freeTex();
         }
 
@@ -860,7 +857,7 @@ void GuiLauncher::loop() {
                             int nextGame = selGame;
                             string currentFirst = gamesList[selGame]->title.substr(0, 1);
                             string futureFirst = gamesList[selGame]->title.substr(0, 1);
-                            for (int i = selGame; i >=0; i--) {
+                            for (int i = selGame; i >= 0; i--) {
                                 futureFirst = gamesList[i]->title.substr(0, 1);
                                 if (currentFirst != futureFirst) {
                                     nextGame = i;
@@ -868,13 +865,12 @@ void GuiLauncher::loop() {
                                 }
                             }
                             // now find the same
-                            for (int i = nextGame; i >=0; i--) {
+                            for (int i = nextGame; i >= 0; i--) {
                                 string foundFirst = gamesList[i]->title.substr(0, 1);
                                 if (futureFirst == foundFirst) {
                                     nextGame = i;
 
-                                } else
-                                {
+                                } else {
                                     break;
                                 }
                             }
@@ -977,21 +973,42 @@ void GuiLauncher::loop() {
                                 } else {
                                     Mix_PlayChannel(-1, gui->cancel, 0);
                                 }
-                            } if (menu->selOption == 2) {
+                            }
+                            if (menu->selOption == 2) {
                                 Mix_PlayChannel(-1, gui->cancel, 0);
                                 notificationTime = time;
-                                notificationText = _("MemCard Manager will be available in 0.7");
-                            } else
-                            if (menu->selOption == 0) {
+                                notificationText = _("MemCard Manager will be available soon");
+                            }
+                            if (menu->selOption == 1) {
+                                if (gamesList[selGame]->internal)
+                                {
+                                    Mix_PlayChannel(-1, gui->cancel, 0);
+                                    showNotification(_("It is not possible to edit internal games"));
+                                    continue;
+                                }
+                                Mix_PlayChannel(-1, gui->cursor, 0);
+                                GuiEditor * editor= new GuiEditor(renderer);
+                                Inifile gameIni;
+                                gameIni.load(gamesList[selGame]->folder+"Game.ini");
+                                string folderNoLast = gamesList[selGame]->folder.substr(0,gamesList[selGame]->folder.size()-1);
+                                gameIni.entry = folderNoLast.substr(folderNoLast.find_last_of("//")+1);
+                                editor->game = gameIni;
+                                editor->show();
+                                if (editor->changes)
+                                {
+
+                                }
+
+                            } else if (menu->selOption == 0) {
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 int lastSet = currentSet;
                                 int lastGame = selGame;
-                                GuiOptions * option = new GuiOptions(renderer);
+                                GuiOptions *option = new GuiOptions(renderer);
                                 option->show();
                                 delete option;
                                 freeAssets();
                                 loadAssets();
-                                gui->resumingGui=false;
+                                gui->resumingGui = false;
                                 currentSet = lastSet;
                                 switchSet(currentSet);
                                 showSetNotification();
@@ -1025,7 +1042,8 @@ void GuiLauncher::loop() {
                                 sselector->visible = false;
                                 arrow->visible = true;
                                 Mix_PlayChannel(-1, gui->resume, 0);
-                                showNotification(_("Resume point saved to slot") + " " + to_string(sselector->selSlot+1));
+                                showNotification(
+                                        _("Resume point saved to slot") + " " + to_string(sselector->selSlot + 1));
 
                                 menu->setResumePic(gamesList[selGame]->findResumePicture(sselector->selSlot));
 
@@ -1041,14 +1059,14 @@ void GuiLauncher::loop() {
                     };
                     if (e.jbutton.button == PCS_BTN_TRIANGLE) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
-                        GuiBtnGuide * guide = new GuiBtnGuide(renderer);
+                        GuiBtnGuide *guide = new GuiBtnGuide(renderer);
                         guide->show();
                         delete guide;
 
                     };
 
                     if (e.jbutton.button == PCS_BTN_SELECT) {
-                        if (state==STATE_GAMES) {
+                        if (state == STATE_GAMES) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
 
                             currentSet++;
