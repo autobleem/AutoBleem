@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# This is kind of deprecated - the selector is not needed with EvoUI
+
 SEL_ORIGINAL=3
 SEL_RETROARCH=4
 SEL_AUTOBLEEM=1

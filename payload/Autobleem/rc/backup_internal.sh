@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copy original save data
+# Copy original save data to USB
 for STATE in {1..20}
 do
   mkdir -p /media/Games/!SaveStates/$STATE

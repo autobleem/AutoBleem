@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#PCSX launcher for AutoBleem
 
 # copy configuration to it's place
 cp "$5/pcsx.cfg" "$1/pcsx.cfg"
