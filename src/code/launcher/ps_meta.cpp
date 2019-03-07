@@ -53,6 +53,11 @@ void PsMeta::destroy() {
 
 void PsMeta::render() {
 
+    if (gameName=="")
+    {
+        return;
+    }
+
     if (internalOffTex == nullptr) {
         string curPath = Util::getWorkingPath();
         internalOnTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/ps1.png").c_str());

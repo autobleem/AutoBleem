@@ -765,7 +765,10 @@ void GuiLauncher::loop() {
 
                     if (e.jaxis.axis == 0) {
                         if (state == STATE_GAMES) {
-
+                            if (gamesList.empty())
+                            {
+                                continue;
+                            }
                             if (e.jaxis.value > 3200) {
                                 if (!scrolling) {
                                     motionStart = time;
@@ -833,6 +836,7 @@ void GuiLauncher::loop() {
                                 continue;
                             }
                             if (state == STATE_GAMES) {
+
                                 if (menu->animationStarted == 0) {
                                     menu->transition = TR_MENUON;
                                     switchState(STATE_SET, time);
@@ -859,6 +863,10 @@ void GuiLauncher::loop() {
                 case SDL_JOYBUTTONDOWN:
                     if (e.jbutton.button == PCS_BTN_L1) {
                         if (state == STATE_GAMES) {
+                            if (gamesList.empty())
+                            {
+                                continue;
+                            }
                             // find prev game
                             int nextGame = selGame;
                             string currentFirst = gamesList[selGame]->title.substr(0, 1);
@@ -898,6 +906,10 @@ void GuiLauncher::loop() {
                     }
                     if (e.jbutton.button == PCS_BTN_R1) {
                         if (state == STATE_GAMES) {
+                            if (gamesList.empty())
+                            {
+                                continue;
+                            }
                             // find next game
                             int nextGame = selGame;
                             string currentFirst = gamesList[selGame]->title.substr(0, 1);
@@ -954,6 +966,10 @@ void GuiLauncher::loop() {
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
                         if (state == STATE_GAMES) {
+                            if (gamesList.empty())
+                            {
+                                continue;
+                            }
                             gui->startingGame = true;
                             gui->runningGame = gamesList[selGame]->clone();
                             gui->lastSelIndex = selGame;
@@ -962,6 +978,10 @@ void GuiLauncher::loop() {
                             menuVisible = false;
                         } else if (state == STATE_SET) {
                             if (menu->selOption == 3) {
+                                if (gamesList.empty())
+                                {
+                                    continue;
+                                }
                                 bool resumeAvailable = false;
                                 for (int i = 0; i < 4; i++) {
                                     if (gamesList[selGame]->isResumeSlotActive(i)) {
@@ -981,11 +1001,19 @@ void GuiLauncher::loop() {
                                 }
                             }
                             if (menu->selOption == 2) {
+                                if (gamesList.empty())
+                                {
+                                    continue;
+                                }
                                 Mix_PlayChannel(-1, gui->cancel, 0);
                                 notificationTime = time;
                                 notificationText = _("MemCard Manager will be available soon");
                             }
                             if (menu->selOption == 1) {
+                                if (gamesList.empty())
+                                {
+                                    continue;
+                                }
                                 if (gamesList[selGame]->internal)
                                 {
                                     Mix_PlayChannel(-1, gui->cancel, 0);
@@ -1011,6 +1039,10 @@ void GuiLauncher::loop() {
                                 menu->setResumePic(gamesList[selGame]->findResumePicture());
 
                             } else if (menu->selOption == 0) {
+                                if (gamesList.empty())
+                                {
+                                    continue;
+                                }
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 int lastSet = currentSet;
                                 int lastGame = selGame;
@@ -1085,8 +1117,15 @@ void GuiLauncher::loop() {
                             if (currentSet > 2) currentSet = 0;
                             switchSet(currentSet);
                             showSetNotification();
-                            updateMeta();
-                            menu->setResumePic(gamesList[selGame]->findResumePicture());
+                            if (selGame!=-1) {
+                                updateMeta();
+                                menu->setResumePic(gamesList[selGame]->findResumePicture());
+                            } else
+                            {
+                                showNotification(_("NO GAMES FOUND IN THIS SECTION"));
+                                updateMeta();
+
+                            }
                         }
                     };
 
