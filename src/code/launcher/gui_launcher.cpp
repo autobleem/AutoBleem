@@ -1002,8 +1002,13 @@ void GuiLauncher::loop() {
                                 editor->show();
                                 if (editor->changes)
                                 {
-
+                                    gameIni.load(gamesList[selGame]->folder+"Game.ini");
+                                    gui->db->updateTitle(gamesList[selGame]->gameId, gameIni.values["title"]);
                                 }
+                                gui->db->refreshGame(gamesList[selGame]);
+                                setInitialPositions(selGame);
+                                updateMeta();
+                                menu->setResumePic(gamesList[selGame]->findResumePicture());
 
                             } else if (menu->selOption == 0) {
                                 Mix_PlayChannel(-1, gui->cursor, 0);

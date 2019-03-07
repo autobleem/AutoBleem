@@ -18,11 +18,18 @@ static const char SELECT_TITLE[] = "SELECT SERIAL,TITLE, PUBLISHER, \
 static const char UPDATE_YEAR[] = "UPDATE GAME SET RELEASE_YEAR=? WHERE GAME_ID=?";
 
 static const char UPDATE_MEMCARD[] = "UPDATE GAME SET MEMCARD=? WHERE GAME_ID=?";
+static const char UPDATE_TITLE[] = "UPDATE GAME SET GAME_TITLE_STRING=? WHERE GAME_ID=?";
 
 static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
 
 static const char GAMES_DATA[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, PATH, SSPATH, MEMCARD, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
                                   FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
+                                     GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
+                                     ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
+
+static const char GAMES_DATA_SINGLE[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, PATH, SSPATH, MEMCARD, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
+                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
+                                    WHERE g.GAME_ID=?  \
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
@@ -121,6 +128,23 @@ bool Database::updateMemcard(int id, string memcard) {
     return true;
 }
 
+bool Database::updateTitle(int id, string title) {
+    char *errorReport = nullptr;
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, UPDATE_TITLE, -1, &res, nullptr);
+    if (rc != SQLITE_OK) {
+        cerr << sqlite3_errmsg(db) << endl;
+        if (!errorReport) sqlite3_free(errorReport);
+        sqlite3_close(db);
+        return false;
+    }
+    sqlite3_bind_text(res, 1, title.c_str(), -1, nullptr);
+    sqlite3_bind_int(res, 2, id);
+    sqlite3_step(res);
+    sqlite3_finalize(res);
+    return true;
+}
+
 bool Database::queryTitle(string title, Metadata *md) {
 
     sqlite3_stmt *res = nullptr;
@@ -185,6 +209,67 @@ bool Database::getInternalGames(vector<PsGame *> *result) {
             game->internal = true;
             game->cds = discs;
             result->push_back(game);
+        }
+    } else {
+
+
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+    return true;
+}
+
+bool Database::refreshGame(PsGame  *game) {
+
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, GAMES_DATA_SINGLE, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        sqlite3_bind_int(res, 1, game->gameId);
+        while (sqlite3_step(res) == SQLITE_ROW) {
+            int id = sqlite3_column_int(res, 0);
+            const unsigned char *title = sqlite3_column_text(res, 1);
+            const unsigned char *publisher = sqlite3_column_text(res, 2);
+            int year = sqlite3_column_int(res, 3);
+            int players = sqlite3_column_int(res, 4);
+            const unsigned char *path = sqlite3_column_text(res, 5);
+            const unsigned char *sspath = sqlite3_column_text(res, 6);
+            const unsigned char *memcard = sqlite3_column_text(res, 7);
+            const unsigned char *base = sqlite3_column_text(res, 8);
+            int discs = sqlite3_column_int(res, 9);
+
+
+            game->gameId = id;
+            game->title = std::string(reinterpret_cast<const char *>(title));
+            game->publisher = std::string(reinterpret_cast<const char *>(publisher));
+            game->year = year;
+            game->players = players;
+            game->folder = std::string(reinterpret_cast<const char *>(path));
+            game->ssFolder = std::string(reinterpret_cast<const char *>(sspath));
+            game->base = std::string(reinterpret_cast<const char *>(base));
+            game->memcard = std::string(reinterpret_cast<const char *>(memcard));
+            game->cds = discs;
+
+            string gameIniPath = game->folder + "/Game.ini";
+            if (Util::exists(gameIniPath)) {
+                Inifile ini;
+                ini.load(gameIniPath);
+                if (ini.values["automation"]=="1")
+                {
+                    game->locked = false;
+                } else
+                {
+                    game->locked = true;
+                }
+                if (ini.values["highres"]=="1")
+                {
+                    game->hd=true;
+                } else
+                {
+                    game->hd=false;
+                }
+            }
+
         }
     } else {
 
