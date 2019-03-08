@@ -36,6 +36,7 @@ public:
     vector<string> languages;
     vector<string> ui;
     vector<string> aspect;
+    vector<string> origames;
 
     using GuiScreen::GuiScreen;
 };

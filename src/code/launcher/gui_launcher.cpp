@@ -9,7 +9,6 @@
 #include "../lang.h"
 #include "pcsx_interceptor.h"
 #include "gui_btn_guide.h"
-#include <libgen.h>
 
 
 vector<string> headers = {_("SETTINGS"), _("GAME"), _("MEMORY CARD"), _("RESUME")};
@@ -102,36 +101,41 @@ void GuiLauncher::updateMeta() {
 
 void GuiLauncher::switchSet(int newSet) {
     shared_ptr<Gui> gui(Gui::getInstance());
+
     gamesList.clear();
     if (currentSet == SET_ALL || currentSet == SET_EXTERNAL) {
         gui->db->getGames(&gamesList);
     }
-    if (currentSet == SET_ALL || currentSet == SET_INTERNAL) {
-        vector<PsGame *> internal;
-        Database *internalDB = new Database();
+
+    if (gui->cfg.inifile.values["origames"] == "true")
+
+        if (currentSet == SET_ALL || currentSet == SET_INTERNAL) {
+            vector<PsGame *> internal;
+            Database *internalDB = new Database();
 #if defined(__x86_64__) || defined(_M_X64)
-        internalDB->connect("internal.db");
+            internalDB->connect("internal.db");
 #else
-        internalDB->connect("/media/System/Databases/internal.db");
+            internalDB->connect("/media/System/Databases/internal.db");
 #endif
-        internalDB->getInternalGames(&internal);
-        internalDB->disconnect();
-        delete internalDB;
-        for (auto internalGame:internal) {
-            gamesList.push_back(internalGame);
+            internalDB->getInternalGames(&internal);
+            internalDB->disconnect();
+            delete internalDB;
+            for (auto internalGame:internal) {
+                gamesList.push_back(internalGame);
+            }
+
+
         }
 
-        sort(gamesList.begin(), gamesList.end(), wayToSort);
-    }
+    sort(gamesList.begin(), gamesList.end(), wayToSort);
 
     if (gamesList.size() > 0) {
         while (gamesList.size() < 13) {
-            vector<PsGame*> temp;
+            vector<PsGame *> temp;
             for (PsGame *game:gamesList) {
                 temp.push_back(game->clone());
             }
-            for (PsGame *game:temp)
-            {
+            for (PsGame *game:temp) {
                 gamesList.push_back(game);
             }
 
@@ -765,8 +769,7 @@ void GuiLauncher::loop() {
 
                     if (e.jaxis.axis == 0) {
                         if (state == STATE_GAMES) {
-                            if (gamesList.empty())
-                            {
+                            if (gamesList.empty()) {
                                 continue;
                             }
                             if (e.jaxis.value > 3200) {
@@ -863,8 +866,7 @@ void GuiLauncher::loop() {
                 case SDL_JOYBUTTONDOWN:
                     if (e.jbutton.button == PCS_BTN_L1) {
                         if (state == STATE_GAMES) {
-                            if (gamesList.empty())
-                            {
+                            if (gamesList.empty()) {
                                 continue;
                             }
                             // find prev game
@@ -906,8 +908,7 @@ void GuiLauncher::loop() {
                     }
                     if (e.jbutton.button == PCS_BTN_R1) {
                         if (state == STATE_GAMES) {
-                            if (gamesList.empty())
-                            {
+                            if (gamesList.empty()) {
                                 continue;
                             }
                             // find next game
@@ -966,8 +967,7 @@ void GuiLauncher::loop() {
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
                         if (state == STATE_GAMES) {
-                            if (gamesList.empty())
-                            {
+                            if (gamesList.empty()) {
                                 continue;
                             }
                             gui->startingGame = true;
@@ -977,9 +977,9 @@ void GuiLauncher::loop() {
                             gui->lastSet = currentSet;
                             menuVisible = false;
                         } else if (state == STATE_SET) {
+                            gui->resumingGui = false;
                             if (menu->selOption == 3) {
-                                if (gamesList.empty())
-                                {
+                                if (gamesList.empty()) {
                                     continue;
                                 }
                                 bool resumeAvailable = false;
@@ -1001,8 +1001,7 @@ void GuiLauncher::loop() {
                                 }
                             }
                             if (menu->selOption == 2) {
-                                if (gamesList.empty())
-                                {
+                                if (gamesList.empty()) {
                                     continue;
                                 }
                                 Mix_PlayChannel(-1, gui->cancel, 0);
@@ -1010,27 +1009,26 @@ void GuiLauncher::loop() {
                                 notificationText = _("MemCard Manager will be available soon");
                             }
                             if (menu->selOption == 1) {
-                                if (gamesList.empty())
-                                {
+                                if (gamesList.empty()) {
                                     continue;
                                 }
-                                if (gamesList[selGame]->internal)
-                                {
+                                if (gamesList[selGame]->internal) {
                                     Mix_PlayChannel(-1, gui->cancel, 0);
                                     showNotification(_("It is not possible to edit internal games"));
                                     continue;
                                 }
                                 Mix_PlayChannel(-1, gui->cursor, 0);
-                                GuiEditor * editor= new GuiEditor(renderer);
+                                GuiEditor *editor = new GuiEditor(renderer);
                                 Inifile gameIni;
-                                gameIni.load(gamesList[selGame]->folder+"Game.ini");
-                                string folderNoLast = gamesList[selGame]->folder.substr(0,gamesList[selGame]->folder.size()-1);
-                                gameIni.entry = folderNoLast.substr(folderNoLast.find_last_of("//")+1);
+                                gameIni.load(gamesList[selGame]->folder + "Game.ini");
+                                string folderNoLast = gamesList[selGame]->folder.substr(0,
+                                                                                        gamesList[selGame]->folder.size() -
+                                                                                        1);
+                                gameIni.entry = folderNoLast.substr(folderNoLast.find_last_of("//") + 1);
                                 editor->game = gameIni;
                                 editor->show();
-                                if (editor->changes)
-                                {
-                                    gameIni.load(gamesList[selGame]->folder+"Game.ini");
+                                if (editor->changes) {
+                                    gameIni.load(gamesList[selGame]->folder + "Game.ini");
                                     gui->db->updateTitle(gamesList[selGame]->gameId, gameIni.values["title"]);
                                 }
                                 gui->db->refreshGame(gamesList[selGame]);
@@ -1039,10 +1037,7 @@ void GuiLauncher::loop() {
                                 menu->setResumePic(gamesList[selGame]->findResumePicture());
 
                             } else if (menu->selOption == 0) {
-                                if (gamesList.empty())
-                                {
-                                    continue;
-                                }
+
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 int lastSet = currentSet;
                                 int lastGame = selGame;
@@ -1053,12 +1048,36 @@ void GuiLauncher::loop() {
                                 loadAssets();
                                 gui->resumingGui = false;
                                 currentSet = lastSet;
+                                selGame = lastGame;
+                                bool resetCarouselPosition = false;
+                                if (gui->cfg.inifile.values["origames"] != "true") {
+                                    if (currentSet == SET_INTERNAL) {
+                                        currentSet = SET_ALL;
+                                        resetCarouselPosition = true;
+
+                                    }
+                                }
+                                cout << currentSet << gui->cfg.inifile.values["origames"] << endl;
                                 switchSet(currentSet);
                                 showSetNotification();
-                                selGame = lastGame;
-                                setInitialPositions(selGame);
-                                updateMeta();
-                                menu->setResumePic(gamesList[selGame]->findResumePicture());
+
+                                if (resetCarouselPosition) {
+                                    if (gamesList.empty()) {
+                                        selGame = -1;
+                                        updateMeta();
+                                    } else {
+                                        selGame = 0;
+                                        setInitialPositions(0);
+                                        updateMeta();
+                                    }
+                                } else
+                                {
+                                    setInitialPositions(selGame);
+                                    updateMeta();
+                                    menu->setResumePic(gamesList[selGame]->findResumePicture());
+                                }
+
+
                                 state = STATE_GAMES;
                             }
                         } else if (state == STATE_RESUME) {
@@ -1114,14 +1133,19 @@ void GuiLauncher::loop() {
                             Mix_PlayChannel(-1, gui->cursor, 0);
 
                             currentSet++;
+
+                            if (gui->cfg.inifile.values["origames"] != "true") {
+                                if (currentSet == SET_INTERNAL) {
+                                    currentSet = SET_EXTERNAL;
+                                }
+                            }
                             if (currentSet > 2) currentSet = 0;
                             switchSet(currentSet);
                             showSetNotification();
-                            if (selGame!=-1) {
+                            if (selGame != -1) {
                                 updateMeta();
                                 menu->setResumePic(gamesList[selGame]->findResumePicture());
-                            } else
-                            {
+                            } else {
                                 showNotification(_("NO GAMES FOUND IN THIS SECTION"));
                                 updateMeta();
 

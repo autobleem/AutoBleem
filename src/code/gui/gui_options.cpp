@@ -72,18 +72,22 @@ void GuiOptions::init() {
     aspect.clear();
     aspect.push_back("true");
     aspect.push_back("false");
+    origames.clear();
+    origames.push_back("true");
+    origames.push_back("false");
 }
 
 #define CFG_LANG       0
 #define CFG_THEME      1
 #define CFG_MENUTH     2
 #define CFG_UI         3
-#define CFG_ASPECT     4
-#define CFG_QUICK      5
-#define CFG_BGM        6
-#define CFG_MIP        7
-#define CFG_RA         8
-#define CFG_ADV        9
+#define CFG_ORIGAMES   4
+#define CFG_ASPECT     5
+#define CFG_QUICK      6
+#define CFG_BGM        7
+#define CFG_MIP        8
+#define CFG_RA         9
+#define CFG_ADV        10
 
 
 string GuiOptions::getBooleanIcon(string input) {
@@ -137,6 +141,7 @@ void GuiOptions::render() {
     renderOptionLine(_("AutoBleem Theme:") + " " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
     renderOptionLine(_("Menu Theme:") + " " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);
     renderOptionLine(_("UI:") + " " + gui->cfg.inifile.values["ui"], CFG_UI + 1, offset);
+    renderOptionLine(_("Internal Games:") + " "   + getBooleanIcon("origames"), CFG_ORIGAMES + 1, offset);
     renderOptionLine(_("16:9:") + " " + getBooleanIcon("aspect"), CFG_ASPECT + 1, offset);
     renderOptionLine(_("QuickBoot:") + " " + getBooleanIcon("quick"), CFG_QUICK + 1, offset);
     renderOptionLine(_("Background Music:") + " " + getBooleanIcon("nomusic"), CFG_BGM + 1, offset);
@@ -180,8 +185,8 @@ void GuiOptions::loop() {
                         if (e.jaxis.value > 3200) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             selOption++;
-                            if (selOption > 9) {
-                                selOption = 9;
+                            if (selOption > 10) {
+                                selOption = 10;
                             }
                             render();
                         }
@@ -253,6 +258,11 @@ void GuiOptions::loop() {
                                 gui->cfg.inifile.values["aspect"] = nextValue;
 
                             }
+                            if (selOption == CFG_ORIGAMES) {
+                                string nextValue = getOption(origames, gui->cfg.inifile.values["origames"], true);
+                                gui->cfg.inifile.values["origames"] = nextValue;
+
+                            }
                             if (selOption == CFG_QUICK) {
                                 string nextValue = getOption(quickboot, gui->cfg.inifile.values["quick"], true);
                                 int delay = atoi(gui->cfg.inifile.values["delay"].c_str());
@@ -318,6 +328,11 @@ void GuiOptions::loop() {
                             if (selOption == CFG_ASPECT) {
                                 string nextValue = getOption(aspect, gui->cfg.inifile.values["aspect"], false);
                                 gui->cfg.inifile.values["aspect"] = nextValue;
+
+                            }
+                            if (selOption == CFG_ORIGAMES) {
+                                string nextValue = getOption(origames, gui->cfg.inifile.values["origames"], false);
+                                gui->cfg.inifile.values["origames"] = nextValue;
 
                             }
                             if (selOption == CFG_QUICK) {
