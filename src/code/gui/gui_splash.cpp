@@ -65,6 +65,7 @@ void GuiSplash::loop() {
     alpha = 0;
     start = SDL_GetTicks();
     while (1) {
+        gui->watchJoystickPort();
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT)

@@ -142,7 +142,7 @@ void GuiOptions::render() {
     renderOptionLine(_("Menu Theme:") + " " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);
     renderOptionLine(_("UI:") + " " + gui->cfg.inifile.values["ui"], CFG_UI + 1, offset);
     renderOptionLine(_("Internal Games:") + " "   + getBooleanIcon("origames"), CFG_ORIGAMES + 1, offset);
-    renderOptionLine(_("16:9:") + " " + getBooleanIcon("aspect"), CFG_ASPECT + 1, offset);
+    renderOptionLine(_("Widescreen:") + " " + getBooleanIcon("aspect"), CFG_ASPECT + 1, offset);
     renderOptionLine(_("QuickBoot:") + " " + getBooleanIcon("quick"), CFG_QUICK + 1, offset);
     renderOptionLine(_("Background Music:") + " " + getBooleanIcon("nomusic"), CFG_BGM + 1, offset);
     gui->cfg.inifile.values["autoregion"] = "true"; // removing this as an option - not needed - just set to true
@@ -163,6 +163,7 @@ void GuiOptions::loop() {
 
     bool menuVisible = true;
     while (menuVisible) {
+        gui->watchJoystickPort();
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
             // this is for pc Only

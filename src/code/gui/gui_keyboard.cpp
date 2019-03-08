@@ -99,8 +99,10 @@ void GuiKeyboard::render() {
 
 void GuiKeyboard::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
+
     bool menuVisible = true;
     while (menuVisible) {
+        gui->watchJoystickPort();
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
             // this is for pc Only

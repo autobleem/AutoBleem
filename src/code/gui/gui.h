@@ -55,6 +55,10 @@ public:
     Inifile themeData;
     Inifile defaultData;
 
+
+    void watchJoystickPort();
+
+    void loadAssets();
     void display(bool forceScan, string path, Database *db, bool resume);
     void waitForGamepad();
     void finish();
@@ -65,7 +69,6 @@ public:
     void menuSelection();
     void saveSelection();
     bool quickBoot();
-
     void renderBackground();
     int renderLogo(bool small);
     void renderStatus(string text);
@@ -78,9 +81,7 @@ public:
     void renderFreeSpace();
     void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
-
     string getSonyImagePath();
-
     string getSonyFontPath();
     string getSonySoundPath();
 
@@ -89,10 +90,6 @@ public:
     Uint8 getB(string val);
 
     void criticalException(string text);
-
-
-
-
     SDL_Texture *  loadThemeTexture(SDL_Renderer * renderer, string themePath, string defaultPath, string texname);
 
     int menuOption=MENU_OPTION_SCAN;
@@ -120,7 +117,7 @@ public:
 
     string path;
 
-    void loadAssets();
+
 
 
     Mix_Music * music = NULL;

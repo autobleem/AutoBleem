@@ -11,11 +11,7 @@
 #include "gui_btn_guide.h"
 
 
-vector<string> headers = {_("SETTINGS"), _("GAME"), _("MEMORY CARD"), _("RESUME")};
-vector<string> texts = {_("Customize AutoBleem settings"), _("Edit game parameters"),
-                        _("Edit Memory Card information"), _("Resume game from saved state point")};
-vector<string> sets = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
-                       _("Showing: Favourite games")};
+
 
 bool wayToSort(PsGame *i, PsGame *j) {
     string name1 = i->title;
@@ -151,11 +147,18 @@ void GuiLauncher::switchSet(int newSet) {
 }
 
 void GuiLauncher::showSetNotification() {
+
+    vector<string> sets = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
+                           _("Showing: Favourite games")};
     showNotification(sets[currentSet]);
 }
 
 // load all assets needed by the screen
 void GuiLauncher::loadAssets() {
+
+    vector<string> headers = {_("SETTINGS"), _("GAME"), _("MEMORY CARD"), _("RESUME")};
+    vector<string> texts = {_("Customize AutoBleem settings"), _("Edit game parameters"),
+                            _("Edit Memory Card information"), _("Resume game from saved state point")};
 
     shared_ptr<Gui> gui(Gui::getInstance());
     currentSet = gui->lastSet;
@@ -275,7 +278,7 @@ void GuiLauncher::loadAssets() {
     menuText->y = 585;
 
     menuHead->setText(headers[0], 255, 255, 255);
-    menuText->setText(_("Customize PlayStationClassic or AutoBleem settings"), 255, 255, 255);
+    menuText->setText(texts[0], 255, 255, 255);
 
     staticElements.push_back(menuHead);
     staticElements.push_back(menuText);
@@ -720,6 +723,9 @@ void GuiLauncher::showNotification(string text) {
 
 // event loop
 void GuiLauncher::loop() {
+    vector<string> headers = {_("SETTINGS"), _("GAME"), _("MEMORY CARD"), _("RESUME")};
+    vector<string> texts = {_("Customize AutoBleem settings"), _("Edit game parameters"),
+                            _("Edit Memory Card information"), _("Resume game from saved state point")};
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
     long motionStart = 0;
@@ -727,6 +733,7 @@ void GuiLauncher::loop() {
     int motionDir = 0;
 
     while (menuVisible) {
+        gui->watchJoystickPort();
         long time = SDL_GetTicks();
         for (auto obj:staticElements) {
             obj->update(time);

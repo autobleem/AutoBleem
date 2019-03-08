@@ -390,6 +390,7 @@ void Gui::menuSelection() {
     }
     bool menuVisible = true;
     while (menuVisible) {
+        watchJoystickPort();
         if (startingGame) {
             drawText(runningGame->title);
             this->menuOption = MENU_OPTION_START;
@@ -939,4 +940,28 @@ string Gui::getSonyFontPath() {
     }
     return path;
 #endif
+}
+
+
+void Gui::watchJoystickPort()
+{
+
+    int numJoysticks = SDL_NumJoysticks();
+    if (numJoysticks!=joysticks.size())
+    {
+        cout << "Pad changed" << endl;
+        for (SDL_Joystick* joy:joysticks) {
+            if (SDL_JoystickGetAttached(joy)) {
+                SDL_JoystickClose(joy);
+            }
+            joysticks.clear();
+        }
+        SDL_Joystick * joystick;
+        for (int i = 0; i < SDL_NumJoysticks(); i++) {
+            joystick = SDL_JoystickOpen(i);
+            joysticks.push_back(joystick);
+            cout << "Pad connected" << endl;
+        }
+
+    }
 }
