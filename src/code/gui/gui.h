@@ -111,6 +111,8 @@ public:
     SDL_Texture *buttonSelect = NULL;
     SDL_Texture *buttonL1 = NULL;
     SDL_Texture *buttonR1 = NULL;
+    SDL_Texture *buttonL2 = NULL;
+    SDL_Texture *buttonR2 = NULL;
     SDL_Texture *buttonCheck = NULL;
     SDL_Texture *buttonUncheck = NULL;
 

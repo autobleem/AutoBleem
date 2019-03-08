@@ -79,7 +79,7 @@ do skanowania
 Game:
 Gra:
 Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Autorzy: AutoBleem Team (screemer, mGGk, nex, ThaFridge) / Tłumczenie screemer,azazel
+Autorzy: AutoBleem Team (screemer, mGGk, nex, ThaFridge) / Tłumczenie screemer, Azazel
 Folder:
 Folder
 Published by:

@@ -27,7 +27,7 @@ void GuiBtnGuide::render() {
     gui->renderTextLine("|@Select| + |@T|   "+_("Emulator config MENU"), 7, offset,true);
     gui->renderTextLine("RESET   "+_("Quit emulation - back to AutoBleem"), 8, offset,true);
 
-    gui->renderTextLine("|@R1| + |@L1|  "+_("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 10, offset,true);
+    gui->renderTextLine("|@R2| + |@L2|  "+_("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 10, offset,true);
 
 
     gui->renderStatus("|@O| " + _("Go back") + "|");

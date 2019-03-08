@@ -45,6 +45,7 @@ public:
     int currentSet=SET_ALL;
     void switchSet(int newSet);
     void showSetNotification();
+    bool powerOffShift=false;
 
 
 

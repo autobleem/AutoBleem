@@ -3,7 +3,6 @@
 //
 
 #include "gui.h"
-#include "../util.h"
 #include "gui_about.h"
 #include "gui_splash.h"
 #include "gui_options.h"
@@ -125,6 +124,8 @@ void Gui::loadAssets() {
         SDL_DestroyTexture(buttonSelect);
         SDL_DestroyTexture(buttonL1);
         SDL_DestroyTexture(buttonR1);
+        SDL_DestroyTexture(buttonL2);
+        SDL_DestroyTexture(buttonR2);
         SDL_DestroyTexture(buttonCheck);
         SDL_DestroyTexture(buttonUncheck);
         TTF_CloseFont(font);
@@ -153,6 +154,8 @@ void Gui::loadAssets() {
     buttonStart = loadThemeTexture(renderer, themePath, defaultPath, "start");
     buttonL1 = loadThemeTexture(renderer, themePath, defaultPath, "l1");
     buttonR1 = loadThemeTexture(renderer, themePath, defaultPath, "r1");
+    buttonL2 = loadThemeTexture(renderer, themePath, defaultPath, "l2");
+    buttonR2 = loadThemeTexture(renderer, themePath, defaultPath, "r2");
     buttonCheck = loadThemeTexture(renderer, themePath, defaultPath, "check");
     buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
     string fontPath = (themePath + themeData.values["font"]);
@@ -261,7 +264,6 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
         delete (migration);
 
 
-
         if (cfg.inifile.values["quick"] != "true")
             waitForGamepad();
     } else {
@@ -288,6 +290,7 @@ void Gui::saveSelection() {
 
 
 bool otherMenuShift = false;
+bool powerOffShift = false;
 
 
 bool Gui::quickBoot() {
@@ -349,7 +352,7 @@ void Gui::menuSelection() {
         bool quickBootCfg = (cfg.inifile.values["quick"] == "true");
         if (quickBootCfg && !forceScan) {
             if (quickBoot()) {
-                if (cfg.inifile.values["ui"]=="classic") {
+                if (cfg.inifile.values["ui"] == "classic") {
                     this->menuOption = MENU_OPTION_RUN;
                     return;
                 } else {
@@ -362,6 +365,7 @@ void Gui::menuSelection() {
         }
     }
     otherMenuShift = false;
+    powerOffShift = false;
     string retroarch = cfg.inifile.values["retroarch"];
     string adv = cfg.inifile.values["adv"];
     string mainMenu = "|@Start| " + _("AutoBleem") + "    |@X|  " + _("Re/Scan") + " ";
@@ -375,9 +379,10 @@ void Gui::menuSelection() {
     if (adv == "true") {
         mainMenu += "|@L1| " + _("Advanced");
     }
+    mainMenu += " |@L2|+|@R2|" + _("Power Off");
 
     string forceScanMenu = _("Games changed. Press") + "  |@X|  " + _("to scan") + "|";
-    string otherMenu = "|@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager") + " |@R1| "+_("Power Off")+"|";
+    string otherMenu = "|@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager");
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
 
 
@@ -438,6 +443,10 @@ void Gui::menuSelection() {
                                 drawText(mainMenu);
                                 otherMenuShift = false;
                             }
+                            if (e.jbutton.button == PCS_BTN_L2) {
+                                Mix_PlayChannel(-1, cursor, 0);
+                                powerOffShift = false;
+                            }
                         }
                     }
                     break;
@@ -450,7 +459,27 @@ void Gui::menuSelection() {
                                 drawText(otherMenu);
                                 otherMenuShift = true;
                             }
+                            if (e.jbutton.button == PCS_BTN_L2) {
+                                Mix_PlayChannel(-1, cursor, 0);
+
+                                powerOffShift = true;
+                            }
                         }
+                    }
+
+
+                    if (powerOffShift) {
+                        if (e.jbutton.button == PCS_BTN_R2) {
+                            Mix_PlayChannel(-1, cursor, 0);
+                            drawText(_("POWERING OFF... PLEASE WAIT"));
+#if defined(__x86_64__) || defined(_M_X64)
+                            exit(0);
+#else
+                            Util::execUnixCommad("shutdown -h now");
+                                    sync();
+                                    exit(1);
+#endif
+                        };
                     }
 
                     if (!otherMenuShift) {
@@ -460,8 +489,7 @@ void Gui::menuSelection() {
                                     Mix_PlayChannel(-1, cursor, 0);
                                     this->menuOption = MENU_OPTION_RUN;
                                     menuVisible = false;
-                                } else
-                                {
+                                } else {
                                     Mix_PlayChannel(-1, cursor, 0);
                                     drawText(_("Starting EvolutionUI"));
                                     auto launcherScreen = new GuiLauncher(renderer);
@@ -524,13 +552,13 @@ void Gui::menuSelection() {
                         };
                         if (!forceScan)
                             if (cfg.inifile.values["ui"] == "classic")
-                            if (e.jbutton.button == PCS_BTN_CIRCLE) {
-                                Mix_PlayChannel(-1, cancel, 0);
-                                this->menuOption = MENU_OPTION_SONY;
-                                menuVisible = false;
+                                if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                                    Mix_PlayChannel(-1, cancel, 0);
+                                    this->menuOption = MENU_OPTION_SONY;
+                                    menuVisible = false;
 
 
-                            };
+                                };
                         break;
                     } else {
                         if (e.jbutton.button == PCS_BTN_CROSS) {
@@ -553,18 +581,10 @@ void Gui::menuSelection() {
                             menuVisible = false;
                         };
 
-                        if (e.jbutton.button == PCS_BTN_R1) {
-                            drawText(_("POWERING OFF... PLEASE WAIT"));
-#if defined(__x86_64__) || defined(_M_X64)
-                            exit(0);
-#else
-                            Util::execUnixCommad("shutdown -h now");
-                            sync();
-                            exit(1);
-#endif
-                        };
 
                     }
+
+
             }
 
         }
@@ -589,6 +609,8 @@ void Gui::finish() {
     SDL_DestroyTexture(buttonSelect);
     SDL_DestroyTexture(buttonL1);
     SDL_DestroyTexture(buttonR1);
+    SDL_DestroyTexture(buttonL2);
+    SDL_DestroyTexture(buttonR2);
     SDL_DestroyTexture(buttonCheck);
     SDL_DestroyTexture(buttonUncheck);
     SDL_DestroyRenderer(renderer);
@@ -646,6 +668,12 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
             }
             if (icon == "R1") {
                 textTexures.push_back(buttonR1);
+            }
+            if (icon == "L2") {
+                textTexures.push_back(buttonL2);
+            }
+            if (icon == "R2") {
+                textTexures.push_back(buttonR2);
             }
             if (icon == "T") {
                 textTexures.push_back(buttonT);
@@ -726,6 +754,8 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
             (tex != buttonT) &&
             (tex != buttonL1) &&
             (tex != buttonR1) &&
+            (tex != buttonL2) &&
+            (tex != buttonR2) &&
             (tex != buttonCheck) &&
             (tex != buttonUncheck) &&
             (tex != buttonX))
@@ -943,20 +973,18 @@ string Gui::getSonyFontPath() {
 }
 
 
-void Gui::watchJoystickPort()
-{
+void Gui::watchJoystickPort() {
 
     int numJoysticks = SDL_NumJoysticks();
-    if (numJoysticks!=joysticks.size())
-    {
+    if (numJoysticks != joysticks.size()) {
         cout << "Pad changed" << endl;
-        for (SDL_Joystick* joy:joysticks) {
+        for (SDL_Joystick *joy:joysticks) {
             if (SDL_JoystickGetAttached(joy)) {
                 SDL_JoystickClose(joy);
             }
             joysticks.clear();
         }
-        SDL_Joystick * joystick;
+        SDL_Joystick *joystick;
         for (int i = 0; i < SDL_NumJoysticks(); i++) {
             joystick = SDL_JoystickOpen(i);
             joysticks.push_back(joystick);

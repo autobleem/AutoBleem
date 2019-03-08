@@ -722,8 +722,10 @@ void GuiLauncher::showNotification(string text) {
 }
 
 // event loop
-void GuiLauncher::loop() {
 
+
+void GuiLauncher::loop() {
+    powerOffShift = false;
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
     long motionStart = 0;
@@ -871,7 +873,33 @@ void GuiLauncher::loop() {
                         }
                     }
                     break;
+                case SDL_JOYBUTTONUP:
+                    if (e.jbutton.button == PCS_BTN_L2) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        powerOffShift = false;
+                    }
+                    break;
                 case SDL_JOYBUTTONDOWN:
+                    if (e.jbutton.button == PCS_BTN_L2) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        powerOffShift = true;
+                    }
+
+                    if (powerOffShift)
+                    {
+                        if (e.jbutton.button == PCS_BTN_R2) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
+                            gui->drawText(_("POWERING OFF... PLEASE WAIT"));
+#if defined(__x86_64__) || defined(_M_X64)
+                            exit(0);
+#else
+                            Util::execUnixCommad("shutdown -h now");
+                                    sync();
+                                    exit(1);
+#endif
+                        }
+                        break;
+                    }
                     if (e.jbutton.button == PCS_BTN_L1) {
                         if (state == STATE_GAMES) {
                             if (gamesList.empty()) {
