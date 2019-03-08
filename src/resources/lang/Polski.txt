@@ -79,7 +79,7 @@ do skanowania
 Game:
 Gra:
 Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Autorzy: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Autorzy: AutoBleem Team (screemer, mGGk, nex, ThaFridge) / Tłumczenie screemer,azazel
 Folder:
 Folder
 Published by:
@@ -161,23 +161,23 @@ Wejdź
 Console Button Guide
 Opis funkcji konsoli
 -=Button Guide=-
--=Instrukcja=-
+-=Sterowanie=-
 DPAD - Same as classic menu
-Kierunki - to samo co w klasycznym menu
+Kierunki - Tak samo jak w klasycznym menu
 Select or cancel highlighted option
-Wybór lub anulowanie zaznaczonej opcji
+Wybierz lub anuluj podświetloną opcję
 Quick scroll to next letter
-Szybki skok do następnej litery
+Szybki przeskok do następnej litery
 Games filter
 Filtr gier
 -=In Game=-
--=W trakcie gry=-
+-=W Grze=-
 Emulator config MENU
-MENU konfiguracji emulatora
+MENU kofiguracji emulatora
 Quit emulation - back to AutoBleem
-Zamknięcie emulacji - powrót do AutoBleem
+Zakończ emulację - powrót do AutoBleem
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
-W MENU STARTOWYM - WYŁĄCZENIE KONSOLI
+W MENU STARTOWYM - BEZPIECZNE WYŁĄCZENIE KONSOLI
 SETTINGS
 USTAWIENIA
 GAME
@@ -185,43 +185,45 @@ GRA
 MEMORY CARD
 KARTA PAMIĘCI
 RESUME
-ZAPIS
+WZNÓW
 Customize AutoBleem settings
-Zmiana ustawień programu AutoBleem
+Dostosuj ustawienia Autobleem
 Edit game parameters
-Zmiana ustawień gry
+Edytuj parametry gry
 Edit Memory Card information
-Edycja danych karty pamięci
+Edytuj informacje Karty Pamięci
 Resume game from saved state point
-Załadowanie zapisu z poprzedniego pukntu zapisu
+Wznów grę od ostatnigo punktu zapisu
 Showing: All games
-Pokazuję: Wszystkie gry
+Wyświetla: Wszystkie gry
 Showing: Internal games
-Pokazuję: Wewnętrzne gry
+Wyświetla: Wewnętrzne gry
 Showing: USB games
-Pokazuję: Gry z nośnika USB
+Wyświetla: Gry z USB
 Showing: Favourite games
-Pokazuję: Ulubione gry
+Wyświetla: Ulubione gry
 Player
 Gracz
 Players
 Graczy
 Customize PlayStationClassic or AutoBleem settings
-Dostosuj ustawienia konsoli lub AutoBleem
+Dostosuj ustawienia PlayStationClassic lub Autobleem
 OOPS! Game crashed. Resume point not available
-Cholera... Gra się zawiesiła .. Nie można zrobić punktu zapisu
+UUPS! Wysypało grę. Punkt wznowienia niedostępny.
 Enter
 Wejdź
+Console Button Guide
+Opis funkcji konsoli
 MemCard Manager will be available soon
-Edytor kart będzie dostępny w kolejnej wersji
+Menadżer Katy Pamięci będzie dostępny wkrótce
 It is not possible to edit internal games
-Nie można edytować konfiguracji wewnętrznych gier
+Nie można edytować wewnętrznych gier
 Resume point saved to slot
-Punkt zapisu zapisany do slotu
+Zapisano punkt wznowienia do slotu
 NO GAMES FOUND IN THIS SECTION
-BRAK GIER W WYBRANEJ SEKCJI
+BRAK GIER W TEJ SEKCJI
 SELECT RESUME SLOT TO LOAD
-WYBIERZ SLOT DO ZAŁADOWANIA
+WYBIERZ SLOT DO WCZYTANIA
 SELECT SLOT TO SAVE STATE
 WYBIERZ SLOT DO ZAPISU
 Slot
@@ -231,4 +233,4 @@ Wewnętrzne Gry:
 Widescreen:
 Pełny ekran:
 Power Off
-Wyłączenie
+Wyłączanie

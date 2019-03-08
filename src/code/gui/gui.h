@@ -17,6 +17,8 @@
 #include "../engine/coverdb.h"
 #include "../engine/scanner.h"
 
+#define PCS_BTN_L2       4
+#define PCS_BTN_R2       5
 #define PCS_BTN_L1       6
 #define PCS_BTN_R1       7
 #define PCS_BTN_START    9
