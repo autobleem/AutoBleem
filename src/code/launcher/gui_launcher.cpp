@@ -723,9 +723,7 @@ void GuiLauncher::showNotification(string text) {
 
 // event loop
 void GuiLauncher::loop() {
-    vector<string> headers = {_("SETTINGS"), _("GAME"), _("MEMORY CARD"), _("RESUME")};
-    vector<string> texts = {_("Customize AutoBleem settings"), _("Edit game parameters"),
-                            _("Edit Memory Card information"), _("Resume game from saved state point")};
+
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
     long motionStart = 0;
@@ -733,6 +731,9 @@ void GuiLauncher::loop() {
     int motionDir = 0;
 
     while (menuVisible) {
+        vector<string> headers = {_("SETTINGS"), _("GAME"), _("MEMORY CARD"), _("RESUME")};
+        vector<string> texts = {_("Customize AutoBleem settings"), _("Edit game parameters"),
+                                _("Edit Memory Card information"), _("Resume game from saved state point")};
         gui->watchJoystickPort();
         long time = SDL_GetTicks();
         for (auto obj:staticElements) {
