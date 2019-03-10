@@ -235,4 +235,4 @@ Pełny ekran:
 Power Off
 Wyłączanie
 POWERING OFF... PLEASE WAIT
-WYŁĄCZANIE KONSOLI ...
+WYŁĄCZANIE KONSOLI ... PROSZĘ CZEKAĆ

@@ -154,5 +154,79 @@ WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 ATTANTION : PAS DE BDD DE JAQUETTE TROUVÉES. APPUYER SUR UNE TOUCHE
 RetroArch is not installed
 RetroArch n'est pas installé
-
-
+-=Button Guide=-
+-=Guide des touches=-
+DPAD - Same as classic menu
+DPAD - Meme que sur menu classique
+Select or cancel highlighted option
+Sélectionner ou annuler l'option surlignée
+Quick scroll to next letter
+Déroulement rapide jusqu'à la prochaine lettre
+Games filter
+Recherche de jeux
+-=In Game=-
+-=En cours de jeu=-
+Emulator config MENU
+Menu de configuration de l'émulateur
+Quit emulation - back to AutoBleem
+Quitter l'émulation - Retour à AutoBleem
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+Arrêt de la console dans le menu principal (arrêt sécuritaire!!!)
+SETTINGS
+Configuration
+GAME
+Jeu
+MEMORY CARD
+Carte mémoire
+RESUME
+Retour au jeu
+Customize AutoBleem settings
+Personnaliser Configuration AutoBleem
+Edit game parameters
+Modifier Paramètres de Jeu
+Edit Memory Card information
+Modifier Paramètres de Carte Mémoire
+Resume game from saved state point
+Recommencer le jeu à partir du point de reprise
+Showing: All games
+Montrer: Tous les jeux
+Showing: Internal games
+Montrer: Jeux Internes
+Showing: USB games
+Montrer: Jeux USB
+Showing: Favourite games
+Montrer: Jeux Favoris
+Player
+Joueur
+Players
+Joueurs
+Customize PlayStationClassic or AutoBleem settings
+Personnaliser la configuration de PlayStationClassic or AutoBleem
+OOPS! Game crashed. Resume point not available
+Oups! Point de reprise non-disponible. Le jeu à planté!
+Enter
+Entrée
+Console Button Guide
+Guide des touches de la console
+MemCard Manager will be available soon
+Gestionnaire de carte mémoire disponible bientôt
+It is not possible to edit internal games
+Impossible d'éditer les jeux internes
+Resume point saved to slot
+Sauvegarde complétée au point de reprise
+NO GAMES FOUND IN THIS SECTION
+Aucun jeu dans cette section
+SELECT RESUME SLOT TO LOAD
+Reprenez le jeu à partir du dernier point de reprise que vous avez sauvegardé
+SELECT SLOT TO SAVE STATE
+Sélectionné le point de reprise pour sauvegarder
+Slot
+point de reprise
+Internal Games:
+Jeux internes:
+Widescreen:
+Plein écran:
+Power Off
+Arrêt
+POWERING OFF... PLEASE WAIT
+Arrêt en cours... Attendre s.v.p.
