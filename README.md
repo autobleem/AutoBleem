@@ -1,13 +1,15 @@
 
 
-# Version 0.5.1 released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
+# Version 0.6.0beta released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
+
+#### Please read this page before downloading AutoBleem [USB compatibility FAQ](https://github.com/screemerpl/cbleemsync/wiki/USB-compatibility-FAQ)
 
 Watch on YouTube: [Installation Tutorial](https://youtu.be/QRocmHUuc20) 
 ### This is old tutorial for 0.5.0, but the installation is the same except you already have coverdb's in the package if you downloaded "Full version"
 
 Join our discord server: [https://discord.gg/AHUS3RM](https://discord.gg/AHUS3RM)
 
-#### NOTE: You do not need to uninstall BleemSync 0.4/0.7/1.0 from your console prior to use AutoBleem. Prepare new USB stick with AutoBleem and it will work as expected. 
+#### NOTE: You do not need to uninstall BleemSync 0.4/0.7/1.0/1.0.1 from your console prior to use AutoBleem. Prepare new USB stick with AutoBleem and it will work as expected. 
 
 
 # AutoBleem 
@@ -24,9 +26,9 @@ As BleemSync 0.4.0 was released during my development of first version I leverag
 If you want some new feature, or you find a bug please raise the issue. As I am single developler without any community support it my take some time to sort it out, so any other help welcome. 
 
 ## Is it stable and is it safe to use ?
-Version 0.5.1 is "pretty" stable. Should be more stable than 0.5.0. It is well tested by multiple users, but until 1.0 it is still pre-release. New features may be added over the time, some issues may happen etc.
+Version 0.6.0 is "pretty" stable, but it is BETA - so some elements are not fully finished. Should be more stable than 0.5.0. It is well tested by multiple users, but until 1.0 it is still pre-release. New features may be added over the time, some issues may happen etc.
 
-AutoBleem in general uses upgraded, but similar overmounting scripts that BleemSync 0.1-0.4 used, so it is SAFE TO THE SAME LEVEL. It should not brick you console, but... if you brick it I am not responsible. Your risk.... from the other side, I use this solution for some time and nothing wrong happened. 
+AutoBleem is safe, it does not write or read any data from internal PSC storage.  It should not brick you console, but... if you brick it I am not responsible. Your risk.... from the other side, I use this solution for some time and nothing wrong happened. 
 
 If you found an issue - report it using "Issues" section on this website or better contact us directly on Discord.
 
@@ -36,41 +38,41 @@ If you found an issue - report it using "Issues" section on this website or bett
 
 ## Features 
 
-1. Integrated simple **Game Manager** (that you can rename games, attach custom memory cards, block autobleem owerwritting game metadata and covers )
+1. Replaces Bleemsync, Bootmenu and SonyUI fully for better experience
 1. Integrated functionality to share memory cards between games
 1. Separates games and it's save states into separate folders
 1. AutoBleem does not need to run anything on the PC. Just copy games to usb dongle and plug it in. 
 1. Does not use any internet or usb connection 
-1. Overmounts portions of the PSC's filesystem to safely allow PCS modifications
-1. Modifies the stock UI to show added games
+1. Modifies or replaces (selectable in options) the stock UI to show added games
 1. Uses **GAME NAMES as folders** instead of numbered folders
+1. Can create game folders automatically
 1. Supports multi-disc games
 1. **Includes offline metadata and cover art databases - no download needed during sync**
 1. **Runs on boot of the PlayStation Classic** as it was designed to do so from the beginning
-1. Intelligent algorithm is trying to "fix" missing files like .cue, unpack .ecm 
-1. **Nice GUI that replaces need for BootMenu**
+1. Intelligent algorithm is trying to "fix" missing files like .cue, unpack .ecm, create folders for games if dropped directly to Games folder
 1. Small footprint on USB drive as no .NET Core runtime needed
 1. As written in native language for PlayStation Classic it is fast
-1. Work with no issue with multitrack games (I had no problem with it)
+1. Work with no issue with multitrack games (CUE/BIN) games
 1. Supports **CUE/BIN** and **Not encrypted PBP (popstation created - PSN downloads will not work)** file formats
-1. Replaces BootMenu and Bleemsync..intergates with RetroArch sotware **no need to run anything on the PC**
-1. Supports themes of both AutoBleem and Sony menu
+1. Can launch RetroArch sotware **no need to run anything on the PC**
+1. Supports all themes of both AutoBleem and Sony menu
 1. **configurable filter settings**
 1. Supports multi disc games
 1. Speaks your language
 1. Ability to QuickBoot and change game resolution
+1. Ability to scale up the screen to 16:9 modern TV screens
 1. Makes your PlayStation Classic a great device
 
 ## Installation
 
 1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases) - you can select one of the packages 
-  - autobleem-0.5.1-full - contains all covers
-  - autobleem-0.5.1-ntscU/palE/ntscJ - contains only covers for selected region
-  - autobleem-0.5.1-clean - no cover databases (they have to be installed manually)
+  - autobleem-0.6.0-full - contains all covers
+  - autobleem-0.6.0-ntscU/palE/ntscJ - contains only covers for selected region
+  - autobleem-0.6.0-clean - no cover databases (they have to be installed manually)
 1. Extract the contents to the root of your FAT32(recommended) or ext4 formatted USB flash drive
 1. Name your flash drive SONY. This is a requirement.
-1. Download Cover Repository databases (three separate files for NTSC-U, PAL and NTSC-J)
-1. Copy Cover Repository databases into /{Your USB}/Autobleem/bin/db
+1. If you decided to use clean installer - download Cover Repository databases (three separate files for NTSC-U, PAL and NTSC-J)
+1. Copy Cover Repository databases into /{Your USB}/Autobleem/bin/db not needed if you downloaded full or region packages
 1. You may want to install RetroArch (the folder is empty) - find it on ModMyClassic website - I do not distribute this software.
 1. You may want to install additional themes ... find them on reddit and copy to themes folder (follow folder structure)
 
@@ -88,7 +90,9 @@ Games/
      Revolt/
              Revolt.PBP
 ```
-AutoBleem will  find all games and create GameData folder, then move all files make it compatible with Sony UI. There are databases attached to this file with all covers and metadata. Also AutoBleem will create folders to store your save data and configuration.
+This version can also create those folders for you if you drop them directly to Game folder, but it is based on an assumption that game image files are correct (especially CUE files) and some games may not be added this way. 
+
+There are databases attached to this file with all covers and metadata. Also AutoBleem will create folders to store your save data and configuration.
 
 ## Database files
 
@@ -114,13 +118,13 @@ So it is up to you to decide which files you inslude into your USB dongle. With 
 
 You can edit cover databases using SQLite Browser software available here: [DOWNLOAD](https://sqlitebrowser.org/) that works on MAC and WINDOWS.
 
-We also created a tool to dump and reload all png files in one shot. The tool is available here [DOWNLOAD](https://github.com/autobleem/abcoverpacker/graphs/traffic) 
+We also created a tool to dump and reload all png files in one shot. The tool is available here [DOWNLOAD](https://github.com/autobleem/abcoverpacker) 
 
 ## Credits and links 
 
 This software uses some parts of code based on open licences:
 
-[BleemSync](https://github.com/pathartl/BleemSync) - similar implementation in C# with some different functionality (no code reused - just idea for some solutions)
+[BleemSync](https://github.com/pathartl/BleemSync) - some parts of bash scripts were reused from early BleemSync code. The credits go to ModMyClassic team (DoctorDalek/pathartl, compscom, Swingflip, cyanic and others).
 
 [SQLite](https://www.sqlite.org/index.html) (sqlite.c / sqlite.h) Public domain - no license
 
@@ -129,10 +133,8 @@ UNECM - Copyright (C) 2002 Neill Corlett (GPLv2) (unecm.c)
 ## Frequently Asked Questions
 
 ### My Console Crashes / Does not load AutoBleem / I can not play games / AutoBleem goes to black screen
-AutoBleem is highly dependant on the USB stick it is installed to. PlayStation Classic console's USB ports were not designed to work with USB drives at all, so there is a little we can do in software to sort out hardware problem (but we still try). If you have any problems like this, in 95% cases, the problem is your USB stick that is too hungry for electricity (100mA is the max that PSC can deliver without hardware modifications). What can you do in this case ? Try different USB stick ... there are many places in internet that people are recommending which ones works best for AutoBleem... I will not give you any recommendationhere  as I do not want to favourize any producer (hmm... but the ones from company with name starts with "S"..... are reported to be most compatible). Also try to use USB 2.0 versions. the 3.0 may or may not work - it is 50/50. In case 3.1 we are almost sure the USB stick will fail. Also you can try different approach that was reported to run by multiple users. between PSC and a stick put a POWERED usb hub. You can but they in every computer shop for couple quid. Last resort, if non of that works for you, is to open your PSC case and make a modification on the motherboard. You can find the tutorial - just Google it, but this is a hardware mod inside your console - it is up to your risk again. 
 
-### Is 0.5 the final version ??
-No it is not ... when I wrote that on last release I just run out of ideas as thought the functionality is enough for most usages and users ...but ... then BS1.0 hapeened and ... again I was not 100% happy how it works... also people from AutoBleem community discovered so many great ideas... I changed my mind. I am going to develop new features (also with helping hand from new AutoBleem people) and release new version as soon some big milestone will be hit.
+READ THIS: [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
 ### Why not contribute to BleemSync ?
 
@@ -145,21 +147,14 @@ Of course ... it is fully open source using GPL3.0, also if you know any C++, SQ
 AutoBleem is analysing the game folder during boot and using smart algorithm it is trying to generate all files needed to run the game, but sometimes it fails. In this case AutoBleem WILL NOT ADD THE GAME to the MENU, so if you do not see your game ... something is broken in it.
 
 ### Known Issues/Limitations
-- Sometimes the wrong region is set by Sony's PCSX in PlaystationClassic (example WipeoutXL) - use GUI to change Bios setting 
 - Encrypted PBP files are not loaded by PCSX ... you can only use files created using Popstation/PSX2PSP software
-- Try to set compression level to 1 (Worst) in PSX2PSP for quick load times
 - Some games may not be properly discovered or have missing covers
 - To enable usage of shared Memory cards you need to run a game at least once before switching cards
 - Shared cards can not be edited using SonyUI manager... The game selector shows content of Internal card all the time
 
 
 ## Road Map
-This is just bare milestone ideas
+This is just rough ideas of milestone ideas
 
-- 0.5.1 - upgrade UI experience and engine on existing features
-- 0.6 - further engine updates file2folder
-- 0.7 - savestate manager in starter (multiple slots)
-- 0.8 - coverdb editor, updater app (this might be PC ap, but optional)
-- 0.9 - all bugfixes and polishing what already done
-- 1.0 - stable release - hotfixes - develop 2.0 in parallel
+no milestones set at the moment as we decided just look on what people use the most and implement it :)
 
