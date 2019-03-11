@@ -13,7 +13,7 @@ About
 Advanced
 Erweitert
 Advanced:
-Erweitert:
+Erweiterte Menüs:
 AutoBleem
 AutoBleem
 AutoBleem Theme:
@@ -27,11 +27,11 @@ Aktuellste version: https://github.com/screemerpl/cbleemsync
 Free space
 Freier Speicher
 GFX Filter:
-Grafik Filter:
+Glättefilter:
 Game
 Spiel
 Game Manager
-Spielemanager
+Spiele Manager
 Games changed. Press
 Spiele aktualisiert. Drücke
 Go back
@@ -79,7 +79,7 @@ zum scannen
 Game:
 Spiel:
 Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Authoren: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Entwicklung: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
 Folder:
 Ordner:
 Published by:
@@ -93,7 +93,7 @@ Memory Card:
 High res:
 Hohe Auflösung:
 Lock data:
-Daten Sperren:
+Infos Sperren:
 Change MC
 Memory Card wechseln
 Hi/Lo Res
@@ -105,7 +105,7 @@ MC teilen
 (Internal)
 (Intern)
 -=Select memory card=-
--=Memory card auswählen=-
+-=Memory Card auswählen=-
 Card
 Karte
 -=Custom Memory Cards=-
@@ -117,9 +117,9 @@ Neue Karte
 Rename
 Umbenennen
 Enter new name for memory card
-Neuen Namen für memorycard eingeben
+Neuen Namen für Memory Card eingeben
 Cancel
-Abbrechen
+Zurück
 Confirm
 Bestätigen
 Space
@@ -139,7 +139,7 @@ BITTE CONTROLLER AN DIE PLAYSTATION CLASSIC ANSCHLIESSEN
 Caps
 Großbuchstaben
 Internal
-Intern
+Interne
 (Custom)
 (Benutzer)
 Enter new name for card
@@ -151,8 +151,84 @@ Schnellstart
 Hold
 Halten
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
-WARNUNG: COVER DB/S NICHT GEFUNDEN. BELIEBIGE TASTE DRÜCKEN
+WARNUNG: COVER DB/S NICHT GEFUNDEN. BELIEBIGE TASTE DRÜCKEN.
 Language:
 Sprache:
 RetroArch is not installed
 RetroArch ist nicht installiert
+-=Button Guide=-
+-=Übersicht über die Konsolentasten=-
+DPAD - Same as classic menu
+Steuerkreuz - Spiel bzw Options-Auswahl
+Select or cancel highlighted option
+Ausgewählte Option bestätigen oder abbrechen
+Quick scroll to next letter
+Zum nächsten Buchstaben springen                      
+Games filter
+Spiele filtern (Intern/USB/Alle)
+-=In Game=-
+-=Im Spiel=-
+Emulator config MENU
+Emulator Options Menü
+Quit emulation - back to AutoBleem
+Emulation beenden - Zurück zu AutoBleem
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+IM BOOTMENÜ DRÜCKEN UM KONSOLE HERUNTERZUFAHREN (SICHERES AUSSCHALTEN !!!)
+SETTINGS
+EINSTELLUNGEN
+GAME
+SPIEL
+MEMORY CARD
+MEMORY CARD
+RESUME
+FORTSETZEN
+Customize AutoBleem settings
+AutoBleem Einstellungen anpassen
+Edit game parameters
+Spiel Eigenschaften editieren
+Edit Memory Card information
+Memory Card Informationen editieren
+Resume game from saved state point
+Spiel vom gespeicherten Speicherpunkt fortsetzen
+Showing: All games
+Zeige: Alle Spiele
+Showing: Internal games
+Zeige: Interne Spiele
+Showing: USB games
+Zeige: USB Spiele
+Showing: Favourite games
+Zeige: Favourisierte Spiele
+Player
+Spieler
+Players
+Spieler
+Customize PlayStationClassic or AutoBleem settings
+PlayStation Classic oder AutoBleem Einstellungen anpassen
+OOPS! Game crashed. Resume point not available
+HUCH! Das Spiel ist abgestürzt. Speicherpunkt ist nicht verfügbar.
+Enter     
+Eingabe          
+Console Button Guide
+Übersicht über die Konsolentasten
+MemCard Manager will be available soon
+Memory Card Manager befindet sich noch in Entwicklung
+It is not possible to edit internal games
+Es ist nicht möglich interne Spiele zu bearbeiten.
+Resume point saved to slot
+Fortführen des Speicherpunkts zu Slot 
+NO GAMES FOUND IN THIS SECTION
+KEINE SPIELE IN DIESER SEKTION GEFUNDEN
+SELECT RESUME SLOT TO LOAD
+SLOT ZUM FORTSETZEN AUSWÄHLEN
+SELECT SLOT TO SAVE STATE
+SLOT ZUM SPEICHERN AUSWÄHLEN
+Slot
+Slot
+Internal Games:
+Zeige interne Spiele:
+Widescreen:
+Breitbild:
+Power Off
+Ausschalten
+POWERING OFF... PLEASE WAIT
+HERUNTERFAHREN... BITTE WARTEN
