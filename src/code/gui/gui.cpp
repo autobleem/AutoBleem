@@ -158,6 +158,7 @@ void Gui::loadAssets() {
     buttonR2 = loadThemeTexture(renderer, themePath, defaultPath, "r2");
     buttonCheck = loadThemeTexture(renderer, themePath, defaultPath, "check");
     buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
+    cdJewel = IMG_LoadTexture(renderer, (Util::getWorkingPath()+"/evoimg/cdframe-flat.png").c_str());
     string fontPath = (themePath + themeData.values["font"]);
     font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
 
@@ -614,6 +615,7 @@ void Gui::finish() {
     SDL_DestroyTexture(buttonCheck);
     SDL_DestroyTexture(buttonUncheck);
     SDL_DestroyRenderer(renderer);
+    SDL_DestroyTexture(cdJewel);
     TTF_CloseFont(font);
     Mix_HaltMusic();
     Mix_FreeMusic(music);

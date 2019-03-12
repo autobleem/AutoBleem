@@ -9,13 +9,51 @@
 
 
 void PsGame::loadTex(SDL_Renderer *renderer) {
+    shared_ptr<Gui> gui(Gui::getInstance());
+
+    SDL_Texture *renderSurface = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, 226,
+                                                   226);
+    SDL_SetRenderTarget(renderer, renderSurface);
+    SDL_RenderClear(renderer);
+    SDL_Rect fullRect;
+
+
     if (coverPng == nullptr) {
         string imagePath = this->folder + Util::separator() + this->base + ".png";
         if (Util::exists(imagePath)) {
             coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
         } else coverPng = nullptr;
-    }
 
+        if (coverPng!= nullptr) {
+            fullRect.x = 0;
+            fullRect.y = 0;
+            fullRect.h = 226, fullRect.w = 226;
+
+            Uint32 format; int access;
+            SDL_QueryTexture(coverPng,&format, &access, &fullRect.w, &fullRect.h);
+
+            SDL_Rect outputRect;
+            outputRect.x = 23;
+            outputRect.y = 5;
+            outputRect.h = 217;
+            outputRect.w = 199;
+            if (coverPng != nullptr) {
+                SDL_RenderCopy(renderer, coverPng, &fullRect, &outputRect);
+            }
+            if (coverPng != nullptr) {
+                SDL_DestroyTexture(coverPng);
+                coverPng = nullptr;
+            }
+
+
+            fullRect.x = 0;
+            fullRect.y = 0;
+            fullRect.h = 226, fullRect.w = 226;
+            SDL_RenderCopy(renderer, gui->cdJewel, &fullRect, &fullRect);
+            coverPng = renderSurface;
+        }
+    }
+    SDL_SetRenderTarget(renderer, nullptr);
 }
 
 void PsGame::freeTex() {
@@ -28,10 +66,8 @@ void PsGame::freeTex() {
 }
 
 
-
-bool PsGame::isCleanExit()
-{
-    string filenamefile = ssFolder+"filename.txt";
+bool PsGame::isCleanExit() {
+    string filenamefile = ssFolder + "filename.txt";
     return Util::exists(filenamefile);
 }
 
@@ -54,22 +90,19 @@ PsGame *PsGame::clone() {
     return clone;
 }
 
-void PsGame::setMemCard(string name)
-{
-   this->memcard = name;
-   Inifile * ini = new Inifile();
-   ini->load(this->folder+"/Game.ini");
-   ini->values["memcard"] = name;
-   ini->save(this->folder+"/Game.ini");
-   shared_ptr<Gui> gui(Gui::getInstance());
-   gui->db->updateMemcard(this->gameId,name);
+void PsGame::setMemCard(string name) {
+    this->memcard = name;
+    Inifile *ini = new Inifile();
+    ini->load(this->folder + "/Game.ini");
+    ini->values["memcard"] = name;
+    ini->save(this->folder + "/Game.ini");
+    shared_ptr<Gui> gui(Gui::getInstance());
+    gui->db->updateMemcard(this->gameId, name);
 }
 
-bool PsGame::isResumeSlotActive(int slot)
-{
-    string filenamefile = ssFolder+"filename.txt.res";
-    if (Util::exists(filenamefile))
-    {
+bool PsGame::isResumeSlotActive(int slot) {
+    string filenamefile = ssFolder + "filename.txt.res";
+    if (Util::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {
 
@@ -78,14 +111,13 @@ bool PsGame::isResumeSlotActive(int slot)
             std::getline(is, line);
 
             // last line is our filename
-            if (slot==0) {
+            if (slot == 0) {
                 string slot0img = ssFolder + "screenshots/" + line + ".png.res";
                 if (Util::exists(slot0img)) {
                     return true;
                 }
-            } else
-            {
-                string slotnimg = ssFolder + "screenshots/" + line + "."+to_string(slot)+".png.res";
+            } else {
+                string slotnimg = ssFolder + "screenshots/" + line + "." + to_string(slot) + ".png.res";
                 if (Util::exists(slotnimg)) {
                     return true;
                 }
@@ -95,11 +127,10 @@ bool PsGame::isResumeSlotActive(int slot)
     }
     return false;
 }
-void PsGame::storeResumePicture(int slot)
-{
-    string filenamefile = ssFolder+"filename.txt.res";
-    if (Util::exists(filenamefile))
-    {
+
+void PsGame::storeResumePicture(int slot) {
+    string filenamefile = ssFolder + "filename.txt.res";
+    if (Util::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {
 
@@ -107,36 +138,33 @@ void PsGame::storeResumePicture(int slot)
             std::getline(is, line);
             std::getline(is, line);
 
-            string inputImg=ssFolder + "screenshots/" + line + ".png";
-            if (!Util::exists(inputImg))
-            {
+            string inputImg = ssFolder + "screenshots/" + line + ".png";
+            if (!Util::exists(inputImg)) {
                 return;
             }
             string slotImg;
             // last line is our filename
-            if (slot==0) {
-                 slotImg = ssFolder + "screenshots/" + line + ".png.res";
+            if (slot == 0) {
+                slotImg = ssFolder + "screenshots/" + line + ".png.res";
 
-            } else
-            {
-                 slotImg = ssFolder + "screenshots/" + line + "."+to_string(slot)+".png.res";
+            } else {
+                slotImg = ssFolder + "screenshots/" + line + "." + to_string(slot) + ".png.res";
 
             }
             is.close();
 
             remove(slotImg.c_str());
-            Util::copy(inputImg,slotImg);
+            Util::copy(inputImg, slotImg);
             remove(inputImg.c_str());
 
         }
     }
 
 }
-string PsGame::findResumePicture(int slot)
-{
-    string filenamefile = ssFolder+"filename.txt.res";
-    if (Util::exists(filenamefile))
-    {
+
+string PsGame::findResumePicture(int slot) {
+    string filenamefile = ssFolder + "filename.txt.res";
+    if (Util::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {
 
@@ -145,14 +173,13 @@ string PsGame::findResumePicture(int slot)
             std::getline(is, line);
 
             // last line is our filename
-            if (slot==0) {
+            if (slot == 0) {
                 string slot0img = ssFolder + "screenshots/" + line + ".png.res";
                 if (Util::exists(slot0img)) {
                     return slot0img;
                 }
-            } else
-            {
-                string slotnimg = ssFolder + "screenshots/" + line + "."+to_string(slot)+".png.res";
+            } else {
+                string slotnimg = ssFolder + "screenshots/" + line + "." + to_string(slot) + ".png.res";
                 if (Util::exists(slotnimg)) {
                     return slotnimg;
                 }
@@ -164,12 +191,10 @@ string PsGame::findResumePicture(int slot)
 }
 
 
-string PsGame::findResumePicture()
-{
+string PsGame::findResumePicture() {
     // try to do it in silly Sony way
-    string filenamefile = ssFolder+"filename.txt.res";
-    if (Util::exists(filenamefile))
-    {
+    string filenamefile = ssFolder + "filename.txt.res";
+    if (Util::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {
 
@@ -178,9 +203,8 @@ string PsGame::findResumePicture()
             std::getline(is, line);
 
             // last line is our filename
-            string pngfile = ssFolder+"screenshots/"+line+".png.res";
-            if (Util::exists(pngfile))
-            {
+            string pngfile = ssFolder + "screenshots/" + line + ".png.res";
+            if (Util::exists(pngfile)) {
                 return pngfile;
             }
             is.close();

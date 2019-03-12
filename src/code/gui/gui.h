@@ -115,6 +115,7 @@ public:
     SDL_Texture *buttonR2 = NULL;
     SDL_Texture *buttonCheck = NULL;
     SDL_Texture *buttonUncheck = NULL;
+    SDL_Texture *cdJewel = NULL;
 
 
     bool overrideQuickBoot = false;
