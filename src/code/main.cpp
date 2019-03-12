@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
                 Mix_CloseAudio();
             }
             numtimesopened=Mix_QuerySpec(&frequency, &format, &channels);
-            cout << numtimesopened << endl;
+
 
             for (SDL_Joystick* joy:gui->joysticks) {
                 if (SDL_JoystickGetAttached(joy)) {
@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
                 }
             }
             SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
-            sleep(1);
+
 
 
             gui->saveSelection();
@@ -130,9 +130,10 @@ int main(int argc, char *argv[]) {
             SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 
             delete gui->runningGame;
-            sync();
+            usleep(300*1000);
             gui->runningGame = nullptr;
             gui->startingGame = false;
+
             gui->display(false, path, db, true);
         }
     }

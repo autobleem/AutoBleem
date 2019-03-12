@@ -421,13 +421,8 @@ void Gui::menuSelection() {
             if (e.type == SDL_KEYDOWN) {
                 if (e.key.keysym.scancode == SDL_SCANCODE_F10) {
                     drawText("POWERING OFF... PLEASE WAIT");
-#if defined(__x86_64__) || defined(_M_X64)
-                    exit(0);
-#else
-                    sync();
-                    Util::execUnixCommad("shutdown -h now");
-                    exit(1);
-#endif
+                    Util::powerOff();
+
                 }
             }
             // this is for pc Only
@@ -595,9 +590,14 @@ void Gui::menuSelection() {
 
 void Gui::finish() {
 
-    Mix_FadeOutMusic(1000);
-    while (Mix_PlayingMusic()) {
+    if (Mix_PlayingMusic()) {
+        Mix_FadeOutMusic(300);
+        while (Mix_PlayingMusic()) {
 
+        }
+    } else
+    {
+        usleep(300*1000);
     }
 
     SDL_DestroyTexture(backgroundImg);

@@ -27,6 +27,18 @@ bool wayToSort(DirEntry i, DirEntry j) {
     return name1 < name2;
 }
 
+void Util::powerOff()
+{
+#if defined(__x86_64__) || defined(_M_X64)
+    exit(0);
+#else
+    Util::execUnixCommad("shutdown -h now");
+    exit(0);
+#endif
+
+
+}
+
 string fixPath(string path)
 {
     trim(path);
