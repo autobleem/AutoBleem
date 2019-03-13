@@ -128,6 +128,7 @@ void Gui::loadAssets() {
         SDL_DestroyTexture(buttonR2);
         SDL_DestroyTexture(buttonCheck);
         SDL_DestroyTexture(buttonUncheck);
+        SDL_DestroyTexture(cdJewel);
         TTF_CloseFont(font);
         Mix_FreeChunk(cursor);
         Mix_FreeChunk(cancel);
