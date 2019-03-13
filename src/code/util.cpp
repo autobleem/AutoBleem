@@ -309,6 +309,9 @@ unsigned long Util::readDword(ifstream *stream) {
  * Return the available space of a usb device
  */
 string Util::getAvailableSpace(){
+#if defined(__x86_64__) || defined(_M_X64)
+    return "x86 - does not care about free space - Does not work on mac";
+    #else
     string str;
     int gb = 1024 * 1024;
     string dfResult;
@@ -320,6 +323,7 @@ string Util::getAvailableSpace(){
     freeSpacePerc = (freeSpace / totalSpace) * 100;
     str = floatToString(freeSpace, 2) + " GB / " + floatToString(totalSpace,2)+ " GB (" + to_string(freeSpacePerc)+"%)";
     return str;
+#endif
 }
 
 /*
