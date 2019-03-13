@@ -174,6 +174,7 @@ void GuiManager::loop()
 
                         if (delCovers)
                         {
+                            gui->renderStatus(_("Please wait ... deleting covers..."));
                             Util::execUnixCommad("find /media/Games -name *.png  -exec rm -rf {} \\;");
                             gui->forceScan = true;
                             menuVisible = false;
