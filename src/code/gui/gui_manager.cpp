@@ -10,6 +10,7 @@
 #include <string>
 #include "gui.h"
 #include "gui_editor.h"
+#include "gui_confirm.h"
 #include "../main.h"
 #include "../lang.h"
 
@@ -88,7 +89,7 @@ void GuiManager::render()
     }
 
 
-    gui->renderStatus(_("Game")+" " + to_string(selected + 1) + "/" + to_string(games.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"  |@O| "+_("Close")+" |");
+    gui->renderStatus(_("Game")+" " + to_string(selected + 1) + "/" + to_string(games.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"  |@T| "+_("Flush covers")+" |@O| "+_("Close")+" |");
     SDL_RenderPresent(renderer);
 }
 
@@ -161,6 +162,25 @@ void GuiManager::loop()
                         menuVisible = false;
 
                     };
+
+
+                    if (e.jbutton.button == PCS_BTN_TRIANGLE) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        GuiConfirm * confirm = new GuiConfirm(renderer);
+                        confirm->label = _("Are you sure you want to flush all covers ?");
+                        confirm->show();
+                        bool delCovers = confirm->result;
+                        delete confirm;
+
+                        if (delCovers)
+                        {
+                            Util::execUnixCommad("find /media/Games -name *.png  -exec rm -rf {} \\;");
+                            gui->forceScan = true;
+                            menuVisible = false;
+                        } else {
+                            render();
+                        }
+                    }
 
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {

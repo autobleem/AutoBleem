@@ -72,9 +72,6 @@ void GuiEditor::render() {
     }
 
 
-
-
-
     guiMenu += " |@O| "+_("Go back")+"|";
 
     gui->renderStatus(guiMenu);
