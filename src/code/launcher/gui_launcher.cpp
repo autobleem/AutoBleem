@@ -98,6 +98,14 @@ void GuiLauncher::updateMeta() {
 void GuiLauncher::switchSet(int newSet) {
     shared_ptr<Gui> gui(Gui::getInstance());
 
+    if (!gamesList.empty())
+    {
+        for (PsGame * game : gamesList)
+        {
+            game->freeTex();
+            delete game;
+        }
+    }
     gamesList.clear();
     if (currentSet == SET_ALL || currentSet == SET_EXTERNAL) {
         gui->db->getGames(&gamesList);

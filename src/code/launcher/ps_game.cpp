@@ -11,14 +11,14 @@
 void PsGame::loadTex(SDL_Renderer *renderer) {
     shared_ptr<Gui> gui(Gui::getInstance());
 
-    SDL_Texture *renderSurface = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, 226,
-                                                   226);
-    SDL_SetRenderTarget(renderer, renderSurface);
-    SDL_RenderClear(renderer);
-    SDL_Rect fullRect;
-
-
     if (coverPng == nullptr) {
+
+        SDL_Texture *renderSurface = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, 226,
+                                                       226);
+        SDL_SetRenderTarget(renderer, renderSurface);
+        SDL_RenderClear(renderer);
+        SDL_Rect fullRect;
+
         string imagePath = this->folder + Util::separator() + this->base + ".png";
         if (Util::exists(imagePath)) {
             coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
@@ -52,12 +52,14 @@ void PsGame::loadTex(SDL_Renderer *renderer) {
             SDL_RenderCopy(renderer, gui->cdJewel, &fullRect, &fullRect);
             coverPng = renderSurface;
         }
+        SDL_SetRenderTarget(renderer, nullptr);
     }
-    SDL_SetRenderTarget(renderer, nullptr);
+
 }
 
 void PsGame::freeTex() {
     if (coverPng != nullptr) {
+
         SDL_DestroyTexture(coverPng);
         coverPng = nullptr;
     }
