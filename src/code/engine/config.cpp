@@ -24,6 +24,10 @@ Config::Config()
     {
         inifile.values["aspect"]="false";
     }
+    if (inifile.values["jewel"]=="")
+    {
+        inifile.values["jewel"]="default";
+    }
     inifile.values["pcsx"]="bleemsync";
 }
 

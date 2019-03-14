@@ -75,19 +75,29 @@ void GuiOptions::init() {
     origames.clear();
     origames.push_back("true");
     origames.push_back("false");
+    jewels.clear();
+    jewels.push_back("default");
+    folders = Util::diru(Util::getWorkingPath()+"/evoimg/frames");
+    for (DirEntry entry:folders) {
+        if (Util::getFileExtension(entry.name)=="png")
+        {
+            jewels.push_back(entry.name);
+        }
+    }
 }
 
 #define CFG_LANG       0
 #define CFG_THEME      1
 #define CFG_MENUTH     2
 #define CFG_UI         3
-#define CFG_ORIGAMES   4
-#define CFG_ASPECT     5
-#define CFG_QUICK      6
-#define CFG_BGM        7
-#define CFG_MIP        8
-#define CFG_RA         9
-#define CFG_ADV        10
+#define CFG_JEWEL      4
+#define CFG_ORIGAMES   5
+#define CFG_ASPECT     6
+#define CFG_QUICK      7
+#define CFG_BGM        8
+#define CFG_MIP        9
+#define CFG_RA         10
+#define CFG_ADV        11
 
 
 string GuiOptions::getBooleanIcon(string input) {
@@ -107,7 +117,7 @@ string GuiOptions::getBooleanIcon(string input) {
 void GuiOptions::renderOptionLine(string text, int pos, int offset) {
     shared_ptr<Gui> gui(Gui::getInstance());
     string fg = gui->themeData.values["text_fg"];
-    int height = gui->renderTextLine(text, pos, offset);
+    int height = gui->renderTextLineOptions(text, pos, offset, false);
     totalHeight += height;
 
     if (selOption + 1 == pos) {
@@ -141,6 +151,7 @@ void GuiOptions::render() {
     renderOptionLine(_("AutoBleem Theme:") + " " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
     renderOptionLine(_("Menu Theme:") + " " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);
     renderOptionLine(_("UI:") + " " + gui->cfg.inifile.values["ui"], CFG_UI + 1, offset);
+    renderOptionLine(_("Cover Style:") + " " + gui->cfg.inifile.values["jewel"], CFG_JEWEL + 1, offset);
     renderOptionLine(_("Internal Games:") + " "   + getBooleanIcon("origames"), CFG_ORIGAMES + 1, offset);
     renderOptionLine(_("Widescreen:") + " " + getBooleanIcon("aspect"), CFG_ASPECT + 1, offset);
     renderOptionLine(_("QuickBoot:") + " " + getBooleanIcon("quick"), CFG_QUICK + 1, offset);
@@ -264,6 +275,11 @@ void GuiOptions::loop() {
                                 gui->cfg.inifile.values["origames"] = nextValue;
 
                             }
+                            if (selOption == CFG_JEWEL) {
+                                string nextValue = getOption(jewels, gui->cfg.inifile.values["jewel"], true);
+                                gui->cfg.inifile.values["jewel"] = nextValue;
+
+                            }
                             if (selOption == CFG_QUICK) {
                                 string nextValue = getOption(quickboot, gui->cfg.inifile.values["quick"], true);
                                 int delay = atoi(gui->cfg.inifile.values["delay"].c_str());
@@ -334,6 +350,11 @@ void GuiOptions::loop() {
                             if (selOption == CFG_ORIGAMES) {
                                 string nextValue = getOption(origames, gui->cfg.inifile.values["origames"], false);
                                 gui->cfg.inifile.values["origames"] = nextValue;
+
+                            }
+                            if (selOption == CFG_JEWEL) {
+                                string nextValue = getOption(jewels, gui->cfg.inifile.values["jewel"], false);
+                                gui->cfg.inifile.values["jewel"] = nextValue;
 
                             }
                             if (selOption == CFG_QUICK) {

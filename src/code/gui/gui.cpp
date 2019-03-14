@@ -159,7 +159,12 @@ void Gui::loadAssets() {
     buttonR2 = loadThemeTexture(renderer, themePath, defaultPath, "r2");
     buttonCheck = loadThemeTexture(renderer, themePath, defaultPath, "check");
     buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
-    cdJewel = IMG_LoadTexture(renderer, (Util::getWorkingPath()+"/evoimg/cdframe-cr.png").c_str());
+    if (cfg.inifile.values["jewel"] == "default") {
+        cdJewel = IMG_LoadTexture(renderer, (Util::getWorkingPath() + "/evoimg/No filter.png").c_str());
+    } else {
+        cdJewel = IMG_LoadTexture(renderer,
+                                  (Util::getWorkingPath() + "/evoimg/frames/" + cfg.inifile.values["jewel"]).c_str());
+    }
     string fontPath = (themePath + themeData.values["font"]);
     font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
 
@@ -420,11 +425,10 @@ void Gui::menuSelection() {
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
 
-            if (e.type == SDL_KEYDOWN )
-                    printf("Physical %s key acting as %s key \n",
-                           SDL_GetScancodeName(e.key.keysym.scancode),
-                           SDL_GetKeyName(e.key.keysym.sym));
-
+            if (e.type == SDL_KEYDOWN)
+                printf("Physical %s key acting as %s key \n",
+                       SDL_GetScancodeName(e.key.keysym.scancode),
+                       SDL_GetKeyName(e.key.keysym.sym));
 
 
             if (e.type == SDL_KEYDOWN) {
@@ -604,9 +608,8 @@ void Gui::finish() {
         while (Mix_PlayingMusic()) {
 
         }
-    } else
-    {
-        usleep(300*1000);
+    } else {
+        usleep(300 * 1000);
     }
 
     SDL_DestroyTexture(backgroundImg);
@@ -864,7 +867,64 @@ int Gui::renderTextLine(string text, int line, int offset) {
     return renderTextLine(text, line, offset, false);
 }
 
+int Gui::renderTextLineOptions(string text, int line, int offset, bool center) {
+    int button = -1;
+    if (text.find("|@Check|") != std::string::npos) {
+        button = 1;
+    }
+    if (text.find("|@Uncheck|") != std::string::npos) {
+        button = 0;
+    }
+    if (button != -1) {
+        text = text.substr(0, text.find("|"));
+    }
+
+    int h = renderTextLine(text, line, offset, center);
+
+    SDL_Texture *buttonTex = nullptr;
+    SDL_Rect rect;
+
+
+    if (button == -1) {
+        return h;
+    }
+
+    SDL_Rect textRec;
+    SDL_Rect rect2;
+
+    rect2.x = atoi(themeData.values["opscreenx"].c_str());
+    rect2.y = atoi(themeData.values["opscreeny"].c_str());
+    rect2.w = atoi(themeData.values["opscreenw"].c_str());
+    rect2.h = atoi(themeData.values["opscreenh"].c_str());
+    getTextAndRect(renderer, 0, 0, "*", font, &buttonTex, &textRec);
+    int lineh = textRec.h;
+    SDL_DestroyTexture(buttonTex);
+    if (button == 1) {
+        getEmojiTextTexture(renderer, "|@Check|", font, &buttonTex, &textRec);
+    } else if (button == 0) {
+        getEmojiTextTexture(renderer, "|@Uncheck|", font, &buttonTex, &textRec);
+    }
+
+    textRec.x = rect2.x + rect2.w - 10 - textRec.w;
+    textRec.y = (lineh * line) + offset;
+    /*
+    getTextAndRect(renderer, rect2.x + 10, (textRec.h * line) + offset,
+                   text.c_str(), font, &textTex, &textRec);
+    */
+    if (textRec.w >= (1280 - rect2.x * 4)) {
+        textRec.w = (1280 - rect2.x * 4);
+    }
+    if (center) {
+        textRec.x = (1280 / 2) - textRec.w / 2;
+    }
+
+    SDL_RenderCopy(renderer, buttonTex, nullptr, &textRec);
+    SDL_DestroyTexture(buttonTex);
+    return h;
+}
+
 int Gui::renderTextLine(string text, int line, int offset, bool center) {
+
 
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
@@ -876,6 +936,7 @@ int Gui::renderTextLine(string text, int line, int offset, bool center) {
     SDL_Rect textRec;
 
     getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
+    SDL_DestroyTexture(textTex);
     getEmojiTextTexture(renderer, text, font, &textTex, &textRec);
     textRec.x = rect2.x + 10;
     textRec.y = (textRec.h * line) + offset;
@@ -893,6 +954,8 @@ int Gui::renderTextLine(string text, int line, int offset, bool center) {
 
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
     SDL_DestroyTexture(textTex);
+
+
     return textRec.h;
 }
 

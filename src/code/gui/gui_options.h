@@ -37,6 +37,7 @@ public:
     vector<string> ui;
     vector<string> aspect;
     vector<string> origames;
+    vector<string> jewels;
 
     using GuiScreen::GuiScreen;
 };

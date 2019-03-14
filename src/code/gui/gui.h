@@ -77,6 +77,7 @@ public:
     void renderTextBar();
     int renderTextLine(string text, int line, int offset, bool center);
     int renderTextLine(string text, int line, int offset);
+    int renderTextLineOptions(string text, int line, int offset, bool center);
     void renderSelectionBox(int line, int offset);
     void renderLabelBox(int line, int offset);
     void renderTextChar(string text, int line, int offset, int posx);

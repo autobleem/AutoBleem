@@ -1115,6 +1115,16 @@ void GuiLauncher::loop() {
                                     menu->setResumePic(gamesList[selGame]->findResumePicture());
                                 }
 
+                                if (!gamesList.empty())
+                                {
+                                    gui->loadAssets();
+                                    for (PsGame * game:gamesList)
+                                    {
+                                        game->freeTex();
+
+                                    }
+                                    setInitialPositions(selGame);
+                                }
 
                                 state = STATE_GAMES;
                             }
