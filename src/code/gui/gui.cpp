@@ -421,7 +421,7 @@ void Gui::menuSelection() {
         if (SDL_PollEvent(&e)) {
 
             if (e.type == SDL_KEYDOWN )
-                cout << e.key.keysym.sym << endl;
+                cout << to_string(e.key.keysym.sym) << endl;
 
 
             if (e.type == SDL_KEYDOWN) {
