@@ -56,3 +56,5 @@ cp -r /usr/sony/share/recovery/AppData/sony/pcsx /tmp/datatmp/AppData/sony/pcsx
 ln -s /media/System/Bios /tmp/datatmp/AppData/sony/pcsx/bios
 ln -s /usr/sony/bin/plugins /tmp/datatmp/AppData/sony/pcsx/plugins
 
+#disable power button event
+echo 2 > /tmp/datatmp/power/disable
