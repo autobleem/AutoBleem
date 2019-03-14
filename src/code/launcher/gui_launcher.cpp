@@ -11,8 +11,6 @@
 #include "gui_btn_guide.h"
 
 
-
-
 bool wayToSort(PsGame *i, PsGame *j) {
     string name1 = i->title;
     string name2 = j->title;
@@ -98,10 +96,8 @@ void GuiLauncher::updateMeta() {
 void GuiLauncher::switchSet(int newSet) {
     shared_ptr<Gui> gui(Gui::getInstance());
 
-    if (!gamesList.empty())
-    {
-        for (PsGame * game : gamesList)
-        {
+    if (!gamesList.empty()) {
+        for (PsGame *game : gamesList) {
             game->freeTex();
             delete game;
         }
@@ -783,13 +779,13 @@ void GuiLauncher::loop() {
                 menuVisible = false;
             }
             switch (e.type) {
-                if (e.type == SDL_KEYDOWN) {
+                case SDL_KEYDOWN:
                     if (e.key.keysym.sym == SDL_SCANCODE_SLEEP) {
                         gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                         Util::powerOff();
 
                     }
-                }
+                    break;
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
 
                     if (e.jaxis.axis == 0) {
@@ -900,8 +896,7 @@ void GuiLauncher::loop() {
                         powerOffShift = true;
                     }
 
-                    if (powerOffShift)
-                    {
+                    if (powerOffShift) {
                         if (e.jbutton.button == PCS_BTN_R2) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             gui->drawText(_("POWERING OFF... PLEASE WAIT"));
@@ -1115,18 +1110,15 @@ void GuiLauncher::loop() {
                                         setInitialPositions(0);
                                         updateMeta();
                                     }
-                                } else
-                                {
+                                } else {
                                     setInitialPositions(selGame);
                                     updateMeta();
                                     menu->setResumePic(gamesList[selGame]->findResumePicture());
                                 }
 
-                                if (!gamesList.empty())
-                                {
+                                if (!gamesList.empty()) {
                                     gui->loadAssets();
-                                    for (PsGame * game:gamesList)
-                                    {
+                                    for (PsGame *game:gamesList) {
                                         game->freeTex();
 
                                     }
