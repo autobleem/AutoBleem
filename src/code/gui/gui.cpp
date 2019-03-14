@@ -159,7 +159,7 @@ void Gui::loadAssets() {
     buttonR2 = loadThemeTexture(renderer, themePath, defaultPath, "r2");
     buttonCheck = loadThemeTexture(renderer, themePath, defaultPath, "check");
     buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
-    cdJewel = IMG_LoadTexture(renderer, (Util::getWorkingPath()+"/evoimg/cdframe-old.png").c_str());
+    cdJewel = IMG_LoadTexture(renderer, (Util::getWorkingPath()+"/evoimg/cdframe-cr.png").c_str());
     string fontPath = (themePath + themeData.values["font"]);
     font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
 
@@ -311,6 +311,7 @@ bool Gui::quickBoot() {
             else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
                 return false;
 
+
             if (e.type == SDL_JOYBUTTONDOWN) {
                 overrideQuickBoot = true;
                 return false;
@@ -418,6 +419,10 @@ void Gui::menuSelection() {
         }
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
+
+            if (e.type == SDL_KEYDOWN )
+                cout << e.key.keysym.sym << endl;
+
 
             if (e.type == SDL_KEYDOWN) {
                 if (e.key.keysym.scancode == SDL_SCANCODE_F10) {
