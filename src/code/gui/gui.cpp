@@ -426,6 +426,7 @@ void Gui::menuSelection() {
         if (SDL_PollEvent(&e)) {
 
             if (e.type == SDL_KEYDOWN) {
+                cout << to_string(e.key.keysym.sym) << endl;
                 printf("Physical %s key acting as %s key \n",
                        SDL_GetScancodeName(e.key.keysym.scancode),
                        SDL_GetKeyName(e.key.keysym.sym));
