@@ -426,20 +426,15 @@ void Gui::menuSelection() {
         if (SDL_PollEvent(&e)) {
 
             if (e.type == SDL_KEYDOWN) {
-                cout << to_string(e.key.keysym.sym) << endl;
-                printf("Physical %s key acting as %s key \n",
-                       SDL_GetScancodeName(e.key.keysym.scancode),
-                       SDL_GetKeyName(e.key.keysym.sym));
-            }
-
-
-            if (e.type == SDL_KEYDOWN) {
-                if (e.key.keysym.scancode == SDL_SCANCODE_F10) {
-                    drawText("POWERING OFF... PLEASE WAIT");
+                if (e.key.keysym.sym == SDL_SCANCODE_SLEEP) {
+                    drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
 
                 }
             }
+
+
+
             // this is for pc Only
             if (e.type == SDL_QUIT) {
 

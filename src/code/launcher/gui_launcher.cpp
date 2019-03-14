@@ -783,6 +783,13 @@ void GuiLauncher::loop() {
                 menuVisible = false;
             }
             switch (e.type) {
+                if (e.type == SDL_KEYDOWN) {
+                    if (e.key.keysym.sym == SDL_SCANCODE_SLEEP) {
+                        gui->drawText(_("POWERING OFF... PLEASE WAIT"));
+                        Util::powerOff();
+
+                    }
+                }
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
 
                     if (e.jaxis.axis == 0) {
