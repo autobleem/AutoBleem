@@ -160,7 +160,7 @@ void Gui::loadAssets() {
     buttonCheck = loadThemeTexture(renderer, themePath, defaultPath, "check");
     buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
     if (cfg.inifile.values["jewel"] == "default") {
-        cdJewel = IMG_LoadTexture(renderer, (Util::getWorkingPath() + "/evoimg/No filter.png").c_str());
+        cdJewel = IMG_LoadTexture(renderer, (Util::getWorkingPath() + "/evoimg/No Filter.png").c_str());
     } else {
         cdJewel = IMG_LoadTexture(renderer,
                                   (Util::getWorkingPath() + "/evoimg/frames/" + cfg.inifile.values["jewel"]).c_str());
