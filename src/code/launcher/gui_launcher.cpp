@@ -780,7 +780,7 @@ void GuiLauncher::loop() {
             }
             switch (e.type) {
                 case SDL_KEYDOWN:
-                    if (e.key.keysym.sym == SDL_SCANCODE_SLEEP) {
+                    if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                         gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                         Util::powerOff();
 
