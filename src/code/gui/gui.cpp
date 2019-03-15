@@ -948,9 +948,10 @@ int Gui::renderTextLine(string text, int line, int offset, bool center) {
 
     getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
     SDL_DestroyTexture(textTex);
+    int lineh = textRec.h;
     getEmojiTextTexture(renderer, text, font, &textTex, &textRec);
     textRec.x = rect2.x + 10;
-    textRec.y = (textRec.h * line) + offset;
+    textRec.y = (lineh * line) + offset;
     /*
     getTextAndRect(renderer, rect2.x + 10, (textRec.h * line) + offset,
                    text.c_str(), font, &textTex, &textRec);

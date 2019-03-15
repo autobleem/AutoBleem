@@ -15,7 +15,22 @@ public:
     void init();
     void render();
     void loop();
+
+    void refreshData();
     Inifile game;
+
+    int highres;
+    int speedhack;
+
+    int clock;
+    int frameskip;
+
+    string gpu="";
+    int dither;
+
+    int scanlines;
+    int scanlineLevel;
+
 
 
     bool changes=false;

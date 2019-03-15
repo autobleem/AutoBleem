@@ -15,7 +15,22 @@
 #include "../engine/cfgprocessor.h"
 #include "../lang.h"
 
+void GuiEditor::refreshData()
+{
+    shared_ptr<Gui> gui(Gui::getInstance());
+    CfgProcessor *processor = new CfgProcessor();
 
+    highres = atoi(processor->getValue(game.entry, gui->path, "gpu_neon.enhancement_enable").c_str());
+    speedhack = atoi(processor->getValue(game.entry, gui->path, "gpu_neon.enhancement_no_main").c_str());
+    clock = strtol(processor->getValue(game.entry, gui->path, "psx_clock").c_str(), NULL, 16);
+    gpu = processor->getValue(game.entry, gui->path, "gpu3");
+    frameskip = atoi(processor->getValue(game.entry, gui->path, "frameskip3").c_str());
+    dither = atoi(processor->getValue(game.entry, gui->path, "gpu_peops.iUseDither").c_str());
+    scanlines =  atoi(processor->getValue(game.entry, gui->path, "scanlines").c_str());
+    scanlineLevel =  strtol(processor->getValue(game.entry, gui->path, "scanline_level").c_str(), NULL, 16);
+
+    delete processor;
+}
 void GuiEditor::init() {
     shared_ptr<Gui> gui(Gui::getInstance());
 
@@ -39,6 +54,8 @@ void GuiEditor::init() {
     if (!pngLoaded) {
         cover = IMG_LoadTexture(renderer, (Util::getWorkingPath() + Util::separator() + "default.png").c_str());
     }
+
+    refreshData();
 }
 
 void GuiEditor::render() {
@@ -59,10 +76,18 @@ void GuiEditor::render() {
                         (game.values["memcard"] == "SONY" ? string(_("Internal")) : game.values["memcard"] + _("(Custom)")),
                         4, offset, true);
 
-    gui->renderTextLine(_("Lock data:") + (game.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|"))
-                        + "  "+_("High res:") + (game.values["highres"] == "1" ? string("|@Check|") : string("|@Uncheck|")),
+    gui->renderTextLine(_("Lock data:") + (game.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|")),
                         5, offset,
                         true);
+    /*
+    gui->renderTextLine(_("High res:") + (highres == 1 ? string("|@Check|") : string("|@Uncheck|")),6, offset, true);
+    gui->renderTextLine(_("SpeedHack:") + (speedhack == 1 ? string("|@Check|") : string("|@Uncheck|")),7, offset, true);
+    gui->renderTextLine(_("Scanlines:") + (scanlines == 1 ? string("|@Check|") : string("|@Uncheck|")),8, offset, true);
+    gui->renderTextLine(_("Scanline Level:") +  " "+to_string(scanlineLevel),9, offset, true);
+    gui->renderTextLine(_("Clock:") + " "+to_string(clock),10, offset, true);
+    gui->renderTextLine(_("Plugin:") + gpu,11, offset, true);
+    */
+
 
 
     string guiMenu = "|@Select| "+_("Lock")+"  |@Start| "+_("Hi/Lo Res")+"   |@X| "+_("Rename")+"  |@S| "+_("Change MC")+" ";
@@ -166,6 +191,7 @@ void GuiEditor::loop() {
                         processor->replace(game.entry, gui->path, "gpu_neon.enhancement_enable",
                                            "gpu_neon.enhancement_enable = " + game.values["highres"]);
                         delete processor;
+                        refreshData();
                         render();
                     };
 
@@ -220,7 +246,7 @@ void GuiEditor::loop() {
                             game.save(game.path);
                             changes = true;
                         }
-
+                        refreshData();
                         render();
 
 

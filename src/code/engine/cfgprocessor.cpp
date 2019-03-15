@@ -54,6 +54,42 @@ void CfgProcessor::replaceInternal(string filePath, string property, string newl
     }
 }
 
+string CfgProcessor::getValue(string entry, string gamePath, string property)
+{
+    string filePath = gamePath + entry + Util::separator() + PCSX_CFG;
+    if (!Util::exists(filePath)) {
+        return "";
+    }
+
+    std::fstream file(filePath, std::ios::in);
+    vector<string> lines;
+    lines.clear();
+
+    if (file.is_open()) {
+
+        std::string line;
+
+
+        while (std::getline(file, line)) {
+
+
+            string lcaseline = line;
+            string lcasepattern = property;
+            lcase(lcaseline);
+            lcase(lcasepattern);
+
+            if (lcaseline.rfind(lcasepattern, 0) == 0) {
+                string value=line.substr(lcaseline.find("=")+1);
+                return value;
+            }
+
+
+        }
+        file.close();
+    }
+    return "";
+}
+
 void CfgProcessor::replace(string entry, string gamePath, string property, string newline) {
 
     string realCfgPath = gamePath + entry + Util::separator() + PCSX_CFG;
