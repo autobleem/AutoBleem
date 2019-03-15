@@ -68,6 +68,13 @@ void GuiSplash::loop() {
         gui->watchJoystickPort();
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
+            if (e.type == SDL_KEYDOWN) {
+                if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
+                    gui->drawText(_("POWERING OFF... PLEASE WAIT"));
+                    Util::powerOff();
+
+                }
+            }
             if (e.type == SDL_QUIT)
                 break;
             else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)

@@ -160,7 +160,7 @@ void Gui::loadAssets() {
     buttonCheck = loadThemeTexture(renderer, themePath, defaultPath, "check");
     buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
     if (cfg.inifile.values["jewel"] == "default") {
-        cdJewel = IMG_LoadTexture(renderer, (Util::getWorkingPath() + "/evoimg/No Filter.png").c_str());
+        cdJewel = IMG_LoadTexture(renderer, (Util::getWorkingPath() + "/evoimg/nofilter.png").c_str());
     } else {
         cdJewel = IMG_LoadTexture(renderer,
                                   (Util::getWorkingPath() + "/evoimg/frames/" + cfg.inifile.values["jewel"]).c_str());
@@ -214,6 +214,13 @@ void Gui::criticalException(string text) {
     while (true) {
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
+            if (e.type == SDL_KEYDOWN) {
+                if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
+                    drawText(_("POWERING OFF... PLEASE WAIT"));
+                    Util::powerOff();
+
+                }
+            }
             if (e.type == SDL_QUIT)
                 return;
             else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
@@ -311,6 +318,13 @@ bool Gui::quickBoot() {
     while (true) {
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
+            if (e.type == SDL_KEYDOWN) {
+                if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
+                    drawText(_("POWERING OFF... PLEASE WAIT"));
+                    Util::powerOff();
+
+                }
+            }
             if (e.type == SDL_QUIT)
                 return false;
             else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
