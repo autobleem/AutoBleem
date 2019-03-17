@@ -10,14 +10,15 @@
 #include "../engine/cfgprocessor.h"
 #include "../lang.h"
 
-#define OPT_LOCK         5
-#define OPT_HIGHRES      6
-#define OPT_SPEEDHACK    7
-#define OPT_SCANLINES    8
-#define OPT_SCANLINELV   9
-#define OPT_CLOCK_PSX   10
-#define OPT_FRAMESKIP   11
-#define OPT_PLUGIN      12
+#define OPT_LOCK           5
+#define OPT_HIGHRES        6
+#define OPT_SPEEDHACK      7
+#define OPT_SCANLINES      8
+#define OPT_SCANLINELV     9
+#define OPT_CLOCK_PSX      10
+#define OPT_FRAMESKIP      11
+#define OPT_PLUGIN         12
+#define OPT_INTERPOLATION  13
 
 
 
@@ -166,6 +167,32 @@ void GuiEditor::processOptionChange(bool direction) {
                                "frameskip3 = " + s);
             refreshData();
             break;
+
+        case OPT_INTERPOLATION:
+            if (direction == true) {
+
+                interpolation++;
+                if (interpolation>3)
+                {
+                    interpolation = 3;
+                }
+
+            } else {
+                interpolation--;
+                if (interpolation<0)
+                {
+                    interpolation=0;
+                }
+            }
+
+
+            ss << std::hex << interpolation;
+            s = ss.str();
+
+            processor->replace(game.entry, gui->path, "spu_config.iUseInterpolation",
+                               "spu_config.iUseInterpolation = " + s);
+            refreshData();
+            break;
         case OPT_PLUGIN:
             if (direction == true) {
                gpu = "gpu_peops.so";
@@ -261,6 +288,7 @@ void GuiEditor::render() {
     gui->renderTextLineOptions(_("Clock:") + " " + to_string(clock), 10, offset, false, 300);
     gui->renderTextLineOptions(_("Frameskip:") + " " + to_string(frameskip), 11, offset, false, 300);
     gui->renderTextLineOptions(_("Plugin:") + gpu, 12, offset, false, 300);
+    gui->renderTextLineOptions(_("Spu Interpolation:") + to_string(interpolation), 13, offset, false, 300);
 
     gui->renderSelectionBox(selOption, offset, 300);
 
@@ -312,8 +340,8 @@ void GuiEditor::loop() {
                         if (e.jaxis.value > 3200) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             selOption++;
-                            if (selOption > 12) {
-                                selOption = 12;
+                            if (selOption > 13) {
+                                selOption = 13;
                             }
                             render();
                         }
