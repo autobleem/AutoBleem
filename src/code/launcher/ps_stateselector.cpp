@@ -49,6 +49,17 @@ void PsStateSelector::renderText(int x, int y, string text, Uint8 r, Uint8 g, Ui
 
 }
 
+void PsStateSelector::cleanSaveStateImages()
+{
+    for (int i=0;i<4;i++)
+    {
+        if (slotImg[i]!= nullptr)
+        {
+            SDL_DestroyTexture(slotImg[i]);
+        }
+    }
+}
+
 void PsStateSelector::loadSaveStateImages(PsGame *game, bool saving)
 {
     if (saving)
@@ -116,7 +127,7 @@ void PsStateSelector::render()
         shared_ptr<Gui> gui(Gui::getInstance());
         SDL_Texture *infoText;
         SDL_Rect infoRect, infoDest;
-        gui->getEmojiTextTexture(renderer,"|@X| "+_("Select")+"     |@O| "+_("Cancel")+"|",font24, &infoText, &infoRect);
+        gui->getEmojiTextTexture(renderer,"|@T| "+_("Delete")+"     |@X| "+_("Select")+"     |@O| "+_("Cancel")+"|",font24, &infoText, &infoRect);
 
         infoDest.x=640-infoRect.w/2;
         infoDest.y=150;

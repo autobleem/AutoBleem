@@ -5,6 +5,7 @@
 #include "gui_launcher.h"
 #include "../gui/gui.h"
 #include "../gui/gui_options.h"
+#include "../gui/gui_confirm.h"
 #include "../gui/gui_editor.h"
 #include "../lang.h"
 #include "pcsx_interceptor.h"
@@ -993,6 +994,8 @@ void GuiLauncher::loop() {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             sselector->visible = false;
                             arrow->visible = true;
+                            sselector->cleanSaveStateImages();
+                            menu->setResumePic(gamesList[selGame]->findResumePicture());
 
                             if (sselector->operation == OP_LOAD) {
                                 state = STATE_SET;
@@ -1139,6 +1142,7 @@ void GuiLauncher::loop() {
                                     gui->lastSelIndex = selGame;
                                     gui->resumepoint = slot;
                                     gui->lastSet = currentSet;
+                                    sselector->cleanSaveStateImages();
                                     menuVisible = false;
                                 } else {
                                     Mix_PlayChannel(-1, gui->cancel, 0);
@@ -1168,10 +1172,38 @@ void GuiLauncher::loop() {
 
                     };
                     if (e.jbutton.button == PCS_BTN_TRIANGLE) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        GuiBtnGuide *guide = new GuiBtnGuide(renderer);
-                        guide->show();
-                        delete guide;
+                        if (state != STATE_RESUME) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
+                            GuiBtnGuide *guide = new GuiBtnGuide(renderer);
+                            guide->show();
+                            delete guide;
+                        } else {
+                            if (sselector->operation == OP_LOAD) {
+                                PsGame *game = gamesList[selGame];
+                                int slot = sselector->selSlot;
+                                if (game->isResumeSlotActive(slot)) {
+                                    Mix_PlayChannel(-1, gui->cursor, 0);
+                             // TODO - Delete slot here
+                                    GuiConfirm * confirm = new GuiConfirm(renderer);
+                                    confirm->label = _("Are you sure?");
+                                    confirm->show();
+
+                                    if (confirm->result)
+                                    {
+                                        game->removeResumePoint(slot);
+                                    }
+                                    sselector->cleanSaveStateImages();
+                                    sselector->loadSaveStateImages(gamesList[selGame], false);
+                                    state = STATE_RESUME;
+                                    sselector->selSlot = 0;
+                                    sselector->operation = OP_LOAD;
+                                    delete (confirm);
+
+                                } else {
+                                    Mix_PlayChannel(-1, gui->cancel, 0);
+                                }
+                            }
+                        }
 
                     };
 

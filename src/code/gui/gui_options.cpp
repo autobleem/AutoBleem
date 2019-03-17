@@ -47,34 +47,34 @@ void GuiOptions::init() {
     pcsx.push_back("original");
     pcsx.push_back("bleemsync");
     mip.clear();
-    mip.push_back("false");
     mip.push_back("true");
+    mip.push_back("false");
     nomusic.clear();
-    nomusic.push_back("false");
     nomusic.push_back("true");
+    nomusic.push_back("false");
     autoregion.clear();
-    autoregion.push_back("true");
     autoregion.push_back("false");
+    autoregion.push_back("true");
     retroarch.clear();
-    retroarch.push_back("true");
     retroarch.push_back("false");
+    retroarch.push_back("true");
     adv.clear();
-    adv.push_back("true");
     adv.push_back("false");
+    adv.push_back("true");
     quickboot.clear();
-    quickboot.push_back("true");
     quickboot.push_back("false");
+    quickboot.push_back("true");
     languages.clear();
     languages = lang->listLanguages();
     ui.clear();
     ui.push_back("classic");
     ui.push_back("EvolutionUI");
     aspect.clear();
-    aspect.push_back("true");
     aspect.push_back("false");
+    aspect.push_back("true");
     origames.clear();
-    origames.push_back("true");
     origames.push_back("false");
+    origames.push_back("true");
     jewels.clear();
     jewels.push_back("default");
     folders = Util::diru(Util::getWorkingPath()+"/evoimg/frames");
@@ -288,11 +288,16 @@ void GuiOptions::loop() {
 
                             }
                             if (selOption == CFG_QUICK) {
+
                                 string nextValue = getOption(quickboot, gui->cfg.inifile.values["quick"], true);
+                                string last = gui->cfg.inifile.values["quick"];
+                                gui->cfg.inifile.values["quick"] = nextValue;
                                 int delay = atoi(gui->cfg.inifile.values["delay"].c_str());
                                 delay++;
-                                gui->cfg.inifile.values["delay"] = to_string(1);
-                                gui->cfg.inifile.values["quick"] = nextValue;
+                                if (last == "false") delay = 1;
+                                gui->cfg.inifile.values["delay"] = to_string(delay);
+
+
                             }
 
 
@@ -366,12 +371,10 @@ void GuiOptions::loop() {
                             }
                             if (selOption == CFG_QUICK) {
                                 string nextValue = getOption(quickboot, gui->cfg.inifile.values["quick"], false);
-                                string last = gui->cfg.inifile.values["quick"];
-                                gui->cfg.inifile.values["quick"] = nextValue;
                                 int delay = atoi(gui->cfg.inifile.values["delay"].c_str());
                                 delay++;
-                                if (last == "false") delay = 1;
-                                gui->cfg.inifile.values["delay"] = to_string(delay);
+                                gui->cfg.inifile.values["delay"] = to_string(1);
+                                gui->cfg.inifile.values["quick"] = nextValue;
                             }
 
                             render();

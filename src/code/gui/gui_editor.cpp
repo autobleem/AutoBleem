@@ -81,13 +81,14 @@ void GuiEditor::render() {
                         true);
 
     gui->renderTextLine(_("High res:") + (highres == 1 ? string("|@Check|") : string("|@Uncheck|")),6, offset, true);
-    /*
+
    gui->renderTextLine(_("SpeedHack:") + (speedhack == 1 ? string("|@Check|") : string("|@Uncheck|")),7, offset, true);
    gui->renderTextLine(_("Scanlines:") + (scanlines == 1 ? string("|@Check|") : string("|@Uncheck|")),8, offset, true);
    gui->renderTextLine(_("Scanline Level:") +  " "+to_string(scanlineLevel),9, offset, true);
    gui->renderTextLine(_("Clock:") + " "+to_string(clock),10, offset, true);
-   gui->renderTextLine(_("Plugin:") + gpu,11, offset, true);
-   */
+   gui->renderTextLine(_("Frameskip:") + " "+to_string(clock),11, offset, true);
+   gui->renderTextLine(_("Plugin:") + to_string(frameskip),12, offset, true);
+
 
 
 

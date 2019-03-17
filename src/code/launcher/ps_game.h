@@ -46,6 +46,7 @@ public:
     string findResumePicture(int slot);
     void storeResumePicture(int slot);
     bool isCleanExit();
+    void removeResumePoint(int slot);
 
 
     PsScreenpoint current;

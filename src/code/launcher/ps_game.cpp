@@ -8,6 +8,7 @@
 #include "../gui/gui.h"
 
 
+
 void PsGame::loadTex(SDL_Renderer *renderer) {
     shared_ptr<Gui> gui(Gui::getInstance());
 
@@ -100,6 +101,34 @@ void PsGame::setMemCard(string name) {
     ini->save(this->folder + "/Game.ini");
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->db->updateMemcard(this->gameId, name);
+}
+
+void PsGame::removeResumePoint(int slot)
+{
+    // TODO: Remove ssfile
+    string filenamefile = ssFolder + "filename.txt.res";
+    if (Util::exists(filenamefile)) {
+        ifstream is(filenamefile.c_str());
+        if (is.is_open()) {
+
+            std::string line;
+            std::getline(is, line);
+            std::getline(is, line);
+
+            string ssfile = ssFolder + "sstates/" + line + ".00" + to_string(slot) + ".res";
+            remove(ssfile.c_str());
+            // last line is our filename
+            if (slot == 0) {
+                string slot0img = ssFolder + "screenshots/" + line + ".png.res";
+                remove(slot0img.c_str());
+
+            } else {
+                string slotnimg = ssFolder + "screenshots/" + line + "." + to_string(slot) + ".png.res";
+                remove(slotnimg.c_str());
+            }
+            is.close();
+        }
+    }
 }
 
 bool PsGame::isResumeSlotActive(int slot) {
