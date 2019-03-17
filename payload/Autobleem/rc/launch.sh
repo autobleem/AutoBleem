@@ -3,7 +3,14 @@
 #PCSX launcher for AutoBleem
 
 # copy configuration to it's place
-cp "$5/pcsx.cfg" "$1/pcsx.cfg"
+if [[ $5 == *"/gaadata"* ]]; then
+  echo "Internal game"
+else
+  cp "$5/pcsx.cfg" "$1/pcsx.cfg"
+fi
+
+
+
 # select pcsx to use
 
 echo "Custom PCSX ONLY in EvolutionUI !!!"
