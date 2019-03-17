@@ -33,6 +33,12 @@ static const char GAMES_DATA_SINGLE[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PU
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
+static const char GAMES_DATA_SINGLE_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
+                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
+                                    WHERE g.GAME_ID=?  \
+                                     GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
+                                     ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
+
 static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
                                   FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
@@ -209,6 +215,66 @@ bool Database::getInternalGames(vector<PsGame *> *result) {
             game->internal = true;
             game->cds = discs;
             result->push_back(game);
+        }
+    } else {
+
+
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+    return true;
+}
+
+bool Database::refreshGameInternal(PsGame  *game) {
+
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, GAMES_DATA_SINGLE_INTERNAL, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        sqlite3_bind_int(res, 1, game->gameId);
+        while (sqlite3_step(res) == SQLITE_ROW) {
+            int id = sqlite3_column_int(res, 0);
+            const unsigned char *title = sqlite3_column_text(res, 1);
+            const unsigned char *publisher = sqlite3_column_text(res, 2);
+            int year = sqlite3_column_int(res, 3);
+            int players = sqlite3_column_int(res, 4);
+            const unsigned char *base = sqlite3_column_text(res, 5);
+            int discs = sqlite3_column_int(res, 6);
+
+
+            game->gameId = id;
+            game->title = std::string(reinterpret_cast<const char *>(title));
+            game->publisher = std::string(reinterpret_cast<const char *>(publisher));
+            game->year = year;
+            game->players = players;
+            game->folder = "/gaadata/" + to_string(id) + "/";
+            game->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
+            game->base = std::string(reinterpret_cast<const char *>(base));
+            game->memcard = "SONY";
+            game->internal = true;
+            game->cds = discs;
+
+
+            string gameIniPath = game->folder + "/Game.ini";
+            if (Util::exists(gameIniPath)) {
+                Inifile ini;
+                ini.load(gameIniPath);
+                if (ini.values["automation"]=="1")
+                {
+                    game->locked = false;
+                } else
+                {
+                    game->locked = true;
+                }
+                if (ini.values["highres"]=="1")
+                {
+                    game->hd=true;
+                } else
+                {
+                    game->hd=false;
+                }
+            }
+
         }
     } else {
 

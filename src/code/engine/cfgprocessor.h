@@ -9,7 +9,7 @@
 class CfgProcessor {
 public:
     Config config;
-    void replace(string entry, string gamePath,  string property, string newline);
+    void replace(string entry, string gamePath,  string property, string newline, bool internal);
     void patchHLEbios(string entry, string gamePath);
     string getValue(string entry, string gamePath, string property,bool internal);
 

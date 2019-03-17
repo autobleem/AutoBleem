@@ -25,6 +25,11 @@ void GuiEditor::processOptionChange(bool direction) {
     shared_ptr<Gui> gui(Gui::getInstance());
     CfgProcessor *processor = new CfgProcessor();
 
+    string path = gui->path;
+    if (internal)
+    {
+        path = gameData->ssFolder;
+    }
     stringstream ss;
     string s;
 
@@ -44,20 +49,25 @@ void GuiEditor::processOptionChange(bool direction) {
             }
             break;
         case OPT_HIGHRES:
-            if (!internal) {
+
                 if (direction == false) {
-                    if (game.values["highres"] == "1") {
-                        game.values["highres"] = "0";
+                    if (highres == 1) {
+                        highres = 0;
                     }
                 } else {
-                    if (game.values["highres"] == "0") {
-                        game.values["highres"] = "1";
+                    if (highres == 0) {
+                        highres = 1;
                     }
                 }
-            }
+                game.values["highres"] = to_string(highres);
 
-            processor->replace(game.entry, gui->path, "gpu_neon.enhancement_enable",
-                               "gpu_neon.enhancement_enable = " + game.values["highres"]);
+
+            processor->replace(game.entry, path, "gpu_neon.enhancement_enable",
+                               "gpu_neon.enhancement_enable = " + game.values["highres"], internal);
+            if (!internal)
+            {
+                game.save(game.path);
+            }
 
             refreshData();
 
@@ -73,8 +83,8 @@ void GuiEditor::processOptionChange(bool direction) {
                 }
             }
 
-            processor->replace(game.entry, gui->path, "gpu_neon.enhancement_no_main",
-                               "gpu_neon.enhancement_no_main = " + to_string(speedhack));
+            processor->replace(game.entry, path, "gpu_neon.enhancement_no_main",
+                               "gpu_neon.enhancement_no_main = " + to_string(speedhack), internal);
             refreshData();
 
             break;
@@ -89,8 +99,8 @@ void GuiEditor::processOptionChange(bool direction) {
                     scanlines = 1;
                 }
             }
-            processor->replace(game.entry, gui->path, "scanlines",
-                               "scanlines = " + to_string(scanlines));
+            processor->replace(game.entry, path, "scanlines",
+                               "scanlines = " + to_string(scanlines), internal);
             refreshData();
             break;
         case OPT_SCANLINELV:
@@ -112,8 +122,8 @@ void GuiEditor::processOptionChange(bool direction) {
             ss << std::hex << scanlineLevel;
             s = ss.str();
 
-            processor->replace(game.entry, gui->path, "scanline_level",
-                               "scanline_level = " + s);
+            processor->replace(game.entry, path, "scanline_level",
+                               "scanline_level = " + s, internal);
             refreshData();
             break;
 
@@ -136,8 +146,8 @@ void GuiEditor::processOptionChange(bool direction) {
             ss << std::hex << clock;
             s = ss.str();
 
-            processor->replace(game.entry, gui->path, "psx_clock",
-                               "psx_clock = " + s);
+            processor->replace(game.entry, path, "psx_clock",
+                               "psx_clock = " + s, internal);
             refreshData();
             break;
         case OPT_FRAMESKIP:
@@ -159,8 +169,8 @@ void GuiEditor::processOptionChange(bool direction) {
             ss << std::hex << frameskip;
             s = ss.str();
 
-            processor->replace(game.entry, gui->path, "frameskip3",
-                               "frameskip3 = " + s);
+            processor->replace(game.entry, path, "frameskip3",
+                               "frameskip3 = " + s, internal);
             refreshData();
             break;
 
@@ -183,8 +193,8 @@ void GuiEditor::processOptionChange(bool direction) {
             ss << std::hex << interpolation;
             s = ss.str();
 
-            processor->replace(game.entry, gui->path, "spu_config.iUseInterpolation",
-                               "spu_config.iUseInterpolation = " + s);
+            processor->replace(game.entry, path, "spu_config.iUseInterpolation",
+                               "spu_config.iUseInterpolation = " + s, internal);
             refreshData();
             break;
         case OPT_PLUGIN:
@@ -194,8 +204,8 @@ void GuiEditor::processOptionChange(bool direction) {
             } else {
                 gpu = "builtin_gpu";
             }
-            processor->replace(game.entry, gui->path, "Gpu3",
-                               "Gpu3 = " + gpu);
+            processor->replace(game.entry, path, "Gpu3",
+                               "Gpu3 = " + gpu, internal);
             refreshData();
             break;
 
@@ -328,7 +338,7 @@ void GuiEditor::render() {
     string guiMenu = "|@T| " + _("Rename") + "  |@S| " + _("Change MC") + " ";
 
     if (game.values["memcard"] == "SONY") {
-        guiMenu += "|@T| " + _("Share MC") + "  ";
+        guiMenu += "|@Start| " + _("Share MC") + "  ";
     }
 
 
@@ -403,7 +413,7 @@ void GuiEditor::loop() {
                 case SDL_JOYBUTTONDOWN:
 
                     if (game.values["memcard"] == "SONY") {
-                        if (e.jbutton.button == PCS_BTN_TRIANGLE) {
+                        if (e.jbutton.button == PCS_BTN_START) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                             keyboard->label = _("Enter new name for memory card");
@@ -433,41 +443,7 @@ void GuiEditor::loop() {
                     }
 
 
-                    /*
-                    if (e.jbutton.button == PCS_BTN_SELECT) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        if (game.values["automation"] == "1") {
-                            game.values["automation"] = "0";
-                        } else {
-                            game.values["automation"] = "1";
-                        }
-                        game.save(game.path);
-                        render();
 
-                    };
-
-
-                    if (e.jbutton.button == PCS_BTN_START) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        if (game.values["highres"] == "1") {
-                            game.values["highres"] = "0";
-                        } else {
-                            game.values["highres"] = "1";
-                        }
-
-                        game.save(game.path);
-                        CfgProcessor *processor = new CfgProcessor();
-
-                        processor->replace(game.entry, gui->path, "gpu_neon.enhancement_enable",
-                                           "gpu_neon.enhancement_enable = " + game.values["highres"]);
-                        delete processor;
-                        refreshData();
-                        render();
-                    };
-
-
-
-                     */
                     if (e.jbutton.button == PCS_BTN_SQUARE) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         GuiSelectMemcard *selector = new GuiSelectMemcard(renderer);
@@ -512,10 +488,16 @@ void GuiEditor::loop() {
 
 
                         if (!cancelled) {
-                            game.values["title"] = result;
-                            game.values["automation"] = "0";
-                            game.save(game.path);
-                            changes = true;
+                            if (!internal) {
+                                game.values["title"] = result;
+                                game.values["automation"] = "0";
+                                game.save(game.path);
+                                changes = true;
+                            } else
+                            {
+                                lastName = result;
+                                changes=true;
+                            }
                         }
                         refreshData();
                         render();

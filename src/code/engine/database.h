@@ -38,6 +38,7 @@ public:
     bool getInternalGames(vector<PsGame *> *result);
     bool updateTitle(int id, string title);
     bool refreshGame(PsGame  *game);
+    bool refreshGameInternal(PsGame  *game);
 private:
     sqlite3 *db;
     bool executeCreateStatement(char *sql, string tableName);

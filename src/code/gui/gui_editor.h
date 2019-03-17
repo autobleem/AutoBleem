@@ -42,6 +42,7 @@ public:
 
 
 
+    string lastName = "";
     bool changes=false;
 
     void processOptionChange(bool direction);

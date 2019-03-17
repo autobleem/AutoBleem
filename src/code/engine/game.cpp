@@ -253,7 +253,7 @@ void Game::recoverMissingFiles() {
         Util::copy(source, destination);
 
         CfgProcessor * processor=new CfgProcessor();
-        processor->replace(pathName, gui->path, "region", "region = " + to_string(region));
+        processor->replace(pathName, gui->path, "region", "region = " + to_string(region),false);
         delete(processor);
         pcsxCfgFound = true;
     }

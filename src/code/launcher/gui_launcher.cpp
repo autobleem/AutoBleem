@@ -1056,11 +1056,6 @@ void GuiLauncher::loop() {
                                     continue;
                                 }
 
-                                if (gamesList[selGame]->internal)
-                                {
-                                    Mix_PlayChannel(-1, gui->cancel, 0);
-                                    continue;
-                                }
 
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 GuiEditor *editor = new GuiEditor(renderer);
@@ -1069,13 +1064,11 @@ void GuiLauncher::loop() {
                                 if (!editor->internal) {
 
                                     gameIni.load(gamesList[selGame]->folder + "Game.ini");
-                                    string folderNoLast = gamesList[selGame]->folder.substr(0,
-                                                                                            gamesList[selGame]->folder.size() -
-                                                                                            1);
+                                    string folderNoLast =
+                                            gamesList[selGame]->folder.substr(0, gamesList[selGame]->folder.size() - 1);
                                     gameIni.entry = folderNoLast.substr(folderNoLast.find_last_of("//") + 1);
                                     editor->game = gameIni;
-                                } else
-                                {
+                                } else {
                                     editor->gameData = gamesList[selGame];
                                 }
 
@@ -1086,8 +1079,19 @@ void GuiLauncher::loop() {
                                         gui->db->updateTitle(gamesList[selGame]->gameId, gameIni.values["title"]);
                                     }
                                     gui->db->refreshGame(gamesList[selGame]);
-                                } else
-                                {
+                                } else {
+                                    Database *internalDB = new Database();
+#if defined(__x86_64__) || defined(_M_X64)
+                                    internalDB->connect("internal.db");
+#else
+                                    internalDB->connect("/media/System/Databases/internal.db");
+#endif
+                                    if (editor->changes) {
+                                        internalDB->updateTitle(gamesList[selGame]->gameId, editor->lastName);
+                                    }
+                                    internalDB->refreshGameInternal(gamesList[selGame]);
+                                    internalDB->disconnect();
+                                    delete internalDB;
 
                                 }
 
@@ -1199,13 +1203,12 @@ void GuiLauncher::loop() {
                                 int slot = sselector->selSlot;
                                 if (game->isResumeSlotActive(slot)) {
                                     Mix_PlayChannel(-1, gui->cursor, 0);
-                             // TODO - Delete slot here
-                                    GuiConfirm * confirm = new GuiConfirm(renderer);
+
+                                    GuiConfirm *confirm = new GuiConfirm(renderer);
                                     confirm->label = _("Are you sure?");
                                     confirm->show();
 
-                                    if (confirm->result)
-                                    {
+                                    if (confirm->result) {
                                         game->removeResumePoint(slot);
                                     }
                                     sselector->cleanSaveStateImages();

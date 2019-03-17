@@ -3,8 +3,6 @@
 //
 
 #include "cfgprocessor.h"
-#include "../util.h"
-#include "inifile.h"
 
 using namespace std;
 
@@ -54,16 +52,14 @@ void CfgProcessor::replaceInternal(string filePath, string property, string newl
     }
 }
 
-string CfgProcessor::getValue(string entry, string gamePath, string property, bool internal)
-{
+string CfgProcessor::getValue(string entry, string gamePath, string property, bool internal) {
     string filePath;
     if (!internal) {
         filePath = gamePath + entry + Util::separator() + PCSX_CFG;
         if (!Util::exists(filePath)) {
             return "";
         }
-    }  else
-    {
+    } else {
         filePath = gamePath + Util::separator() + PCSX_CFG;
     }
     std::fstream file(filePath, std::ios::in);
@@ -84,7 +80,7 @@ string CfgProcessor::getValue(string entry, string gamePath, string property, bo
             lcase(lcasepattern);
 
             if (lcaseline.rfind(lcasepattern, 0) == 0) {
-                string value=line.substr(lcaseline.find("=")+1);
+                string value = line.substr(lcaseline.find("=") + 1);
                 return value;
             }
 
@@ -95,19 +91,33 @@ string CfgProcessor::getValue(string entry, string gamePath, string property, bo
     return "";
 }
 
-void CfgProcessor::replace(string entry, string gamePath, string property, string newline) {
+void CfgProcessor::replace(string entry, string gamePath, string property, string newline, bool internal) {
 
-    string realCfgPath = gamePath + entry + Util::separator() + PCSX_CFG;
-    replaceInternal(realCfgPath, property, newline);
+    if (!internal) {
+        string realCfgPath = gamePath + entry + Util::separator() + PCSX_CFG;
+        replaceInternal(realCfgPath, property, newline);
 
-    for (DirEntry cfgEntry:Util::diru(
-            gamePath + "!SaveStates" + Util::separator() + entry + Util::separator() + "cfg")) {
-        string path =
-                gamePath + "!SaveStates" + Util::separator() + entry + Util::separator() + "cfg" + Util::separator() +
-                cfgEntry.name;
-        replaceInternal(path, property, newline);
+        for (DirEntry cfgEntry:Util::diru(
+                gamePath + "!SaveStates" + Util::separator() + entry + Util::separator() + "cfg")) {
+            string path =
+                    gamePath + "!SaveStates" + Util::separator() + entry + Util::separator() + "cfg" +
+                    Util::separator() +
+                    cfgEntry.name;
+            replaceInternal(path, property, newline);
+        }
+    } else {
+        string realCfgPath = gamePath + Util::separator() + PCSX_CFG;
+        replaceInternal(realCfgPath, property, newline);
+
+        for (DirEntry cfgEntry:Util::diru(
+                gamePath + Util::separator() + "cfg")) {
+            string path =
+                    gamePath + Util::separator() + "cfg" +
+                    Util::separator() +
+                    cfgEntry.name;
+            replaceInternal(path, property, newline);
+        }
     }
-
 
 }
 
