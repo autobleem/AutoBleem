@@ -181,6 +181,7 @@ void GuiManager::loop()
 
                         if (delCovers)
                         {
+                            cout << "Trying to delete covers" << endl;
                             gui->renderStatus(_("Please wait ... deleting covers..."));
                             Util::execUnixCommad("/media/Autobleem/rc/cleanup.sh");
                             gui->forceScan = true;

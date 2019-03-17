@@ -364,6 +364,7 @@ string Util::commaSep(string s, int pos) {
 string Util::execUnixCommad(const char* cmd){
     array<char, 128> buffer;
     string result;
+    cout << "Exec:" << cmd << endl;
     unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
     if (!pipe) {
         throw runtime_error("popen() failed!");
