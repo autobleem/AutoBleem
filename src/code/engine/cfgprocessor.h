@@ -11,7 +11,7 @@ public:
     Config config;
     void replace(string entry, string gamePath,  string property, string newline);
     void patchHLEbios(string entry, string gamePath);
-    string getValue(string entry, string gamePath, string property);
+    string getValue(string entry, string gamePath, string property,bool internal);
 
 private:
     void replaceInternal(string filePath, string property, string newline);

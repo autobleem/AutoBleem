@@ -54,13 +54,18 @@ void CfgProcessor::replaceInternal(string filePath, string property, string newl
     }
 }
 
-string CfgProcessor::getValue(string entry, string gamePath, string property)
+string CfgProcessor::getValue(string entry, string gamePath, string property, bool internal)
 {
-    string filePath = gamePath + entry + Util::separator() + PCSX_CFG;
-    if (!Util::exists(filePath)) {
-        return "";
+    string filePath;
+    if (!internal) {
+        filePath = gamePath + entry + Util::separator() + PCSX_CFG;
+        if (!Util::exists(filePath)) {
+            return "";
+        }
+    }  else
+    {
+        filePath = gamePath + Util::separator() + PCSX_CFG;
     }
-
     std::fstream file(filePath, std::ios::in);
     vector<string> lines;
     lines.clear();

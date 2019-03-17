@@ -34,10 +34,18 @@ void PsGame::loadTex(SDL_Renderer *renderer) {
             SDL_QueryTexture(coverPng,&format, &access, &fullRect.w, &fullRect.h);
 
             SDL_Rect outputRect;
-            outputRect.x = 23;
-            outputRect.y = 5;
-            outputRect.h = 217;
-            outputRect.w = 199;
+            if (gui->cdJewel!= nullptr) {
+                outputRect.x = 23;
+                outputRect.y = 5;
+                outputRect.h = 217;
+                outputRect.w = 199;
+            } else
+            {
+                outputRect.x = 0;
+                outputRect.y = 0;
+                outputRect.h = 226;
+                outputRect.w = 226;
+            }
             if (coverPng != nullptr) {
                 SDL_RenderCopy(renderer, coverPng, &fullRect, &outputRect);
             }
@@ -50,7 +58,9 @@ void PsGame::loadTex(SDL_Renderer *renderer) {
             fullRect.x = 0;
             fullRect.y = 0;
             fullRect.h = 226, fullRect.w = 226;
-            SDL_RenderCopy(renderer, gui->cdJewel, &fullRect, &fullRect);
+            if (gui->cdJewel!= nullptr) {
+                SDL_RenderCopy(renderer, gui->cdJewel, &fullRect, &fullRect);
+            }
             coverPng = renderSurface;
         }
         SDL_SetRenderTarget(renderer, nullptr);

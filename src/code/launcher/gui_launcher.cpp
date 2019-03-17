@@ -1055,26 +1055,42 @@ void GuiLauncher::loop() {
                                 if (gamesList.empty()) {
                                     continue;
                                 }
-                                if (gamesList[selGame]->internal) {
+
+                                if (gamesList[selGame]->internal)
+                                {
                                     Mix_PlayChannel(-1, gui->cancel, 0);
-                                    showNotification(_("It is not possible to edit internal games"));
                                     continue;
                                 }
+
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 GuiEditor *editor = new GuiEditor(renderer);
+                                editor->internal = gamesList[selGame]->internal;
                                 Inifile gameIni;
-                                gameIni.load(gamesList[selGame]->folder + "Game.ini");
-                                string folderNoLast = gamesList[selGame]->folder.substr(0,
-                                                                                        gamesList[selGame]->folder.size() -
-                                                                                        1);
-                                gameIni.entry = folderNoLast.substr(folderNoLast.find_last_of("//") + 1);
-                                editor->game = gameIni;
-                                editor->show();
-                                if (editor->changes) {
+                                if (!editor->internal) {
+
                                     gameIni.load(gamesList[selGame]->folder + "Game.ini");
-                                    gui->db->updateTitle(gamesList[selGame]->gameId, gameIni.values["title"]);
+                                    string folderNoLast = gamesList[selGame]->folder.substr(0,
+                                                                                            gamesList[selGame]->folder.size() -
+                                                                                            1);
+                                    gameIni.entry = folderNoLast.substr(folderNoLast.find_last_of("//") + 1);
+                                    editor->game = gameIni;
+                                } else
+                                {
+                                    editor->gameData = gamesList[selGame];
                                 }
-                                gui->db->refreshGame(gamesList[selGame]);
+
+                                editor->show();
+                                if (!editor->internal) {
+                                    if (editor->changes) {
+                                        gameIni.load(gamesList[selGame]->folder + "Game.ini");
+                                        gui->db->updateTitle(gamesList[selGame]->gameId, gameIni.values["title"]);
+                                    }
+                                    gui->db->refreshGame(gamesList[selGame]);
+                                } else
+                                {
+
+                                }
+
                                 setInitialPositions(selGame);
                                 updateMeta();
                                 menu->setResumePic(gamesList[selGame]->findResumePicture());

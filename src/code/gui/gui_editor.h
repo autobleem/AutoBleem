@@ -6,6 +6,7 @@
 #define AUTOBLEEM_GUI_GUI_EDITOR_H
 #include "gui_screen.h"
 #include "../engine/inifile.h"
+#include "../launcher/ps_game.h"
 #include <vector>
 using namespace std;
 
@@ -31,6 +32,10 @@ public:
     int scanlines;
     int scanlineLevel;
     int interpolation;
+
+    PsGame * gameData;
+
+    bool internal = false;
 
 
     int selOption = 5;

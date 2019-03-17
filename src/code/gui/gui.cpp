@@ -159,11 +159,17 @@ void Gui::loadAssets() {
     buttonR2 = loadThemeTexture(renderer, themePath, defaultPath, "r2");
     buttonCheck = loadThemeTexture(renderer, themePath, defaultPath, "check");
     buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
-    if (cfg.inifile.values["jewel"] == "default") {
-        cdJewel = IMG_LoadTexture(renderer, (Util::getWorkingPath() + "/evoimg/nofilter.png").c_str());
-    } else {
-        cdJewel = IMG_LoadTexture(renderer,
-                                  (Util::getWorkingPath() + "/evoimg/frames/" + cfg.inifile.values["jewel"]).c_str());
+    if (cfg.inifile.values["jewel"] != "none") {
+        if (cfg.inifile.values["jewel"] == "default") {
+            cdJewel = IMG_LoadTexture(renderer, (Util::getWorkingPath() + "/evoimg/nofilter.png").c_str());
+        } else {
+            cdJewel = IMG_LoadTexture(renderer,
+                                      (Util::getWorkingPath() + "/evoimg/frames/" +
+                                       cfg.inifile.values["jewel"]).c_str());
+        }
+    } else
+    {
+        cdJewel = nullptr;
     }
     string fontPath = (themePath + themeData.values["font"]);
     font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));

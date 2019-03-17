@@ -76,6 +76,7 @@ void GuiOptions::init() {
     origames.push_back("false");
     origames.push_back("true");
     jewels.clear();
+    jewels.push_back("none");
     jewels.push_back("default");
     folders = Util::diru(Util::getWorkingPath()+"/evoimg/frames");
     for (DirEntry entry:folders) {
