@@ -183,7 +183,7 @@ void GuiManager::loop()
                         {
                             cout << "Trying to delete covers" << endl;
                             gui->renderStatus(_("Please wait ... deleting covers..."));
-                            Util::execUnixCommad("/media/Autobleem/rc/cleanup.sh");
+                            string txt = Util::execUnixCommad("bash /media/Autobleem/rc/cleanup.sh");
                             gui->forceScan = true;
                             menuVisible = false;
                         } else {
