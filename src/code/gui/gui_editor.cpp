@@ -194,6 +194,7 @@ void GuiEditor::refreshData() {
     dither = atoi(processor->getValue(game.entry, gui->path, "gpu_peops.iUseDither").c_str());
     scanlines = atoi(processor->getValue(game.entry, gui->path, "scanlines").c_str());
     scanlineLevel = strtol(processor->getValue(game.entry, gui->path, "scanline_level").c_str(), NULL, 16);
+    interpolation = strtol(processor->getValue(game.entry, gui->path, "spu_config.iUseInterpolation").c_str(),NULL,16);
 
     delete processor;
 }

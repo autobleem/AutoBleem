@@ -30,6 +30,7 @@ public:
 
     int scanlines;
     int scanlineLevel;
+    int interpolation;
 
 
     int selOption = 5;
