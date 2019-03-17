@@ -127,8 +127,17 @@ void PsStateSelector::render()
         shared_ptr<Gui> gui(Gui::getInstance());
         SDL_Texture *infoText;
         SDL_Rect infoRect, infoDest;
-        gui->getEmojiTextTexture(renderer,"|@T| "+_("Delete")+"     |@X| "+_("Select")+"     |@O| "+_("Cancel")+"|",font24, &infoText, &infoRect);
 
+        if (operation==OP_LOAD) {
+            gui->getEmojiTextTexture(renderer,
+                                     "|@T| " + _("Delete") + "     |@X| " + _("Select") + "     |@O| " + _("Cancel") +
+                                     "|", font24, &infoText, &infoRect);
+        } else
+        {
+            gui->getEmojiTextTexture(renderer,
+                                     "|@X| " + _("Select") + "     |@O| " + _("Cancel") +
+                                     "|", font24, &infoText, &infoRect);
+        }
         infoDest.x=640-infoRect.w/2;
         infoDest.y=150;
         infoDest.w=infoRect.w;
