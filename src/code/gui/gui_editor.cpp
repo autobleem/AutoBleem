@@ -26,8 +26,7 @@ void GuiEditor::processOptionChange(bool direction) {
     CfgProcessor *processor = new CfgProcessor();
 
     string path = gui->path;
-    if (internal)
-    {
+    if (internal) {
         path = gameData->ssFolder;
     }
     stringstream ss;
@@ -50,22 +49,21 @@ void GuiEditor::processOptionChange(bool direction) {
             break;
         case OPT_HIGHRES:
 
-                if (direction == false) {
-                    if (highres == 1) {
-                        highres = 0;
-                    }
-                } else {
-                    if (highres == 0) {
-                        highres = 1;
-                    }
+            if (direction == false) {
+                if (highres == 1) {
+                    highres = 0;
                 }
-                game.values["highres"] = to_string(highres);
+            } else {
+                if (highres == 0) {
+                    highres = 1;
+                }
+            }
+            game.values["highres"] = to_string(highres);
 
 
             processor->replace(game.entry, path, "gpu_neon.enhancement_enable",
                                "gpu_neon.enhancement_enable = " + game.values["highres"], internal);
-            if (!internal)
-            {
+            if (!internal) {
                 game.save(game.path);
             }
 
@@ -198,15 +196,17 @@ void GuiEditor::processOptionChange(bool direction) {
             refreshData();
             break;
         case OPT_PLUGIN:
-            if (direction == true) {
-                gpu = "gpu_peops.so";
+            if (!internal) {
+                if (direction == true) {
+                    gpu = "gpu_peops.so";
 
-            } else {
-                gpu = "builtin_gpu";
+                } else {
+                    gpu = "builtin_gpu";
+                }
+                processor->replace(game.entry, path, "Gpu3",
+                                   "Gpu3 = " + gpu, internal);
+                refreshData();
             }
-            processor->replace(game.entry, path, "Gpu3",
-                               "Gpu3 = " + gpu, internal);
-            refreshData();
             break;
 
     }
@@ -217,8 +217,7 @@ void GuiEditor::refreshData() {
     shared_ptr<Gui> gui(Gui::getInstance());
     CfgProcessor *processor = new CfgProcessor();
     string path = gui->path;
-    if (internal)
-    {
+    if (internal) {
         path = gameData->ssFolder;
     }
     highres = atoi(processor->getValue(game.entry, path, "gpu_neon.enhancement_enable", internal).c_str());
@@ -229,7 +228,8 @@ void GuiEditor::refreshData() {
     dither = atoi(processor->getValue(game.entry, path, "gpu_peops.iUseDither", internal).c_str());
     scanlines = atoi(processor->getValue(game.entry, path, "scanlines", internal).c_str());
     scanlineLevel = strtol(processor->getValue(game.entry, path, "scanline_level", internal).c_str(), NULL, 16);
-    interpolation = strtol(processor->getValue(game.entry, path, "spu_config.iUseInterpolation", internal).c_str(), NULL,
+    interpolation = strtol(processor->getValue(game.entry, path, "spu_config.iUseInterpolation", internal).c_str(),
+                           NULL,
                            16);
 
     delete processor;
@@ -257,14 +257,13 @@ void GuiEditor::init() {
         if (!pngLoaded) {
             cover = IMG_LoadTexture(renderer, (Util::getWorkingPath() + Util::separator() + "default.png").c_str());
         }
-    } else
-    {
+    } else {
         // recover ini
-        this->game.values["title"]=gameData->title;
-        this->game.values["publisher"]=gameData->publisher;
-        this->game.values["year"]=to_string(gameData->year);
-        this->game.values["players"]=to_string(gameData->players);
-        this->game.values["memcard"]=gameData->memcard;
+        this->game.values["title"] = gameData->title;
+        this->game.values["publisher"] = gameData->publisher;
+        this->game.values["year"] = to_string(gameData->year);
+        this->game.values["players"] = to_string(gameData->players);
+        this->game.values["memcard"] = gameData->memcard;
 
         if (this->game.values["memcard"] != "SONY") {
             string cardpath =
@@ -300,8 +299,7 @@ void GuiEditor::render() {
     gui->renderTextLine("-=" + game.values["title"] + "=-", 0, offset, true);
     if (!internal) {
         gui->renderTextLine(_("Folder:") + " " + game.entry + "", 1, offset, true);
-    } else
-    {
+    } else {
         gui->renderTextLine(_("Folder:") + " " + gameData->folder + "", 1, offset, true);
     }
     gui->renderTextLine(_("Published by:") + " " + game.values["publisher"], 2, offset, true);
@@ -329,16 +327,22 @@ void GuiEditor::render() {
     gui->renderTextLineOptions(_("Scanline Level:") + " " + to_string(scanlineLevel), 9, offset, false, 300);
     gui->renderTextLineOptions(_("Clock:") + " " + to_string(clock), 10, offset, false, 300);
     gui->renderTextLineOptions(_("Frameskip:") + " " + to_string(frameskip), 11, offset, false, 300);
-    gui->renderTextLineOptions(_("Plugin:") + gpu, 12, offset, false, 300);
+    if (!internal) {
+        gui->renderTextLineOptions(_("Plugin:") + gpu, 12, offset, false, 300);
+    }
     gui->renderTextLineOptions(_("Spu Interpolation:") + to_string(interpolation), 13, offset, false, 300);
 
     gui->renderSelectionBox(selOption, offset, 300);
 
 
-    string guiMenu = "|@T| " + _("Rename") + "  |@S| " + _("Change MC") + " ";
+    string guiMenu = "|@T| " + _("Rename");
 
-    if (game.values["memcard"] == "SONY") {
-        guiMenu += "|@Start| " + _("Share MC") + "  ";
+    if (!internal) {
+        guiMenu += "  |@S| " + _("Change MC") + " ";
+
+        if (game.values["memcard"] == "SONY") {
+            guiMenu += "|@Start| " + _("Share MC") + "  ";
+        }
     }
 
 
@@ -411,54 +415,63 @@ void GuiEditor::loop() {
                     }
                     break;
                 case SDL_JOYBUTTONDOWN:
+                    if (!internal) {
+                        if (game.values["memcard"] == "SONY") {
+                            if (e.jbutton.button == PCS_BTN_START) {
+                                Mix_PlayChannel(-1, gui->cursor, 0);
+                                GuiKeyboard *keyboard = new GuiKeyboard(renderer);
+                                keyboard->label = _("Enter new name for memory card");
+                                keyboard->result = game.values["title"];
+                                keyboard->show();
+                                string result = keyboard->result;
+                                bool cancelled = keyboard->cancelled;
+                                delete (keyboard);
 
-                    if (game.values["memcard"] == "SONY") {
-                        if (e.jbutton.button == PCS_BTN_START) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            GuiKeyboard *keyboard = new GuiKeyboard(renderer);
-                            keyboard->label = _("Enter new name for memory card");
-                            keyboard->result = game.values["title"];
-                            keyboard->show();
-                            string result = keyboard->result;
-                            bool cancelled = keyboard->cancelled;
-                            delete (keyboard);
-
-                            if (result.empty()) {
-                                cancelled = true;
-                            }
+                                if (result.empty()) {
+                                    cancelled = true;
+                                }
 
 
-                            if (!cancelled) {
-                                Memcard *memcard = new Memcard(gui->path);
-                                string savePath =
-                                        gui->path + Util::separator() + "!SaveStates" + Util::separator() + game.entry +
-                                        Util::separator() + "memcards";
-                                memcard->storeToRepo(savePath, result);
-                                game.values["memcard"] = result;
-                                game.save(game.path);
-                            }
-                            render();
+                                if (!cancelled) {
+                                    Memcard *memcard = new Memcard(gui->path);
+                                    string savePath =
+                                            gui->path + Util::separator() + "!SaveStates" + Util::separator() +
+                                            game.entry +
+                                            Util::separator() + "memcards";
+                                    memcard->storeToRepo(savePath, result);
+                                    game.values["memcard"] = result;
+                                    game.save(game.path);
+                                }
+                                render();
 
-                        };
-                    }
-
+                            };
+                        }
+                    } else
+                        {
+                            Mix_PlayChannel(-1, gui->cancel, 0);
+                        }
 
 
                     if (e.jbutton.button == PCS_BTN_SQUARE) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        GuiSelectMemcard *selector = new GuiSelectMemcard(renderer);
-                        selector->cardSelected = game.values["memcard"];
-                        selector->show();
+                        if (!internal) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
+                            GuiSelectMemcard *selector = new GuiSelectMemcard(renderer);
+                            selector->cardSelected = game.values["memcard"];
+                            selector->show();
 
-                        if (selector->selected != -1)
-                            if (selector->selected == 0) {
-                                game.values["memcard"] = "SONY";
-                                game.save(game.path);
-                            } else {
-                                game.values["memcard"] = selector->cards[selector->selected];
-                                game.save(game.path);
-                            }
-                        delete (selector);
+                            if (selector->selected != -1)
+                                if (selector->selected == 0) {
+                                    game.values["memcard"] = "SONY";
+                                    game.save(game.path);
+                                } else {
+                                    game.values["memcard"] = selector->cards[selector->selected];
+                                    game.save(game.path);
+                                }
+                            delete (selector);
+                        } else
+                        {
+                            Mix_PlayChannel(-1, gui->cancel, 0);
+                        }
                         render();
 
                     };
@@ -493,10 +506,9 @@ void GuiEditor::loop() {
                                 game.values["automation"] = "0";
                                 game.save(game.path);
                                 changes = true;
-                            } else
-                            {
+                            } else {
                                 lastName = result;
-                                changes=true;
+                                changes = true;
                             }
                         }
                         refreshData();

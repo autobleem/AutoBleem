@@ -62,6 +62,13 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
     argvNew.push_back(filter.c_str());
     argvNew.push_back(nullptr);
 
+    for (const char* s:argvNew)
+    {
+        if (s!=nullptr) {
+            cout << s << " ";
+        }
+    }
+cout << endl;
 
     int pid = fork();
     if (!pid) {
