@@ -75,10 +75,13 @@ public:
     int renderLogo(bool small);
     void renderStatus(string text);
     void renderTextBar();
+    int renderTextLine(string text, int line, int offset, bool center, int xoffset);
     int renderTextLine(string text, int line, int offset, bool center);
     int renderTextLine(string text, int line, int offset);
     int renderTextLineOptions(string text, int line, int offset, bool center);
+    int renderTextLineOptions(string text, int line, int offset, bool center, int xoffset);
     void renderSelectionBox(int line, int offset);
+    void renderSelectionBox(int line, int offset, int xoffset);
     void renderLabelBox(int line, int offset);
     void renderTextChar(string text, int line, int offset, int posx);
     void renderFreeSpace();

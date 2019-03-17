@@ -32,8 +32,14 @@ public:
     int scanlineLevel;
 
 
+    int selOption = 5;
+
+
 
     bool changes=false;
+
+    void processOptionChange(bool direction);
+
 
     using GuiScreen::GuiScreen;
     SDL_Texture * cover= nullptr;

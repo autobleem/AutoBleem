@@ -21,6 +21,7 @@ public:
     string getBooleanIcon(string input);
     void renderOptionLine(string text, int pos, int offset);
 
+
     int selOption=0;
     int totalHeight=0;
 

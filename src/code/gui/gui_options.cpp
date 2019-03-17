@@ -140,6 +140,8 @@ void GuiOptions::renderOptionLine(string text, int pos, int offset) {
     }
 }
 
+
+
 void GuiOptions::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();

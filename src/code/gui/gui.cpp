@@ -512,6 +512,7 @@ void Gui::menuSelection() {
                                 } else {
                                     Mix_PlayChannel(-1, cursor, 0);
                                     drawText(_("Starting EvolutionUI"));
+                                    loadAssets();
                                     auto launcherScreen = new GuiLauncher(renderer);
                                     launcherScreen->show();
                                     delete launcherScreen;
@@ -848,7 +849,11 @@ void Gui::renderLabelBox(int line, int offset) {
     SDL_RenderFillRect(renderer, &rectSelection);
 }
 
-void Gui::renderSelectionBox(int line, int offset) {
+void Gui::renderSelectionBox(int line, int offset)
+{
+    renderSelectionBox(line,offset,0);
+}
+void Gui::renderSelectionBox(int line, int offset, int xoffset) {
     SDL_Texture *textTex;
     SDL_Rect textRec;
 
@@ -864,9 +869,9 @@ void Gui::renderSelectionBox(int line, int offset) {
 
 
     SDL_Rect rectSelection;
-    rectSelection.x = rect2.x + 5;
+    rectSelection.x = rect2.x + 5 + xoffset;
     rectSelection.y = offset + textRec.h * (line);
-    rectSelection.w = rect2.w - 10;
+    rectSelection.w = rect2.w - 10 - xoffset;
     rectSelection.h = textRec.h;
 
     SDL_SetRenderDrawColor(renderer, getR(fg), getG(fg), getB(fg), 255);
@@ -879,6 +884,11 @@ int Gui::renderTextLine(string text, int line, int offset) {
 }
 
 int Gui::renderTextLineOptions(string text, int line, int offset, bool center) {
+    return renderTextLineOptions(text,line,offset,center,0);
+}
+
+
+int Gui::renderTextLineOptions(string text, int line, int offset, bool center, int xoffset) {
     int button = -1;
     if (text.find("|@Check|") != std::string::npos) {
         button = 1;
@@ -890,7 +900,7 @@ int Gui::renderTextLineOptions(string text, int line, int offset, bool center) {
         text = text.substr(0, text.find("|"));
     }
 
-    int h = renderTextLine(text, line, offset, center);
+    int h = renderTextLine(text, line, offset, center, xoffset);
 
     SDL_Texture *buttonTex = nullptr;
     SDL_Rect rect;
@@ -918,10 +928,7 @@ int Gui::renderTextLineOptions(string text, int line, int offset, bool center) {
 
     textRec.x = rect2.x + rect2.w - 10 - textRec.w;
     textRec.y = (lineh * line) + offset;
-    /*
-    getTextAndRect(renderer, rect2.x + 10, (textRec.h * line) + offset,
-                   text.c_str(), font, &textTex, &textRec);
-    */
+
     if (textRec.w >= (1280 - rect2.x * 4)) {
         textRec.w = (1280 - rect2.x * 4);
     }
@@ -934,7 +941,11 @@ int Gui::renderTextLineOptions(string text, int line, int offset, bool center) {
     return h;
 }
 
-int Gui::renderTextLine(string text, int line, int offset, bool center) {
+int Gui::renderTextLine(string text, int line, int offset, bool center)
+{
+    return renderTextLine(text,line,offset,center,0);
+}
+int Gui::renderTextLine(string text, int line, int offset, bool center, int xoffset) {
 
 
     SDL_Rect rect2;
@@ -950,12 +961,9 @@ int Gui::renderTextLine(string text, int line, int offset, bool center) {
     SDL_DestroyTexture(textTex);
     int lineh = textRec.h;
     getEmojiTextTexture(renderer, text, font, &textTex, &textRec);
-    textRec.x = rect2.x + 10;
+    textRec.x = rect2.x + 10 + xoffset;
     textRec.y = (lineh * line) + offset;
-    /*
-    getTextAndRect(renderer, rect2.x + 10, (textRec.h * line) + offset,
-                   text.c_str(), font, &textTex, &textRec);
-    */
+
     if (textRec.w >= (1280 - rect2.x * 4)) {
         textRec.w = (1280 - rect2.x * 4);
     }
