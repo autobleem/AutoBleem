@@ -72,6 +72,8 @@ public:
     static string getAvailableSpace();
     static string floatToString(float f, int n);
     static string execUnixCommad(const char* cmd);
+    static void execFork(const char* cmd,  std::vector<const char *> argvNew);
+
     static void powerOff();
 
     static vector<string> cueToBinList(string cueFile);

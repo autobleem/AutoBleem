@@ -378,6 +378,18 @@ string Util::execUnixCommad(const char* cmd){
     return result;
 }
 
+void Util::execFork(const char *cmd,  std::vector<const char *> argvNew)
+{
+    string link = cmd;
+
+    int pid = fork();
+    if (!pid) {
+        execvp(link.c_str(), (char **) argvNew.data());
+    }
+
+    waitpid(pid, NULL, 0);
+}
+
 /*
  * Return the extension of a filename out of string
  * myfile.txt will return txt

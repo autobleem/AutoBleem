@@ -13,6 +13,7 @@
 #include "gui_confirm.h"
 #include "../main.h"
 #include "../lang.h"
+#include <ftw.h>
 
 bool wayToSort(Inifile i, Inifile j) {
     string title1 = i.values["title"];
@@ -91,6 +92,23 @@ void GuiManager::render()
 
     gui->renderStatus(_("Game")+" " + to_string(selected + 1) + "/" + to_string(games.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"  |@T| "+_("Flush covers")+" |@O| "+_("Close")+" |");
     SDL_RenderPresent(renderer);
+}
+
+
+int process(const char *file, const struct stat *sb,
+            int flag, struct FTW *s)
+{
+    int retval = 0;
+
+
+    if (Util::getFileExtension(file)=="png")
+    {
+        cout << file << endl;
+        remove(file);
+    }
+
+
+    return retval;
 }
 
 void GuiManager::loop()
@@ -183,7 +201,19 @@ void GuiManager::loop()
                         {
                             cout << "Trying to delete covers" << endl;
                             gui->renderStatus(_("Please wait ... deleting covers..."));
-                            string txt = Util::execUnixCommad("bash /media/Autobleem/rc/cleanup.sh");
+
+
+                            int errors = 0;
+                            int flags = FTW_DEPTH | FTW_PHYS | FTW_CHDIR;
+
+
+                            if (nftw("/media/Games", process, 64, flags) != 0) {
+
+                                errors++;
+                            }
+
+
+
                             gui->forceScan = true;
                             menuVisible = false;
                         } else {
