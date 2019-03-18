@@ -103,7 +103,7 @@ int process(const char *file, const struct stat *sb,
 
     if (Util::getFileExtension(file)=="png")
     {
-        cout << file << endl;
+
         remove(file);
     }
 
@@ -207,7 +207,7 @@ void GuiManager::loop()
                             int flags = FTW_DEPTH | FTW_PHYS | FTW_CHDIR;
 
 
-                            if (nftw("/media/Games", process, 64, flags) != 0) {
+                            if (nftw("/media/Games", process, 1, flags) != 0) {
 
                                 errors++;
                             }
