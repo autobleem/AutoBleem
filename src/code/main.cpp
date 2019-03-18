@@ -19,16 +19,24 @@ using namespace std;
 #include "lang.h"
 #include "launcher/pcsx_interceptor.h"
 
+Database * db;
 
 int scanGames(string path, string dbpath) {
     shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr<Scanner> scanner(Scanner::getInstance());
 
-    if (!gui->db->createInitialDatabase()) {
+    if (!db->createInitialDatabase()) {
         cout << "Error creating db structure" << endl;
 
         return EXIT_FAILURE;
     };
+
+    if (!db->truncate())
+    {
+        gui->drawText("ERROR IN DB");
+        sleep(1);
+        return EXIT_FAILURE;
+    }
 
     scanner->detectAndSortGamefiles(path);
     scanner->scanDirectory(path);
@@ -49,7 +57,7 @@ int scanGames(string path, string dbpath) {
 int main(int argc, char *argv[]) {
     shared_ptr<Lang> lang(Lang::getInstance());
     if (argc < 3) {
-        cout << "USAGE: bleemsync /path/dbfilename.db /path/to/games" << endl;
+        cout << "USAGE: autobleem-gui /path/dbfilename.db /path/to/games" << endl;
         return EXIT_FAILURE;
     }
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -61,11 +69,14 @@ int main(int argc, char *argv[]) {
     gui->coverdb = coverdb;
 
 
-    Database *db = new Database();
+    db = new Database();
     if (!db->connect(argv[1])) {
         delete db;
         return EXIT_FAILURE;
     }
+    gui->db=db;
+    db->createInitialDatabase();
+
 
     string dbpath = argv[1];
     string path = argv[2];
@@ -76,7 +87,6 @@ int main(int argc, char *argv[]) {
 
     if (scanner->isFirstRun(path, db)) {
         scanner->forceScan = true;
-
     }
 
 

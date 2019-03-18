@@ -44,20 +44,20 @@ static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, 
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
-static const char CREATE_GAME_SQL[] = "DROP TABLE IF EXISTS GAME; CREATE TABLE IF NOT EXISTS GAME  \
-     ( [GAME_ID] integer NOT NULL UNIQUE, \
-       [GAME_TITLE_STRING] text, \
-       [PUBLISHER_NAME] text, \
-       [RELEASE_YEAR] integer,\
-       [PLAYERS] integer,     \
-       [RATING_IMAGE] text,   \
-       [GAME_MANUAL_QR_IMAGE] text, \
-       [LINK_GAME_ID] integer,\
-       [PATH]    text null,   \
-       [SSPATH]  text null,   \
-       [MEMCARD] text null,   \
-         PRIMARY KEY ([GAME_ID]) )";
-static const char CREATE_DISC_SQL[] = "DROP TABLE IF EXISTS DISC; CREATE TABLE IF NOT EXISTS DISC \
+static const char CREATE_GAME_SQL[] = "CREATE TABLE IF NOT EXISTS GAME  \
+     ( GAME_ID integer NOT NULL UNIQUE, \
+       GAME_TITLE_STRING text, \
+       PUBLISHER_NAME text, \
+       RELEASE_YEAR integer,\
+       PLAYERS integer,     \
+       RATING_IMAGE text,   \
+       GAME_MANUAL_QR_IMAGE text, \
+       LINK_GAME_ID integer,\
+       PATH    text null,   \
+       SSPATH  text null,   \
+       MEMCARD text null,   \
+         PRIMARY KEY ( GAME_ID ) )";
+static const char CREATE_DISC_SQL[] = "CREATE TABLE IF NOT EXISTS DISC \
      ( [GAME_ID] integer, \
        [DISC_NUMBER] integer, \
        [BASENAME] text, \
@@ -492,7 +492,7 @@ bool Database::executeCreateStatement(char *sql, string tableName) {
     cout << "Creating " << tableName << " table (if not exists)" << endl;
     int rc = sqlite3_exec(db, sql, nullptr, nullptr, &errorReport);
     if (rc != SQLITE_OK) {
-        cerr << "Failed to create " << tableName << "  table" << sqlite3_errmsg(db) << endl;
+        cerr << "Failed to create " << tableName << "  table  " << sqlite3_errmsg(db) << endl;
         if (!errorReport) sqlite3_free(errorReport);
         sqlite3_close(db);
         return false;
@@ -533,12 +533,15 @@ void Database::disconnect() {
         db = nullptr;
     }
 }
-
+bool Database::truncate()
+{
+    return executeStatement((char *) DELETE_DATA, "Truncating all data", "Error truncating data");
+}
 bool Database::createInitialDatabase() {
     if (!executeCreateStatement((char *) CREATE_GAME_SQL, "GAME")) return false;
     if (!executeCreateStatement((char *) CREATE_DISC_SQL, "DISC")) return false;
     if (!executeCreateStatement((char *) CREATE_LANGUAGE_SPECIFIC_SQL, "LANGUAGE_SPECIFIC")) return false;
-    return executeStatement((char *) DELETE_DATA, "Truncating all data", "Error truncating data");
+    return true;
 
 
 }
