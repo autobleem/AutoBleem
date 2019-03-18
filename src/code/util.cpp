@@ -2,6 +2,7 @@
 #include "main.h"
 
 #include <fstream>
+#include <sys/wait.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <math.h>
