@@ -24,6 +24,7 @@ public:
     bool connect(string fileName);
     void disconnect();
     bool createInitialDatabase();
+    void createFavColumn();
     bool truncate();
 
     bool insertGame(int id, string title, string publisher, int players, int year, string path, string sspath,

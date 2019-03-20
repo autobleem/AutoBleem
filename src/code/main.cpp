@@ -76,6 +76,7 @@ int main(int argc, char *argv[]) {
     }
     gui->db=db;
     db->createInitialDatabase();
+    db->createFavColumn();
 
 
     string dbpath = argv[1];
