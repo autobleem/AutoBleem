@@ -392,8 +392,15 @@ void Gui::menuSelection() {
                     }
                 } else
                 {
-                    this->menuOption = MENU_OPTION_RETRO;
-                    return;
+                    if (Util::exists("/media/RetroArch/retroarch")) {
+                        this->menuOption = MENU_OPTION_RETRO;
+                        return;
+                    } else
+                    {
+                        auto launcherScreen = new GuiLauncher(renderer);
+                        launcherScreen->show();
+                        delete launcherScreen;
+                    }
                 }
             };
 
