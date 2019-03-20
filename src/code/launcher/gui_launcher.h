@@ -85,6 +85,8 @@ public:
     string notificationText;
     long notificationTime=0;
 
+    bool staticMeta=false;
+
     void showNotification(string text);
 
     bool gameInfoVisible = true;

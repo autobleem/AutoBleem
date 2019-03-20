@@ -380,13 +380,20 @@ void Gui::menuSelection() {
         bool quickBootCfg = (cfg.inifile.values["quick"] == "true");
         if (quickBootCfg && !forceScan) {
             if (quickBoot()) {
-                if (cfg.inifile.values["ui"] == "classic") {
-                    this->menuOption = MENU_OPTION_RUN;
+
+                if (cfg.inifile.values["quickmenu"] == "UI") {
+                    if (cfg.inifile.values["ui"] == "classic") {
+                        this->menuOption = MENU_OPTION_RUN;
+                        return;
+                    } else {
+                        auto launcherScreen = new GuiLauncher(renderer);
+                        launcherScreen->show();
+                        delete launcherScreen;
+                    }
+                } else
+                {
+                    this->menuOption = MENU_OPTION_RETRO;
                     return;
-                } else {
-                    auto launcherScreen = new GuiLauncher(renderer);
-                    launcherScreen->show();
-                    delete launcherScreen;
                 }
             };
 

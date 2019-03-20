@@ -28,6 +28,10 @@ Config::Config()
     {
         inifile.values["jewel"]="default";
     }
+    if (inifile.values["quickmenu"]=="")
+    {
+        inifile.values["quickmenu"]="UI";
+    }
     inifile.values["pcsx"]="bleemsync";
 }
 

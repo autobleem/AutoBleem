@@ -196,7 +196,20 @@ void GuiLauncher::loadAssets() {
     font15 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Bold.ttf").c_str(), 15);
     font24 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Medium.ttf").c_str(), 22);
 
-    auto background = new PsObj(renderer, "background", gui->getSonyImagePath() + "/GR/JP_US_BG.png");
+
+    PsObj* background;
+    if (Util::exists(gui->getSonyImagePath()+"/GR/AB_BG.png"))
+    {
+        staticMeta = true;
+        background  = new PsObj(renderer, "background", gui->getSonyImagePath() + "/GR/AB_BG.png");
+    } else
+    {
+        staticMeta = false;
+        background  = new PsObj(renderer, "background", gui->getSonyImagePath() + "/GR/JP_US_BG.png");
+    }
+
+
+
     background->x = 0;
     background->y = 0;
     background->visible = true;
@@ -684,9 +697,11 @@ void GuiLauncher::switchState(int state, int time) {
         settingsBack->nextLen = 100;
         playButton->visible = true;
         playText->visible = true;
-        meta->animEndTime = time + 200;
-        meta->nextPos = 285;
-        meta->prevPos = meta->y;
+        if (!staticMeta) {
+            meta->animEndTime = time + 200;
+            meta->nextPos = 285;
+            meta->prevPos = meta->y;
+        }
         this->state = STATE_GAMES;
         arrow->visible = false;
         arrow->animationStarted = time;
@@ -704,9 +719,11 @@ void GuiLauncher::switchState(int state, int time) {
         settingsBack->nextLen = 280;
         playButton->visible = false;
         playText->visible = false;
-        meta->animEndTime = time + 200;
-        meta->nextPos = 215;
-        meta->prevPos = meta->y;
+        if (!staticMeta) {
+            meta->animEndTime = time + 200;
+            meta->nextPos = 215;
+            meta->prevPos = meta->y;
+        }
         this->state = STATE_SET;
         arrow->visible = true;
         arrow->animationStarted = time;

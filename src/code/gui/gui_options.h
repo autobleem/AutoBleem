@@ -32,6 +32,7 @@ public:
     vector<string> nomusic;
     vector<string> autoregion;
     vector<string> quickboot;
+    vector<string> quickmenu;
     vector<string> retroarch;
     vector<string> adv;
     vector<string> languages;

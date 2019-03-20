@@ -78,6 +78,7 @@ void GuiOptions::init() {
     jewels.clear();
     jewels.push_back("none");
     jewels.push_back("default");
+
     folders = Util::diru(Util::getWorkingPath()+"/evoimg/frames");
     for (DirEntry entry:folders) {
         if (Util::getFileExtension(entry.name)=="png")
@@ -85,6 +86,9 @@ void GuiOptions::init() {
             jewels.push_back(entry.name);
         }
     }
+    quickmenu.clear();
+    quickmenu.push_back("UI");
+    quickmenu.push_back("RetroArch");
 }
 
 #define CFG_LANG       0
@@ -95,10 +99,11 @@ void GuiOptions::init() {
 #define CFG_ORIGAMES   5
 #define CFG_ASPECT     6
 #define CFG_QUICK      7
-#define CFG_BGM        8
-#define CFG_MIP        9
-#define CFG_RA         10
-#define CFG_ADV        11
+#define CFG_QUICKMENU  8
+#define CFG_BGM        9
+#define CFG_MIP        10
+#define CFG_RA         11
+#define CFG_ADV        12
 
 
 string GuiOptions::getBooleanIcon(string input) {
@@ -158,6 +163,7 @@ void GuiOptions::render() {
     renderOptionLine(_("Internal Games:") + " "   + getBooleanIcon("origames"), CFG_ORIGAMES + 1, offset);
     renderOptionLine(_("Widescreen:") + " " + getBooleanIcon("aspect"), CFG_ASPECT + 1, offset);
     renderOptionLine(_("QuickBoot:") + " " + getBooleanIcon("quick"), CFG_QUICK + 1, offset);
+    renderOptionLine(_("QuickBoot Init:") + " " + gui->cfg.inifile.values["quickmenu"], CFG_QUICKMENU + 1, offset);
     renderOptionLine(_("Background Music:") + " " + getBooleanIcon("nomusic"), CFG_BGM + 1, offset);
     gui->cfg.inifile.values["autoregion"] = "true"; // removing this as an option - not needed - just set to true
     renderOptionLine(_("GFX Filter:") + " " + getBooleanIcon("mip"), CFG_MIP + 1, offset);
@@ -290,6 +296,11 @@ void GuiOptions::loop() {
                                 gui->cfg.inifile.values["jewel"] = nextValue;
 
                             }
+                            if (selOption == CFG_QUICKMENU) {
+                                string nextValue = getOption(quickmenu, gui->cfg.inifile.values["quickmenu"], true);
+                                gui->cfg.inifile.values["quickmenu"] = nextValue;
+
+                            }
                             if (selOption == CFG_QUICK) {
 
                                 string nextValue = getOption(quickboot, gui->cfg.inifile.values["quick"], true);
@@ -370,6 +381,11 @@ void GuiOptions::loop() {
                             if (selOption == CFG_JEWEL) {
                                 string nextValue = getOption(jewels, gui->cfg.inifile.values["jewel"], false);
                                 gui->cfg.inifile.values["jewel"] = nextValue;
+
+                            }
+                            if (selOption == CFG_QUICKMENU) {
+                                string nextValue = getOption(quickmenu, gui->cfg.inifile.values["quickmenu"], false);
+                                gui->cfg.inifile.values["quickmenu"] = nextValue;
 
                             }
                             if (selOption == CFG_QUICK) {
