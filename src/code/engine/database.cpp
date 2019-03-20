@@ -46,7 +46,7 @@ static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, 
 
 static const char UPDATE_GAME_DB[] = "ALTER TABLE GAME ADD COLUMN FAV INT DEFAULT 0";
 
-static const char CREATE_GAME_SQL[] = "DROP TABLE IF EXISTS GAME; CREATE TABLE IF NOT EXISTS GAME  \
+static const char CREATE_GAME_SQL[] = " CREATE TABLE IF NOT EXISTS GAME  \
      ( GAME_ID integer NOT NULL UNIQUE, \
        GAME_TITLE_STRING text, \
        PUBLISHER_NAME text, \
@@ -59,13 +59,13 @@ static const char CREATE_GAME_SQL[] = "DROP TABLE IF EXISTS GAME; CREATE TABLE I
        SSPATH  text null,   \
        MEMCARD text null,   \
          PRIMARY KEY ( GAME_ID ) )";
-static const char CREATE_DISC_SQL[] = "DROP TABLE IF EXISTS DISC; CREATE TABLE IF NOT EXISTS DISC \
+static const char CREATE_DISC_SQL[] = " CREATE TABLE IF NOT EXISTS DISC \
      ( [GAME_ID] integer, \
        [DISC_NUMBER] integer, \
        [BASENAME] text, \
           UNIQUE ([GAME_ID], [DISC_NUMBER]) )";
 
-static const char CREATE_LANGUAGE_SPECIFIC_SQL[] = "DROP TABLE IF EXISTS LANGUAGE_SPECIFIC; CREATE TABLE IF NOT EXISTS LANGUAGE_SPECIFIC \
+static const char CREATE_LANGUAGE_SPECIFIC_SQL[] = "CREATE TABLE IF NOT EXISTS LANGUAGE_SPECIFIC \
       ( [DEFAULT_VALUE] text, \
         [LANGUAGE_ID] integer, \
         [VALUE] text, \
