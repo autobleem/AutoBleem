@@ -103,7 +103,7 @@ void GuiSelectMemcard::loop() {
             switch (e.type) {
                 case SDL_JOYAXISMOTION:
                     if (e.jaxis.axis == 1) {
-                        if (e.jaxis.value > 3200) {
+                        if (e.jaxis.value > PCS_DEADZONE) {
 
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             selected++;
@@ -114,7 +114,7 @@ void GuiSelectMemcard::loop() {
                             }
                             render();
                         }
-                        if (e.jaxis.value < -3200) {
+                        if (e.jaxis.value < -PCS_DEADZONE) {
 
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             selected--;

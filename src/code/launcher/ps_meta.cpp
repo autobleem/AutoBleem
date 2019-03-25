@@ -6,7 +6,7 @@
 
 void
 PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, string playersTxt, bool internal, bool hd,
-                    bool locked, int discs) {
+                    bool locked, int discs, int r,int g, int b) {
     this->discs = discs;
     this->internal = internal;
     this->hd = hd;
@@ -22,11 +22,11 @@ PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, str
     if (yearTex != nullptr) SDL_DestroyTexture(yearTex);
     if (playersTex != nullptr) SDL_DestroyTexture(gameNameTex);
 
-    gameNameTex = createTextTex(gameName, 255, 255, 255, font30);
-    publisherTex = createTextTex(publisher, 255, 255, 255, font15);
-    yearTex = createTextTex(year, 255, 255, 255, font15);
-    playersTex = createTextTex(playersTxt, 255, 255, 255, font15);
-    discsTex = createTextTex(to_string(discs),255,255,255,font15);
+    gameNameTex = createTextTex(gameName, r,g,b, font30);
+    publisherTex = createTextTex(publisher, r,g,b, font15);
+    yearTex = createTextTex(year, r,g,b, font15);
+    playersTex = createTextTex(playersTxt, r,g,b, font15);
+    discsTex = createTextTex(to_string(discs),r,g,b,font15);
 
 
 }

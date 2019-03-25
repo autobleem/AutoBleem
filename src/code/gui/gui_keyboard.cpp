@@ -175,7 +175,7 @@ void GuiKeyboard::loop() {
                     break;
                 case SDL_JOYAXISMOTION:
                     if (e.jaxis.axis == 0) {
-                        if (e.jaxis.value > 3200) {
+                        if (e.jaxis.value > PCS_DEADZONE) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             selx++;
                             if (selx > 9) {
@@ -183,7 +183,7 @@ void GuiKeyboard::loop() {
                             }
                             render();
                         }
-                        if (e.jaxis.value < -3200) {
+                        if (e.jaxis.value < -PCS_DEADZONE) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             selx--;
                             if (selx < 0) {
@@ -193,7 +193,7 @@ void GuiKeyboard::loop() {
                         }
                     }
                     if (e.jaxis.axis == 1) {
-                        if (e.jaxis.value > 3200) {
+                        if (e.jaxis.value > PCS_DEADZONE) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             sely++;
                             if (sely > 3) {
@@ -201,7 +201,7 @@ void GuiKeyboard::loop() {
                             }
                             render();
                         }
-                        if (e.jaxis.value < -3200) {
+                        if (e.jaxis.value < -PCS_DEADZONE) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             sely--;
                             if (sely < 0) {

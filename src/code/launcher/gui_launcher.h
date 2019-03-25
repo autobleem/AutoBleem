@@ -69,6 +69,10 @@ public:
     TTF_Font *font15;
     TTF_Font *font24;
 
+    int fgR=255, fgG=255, fgB=255;
+    int secR=100, secG=100, secB=100;
+
+
     vector<PsObj *> staticElements;
     vector<PsObj *> frontElemets;
     vector<PsObj *> menuElements;

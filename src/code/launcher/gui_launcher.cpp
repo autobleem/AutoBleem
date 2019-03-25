@@ -78,7 +78,7 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
 void GuiLauncher::updateMeta() {
     if (gamesList.empty()) {
         gameName = "";
-        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0);
+        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0, fgR,fgG,fgB);
         return;
     }
     PsGame *game = gamesList[selGame];
@@ -91,7 +91,7 @@ void GuiLauncher::updateMeta() {
         players = to_string(game->players) + " " + _("Players");
     }
     meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal, gamesList[selGame]->hd,
-                      gamesList[selGame]->locked, gamesList[selGame]->cds);
+                      gamesList[selGame]->locked, gamesList[selGame]->cds, fgR,fgG,fgB);
 }
 
 void GuiLauncher::switchSet(int newSet) {
@@ -192,6 +192,17 @@ void GuiLauncher::loadAssets() {
 
     long time = SDL_GetTicks();
 
+    Inifile colorsFile;
+    if (Util::exists(gui->getSonyFontPath() + "/colors.ini")) {
+        colorsFile.load(gui->getSonyFontPath() + "/colors.ini");
+        fgR = gui->getR(colorsFile.values["fg"]);
+        fgG = gui->getG(colorsFile.values["fg"]);
+        fgB = gui->getB(colorsFile.values["fg"]);
+        secR = gui->getR(colorsFile.values["sec"]);
+        secG = gui->getG(colorsFile.values["sec"]);
+        secB = gui->getB(colorsFile.values["sec"]);
+
+    }
     font30 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Bold.ttf").c_str(), 28);
     font15 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Bold.ttf").c_str(), 15);
     font24 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Medium.ttf").c_str(), 22);
@@ -249,9 +260,9 @@ void GuiLauncher::loadAssets() {
     meta->visible = true;
     if (selGame != -1) {
         meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal, gamesList[selGame]->hd,
-                          gamesList[selGame]->locked, gamesList[selGame]->cds);
+                          gamesList[selGame]->locked, gamesList[selGame]->cds, fgR,fgG,fgB);
     } else {
-        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0);
+        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0, fgR,fgG,fgB);
     }
     staticElements.push_back(meta);
 
@@ -295,8 +306,8 @@ void GuiLauncher::loadAssets() {
     menuText->font = font24;
     menuText->y = 585;
 
-    menuHead->setText(headers[0], 255, 255, 255);
-    menuText->setText(texts[0], 255, 255, 255);
+    menuHead->setText(headers[0], fgR, fgG, fgB);
+    menuText->setText(texts[0], fgR, fgG, fgB);
 
     staticElements.push_back(menuHead);
     staticElements.push_back(menuText);
@@ -496,12 +507,12 @@ void GuiLauncher::render() {
     menu->render();
 
 
-    renderText(638, 640, _("Enter"), 60, 60, 60, font24, false, false);
-    renderText(760, 640, _("Cancel"), 60, 60, 60, font24, false, false);
-    renderText(902, 640, _("Console Button Guide"), 60, 60, 60, font24, false, false);
+    renderText(638, 640, _("Enter"), secR, secG, secB, font24, false, false);
+    renderText(760, 640, _("Cancel"), secR, secG, secB, font24, false, false);
+    renderText(902, 640, _("Console Button Guide"), secR, secG, secB, font24, false, false);
 
     if (notificationTime != 0) {
-        renderText(10, 10, notificationText, 255, 255, 255, font24, true, true);
+        renderText(10, 10, notificationText, fgR, fgG, fgB, font24, true, true);
         long time = SDL_GetTicks();
         if (time - notificationTime > 2000) {
             notificationTime = 0;
@@ -811,7 +822,7 @@ void GuiLauncher::loop() {
                             if (gamesList.empty()) {
                                 continue;
                             }
-                            if (e.jaxis.value > 3200) {
+                            if (e.jaxis.value > PCS_DEADZONE) {
                                 if (!scrolling) {
                                     motionStart = time;
                                     motionDir = 0;
@@ -819,7 +830,7 @@ void GuiLauncher::loop() {
                                     nextGame(110);
                                 }
 
-                            } else if (e.jaxis.value < -3200) {
+                            } else if (e.jaxis.value < -PCS_DEADZONE) {
                                 if (!scrolling) {
                                     motionStart = time;
                                     motionDir = 1;
@@ -831,7 +842,7 @@ void GuiLauncher::loop() {
                             }
 
                         } else if (state == STATE_SET) {
-                            if (e.jaxis.value > 3200) {
+                            if (e.jaxis.value > PCS_DEADZONE) {
 
                                 if (menu->selOption != 3) {
                                     if (menu->animationStarted == 0) {
@@ -839,22 +850,22 @@ void GuiLauncher::loop() {
                                         menu->transition = TR_OPTION;
                                         menu->direction = 1;
                                         menu->duration = 100;
-                                        menuHead->setText(headers[menu->selOption + 1], 255, 255, 255);
-                                        menuText->setText(texts[menu->selOption + 1], 255, 255, 255);
+                                        menuHead->setText(headers[menu->selOption + 1], fgR, fgG, fgB);
+                                        menuText->setText(texts[menu->selOption + 1], fgR, fgG, fgB);
                                         menu->animationStarted = time;
                                     }
 
                                 }
 
-                            } else if (e.jaxis.value < -3200) {
+                            } else if (e.jaxis.value < -PCS_DEADZONE) {
                                 if (menu->selOption != 0) {
                                     if (menu->animationStarted == 0) {
                                         Mix_PlayChannel(-1, gui->cursor, 0);
                                         menu->transition = TR_OPTION;
                                         menu->direction = 0;
                                         menu->duration = 100;
-                                        menuHead->setText(headers[menu->selOption - 1], 255, 255, 255);
-                                        menuText->setText(texts[menu->selOption - 1], 255, 255, 255);
+                                        menuHead->setText(headers[menu->selOption - 1], fgR, fgG, fgB);
+                                        menuText->setText(texts[menu->selOption - 1], fgR, fgG, fgB);
                                         menu->animationStarted = time;
                                     }
                                 }
@@ -863,17 +874,17 @@ void GuiLauncher::loop() {
 
                             }
                         } else if (state == STATE_RESUME) {
-                            if ((e.jaxis.value > 3200) && (sselector->selSlot != 3)) {
+                            if ((e.jaxis.value > PCS_DEADZONE) && (sselector->selSlot != 3)) {
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 sselector->selSlot++;
-                            } else if (e.jaxis.value < -3200 && (sselector->selSlot != 0)) {
+                            } else if (e.jaxis.value < -PCS_DEADZONE && (sselector->selSlot != 0)) {
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 sselector->selSlot--;
                             }
                         }
                     }
                     if (e.jaxis.axis == 1) {
-                        if (e.jaxis.value > 3200) {
+                        if (e.jaxis.value > PCS_DEADZONE) {
                             if (scrolling) {
                                 continue;
                             }
@@ -886,7 +897,7 @@ void GuiLauncher::loop() {
                                 }
                             }
 
-                        } else if (e.jaxis.value < -3200) {
+                        } else if (e.jaxis.value < -PCS_DEADZONE) {
                             if (scrolling) {
                                 continue;
                             }
