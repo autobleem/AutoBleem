@@ -193,8 +193,8 @@ void GuiLauncher::loadAssets() {
     long time = SDL_GetTicks();
 
     Inifile colorsFile;
-    if (Util::exists(gui->getSonyFontPath() + "/colors.ini")) {
-        colorsFile.load(gui->getSonyFontPath() + "/colors.ini");
+    if (Util::exists(gui->getSonyRootPath() + "/colors.ini")) {
+        colorsFile.load(gui->getSonyRootPath() + "/colors.ini");
         fgR = gui->getR(colorsFile.values["fg"]);
         fgG = gui->getG(colorsFile.values["fg"]);
         fgB = gui->getB(colorsFile.values["fg"]);
@@ -225,7 +225,15 @@ void GuiLauncher::loadAssets() {
     background->y = 0;
     background->visible = true;
     staticElements.push_back(background);
-    auto footer = new PsObj(renderer, "footer", gui->getSonyImagePath() + "/GR/Footer.png");
+    string footerFile = "";
+    if (Util::exists(gui->getSonyImagePath()+"/GR/Footer_AB.png"))
+    {
+        footerFile = "/GR/Footer_AB.png";
+    } else
+    {
+        footerFile = "/GR/Footer.png";
+    }
+    auto footer = new PsObj(renderer, "footer", gui->getSonyImagePath() + footerFile);
     footer->y = 720 - footer->h;
     footer->visible = true;
     staticElements.push_back(footer);
@@ -245,8 +253,15 @@ void GuiLauncher::loadAssets() {
     playText->lastTime = time;
 
     staticElements.push_back(playText);
-
-    settingsBack = new PsSettingsBack(renderer, "playButton", gui->getSonyImagePath() + "/CB/Function_BG.png");
+    string settingsFile = "";
+    if (Util::exists(gui->getSonyImagePath()+"/CB/Function_AB.png"))
+    {
+        settingsFile = "/CB/Function_AB.png";
+    } else
+    {
+        settingsFile = "/CB/Function_BG.png";
+    }
+    settingsBack = new PsSettingsBack(renderer, "playButton", gui->getSonyImagePath() +settingsFile);
     settingsBack->setCurLen(100);
     settingsBack->visible = true;
     staticElements.push_back(settingsBack);

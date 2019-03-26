@@ -1087,6 +1087,19 @@ string Gui::getSonyFontPath() {
 #endif
 }
 
+string Gui::getSonyRootPath() {
+#if defined(__x86_64__) || defined(_M_X64)
+    return "./sony";
+#else
+    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"";
+    if (!Util::exists(path))
+    {
+        path = "/usr/sony/share/data";
+    }
+    return path;
+#endif
+}
+
 
 void Gui::watchJoystickPort() {
 

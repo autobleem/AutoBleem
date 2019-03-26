@@ -91,6 +91,7 @@ public:
     string getSonyImagePath();
     string getSonyFontPath();
     string getSonySoundPath();
+    string getSonyRootPath();
 
     Uint8 getR(string val);
     Uint8 getG(string val);
