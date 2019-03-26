@@ -57,7 +57,6 @@ If you found an issue - report it using "Issues" section on this website or bett
 1. Can launch RetroArch sotware **no need to run anything on the PC**
 1. Supports all themes of both AutoBleem and Sony menu
 1. **configurable filter settings**
-1. Supports multi disc games
 1. Speaks your language
 1. Ability to QuickBoot and change game resolution
 1. Ability to scale up the screen to 16:9 modern TV screens
