@@ -181,7 +181,7 @@ void Gui::loadAssets() {
         music = nullptr;
     }
 
-    if (Mix_OpenAudio(32000, MIX_DEFAULT_FORMAT, 2, 2048) == -1) {
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4048) == -1) {
         printf("Unable to open audio: %s\n", Mix_GetError());
     }
 
