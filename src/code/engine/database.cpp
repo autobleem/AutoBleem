@@ -70,7 +70,10 @@ static const char CREATE_LANGUAGE_SPECIFIC_SQL[] = "CREATE TABLE IF NOT EXISTS L
         [LANGUAGE_ID] integer, \
         [VALUE] text, \
            UNIQUE ([DEFAULT_VALUE], [LANGUAGE_ID]) )";
-static const char DELETE_DATA[] = "DELETE FROM GAME;DELETE FROM DISC;DELETE FROM LANGUAGE_SPECIFIC";
+static const char DELETE_DATA[] = "DELETE FROM GAME";
+static const char DELETE_DATA2[] = "DELETE FROM DISC";
+static const char DELETE_DATA3[] = "DELETE FROM LANGUAGE_SPECIFIC";
+
 
 static const char INSERT_GAME[] = "INSERT INTO GAME ([GAME_ID],[GAME_TITLE_STRING],[PUBLISHER_NAME],[RELEASE_YEAR],[PLAYERS],[RATING_IMAGE],[GAME_MANUAL_QR_IMAGE],[LINK_GAME_ID],\
                 [PATH],[SSPATH],[MEMCARD]) \
@@ -537,7 +540,10 @@ void Database::disconnect() {
 }
 bool Database::truncate()
 {
-    return executeStatement((char *) DELETE_DATA, "Truncating all data", "Error truncating data");
+    executeStatement((char *) DELETE_DATA, "Truncating all data", "Error truncating data");
+    executeStatement((char *) DELETE_DATA2, "Truncating all data", "Error truncating data");
+    executeStatement((char *) DELETE_DATA3, "Truncating all data", "Error truncating data");
+    return true;
 }
 bool Database::createInitialDatabase() {
     if (!executeCreateStatement((char *) CREATE_GAME_SQL, "GAME")) return false;
