@@ -181,7 +181,14 @@ void Gui::loadAssets() {
         music = nullptr;
     }
 
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4048) == -1) {
+    int freq = 32000;
+
+    if (Util::getFileExtension(themeData.values["music"])=="ogg")
+    {
+        freq = 44100;
+    }
+
+    if (Mix_OpenAudio(freq, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
         printf("Unable to open audio: %s\n", Mix_GetError());
     }
 
