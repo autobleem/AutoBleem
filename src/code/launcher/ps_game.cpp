@@ -117,6 +117,11 @@ void PsGame::removeResumePoint(int slot)
 {
     // TODO: Remove ssfile
     string filenamefile = ssFolder + "filename.txt.res";
+    string filenamepoint = ssFolder + "filename."+to_string(slot)+".txt.res";
+    if (Util::exists(filenamepoint))
+    {
+        filenamefile = filenamepoint;
+    }
     if (Util::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {

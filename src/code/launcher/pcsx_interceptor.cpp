@@ -166,6 +166,7 @@ void PcsxInterceptor::saveResumePoint(PsGame *game, int pointId) {
         {
             remove(lastCDpointX.c_str());
             Util::copy(lastCDpoint, lastCDpointX);
+            remove(lastCDpoint.c_str());
         }
 
 
