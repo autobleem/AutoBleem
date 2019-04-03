@@ -8,7 +8,6 @@
 #include "../gui/gui.h"
 
 
-
 void PsGame::loadTex(SDL_Renderer *renderer) {
     shared_ptr<Gui> gui(Gui::getInstance());
 
@@ -25,22 +24,22 @@ void PsGame::loadTex(SDL_Renderer *renderer) {
             coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
         } else coverPng = nullptr;
 
-        if (coverPng!= nullptr) {
+        if (coverPng != nullptr) {
             fullRect.x = 0;
             fullRect.y = 0;
             fullRect.h = 226, fullRect.w = 226;
 
-            Uint32 format; int access;
-            SDL_QueryTexture(coverPng,&format, &access, &fullRect.w, &fullRect.h);
+            Uint32 format;
+            int access;
+            SDL_QueryTexture(coverPng, &format, &access, &fullRect.w, &fullRect.h);
 
             SDL_Rect outputRect;
-            if (gui->cdJewel!= nullptr) {
+            if (gui->cdJewel != nullptr) {
                 outputRect.x = 23;
                 outputRect.y = 5;
                 outputRect.h = 217;
                 outputRect.w = 199;
-            } else
-            {
+            } else {
                 outputRect.x = 0;
                 outputRect.y = 0;
                 outputRect.h = 226;
@@ -58,7 +57,7 @@ void PsGame::loadTex(SDL_Renderer *renderer) {
             fullRect.x = 0;
             fullRect.y = 0;
             fullRect.h = 226, fullRect.w = 226;
-            if (gui->cdJewel!= nullptr) {
+            if (gui->cdJewel != nullptr) {
                 SDL_RenderCopy(renderer, gui->cdJewel, &fullRect, &fullRect);
             }
             coverPng = renderSurface;
@@ -113,13 +112,11 @@ void PsGame::setMemCard(string name) {
     gui->db->updateMemcard(this->gameId, name);
 }
 
-void PsGame::removeResumePoint(int slot)
-{
+void PsGame::removeResumePoint(int slot) {
     // TODO: Remove ssfile
     string filenamefile = ssFolder + "filename.txt.res";
-    string filenamepoint = ssFolder + "filename."+to_string(slot)+".txt.res";
-    if (Util::exists(filenamepoint))
-    {
+    string filenamepoint = ssFolder + "filename." + to_string(slot) + ".txt.res";
+    if (Util::exists(filenamepoint)) {
         filenamefile = filenamepoint;
     }
     if (Util::exists(filenamefile)) {
@@ -148,9 +145,8 @@ void PsGame::removeResumePoint(int slot)
 
 bool PsGame::isResumeSlotActive(int slot) {
     string filenamefile = ssFolder + "filename.txt.res";
-    string filenamepoint = ssFolder + "filename."+to_string(slot)+".txt.res";
-    if (Util::exists(filenamepoint))
-    {
+    string filenamepoint = ssFolder + "filename." + to_string(slot) + ".txt.res";
+    if (Util::exists(filenamepoint)) {
         filenamefile = filenamepoint;
     }
     if (Util::exists(filenamefile)) {
@@ -181,9 +177,8 @@ bool PsGame::isResumeSlotActive(int slot) {
 
 void PsGame::storeResumePicture(int slot) {
     string filenamefile = ssFolder + "filename.txt.res";
-    string filenamepoint = ssFolder + "filename."+to_string(slot)+".txt.res";
-    if (Util::exists(filenamepoint))
-    {
+    string filenamepoint = ssFolder + "filename." + to_string(slot) + ".txt.res";
+    if (Util::exists(filenamepoint)) {
         filenamefile = filenamepoint;
     }
     if (Util::exists(filenamefile)) {
@@ -220,9 +215,8 @@ void PsGame::storeResumePicture(int slot) {
 
 string PsGame::findResumePicture(int slot) {
     string filenamefile = ssFolder + "filename.txt.res";
-    string filenamepoint = ssFolder + "filename."+to_string(slot)+".txt.res";
-    if (Util::exists(filenamepoint))
-    {
+    string filenamepoint = ssFolder + "filename." + to_string(slot) + ".txt.res";
+    if (Util::exists(filenamepoint)) {
         filenamefile = filenamepoint;
     }
     if (Util::exists(filenamefile)) {
@@ -255,10 +249,12 @@ string PsGame::findResumePicture(int slot) {
 string PsGame::findResumePicture() {
     // try to do it in silly Sony way
     string filenamefile = ssFolder + "filename.txt.res";
-    string filenamepoint = ssFolder + "filename."+to_string(0)+".txt.res";
-    if (Util::exists(filenamepoint))
-    {
-        filenamefile = filenamepoint;
+    for (int i = 0; i < 4; i++) {
+        string filenamepoint = ssFolder + "filename." + to_string(i) + ".txt.res";
+        if (Util::exists(filenamepoint)) {
+            filenamefile = filenamepoint;
+            break;
+        }
     }
     if (Util::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
