@@ -209,7 +209,7 @@ void PcsxInterceptor::prepareResumePoint(PsGame *game, int pointId) {
     remove(filenamefileX.c_str());
     if (Util::exists(filenamepoint))
     {
-        filenamefileX = filenamepoint;
+        filenamefile = filenamepoint;
     }
     if (Util::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
