@@ -143,6 +143,11 @@ void PsGame::removeResumePoint(int slot)
 
 bool PsGame::isResumeSlotActive(int slot) {
     string filenamefile = ssFolder + "filename.txt.res";
+    string filenamepoint = ssFolder + "filename."+to_string(slot)+".txt.res";
+    if (Util::exists(filenamepoint))
+    {
+        filenamefile = filenamepoint;
+    }
     if (Util::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {
@@ -171,6 +176,11 @@ bool PsGame::isResumeSlotActive(int slot) {
 
 void PsGame::storeResumePicture(int slot) {
     string filenamefile = ssFolder + "filename.txt.res";
+    string filenamepoint = ssFolder + "filename."+to_string(slot)+".txt.res";
+    if (Util::exists(filenamepoint))
+    {
+        filenamefile = filenamepoint;
+    }
     if (Util::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {
@@ -205,6 +215,11 @@ void PsGame::storeResumePicture(int slot) {
 
 string PsGame::findResumePicture(int slot) {
     string filenamefile = ssFolder + "filename.txt.res";
+    string filenamepoint = ssFolder + "filename."+to_string(slot)+".txt.res";
+    if (Util::exists(filenamepoint))
+    {
+        filenamefile = filenamepoint;
+    }
     if (Util::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {
@@ -235,6 +250,11 @@ string PsGame::findResumePicture(int slot) {
 string PsGame::findResumePicture() {
     // try to do it in silly Sony way
     string filenamefile = ssFolder + "filename.txt.res";
+    string filenamepoint = ssFolder + "filename."+to_string(0)+".txt.res";
+    if (Util::exists(filenamepoint))
+    {
+        filenamefile = filenamepoint;
+    }
     if (Util::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {
