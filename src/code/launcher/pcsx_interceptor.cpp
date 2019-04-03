@@ -39,7 +39,7 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
     argvNew.push_back(link.c_str());
     argvNew.push_back(game->ssFolder.c_str());
 
-    gameIso += (game->folder + game->base);
+
 
     if (Util::exists(lastCDpointX))
     {
@@ -53,6 +53,7 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
             is.close();
         }
     } else {
+        gameIso += (game->folder + game->base);
         if (!Util::matchExtension(game->base, ".pbp")) {
             gameIso += ".cue";
         }
