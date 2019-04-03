@@ -45,7 +45,6 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
     {
         ifstream is(lastCDpointX.c_str());
         if (is.is_open()) {
-
             std::string line;
             std::getline(is, line);
 
@@ -53,11 +52,13 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
             gameIso = line;
             is.close();
         }
+    } else {
+        if (!Util::matchExtension(game->base, ".pbp")) {
+            gameIso += ".cue";
+        }
     }
 
-    if (!Util::matchExtension(game->base, ".pbp")) {
-        gameIso += ".cue";
-    }
+
     gameIso += "";
 
     argvNew.push_back(gameIso.c_str());
