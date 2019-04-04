@@ -181,9 +181,16 @@ void Gui::loadAssets() {
         music = nullptr;
     }
 
+    bool customMusic = false;
     int freq = 32000;
+    string musicPath = themeData.values["music"];
+    if (cfg.inifile.values["music"] != "--")
+    {
+        customMusic = true;
+        musicPath = cfg.inifile.values["music"];
+    }
 
-    if (Util::getFileExtension(themeData.values["music"])=="ogg")
+    if (Util::getFileExtension(musicPath)=="ogg")
     {
         freq = 44100;
     }
@@ -202,10 +209,18 @@ void Gui::loadAssets() {
         if (themeData.values["loop"] != "-1") {
 
 
-            music = Mix_LoadMUS((themePath + themeData.values["music"]).c_str());
-            if (music == nullptr) { printf("Unable to load Wav file: %s\n", Mix_GetError()); }
-            if (Mix_PlayMusic(music, themeData.values["loop"] == "1" ? -1 : 0) == -1) {
-                printf("Unable to play music file: %s\n", Mix_GetError());
+            if (!customMusic) {
+                music = Mix_LoadMUS((themePath + themeData.values["music"]).c_str());
+                if (music == nullptr) { printf("Unable to load Music file: %s\n", Mix_GetError()); }
+                if (Mix_PlayMusic(music, themeData.values["loop"] == "1" ? -1 : 0) == -1) {
+                    printf("Unable to play music file: %s\n", Mix_GetError());
+                }
+            } else {
+                music = Mix_LoadMUS((Util::getWorkingPath() +"/music/"+ musicPath).c_str());
+                if (music == nullptr) { printf("Unable to load Music file: %s\n", Mix_GetError()); }
+                if (Mix_PlayMusic(music,  -1 ) == -1) {
+                    printf("Unable to play music file: %s\n", Mix_GetError());
+                }
             }
 
         }

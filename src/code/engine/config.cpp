@@ -32,6 +32,10 @@ Config::Config()
     {
         inifile.values["quickmenu"]="UI";
     }
+    if (inifile.values["music"]=="")
+    {
+        inifile.values["music"]="--";
+    }
     inifile.values["pcsx"]="bleemsync";
 }
 

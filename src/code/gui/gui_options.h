@@ -40,6 +40,7 @@ public:
     vector<string> aspect;
     vector<string> origames;
     vector<string> jewels;
+    vector<string> music;
 
     using GuiScreen::GuiScreen;
 };

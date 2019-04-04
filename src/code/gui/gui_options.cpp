@@ -89,6 +89,16 @@ void GuiOptions::init() {
     quickmenu.clear();
     quickmenu.push_back("UI");
     quickmenu.push_back("RetroArch");
+    music.clear();
+    music.push_back("--");
+    folders = Util::diru(Util::getWorkingPath()+"/music");
+    for (DirEntry entry:folders) {
+        if (Util::getFileExtension(entry.name)=="ogg")
+        {
+            music.push_back(entry.name);
+        }
+    }
+
 }
 
 #define CFG_LANG       0
@@ -96,14 +106,16 @@ void GuiOptions::init() {
 #define CFG_MENUTH     2
 #define CFG_UI         3
 #define CFG_JEWEL      4
-#define CFG_ORIGAMES   5
-#define CFG_ASPECT     6
-#define CFG_QUICK      7
-#define CFG_QUICKMENU  8
-#define CFG_BGM        9
-#define CFG_MIP        10
-#define CFG_RA         11
-#define CFG_ADV        12
+#define CFG_MUSIC      5
+#define CFG_ORIGAMES   6
+#define CFG_ASPECT     7
+#define CFG_QUICK      8
+#define CFG_QUICKMENU  9
+#define CFG_BGM        10
+#define CFG_MIP        11
+#define CFG_RA         12
+#define CFG_ADV        13
+
 
 
 string GuiOptions::getBooleanIcon(string input) {
@@ -160,6 +172,7 @@ void GuiOptions::render() {
     renderOptionLine(_("Menu Theme:") + " " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);
     renderOptionLine(_("UI:") + " " + gui->cfg.inifile.values["ui"], CFG_UI + 1, offset);
     renderOptionLine(_("Cover Style:") + " " + gui->cfg.inifile.values["jewel"], CFG_JEWEL + 1, offset);
+    renderOptionLine(_("Music:") + " " + gui->cfg.inifile.values["music"], CFG_MUSIC + 1, offset);
     renderOptionLine(_("Internal Games:") + " "   + getBooleanIcon("origames"), CFG_ORIGAMES + 1, offset);
     renderOptionLine(_("Widescreen:") + " " + getBooleanIcon("aspect"), CFG_ASPECT + 1, offset);
     renderOptionLine(_("QuickBoot:") + " " + getBooleanIcon("quick"), CFG_QUICK + 1, offset);
@@ -213,8 +226,8 @@ void GuiOptions::loop() {
                         if (e.jaxis.value > PCS_DEADZONE) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             selOption++;
-                            if (selOption > 12) {
-                                selOption = 12;
+                            if (selOption > 13) {
+                                selOption = 13;
                             }
                             render();
                         }
@@ -254,6 +267,13 @@ void GuiOptions::loop() {
                             if (selOption == CFG_BGM) {
                                 string nextValue = getOption(nomusic, gui->cfg.inifile.values["nomusic"], true);
                                 gui->cfg.inifile.values["nomusic"] = nextValue;
+                                init();
+                                gui->loadAssets();
+
+                            }
+                            if (selOption == CFG_MUSIC) {
+                                string nextValue = getOption(music, gui->cfg.inifile.values["music"], true);
+                                gui->cfg.inifile.values["music"] = nextValue;
                                 init();
                                 gui->loadAssets();
 
@@ -333,6 +353,13 @@ void GuiOptions::loop() {
                                 gui->cfg.inifile.values["theme"] = nextValue;
                                 init();
                                 gui->loadAssets();
+                            }
+                            if (selOption == CFG_MUSIC) {
+                                string nextValue = getOption(music, gui->cfg.inifile.values["music"], false);
+                                gui->cfg.inifile.values["music"] = nextValue;
+                                init();
+                                gui->loadAssets();
+
                             }
                             if (selOption == CFG_MENUTH) {
                                 string nextValue = getOption(sthemes, gui->cfg.inifile.values["stheme"], false);
