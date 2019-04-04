@@ -195,6 +195,15 @@ void Gui::loadAssets() {
         freq = 44100;
     }
 
+    int numtimesopened, frequency, channels;
+    Uint16 format;
+    numtimesopened=Mix_QuerySpec(&frequency, &format, &channels);
+    for (int i=0;i<numtimesopened;i++)
+    {
+        Mix_CloseAudio();
+    }
+    numtimesopened=Mix_QuerySpec(&frequency, &format, &channels);
+
     if (Mix_OpenAudio(freq, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
         printf("Unable to open audio: %s\n", Mix_GetError());
     }

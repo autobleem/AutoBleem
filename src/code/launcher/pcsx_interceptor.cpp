@@ -12,6 +12,8 @@
 bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
 
     shared_ptr<Gui> gui(Gui::getInstance());
+    string lastCDpoint = game->ssFolder + "lastcdimg.txt";
+    string lastCDpointX = game->ssFolder + "lastcdimg."+to_string(resumepoint)+".txt";
     gui->saveSelection();
     std::vector<const char *> argvNew;
     string gameIso = "";
@@ -38,10 +40,29 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
     argvNew.push_back(link.c_str());
     argvNew.push_back(game->ssFolder.c_str());
 
-    gameIso += (game->folder + game->base);
-    if (!Util::matchExtension(game->base, ".pbp")) {
-        gameIso += ".cue";
+
+    remove (lastCDpoint.c_str());
+
+    if (Util::exists(lastCDpointX))
+    {
+        Util::copy(lastCDpointX,lastCDpoint);
+        ifstream is(lastCDpointX.c_str());
+        if (is.is_open()) {
+            std::string line;
+            std::getline(is, line);
+
+            // last line is our filename
+            gameIso = line;
+            is.close();
+        }
+    } else {
+        gameIso += (game->folder + game->base);
+        if (!Util::matchExtension(game->base, ".pbp")) {
+            gameIso += ".cue";
+        }
     }
+
+
     gameIso += "";
 
     argvNew.push_back(gameIso.c_str());
@@ -118,6 +139,9 @@ void PcsxInterceptor::memcardOut(PsGame *game) {
 void PcsxInterceptor::saveResumePoint(PsGame *game, int pointId) {
     string filenamefile = game->ssFolder + "filename.txt";
     string filenamefileX = game->ssFolder + "filename.txt.res";
+    string filenamepoint = game->ssFolder + "filename."+to_string(pointId)+".txt.res";
+    string lastCDpoint = game->ssFolder + "lastcdimg.txt";
+    string lastCDpointX = game->ssFolder + "lastcdimg."+to_string(pointId)+".txt";
     if (Util::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {
@@ -139,7 +163,17 @@ void PcsxInterceptor::saveResumePoint(PsGame *game, int pointId) {
             is.close();
         }
         remove(filenamefileX.c_str());
+        remove(filenamepoint.c_str());
         rename(filenamefile.c_str(), filenamefileX.c_str());
+        Util::copy(filenamefileX,filenamepoint);
+        if (Util::exists(lastCDpoint))
+        {
+            remove(lastCDpointX.c_str());
+            Util::copy(lastCDpoint, lastCDpointX);
+            remove(lastCDpoint.c_str());
+        }
+
+
     }
 }
 
@@ -171,7 +205,12 @@ void PcsxInterceptor::prepareResumePoint(PsGame *game, int pointId) {
         return;
     string filenamefile = game->ssFolder + "filename.txt.res";
     string filenamefileX = game->ssFolder + "filename.txt";
+    string filenamepoint = game->ssFolder + "filename."+to_string(pointId)+".txt.res";
     remove(filenamefileX.c_str());
+    if (Util::exists(filenamepoint))
+    {
+        filenamefile = filenamepoint;
+    }
     if (Util::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {
