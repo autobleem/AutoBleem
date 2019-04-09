@@ -8,6 +8,7 @@
 #include <math.h>
 #include <algorithm>
 #include <iomanip>
+#include <libgen.h>
 
 using namespace std;
 #define FILE_BUFFER 524288
@@ -38,6 +39,17 @@ void Util::powerOff()
 #endif
 
 
+}
+
+string Util::getFileNameFromPath(string path)
+{
+    string result = "";
+    char *cstr = new char[path.length() + 1];
+    strcpy(cstr, path.c_str());
+    char * base = basename(cstr);
+    result += base;
+    delete [] cstr;
+    return result;
 }
 
 string fixPath(string path)

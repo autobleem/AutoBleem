@@ -217,6 +217,19 @@ void PcsxInterceptor::prepareResumePoint(PsGame *game, int pointId) {
 
             std::string line;
             std::getline(is, line);
+            string lastImageInfo = line;
+
+            // fix lastcdpoint
+            string lastCDpointX = game->ssFolder + "lastcdimg."+to_string(pointId)+".txt";
+            remove(lastCDpointX.c_str());
+            string file = Util::getFileNameFromPath(lastImageInfo);
+            string imageToLoad = game->folder+file;
+
+            ofstream os;
+            os.open(lastCDpointX);
+            os << imageToLoad << endl;
+            os.close();
+
             std::getline(is, line);
 
             // last line is our filename

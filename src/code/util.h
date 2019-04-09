@@ -55,6 +55,7 @@ public:
     static string findFirstFile(string ext, string path);
     static bool isDirectory(string path);
     static vector<DirEntry> getFilesWithExtension(string path, vector<DirEntry> entries, vector<string> extensions);
+    static string getFileNameFromPath(string path);
 
     static unsigned char readChar(ifstream * stream);
     static unsigned long  readDword(ifstream * stream);
