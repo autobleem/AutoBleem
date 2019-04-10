@@ -49,13 +49,13 @@ void GuiConfirm::loop()
                 case SDL_JOYBUTTONDOWN:
 
 
-                    if (e.jbutton.button == PCS_BTN_CROSS) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         result = true;
                         menuVisible = false;
 
                     };
-                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         result = false;
                         menuVisible = false;

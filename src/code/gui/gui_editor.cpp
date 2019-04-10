@@ -417,7 +417,7 @@ void GuiEditor::loop() {
                 case SDL_JOYBUTTONDOWN:
                     if (!internal) {
                         if (game.values["memcard"] == "SONY") {
-                            if (e.jbutton.button == PCS_BTN_START) {
+                            if (e.jbutton.button == gui->_cb(PCS_BTN_START,&e)) {
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                                 keyboard->label = _("Enter new name for memory card");
@@ -452,7 +452,7 @@ void GuiEditor::loop() {
                         }
 
 
-                    if (e.jbutton.button == PCS_BTN_SQUARE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE,&e)) {
                         if (!internal) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             GuiSelectMemcard *selector = new GuiSelectMemcard(renderer);
@@ -477,7 +477,7 @@ void GuiEditor::loop() {
                     };
 
 
-                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         SDL_DestroyTexture(cover);
                         cover = nullptr;
@@ -485,7 +485,7 @@ void GuiEditor::loop() {
 
                     };
 
-                    if (e.jbutton.button == PCS_BTN_TRIANGLE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                         keyboard->label = _("Enter new game name");

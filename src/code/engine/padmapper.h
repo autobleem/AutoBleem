@@ -6,6 +6,9 @@
 #define AUTOBLEEM_GUI_PADMAPPER_H
 
 #include "../main.h"
+#include "inifile.h"
+
+
 using namespace std;
 
 #define PCS_BTN_L2       4
@@ -21,9 +24,14 @@ using namespace std;
 
 class PadMapper {
 public:
-    string gamePadName;
-    map<int,int> currentPadMap;
-    bool dpadEmu;
+    // loads all mapping files
+    void init();
+
+    map<string,Inifile*> configs;
+    map<int, string> buttonNames;
+    int translateButton(int button, string padname);
+
+
 
 
 

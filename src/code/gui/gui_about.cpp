@@ -56,7 +56,7 @@ void GuiAbout::loop() {
                 case SDL_JOYBUTTONUP:
 
 
-                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         menuVisible = false;
 

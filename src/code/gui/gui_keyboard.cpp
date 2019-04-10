@@ -118,7 +118,7 @@ void GuiKeyboard::loop() {
             }
             switch (e.type) {
                 case SDL_JOYBUTTONUP:
-                    if (e.jbutton.button == PCS_BTN_L1) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_L1,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         caps = false;
                         render();
@@ -126,13 +126,13 @@ void GuiKeyboard::loop() {
                     break;
                 case SDL_JOYBUTTONDOWN:
 
-                    if (e.jbutton.button == PCS_BTN_L1) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_L1,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         caps = true;
                         render();
                     }
 
-                    if (e.jbutton.button == PCS_BTN_TRIANGLE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         if (!result.empty()) {
                             result = result.substr(0, result.length() - 1);
@@ -140,14 +140,14 @@ void GuiKeyboard::loop() {
                         render();
                     }
 
-                    if (e.jbutton.button == PCS_BTN_SQUARE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         result += " ";
 
                         render();
                     }
 
-                    if (e.jbutton.button == PCS_BTN_CROSS) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         string character = rows[sely][selx];
                         if (caps) {
@@ -160,13 +160,13 @@ void GuiKeyboard::loop() {
                         render();
                     }
 
-                    if (e.jbutton.button == PCS_BTN_START) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_START,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         cancelled = false;
                         menuVisible = false;
 
                     };
-                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         cancelled = true;
                         menuVisible = false;

@@ -273,6 +273,7 @@ void Gui::criticalException(string text) {
 
 void Gui::display(bool forceScan, string path, Database *db, bool resume) {
     joysticks.clear();
+    joynames.clear();
     this->db = db;
     this->path = path;
     this->forceScan = forceScan;
@@ -308,13 +309,6 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
 
         drawText(_("Importing internal games"));
         Util::execUnixCommad("/media/Autobleem/rc/backup_internal.sh");
-
-        /*
-        drawText(_("Upgrading AutoBleem - Please wait..."));
-        auto *migration = new VerMigration();
-        migration->migrate(db);
-        delete (migration);
-        */
 
         if (cfg.inifile.values["quick"] != "true")
             waitForGamepad();
@@ -389,6 +383,11 @@ bool Gui::quickBoot() {
     }
 }
 
+int Gui::_cb(int button, SDL_Event *e)
+{
+    return mapper.translateButton(button,joynames[e->jdevice.which]);
+}
+
 
 void Gui::menuSelection() {
     shared_ptr<Scanner> scanner(Scanner::getInstance());
@@ -398,6 +397,7 @@ void Gui::menuSelection() {
         for (int i = 0; i < SDL_NumJoysticks(); i++) {
             joystick = SDL_JoystickOpen(i);
             joysticks.push_back(joystick);
+            joynames.push_back(SDL_JoystickName(joystick));
             cout << "--" << SDL_JoystickName(joystick) << endl;
         }
     // Check if all OK
@@ -510,12 +510,12 @@ void Gui::menuSelection() {
                 case SDL_JOYBUTTONUP:
                     if (adv != "false") {
                         if (!forceScan) {
-                            if (e.jbutton.button == PCS_BTN_L1) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L1,&e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
                                 drawText(mainMenu);
                                 otherMenuShift = false;
                             }
-                            if (e.jbutton.button == PCS_BTN_L2) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L2,&e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
                                 powerOffShift = false;
                             }
@@ -526,12 +526,12 @@ void Gui::menuSelection() {
 
                     if (adv != "false") {
                         if (!forceScan) {
-                            if (e.jbutton.button == PCS_BTN_L1) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L1,&e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
                                 drawText(otherMenu);
                                 otherMenuShift = true;
                             }
-                            if (e.jbutton.button == PCS_BTN_L2) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L2,&e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
 
                                 powerOffShift = true;
@@ -541,7 +541,7 @@ void Gui::menuSelection() {
 
 
                     if (powerOffShift) {
-                        if (e.jbutton.button == PCS_BTN_R2) {
+                        if (e.jbutton.button == _cb(PCS_BTN_R2,&e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             drawText(_("POWERING OFF... PLEASE WAIT"));
 #if defined(__x86_64__) || defined(_M_X64)
@@ -556,7 +556,7 @@ void Gui::menuSelection() {
 
                     if (!otherMenuShift) {
                         if (!forceScan)
-                            if (e.jbutton.button == PCS_BTN_START) {
+                            if (e.jbutton.button == _cb(PCS_BTN_START,&e)) {
                                 if (cfg.inifile.values["ui"] == "classic") {
                                     Mix_PlayChannel(-1, cursor, 0);
                                     this->menuOption = MENU_OPTION_RUN;
@@ -576,7 +576,7 @@ void Gui::menuSelection() {
 
                         if (!forceScan)
                             if (retroarch != "false") {
-                                if (e.jbutton.button == PCS_BTN_SQUARE) {
+                                if (e.jbutton.button == _cb(PCS_BTN_SQUARE,&e)) {
                                     Mix_PlayChannel(-1, cursor, 0);
                                     if (!Util::exists("/media/RetroArch/retroarch")) {
                                         auto confirm = new GuiConfirm(renderer);
@@ -600,13 +600,13 @@ void Gui::menuSelection() {
                                 };
                             }
 
-                        if (e.jbutton.button == PCS_BTN_CROSS) {
+                        if (e.jbutton.button == _cb(PCS_BTN_CROSS,&e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             this->menuOption = MENU_OPTION_SCAN;
 
                             menuVisible = false;
                         };
-                        if (e.jbutton.button == PCS_BTN_TRIANGLE) {
+                        if (e.jbutton.button == _cb(PCS_BTN_TRIANGLE,&e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto *aboutScreen = new GuiAbout(renderer);
                             aboutScreen->show();
@@ -615,7 +615,7 @@ void Gui::menuSelection() {
                             menuSelection();
                             menuVisible = false;
                         };
-                        if (e.jbutton.button == PCS_BTN_SELECT) {
+                        if (e.jbutton.button == _cb(PCS_BTN_SELECT,&e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto options = new GuiOptions(renderer);
                             options->show();
@@ -625,7 +625,7 @@ void Gui::menuSelection() {
                         };
                         if (!forceScan)
                             if (cfg.inifile.values["ui"] == "classic")
-                                if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                                if (e.jbutton.button == _cb(PCS_BTN_CIRCLE,&e)) {
                                     Mix_PlayChannel(-1, cancel, 0);
                                     this->menuOption = MENU_OPTION_SONY;
                                     menuVisible = false;
@@ -634,7 +634,7 @@ void Gui::menuSelection() {
                                 };
                         break;
                     } else {
-                        if (e.jbutton.button == PCS_BTN_CROSS) {
+                        if (e.jbutton.button == _cb(PCS_BTN_CROSS,&e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto memcardsScreen = new GuiMemcards(renderer);
                             memcardsScreen->show();
@@ -644,7 +644,7 @@ void Gui::menuSelection() {
                             menuVisible = false;
                         };
 
-                        if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                        if (e.jbutton.button == _cb(PCS_BTN_CIRCLE,&e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto managerScreen = new GuiManager(renderer);
                             managerScreen->show();
@@ -1142,12 +1142,15 @@ void Gui::watchJoystickPort() {
                 SDL_JoystickClose(joy);
             }
             joysticks.clear();
+            joynames.clear();
         }
         SDL_Joystick *joystick;
         for (int i = 0; i < SDL_NumJoysticks(); i++) {
             joystick = SDL_JoystickOpen(i);
             joysticks.push_back(joystick);
+            joynames.push_back(SDL_JoystickName(joystick));
             cout << "Pad connected" << endl;
+            cout << "--" << SDL_JoystickName(joystick) << endl;
         }
 
     }

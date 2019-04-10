@@ -156,7 +156,7 @@ void GuiManager::loop()
                     }
                     break;
                 case SDL_JOYBUTTONDOWN:
-                    if (e.jbutton.button == PCS_BTN_R1) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_R1,&e)) {
                         Mix_PlayChannel(-1, gui->home_up, 0);
                         selected+=maxVisible;
                         if (selected >= games.size()) {
@@ -166,7 +166,7 @@ void GuiManager::loop()
                         lastVisible = firstVisible+maxVisible;
                         render();
                     };
-                    if (e.jbutton.button == PCS_BTN_L1) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_L1,&e)) {
                         Mix_PlayChannel(-1, gui->home_down, 0);
                         selected-=maxVisible;
                         if (selected < 0) {
@@ -178,7 +178,7 @@ void GuiManager::loop()
                     };
 
 
-                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         if (changes)
                         {
@@ -189,7 +189,7 @@ void GuiManager::loop()
                     };
 
 
-                    if (e.jbutton.button == PCS_BTN_TRIANGLE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         GuiConfirm * confirm = new GuiConfirm(renderer);
                         confirm->label = _("Are you sure you want to flush all covers ?");
@@ -222,7 +222,7 @@ void GuiManager::loop()
                     }
 
 
-                    if (e.jbutton.button == PCS_BTN_CROSS) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         if (!games.empty())
                         {

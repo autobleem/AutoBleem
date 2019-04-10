@@ -16,6 +16,7 @@
 #include "../engine/config.h"
 #include "../engine/coverdb.h"
 #include "../engine/scanner.h"
+#include "../engine/padmapper.h"
 
 #define PCS_DEADZONE     32000
 #define PCS_BTN_L2       4
@@ -42,15 +43,20 @@ using namespace std;
 
 class Gui {
 private:
-    Gui() {}
+    Gui() {mapper.init();}
     string themePath;
 
 
 
 
+
+
 public:
+    int _cb(int button, SDL_Event * e);
 
     vector<SDL_Joystick*> joysticks;
+    vector<string> joynames;
+    PadMapper mapper;
 
     Config cfg;
     Coverdb *coverdb;

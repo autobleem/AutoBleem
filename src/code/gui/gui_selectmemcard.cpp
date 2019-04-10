@@ -128,7 +128,7 @@ void GuiSelectMemcard::loop() {
                     }
                     break;
                 case SDL_JOYBUTTONDOWN:
-                    if (e.jbutton.button == PCS_BTN_R1) {
+                    if (e.jbutton.button ==  gui->_cb(PCS_BTN_R1,&e)) {
 
                         Mix_PlayChannel(-1, gui->home_up, 0);
                         selected += maxVisible;
@@ -139,7 +139,7 @@ void GuiSelectMemcard::loop() {
                         lastVisible = firstVisible + maxVisible;
                         render();
                     };
-                    if (e.jbutton.button == PCS_BTN_L1) {
+                    if (e.jbutton.button ==  gui->_cb(PCS_BTN_L1,&e)) {
 
                         Mix_PlayChannel(-1, gui->home_down, 0);
                         selected -= maxVisible;
@@ -151,14 +151,14 @@ void GuiSelectMemcard::loop() {
                         render();
                     };
 
-                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                    if (e.jbutton.button ==  gui->_cb(PCS_BTN_CIRCLE,&e)) {
 
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         selected = -1;
                         menuVisible = false;
 
                     };
-                    if (e.jbutton.button == PCS_BTN_CROSS) {
+                    if (e.jbutton.button ==  gui->_cb(PCS_BTN_CROSS,&e)) {
 
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         menuVisible = false;
