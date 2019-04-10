@@ -208,7 +208,7 @@ Players
 Graczy
 Customize PlayStationClassic or AutoBleem settings
 Dostosuj ustawienia PlayStationClassic lub Autobleem
-OOPS! Game crashed. Resume point not available
+OOPS! Game crashed. Resume point not available.
 UUPS! Wysypało grę. Punkt wznowienia niedostępny.
 Enter
 Wejdź
