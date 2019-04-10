@@ -5,6 +5,7 @@
 #ifndef AUTOBLEEM_GUI_PADMAPPER_H
 #define AUTOBLEEM_GUI_PADMAPPER_H
 
+#include <SDL2/SDL_events.h>
 #include "../main.h"
 #include "inifile.h"
 
@@ -22,6 +23,11 @@ using namespace std;
 #define PCS_BTN_CIRCLE   1
 #define PCS_BTN_SELECT   8
 
+#define DIR_UP    1
+#define DIR_DOWN  2
+#define DIR_LEFT  3
+#define DIR_RIGHT 4
+
 class PadMapper {
 public:
     // loads all mapping files
@@ -29,7 +35,15 @@ public:
 
     map<string,Inifile*> configs;
     map<int, string> buttonNames;
-    int translateButton(int button, string padname);
+    int translateButton(int button, SDL_Event* event);
+    bool isUp(SDL_Event* event);
+    bool isDown(SDL_Event* event);
+    bool isLeft(SDL_Event* event);
+    bool isRight(SDL_Event* event);
+    bool isCenter(SDL_Event* event);
+    bool isDirection(SDL_Event* e,  int dir);
+
+
 
 
 

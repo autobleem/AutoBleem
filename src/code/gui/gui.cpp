@@ -385,7 +385,7 @@ bool Gui::quickBoot() {
 
 int Gui::_cb(int button, SDL_Event *e)
 {
-    return mapper.translateButton(button,joynames[e->jdevice.which]);
+    return mapper.translateButton(button,e);
 }
 
 
@@ -398,7 +398,7 @@ void Gui::menuSelection() {
             joystick = SDL_JoystickOpen(i);
             joysticks.push_back(joystick);
             joynames.push_back(SDL_JoystickName(joystick));
-            cout << "--" << SDL_JoystickName(joystick) << endl;
+            cout << "--" << SDL_GameControllerNameForIndex(i) << endl;
         }
     // Check if all OK
     if (scanner->noGamesFound) {
@@ -506,6 +506,7 @@ void Gui::menuSelection() {
 
                 menuVisible = false;
             }
+
             switch (e.type) {
                 case SDL_JOYBUTTONUP:
                     if (adv != "false") {
