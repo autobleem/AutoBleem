@@ -42,6 +42,7 @@ public:
     bool isRight(SDL_Event* event);
     bool isCenter(SDL_Event* event);
     bool isDirection(SDL_Event* e,  int dir);
+    Inifile * defaultConfig;
 
 
 

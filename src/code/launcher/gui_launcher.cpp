@@ -78,7 +78,7 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
 void GuiLauncher::updateMeta() {
     if (gamesList.empty()) {
         gameName = "";
-        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0, fgR,fgG,fgB);
+        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0, fgR, fgG, fgB);
         return;
     }
     PsGame *game = gamesList[selGame];
@@ -91,7 +91,7 @@ void GuiLauncher::updateMeta() {
         players = to_string(game->players) + " " + _("Players");
     }
     meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal, gamesList[selGame]->hd,
-                      gamesList[selGame]->locked, gamesList[selGame]->cds, fgR,fgG,fgB);
+                      gamesList[selGame]->locked, gamesList[selGame]->cds, fgR, fgG, fgB);
 }
 
 void GuiLauncher::switchSet(int newSet) {
@@ -208,17 +208,14 @@ void GuiLauncher::loadAssets() {
     font24 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Medium.ttf").c_str(), 22);
 
 
-    PsObj* background;
-    if (Util::exists(gui->getSonyImagePath()+"/GR/AB_BG.png"))
-    {
+    PsObj *background;
+    if (Util::exists(gui->getSonyImagePath() + "/GR/AB_BG.png")) {
         staticMeta = true;
-        background  = new PsObj(renderer, "background", gui->getSonyImagePath() + "/GR/AB_BG.png");
-    } else
-    {
+        background = new PsObj(renderer, "background", gui->getSonyImagePath() + "/GR/AB_BG.png");
+    } else {
         staticMeta = false;
-        background  = new PsObj(renderer, "background", gui->getSonyImagePath() + "/GR/JP_US_BG.png");
+        background = new PsObj(renderer, "background", gui->getSonyImagePath() + "/GR/JP_US_BG.png");
     }
-
 
 
     background->x = 0;
@@ -226,11 +223,9 @@ void GuiLauncher::loadAssets() {
     background->visible = true;
     staticElements.push_back(background);
     string footerFile = "";
-    if (Util::exists(gui->getSonyImagePath()+"/GR/Footer_AB.png"))
-    {
+    if (Util::exists(gui->getSonyImagePath() + "/GR/Footer_AB.png")) {
         footerFile = "/GR/Footer_AB.png";
-    } else
-    {
+    } else {
         footerFile = "/GR/Footer.png";
     }
     auto footer = new PsObj(renderer, "footer", gui->getSonyImagePath() + footerFile);
@@ -254,14 +249,12 @@ void GuiLauncher::loadAssets() {
 
     staticElements.push_back(playText);
     string settingsFile = "";
-    if (Util::exists(gui->getSonyImagePath()+"/CB/Function_AB.png"))
-    {
+    if (Util::exists(gui->getSonyImagePath() + "/CB/Function_AB.png")) {
         settingsFile = "/CB/Function_AB.png";
-    } else
-    {
+    } else {
         settingsFile = "/CB/Function_BG.png";
     }
-    settingsBack = new PsSettingsBack(renderer, "playButton", gui->getSonyImagePath() +settingsFile);
+    settingsBack = new PsSettingsBack(renderer, "playButton", gui->getSonyImagePath() + settingsFile);
     settingsBack->setCurLen(100);
     settingsBack->visible = true;
     staticElements.push_back(settingsBack);
@@ -275,9 +268,9 @@ void GuiLauncher::loadAssets() {
     meta->visible = true;
     if (selGame != -1) {
         meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal, gamesList[selGame]->hd,
-                          gamesList[selGame]->locked, gamesList[selGame]->cds, fgR,fgG,fgB);
+                          gamesList[selGame]->locked, gamesList[selGame]->cds, fgR, fgG, fgB);
     } else {
-        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0, fgR,fgG,fgB);
+        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0, fgR, fgG, fgB);
     }
     staticElements.push_back(meta);
 
@@ -831,124 +824,136 @@ void GuiLauncher::loop() {
                     }
                     break;
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
-
-                    if (e.jaxis.axis == 0) {
+                case SDL_JOYHATMOTION:
+                    if (gui->mapper.isCenter(&e))
+                    {
                         if (state == STATE_GAMES) {
                             if (gamesList.empty()) {
                                 continue;
                             }
-                            if (e.jaxis.value > PCS_DEADZONE) {
-                                if (!scrolling) {
-                                    motionStart = time;
-                                    motionDir = 0;
-                                    scrolling = true;
-                                    nextGame(110);
-                                }
-
-                            } else if (e.jaxis.value < -PCS_DEADZONE) {
-                                if (!scrolling) {
-                                    motionStart = time;
-                                    motionDir = 1;
-                                    scrolling = true;
-                                    prevGame(110);
-                                }
-                            } else {
-                                motionStart = 0;
+                        }
+                        motionStart = 0;
+                    }
+                    if (gui->mapper.isLeft(&e)) {
+                        if (state == STATE_GAMES) {
+                            if (gamesList.empty()) {
+                                continue;
                             }
-
+                            if (!scrolling) {
+                                motionStart = time;
+                                motionDir = 1;
+                                scrolling = true;
+                                prevGame(110);
+                            }
                         } else if (state == STATE_SET) {
-                            if (e.jaxis.value > PCS_DEADZONE) {
 
-                                if (menu->selOption != 3) {
-                                    if (menu->animationStarted == 0) {
-                                        Mix_PlayChannel(-1, gui->cursor, 0);
-                                        menu->transition = TR_OPTION;
-                                        menu->direction = 1;
-                                        menu->duration = 100;
-                                        menuHead->setText(headers[menu->selOption + 1], fgR, fgG, fgB);
-                                        menuText->setText(texts[menu->selOption + 1], fgR, fgG, fgB);
-                                        menu->animationStarted = time;
-                                    }
-
+                            if (menu->selOption != 0) {
+                                if (menu->animationStarted == 0) {
+                                    Mix_PlayChannel(-1, gui->cursor, 0);
+                                    menu->transition = TR_OPTION;
+                                    menu->direction = 0;
+                                    menu->duration = 100;
+                                    menuHead->setText(headers[menu->selOption - 1], fgR, fgG, fgB);
+                                    menuText->setText(texts[menu->selOption - 1], fgR, fgG, fgB);
+                                    menu->animationStarted = time;
                                 }
-
-                            } else if (e.jaxis.value < -PCS_DEADZONE) {
-                                if (menu->selOption != 0) {
-                                    if (menu->animationStarted == 0) {
-                                        Mix_PlayChannel(-1, gui->cursor, 0);
-                                        menu->transition = TR_OPTION;
-                                        menu->direction = 0;
-                                        menu->duration = 100;
-                                        menuHead->setText(headers[menu->selOption - 1], fgR, fgG, fgB);
-                                        menuText->setText(texts[menu->selOption - 1], fgR, fgG, fgB);
-                                        menu->animationStarted = time;
-                                    }
-                                }
-
-                            } else {
-
                             }
+
+
+
                         } else if (state == STATE_RESUME) {
-                            if ((e.jaxis.value > PCS_DEADZONE) && (sselector->selSlot != 3)) {
-                                Mix_PlayChannel(-1, gui->cursor, 0);
-                                sselector->selSlot++;
-                            } else if (e.jaxis.value < -PCS_DEADZONE && (sselector->selSlot != 0)) {
+                            if (sselector->selSlot != 0) {
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 sselector->selSlot--;
                             }
                         }
                     }
-                    if (e.jaxis.axis == 1) {
-                        if (e.jaxis.value > PCS_DEADZONE) {
-                            if (scrolling) {
+                    if (gui->mapper.isRight(&e)) {
+                        if (state == STATE_GAMES) {
+                            if (gamesList.empty()) {
                                 continue;
                             }
-                            if (state == STATE_GAMES) {
+                            if (!scrolling) {
+                                motionStart = time;
+                                motionDir = 0;
+                                scrolling = true;
+                                nextGame(110);
+                            }
+                        } else if (state == STATE_SET) {
 
+                            if (menu->selOption != 3) {
                                 if (menu->animationStarted == 0) {
-                                    menu->transition = TR_MENUON;
-                                    switchState(STATE_SET, time);
-                                    motionStart = 0;
+                                    Mix_PlayChannel(-1, gui->cursor, 0);
+                                    menu->transition = TR_OPTION;
+                                    menu->direction = 1;
+                                    menu->duration = 100;
+                                    menuHead->setText(headers[menu->selOption + 1], fgR, fgG, fgB);
+                                    menuText->setText(texts[menu->selOption + 1], fgR, fgG, fgB);
+                                    menu->animationStarted = time;
                                 }
+
                             }
 
-                        } else if (e.jaxis.value < -PCS_DEADZONE) {
-                            if (scrolling) {
-                                continue;
+                        } else if (state == STATE_RESUME) {
+                            if (sselector->selSlot != 3) {
+                                Mix_PlayChannel(-1, gui->cursor, 0);
+                                sselector->selSlot++;
                             }
-                            if (state == STATE_SET) {
-                                if (menu->animationStarted == 0) {
-                                    menu->transition = TR_MENUON;
-                                    switchState(STATE_GAMES, time);
-                                    motionStart = 0;
-                                }
-                            }
-                        } else {
 
                         }
                     }
+
+
+                    if (gui->mapper.isDown(&e)) {
+                        if (scrolling) {
+                            continue;
+                        }
+                        if (state == STATE_GAMES) {
+
+                            if (menu->animationStarted == 0) {
+                                menu->transition = TR_MENUON;
+                                switchState(STATE_SET, time);
+                                motionStart = 0;
+                            }
+                        }
+
+                    } else if (gui->mapper.isUp(&e)) {
+                        if (scrolling) {
+                            continue;
+                        }
+                        if (state == STATE_SET) {
+                            if (menu->animationStarted == 0) {
+                                menu->transition = TR_MENUON;
+                                switchState(STATE_GAMES, time);
+                                motionStart = 0;
+                            }
+                        }
+                    } else {
+
+                    }
+
                     break;
                 case SDL_JOYBUTTONUP:
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_L2,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_L2, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         powerOffShift = false;
                     }
                     break;
                 case SDL_JOYBUTTONDOWN:
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_L2,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_L2, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         powerOffShift = true;
                     }
 
                     if (powerOffShift) {
-                        if (e.jbutton.button == gui->_cb(PCS_BTN_R2,&e)) {
+                        if (e.jbutton.button == gui->_cb(PCS_BTN_R2, &e)) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                             Util::powerOff();
                         }
                         break;
                     }
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_L1,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)) {
                         if (state == STATE_GAMES) {
                             if (gamesList.empty()) {
                                 continue;
@@ -990,7 +995,7 @@ void GuiLauncher::loop() {
                             }
                         }
                     }
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_R1,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_R1, &e)) {
                         if (state == STATE_GAMES) {
                             if (gamesList.empty()) {
                                 continue;
@@ -1023,7 +1028,7 @@ void GuiLauncher::loop() {
                         }
                     }
 
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
                         if (state == STATE_SET) {
                             if (menu->animationStarted == 0) {
                                 menu->transition = TR_MENUON;
@@ -1051,7 +1056,7 @@ void GuiLauncher::loop() {
                     };
 
 
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
                         if (state == STATE_GAMES) {
                             if (gamesList.empty()) {
                                 continue;
@@ -1108,7 +1113,8 @@ void GuiLauncher::loop() {
 
                                     gameIni.load(gamesList[selGame]->folder + "Game.ini");
                                     string folderNoLast =
-                                            gamesList[selGame]->folder.substr(0, gamesList[selGame]->folder.size() - 1);
+                                            gamesList[selGame]->folder.substr(0, gamesList[selGame]->folder.size() -
+                                                                                 1);
                                     gameIni.entry = folderNoLast.substr(folderNoLast.find_last_of("//") + 1);
                                     editor->game = gameIni;
                                 } else {
@@ -1234,7 +1240,7 @@ void GuiLauncher::loop() {
                         }
 
                     };
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE, &e)) {
                         if (state != STATE_RESUME) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             GuiBtnGuide *guide = new GuiBtnGuide(renderer);
@@ -1269,7 +1275,7 @@ void GuiLauncher::loop() {
 
                     };
 
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT, &e)) {
                         if (state == STATE_GAMES) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
 

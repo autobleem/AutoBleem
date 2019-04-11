@@ -25,6 +25,22 @@ void PadMapper::init() {
     buttonNames[PCS_BTN_R1] = "r1";
     buttonNames[PCS_BTN_R2] = "r2";
 
+    defaultConfig = new Inifile();
+    defaultConfig->values["cross"]    ="2";
+    defaultConfig->values["circle"]   ="1";
+    defaultConfig->values["square"]   ="3";
+    defaultConfig->values["triangle"] ="0";
+    defaultConfig->values["start"]    ="9";
+    defaultConfig->values["select"]    ="8";
+    defaultConfig->values["l1"]        ="6";
+    defaultConfig->values["l2"]    ="4";
+    defaultConfig->values["r1"]    ="7";
+    defaultConfig->values["r2"]    ="5";
+    defaultConfig->values["dpad"]    ="analogue";
+    defaultConfig->values["analogue1"]    ="na";
+    defaultConfig->values["analogue2"]    ="na";
+    defaultConfig->values["dpaddeadzone"]    ="32000";
+
     configs.clear();
     // now load all mappings
     string path = Util::getWorkingPath() + "/gpmapping";
@@ -58,7 +74,7 @@ bool PadMapper::isDirection(SDL_Event *e,  int dir) {
 
     Inifile *config = configs[joyname];
     if (config == nullptr) {
-        return false; // unknown pad
+       config = defaultConfig;
     }
 
     int deadZone = atoi(config->values["dpaddeadzone"].c_str());
@@ -134,7 +150,7 @@ int PadMapper::translateButton(int button, SDL_Event *e) {
     // fetch mapping
     Inifile *config = configs[joyname];
     if (config == nullptr) {
-        return button;
+        config = defaultConfig;
     }
     int newBtnCode = atoi(config->values[buttonName].c_str());
     return newBtnCode;

@@ -118,7 +118,7 @@ void GuiKeyboard::loop() {
             }
             switch (e.type) {
                 case SDL_JOYBUTTONUP:
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_L1,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         caps = false;
                         render();
@@ -126,13 +126,13 @@ void GuiKeyboard::loop() {
                     break;
                 case SDL_JOYBUTTONDOWN:
 
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_L1,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         caps = true;
                         render();
                     }
 
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         if (!result.empty()) {
                             result = result.substr(0, result.length() - 1);
@@ -140,14 +140,14 @@ void GuiKeyboard::loop() {
                         render();
                     }
 
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         result += " ";
 
                         render();
                     }
 
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         string character = rows[sely][selx];
                         if (caps) {
@@ -160,13 +160,13 @@ void GuiKeyboard::loop() {
                         render();
                     }
 
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_START,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_START, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         cancelled = false;
                         menuVisible = false;
 
                     };
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         cancelled = true;
                         menuVisible = false;
@@ -174,42 +174,43 @@ void GuiKeyboard::loop() {
                     };
                     break;
                 case SDL_JOYAXISMOTION:
-                    if (e.jaxis.axis == 0) {
-                        if (e.jaxis.value > PCS_DEADZONE) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            selx++;
-                            if (selx > 9) {
-                                selx = 0;
-                            }
-                            render();
+                case SDL_JOYHATMOTION:
+
+                    if (gui->mapper.isRight(&e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        selx++;
+                        if (selx > 9) {
+                            selx = 0;
                         }
-                        if (e.jaxis.value < -PCS_DEADZONE) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            selx--;
-                            if (selx < 0) {
-                                selx = 9;
-                            }
-                            render();
-                        }
+                        render();
                     }
-                    if (e.jaxis.axis == 1) {
-                        if (e.jaxis.value > PCS_DEADZONE) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            sely++;
-                            if (sely > 3) {
-                                sely = 0;
-                            }
-                            render();
+                    if (gui->mapper.isLeft(&e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        selx--;
+                        if (selx < 0) {
+                            selx = 9;
                         }
-                        if (e.jaxis.value < -PCS_DEADZONE) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            sely--;
-                            if (sely < 0) {
-                                sely = 3;
-                            }
-                            render();
-                        }
+                        render();
                     }
+
+                    if (gui->mapper.isDown(&e)) {
+
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        sely++;
+                        if (sely > 3) {
+                            sely = 0;
+                        }
+                        render();
+                    }
+                    if (gui->mapper.isUp(&e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        sely--;
+                        if (sely < 0) {
+                            sely = 3;
+                        }
+                        render();
+                    }
+
                     break;
 
 
