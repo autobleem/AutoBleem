@@ -223,8 +223,8 @@ void PsMenu::render() {
         input.w=tw;
         output.x = x + 130 * 3 + 25*optionscales[3]+ xoff[3] ;
         output.y = y + yoff[3] + 33*optionscales[3];
-        output.w = 70*optionscales[3];
-        output.h = 53*optionscales[3];
+        output.w = 68*optionscales[3];
+        output.h = 52*optionscales[3];
         SDL_RenderCopy(renderer,resume,&input,&output);
     }
 }
