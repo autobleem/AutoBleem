@@ -1,8 +1,7 @@
+## Current Version 0.6.0beta2 
+Download: [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
-
-# Version 0.6.0beta released - please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
-
-#### Please read this page before downloading AutoBleem [USB compatibility FAQ](https://github.com/screemerpl/cbleemsync/wiki/USB-compatibility-FAQ)
+#### Please read this page before downloading AutoBleem [USB compatibility FAQ](https://www.autobleem.tk/?page_id=232)
 
 Watch on YouTube: [Installation Tutorial](https://youtu.be/QRocmHUuc20) 
 ### This is old tutorial for 0.5.0, but the installation is the same except you already have coverdb's in the package if you downloaded "Full version"
@@ -16,7 +15,6 @@ Join our discord server: [https://discord.gg/AHUS3RM](https://discord.gg/AHUS3RM
 AutoBleem is a tool to make your PlayStation Classic more usefull.
 It is relatively safe way to add games , change look and feel, change advanced configuration of your mini console.
 
-     
 ## Why this project
 
 This is my personal project not related to BleemSync developers on ModMyClassic group on discord . I started it at the day when lolhack was published, so probably same day when pathartl started his project. Soon BleemSync was released, but I was not fully happy how it worked at that time. I wanted some software just to dynamically add  games to the USB and sync them to PlayStation Classic's database. I decided to develop this in parallel with original BleemSync. All the features are based on my own personal perspective and ideas.
@@ -56,7 +54,7 @@ If you found an issue - report it using "Issues" section on this website or bett
 1. Supports **CUE/BIN** and **Not encrypted PBP (popstation created - PSN downloads will not work)** file formats
 1. Can launch RetroArch sotware **no need to run anything on the PC**
 1. Supports all themes of both AutoBleem and Sony menu
-1. **configurable filter settings**
+1. **Configurable emulator settings**
 1. Speaks your language
 1. Ability to QuickBoot and change game resolution
 1. Ability to scale up the screen to 16:9 modern TV screens
@@ -65,9 +63,9 @@ If you found an issue - report it using "Issues" section on this website or bett
 ## Installation
 
 1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases) - you can select one of the packages 
-  - autobleem-0.6.0-full - contains all covers
-  - autobleem-0.6.0-ntscU/palE/ntscJ - contains only covers for selected region
-  - autobleem-0.6.0-clean - no cover databases (they have to be installed manually)
+  - autobleem-X.X.X -full - contains all covers
+  - autobleem-X.X.X -ntscU/palE/ntscJ - contains only covers for selected region
+  - autobleem-X.X.X -clean - no cover databases (they have to be installed manually)
 1. Extract the contents to the root of your FAT32(recommended) or ext4 formatted USB flash drive
 1. Name your flash drive SONY. This is a requirement.
 1. If you decided to use clean installer - download Cover Repository databases (three separate files for NTSC-U, PAL and NTSC-J)
@@ -103,7 +101,7 @@ Database is split into three separate files by region. If you do not for example
 
 The files are:
 
-[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/v0.5.1/coversU.db) NTSC-U coversU.db  ~70MB  - 1321 games
+[DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/v0.5.1/coversU.db) NTSC-U coversU.db  ~40MB  - 1321 games
 
 [DOWNLOAD](https://github.com/screemerpl/cbleemsync/releases/download/v0.5.1/coversP.db) PAL-E  coversP.db  ~88MB  - 2582 games
 
@@ -115,7 +113,10 @@ So it is up to you to decide which files you inslude into your USB dongle. With 
 
 ### Custom DB Updates
 
-You can edit cover databases using SQLite Browser software available here: [DOWNLOAD](https://sqlitebrowser.org/) that works on MAC and WINDOWS.
+
+You can edit cover databases using 
+1. SQLite Browser software available here: [DOWNLOAD](https://sqlitebrowser.org/) that works on MAC and WINDOWS.
+2. Our specially made tool for that (multiplatform): [DOWNLOAD](https://www.autobleem.tk/?page_id=205) 
 
 We also created a tool to dump and reload all png files in one shot. The tool is available here [DOWNLOAD](https://github.com/autobleem/abcoverpacker) 
 
