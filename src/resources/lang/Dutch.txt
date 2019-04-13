@@ -1,4 +1,4 @@
-﻿ - Automatic PlayStation Classic USB launcher
+ - Automatic PlayStation Classic USB launcher
  - Automatische Playstation Classic USB Launcher
 'Tenchu' theme by Kevzombie
 'Tenchu' thema door Kevzombie
@@ -7,13 +7,13 @@
 -=Configuration=-
 -=Configuratie=-
 -=Game manager - Select game=-
--=Game manager - Selecteer je game=-
+-=Game manager - Selecteer game=-
 About
-over
+Over
 Advanced
 Geavanceerd
 Advanced:
-Geavanceerd
+Geavanceerd:
 AutoBleem
 AutoBleem
 AutoBleem Theme:
@@ -33,11 +33,11 @@ Game
 Game Manager
 Game Manager
 Games changed. Press
-Games geupdate. Druk
+Games geüpdate. Druk
 Go back
-Ga Terug
+Ga terug
 Loading ... Please Wait ...
-Laden... Een klein moment ...
+Laden... Even geduld ...
 Memory Cards
 Memory Kaarten
 Menu Theme:
@@ -55,27 +55,27 @@ Re/Scan
 RetroArch
 RetroArch
 Scanning...
-Scanning....
+Scannen...
 Select
 Selecteer
 Show RetroArch:
-Laat RetroArch zien:
+Toon RetroArch:
 Support via Discord: https://discord.gg/AHUS3RM
 Support ons via Discord: https://discord.gg/AHUS3RM
 This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
-Autobleem is een gratis open source project, onze revisie worden gebouwd "AS IS" het is geheel op eigen risico. 
+Dit is gratis en open source software. Het werkt ZOALS AANGELEVERD en wij nemen geen verantwoordelijkheid voor eventuele problemen of schade. 
 Total:
 Totaal:
 Updating regional.db...
-Updating regional.db...
+regional.db updaten...
 Upgrading AutoBleem - Please wait...
-Upgrading AutoBleem - Moment...
+AutoBleem upgraden - Moment...
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
-WARNING: GEEN GAMES GEVONDEN. DRUK OP EEN KNOP.
+WAARSCHUWING: GEEN GAMES GEVONDEN. DRUK OP EEN KNOP.
 games scanned
-games gescanned
+games gescand
 to scan
-Scan
+te scannen
 Game:
 Game:
 Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
@@ -103,7 +103,7 @@ Gesloten
 Share MC
 Deel MC
 (Internal)
-(Internal)
+(Intern)
 -=Select memory card=-
 -=Selecteer memory card=-
 Card
@@ -111,27 +111,27 @@ Kaart
 -=Custom Memory Cards=-
 -=Custom Memory Kaart=-
 Delete
-Verwijderen
+Verwijder
 New Card
 Nieuwe Kaart
 Rename
 Hernoem
 Enter new name for memory card
-Niewe naam voor memory card
+Nieuwe naam voor memory card
 Cancel
 Annuleer
 Confirm
 Bevestig
 Space
-Plaats
+Spatie
 Enter new game name
-Nieuwe game
+Nieuwe game naam
 Original
-origineel
+Origineel
 Enter new card name
 Nieuwe kaart naam
 Delete card
-Delete Kaart
+Verwijder kaart
 -=Please confirm=-
 -=Bevestig=-
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
@@ -139,9 +139,9 @@ SLUIT EEB PLAYSTATION CLASSIC CONTROLLER AAN
 Caps
 Caps
 Internal
-Internal
+Intern
 (Custom)
-(Custom)
+(Aangepast)
 Enter new name for card
 Nieuwe naam voor kaart
 Menu
@@ -151,7 +151,7 @@ Snel starten
 Hold
 Pauze
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
-WAARSCHUWING: GEEN COVER DATANASE GEVONDEN. DRUK OP KNOP
+WAARSCHUWING: GEEN COVER DATABASE GEVONDEN. DRUK OP KNOP
 RetroArch is not installed
 RetroArch is niet geïnstalleerd
 
