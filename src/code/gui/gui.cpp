@@ -1152,6 +1152,10 @@ void Gui::watchJoystickPort() {
             joynames.push_back(SDL_JoystickName(joystick));
             cout << "Pad connected" << endl;
             cout << "--" << SDL_JoystickName(joystick) << endl;
+            if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick)))
+            {
+                cout << "New type gamepad found" << endl;
+            }
         }
 
     }

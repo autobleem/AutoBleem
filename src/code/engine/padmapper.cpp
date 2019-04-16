@@ -57,6 +57,20 @@ void PadMapper::init() {
 
 }
 
+bool PadMapper::isKnownPad(int id)
+{
+    SDL_Joystick * joy = SDL_JoystickFromInstanceID(id);
+    string joyname = SDL_JoystickName(joy);
+    if (joyname.find("Sony Interactive Entertainment Controller")!=string::npos)
+    {
+        cout << "Original controller attached" <<endl;
+        return true;
+    }
+    // fetch mapping
+    Inifile *config = configs[joyname];
+    return config!=nullptr;
+}
+
 bool PadMapper::isDirection(SDL_Event *e,  int dir) {
     // find pad name
 
