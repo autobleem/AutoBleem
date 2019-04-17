@@ -95,7 +95,7 @@ string PadMapper::getMappingString(int id) {
     mapping += config->values["l2"] + "|";
     mapping += config->values["r2"] + "|";
     mapping += config->values["l1"] + "|";
-    mapping += config->values["l1"] + "|";
+    mapping += config->values["r1"] + "|";
     mapping += config->values["select"] + "|";
     mapping += config->values["start"] + "|";
     if (config->values["dpad"] == "digital") {
