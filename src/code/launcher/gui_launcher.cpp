@@ -1057,6 +1057,8 @@ void GuiLauncher::loop() {
 
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
+                        gui->padMapping = gui->mapper.getMappingString(e.jbutton.which);
+
                         if (state == STATE_GAMES) {
                             if (gamesList.empty()) {
                                 continue;

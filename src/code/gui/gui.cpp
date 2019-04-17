@@ -12,6 +12,7 @@
 #include "../ver_migration.h"
 #include "../lang.h"
 #include "../launcher/gui_launcher.h"
+#include "gui_padconfig.h"
 
 
 void Gui::logText(string message) {
@@ -244,6 +245,10 @@ void Gui::waitForGamepad() {
         SDL_InitSubSystem(SDL_INIT_JOYSTICK);
         joysticksFound = SDL_NumJoysticks();
     }
+
+
+
+
 }
 
 void Gui::criticalException(string text) {
@@ -294,7 +299,7 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
 
     Mix_Init(0);
     TTF_Init();
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
     SDL_Window *window = SDL_CreateWindow("AutoBleem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720,
                                           0);
 
@@ -309,6 +314,22 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
 
         drawText(_("Importing internal games"));
         Util::execUnixCommad("/media/Autobleem/rc/backup_internal.sh");
+
+
+
+            for (int i = 0; i < SDL_NumJoysticks(); i++) {
+                SDL_Joystick* joystick = SDL_JoystickOpen(i);
+                if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick)))
+                {
+                    cout << "New pad type" <<endl;
+                    auto cfgPad = new GuiPadConfig(renderer);
+                    cfgPad->joyid = SDL_JoystickInstanceID(joystick);
+                    cfgPad->show();
+                    delete cfgPad;
+                }
+
+            }
+
 
         if (cfg.inifile.values["quick"] != "true")
             waitForGamepad();
@@ -399,6 +420,7 @@ void Gui::menuSelection() {
             joysticks.push_back(joystick);
             joynames.push_back(SDL_JoystickName(joystick));
             cout << "--" << SDL_GameControllerNameForIndex(i) << endl;
+
         }
     // Check if all OK
     if (scanner->noGamesFound) {
@@ -1134,7 +1156,6 @@ string Gui::getSonyRootPath() {
 
 
 void Gui::watchJoystickPort() {
-
     int numJoysticks = SDL_NumJoysticks();
     if (numJoysticks != joysticks.size()) {
         cout << "Pad changed" << endl;
@@ -1152,10 +1173,7 @@ void Gui::watchJoystickPort() {
             joynames.push_back(SDL_JoystickName(joystick));
             cout << "Pad connected" << endl;
             cout << "--" << SDL_JoystickName(joystick) << endl;
-            if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick)))
-            {
-                cout << "New type gamepad found" << endl;
-            }
+
         }
 
     }

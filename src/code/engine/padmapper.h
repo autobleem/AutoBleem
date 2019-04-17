@@ -43,6 +43,8 @@ public:
     bool isCenter(SDL_Event* event);
     bool isDirection(SDL_Event* e,  int dir);
     bool isKnownPad(int id);
+    string getMappingString(int id);
+    void reload();
     Inifile * defaultConfig;
 
 

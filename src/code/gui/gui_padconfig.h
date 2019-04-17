@@ -6,11 +6,20 @@
 #define AUTOBLEEM_GUI_GUI_PADCONFIG_H
 
 #include "gui_screen.h"
+#include "../engine/inifile.h"
 
 class GuiPadConfig   : public GuiScreen {
 public:
     void render();
     void loop();
+
+    Inifile newConfig;
+
+
+    int step=0;
+
+    SDL_JoystickID joyid;
+
     using GuiScreen::GuiScreen;
 };
 

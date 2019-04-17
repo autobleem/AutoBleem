@@ -152,6 +152,7 @@ public:
     int lastSelIndex = 0;
     PsGame *runningGame;
     int resumepoint=-1;
+   string padMapping;
 
     Gui(Gui const &) = delete;
     Gui &operator=(Gui const &) = delete;
