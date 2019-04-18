@@ -16,12 +16,7 @@
 #include <ftw.h>
 
 bool wayToSort(Inifile i, Inifile j) {
-    string title1 = i.values["title"];
-    string title2 = j.values["title"];
-
-    title1=lcase(title1);
-    title2=lcase(title2);
-    return title1 < title2;
+    return ReturnLowerCase(i.values["title"]) < ReturnLowerCase(j.values["title"]);
 }
 
 void GuiManager::init()

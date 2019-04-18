@@ -1,5 +1,4 @@
-#ifndef CBLEEMSYNC_MAIN_H
-#define CBLEEMSYNC_MAIN_H
+#pragma once
 
 #include <vector>
 #include <map>
@@ -31,7 +30,9 @@ static const char EXT_ISO[] = ".iso";
 static const char EXT_CUE[] = ".cue";
 static const char EXT_LIC[] = ".lic";
 
-using namespace std;
+//////////////////////////////
+// inline std:string functions
+//////////////////////////////
 
 // trim from start
 static inline std::string &ltrim(std::string &s) {
@@ -52,6 +53,7 @@ static inline std::string &trim(std::string &s) {
     return ltrim(rtrim(s));
 }
 
+// converts all, or part, of the passed string to lower case.  a reference to the modified string is returned.
 static inline std::string &lcase(std::string &s, int nchars = 0) {
     if (nchars == 0) nchars = s.length();
     for (int i = 0; i < nchars; i++) {
@@ -60,6 +62,7 @@ static inline std::string &lcase(std::string &s, int nchars = 0) {
     return s;
 }
 
+// converts all, or part, of the passed string to upper case.  a reference to the modified string is returned.
 static inline std::string &ucase(std::string &s, int nchars = 0) {
     if (nchars == 0) nchars = s.length();
     for (int i = 0; i < nchars; i++) {
@@ -68,5 +71,22 @@ static inline std::string &ucase(std::string &s, int nchars = 0) {
     return s;
 }
 
+// returns a lower case copy of the string.  the passed string is not modified.
+static inline std::string ReturnLowerCase(const std::string& s) {
+  std::string temp = s;
+  for (auto& c : temp) {
+    c = tolower(c);
+  }
 
-#endif //CBLEEMSYNC_MAIN_H
+  return temp;
+}
+
+// returns an upper case copy of the string.  the passed string is not modified.
+static inline std::string ReturnUpperCase(const std::string& s) {
+  std::string temp = s;
+  for (auto& c : temp) {
+    c = toupper(c);
+  }
+
+  return temp;
+}

@@ -9,12 +9,8 @@
 #include "../lang.h"
 
 
-bool wayToSort(Game *i, Game *j) {
-    string name1 = i->title;
-    string name2 = j->title;
-    lcase(name1);
-    lcase(name2);
-    return name1 < name2;
+bool wayToSort(const Game *i, const Game *j) {
+	return ReturnLowerCase(i->title) < ReturnLowerCase(j->title);
 }
 
 bool Scanner::isFirstRun(string path, Database *db) {

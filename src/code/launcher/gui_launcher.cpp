@@ -12,12 +12,8 @@
 #include "gui_btn_guide.h"
 
 
-bool wayToSort(PsGame *i, PsGame *j) {
-    string name1 = i->title;
-    string name2 = j->title;
-    name1 = lcase(name1);
-    name2 = lcase(name2);
-    return name1 < name2;
+bool wayToSort(const PsGame *i, const PsGame *j) {
+    return ReturnLowerCase(i->title) < ReturnLowerCase(j->title);
 }
 
 // Text rendering routines - places text at x,y with selected color and font

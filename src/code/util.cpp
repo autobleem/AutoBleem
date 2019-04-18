@@ -21,12 +21,8 @@ const char *Util::separator() {
 #endif
 }
 
-bool wayToSort(DirEntry i, DirEntry j) {
-    string name1 = i.name;
-    string name2 = j.name;
-    name1 = lcase(name1);
-    name2 = lcase(name2);
-    return name1 < name2;
+bool wayToSort(const DirEntry & i, const DirEntry & j) {
+    return ReturnLowerCase(i.name) < ReturnLowerCase(j.name);
 }
 
 void Util::powerOff()
