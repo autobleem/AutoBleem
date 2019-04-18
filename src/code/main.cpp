@@ -21,6 +21,10 @@ using namespace std;
 
 Database * db;
 
+//
+// scanGames
+//
+
 int scanGames(string path, string dbpath) {
     shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr<Scanner> scanner(Scanner::getInstance());
@@ -53,6 +57,9 @@ int scanGames(string path, string dbpath) {
     return (EXIT_SUCCESS);
 }
 
+//
+// main
+//
 
 int main(int argc, char *argv[]) {
     shared_ptr<Lang> lang(Lang::getInstance());

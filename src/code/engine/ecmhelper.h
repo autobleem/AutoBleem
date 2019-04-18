@@ -6,11 +6,14 @@
 #define CBLEEMSYNC_ECMHELPER_H
 
 #include "../main.h"
-using namespace std;
+
+// ECM files are Error Code Modeler files used in disc images.
+// https://www.lifewire.com/ecm-file-2620956
+// this class removes them from the bin files to save space.
 
 class Ecmhelper {
 public:
-    bool unecm(string input, string output);
+    bool unecm(std::string input, std::string output);
 };
 
 

@@ -9,6 +9,8 @@
 
 using namespace std;
 
+// The SerialScanner class reads the serial number in a CDROM BIN file which is an ISO 9660 image of a CDROM.
+// https://en.wikipedia.org/wiki/ISO_9660
 
 string SerialScanner::fixSerial(string serial) {
     replace(serial.begin(), serial.end(), '_', '-');

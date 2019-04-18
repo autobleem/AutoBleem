@@ -4,6 +4,7 @@
 
 #include "ecmhelper.h"
 
+using namespace std;
 
 extern "C"
 {
@@ -11,6 +12,9 @@ void eccedc_init(void);
 int unecmify(FILE *in, FILE *out);
 }
 
+// ECM files are Error Code Modeler files used in disc images.
+// https://www.lifewire.com/ecm-file-2620956
+// this class removes them from the bin files to save space.
 
 bool Ecmhelper::unecm(string input, string output) {
     cout << "Unpacking: " << input << " to " << output << endl;
