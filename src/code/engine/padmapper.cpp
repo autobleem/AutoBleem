@@ -92,12 +92,12 @@ string PadMapper::getMappingString(int id) {
     mapping += config->values["circle"] + "|";
     mapping += config->values["cross"] + "|";
     mapping += config->values["square"] + "|";
-    mapping += config->values["l2"] + "|";
-    mapping += config->values["r2"] + "|";
     mapping += config->values["l1"] + "|";
     mapping += config->values["r1"] + "|";
-    mapping += config->values["select"] + "|";
+    mapping += config->values["l2"] + "|";
+    mapping += config->values["r2"] + "|";
     mapping += config->values["start"] + "|";
+    mapping += config->values["select"] + "|";
     if (config->values["dpad"] == "digital") {
         mapping += "D|";
     } else {
