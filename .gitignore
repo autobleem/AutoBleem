@@ -57,3 +57,8 @@ cmake-build-debug/
 build_arm/
 db/
 
+#If you edit, or view, a file in Visual Studio in open folder mode it creates files in a .vs sub-dir
+.vs/
+
+#ignore build output
+cmake-build-*/
