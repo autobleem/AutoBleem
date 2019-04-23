@@ -90,3 +90,7 @@ static inline std::string ReturnUpperCase(const std::string& s) {
 
   return temp;
 }
+
+static bool SortByCaseInsensitive(const std::string & left, const std::string & right) {
+    return ReturnLowerCase(left) < ReturnLowerCase(right);
+}

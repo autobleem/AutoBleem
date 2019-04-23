@@ -12,9 +12,7 @@
 #include "gui_btn_guide.h"
 
 
-bool wayToSort(const PsGame *i, const PsGame *j) {
-    return ReturnLowerCase(i->title) < ReturnLowerCase(j->title);
-}
+bool wayToSort(const PsGame *i, const PsGame *j) { return SortByCaseInsensitive(i->title, j->title); }
 
 // Text rendering routines - places text at x,y with selected color and font
 void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background,

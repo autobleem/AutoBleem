@@ -9,9 +9,7 @@
 #include "../lang.h"
 
 
-bool wayToSort(const Game *i, const Game *j) {
-	return ReturnLowerCase(i->title) < ReturnLowerCase(j->title);
-}
+bool wayToSort(const Game *i, const Game *j) { return SortByCaseInsensitive(i->title, j->title); }
 
 bool Scanner::isFirstRun(string path, Database *db) {
 
@@ -46,9 +44,11 @@ bool Scanner::isFirstRun(string path, Database *db) {
 
 }
 
+//
 // this routine removes Error Correction files from the bin file to save space
 // https://www.lifewire.com/ecm-file-2620956
 // https://en.wikipedia.org/wiki/Error_correction_mode
+//
 void Scanner::unecm(const string & path) {
     for (DirEntry entry: Util::dir(path)) {
         if (entry.name[0] == '.') continue;

@@ -15,9 +15,7 @@
 #include "../lang.h"
 #include <ftw.h>
 
-bool wayToSort(Inifile i, Inifile j) {
-    return ReturnLowerCase(i.values["title"]) < ReturnLowerCase(j.values["title"]);
-}
+bool wayToSort(Inifile i, Inifile j) { return SortByCaseInsensitive(i.values["title"], j.values["title"]); }
 
 void GuiManager::init()
 {
