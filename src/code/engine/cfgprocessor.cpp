@@ -13,18 +13,18 @@ void CfgProcessor::replaceInternal(string filePath, string property, string newl
     // do not store if file not updated (one less iocall on filesystem)
     bool fileUpdated = false;
 
-    std::fstream file(filePath, std::ios::in);
+    fstream file(filePath, ios::in);
     vector<string> lines;
     lines.clear();
 
     if (file.is_open()) {
 
-        std::string line;
-        std::vector<std::string> lines;
+        string line;
+        vector<string> lines;
 
-        while (std::getline(file, line)) {
+        while (getline(file, line)) {
 
-            std::string::size_type pos = 0;
+            string::size_type pos = 0;
             string lcaseline = line;
             string lcasepattern = property;
             lcase(lcaseline);
@@ -41,10 +41,10 @@ void CfgProcessor::replaceInternal(string filePath, string property, string newl
         }
         file.close();
         if (fileUpdated) {
-            file.open(filePath, std::ios::out | std::ios::trunc);
+            file.open(filePath, ios::out | ios::trunc);
 
             for (const auto &i : lines) {
-                file << i << std::endl;
+                file << i << endl;
             }
             file.flush();
             file.close();
@@ -62,16 +62,16 @@ string CfgProcessor::getValue(string entry, string gamePath, string property, bo
     } else {
         filePath = gamePath + Util::separator() + PCSX_CFG;
     }
-    std::fstream file(filePath, std::ios::in);
+    fstream file(filePath, ios::in);
     vector<string> lines;
     lines.clear();
 
     if (file.is_open()) {
 
-        std::string line;
+        string line;
 
 
-        while (std::getline(file, line)) {
+        while (getline(file, line)) {
 
 
             string lcaseline = line;

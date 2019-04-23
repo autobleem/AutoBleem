@@ -176,8 +176,8 @@ bool Database::queryTitle(string title, Metadata *md) {
                 md->bytes = new char[size];
                 memcpy(md->bytes, bytes, size);
             }
-            md->title = std::string(reinterpret_cast<const char *>(title));
-            md->publisher = std::string(reinterpret_cast<const char *>(publisher));
+            md->title = string(reinterpret_cast<const char *>(title));
+            md->publisher = string(reinterpret_cast<const char *>(publisher));
             md->year = year;
             md->players = players;
             md->valid = true;
@@ -209,13 +209,13 @@ bool Database::getInternalGames(vector<PsGame *> *result) {
 
             PsGame *game = new PsGame();
             game->gameId = id;
-            game->title = std::string(reinterpret_cast<const char *>(title));
-            game->publisher = std::string(reinterpret_cast<const char *>(publisher));
+            game->title = string(reinterpret_cast<const char *>(title));
+            game->publisher = string(reinterpret_cast<const char *>(publisher));
             game->year = year;
             game->players = players;
             game->folder = "/gaadata/" + to_string(id) + "/";
             game->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
-            game->base = std::string(reinterpret_cast<const char *>(base));
+            game->base = string(reinterpret_cast<const char *>(base));
             game->memcard = "SONY";
             game->internal = true;
             game->cds = discs;
@@ -248,13 +248,13 @@ bool Database::refreshGameInternal(PsGame  *game) {
 
 
             game->gameId = id;
-            game->title = std::string(reinterpret_cast<const char *>(title));
-            game->publisher = std::string(reinterpret_cast<const char *>(publisher));
+            game->title = string(reinterpret_cast<const char *>(title));
+            game->publisher = string(reinterpret_cast<const char *>(publisher));
             game->year = year;
             game->players = players;
             game->folder = "/gaadata/" + to_string(id) + "/";
             game->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
-            game->base = std::string(reinterpret_cast<const char *>(base));
+            game->base = string(reinterpret_cast<const char *>(base));
             game->memcard = "SONY";
             game->internal = true;
             game->cds = discs;
@@ -311,14 +311,14 @@ bool Database::refreshGame(PsGame  *game) {
 
 
             game->gameId = id;
-            game->title = std::string(reinterpret_cast<const char *>(title));
-            game->publisher = std::string(reinterpret_cast<const char *>(publisher));
+            game->title = string(reinterpret_cast<const char *>(title));
+            game->publisher = string(reinterpret_cast<const char *>(publisher));
             game->year = year;
             game->players = players;
-            game->folder = std::string(reinterpret_cast<const char *>(path));
-            game->ssFolder = std::string(reinterpret_cast<const char *>(sspath));
-            game->base = std::string(reinterpret_cast<const char *>(base));
-            game->memcard = std::string(reinterpret_cast<const char *>(memcard));
+            game->folder = string(reinterpret_cast<const char *>(path));
+            game->ssFolder = string(reinterpret_cast<const char *>(sspath));
+            game->base = string(reinterpret_cast<const char *>(base));
+            game->memcard = string(reinterpret_cast<const char *>(memcard));
             game->cds = discs;
 
             string gameIniPath = game->folder + "/Game.ini";
@@ -371,14 +371,14 @@ bool Database::getGames(vector<PsGame *> *result) {
 
             PsGame *game = new PsGame();
             game->gameId = id;
-            game->title = std::string(reinterpret_cast<const char *>(title));
-            game->publisher = std::string(reinterpret_cast<const char *>(publisher));
+            game->title = string(reinterpret_cast<const char *>(title));
+            game->publisher = string(reinterpret_cast<const char *>(publisher));
             game->year = year;
             game->players = players;
-            game->folder = std::string(reinterpret_cast<const char *>(path));
-            game->ssFolder = std::string(reinterpret_cast<const char *>(sspath));
-            game->base = std::string(reinterpret_cast<const char *>(base));
-            game->memcard = std::string(reinterpret_cast<const char *>(memcard));
+            game->folder = string(reinterpret_cast<const char *>(path));
+            game->ssFolder = string(reinterpret_cast<const char *>(sspath));
+            game->base = string(reinterpret_cast<const char *>(base));
+            game->memcard = string(reinterpret_cast<const char *>(memcard));
             game->cds = discs;
 
             string gameIniPath = game->folder + "/Game.ini";
@@ -435,8 +435,8 @@ bool Database::querySerial(string serial, Metadata *md) {
             }
 
             const unsigned char *path = sqlite3_column_text(res, 6);
-            md->title = std::string(reinterpret_cast<const char *>(title));
-            md->publisher = std::string(reinterpret_cast<const char *>(publisher));
+            md->title = string(reinterpret_cast<const char *>(title));
+            md->publisher = string(reinterpret_cast<const char *>(publisher));
             md->year = year;
             md->players = players;
             md->valid = true;

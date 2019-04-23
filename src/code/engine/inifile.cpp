@@ -4,6 +4,7 @@
 
 #include "inifile.h"
 
+using namespace std;
 
 void Inifile::load(string path) {
     this->path = path;
@@ -41,7 +42,7 @@ void Inifile::save(string path) {
     ofstream os;
     os.open(path);
     os << "[" << section <<"]" << endl;
-    for(std::map<string,string>::iterator iter = values.begin(); iter != values.end(); ++iter)
+    for(map<string,string>::iterator iter = values.begin(); iter != values.end(); ++iter)
     {
         string k =  iter->first;
         string v = iter->second;

@@ -14,7 +14,7 @@ using namespace std;
 
 string SerialScanner::fixSerial(string serial) {
     replace(serial.begin(), serial.end(), '_', '-');
-    serial.erase(std::remove(serial.begin(), serial.end(), '.'), serial.end());
+    serial.erase(remove(serial.begin(), serial.end(), '.'), serial.end());
     string fixed = "";
     stringstream alpha;
     stringstream digits;

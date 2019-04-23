@@ -61,7 +61,7 @@ int main (int argc, char *argv[])
         }
     }
 
-    std::vector<std::string> arguments;
+    vector<string> arguments;
     for (int i=0;i<argc;i++)
     {
         arguments.push_back(argv[i]);
@@ -106,7 +106,7 @@ int main (int argc, char *argv[])
     }
 
 
-    std::vector<char*> argvNew;
+    vector<char*> argvNew;
     for (const auto& arg : arguments)
         argvNew.push_back((char*)arg.data());
 

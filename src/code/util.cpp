@@ -58,11 +58,11 @@ string fixPath(string path)
     return path;
 }
 
-void Util::replaceAll(std::string &str, const std::string &from, const std::string &to) {
+void Util::replaceAll(string &str, const string &from, const string &to) {
     if (from.empty())
         return;
     size_t start_pos = 0;
-    while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+    while ((start_pos = str.find(from, start_pos)) != string::npos) {
         str.replace(start_pos, from.length(), to);
         start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
     }
@@ -80,9 +80,9 @@ string Util::decode(string input) {
     return input;
 }
 
-std::string Util::getWorkingPath() {
+string Util::getWorkingPath() {
     char temp[2048];
-    return (getcwd(temp, sizeof(temp)) ? std::string(temp) : std::string(""));
+    return (getcwd(temp, sizeof(temp)) ? string(temp) : string(""));
 }
 
 bool Util::isDirectory(string path)
@@ -130,14 +130,14 @@ vector<DirEntry> Util::diru(string path) {
     return result;
 }
 
-bool Util::exists(const std::string &name) {
+bool Util::exists(const string &name) {
     fixPath(name);
     struct stat buffer;
     return (stat(name.c_str(), &buffer) == 0);
 
 }
 
-bool Util::createDir(const std::string name) {
+bool Util::createDir(const string name) {
     fixPath(name);
     const int dir_err = mkdir(name.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     return (-1 != dir_err);
@@ -339,8 +339,8 @@ string Util::getAvailableSpace(){
  * Convert a float f to a string with precision of n
  */
 string Util::floatToString(float f, int n){
-    std::ostringstream stringStream;
-    stringStream << std::fixed << std::setprecision(n) << f;
+    ostringstream stringStream;
+    stringStream << fixed << setprecision(n) << f;
     return stringStream.str();
 }
 
@@ -387,7 +387,7 @@ string Util::execUnixCommad(const char* cmd){
     return result;
 }
 
-void Util::execFork(const char *cmd,  std::vector<const char *> argvNew)
+void Util::execFork(const char *cmd,  vector<const char *> argvNew)
 {
     string link = cmd;
 
@@ -460,17 +460,17 @@ vector<string> Util::cueToBinList(string cueFile) {
 /*
  * Left trimming
  */
-string Util::ltrim(const std::string& s){
+string Util::ltrim(const string& s){
     size_t start = s.find_first_not_of(" \n\r\t\f\v");
-    return (start == std::string::npos) ? "" : s.substr(start);
+    return (start == string::npos) ? "" : s.substr(start);
 }
 
 /*
  * Right trimming
  */
-string Util::rtrim(const std::string& s){
+string Util::rtrim(const string& s){
     size_t end = s.find_last_not_of(" \n\r\t\f\v");
-    return (end == std::string::npos) ? "" : s.substr(0, end + 1);
+    return (end == string::npos) ? "" : s.substr(0, end + 1);
 }
 
 /*
