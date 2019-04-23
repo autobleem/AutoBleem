@@ -20,7 +20,7 @@ public:
     void scanDirectory(string path);
     void repairBrokenCueFiles(string path);
     bool isFirstRun(string path, Database * db);
-    void unecm(string path);
+    void unecm(const string & path); // this routine removes Error Correction files from the bin file to save space
     void updateDB(Database *db);
     bool forceScan=false;
     bool noGamesFound=false;

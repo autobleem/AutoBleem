@@ -46,7 +46,10 @@ bool Scanner::isFirstRun(string path, Database *db) {
 
 }
 
-void Scanner::unecm(string path) {
+// this routine removes Error Correction files from the bin file to save space
+// https://www.lifewire.com/ecm-file-2620956
+// https://en.wikipedia.org/wiki/Error_correction_mode
+void Scanner::unecm(const string & path) {
     for (DirEntry entry: Util::dir(path)) {
         if (entry.name[0] == '.') continue;
         if (Util::matchExtension(entry.name, EXT_ECM)) {
