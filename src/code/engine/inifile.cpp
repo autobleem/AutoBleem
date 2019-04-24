@@ -6,8 +6,8 @@
 
 using namespace std;
 
-void Inifile::load(string path) {
-    this->path = path;
+void Inifile::load(const string & _path) {
+    this->path = _path;
     ifstream file;
     string iniLine;
     file.open(path);
@@ -37,10 +37,10 @@ void Inifile::load(string path) {
     file.close();
 }
 
-void Inifile::save(string path) {
-    cout << "Writting ini file" << path << endl;
+void Inifile::save(const string & _path) {
+    cout << "Writting ini file" << _path << endl;
     ofstream os;
-    os.open(path);
+    os.open(_path);
     os << "[" << section <<"]" << endl;
     for(map<string,string>::iterator iter = values.begin(); iter != values.end(); ++iter)
     {

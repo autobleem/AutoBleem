@@ -60,3 +60,6 @@ db/
 
 #If you edit, or view, a file in Visual Studio in open folder mode it creates files in a .vs folder to keep track
 .vs/
+
+#VS Code
+.vscode/
