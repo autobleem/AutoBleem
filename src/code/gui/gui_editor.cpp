@@ -36,15 +36,15 @@ void GuiEditor::processOptionChange(bool direction) {
         case OPT_LOCK:
             if (!internal) {
                 if (direction == true) {
-                    if (game.values["automation"] == "1") {
-                        game.values["automation"] = "0";
+                    if (gameIni.values["automation"] == "1") {
+                        gameIni.values["automation"] = "0";
                     }
                 } else {
-                    if (game.values["automation"] == "0") {
-                        game.values["automation"] = "1";
+                    if (gameIni.values["automation"] == "0") {
+                        gameIni.values["automation"] = "1";
                     }
                 }
-                game.save(game.path);
+                gameIni.save(gameIni.path);
             }
             break;
         case OPT_HIGHRES:
@@ -58,13 +58,13 @@ void GuiEditor::processOptionChange(bool direction) {
                     highres = 1;
                 }
             }
-            game.values["highres"] = to_string(highres);
+            gameIni.values["highres"] = to_string(highres);
 
 
-            processor->replace(game.entry, path, "gpu_neon.enhancement_enable",
-                               "gpu_neon.enhancement_enable = " + game.values["highres"], internal);
+            processor->replace(gameIni.entry, path, "gpu_neon.enhancement_enable",
+                               "gpu_neon.enhancement_enable = " + gameIni.values["highres"], internal);
             if (!internal) {
-                game.save(game.path);
+                gameIni.save(gameIni.path);
             }
 
             refreshData();
@@ -81,7 +81,7 @@ void GuiEditor::processOptionChange(bool direction) {
                 }
             }
 
-            processor->replace(game.entry, path, "gpu_neon.enhancement_no_main",
+            processor->replace(gameIni.entry, path, "gpu_neon.enhancement_no_main",
                                "gpu_neon.enhancement_no_main = " + to_string(speedhack), internal);
             refreshData();
 
@@ -97,7 +97,7 @@ void GuiEditor::processOptionChange(bool direction) {
                     scanlines = 1;
                 }
             }
-            processor->replace(game.entry, path, "scanlines",
+            processor->replace(gameIni.entry, path, "scanlines",
                                "scanlines = " + to_string(scanlines), internal);
             refreshData();
             break;
@@ -120,7 +120,7 @@ void GuiEditor::processOptionChange(bool direction) {
             ss << std::hex << scanlineLevel;
             s = ss.str();
 
-            processor->replace(game.entry, path, "scanline_level",
+            processor->replace(gameIni.entry, path, "scanline_level",
                                "scanline_level = " + s, internal);
             refreshData();
             break;
@@ -144,7 +144,7 @@ void GuiEditor::processOptionChange(bool direction) {
             ss << std::hex << clock;
             s = ss.str();
 
-            processor->replace(game.entry, path, "psx_clock",
+            processor->replace(gameIni.entry, path, "psx_clock",
                                "psx_clock = " + s, internal);
             refreshData();
             break;
@@ -167,7 +167,7 @@ void GuiEditor::processOptionChange(bool direction) {
             ss << std::hex << frameskip;
             s = ss.str();
 
-            processor->replace(game.entry, path, "frameskip3",
+            processor->replace(gameIni.entry, path, "frameskip3",
                                "frameskip3 = " + s, internal);
             refreshData();
             break;
@@ -191,7 +191,7 @@ void GuiEditor::processOptionChange(bool direction) {
             ss << std::hex << interpolation;
             s = ss.str();
 
-            processor->replace(game.entry, path, "spu_config.iUseInterpolation",
+            processor->replace(gameIni.entry, path, "spu_config.iUseInterpolation",
                                "spu_config.iUseInterpolation = " + s, internal);
             refreshData();
             break;
@@ -203,7 +203,7 @@ void GuiEditor::processOptionChange(bool direction) {
                 } else {
                     gpu = "builtin_gpu";
                 }
-                processor->replace(game.entry, path, "Gpu3",
+                processor->replace(gameIni.entry, path, "Gpu3",
                                    "Gpu3 = " + gpu, internal);
                 refreshData();
             }
@@ -220,15 +220,15 @@ void GuiEditor::refreshData() {
     if (internal) {
         path = gameData->ssFolder;
     }
-    highres = atoi(processor->getValue(game.entry, path, "gpu_neon.enhancement_enable", internal).c_str());
-    speedhack = atoi(processor->getValue(game.entry, path, "gpu_neon.enhancement_no_main", internal).c_str());
-    clock = strtol(processor->getValue(game.entry, path, "psx_clock", internal).c_str(), NULL, 16);
-    gpu = processor->getValue(game.entry, path, "gpu3", internal);
-    frameskip = atoi(processor->getValue(game.entry, path, "frameskip3", internal).c_str());
-    dither = atoi(processor->getValue(game.entry, path, "gpu_peops.iUseDither", internal).c_str());
-    scanlines = atoi(processor->getValue(game.entry, path, "scanlines", internal).c_str());
-    scanlineLevel = strtol(processor->getValue(game.entry, path, "scanline_level", internal).c_str(), NULL, 16);
-    interpolation = strtol(processor->getValue(game.entry, path, "spu_config.iUseInterpolation", internal).c_str(),
+    highres = atoi(processor->getValue(gameIni.entry, path, "gpu_neon.enhancement_enable", internal).c_str());
+    speedhack = atoi(processor->getValue(gameIni.entry, path, "gpu_neon.enhancement_no_main", internal).c_str());
+    clock = strtol(processor->getValue(gameIni.entry, path, "psx_clock", internal).c_str(), NULL, 16);
+    gpu = processor->getValue(gameIni.entry, path, "gpu3", internal);
+    frameskip = atoi(processor->getValue(gameIni.entry, path, "frameskip3", internal).c_str());
+    dither = atoi(processor->getValue(gameIni.entry, path, "gpu_peops.iUseDither", internal).c_str());
+    scanlines = atoi(processor->getValue(gameIni.entry, path, "scanlines", internal).c_str());
+    scanlineLevel = strtol(processor->getValue(gameIni.entry, path, "scanline_level", internal).c_str(), NULL, 16);
+    interpolation = strtol(processor->getValue(gameIni.entry, path, "spu_config.iUseInterpolation", internal).c_str(),
                            NULL,
                            16);
 
@@ -238,18 +238,18 @@ void GuiEditor::refreshData() {
 void GuiEditor::init() {
     shared_ptr<Gui> gui(Gui::getInstance());
     if (!internal) {
-        if (this->game.values["memcard"] != "SONY") {
+        if (this->gameIni.values["memcard"] != "SONY") {
             string cardpath =
-                    gui->path + Util::separator() + "!MemCards" + Util::separator() + this->game.values["memcard"];
+                    gui->path + Util::separator() + "!MemCards" + Util::separator() + this->gameIni.values["memcard"];
             if (!Util::exists(cardpath)) {
-                this->game.values["memcard"] = "SONY";
+                this->gameIni.values["memcard"] = "SONY";
             }
         }
 
         bool pngLoaded = false;
-        for (DirEntry entry:Util::diru(gui->path + Util::separator() + game.entry)) {
+        for (DirEntry entry:Util::diru(gui->path + Util::separator() + gameIni.entry)) {
             if (Util::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(renderer, (gui->path + Util::separator() + game.entry + Util::separator() +
+                cover = IMG_LoadTexture(renderer, (gui->path + Util::separator() + gameIni.entry + Util::separator() +
                                                    entry.name).c_str());
                 pngLoaded = true;
             }
@@ -259,17 +259,17 @@ void GuiEditor::init() {
         }
     } else {
         // recover ini
-        this->game.values["title"] = gameData->title;
-        this->game.values["publisher"] = gameData->publisher;
-        this->game.values["year"] = to_string(gameData->year);
-        this->game.values["players"] = to_string(gameData->players);
-        this->game.values["memcard"] = gameData->memcard;
+        this->gameIni.values["title"] = gameData->title;
+        this->gameIni.values["publisher"] = gameData->publisher;
+        this->gameIni.values["year"] = to_string(gameData->year);
+        this->gameIni.values["players"] = to_string(gameData->players);
+        this->gameIni.values["memcard"] = gameData->memcard;
 
-        if (this->game.values["memcard"] != "SONY") {
+        if (this->gameIni.values["memcard"] != "SONY") {
             string cardpath =
-                    gui->path + Util::separator() + "!MemCards" + Util::separator() + this->game.values["memcard"];
+                    gui->path + Util::separator() + "!MemCards" + Util::separator() + this->gameIni.values["memcard"];
             if (!Util::exists(cardpath)) {
-                this->game.values["memcard"] = "SONY";
+                this->gameIni.values["memcard"] = "SONY";
             }
         }
 
@@ -296,24 +296,24 @@ void GuiEditor::render() {
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=" + game.values["title"] + "=-", 0, offset, true);
+    gui->renderTextLine("-=" + gameIni.values["title"] + "=-", 0, offset, true);
     if (!internal) {
-        gui->renderTextLine(_("Folder:") + " " + game.entry + "", 1, offset, true);
+        gui->renderTextLine(_("Folder:") + " " + gameIni.entry + "", 1, offset, true);
     } else {
         gui->renderTextLine(_("Folder:") + " " + gameData->folder + "", 1, offset, true);
     }
-    gui->renderTextLine(_("Published by:") + " " + game.values["publisher"], 2, offset, true);
-    gui->renderTextLine(_("Year:") + game.values["year"] + "   " + _("Players:") +
-                        game.values["players"], 3, offset, true);
+    gui->renderTextLine(_("Published by:") + " " + gameIni.values["publisher"], 2, offset, true);
+    gui->renderTextLine(_("Year:") + gameIni.values["year"] + "   " + _("Players:") +
+                        gameIni.values["players"], 3, offset, true);
 
 
     gui->renderTextLine(_("Memory Card:") + " " +
-                        (game.values["memcard"] == "SONY" ? string(_("Internal")) : game.values["memcard"] +
+                        (gameIni.values["memcard"] == "SONY" ? string(_("Internal")) : gameIni.values["memcard"] +
                                                                                     _("(Custom)")),
                         4, offset, true);
 
     gui->renderTextLineOptions(
-            _("Lock data:") + (game.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|")),
+            _("Lock data:") + (gameIni.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|")),
             5, offset,
             false, 300);
 
@@ -340,7 +340,7 @@ void GuiEditor::render() {
     if (!internal) {
         guiMenu += "  |@S| " + _("Change MC") + " ";
 
-        if (game.values["memcard"] == "SONY") {
+        if (gameIni.values["memcard"] == "SONY") {
             guiMenu += "|@Start| " + _("Share MC") + "  ";
         }
     }
@@ -416,12 +416,12 @@ void GuiEditor::loop() {
                     break;
                 case SDL_JOYBUTTONDOWN:
                     if (!internal) {
-                        if (game.values["memcard"] == "SONY") {
+                        if (gameIni.values["memcard"] == "SONY") {
                             if (e.jbutton.button == PCS_BTN_START) {
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                                 keyboard->label = _("Enter new name for memory card");
-                                keyboard->result = game.values["title"];
+                                keyboard->result = gameIni.values["title"];
                                 keyboard->show();
                                 string result = keyboard->result;
                                 bool cancelled = keyboard->cancelled;
@@ -436,11 +436,11 @@ void GuiEditor::loop() {
                                     Memcard *memcard = new Memcard(gui->path);
                                     string savePath =
                                             gui->path + Util::separator() + "!SaveStates" + Util::separator() +
-                                            game.entry +
+                                            gameIni.entry +
                                             Util::separator() + "memcards";
                                     memcard->storeToRepo(savePath, result);
-                                    game.values["memcard"] = result;
-                                    game.save(game.path);
+                                    gameIni.values["memcard"] = result;
+                                    gameIni.save(gameIni.path);
                                 }
                                 render();
 
@@ -456,16 +456,16 @@ void GuiEditor::loop() {
                         if (!internal) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             GuiSelectMemcard *selector = new GuiSelectMemcard(renderer);
-                            selector->cardSelected = game.values["memcard"];
+                            selector->cardSelected = gameIni.values["memcard"];
                             selector->show();
 
                             if (selector->selected != -1)
                                 if (selector->selected == 0) {
-                                    game.values["memcard"] = "SONY";
-                                    game.save(game.path);
+                                    gameIni.values["memcard"] = "SONY";
+                                    gameIni.save(gameIni.path);
                                 } else {
-                                    game.values["memcard"] = selector->cards[selector->selected];
-                                    game.save(game.path);
+                                    gameIni.values["memcard"] = selector->cards[selector->selected];
+                                    gameIni.save(gameIni.path);
                                 }
                             delete (selector);
                         } else
@@ -489,7 +489,7 @@ void GuiEditor::loop() {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                         keyboard->label = _("Enter new game name");
-                        keyboard->result = game.values["title"];
+                        keyboard->result = gameIni.values["title"];
                         keyboard->show();
                         string result = keyboard->result;
                         bool cancelled = keyboard->cancelled;
@@ -502,9 +502,9 @@ void GuiEditor::loop() {
 
                         if (!cancelled) {
                             if (!internal) {
-                                game.values["title"] = result;
-                                game.values["automation"] = "0";
-                                game.save(game.path);
+                                gameIni.values["title"] = result;
+                                gameIni.values["automation"] = "0";
+                                gameIni.save(gameIni.path);
                                 changes = true;
                             } else {
                                 lastName = result;

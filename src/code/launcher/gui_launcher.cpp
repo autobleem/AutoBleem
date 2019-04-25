@@ -1104,7 +1104,7 @@ void GuiLauncher::loop() {
                                     string folderNoLast =
                                             gamesList[selGame]->folder.substr(0, gamesList[selGame]->folder.size() - 1);
                                     gameIni.entry = folderNoLast.substr(folderNoLast.find_last_of("//") + 1);
-                                    editor->game = gameIni;
+                                    editor->gameIni = gameIni;
                                 } else {
                                     editor->gameData = gamesList[selGame];
                                 }

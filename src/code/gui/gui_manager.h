@@ -14,7 +14,7 @@ public:
     void init();
     void render();
     void loop();
-    vector<Inifile> games;
+    vector<Inifile> gameInis;
 
     int selected=0;
     int maxVisible=8;

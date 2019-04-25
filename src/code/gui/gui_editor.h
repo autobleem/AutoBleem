@@ -18,7 +18,7 @@ public:
     void loop();
 
     void refreshData();
-    Inifile game;
+    Inifile gameIni;
 
     int highres;
     int speedhack;
