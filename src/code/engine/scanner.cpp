@@ -13,13 +13,12 @@ bool wayToSort(const Game *i, const Game *j) { return SortByCaseInsensitive(i->t
 
 bool Scanner::isFirstRun(string path, Database *db) {
 
-    bool listFile = !Util::exists(Util::getWorkingPath() + Util::separator() + "autobleem.list");
-    if (listFile) {
-        return listFile;
+    bool listFileExists = Util::exists(Util::getWorkingPath() + Util::separator() + "autobleem.list");
+    if (!listFileExists) {
+        return true;
     }
 
-
-    bool prevFileExists = Util::exists(Util::getWorkingPath() + Util::separator() + "autobleem.prev");
+	bool prevFileExists = Util::exists(Util::getWorkingPath() + Util::separator() + "autobleem.prev");
     if (!prevFileExists) {
         return true;
     }
