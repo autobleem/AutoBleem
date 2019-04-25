@@ -49,10 +49,6 @@ int scanGames(string path, string dbpath) {
 
     gui->drawText(_("Total:") + " " + to_string(scanner->games.size()) + " " + _("games scanned") + ".");
     sleep(1);
-    for (Game *game:scanner->games) {
-        delete (game);
-
-    }
     scanner->games.clear();
     return (EXIT_SUCCESS);
 }

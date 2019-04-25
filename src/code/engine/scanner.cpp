@@ -8,8 +8,9 @@
 #include "serialscanner.h"
 #include "../lang.h"
 
+using namespace std;
 
-bool wayToSort(const Game *i, const Game *j) { return SortByCaseInsensitive(i->title, j->title); }
+bool wayToSort(const shared_ptr<Game> i, const shared_ptr<Game> j) { return SortByCaseInsensitive(i->title, j->title); }
 
 bool Scanner::isFirstRun(string path, Database *db) {
 
@@ -73,7 +74,7 @@ void Scanner::updateDB(Database *db) {
     outfile.open(path);
     if (complete)
         for (int i = 0; i < games.size(); i++) {
-            Game *data = games[i];
+            shared_ptr<Game> data = games[i];
             cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
             db->insertGame(i + 1, data->title, data->publisher, data->players, data->year, data->fullPath,
                            data->saveStatePath, data->memcard);
@@ -306,10 +307,10 @@ void Scanner::repairBrokenCueFiles(string path) {
 int Scanner::getImageType(string path) {
     for (DirEntry entry: Util::diru(path)) {
         if (Util::matchExtension(entry.name, EXT_BIN)) {
-            return 0;
+            return IMAGE_CUE_BIN;
         }
         if (Util::matchExtension(entry.name, EXT_PBP)) {
-            return 1;
+            return IMAGE_PBP;
         }
 
     }
@@ -357,7 +358,7 @@ void Scanner::scanDirectory(string path) {
         string saveStateDir = path + Util::separator() + "!SaveStates" + Util::separator() + entry.name;
         Util::createDir(saveStateDir);
 
-        Game *game = new Game();
+        shared_ptr<Game> game{new Game};
 
 
         game->folder_id = 0; // this will not be in use;
