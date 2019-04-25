@@ -15,7 +15,7 @@
 // Automation=0
 // Discs=Twisted Metal 2.pbp
 // Highres=0
-// Imagetype=1
+// Imagetype=1		// IMAGE_CUE_BIN=0, IMAGE_PBP=1
 // Memcard=SONY
 // Players=2
 // Publisher=Sony Computer Entertainment.
@@ -25,10 +25,10 @@
 
 class Inifile {
 public:
-    string section="";
-    string path;
-    string entry; // directory entry name
-    map<string, string> values; // see example data above
+    string section="";			// example: "Game" inside [Game] above
+    string path="";
+    string entry="";			// directory entry name
+    map<string, string> values;	// see example data above
 
     void load(const string & path);
     void save(const string & path);
