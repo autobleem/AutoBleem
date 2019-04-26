@@ -28,7 +28,7 @@ bool Scanner::isFirstRun(string path, Database *db) {
     prev.open(prevName.c_str(), ios::binary);
     vector<DirEntry> entries = Util::diru(path);
     noGamesFound = true;
-    for (DirEntry entry:entries) {
+    for (const DirEntry & entry:entries) {
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
         noGamesFound = false;
@@ -99,7 +99,7 @@ static const char cue2[] = "FILE \"{binName}\" BINARY\n"
 
 void repairBinCommaNames(string path) {
     // TODO: Add support for German diactrics for nex here
-    for (DirEntry entry:Util::diru(path)) {
+    for (DirEntry entry : Util::diru(path)) {
         if (entry.name.find(",") != string::npos) {
             string newName = entry.name;
             Util::replaceAll(newName, ",", "-");
@@ -139,7 +139,7 @@ void repairMissingCue(string path, string folderName) {
     vector<string> binFiles;
     bool hasCue = false;
     vector<DirEntry> rootDir = Util::dir(path);
-    for (DirEntry entry:rootDir) {
+    for (const DirEntry & entry : rootDir) {
         if (entry.name[0] == '.') continue;
 
         if (Util::matchExtension(entry.name, EXT_CUE)) {
@@ -157,7 +157,7 @@ void repairMissingCue(string path, string folderName) {
         // let's create new one
         bool first = true;
         int track = 1;
-        for (string bin:binFiles) {
+        for (const string & bin : binFiles) {
             string cueElement;
             if (first) {
                 cueElement = cue1;
@@ -185,7 +185,7 @@ void Scanner::moveFolderIfNeeded(DirEntry entry, string gameDataPath, string pat
 
     if (gameDataExists) {
         cerr << "Game: " << entry.name << " - Moving GameData to 0.5" << endl;
-        for (DirEntry entryGame:  Util::diru(gameDataPath)) {
+        for (const DirEntry & entryGame : Util::diru(gameDataPath)) {
             string newName = path + entry.name + Util::separator() + entryGame.name;
             string oldName = gameDataPath + entryGame.name;
             cerr << "Moving: " << oldName << "  to: " << newName << endl;
@@ -304,6 +304,16 @@ void Scanner::repairBrokenCueFiles(string path) {
 
 }
 
+bool Scanner::hasAGameFile(string path) {
+    for (DirEntry entry: Util::diru(path)) {
+        if (Util::matchExtension(entry.name, EXT_BIN))
+            return true;
+        if (Util::matchExtension(entry.name, EXT_PBP))
+            return true;
+    }
+    return false;
+}
+
 int Scanner::getImageType(string path) {
     for (DirEntry entry: Util::diru(path)) {
         if (Util::matchExtension(entry.name, EXT_BIN)) {
@@ -373,99 +383,101 @@ void Scanner::scanDirectory(string path) {
         moveFolderIfNeeded(entry, gameDataPath, path);
         gameDataPath = path + entry.name + Util::separator();
 
-        game->imageType = this->getImageType(gameDataPath);
-        game->gameDataFound = true;
+        if (hasAGameFile(gameDataPath)) {
+			game->imageType = this->getImageType(gameDataPath);
+			game->gameDataFound = true;
 
-        if (game->imageType == IMAGE_CUE_BIN) // only cue/bin
-        {
+			if (game->imageType == IMAGE_CUE_BIN) // only cue/bin
+			{
 
-            repairMissingCue(gameDataPath, entry.name);
-            repairBrokenCueFiles(gameDataPath);
-            unecm(gameDataPath);
-        }
-
-
-        if (!Util::exists(gameDataPath + GAME_INI)) {
-            game->readIni(gameDataPath + GAME_INI);
-            game->gameIniFound = false;
-        } else {
-            game->gameIniFound = true;
-        }
-
-        for (DirEntry entryGame:Util::diru(gameDataPath)) {
-
-            if (Util::matchesLowercase(entryGame.name, GAME_INI)) {
-                string gameIniPath = gameDataPath + GAME_INI;
-                game->readIni(gameIniPath);
-            }
-
-            if (Util::matchesLowercase(entryGame.name, PCSX_CFG)) {
-                game->pcsxCfgFound = true;
-            }
-
-            if (Util::matchExtension(entryGame.name, EXT_PNG)) {
-                game->imageFound = true;
-            }
-
-            if (Util::matchExtension(entryGame.name, EXT_LIC)) {
-                game->licFound = true;
-            }
+				repairMissingCue(gameDataPath, entry.name);
+				repairBrokenCueFiles(gameDataPath);
+				unecm(gameDataPath);
+			}
 
 
-        }
+			if (!Util::exists(gameDataPath + GAME_INI)) {
+				game->readIni(gameDataPath + GAME_INI);
+				game->gameIniFound = false;
+			}
+			else {
+				game->gameIniFound = true;
+			}
 
-        cout << game->automationUsed << endl;
+			for (DirEntry entryGame : Util::diru(gameDataPath)) {
+
+				if (Util::matchesLowercase(entryGame.name, GAME_INI)) {
+					string gameIniPath = gameDataPath + GAME_INI;
+					game->readIni(gameIniPath);
+				}
+
+				if (Util::matchesLowercase(entryGame.name, PCSX_CFG)) {
+					game->pcsxCfgFound = true;
+				}
+
+				if (Util::matchExtension(entryGame.name, EXT_PNG)) {
+					game->imageFound = true;
+				}
+
+				if (Util::matchExtension(entryGame.name, EXT_LIC)) {
+					game->licFound = true;
+				}
 
 
-        game->recoverMissingFiles();
-        cout << game->automationUsed << endl;
+			}
 
-        if (!game->gameIniFound || game->automationUsed) {
+			cout << game->automationUsed << endl;
 
-            SerialScanner *serialScanner = new SerialScanner();
-            string serial = serialScanner->scanSerial(game->imageType, game->fullPath, game->firstBinPath);
-            delete serialScanner;
 
-            if (!serial.empty()) {
-                cout << "Accessing metadata for serial: " << serial << endl;
-                Metadata md;
-                if (md.lookupBySerial(serial)) {
-                    // at this stage we have more data;
-                    game->title = md.title;
-                    game->publisher = md.publisher;
-                    game->players = md.players;
-                    game->year = md.year;
+			game->recoverMissingFiles();
+			cout << game->automationUsed << endl;
 
-                    if (game->discs.size() > 0) {
-                        // all recovered :)
+			if (!game->gameIniFound || game->automationUsed) {
 
-                            string newFilename = gameDataPath + game->discs[0].cueName + EXT_PNG;
-                            cout << "Updating cover" << newFilename << endl;
-                            ofstream pngFile;
-                            pngFile.open(newFilename);
-                            pngFile.write(md.bytes, md.dataSize);
-                            pngFile.flush();
-                            pngFile.close();
-                            game->automationUsed = false;
-                            game->imageFound = true;
+				SerialScanner* serialScanner = new SerialScanner();
+				string serial = serialScanner->scanSerial(game->imageType, game->fullPath, game->firstBinPath);
+				delete serialScanner;
 
-                    }
+				if (!serial.empty()) {
+					cout << "Accessing metadata for serial: " << serial << endl;
+					Metadata md;
+					if (md.lookupBySerial(serial)) {
+						// at this stage we have more data;
+						game->title = md.title;
+						game->publisher = md.publisher;
+						game->players = md.players;
+						game->year = md.year;
 
-                    md.clean();
-                } else {
-                    game->title = game->pathName;
-                }
+						if (game->discs.size() > 0) {
+							// all recovered :)
 
-            }
-        }
-        game->saveIni(gameDataPath + GAME_INI);
-        game->print();
+							string newFilename = gameDataPath + game->discs[0].cueName + EXT_PNG;
+							cout << "Updating cover" << newFilename << endl;
+							ofstream pngFile;
+							pngFile.open(newFilename);
+							pngFile.write(md.bytes, md.dataSize);
+							pngFile.flush();
+							pngFile.close();
+							game->automationUsed = false;
+							game->imageFound = true;
 
-        if (game->verify()) {
-            games.push_back(game);
-        }
+						}
 
-    }
+						md.clean();
+					}
+					else {
+						game->title = game->pathName;
+					}
+				}
+			}
+			game->saveIni(gameDataPath + GAME_INI);
+			game->print();
+
+			if (game->verify()) {
+				games.push_back(game);
+			}
+		}
+	}
 
     prev.flush();
     prev.close();
