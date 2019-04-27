@@ -17,6 +17,8 @@
 
 #define IMAGE_CUE_BIN 0
 #define IMAGE_PBP     1
+#define IMAGE_NO_GAME_FOUND 2
+#define IMAGE_NO_GAME_BUT_HAS_SUBDIR 3
 
 static const char GAME_DATA[] = "GameData";
 static const char GAME_INI[] = "Game.ini";

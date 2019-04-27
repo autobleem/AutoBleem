@@ -21,6 +21,34 @@ const char *Util::separator() {
 #endif
 }
 
+// return the path with a separator at the end
+string Util::pathWithSeparatorAtEnd(const string& path)
+{
+    string ret = path;
+    if (ret.length() > 0)
+    {
+        char lastChar = ret[ret.length()-1];
+        if (lastChar != separator()[0])
+            ret += separator(); // add slash at end
+    }
+
+    return ret;
+}
+
+// return the path without a separator at the end
+string Util::pathWithOutSeparatorAtEnd(const string& path)
+{
+    string ret = path;
+    if (ret.length() > 0)
+    {
+        char & lastChar = ret[ret.length()-1];
+        if (lastChar == separator()[0])
+            lastChar = 0;   // remove slash at end
+    }
+
+    return ret;
+}
+
 bool wayToSort(const DirEntry & i, const DirEntry & j) { return SortByCaseInsensitive(i.name, j.name); }
 
 void Util::powerOff()
@@ -35,7 +63,7 @@ void Util::powerOff()
 
 }
 
-string Util::getFileNameFromPath(string path)
+string Util::getFileNameFromPath(const string& path)
 {
     string result = "";
     char *cstr = new char[path.length() + 1];
@@ -83,7 +111,7 @@ string Util::getWorkingPath() {
     return (getcwd(temp, sizeof(temp)) ? string(temp) : string(""));
 }
 
-bool Util::isDirectory(string path)
+bool Util::isDirectory(const string& path)
 {
     struct stat path_stat;
     stat(path.c_str(), &path_stat);
@@ -115,7 +143,7 @@ vector<DirEntry> Util::diru(string path) {
     if (dir != NULL) {
         struct dirent *entry = readdir(dir);
         while (entry != NULL) {
-            DirEntry obj(entry->d_name, entry->d_type);
+            DirEntry obj(entry->d_name, isDirectory(path + entry->d_name));
             if (entry->d_name[0] != '.') {
                 result.push_back(obj);
             }
@@ -126,6 +154,22 @@ vector<DirEntry> Util::diru(string path) {
     }
     sort(result.begin(), result.end(), wayToSort);
     return result;
+}
+
+vector<DirEntry> Util::diru_DirsOnly(string path) {
+    auto temp = diru(path); // get all dirs and files
+    vector<DirEntry> ret;
+    copy_if(begin(temp), end(temp), begin(ret), [](const DirEntry & dir) { return dir.isDir; });    // copy only dirs
+
+    return ret; // return only the dirs
+}
+
+vector<DirEntry> Util::diru_FilesOnly(string path) {
+    auto temp = diru(path); // get all dirs and files
+    vector<DirEntry> ret;
+    copy_if(begin(temp), end(temp), begin(ret), [](const DirEntry & dir) { return !dir.isDir; });   //copy only files
+
+    return ret; // return only the files
 }
 
 bool Util::exists(const string &name) {
@@ -195,7 +239,7 @@ int Util::rmDir(string path) {
 
 }
 
-bool Util::copy(string source, string dest) {
+bool Util::copy(const string& source, const string& dest) {
     ifstream infile;
     ofstream outfile;
 
@@ -342,7 +386,7 @@ string Util::floatToString(float f, int n){
     return stringStream.str();
 }
 
-string Util::commaSep(string s, int pos) {
+string Util::commaSep(const string& s, int pos) {
     vector<string> v;
     v.clear();
     char c = ',';
@@ -401,7 +445,7 @@ void Util::execFork(const char *cmd,  vector<const char *> argvNew)
  * Return the extension of a filename out of string
  * myfile.txt will return txt
  */
-string Util::getFileExtension(string fileName) {
+string Util::getFileExtension(const string & fileName) {
     size_t i = fileName.rfind('.', fileName.length());
     if (i != string::npos) {
         return(fileName.substr(i+1, fileName.length() - i));
@@ -412,7 +456,7 @@ string Util::getFileExtension(string fileName) {
 /*
  * Return the name of a file without extension
  */
-string Util::getFileNameWithoutExtension(string filename) {
+string Util::getFileNameWithoutExtension(const string& filename) {
     size_t indexBeforeDot = filename.find_last_of(".");
     return filename.substr(0, indexBeforeDot);
 }
@@ -490,11 +534,11 @@ string Util::getStringWithinChar(string s, char del) {
     return s.substr(first+1, last-first-1);
 }
 
-vector<DirEntry> Util::getFilesWithExtension(string path, vector<DirEntry> entries, vector<string> extensions) {
+vector<DirEntry> Util::getFilesWithExtension(const string& path, const vector<DirEntry>& entries, const vector<string>& extensions) {
     vector<DirEntry> fileList;
     string fileExt;
-    for (auto &entry : entries){
-        if(Util::isDirectory(path+"/"+entry.name)) continue;
+    for (auto const &entry : entries){
+        if(Util::isDirectory(path + "/" + entry.name)) continue;
         fileExt = Util::getFileExtension(entry.name);
         if(find(extensions.begin(),extensions.end(),fileExt) != extensions.end()){
             fileList.push_back(entry);

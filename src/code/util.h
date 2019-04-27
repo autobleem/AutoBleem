@@ -28,23 +28,28 @@ using namespace std;
 class DirEntry {
 public:
     string name;
+    bool isDir;
 
-    DirEntry(string name, bool dir) {
-        this->name = name;
-    }
-
+    DirEntry(string _name, bool dir) : name(_name), isDir(dir) { }
 };
 
 class Util {
 public:
     static const char *separator();
+    static string pathWithSeparatorAtEnd(const string& path);  // return the path with a separator at the end
+    static string pathWithOutSeparatorAtEnd(const string& path);   // return the path without a separator at the end
+
     static string escape(string input);
     static string decode(string input);
     static void replaceAll(std::string &str, const std::string &from, const std::string &to);
+
     // File System operations
-    static vector<DirEntry> dir(string path);
-    static vector<DirEntry> diru(string path);
-    static bool copy(string source, string dest);
+    static vector<DirEntry> dir(string path);   // returns directory contents including . and ..
+    static vector<DirEntry> diru(string path);  // returns directory contents except . and ..
+    static vector<DirEntry> diru_DirsOnly(string path);  // diru but only returns directories
+    static vector<DirEntry> diru_FilesOnly(string path);  // diru but only returns files
+
+    static bool copy(const string& source, const string& dest); // copies a file
     static bool exists(const std::string &name);
     static bool createDir(const std::string name);
     static int rmDir(string path);
@@ -53,18 +58,18 @@ public:
     static bool matchExtension(string path, string ext);
     static bool matchesLowercase(string first, string second);
     static string findFirstFile(string ext, string path);
-    static bool isDirectory(string path);
-    static vector<DirEntry> getFilesWithExtension(string path, vector<DirEntry> entries, vector<string> extensions);
-    static string getFileNameFromPath(string path);
+    static bool isDirectory(const string& path);
+    static vector<DirEntry> getFilesWithExtension(const string& path, const vector<DirEntry>& entries, const vector<string>& extensions);
+    static string getFileNameFromPath(const string& path);
 
     static unsigned char readChar(ifstream * stream);
     static unsigned long  readDword(ifstream * stream);
     static string readString(int size, ifstream * stream);
     static string readString(ifstream * stream);
     static void skipZeros(ifstream * stream);
-    static string commaSep(string input, int pos);
-    static string getFileExtension(string fileName);
-    static string getFileNameWithoutExtension(string filename);
+    static string commaSep(const string& input, int pos);
+    static string getFileExtension(const string & fileName);
+    static string getFileNameWithoutExtension(const string& filename);
     static string ltrim(const string& s);
     static string rtrim(const string& s);
     static string trim(const string& s);

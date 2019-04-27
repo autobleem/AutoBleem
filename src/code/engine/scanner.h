@@ -32,7 +32,6 @@ public:
 
 private:
 
-    bool hasAGameFile(std::string path);
     int getImageType(std::string path);
     bool complete;
     void moveFolderIfNeeded(DirEntry entry, std::string gameDataPath, std::string path);

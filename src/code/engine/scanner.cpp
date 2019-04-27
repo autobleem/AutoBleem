@@ -304,34 +304,32 @@ void Scanner::repairBrokenCueFiles(string path) {
 
 }
 
-bool Scanner::hasAGameFile(string path) {
-    for (DirEntry entry: Util::diru(path)) {
-        if (Util::matchExtension(entry.name, EXT_BIN))
-            return true;
-        if (Util::matchExtension(entry.name, EXT_PBP))
-            return true;
-    }
-    return false;
-}
-
 int Scanner::getImageType(string path) {
+    bool hasASubDir {false};
     for (DirEntry entry: Util::diru(path)) {
-        if (Util::matchExtension(entry.name, EXT_BIN)) {
-            return IMAGE_CUE_BIN;
+        if (entry.isDir)
+            hasASubDir = true;
+        else { // it's a file
+            if (Util::matchExtension(entry.name, EXT_BIN)) {
+                return IMAGE_CUE_BIN;
+            }
+            if (Util::matchExtension(entry.name, EXT_PBP)) {
+                return IMAGE_PBP;
+            }
         }
-        if (Util::matchExtension(entry.name, EXT_PBP)) {
-            return IMAGE_PBP;
-        }
-
     }
-    return 0;
+    if (hasASubDir)
+        return IMAGE_NO_GAME_BUT_HAS_SUBDIR;
+    else
+        return IMAGE_NO_GAME_FOUND;
 }
 
 void Scanner::scanDirectory(string path) {
-    // clear games list
+    path = Util::pathWithSeparatorAtEnd(path); // it looks like the Games path must have a / at the end for changing the game conig to work
 
-    games.clear();
+    games.clear();  // clear games list
     complete = false;
+
     shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText(_("Scanning..."));
 
@@ -339,17 +337,17 @@ void Scanner::scanDirectory(string path) {
     string prevFileName = Util::getWorkingPath() + Util::separator() + "autobleem.prev";
     prev.open(prevFileName.c_str(), ios::binary);
 
-    if (!Util::exists(path + Util::separator() + "!SaveStates")) {
-        Util::createDir(path + Util::separator() + "!SaveStates");
+    if (!Util::exists(path + "!SaveStates")) {
+        Util::createDir(path + "!SaveStates");
     }
 
-    if (!Util::exists(path + Util::separator() + "!MemCards")) {
-        Util::createDir(path + Util::separator() + "!MemCards");
+    if (!Util::exists(path + "!MemCards")) {
+        Util::createDir(path + "!MemCards");
     }
 
     for (DirEntry entry: Util::diru(path)) {
         if (entry.name[0] == '.') continue;
-        if (!Util::isDirectory(path + Util::separator() + entry.name)) continue;
+        if (!Util::isDirectory(path + entry.name)) continue;
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
 
@@ -365,11 +363,10 @@ void Scanner::scanDirectory(string path) {
         repairBinCommaNames(path + entry.name + Util::separator());
         prev << entry.name << endl;
 
-        string saveStateDir = path + Util::separator() + "!SaveStates" + Util::separator() + entry.name;
+        string saveStateDir = path + "!SaveStates" + Util::separator() + entry.name;
         Util::createDir(saveStateDir);
 
         shared_ptr<Game> game{new Game};
-
 
         game->folder_id = 0; // this will not be in use;
         game->fullPath = path + entry.name + Util::separator();
@@ -378,23 +375,22 @@ void Scanner::scanDirectory(string path) {
         game->pathName = entry.name;
         splash->logText(_("Game:") + " " + entry.name);
 
-        string gameDataPath = path + Util::separator() + entry.name + Util::separator() + GAME_DATA + Util::separator();
+        string gameDataPath = path + entry.name + Util::separator() + GAME_DATA + Util::separator();
 
         moveFolderIfNeeded(entry, gameDataPath, path);
         gameDataPath = path + entry.name + Util::separator();
 
-        if (hasAGameFile(gameDataPath)) {
-			game->imageType = this->getImageType(gameDataPath);
+        int gameType = getImageType(gameDataPath);
+        if (gameType == IMAGE_CUE_BIN || gameType == IMAGE_PBP) {
+			game->imageType = gameType;
 			game->gameDataFound = true;
 
 			if (game->imageType == IMAGE_CUE_BIN) // only cue/bin
 			{
-
 				repairMissingCue(gameDataPath, entry.name);
 				repairBrokenCueFiles(gameDataPath);
 				unecm(gameDataPath);
 			}
-
 
 			if (!Util::exists(gameDataPath + GAME_INI)) {
 				game->readIni(gameDataPath + GAME_INI);
@@ -427,7 +423,6 @@ void Scanner::scanDirectory(string path) {
 			}
 
 			cout << game->automationUsed << endl;
-
 
 			game->recoverMissingFiles();
 			cout << game->automationUsed << endl;
