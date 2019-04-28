@@ -10,16 +10,16 @@
 #include "../engine/cfgprocessor.h"
 #include "../lang.h"
 
-#define OPT_LOCK           5
-#define OPT_HIGHRES        6
-#define OPT_SPEEDHACK      7
-#define OPT_SCANLINES      8
-#define OPT_SCANLINELV     9
-#define OPT_CLOCK_PSX      10
-#define OPT_FRAMESKIP      11
-#define OPT_PLUGIN         12
-#define OPT_INTERPOLATION  13
-
+#define OPT_FAVORITE       5
+#define OPT_LOCK           6
+#define OPT_HIGHRES        7
+#define OPT_SPEEDHACK      8
+#define OPT_SCANLINES      9
+#define OPT_SCANLINELV     10
+#define OPT_CLOCK_PSX      11
+#define OPT_FRAMESKIP      12
+#define OPT_PLUGIN         13
+#define OPT_INTERPOLATION  14
 
 void GuiEditor::processOptionChange(bool direction) {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -33,6 +33,22 @@ void GuiEditor::processOptionChange(bool direction) {
     string s;
 
     switch (selOption) {
+        case OPT_FAVORITE:
+            if (!internal) {
+                if (gameIni.values["Favorite"] == "")
+                    gameIni.values["Favorite"] = "0";   // doesn't exist yet in this ini so set to 0
+                if (direction == true) {
+                    if (gameIni.values["Favorite"] == "0") {
+                        gameIni.values["Favorite"] = "1";
+                    }
+                } else {
+                    if (gameIni.values["Favorite"] == "1") {
+                        gameIni.values["Favorite"] = "0";
+                    }
+                }
+                gameIni.save(gameIni.path);
+            }
+            break;
         case OPT_LOCK:
             if (!internal) {
                 if (direction == true) {
@@ -292,45 +308,57 @@ void GuiEditor::init() {
 void GuiEditor::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
 
-
+    int line = 0;
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=" + gameIni.values["title"] + "=-", 0, offset, true);
-    if (!internal) {
-        gui->renderTextLine(_("Folder:") + " " + gameIni.entry + "", 1, offset, true);
-    } else {
-        gui->renderTextLine(_("Folder:") + " " + gameData->folder + "", 1, offset, true);
-    }
-    gui->renderTextLine(_("Published by:") + " " + gameIni.values["publisher"], 2, offset, true);
-    gui->renderTextLine(_("Year:") + gameIni.values["year"] + "   " + _("Players:") +
-                        gameIni.values["players"], 3, offset, true);
 
+    // Game.ini
+
+    gui->renderTextLine("-=" + gameIni.values["title"] + "=-", line++, offset, true);
+
+    if (!internal) {
+        gui->renderTextLine(_("Folder:") + " " + gameIni.entry + "", line++, offset, true);
+    } else {
+        gui->renderTextLine(_("Folder:") + " " + gameData->folder + "", line++, offset, true);
+    }
+
+    gui->renderTextLine(_("Published by:") + " " + gameIni.values["publisher"], line++, offset, true);
+
+    gui->renderTextLine(_("Year:") + gameIni.values["year"] + "   " + _("Players:") +
+                        gameIni.values["players"], line++, offset, true);
 
     gui->renderTextLine(_("Memory Card:") + " " +
                         (gameIni.values["memcard"] == "SONY" ? string(_("Internal")) : gameIni.values["memcard"] +
                                                                                     _("(Custom)")),
-                        4, offset, true);
+                        line++, offset, true);
+
+    gui->renderTextLineOptions(
+            _("Favorite:") + (gameIni.values["Favorite"] == "1" ? string("|@Check|") : string("|@Uncheck|")),
+            line++, offset,
+            false, 300);
+
+    // pcsx.cfg
 
     gui->renderTextLineOptions(
             _("Lock data:") + (gameIni.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|")),
-            5, offset,
+            line++, offset,
             false, 300);
 
-    gui->renderTextLineOptions(_("High res:") + (highres == 1 ? string("|@Check|") : string("|@Uncheck|")), 6, offset,
+    gui->renderTextLineOptions(_("High res:") + (highres == 1 ? string("|@Check|") : string("|@Uncheck|")), line++, offset,
                                false, 300);
 
-    gui->renderTextLineOptions(_("SpeedHack:") + (speedhack == 1 ? string("|@Check|") : string("|@Uncheck|")), 7,
+    gui->renderTextLineOptions(_("SpeedHack:") + (speedhack == 1 ? string("|@Check|") : string("|@Uncheck|")), line++,
                                offset, false, 300);
-    gui->renderTextLineOptions(_("Scanlines:") + (scanlines == 1 ? string("|@Check|") : string("|@Uncheck|")), 8,
+    gui->renderTextLineOptions(_("Scanlines:") + (scanlines == 1 ? string("|@Check|") : string("|@Uncheck|")), line++,
                                offset, false, 300);
-    gui->renderTextLineOptions(_("Scanline Level:") + " " + to_string(scanlineLevel), 9, offset, false, 300);
-    gui->renderTextLineOptions(_("Clock:") + " " + to_string(clock), 10, offset, false, 300);
-    gui->renderTextLineOptions(_("Frameskip:") + " " + to_string(frameskip), 11, offset, false, 300);
+    gui->renderTextLineOptions(_("Scanline Level:") + " " + to_string(scanlineLevel), line++, offset, false, 300);
+    gui->renderTextLineOptions(_("Clock:") + " " + to_string(clock), line++, offset, false, 300);
+    gui->renderTextLineOptions(_("Frameskip:") + " " + to_string(frameskip), line++, offset, false, 300);
     if (!internal) {
-        gui->renderTextLineOptions(_("Plugin:") + gpu, 12, offset, false, 300);
+        gui->renderTextLineOptions(_("Plugin:") + gpu, line++, offset, false, 300);
     }
-    gui->renderTextLineOptions(_("Spu Interpolation:") + to_string(interpolation), 13, offset, false, 300);
+    gui->renderTextLineOptions(_("Spu Interpolation:") + to_string(interpolation), line++, offset, false, 300);
 
     gui->renderSelectionBox(selOption, offset, 300);
 
