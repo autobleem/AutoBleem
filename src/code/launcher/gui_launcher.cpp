@@ -75,18 +75,7 @@ void GuiLauncher::updateMeta() {
         meta->updateTexts(gameName, publisher, year, players, false, false, false, 0, false, fgR,fgG,fgB);
         return;
     }
-    PsGame *game = gamesList[selGame];
-    gameName = game->title;
-    publisher = game->publisher;
-    year = to_string(game->year);
-    if (game->players == 1) {
-        players = to_string(game->players) + " " + _("Player");
-    } else {
-        players = to_string(game->players) + " " + _("Players");
-    }
-    bool favorite = game->currentFavoriteSetting();
-    meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal, gamesList[selGame]->hd,
-                      gamesList[selGame]->locked, gamesList[selGame]->cds, favorite, fgR,fgG,fgB);
+    meta->updateTexts(gamesList[selGame], fgR,fgG,fgB);
 }
 
 void GuiLauncher::switchSet(int newSet) {
@@ -269,9 +258,7 @@ void GuiLauncher::loadAssets() {
     meta->y = 285;
     meta->visible = true;
     if (selGame != -1) {
-        bool favorite = gamesList[selGame]->currentFavoriteSetting();
-        meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal, gamesList[selGame]->hd,
-                          gamesList[selGame]->locked, gamesList[selGame]->cds, favorite, fgR,fgG,fgB);
+        meta->updateTexts(gamesList[selGame], fgR,fgG,fgB);
     } else {
         meta->updateTexts(gameName, publisher, year, players, false, false, false, 0, false, fgR,fgG,fgB);
     }

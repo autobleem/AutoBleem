@@ -3,6 +3,7 @@
 //
 
 #include "ps_meta.h"
+#include "ps_game.h"
 
 void
 PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, string playersTxt, bool internal, bool hd,
@@ -28,8 +29,14 @@ PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, str
     yearTex = createTextTex(year, r,g,b, font15);
     playersTex = createTextTex(playersTxt, r,g,b, font15);
     discsTex = createTextTex(to_string(discs),r,g,b,font15);
+}
 
+void PsMeta::updateTexts(PsGame *game, int r,int g, int b) {
 
+    string appendText = game->players == 1 ? "Player" : "Players";
+
+    updateTexts(game->title, game->publisher, to_string(game->year), to_string(game->players) + " " + appendText,
+                game->internal, game->hd, game->locked, game->cds, game->favorite, r, g, b);
 }
 
 void PsMeta::destroy() {

@@ -7,6 +7,8 @@
 
 #include "ps_obj.h"
 
+class PsGame;
+
 class PsMeta : public PsObj {
 public:
 
@@ -45,10 +47,11 @@ public:
     bool discs = 1;
     bool favorite = false;
 
-
     void updateTexts(string gameNameTxt, string publisherTxt,
                      string yearTxt, string playersTxt, bool internal, bool hd, bool locked, int discs, bool favorite, int r, int g,
                      int b);
+
+    void updateTexts(PsGame *game, int r, int g, int b);
 
     void destroy();
 
