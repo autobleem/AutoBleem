@@ -91,6 +91,18 @@ void GuiLauncher::switchSet(int newSet) {
     if (currentSet == SET_ALL || currentSet == SET_EXTERNAL) {
         gui->db->getGames(&gamesList);
     }
+    else if (currentSet == SET_FAVORITE) {
+            vector<PsGame *> temp;
+            gui->db->getGames(&temp);
+            for (auto & game : temp) {
+                if (game->favorite)
+                    gamesList.push_back(game);
+                else {
+                    delete game;
+                    game = nullptr;
+                }
+            }
+    }
 
     if (gui->cfg.inifile.values["origames"] == "true")
 
@@ -1263,7 +1275,7 @@ void GuiLauncher::loop() {
                                     currentSet = SET_EXTERNAL;
                                 }
                             }
-                            if (currentSet > 2) currentSet = 0;
+                            if (currentSet > SET_LAST) currentSet = 0;
                             switchSet(currentSet);
                             showSetNotification();
                             if (selGame != -1) {

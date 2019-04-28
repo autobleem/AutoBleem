@@ -26,7 +26,8 @@
 #define SET_ALL      0
 #define SET_INTERNAL 1
 #define SET_EXTERNAL 2
-
+#define SET_FAVORITE 3
+#define SET_LAST 3
 
 class GuiLauncher : public GuiScreen {
 public:

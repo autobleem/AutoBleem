@@ -96,7 +96,7 @@ PsGame *PsGame::clone() {
     clone->coverPng = this->coverPng;
     clone->year = this->year;
     clone->internal = this->internal;
-
+    clone->favorite = this->favorite;
 
     return clone;
 }
