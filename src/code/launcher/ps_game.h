@@ -11,6 +11,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "ps_carousel.h"
 #include <string>
+#include <memory>
 
 using namespace std;
 
@@ -39,7 +40,7 @@ public:
     void loadTex(SDL_Renderer *renderer);
     void freeTex();
 
-    PsGame *clone();
+    std::shared_ptr<PsGame> clone();
 
     void setMemCard(string name);
     string findResumePicture();

@@ -10,9 +10,9 @@
 #include "../lang.h"
 #include "pcsx_interceptor.h"
 #include "gui_btn_guide.h"
+#include <algorithm>
 
-
-bool wayToSort(const PsGame *i, const PsGame *j) { return SortByCaseInsensitive(i->title, j->title); }
+bool wayToSort(const shared_ptr<PsGame> i, const shared_ptr<PsGame> j) { return SortByCaseInsensitive(i->title, j->title); }
 
 // Text rendering routines - places text at x,y with selected color and font
 void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background,
@@ -82,32 +82,24 @@ void GuiLauncher::switchSet(int newSet) {
     shared_ptr<Gui> gui(Gui::getInstance());
 
     if (!gamesList.empty()) {
-        for (PsGame *game : gamesList) {
+        for (auto & game : gamesList) {
             game->freeTex();
-            delete game;
         }
+        gamesList.clear();
     }
     gamesList.clear();
     if (currentSet == SET_ALL || currentSet == SET_EXTERNAL) {
         gui->db->getGames(&gamesList);
     }
     else if (currentSet == SET_FAVORITE) {
-            vector<PsGame *> temp;
-            gui->db->getGames(&temp);
-            for (auto & game : temp) {
-                if (game->favorite)
-                    gamesList.push_back(game);
-                else {
-                    delete game;
-                    game = nullptr;
-                }
-            }
+        vector<shared_ptr<PsGame>> temp;
+        gui->db->getGames(&temp);
+        copy_if(begin(temp), end(temp), begin(gamesList), [] (const shared_ptr<PsGame> & game) { return game->favorite; });
     }
 
     if (gui->cfg.inifile.values["origames"] == "true")
-
         if (currentSet == SET_ALL || currentSet == SET_INTERNAL) {
-            vector<PsGame *> internal;
+            vector<shared_ptr<PsGame>> internal;
             Database *internalDB = new Database();
 #if defined(__x86_64__) || defined(_M_X64)
             internalDB->connect("internal.db");
@@ -119,23 +111,20 @@ void GuiLauncher::switchSet(int newSet) {
             delete internalDB;
             for (auto internalGame:internal) {
                 gamesList.push_back(internalGame);
-            }
-
-
         }
+    }
 
     sort(gamesList.begin(), gamesList.end(), wayToSort);
 
     if (gamesList.size() > 0) {
-        while (gamesList.size() < 13) {
-            vector<PsGame *> temp;
-            for (PsGame *game:gamesList) {
-                temp.push_back(game->clone());
+        if (gamesList.size() < 13) {
+            // make a copy of the game list
+            auto temp = gamesList;
+            // duplicate the list until the carousel is full
+            while (gamesList.size() < 13) {
+                gamesList.insert(end(gamesList), begin(temp), end(temp));
+                }
             }
-            for (PsGame *game:temp) {
-                gamesList.push_back(game);
-            }
-
         }
     }
 
@@ -328,7 +317,7 @@ void GuiLauncher::loadAssets() {
     sselector->visible = false;
 
     if (gui->resumingGui) {
-        PsGame *game = gamesList[selGame];
+        shared_ptr<PsGame> game = gamesList[selGame];
         if (game->isCleanExit()) {
             sselector->loadSaveStateImages(game, true);
             sselector->visible = true;
@@ -364,10 +353,8 @@ void GuiLauncher::freeAssets() {
     TTF_CloseFont(font30);
     TTF_CloseFont(font24);
     TTF_CloseFont(font15);
-    for (PsGame *game:gamesList) {
+    for (shared_ptr<PsGame> game : gamesList) {
         game->freeTex();
-        delete game;
-
     }
     gamesList.clear();
     menu->freeAssets();
@@ -382,7 +369,7 @@ void GuiLauncher::init() {
 void GuiLauncher::scrollLeft(int speed) {
     scrolling = true;
     long time = SDL_GetTicks();
-    for (PsGame *game:gamesList) {
+    for (auto game : gamesList) {
 
         if (game->visible) {
             int nextIndex = game->screenPointIndex;
@@ -407,7 +394,7 @@ void GuiLauncher::scrollLeft(int speed) {
 void GuiLauncher::scrollRight(int speed) {
     scrolling = true;
     long time = SDL_GetTicks();
-    for (PsGame *game:gamesList) {
+    for (auto game:gamesList) {
         if (game->visible) {
             int nextIndex = game->screenPointIndex;
             if (game->screenPointIndex != carouselPositions.coverPositions.size() - 1) {
@@ -429,12 +416,11 @@ void GuiLauncher::scrollRight(int speed) {
 // update potentially visible covers to save the memory
 void GuiLauncher::updateVisibility() {
     bool allAnimationFinished = true;
-    for (PsGame *game:gamesList) {
+    for (auto game : gamesList) {
         if ((game->animationStart != 0) && game->visible) {
             allAnimationFinished = false;
         }
     }
-
 
     if (allAnimationFinished && scrolling) {
         setInitialPositions(selGame);
@@ -444,10 +430,8 @@ void GuiLauncher::updateVisibility() {
 
 // this method runs during the loop to update positions of the covers during animation
 void GuiLauncher::updatePositions() {
-
-
     long currentTime = SDL_GetTicks();
-    for (PsGame *game:gamesList) {
+    for (auto game : gamesList) {
         if (game->visible) {
             if (game->animationStart != 0) {
                 long position = currentTime - game->animationStart;
@@ -462,10 +446,7 @@ void GuiLauncher::updatePositions() {
                     game->current = game->destination;
                     game->animationStart = 0;
                 }
-
-
             }
-
         }
     }
     updateVisibility();
@@ -583,7 +564,7 @@ int GuiLauncher::getPreviousId(int id) {
 
 // initialize a table with positions for covers
 void GuiLauncher::setInitialPositions(int selected) {
-    for (PsGame *game:gamesList) {
+    for (auto game : gamesList) {
         game->visible = false;
     }
 
@@ -665,7 +646,7 @@ void GuiLauncher::setInitialPositions(int selected) {
         gamesList[next]->screenPointIndex = 12;
     }
 
-    for (PsGame *game:gamesList) {
+    for (auto game : gamesList) {
         game->actual = game->current;
         game->destination = game->current;
         if (game->visible) {
@@ -673,10 +654,7 @@ void GuiLauncher::setInitialPositions(int selected) {
         } else {
             game->freeTex();
         }
-
     }
-
-
 }
 
 void GuiLauncher::moveMainCover(int state) {
@@ -1179,7 +1157,7 @@ void GuiLauncher::loop() {
 
                                 if (!gamesList.empty()) {
                                     gui->loadAssets();
-                                    for (PsGame *game:gamesList) {
+                                    for (shared_ptr<PsGame> game : gamesList) {
                                         game->freeTex();
 
                                     }
@@ -1189,7 +1167,7 @@ void GuiLauncher::loop() {
                                 state = STATE_GAMES;
                             }
                         } else if (state == STATE_RESUME) {
-                            PsGame *game = gamesList[selGame];
+                            shared_ptr<PsGame> game = gamesList[selGame];
                             int slot = sselector->selSlot;
 
                             if (sselector->operation == OP_LOAD) {
@@ -1237,7 +1215,7 @@ void GuiLauncher::loop() {
                             delete guide;
                         } else {
                             if (sselector->operation == OP_LOAD) {
-                                PsGame *game = gamesList[selGame];
+                                shared_ptr<PsGame> game = gamesList[selGame];
                                 int slot = sselector->selSlot;
                                 if (game->isResumeSlotActive(slot)) {
                                     Mix_PlayChannel(-1, gui->cursor, 0);

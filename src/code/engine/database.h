@@ -13,7 +13,7 @@
 #include "metadata.h"
 #include "../sqlite3.h"
 #include "../launcher/ps_game.h"
-
+#include <memory>
 
 using namespace std;
 
@@ -36,23 +36,15 @@ public:
     bool updateYear(int id, int year);
     bool updateMemcard(int id, string memcard);
 
-    bool getGames(vector<PsGame *> *result);
-    bool getInternalGames(vector<PsGame *> *result);
+    bool getGames(std::vector<std::shared_ptr<PsGame>> *result);
+    bool getInternalGames(std::vector<std::shared_ptr<PsGame>> *result);
     bool updateTitle(int id, string title);
-    bool refreshGame(PsGame  *game);
-    bool refreshGameInternal(PsGame  *game);
+    bool refreshGame(std::shared_ptr<PsGame> game);
+    bool refreshGameInternal(std::shared_ptr<PsGame> game);
 private:
     sqlite3 *db;
     bool executeCreateStatement(char *sql, string tableName);
     bool executeStatement(char *sql, string outMsg, string errorMsg);
-
-
 };
-
-
-
-
-
-
 #endif /* DATABASE_H */
 

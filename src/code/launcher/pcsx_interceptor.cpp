@@ -9,7 +9,7 @@
 #include "../lang.h"
 #include "../engine/memcard.h"
 
-bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
+bool PcsxInterceptor::execute(shared_ptr<PsGame> game, int resumepoint) {
 
     shared_ptr<Gui> gui(Gui::getInstance());
     string lastCDpoint = game->ssFolder + "lastcdimg.txt";
@@ -101,7 +101,7 @@ bool PcsxInterceptor::execute(PsGame *game, int resumepoint) {
     return true;
 }
 
-void PcsxInterceptor::memcardIn(PsGame *game) {
+void PcsxInterceptor::memcardIn(shared_ptr<PsGame> game) {
     string memcard = "SONY";
     if (!game->internal) {
         Inifile gameini;
@@ -120,7 +120,7 @@ void PcsxInterceptor::memcardIn(PsGame *game) {
     }
 }
 
-void PcsxInterceptor::memcardOut(PsGame *game) {
+void PcsxInterceptor::memcardOut(shared_ptr<PsGame> game) {
     string memcard = "SONY";
     if (!game->internal) {
         Inifile gameini;
@@ -136,7 +136,7 @@ void PcsxInterceptor::memcardOut(PsGame *game) {
     }
 }
 
-void PcsxInterceptor::saveResumePoint(PsGame *game, int pointId) {
+void PcsxInterceptor::saveResumePoint(shared_ptr<PsGame> game, int pointId) {
     string filenamefile = game->ssFolder + "filename.txt";
     string filenamefileX = game->ssFolder + "filename.txt.res";
     string filenamepoint = game->ssFolder + "filename."+to_string(pointId)+".txt.res";
@@ -177,7 +177,7 @@ void PcsxInterceptor::saveResumePoint(PsGame *game, int pointId) {
     }
 }
 
-void PcsxInterceptor::prepareResumePoint(PsGame *game, int pointId) {
+void PcsxInterceptor::prepareResumePoint(shared_ptr<PsGame> game, int pointId) {
 
     // cleanup after previous crash as pcsx doest not want to save
     string filenameTrash = game->ssFolder + "filename.txt";

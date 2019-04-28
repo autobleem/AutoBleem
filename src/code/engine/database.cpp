@@ -1,9 +1,7 @@
 #include "database.h"
 #include "inifile.h"
 
-
 using namespace std;
-
 
 static const char SELECT_META[] = "SELECT SERIAL,TITLE, PUBLISHER, \
                                 RELEASE,PLAYERS,  COVER FROM SERIALS s \
@@ -193,7 +191,7 @@ bool Database::queryTitle(string title, Metadata *md) {
     return false;
 }
 
-bool Database::getInternalGames(vector<PsGame *> *result) {
+bool Database::getInternalGames(vector<shared_ptr<PsGame>> *result) {
     result->clear();
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, GAMES_DATA_INTERNAL, -1, &res, nullptr);
@@ -207,7 +205,7 @@ bool Database::getInternalGames(vector<PsGame *> *result) {
             const unsigned char *base = sqlite3_column_text(res, 5);
             int discs = sqlite3_column_int(res, 6);
 
-            PsGame *game = new PsGame();
+            shared_ptr<PsGame> game{new PsGame};
             game->gameId = id;
             game->title = string(reinterpret_cast<const char *>(title));
             game->publisher = string(reinterpret_cast<const char *>(publisher));
@@ -231,7 +229,7 @@ bool Database::getInternalGames(vector<PsGame *> *result) {
     return true;
 }
 
-bool Database::refreshGameInternal(PsGame  *game) {
+bool Database::refreshGameInternal(shared_ptr<PsGame> game) {
 
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, GAMES_DATA_SINGLE_INTERNAL, -1, &res, nullptr);
@@ -279,7 +277,7 @@ bool Database::refreshGameInternal(PsGame  *game) {
     return true;
 }
 
-bool Database::refreshGame(PsGame  *game) {
+bool Database::refreshGame(std::shared_ptr<PsGame> game) {
 
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, GAMES_DATA_SINGLE, -1, &res, nullptr);
@@ -328,7 +326,7 @@ bool Database::refreshGame(PsGame  *game) {
     return true;
 }
 
-bool Database::getGames(vector<PsGame *> *result) {
+bool Database::getGames(vector<shared_ptr<PsGame>> *result) {
     result->clear();
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, GAMES_DATA, -1, &res, nullptr);
@@ -345,7 +343,7 @@ bool Database::getGames(vector<PsGame *> *result) {
             const unsigned char *base = sqlite3_column_text(res, 8);
             int discs = sqlite3_column_int(res, 9);
 
-            PsGame *game = new PsGame();
+            shared_ptr<PsGame> game{new PsGame};
             game->gameId = id;
             game->title = string(reinterpret_cast<const char *>(title));
             game->publisher = string(reinterpret_cast<const char *>(publisher));

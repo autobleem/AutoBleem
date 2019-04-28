@@ -11,12 +11,11 @@
 
 class PcsxInterceptor {
 public:
-    bool execute(PsGame *game, int resumepoint);
-    void memcardIn(PsGame *game);
-    void memcardOut(PsGame *game);
-    void prepareResumePoint(PsGame *game, int pointId);
-    void saveResumePoint(PsGame *game, int pointId);
-
+    bool execute(std::shared_ptr<PsGame> game, int resumepoint);
+    void memcardIn(std::shared_ptr<PsGame> game);
+    void memcardOut(std::shared_ptr<PsGame> game);
+    void prepareResumePoint(std::shared_ptr<PsGame> game, int pointId);
+    void saveResumePoint(std::shared_ptr<PsGame> game, int pointId);
 };
 
 

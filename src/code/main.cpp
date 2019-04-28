@@ -143,9 +143,8 @@ int main(int argc, char *argv[]) {
 
             SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 
-            delete gui->runningGame;
             usleep(300*1000);
-            gui->runningGame = nullptr;
+            gui->runningGame = shared_ptr<PsGame>(nullptr);    // replace with new shared_ptr pointing to nullptr
             gui->startingGame = false;
 
             gui->display(false, path, db, true);

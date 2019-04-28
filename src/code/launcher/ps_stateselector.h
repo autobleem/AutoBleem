@@ -18,7 +18,7 @@ public:
     void render();
     void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool center);
 
-    void loadSaveStateImages(PsGame * game, bool saving);
+    void loadSaveStateImages(std::shared_ptr<PsGame> game, bool saving);
     void cleanSaveStateImages();
 
     void freeImages();

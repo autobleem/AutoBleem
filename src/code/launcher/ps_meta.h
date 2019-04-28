@@ -6,6 +6,7 @@
 #define AUTOBLEEM_GUI_PS_META_H
 
 #include "ps_obj.h"
+#include <memory>
 
 class PsGame;
 
@@ -51,7 +52,7 @@ public:
                      string yearTxt, string playersTxt, bool internal, bool hd, bool locked, int discs, bool favorite, int r, int g,
                      int b);
 
-    void updateTexts(PsGame *game, int r, int g, int b);
+    void updateTexts(std::shared_ptr<PsGame> game, int r, int g, int b);
 
     void destroy();
 

@@ -60,7 +60,7 @@ void PsStateSelector::cleanSaveStateImages()
     }
 }
 
-void PsStateSelector::loadSaveStateImages(PsGame *game, bool saving)
+void PsStateSelector::loadSaveStateImages(shared_ptr<PsGame> game, bool saving)
 {
     if (saving)
     {

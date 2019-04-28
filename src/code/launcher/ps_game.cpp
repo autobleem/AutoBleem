@@ -82,8 +82,8 @@ bool PsGame::isCleanExit() {
     return Util::exists(filenamefile);
 }
 
-PsGame *PsGame::clone() {
-    PsGame *clone = new PsGame();
+shared_ptr<PsGame> PsGame::clone() {
+    shared_ptr<PsGame> clone{new PsGame};
     clone->visible = this->visible;
     clone->gameId = this->gameId;
     clone->folder = this->folder;

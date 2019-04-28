@@ -17,6 +17,7 @@
 #include "ps_menu.h"
 #include "ps_centerlabel.h"
 #include "ps_stateselector.h"
+#include <memory>
 
 #define STATE_GAMES    0
 #define STATE_SET      1
@@ -38,7 +39,7 @@ public:
     void nextGame(int speed);
     void prevGame(int speed);
     void updateMeta();
-    void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background, bool center);
+    void renderText(int x, int y, std::string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background, bool center);
     void loadAssets();
     void freeAssets();
     void moveMainCover(int state);
@@ -47,8 +48,6 @@ public:
     void switchSet(int newSet);
     void showSetNotification();
     bool powerOffShift=false;
-
-
 
     PsCarousel carouselPositions;
 
@@ -73,31 +72,30 @@ public:
     int fgR=255, fgG=255, fgB=255;
     int secR=100, secG=100, secB=100;
 
-
-    vector<PsObj *> staticElements;
-    vector<PsObj *> frontElemets;
-    vector<PsObj *> menuElements;
-    vector<PsObj *> carousel;
+    std::vector<PsObj *> staticElements;
+    std::vector<PsObj *> frontElemets;
+    std::vector<PsObj *> menuElements;
+    std::vector<PsObj *> carousel;
 
     PsCenterLabel * menuHead;
     PsCenterLabel * menuText;
 
-    string gameName;
-    string publisher;
-    string year;
-    string players;
+    std::string gameName;
+    std::string publisher;
+    std::string year;
+    std::string players;
 
-    string notificationText;
+    std::string notificationText;
     long notificationTime=0;
 
     bool staticMeta=false;
 
-    void showNotification(string text);
+    void showNotification(std::string text);
 
     bool gameInfoVisible = true;
     bool scrolling = false;
     using GuiScreen::GuiScreen;
-    vector<PsGame *> gamesList;
+    std::vector<std::shared_ptr<PsGame>> gamesList;
     int selGame = 0;
     int state = STATE_GAMES;
     void setInitialPositions(int selected);
