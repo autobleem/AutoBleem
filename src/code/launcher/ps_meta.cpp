@@ -6,11 +6,12 @@
 
 void
 PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, string playersTxt, bool internal, bool hd,
-                    bool locked, int discs, int r,int g, int b) {
+                    bool locked, int discs, bool favorite, int r,int g, int b) {
     this->discs = discs;
     this->internal = internal;
     this->hd = hd;
     this->locked = locked;
+    this->favorite = favorite;
     this->gameName = gameNameTxt;
     this->publisher = publisherTxt;
     this->year = yearTxt;
@@ -36,6 +37,7 @@ void PsMeta::destroy() {
     if (publisherTex != nullptr) SDL_DestroyTexture(publisherTex);
     if (yearTex != nullptr) SDL_DestroyTexture(yearTex);
     if (playersTex != nullptr) SDL_DestroyTexture(playersTex);
+    if (favoriteTex != nullptr) SDL_DestroyTexture(favoriteTex);
     SDL_DestroyTexture(tex);
     SDL_DestroyTexture(discsTex);
 
@@ -46,7 +48,9 @@ void PsMeta::destroy() {
         SDL_DestroyTexture(hdOnTex);
         SDL_DestroyTexture(hdOffTex);
         SDL_DestroyTexture(lockOnTex);
+        SDL_DestroyTexture(lockOffTex);
         SDL_DestroyTexture(cdTex);
+        SDL_DestroyTexture(favoriteTex);
     }
 
 }
@@ -67,6 +71,7 @@ void PsMeta::render() {
         lockOnTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/lock.png").c_str());
         lockOffTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/unlock.png").c_str());
         cdTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/cd.png").c_str());
+        favoriteTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/favorite.png").c_str());
     }
 
     if (visible) {
@@ -192,9 +197,11 @@ void PsMeta::render() {
         {
             SDL_RenderCopy(renderer, lockOffTex, &fullRect, &rect);
         }
-
-
-
+        rect.x = x+offset+spread*3;
+        if (favorite)
+        {
+            SDL_RenderCopy(renderer, favoriteTex, &fullRect, &rect);
+        }
 
     }
 }

@@ -34,6 +34,7 @@ public:
     bool hd = false;
     bool locked = false;
     int cds =1;
+    bool currentFavoriteSetting();  // reads the current Favorite setting in the Game.ini
 
     void loadTex(SDL_Renderer *renderer);
     void freeTex();

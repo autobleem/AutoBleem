@@ -35,15 +35,15 @@ void GuiEditor::processOptionChange(bool direction) {
     switch (selOption) {
         case OPT_FAVORITE:
             if (!internal) {
-                if (gameIni.values["Favorite"] == "")
-                    gameIni.values["Favorite"] = "0";   // doesn't exist yet in this ini so set to 0
+                if (gameIni.values["favorite"] == "")
+                    gameIni.values["favorite"] = "0";   // doesn't exist yet in this ini so set to 0
                 if (direction == true) {
-                    if (gameIni.values["Favorite"] == "0") {
-                        gameIni.values["Favorite"] = "1";
+                    if (gameIni.values["favorite"] == "0") {
+                        gameIni.values["favorite"] = "1";
                     }
                 } else {
-                    if (gameIni.values["Favorite"] == "1") {
-                        gameIni.values["Favorite"] = "0";
+                    if (gameIni.values["favorite"] == "1") {
+                        gameIni.values["favorite"] = "0";
                     }
                 }
                 gameIni.save(gameIni.path);
@@ -334,7 +334,7 @@ void GuiEditor::render() {
                         line++, offset, true);
 
     gui->renderTextLineOptions(
-            _("Favorite:") + (gameIni.values["Favorite"] == "1" ? string("|@Check|") : string("|@Uncheck|")),
+            _("Favorite:") + (gameIni.values["favorite"] == "1" ? string("|@Check|") : string("|@Uncheck|")),
             line++, offset,
             false, 300);
 

@@ -32,6 +32,7 @@ public:
     SDL_Texture *lockOnTex = nullptr;
     SDL_Texture *lockOffTex = nullptr;
     SDL_Texture *cdTex = nullptr;
+    SDL_Texture *favoriteTex = nullptr;
 
     int nextPos = 0;
     int prevPos = 0;
@@ -42,10 +43,11 @@ public:
     bool hd = false;
     bool locked = false;
     bool discs = 1;
+    bool favorite = false;
 
 
     void updateTexts(string gameNameTxt, string publisherTxt,
-                     string yearTxt, string playersTxt, bool internal, bool hd, bool locked, int discs, int r, int g,
+                     string yearTxt, string playersTxt, bool internal, bool hd, bool locked, int discs, bool favorite, int r, int g,
                      int b);
 
     void destroy();
