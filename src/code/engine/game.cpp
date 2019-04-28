@@ -100,6 +100,7 @@ bool Game::print() {
     cout << "LIC found:" << licFound << endl;
     cout << "pcsx.cfg found: " << pcsxCfgFound << endl;
     cout << "TotalDiscs: " << discs.size() << endl;
+    cout << "Favorite: " << favorite << endl;
 
     for (int i = 0; i < discs.size(); i++) {
         cout << "  Disc:" << i + 1 << "  " << discs[i].diskName << endl;
@@ -279,6 +280,7 @@ void Game::updateObj() {
     tmp = valueOrDefault("highres","0");
     if (Util::isInteger(tmp.c_str())) highRes = atoi(tmp.c_str()); else highRes = 0;
     tmp = valueOrDefault("discs", "");
+    favorite = valueOrDefault("favorite", "0");
 
     if (!tmp.empty()) {
         vector<string> strings;
@@ -339,6 +341,7 @@ void Game::saveIni(string path) {
     {
         ini->values["memcard"] = memcard;
     }
+    ini->values["Favorite"] = favorite;
 
     stringstream ss;
     for (int i = 0; i < discs.size(); i++) {

@@ -44,7 +44,6 @@ void PsMeta::destroy() {
     if (publisherTex != nullptr) SDL_DestroyTexture(publisherTex);
     if (yearTex != nullptr) SDL_DestroyTexture(yearTex);
     if (playersTex != nullptr) SDL_DestroyTexture(playersTex);
-    if (favoriteTex != nullptr) SDL_DestroyTexture(favoriteTex);
     SDL_DestroyTexture(tex);
     SDL_DestroyTexture(discsTex);
 

@@ -31,6 +31,7 @@ public:
     int players;
     int year;
     vector<Disc> discs;
+    string favorite;
 
     bool gameDataFound = false;
     bool pcsxCfgFound = false;

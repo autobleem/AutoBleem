@@ -7,20 +7,6 @@
 #include "../engine/inifile.h"
 #include "../gui/gui.h"
 
-// reads the current Favorite setting in the Game.ini
-bool PsGame::currentFavoriteSetting() {
-    if (!internal) {
-        Inifile gameIni;
-        gameIni.load(folder + "Game.ini");
-        cout << folder << endl;
-        for (auto i : gameIni.values)
-            cout << i.first << ", " << i.second << endl;
-        bool favorite = gameIni.values["favorite"] == "1";
-        return favorite;
-    } else
-        return false;
-}
-
 void PsGame::loadTex(SDL_Renderer *renderer) {
     shared_ptr<Gui> gui(Gui::getInstance());
 

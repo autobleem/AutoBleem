@@ -264,22 +264,10 @@ bool Database::refreshGameInternal(PsGame  *game) {
             if (Util::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
-                if (ini.values["automation"]=="1")
-                {
-                    game->locked = false;
-                } else
-                {
-                    game->locked = true;
-                }
-                if (ini.values["highres"]=="1")
-                {
-                    game->hd=true;
-                } else
-                {
-                    game->hd=false;
-                }
+                game->locked =  !(ini.values["automation"]=="1");
+                game->hd =       (ini.values["highres"]=="1");
+                game->favorite = (ini.values["favorite"] == "1");
             }
-
         }
     } else {
 
@@ -325,22 +313,10 @@ bool Database::refreshGame(PsGame  *game) {
             if (Util::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
-                if (ini.values["automation"]=="1")
-                {
-                    game->locked = false;
-                } else
-                {
-                    game->locked = true;
-                }
-                if (ini.values["highres"]=="1")
-                {
-                    game->hd=true;
-                } else
-                {
-                    game->hd=false;
-                }
+                game->locked =  !(ini.values["automation"]=="1");
+                game->hd =       (ini.values["highres"]=="1");
+                game->favorite = (ini.values["favorite"] == "1");
             }
-
         }
     } else {
 
@@ -385,20 +361,9 @@ bool Database::getGames(vector<PsGame *> *result) {
             if (Util::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
-                if (ini.values["automation"]=="1")
-                {
-                    game->locked = false;
-                } else
-                {
-                    game->locked = true;
-                }
-                if (ini.values["highres"]=="1")
-                {
-                    game->hd=true;
-                } else
-                {
-                    game->hd=false;
-                }
+                game->locked =  !(ini.values["automation"]=="1");
+                game->hd =       (ini.values["highres"]=="1");
+                game->favorite = (ini.values["favorite"] == "1");
             }
             result->push_back(game);
         }
