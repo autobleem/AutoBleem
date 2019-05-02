@@ -119,11 +119,11 @@ void GuiLauncher::switchSet(int newSet) {
     if (gamesList.size() > 0) {
         if (gamesList.size() < 13) {
             // make a copy of the game list
-            auto temp = gamesList;
-            // duplicate the list until the carousel is full
+            auto orig = gamesList;
+            // duplicate the orig gamesList until the carousel is full
             while (gamesList.size() < 13) {
-                gamesList.insert(end(gamesList), begin(temp), end(temp));
-                }
+				// duplicate the orig gamesList
+                gamesList.insert(end(gamesList), begin(orig), end(orig));
             }
         }
     }
