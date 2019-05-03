@@ -12,18 +12,18 @@ using namespace std;
 
 class PsScreenpoint {
 public:
-    int x;
-    int y;
-    float scale;
-    int shade;
+    int x = 0;
+    int y = 0;
+    float scale = 0.0;
+    int shade = 0;
 };
 
 class PsCarousel {
 public:
-    int activeItem;
-    int cycleMax;
-    int cycleDuration;
-    int previousActiveElement;
+    int activeItem = 0;
+    int cycleMax = 0;
+    int cycleDuration = 0;
+    int previousActiveElement = 0;
     vector<PsScreenpoint> coverPositions;
 
     void initCoverPositions();

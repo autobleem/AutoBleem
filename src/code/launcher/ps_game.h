@@ -17,24 +17,24 @@ using namespace std;
 
 class PsGame {
 public:
-    int gameId;
-    string title;
-    string publisher;
-    int year;
-    int players;
+    int gameId = 0;
+    string title = "";
+    string publisher = "";
+    int year = 0;
+    int players = 0;
 
 
-    string memcard;
-    string folder;
-    string ssFolder;
+    string memcard = "";
+    string folder = "";
+    string ssFolder = "";
 
-    string base;
+    string base = "";
     SDL_Texture *coverPng = nullptr;
 
     bool internal = false;
     bool hd = false;
     bool locked = false;
-    int cds =1;
+    int cds = 1;
     bool favorite = false;
 
     void loadTex(SDL_Renderer *renderer);
