@@ -1260,9 +1260,7 @@ void GuiLauncher::loop() {
                                 updateMeta();
                                 menu->setResumePic(gamesList[selGame]->findResumePicture());
                             } else {
-                                showNotification(_("NO GAMES FOUND IN THIS SECTION"));
                                 updateMeta();
-
                             }
                         }
                     };
