@@ -159,7 +159,7 @@ vector<DirEntry> Util::diru(string path) {
 vector<DirEntry> Util::diru_DirsOnly(string path) {
     auto temp = diru(path); // get all dirs and files
     vector<DirEntry> ret;
-    copy_if(begin(temp), end(temp), begin(ret), [](const DirEntry & dir) { return dir.isDir; });    // copy only dirs
+    copy_if(begin(temp), end(temp), back_inserter(ret), [](const DirEntry & dir) { return dir.isDir; });    // copy only dirs
 
     return ret; // return only the dirs
 }
@@ -167,7 +167,7 @@ vector<DirEntry> Util::diru_DirsOnly(string path) {
 vector<DirEntry> Util::diru_FilesOnly(string path) {
     auto temp = diru(path); // get all dirs and files
     vector<DirEntry> ret;
-    copy_if(begin(temp), end(temp), begin(ret), [](const DirEntry & dir) { return !dir.isDir; });   //copy only files
+    copy_if(begin(temp), end(temp), back_inserter(ret), [](const DirEntry & dir) { return !dir.isDir; });   //copy only files
 
     return ret; // return only the files
 }

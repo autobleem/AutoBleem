@@ -85,7 +85,6 @@ void GuiLauncher::switchSet(int newSet) {
         for (auto & game : gamesList) {
             game->freeTex();
         }
-        gamesList.clear();
     }
     gamesList.clear();
     if (currentSet == SET_ALL || currentSet == SET_EXTERNAL) {
@@ -95,7 +94,7 @@ void GuiLauncher::switchSet(int newSet) {
         gamesList.clear();
         vector<shared_ptr<PsGame>> temp;
         gui->db->getGames(&temp);
-        copy_if(begin(temp), end(temp), begin(gamesList), [] (const shared_ptr<PsGame> & game) { return game->favorite; });
+        copy_if(begin(temp), end(temp), back_inserter(gamesList), [] (const shared_ptr<PsGame> & game) { return game->favorite; });
     }
 
     if (gui->cfg.inifile.values["origames"] == "true")
@@ -116,6 +115,7 @@ void GuiLauncher::switchSet(int newSet) {
     }
 
     sort(gamesList.begin(), gamesList.end(), wayToSort);
+    numberOfNonClonedGamesInCarousel =  gamesList.size();
 
     if (gamesList.size() > 0) {
         if (gamesList.size() < 13) {    // if not enough games to fill the carousel
@@ -370,7 +370,7 @@ void GuiLauncher::init() {
 void GuiLauncher::scrollLeft(int speed) {
     scrolling = true;
     long time = SDL_GetTicks();
-    for (auto game : gamesList) {
+    for (auto & game : gamesList) {
 
         if (game->visible) {
             int nextIndex = game->screenPointIndex;
@@ -395,7 +395,7 @@ void GuiLauncher::scrollLeft(int speed) {
 void GuiLauncher::scrollRight(int speed) {
     scrolling = true;
     long time = SDL_GetTicks();
-    for (auto game:gamesList) {
+    for (auto & game : gamesList) {
         if (game->visible) {
             int nextIndex = game->screenPointIndex;
             if (game->screenPointIndex != carouselPositions.coverPositions.size() - 1) {
@@ -417,7 +417,7 @@ void GuiLauncher::scrollRight(int speed) {
 // update potentially visible covers to save the memory
 void GuiLauncher::updateVisibility() {
     bool allAnimationFinished = true;
-    for (auto game : gamesList) {
+    for (const auto & game : gamesList) {
         if ((game->animationStart != 0) && game->visible) {
             allAnimationFinished = false;
         }
@@ -432,7 +432,7 @@ void GuiLauncher::updateVisibility() {
 // this method runs during the loop to update positions of the covers during animation
 void GuiLauncher::updatePositions() {
     long currentTime = SDL_GetTicks();
-    for (auto game : gamesList) {
+    for (auto & game : gamesList) {
         if (game->visible) {
             if (game->animationStart != 0) {
                 long position = currentTime - game->animationStart;
@@ -565,7 +565,7 @@ int GuiLauncher::getPreviousId(int id) {
 
 // initialize a table with positions for covers
 void GuiLauncher::setInitialPositions(int selected) {
-    for (auto game : gamesList) {
+    for (auto & game : gamesList) {
         game->visible = false;
     }
 
@@ -647,7 +647,7 @@ void GuiLauncher::setInitialPositions(int selected) {
         gamesList[next]->screenPointIndex = 12;
     }
 
-    for (auto game : gamesList) {
+    for (auto & game : gamesList) {
         game->actual = game->current;
         game->destination = game->current;
         if (game->visible) {
@@ -739,7 +739,7 @@ void GuiLauncher::switchState(int state, int time) {
 
 void GuiLauncher::showNotification(string text) {
     long time = SDL_GetTicks();
-    notificationText = text;
+    notificationText = text + " (" + to_string(numberOfNonClonedGamesInCarousel) + " games)";
     notificationTime = time;
 }
 
@@ -1158,9 +1158,8 @@ void GuiLauncher::loop() {
 
                                 if (!gamesList.empty()) {
                                     gui->loadAssets();
-                                    for (shared_ptr<PsGame> game : gamesList) {
+                                    for (shared_ptr<PsGame> & game : gamesList) {
                                         game->freeTex();
-
                                     }
                                     setInitialPositions(selGame);
                                 }

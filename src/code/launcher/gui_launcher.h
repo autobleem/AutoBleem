@@ -87,7 +87,7 @@ public:
 
     std::string notificationText;
     long notificationTime=0;
-
+    int numberOfNonClonedGamesInCarousel = 0;
     bool staticMeta=false;
 
     void showNotification(std::string text);
