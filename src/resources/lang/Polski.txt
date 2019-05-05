@@ -200,7 +200,7 @@ Showing: Internal games
 Wyświetla: Wewnętrzne gry
 Showing: USB games
 Wyświetla: Gry z USB
-Showing: Favourite games
+Showing: Favorite games
 Wyświetla: Ulubione gry
 Player
 Gracz

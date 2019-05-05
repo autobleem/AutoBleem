@@ -196,7 +196,7 @@ Showing: Internal games
 Zeige: Interne Spiele
 Showing: USB games
 Zeige: USB Spiele
-Showing: Favourite games
+Showing: Favorite games
 Zeige: Favourisierte Spiele
 Player
 Spieler
