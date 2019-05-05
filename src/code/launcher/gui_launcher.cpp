@@ -139,9 +139,9 @@ void GuiLauncher::switchSet(int newSet) {
 
 void GuiLauncher::showSetNotification() {
 
-    vector<string> sets = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
+    static vector<string> setNames = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
                            _("Showing: Favourite games")};
-    showNotification(sets[currentSet]);
+    showNotification(setNames[currentSet]);
 }
 
 // load all assets needed by the screen

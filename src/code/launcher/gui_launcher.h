@@ -24,6 +24,7 @@
 #define STATE_RESUME   2
 #define STATE_INFO     3
 
+// if you add a new set also update setNames in gui_launcher.cpp
 #define SET_ALL      0
 #define SET_INTERNAL 1
 #define SET_EXTERNAL 2
