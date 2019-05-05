@@ -506,9 +506,9 @@ void GuiLauncher::render() {
     if (notificationTime != 0) {
         renderText(10, 10, notificationText, fgR, fgG, fgB, font24, true, true);
         long time = SDL_GetTicks();
-        if (time - notificationTime > 2000) {
-            notificationTime = 0;
-        }
+//       if (time - notificationTime > 2000) {
+//            notificationTime = 0;
+//        }
     }
 
     for (auto obj:frontElemets) {
