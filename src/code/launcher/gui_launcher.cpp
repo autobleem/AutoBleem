@@ -12,7 +12,7 @@
 #include "gui_btn_guide.h"
 #include <algorithm>
 
-bool wayToSort(const shared_ptr<PsGame> i, const shared_ptr<PsGame> j) { return SortByCaseInsensitive(i->title, j->title); }
+bool wayToSort(const shared_ptr<PsGame> &i, const shared_ptr<PsGame> &j) { return SortByCaseInsensitive(i->title, j->title); }
 
 // Text rendering routines - places text at x,y with selected color and font
 void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background,
@@ -92,6 +92,7 @@ void GuiLauncher::switchSet(int newSet) {
         gui->db->getGames(&gamesList);
     }
     else if (currentSet == SET_FAVORITE) {
+        gamesList.clear();
         vector<shared_ptr<PsGame>> temp;
         gui->db->getGames(&temp);
         copy_if(begin(temp), end(temp), begin(gamesList), [] (const shared_ptr<PsGame> & game) { return game->favorite; });
@@ -117,7 +118,7 @@ void GuiLauncher::switchSet(int newSet) {
     sort(gamesList.begin(), gamesList.end(), wayToSort);
 
     if (gamesList.size() > 0) {
-        if (gamesList.size() < 13) {
+        if (gamesList.size() < 13) {    // if not enough games to fill the carousel
             // make a copy of the game list
             auto orig = gamesList;
             // duplicate the orig gamesList until the carousel is full
