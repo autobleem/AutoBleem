@@ -3,19 +3,15 @@ project(autobleem-gui)
 
 set(CMAKE_CXX_STANDARD 11)
 
-
 if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm" )
 	SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -s -Os -O3")
-	SET(CMAKE_CXX_FLAGS " -mfloat-abi=hard -march=armv8-a+simd -Os -O3")
+	SET(CMAKE_CXX_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -Os -O3")
 	include_directories(src/include /home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/include)
 	link_directories(/home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/lib$)
-	else()
-
-
-	endif()
-
-
-
+else()
+	SET(CMAKE_C_FLAGS "-fsanitize=address -fno-omit-frame-pointer -s -Os -O3")
+	SET(CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer -Os -O3")
+endif()
 
 find_package(Threads REQUIRED)
 
@@ -126,7 +122,6 @@ target_link_libraries(autobleem-gui
 add_custom_command(TARGET autobleem-gui PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:autobleem-gui>)
-
 
 configure_file(src/resources/default.lic default.lic COPYONLY)
 configure_file(src/resources/default.png default.png COPYONLY)
