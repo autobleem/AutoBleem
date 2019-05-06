@@ -2,13 +2,9 @@
 // Created by screemer on 2/13/19.
 //
 
-#ifndef AUTOBLEEM_GUI_PS_CAROUSEL_H
-#define AUTOBLEEM_GUI_PS_CAROUSEL_H
-
+#pragma once
 
 #include <vector>
-
-using namespace std;
 
 class PsScreenpoint {
 public:
@@ -24,14 +20,9 @@ public:
     int cycleMax = 0;
     int cycleDuration = 0;
     int previousActiveElement = 0;
-    vector<PsScreenpoint> coverPositions;
+    std::vector<PsScreenpoint> coverPositions;
 
     void initCoverPositions();
 
     PsScreenpoint createCoverPoint(int x, int shade, int side);
-
-
 };
-
-
-#endif //AUTOBLEEM_GUI_PS_CAROUSEL_H

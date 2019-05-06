@@ -6,6 +6,7 @@
 #include "../util.h"
 #include "../engine/inifile.h"
 #include "../gui/gui.h"
+using namespace std;
 
 void PsGame::loadTex(SDL_Renderer *renderer) {
     shared_ptr<Gui> gui(Gui::getInstance());

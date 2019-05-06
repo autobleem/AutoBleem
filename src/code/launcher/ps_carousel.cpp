@@ -3,6 +3,7 @@
 //
 
 #include "ps_carousel.h"
+using namespace std;
 
 #define SLOT_SIZE 120
 

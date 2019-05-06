@@ -2,8 +2,7 @@
 // Created by screemer on 2/12/19.
 //
 
-#ifndef AUTOBLEEM_GUI_PS_GAME_H
-#define AUTOBLEEM_GUI_PS_GAME_H
+#pragma once
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -13,22 +12,19 @@
 #include <string>
 #include <memory>
 
-using namespace std;
-
 class PsGame {
 public:
     int gameId = 0;
-    string title = "";
-    string publisher = "";
+    std::string title = "";
+    std::string publisher = "";
     int year = 0;
     int players = 0;
 
+    std::string memcard = "";
+    std::string folder = "";
+    std::string ssFolder = "";
 
-    string memcard = "";
-    string folder = "";
-    string ssFolder = "";
-
-    string base = "";
+    std::string base = "";
     SDL_Texture *coverPng = nullptr;
 
     bool internal = false;
@@ -42,14 +38,13 @@ public:
 
     std::shared_ptr<PsGame> clone();
 
-    void setMemCard(string name);
-    string findResumePicture();
+    void setMemCard(std::string name);
+    std::string findResumePicture();
     bool isResumeSlotActive(int slot);
-    string findResumePicture(int slot);
+    std::string findResumePicture(int slot);
     void storeResumePicture(int slot);
     bool isCleanExit();
     void removeResumePoint(int slot);
-
 
     PsScreenpoint current;
     PsScreenpoint destination;
@@ -59,8 +54,4 @@ public:
     long animationStart = 0;
     long animationDuration = 0;
     bool visible = false;
-
 };
-
-
-#endif //AUTOBLEEM_GUI_PS_GAME_H
