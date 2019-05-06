@@ -140,7 +140,7 @@ void GuiLauncher::switchSet(int newSet) {
 void GuiLauncher::showSetNotification() {
 
     static vector<string> setNames = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
-                           _("Showing: Favourite games")};
+                           _("Showing: Favorite games")};
     showNotification(setNames[currentSet]);
 }
 
