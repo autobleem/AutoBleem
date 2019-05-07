@@ -245,8 +245,7 @@ void GuiEditor::refreshData() {
     scanlines = atoi(processor->getValue(gameIni.entry, path, "scanlines", internal).c_str());
     scanlineLevel = strtol(processor->getValue(gameIni.entry, path, "scanline_level", internal).c_str(), NULL, 16);
     interpolation = strtol(processor->getValue(gameIni.entry, path, "spu_config.iUseInterpolation", internal).c_str(),
-                           NULL,
-                           16);
+                           NULL, 16);
 
     delete processor;
 }

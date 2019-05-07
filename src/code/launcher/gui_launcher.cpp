@@ -1085,6 +1085,10 @@ void GuiLauncher::loop() {
                                         gui->db->updateTitle(carouselGames[selGame]->gameId, gameIni.values["title"]);
                                     }
                                     gui->db->refreshGame(carouselGames[selGame]);
+                                    if (currentSet == SET_FAVORITE && editor->gameIni.values["favorite"] == "0") {
+                                        gui->lastSet = SET_FAVORITE;
+                                        loadAssets();
+                                    }
                                 } else {
                                     Database *internalDB = new Database();
 #if defined(__x86_64__) || defined(_M_X64)
@@ -1101,9 +1105,12 @@ void GuiLauncher::loop() {
 
                                 }
 
-                                setInitialPositions(selGame);
-                                updateMeta();
-                                menu->setResumePic(carouselGames[selGame]->findResumePicture());
+                                // if the current set is favorites and the user removes the last favorite selGame will be -1
+                                if (selGame != -1) {
+                                    setInitialPositions(selGame);
+                                    updateMeta();
+                                    menu->setResumePic(carouselGames[selGame]->findResumePicture());
+                                }
 
                             } else if (menu->selOption == 0) {
 

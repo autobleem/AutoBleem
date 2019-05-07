@@ -32,7 +32,7 @@
 #define SET_LAST 3
 
 // Note that if there are less than 13 games in the gamesList the games are duplicated to fill out the carousel.
-// So the same PsGamePtr could be in more than one PsCarouselGame.
+// So more than one PsCarouselGame could be using the same PsGamePtr.
 struct PsCarouselGame : public PsGamePtr {
     PsCarouselGame() = delete;
     PsCarouselGame(PsGamePtr & game) : PsGamePtr(game) { };
