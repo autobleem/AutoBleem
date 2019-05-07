@@ -9,8 +9,9 @@ if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm" )
 	include_directories(src/include /home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/include)
 	link_directories(/home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/lib$)
 else()
-	SET(CMAKE_C_FLAGS "-fsanitize=address -fno-omit-frame-pointer -s -Os -O3")
-	SET(CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer -Os -O3")
+#	uncomment the following lines to enable memory debugging
+#	SET(CMAKE_C_FLAGS "-fsanitize=address -fno-omit-frame-pointer -s -Os -O3")
+#	SET(CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer -Os -O3")
 endif()
 
 find_package(Threads REQUIRED)

@@ -53,7 +53,4 @@ void PsCarousel::initCoverPositions() {
     coverPositions.push_back(createCoverPoint(5, 40, 1));
 
     // special point to move it up
-
-
-
 }

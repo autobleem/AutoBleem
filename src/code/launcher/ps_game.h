@@ -36,7 +36,7 @@ public:
     void loadTex(SDL_Renderer *renderer);
     void freeTex();
 
-    std::shared_ptr<PsGame> clone();
+//    std::shared_ptr<PsGame> clone();
 
     void setMemCard(std::string name);
     std::string findResumePicture();
@@ -45,13 +45,4 @@ public:
     void storeResumePicture(int slot);
     bool isCleanExit();
     void removeResumePoint(int slot);
-
-    PsScreenpoint current;
-    PsScreenpoint destination;
-    PsScreenpoint actual;
-    int screenPointIndex = -1;
-    int nextPointIndex = -1;
-    long animationStart = 0;
-    long animationDuration = 0;
-    bool visible = false;
 };

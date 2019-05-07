@@ -366,8 +366,6 @@ bool Database::getGames(vector<shared_ptr<PsGame>> *result) {
             result->push_back(game);
         }
     } else {
-
-
         sqlite3_finalize(res);
         return false;
     }

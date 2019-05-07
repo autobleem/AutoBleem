@@ -45,11 +45,7 @@ private:
     Gui() {}
     string themePath;
 
-
-
-
 public:
-
     vector<SDL_Joystick*> joysticks;
 
     Config cfg;
@@ -123,13 +119,9 @@ public:
     SDL_Texture *buttonUncheck = NULL;
     SDL_Texture *cdJewel = NULL;
 
-
     bool overrideQuickBoot = false;
 
     string path;
-
-
-
 
     Mix_Music * music = NULL;
     TTF_Font *font =  NULL;

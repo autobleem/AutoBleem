@@ -83,6 +83,7 @@ bool PsGame::isCleanExit() {
     return Util::exists(filenamefile);
 }
 
+#if 0
 shared_ptr<PsGame> PsGame::clone() {
     shared_ptr<PsGame> clone{new PsGame};
     clone->visible = this->visible;
@@ -101,6 +102,7 @@ shared_ptr<PsGame> PsGame::clone() {
 
     return clone;
 }
+#endif
 
 void PsGame::setMemCard(string name) {
     this->memcard = name;
