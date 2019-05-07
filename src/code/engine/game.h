@@ -53,7 +53,6 @@ public:
     bool validateCue(string cuePath, string path);
 private:
 
-
     map<string, string> iniValues;
     void parseIni(string path);
     string valueOrDefault(string name, string def);

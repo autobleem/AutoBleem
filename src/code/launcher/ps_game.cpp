@@ -83,27 +83,6 @@ bool PsGame::isCleanExit() {
     return Util::exists(filenamefile);
 }
 
-#if 0
-shared_ptr<PsGame> PsGame::clone() {
-    shared_ptr<PsGame> clone{new PsGame};
-    clone->visible = this->visible;
-    clone->gameId = this->gameId;
-    clone->folder = this->folder;
-    clone->title = this->title;
-    clone->base = this->base;
-    clone->ssFolder = this->ssFolder;
-    clone->memcard = this->memcard;
-    clone->players = this->players;
-    clone->publisher = this->publisher;
-    clone->coverPng = this->coverPng;
-    clone->year = this->year;
-    clone->internal = this->internal;
-    clone->favorite = this->favorite;
-
-    return clone;
-}
-#endif
-
 void PsGame::setMemCard(string name) {
     this->memcard = name;
     Inifile *ini = new Inifile();

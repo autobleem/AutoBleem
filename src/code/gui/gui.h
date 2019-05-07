@@ -136,7 +136,7 @@ public:
     bool startingGame = false;
     bool resumingGui = false;
     int lastSelIndex = 0;
-    std::shared_ptr<PsGame> runningGame;
+    PsGamePtr runningGame;
     int resumepoint=-1;
 
     Gui(Gui const &) = delete;

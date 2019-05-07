@@ -33,7 +33,7 @@ public:
     int scanlineLevel;
     int interpolation;
 
-    std::shared_ptr<PsGame> gameData;
+    PsGamePtr gameData;
 
     bool internal = false;
 

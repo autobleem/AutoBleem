@@ -191,7 +191,7 @@ bool Database::queryTitle(string title, Metadata *md) {
     return false;
 }
 
-bool Database::getInternalGames(vector<shared_ptr<PsGame>> *result) {
+bool Database::getInternalGames(PsGames *result) {
     result->clear();
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, GAMES_DATA_INTERNAL, -1, &res, nullptr);
@@ -205,7 +205,7 @@ bool Database::getInternalGames(vector<shared_ptr<PsGame>> *result) {
             const unsigned char *base = sqlite3_column_text(res, 5);
             int discs = sqlite3_column_int(res, 6);
 
-            shared_ptr<PsGame> game{new PsGame};
+            PsGamePtr game{new PsGame};
             game->gameId = id;
             game->title = string(reinterpret_cast<const char *>(title));
             game->publisher = string(reinterpret_cast<const char *>(publisher));
@@ -229,7 +229,7 @@ bool Database::getInternalGames(vector<shared_ptr<PsGame>> *result) {
     return true;
 }
 
-bool Database::refreshGameInternal(shared_ptr<PsGame> game) {
+bool Database::refreshGameInternal(PsGamePtr & game) {
 
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, GAMES_DATA_SINGLE_INTERNAL, -1, &res, nullptr);
@@ -277,7 +277,7 @@ bool Database::refreshGameInternal(shared_ptr<PsGame> game) {
     return true;
 }
 
-bool Database::refreshGame(std::shared_ptr<PsGame> game) {
+bool Database::refreshGame(PsGamePtr & game) {
 
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, GAMES_DATA_SINGLE, -1, &res, nullptr);
@@ -326,7 +326,7 @@ bool Database::refreshGame(std::shared_ptr<PsGame> game) {
     return true;
 }
 
-bool Database::getGames(vector<shared_ptr<PsGame>> *result) {
+bool Database::getGames(PsGames *result) {
     result->clear();
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, GAMES_DATA, -1, &res, nullptr);
@@ -343,7 +343,7 @@ bool Database::getGames(vector<shared_ptr<PsGame>> *result) {
             const unsigned char *base = sqlite3_column_text(res, 8);
             int discs = sqlite3_column_int(res, 9);
 
-            shared_ptr<PsGame> game{new PsGame};
+            PsGamePtr game{new PsGame};
             game->gameId = id;
             game->title = string(reinterpret_cast<const char *>(title));
             game->publisher = string(reinterpret_cast<const char *>(publisher));

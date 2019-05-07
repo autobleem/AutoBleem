@@ -31,15 +31,11 @@
 #define SET_FAVORITE 3
 #define SET_LAST 3
 
-struct PsCarouselGame {
+// Note that if there are less than 13 games in the gamesList the games are duplicated to fill out the carousel.
+// So the same PsGamePtr could be in more than one PsCarouselGame.
+struct PsCarouselGame : public PsGamePtr {
     PsCarouselGame() = delete;
-    PsCarouselGame(std::shared_ptr<PsGame> & _game) : game(_game) { };
-
-    // the actual PsGame in this position in a carousel.  Note that if there are less than 13 games in the gamesList
-    // the games are duplicated to fill out the carousel.  So the same shared_ptr<PsGame> could be in more than one
-    // PsCarouselGame
-    std::shared_ptr<PsGame> game;
-    operator shared_ptr<PsGame>() { return game; };
+    PsCarouselGame(PsGamePtr & game) : PsGamePtr(game) { };
 
     PsScreenpoint current;
     PsScreenpoint destination;
@@ -117,13 +113,10 @@ public:
     bool scrolling = false;
     using GuiScreen::GuiScreen;
 
-    // the actual list of games to be displayed
-    std::vector<std::shared_ptr<PsGame>> gamesList;
-
     // the carousel of games.
     // Note that if there are less than 13 games in the gamesList the games are duplicated to fill out the carousel.
-    // So the same shared_ptr<PsGame> could be in more than one PsCarouselGame.
-    std::vector<std::shared_ptr<PsCarouselGame>> carouselGamesList;
+    // So the same PsGamePtr could be in more than one PsCarouselGame.
+    std::vector<PsCarouselGame> carouselGames;
 
     int selGame = 0;
     int state = STATE_GAMES;

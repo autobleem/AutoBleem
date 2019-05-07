@@ -36,11 +36,11 @@ public:
     bool updateYear(int id, int year);
     bool updateMemcard(int id, string memcard);
 
-    bool getGames(std::vector<std::shared_ptr<PsGame>> *result);
-    bool getInternalGames(std::vector<std::shared_ptr<PsGame>> *result);
+    bool getGames(PsGames *result);
+    bool getInternalGames(PsGames *result);
     bool updateTitle(int id, string title);
-    bool refreshGame(std::shared_ptr<PsGame> game);
-    bool refreshGameInternal(std::shared_ptr<PsGame> game);
+    bool refreshGame(PsGamePtr & game);
+    bool refreshGameInternal(PsGamePtr & game);
 private:
     sqlite3 *db;
     bool executeCreateStatement(char *sql, string tableName);

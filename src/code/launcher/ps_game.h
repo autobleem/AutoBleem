@@ -36,8 +36,6 @@ public:
     void loadTex(SDL_Renderer *renderer);
     void freeTex();
 
-//    std::shared_ptr<PsGame> clone();
-
     void setMemCard(std::string name);
     std::string findResumePicture();
     bool isResumeSlotActive(int slot);
@@ -46,3 +44,6 @@ public:
     bool isCleanExit();
     void removeResumePoint(int slot);
 };
+
+using PsGamePtr = std::shared_ptr<PsGame>;
+using PsGames = std::vector<PsGamePtr>;

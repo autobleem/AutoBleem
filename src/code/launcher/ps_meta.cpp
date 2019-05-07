@@ -31,7 +31,7 @@ PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, str
     discsTex = createTextTex(to_string(discs),r,g,b,font15);
 }
 
-void PsMeta::updateTexts(shared_ptr<PsGame> game, int r,int g, int b) {
+void PsMeta::updateTexts(PsGamePtr & game, int r,int g, int b) {
 
     string appendText = game->players == 1 ? "Player" : "Players";
 
