@@ -17,6 +17,7 @@
 #include "ps_menu.h"
 #include "ps_centerlabel.h"
 #include "ps_stateselector.h"
+#include <vector>
 #include <memory>
 
 #define STATE_GAMES    0
@@ -47,6 +48,39 @@ struct PsCarouselGame : public PsGamePtr {
     bool visible = false;
 };
 
+// global renderText
+void renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool background, bool center);
+void renderText(SDL_Renderer * renderer, int x, int y, const std::string &text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background, bool center);
+
+static const SDL_Color brightWhite = { 255, 255, 255, 0 };
+
+#define TicksPerSecond 1000
+#define DefaultShowingTimeout 2 * TicksPerSecond
+
+struct NotificationLine {
+    int x = 10;
+    int y = 10;
+    std::string text = "";
+    bool timed = true;
+    long notificationTime = 0;  // the tick time when setText was called
+    long timeLimit = 0; // display ends when current tick - notificationTime > timeLimit
+    SDL_Color textColor =  { 255, 255, 255, 0 };  // brightWhite
+    TTF_Font *font = nullptr;
+
+    void setText(std::string _text, bool _timed, long _timeLimit);
+    void setText(std::string _text, bool _timed, long _timeLimit, const SDL_Color & _textColor, TTF_Font *_font);
+    void setText(std::string _text, bool _timed, long _timeLimit, Uint8 r, Uint8 g, Uint8 b, TTF_Font *_font);
+    void renderText(SDL_Renderer * renderer);
+    void tickTock(SDL_Renderer * renderer);
+};
+
+struct NotificationLines {
+    std::vector<NotificationLine> lines;
+
+    void createAndSetDefaults(int count, int x_start, int y_start, TTF_Font * font, int fontHeight, int separationBetweenLines);
+    NotificationLine & operator [] (int i) { return lines[i]; };
+};
+
 class GuiLauncher : public GuiScreen {
 public:
     void init();
@@ -56,14 +90,17 @@ public:
     void nextGame(int speed);
     void prevGame(int speed);
     void updateMeta();
-    void renderText(int x, int y, std::string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background, bool center);
+    void renderText(int x, int y, const std::string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background, bool center);
     void loadAssets();
     void freeAssets();
     void moveMainCover(int state);
 
     int currentSet=SET_ALL;
     void switchSet(int newSet);
-    void showSetNotification();
+    void showSetName();
+    NotificationLines notificationLines; // top two lines of the screen
+    int numberOfNonDuplicatedGamesInCarousel = 0;
+
     bool powerOffShift=false;
 
     PsCarousel carouselPositions;
@@ -102,13 +139,7 @@ public:
     std::string year;
     std::string players;
 
-    std::string notificationText;
-    long notificationTime=0;
-    int numberOfNonDuplicatedGamesInCarousel = 0;
     bool staticMeta=false;
-
-    void showNotification(std::string text);
-
     bool gameInfoVisible = true;
     bool scrolling = false;
     using GuiScreen::GuiScreen;

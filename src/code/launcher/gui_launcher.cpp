@@ -2,6 +2,7 @@
 // Created by screemer on 2/8/19.
 //
 
+#include <SDL2/SDL.h>
 #include "gui_launcher.h"
 #include "../gui/gui.h"
 #include "../gui/gui_options.h"
@@ -12,17 +13,13 @@
 #include "gui_btn_guide.h"
 #include <algorithm>
 
-bool wayToSort(const PsGamePtr &i, const PsGamePtr &j) { return SortByCaseInsensitive(i->title, j->title); }
-
-// Text rendering routines - places text at x,y with selected color and font
-void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background,
-                             bool center) {
+// global renderText
+void renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool background, bool center) {
     int text_width;
     int text_height;
     SDL_Surface *surface;
     SDL_Texture *texture;
     SDL_Rect rect;
-    SDL_Color textColor = {r, g, b, 0};
 
     if (text.size() == 0) {
         texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, 0, 0);
@@ -64,8 +61,73 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
 
     SDL_RenderCopy(renderer, texture, &inputRect, &rect);
     SDL_DestroyTexture(texture);
+};
 
+// global renderText
+void renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background, bool center) {
+    SDL_Color textColor = {r, g, b, 0};
+    renderText(renderer, x, y, text, textColor, font, background, center);
+};
 
+void NotificationLine::setText(string _text, bool _timed, long _timeLimit) {
+    setText(_text, _timed, _timeLimit, textColor, font);
+};
+
+void NotificationLine::setText(string _text, bool _timed, long _timeLimit, const SDL_Color & _textColor, TTF_Font *_font) {
+    text = _text;
+    timed = _timed;
+    notificationTime = SDL_GetTicks();  // tick count when setText called
+    if (notificationTime == 0)  // if by chance it's 0.  0 flags that the timeLimit has been reached and to turn off the display
+        ++notificationTime;
+    timeLimit = _timeLimit;
+    textColor = _textColor;
+    font = _font;
+};
+
+void NotificationLine::setText(string _text, bool _timed, long _timeLimit, Uint8 r, Uint8 g, Uint8 b, TTF_Font *_font) {
+    setText(_text, _timed, _timeLimit, SDL_Color{r, g, b, 0}, _font);
+};
+
+void NotificationLine::renderText(SDL_Renderer * renderer) {
+    ::renderText(renderer, x, y, text, textColor, font, true, true);
+};
+
+void NotificationLine::tickTock(SDL_Renderer * renderer) {
+    if (timed) {
+        if (notificationTime != 0) {
+            long currentTimeTicks = SDL_GetTicks();
+            if (currentTimeTicks - notificationTime > timeLimit) // if time limit reached
+                notificationTime = 0;   // turn off the display
+        }
+        if (notificationTime != 0)
+            renderText(renderer);   // display text - we haven't reached timer limit yet
+    } else // not timed - keep display on
+        renderText(renderer);
+}
+
+void NotificationLines::createAndSetDefaults(int count, int x_start, int y_start, TTF_Font * font, int fontHeight, int separationBetweenLines) {
+    for (int line=0; line < count; ++line) {
+        NotificationLine notificationLine;
+        notificationLine.font = font;
+        notificationLine.textColor = brightWhite;
+        notificationLine.x = x_start;
+        notificationLine.y = y_start + (line * (fontHeight + separationBetweenLines));
+        if (line == 0)
+            notificationLine.timed = false; // keep line 0 displayed
+        else {
+            notificationLine.timed = true;
+            notificationLine.timeLimit = DefaultShowingTimeout;
+        }
+        lines.push_back(notificationLine);
+    }
+}
+
+bool wayToSort(const PsGamePtr &i, const PsGamePtr &j) { return SortByCaseInsensitive(i->title, j->title); }
+
+// Text rendering routines - places text at x,y with selected color and font
+void GuiLauncher::renderText(int x, int y, const string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background,
+                             bool center) {
+    ::renderText(renderer, x, y, text, r, g, b, font, background, center);
 }
 
 // just update metadata section to be visible on the screen
@@ -145,11 +207,11 @@ void GuiLauncher::switchSet(int newSet) {
     }
 }
 
-void GuiLauncher::showSetNotification() {
-
+void GuiLauncher::showSetName() {
     static vector<string> setNames = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
                            _("Showing: Favorite games")};
-    showNotification(setNames[currentSet]);
+    string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " games)";
+    notificationLines[0].setText(setNames[currentSet] + numGames, false, 0);   // line starts at 0 for top
 }
 
 // load all assets needed by the screen
@@ -164,24 +226,6 @@ void GuiLauncher::loadAssets() {
     for (int i = 0; i < 100; i++) {
         SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
     }
-    staticElements.clear();
-    frontElemets.clear();
-    carouselGames.clear();
-    carouselPositions.initCoverPositions();
-    switchSet(currentSet);
-    showSetNotification();
-
-    gameName = "";
-    publisher = "";
-    year = "";
-    players = "";
-
-    if (gui->lastSelIndex != 0) {
-        selGame = gui->lastSelIndex;
-        setInitialPositions(selGame);
-    }
-
-    long time = SDL_GetTicks();
 
     Inifile colorsFile;
     if (Util::exists(gui->getSonyRootPath() + "/colors.ini")) {
@@ -196,6 +240,27 @@ void GuiLauncher::loadAssets() {
     font30 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Bold.ttf").c_str(), 28);
     font15 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Bold.ttf").c_str(), 15);
     font24 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Medium.ttf").c_str(), 22);
+
+    notificationLines.createAndSetDefaults(2, 10, 10, font24, 24, 8);    // count, x_start, y_start, TTF_Font*, fontHeight, separationBetweenLines
+
+    staticElements.clear();
+    frontElemets.clear();
+    carouselGames.clear();
+    carouselPositions.initCoverPositions();
+    switchSet(currentSet);
+    showSetName();
+
+    gameName = "";
+    publisher = "";
+    year = "";
+    players = "";
+
+    if (gui->lastSelIndex != 0) {
+        selGame = gui->lastSelIndex;
+        setInitialPositions(selGame);
+    }
+
+    long time = SDL_GetTicks();
 
     PsObj* background;
     if (Util::exists(gui->getSonyImagePath()+"/GR/AB_BG.png"))
@@ -322,7 +387,7 @@ void GuiLauncher::loadAssets() {
             sselector->visible = true;
             state = STATE_RESUME;
         } else {
-            showNotification(_("OOPS! Game crashed. Resume point not available."));
+            notificationLines[1].setText(_("OOPS! Game crashed. Resume point not available."), true, DefaultShowingTimeout);
         }
     }
 
@@ -498,18 +563,13 @@ void GuiLauncher::render() {
     renderText(760, 640, _("Cancel"), secR, secG, secB, font24, false, false);
     renderText(902, 640, _("Console Button Guide"), secR, secG, secB, font24, false, false);
 
-    if (notificationTime != 0) {
-        renderText(10, 10, notificationText, fgR, fgG, fgB, font24, true, true);
-        long time = SDL_GetTicks();
-        // try keeping the "showing" text up
-//       if (time - notificationTime > 2000) {
-//            notificationTime = 0;
-//        }
+    for (auto & notify : notificationLines.lines) {
+        notify.font =  font24;
+        notify.tickTock(renderer);
     }
 
-    for (auto obj:frontElemets) {
+    for (auto obj:frontElemets)
         obj->render();
-    }
 
     SDL_RenderPresent(renderer);
 }
@@ -730,12 +790,6 @@ void GuiLauncher::switchState(int state, int time) {
     }
 }
 
-void GuiLauncher::showNotification(string text) {
-    long time = SDL_GetTicks();
-    notificationText = text + " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " games)";
-    notificationTime = time;
-}
-
 // event loop
 
 
@@ -944,16 +998,14 @@ void GuiLauncher::loop() {
                             if (nextGame != selGame) {
                                 // we have next game;
                                 Mix_PlayChannel(-1, gui->cursor, 0);
-                                notificationTime = time;
-                                notificationText = futureFirst;
+                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, font24);
                                 selGame = nextGame;
                                 setInitialPositions(selGame);
                                 updateMeta();
                                 menu->setResumePic(carouselGames[selGame]->findResumePicture());
                             } else {
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationTime = time;
-                                notificationText = futureFirst;
+                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, font24);
                             }
                         }
                     }
@@ -976,16 +1028,14 @@ void GuiLauncher::loop() {
                             if (nextGame != selGame) {
                                 // we have next game;
                                 Mix_PlayChannel(-1, gui->cursor, 0);
-                                notificationTime = time;
-                                notificationText = futureFirst;
+                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, font24);
                                 selGame = nextGame;
                                 setInitialPositions(selGame);
                                 updateMeta();
                                 menu->setResumePic(carouselGames[selGame]->findResumePicture());
                             } else {
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationTime = time;
-                                notificationText = futureFirst;
+                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, font24);
                             }
                         }
                     }
@@ -1055,8 +1105,7 @@ void GuiLauncher::loop() {
                                     continue;
                                 }
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationTime = time;
-                                notificationText = _("MemCard Manager will be available soon");
+                                notificationLines[1].setText(_("MemCard Manager will be available soon"), true, DefaultShowingTimeout, brightWhite, font24);
                             }
                             if (menu->selOption == 1) {
                                 if (carouselGames.empty()) {
@@ -1135,7 +1184,7 @@ void GuiLauncher::loop() {
                                 }
                                 cout << currentSet << gui->cfg.inifile.values["origames"] << endl;
                                 switchSet(currentSet);
-                                showSetNotification();
+                                showSetName();
 
                                 if (resetCarouselPosition) {
                                     if (carouselGames.empty()) {
@@ -1188,8 +1237,9 @@ void GuiLauncher::loop() {
                                 sselector->visible = false;
                                 arrow->visible = true;
                                 Mix_PlayChannel(-1, gui->resume, 0);
-                                showNotification(
-                                        _("Resume point saved to slot") + " " + to_string(sselector->selSlot + 1));
+                                notificationLines[1].setText(
+                                        _("Resume point saved to slot") + " " + to_string(sselector->selSlot + 1),
+                                        true, DefaultShowingTimeout);
 
                                 menu->setResumePic(carouselGames[selGame]->findResumePicture(sselector->selSlot));
 
@@ -1251,7 +1301,7 @@ void GuiLauncher::loop() {
                             }
                             if (currentSet > SET_LAST) currentSet = 0;
                             switchSet(currentSet);
-                            showSetNotification();
+                            showSetName();
                             if (selGame != -1) {
                                 updateMeta();
                                 menu->setResumePic(carouselGames[selGame]->findResumePicture());
