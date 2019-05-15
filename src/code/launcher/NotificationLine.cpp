@@ -3,6 +3,9 @@
 
 using namespace std;
 
+//*******************************
+// NotificationLine::setText
+//*******************************
 void NotificationLine::setText(string _text, bool _timed, long _timeLimit, const SDL_Color & _textColor, TTF_Font *_font) {
     text = _text;
     timed = _timed;
@@ -14,10 +17,16 @@ void NotificationLine::setText(string _text, bool _timed, long _timeLimit, const
     font = _font;
 };
 
+//*******************************
+// NotificationLine::setText
+//*******************************
 void NotificationLine::setText(string _text, bool _timed, long _timeLimit) {
     setText(_text, _timed, _timeLimit, textColor, font);
 };
 
+//*******************************
+// NotificationLine::tickTock
+//*******************************
 void NotificationLine::tickTock(SDL_Renderer * renderer) {
     if (timed) {
         if (notificationTime != 0) {
@@ -31,6 +40,9 @@ void NotificationLine::tickTock(SDL_Renderer * renderer) {
         ::renderText(renderer, x, y, text, textColor, font, true, true);
 }
 
+//*******************************
+// NotificationLines::createAndSetDefaults
+//*******************************
 void NotificationLines::createAndSetDefaults(int count, int x_start, int y_start, TTF_Font * font, int fontHeight, int separationBetweenLines) {
     for (int line=0; line < count; ++line) {
         NotificationLine notificationLine;

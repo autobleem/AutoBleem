@@ -2,7 +2,9 @@
 
 using namespace std;
 
-// global renderText
+//******************
+// global ::renderText
+//******************
 void renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool center, bool background) {
     int text_width;
     int text_height;

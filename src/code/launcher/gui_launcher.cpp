@@ -17,8 +17,9 @@
 
 using namespace std;
 
-bool wayToSort(const PsGamePtr &i, const PsGamePtr &j) { return SortByCaseInsensitive(i->title, j->title); }
-
+//*******************************
+// GuiLauncher::updateMeta
+//*******************************
 // just update metadata section to be visible on the screen
 void GuiLauncher::updateMeta() {
     if (carouselGames.empty()) {
@@ -29,6 +30,9 @@ void GuiLauncher::updateMeta() {
     meta->updateTexts(carouselGames[selGame], fgR,fgG,fgB);
 }
 
+//*******************************
+// GuiLauncher::switchSet
+//*******************************
 void GuiLauncher::switchSet(int newSet) {
     shared_ptr<Gui> gui(Gui::getInstance());
 
@@ -96,6 +100,9 @@ void GuiLauncher::switchSet(int newSet) {
     }
 }
 
+//*******************************
+// GuiLauncher::showSetName
+//*******************************
 void GuiLauncher::showSetName() {
     static vector<string> setNames = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
                            _("Showing: Favorite games")};
@@ -103,6 +110,9 @@ void GuiLauncher::showSetName() {
     notificationLines[0].setText(setNames[currentSet] + numGames, false, 0);   // line starts at 0 for top
 }
 
+//*******************************
+// GuiLauncher::loadAssets
+//*******************************
 // load all assets needed by the screen
 void GuiLauncher::loadAssets() {
 
@@ -289,6 +299,9 @@ void GuiLauncher::loadAssets() {
     }
 }
 
+//*******************************
+// GuiLauncher::freeAssets
+//*******************************
 // memory cleanup for assets disposal
 void GuiLauncher::freeAssets() {
     for (auto obj:staticElements) {
@@ -312,11 +325,17 @@ void GuiLauncher::freeAssets() {
     menu->freeAssets();
 }
 
+//*******************************
+// GuiLauncher::init
+//*******************************
 // run when screen is loaded
 void GuiLauncher::init() {
     loadAssets();
 }
 
+//*******************************
+// GuiLauncher::scrollLeft
+//*******************************
 // start scroll animation to next game
 void GuiLauncher::scrollLeft(int speed) {
     scrolling = true;
@@ -342,6 +361,9 @@ void GuiLauncher::scrollLeft(int speed) {
     }
 }
 
+//*******************************
+// GuiLauncher::scrollRight
+//*******************************
 // start scroll animation to previous game
 void GuiLauncher::scrollRight(int speed) {
     scrolling = true;
@@ -365,6 +387,9 @@ void GuiLauncher::scrollRight(int speed) {
     }
 }
 
+//*******************************
+// GuiLauncher::updateVisibility
+//*******************************
 // update potentially visible covers to save the memory
 void GuiLauncher::updateVisibility() {
     bool allAnimationFinished = true;
@@ -380,6 +405,9 @@ void GuiLauncher::updateVisibility() {
     }
 }
 
+//*******************************
+// GuiLauncher::updatePositions
+//*******************************
 // this method runs during the loop to update positions of the covers during animation
 void GuiLauncher::updatePositions() {
     long currentTime = SDL_GetTicks();
@@ -404,6 +432,9 @@ void GuiLauncher::updatePositions() {
     updateVisibility();
 }
 
+//*******************************
+// GuiLauncher::render
+//*******************************
 // render method called every loop
 void GuiLauncher::render() {
     if (sselector != nullptr) {
@@ -442,8 +473,6 @@ void GuiLauncher::render() {
                 SDL_RenderCopy(renderer, currentGameTex, &fullRect, &coverRect);
             }
         }
-
-
     }
 
     menu->render();
@@ -463,6 +492,9 @@ void GuiLauncher::render() {
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiLauncher::nextGame
+//*******************************
 // handler of next game
 void GuiLauncher::nextGame(int speed) {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -476,6 +508,9 @@ void GuiLauncher::nextGame(int speed) {
     menu->setResumePic(carouselGames[selGame]->findResumePicture());
 }
 
+//*******************************
+// GuiLauncher::prevGame
+//*******************************
 // handler of prev game
 void GuiLauncher::prevGame(int speed) {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -489,6 +524,9 @@ void GuiLauncher::prevGame(int speed) {
     menu->setResumePic(carouselGames[selGame]->findResumePicture());
 }
 
+//*******************************
+// GuiLauncher::getNextId
+//*******************************
 // just small method to get next / prev game
 int GuiLauncher::getNextId(int id) {
     int next = id + 1;
@@ -498,6 +536,9 @@ int GuiLauncher::getNextId(int id) {
     return next;
 }
 
+//*******************************
+// GuiLauncher::getPreviousId
+//*******************************
 int GuiLauncher::getPreviousId(int id) {
     int prev = id - 1;
     if (prev < 0) {
@@ -507,6 +548,9 @@ int GuiLauncher::getPreviousId(int id) {
 }
 
 
+//*******************************
+// GuiLauncher::setInitialPositions
+//*******************************
 // initialize a table with positions for covers
 void GuiLauncher::setInitialPositions(int selected) {
     for (auto & game : carouselGames) {
@@ -602,6 +646,9 @@ void GuiLauncher::setInitialPositions(int selected) {
     }
 }
 
+//*******************************
+// GuiLauncher::moveMainCover
+//*******************************
 void GuiLauncher::moveMainCover(int state) {
     if (selGame == -1) {
         return;
@@ -631,6 +678,9 @@ void GuiLauncher::moveMainCover(int state) {
     }
 }
 
+//*******************************
+// GuiLauncher::switchState
+//*******************************
 void GuiLauncher::switchState(int state, int time) {
     shared_ptr<Gui> gui(Gui::getInstance());
     if (state == STATE_GAMES) {
@@ -679,9 +729,10 @@ void GuiLauncher::switchState(int state, int time) {
     }
 }
 
+//*******************************
+// GuiLauncher::loop
+//*******************************
 // event loop
-
-
 void GuiLauncher::loop() {
     powerOffShift = false;
     shared_ptr<Gui> gui(Gui::getInstance());

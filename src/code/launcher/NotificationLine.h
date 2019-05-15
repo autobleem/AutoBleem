@@ -8,6 +8,9 @@
 #define TicksPerSecond 1000
 #define DefaultShowingTimeout 2 * TicksPerSecond
 
+//******************
+// NotificationLine
+//******************
 struct NotificationLine {
     int x = 10;
     int y = 10;
@@ -24,6 +27,9 @@ struct NotificationLine {
     void tickTock(SDL_Renderer * renderer);
 };
 
+//******************
+// NotificationLines
+//******************
 struct NotificationLines {
     std::vector<NotificationLine> lines;
 

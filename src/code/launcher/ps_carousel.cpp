@@ -9,9 +9,9 @@ using namespace std;
 
 #define SLOT_SIZE 120
 
-//******************
+//*******************************
 // PsCarouselGame::loadTex
-//******************
+//*******************************
 void PsCarouselGame::loadTex(SDL_Renderer *renderer) {
     shared_ptr<Gui> gui(Gui::getInstance());
 
@@ -68,9 +68,9 @@ void PsCarouselGame::loadTex(SDL_Renderer *renderer) {
     }
 }
 
-//******************
+//*******************************
 // PsCarouselGame::freeTex
-//******************
+//*******************************
 void PsCarouselGame::freeTex() {
     if (coverPng != nullptr) {
         SDL_DestroyTexture(coverPng);
@@ -78,9 +78,9 @@ void PsCarouselGame::freeTex() {
     }
 }
 
-//******************
+//*******************************
 // PsCarousel::createCoverPoint
-//******************
+//*******************************
 PsScreenpoint PsCarousel::createCoverPoint(int x, int shade, int side) {
     shade=255;
     if (side == 0) {
@@ -100,9 +100,9 @@ PsScreenpoint PsCarousel::createCoverPoint(int x, int shade, int side) {
     }
 }
 
-//******************
+//*******************************
 // PsCarousel::initCoverPositions
-//******************
+//*******************************
 void PsCarousel::initCoverPositions() {
     //405 x 100
     coverPositions.clear();

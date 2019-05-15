@@ -1,9 +1,7 @@
 //
 // Created by screemer on 2/8/19.
 //
-
-#ifndef AUTOBLEEM_GUI_GUI_LAUNCHER_H
-#define AUTOBLEEM_GUI_GUI_LAUNCHER_H
+#pragma once
 
 #include "NotificationLine.h"
 #include "../gui/gui_screen.h"
@@ -32,6 +30,9 @@
 #define SET_FAVORITE 3
 #define SET_LAST 3
 
+//******************
+// GuiLauncher
+//******************
 class GuiLauncher : public GuiScreen {
 public:
     void init();
@@ -109,7 +110,6 @@ public:
     void updatePositions();
     void updateVisibility();
     void switchState(int state, int time);
+
+    static bool wayToSort(const PsGamePtr &i, const PsGamePtr &j) { return SortByCaseInsensitive(i->title, j->title); }
 };
-
-
-#endif //AUTOBLEEM_GUI_GUI_LAUNCHER_H
