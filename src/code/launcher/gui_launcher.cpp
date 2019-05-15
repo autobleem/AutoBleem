@@ -13,6 +13,70 @@
 #include "gui_btn_guide.h"
 #include <algorithm>
 
+void PsCarouselGame::loadTex(SDL_Renderer *renderer) {
+    shared_ptr<Gui> gui(Gui::getInstance());
+
+    if (coverPng == nullptr) {
+        SDL_Texture *renderSurface = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, 226,
+                                                       226);
+        SDL_SetRenderTarget(renderer, renderSurface);
+        SDL_RenderClear(renderer);
+        SDL_Rect fullRect;
+
+        string imagePath = get()->folder + Util::separator() + get()->base + ".png";
+        if (Util::exists(imagePath)) {
+            coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
+        } else coverPng = nullptr;
+
+        if (coverPng != nullptr) {
+            fullRect.x = 0;
+            fullRect.y = 0;
+            fullRect.h = 226, fullRect.w = 226;
+
+            Uint32 format;
+            int access;
+            SDL_QueryTexture(coverPng, &format, &access, &fullRect.w, &fullRect.h);
+
+            SDL_Rect outputRect;
+            if (gui->cdJewel != nullptr) {
+                outputRect.x = 23;
+                outputRect.y = 5;
+                outputRect.h = 217;
+                outputRect.w = 199;
+            } else {
+                outputRect.x = 0;
+                outputRect.y = 0;
+                outputRect.h = 226;
+                outputRect.w = 226;
+            }
+            if (coverPng != nullptr) {
+                SDL_RenderCopy(renderer, coverPng, &fullRect, &outputRect);
+            }
+            if (coverPng != nullptr) {
+                SDL_DestroyTexture(coverPng);
+                coverPng = nullptr;
+            }
+
+            fullRect.x = 0;
+            fullRect.y = 0;
+            fullRect.h = 226, fullRect.w = 226;
+            if (gui->cdJewel != nullptr) {
+                SDL_RenderCopy(renderer, gui->cdJewel, &fullRect, &fullRect);
+            }
+            coverPng = renderSurface;
+        }
+        SDL_SetRenderTarget(renderer, nullptr);
+    }
+}
+
+void PsCarouselGame::freeTex() {
+    if (coverPng != nullptr) {
+        SDL_DestroyTexture(coverPng);
+        coverPng = nullptr;
+    }
+}
+
+
 // global renderText
 void renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool background, bool center) {
     int text_width;
@@ -146,7 +210,7 @@ void GuiLauncher::switchSet(int newSet) {
     // clear the carousel text
     if (!carouselGames.empty()) {
         for (auto & game : carouselGames) {
-            game->freeTex();
+            game.freeTex();
         }
     }
 
@@ -417,7 +481,7 @@ void GuiLauncher::freeAssets() {
     TTF_CloseFont(font24);
     TTF_CloseFont(font15);
     for (auto & game : carouselGames) {
-        game->freeTex();
+        game.freeTex();
     }
     carouselGames.clear();
     menu->freeAssets();
@@ -534,7 +598,7 @@ void GuiLauncher::render() {
     if (!carouselGames.empty()) {
         for (auto game : carouselGames) {
             if (game.visible) {
-                SDL_Texture *currentGameTex = game->coverPng;
+                SDL_Texture *currentGameTex = game.coverPng;
                 PsScreenpoint point = game.actual;
 
                 SDL_Rect coverRect;
@@ -706,9 +770,9 @@ void GuiLauncher::setInitialPositions(int selected) {
         game.actual = game.current;
         game.destination = game.current;
         if (game.visible) {
-            game->loadTex(renderer);
+            game.loadTex(renderer);
         } else {
-            game->freeTex();
+            game.freeTex();
         }
     }
 }
@@ -1204,7 +1268,7 @@ void GuiLauncher::loop() {
                                 if (!carouselGames.empty()) {
                                     gui->loadAssets();
                                     for (auto & game : carouselGames) {
-                                        game->freeTex();
+                                        game.freeTex();
                                     }
                                     setInitialPositions(selGame);
                                 }

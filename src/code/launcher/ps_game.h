@@ -25,16 +25,12 @@ public:
     std::string ssFolder = "";
 
     std::string base = "";
-    SDL_Texture *coverPng = nullptr;
 
     bool internal = false;
     bool hd = false;
     bool locked = false;
     int cds = 1;
     bool favorite = false;
-
-    void loadTex(SDL_Renderer *renderer);
-    void freeTex();
 
     void setMemCard(std::string name);
     std::string findResumePicture();
