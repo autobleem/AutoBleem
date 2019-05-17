@@ -9,6 +9,7 @@
 #include "game.h"
 #include "database.h"
 #include "../gui/gui.h"
+#include "../util.h"
 
 class Scanner {
 public:
@@ -29,12 +30,13 @@ public:
         static std::shared_ptr<Scanner> s{new Scanner};
         return s;
     }
+    static bool sortByTitle(const shared_ptr<Game> i, const shared_ptr<Game> j) { return SortByCaseInsensitive(i->title, j->title); }
 
 private:
 
     int getImageType(std::string path);
     bool complete;
-    void moveFolderIfNeeded(DirEntry entry, std::string gameDataPath, std::string path);
+    void moveFolderIfNeeded(const DirEntry & entry, std::string gameDataPath, std::string path);
 };
 
 

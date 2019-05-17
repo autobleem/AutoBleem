@@ -12,6 +12,7 @@
 #include "main.h"
 #include "ver_migration.h"
 #include "engine/coverdb.h"
+#include "util.h"
 
 using namespace std;
 

@@ -4,6 +4,7 @@
 
 #include "ps_meta.h"
 #include "ps_game.h"
+#include "../util.h"
 
 void
 PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, string playersTxt, bool internal, bool hd,

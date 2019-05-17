@@ -15,8 +15,6 @@
 #include "../lang.h"
 #include <ftw.h>
 
-bool wayToSort(Inifile i, Inifile j) { return SortByCaseInsensitive(i.values["title"], j.values["title"]); }
-
 void GuiManager::init()
 {
     gameInis.clear();
@@ -42,7 +40,7 @@ void GuiManager::init()
 
     }
     // sort them
-    sort(gameInis.begin(), gameInis.end(), wayToSort);
+    sort(gameInis.begin(), gameInis.end(), sortByTitle);
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
     firstVisible = 0;
     lastVisible = firstVisible + maxVisible;

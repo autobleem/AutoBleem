@@ -13,8 +13,6 @@
 #include <cstring>
 #include <iostream>
 
-#include "util.h"
-
 #define IMAGE_CUE_BIN 0
 #define IMAGE_PBP     1
 #define IMAGE_NO_GAME_FOUND 2
@@ -93,6 +91,6 @@ static inline std::string ReturnUpperCase(const std::string& s) {
   return temp;
 }
 
-static bool SortByCaseInsensitive(const std::string & left, const std::string & right) {
+static inline bool SortByCaseInsensitive(const std::string & left, const std::string & right) {
     return ReturnLowerCase(left) < ReturnLowerCase(right);
 }

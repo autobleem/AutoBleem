@@ -1,5 +1,6 @@
 #include "database.h"
 #include "inifile.h"
+#include "../util.h"
 
 using namespace std;
 

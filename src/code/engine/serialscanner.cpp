@@ -6,6 +6,7 @@
 #include "serialscanner.h"
 #include "isodir.h"
 #include <sstream>
+#include "../util.h"
 
 using namespace std;
 

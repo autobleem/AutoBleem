@@ -3,6 +3,7 @@
 //
 
 #include "ecmhelper.h"
+#include "../util.h"
 
 using namespace std;
 

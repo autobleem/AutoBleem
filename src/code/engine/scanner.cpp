@@ -10,8 +10,6 @@
 
 using namespace std;
 
-bool wayToSort(const shared_ptr<Game> i, const shared_ptr<Game> j) { return SortByCaseInsensitive(i->title, j->title); }
-
 bool Scanner::isFirstRun(string path, Database *db) {
 
     bool listFileExists = Util::exists(Util::getWorkingPath() + Util::separator() + "autobleem.list");
@@ -180,7 +178,7 @@ void repairMissingCue(string path, string folderName) {
     }
 }
 
-void Scanner::moveFolderIfNeeded(DirEntry entry, string gameDataPath, string path) {
+void Scanner::moveFolderIfNeeded(const DirEntry & entry, string gameDataPath, string path) {
     bool gameDataExists = Util::exists(gameDataPath);
 
     if (gameDataExists) {
@@ -194,8 +192,6 @@ void Scanner::moveFolderIfNeeded(DirEntry entry, string gameDataPath, string pat
     }
 
     Util::rmDir(gameDataPath);
-
-
 }
 
 void Scanner::repairBrokenCueFiles(string path) {
@@ -476,7 +472,7 @@ void Scanner::scanDirectory(string path) {
 
     prev.flush();
     prev.close();
-    sort(games.begin(), games.end(), wayToSort);
+    sort(games.begin(), games.end(), sortByTitle);
 
     complete = true;
 }

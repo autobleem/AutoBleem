@@ -3,10 +3,11 @@
 //
 
 #include "config.h"
+#include "../util.h"
 
 Config::Config()
 {
-    string path=Util::getWorkingPath()+Util::separator()+"config.ini";
+    std::string path=Util::getWorkingPath()+Util::separator()+"config.ini";
     inifile.load(path);
     if (inifile.values["language"]=="")
     {
@@ -42,6 +43,6 @@ Config::Config()
 void Config::save()
 {
     inifile.values["pcsx"]="bleemsync";
-    string path=Util::getWorkingPath()+Util::separator()+"config.ini";
+    std::string path=Util::getWorkingPath()+Util::separator()+"config.ini";
     inifile.save(path);
 }

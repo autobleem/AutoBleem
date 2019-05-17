@@ -9,8 +9,10 @@
 #include <algorithm>
 #include <iomanip>
 #include <libgen.h>
+#include "main.h"
 
 using namespace std;
+
 #define FILE_BUFFER 524288
 
 const char *Util::separator() {
@@ -48,8 +50,6 @@ string Util::pathWithOutSeparatorAtEnd(const string& path)
 
     return ret;
 }
-
-bool wayToSort(const DirEntry & i, const DirEntry & j) { return SortByCaseInsensitive(i.name, j.name); }
 
 void Util::powerOff()
 {
@@ -132,7 +132,7 @@ vector<DirEntry> Util::dir(string path) {
 
         closedir(dir);
     }
-    sort(result.begin(), result.end(), wayToSort);
+    sort(result.begin(), result.end(), DirEntry::sortByName);
     return result;
 }
 
@@ -152,7 +152,7 @@ vector<DirEntry> Util::diru(string path) {
 
         closedir(dir);
     }
-    sort(result.begin(), result.end(), wayToSort);
+    sort(result.begin(), result.end(), DirEntry::sortByName);
     return result;
 }
 

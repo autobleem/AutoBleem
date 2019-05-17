@@ -111,5 +111,5 @@ public:
     void updateVisibility();
     void switchState(int state, int time);
 
-    static bool wayToSort(const PsGamePtr &i, const PsGamePtr &j) { return SortByCaseInsensitive(i->title, j->title); }
+    static bool sortByTitle(const PsGamePtr &i, const PsGamePtr &j) { return SortByCaseInsensitive(i->title, j->title); }
 };

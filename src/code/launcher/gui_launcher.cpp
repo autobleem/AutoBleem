@@ -72,7 +72,7 @@ void GuiLauncher::switchSet(int newSet) {
         }
     }
 
-    sort(gamesList.begin(), gamesList.end(), wayToSort);
+    sort(gamesList.begin(), gamesList.end(), sortByTitle);
 
     // copy the gamesList into the carousel
     carouselGames.clear();

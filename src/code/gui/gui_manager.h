@@ -2,8 +2,8 @@
 // Created by screemer on 2019-01-24.
 //
 
-#ifndef AUTOBLEEM_GUI_GUI_MANAGER_H
-#define AUTOBLEEM_GUI_GUI_MANAGER_H
+#pragma once
+
 #include "gui_screen.h"
 #include "../engine/inifile.h"
 #include <vector>
@@ -23,9 +23,7 @@ public:
 
     bool changes=false;
 
+    static bool sortByTitle(Inifile i, Inifile j) { return SortByCaseInsensitive(i.values["title"], j.values["title"]); }
+
     using GuiScreen::GuiScreen;
-
 };
-
-
-#endif //AUTOBLEEM_GUI_GUI_MANAGER_H

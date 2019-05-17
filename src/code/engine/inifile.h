@@ -2,8 +2,7 @@
 // Created by screemer on 2018-12-19.
 //
 
-#ifndef CBLEEMSYNC_INIFILE_H
-#define CBLEEMSYNC_INIFILE_H
+#pragma once
 
 #include "../main.h"
 #include <map>
@@ -25,14 +24,11 @@
 
 class Inifile {
 public:
-    string section="";			// example: "Game" inside [Game] above
-    string path="";
-    string entry="";			// directory entry name
-    map<string, string> values;	// see example data above
+    std::string section="";			// example: "Game" inside [Game] above
+    std::string path="";
+    std::string entry="";			// directory entry name
+    std::map<std::string, std::string> values;	// see example data above
 
-    void load(const string & path);
-    void save(const string & path);
+    void load(const std::string & path);
+    void save(const std::string & path);
 };
-
-
-#endif //CBLEEMSYNC_INIFILE_H
