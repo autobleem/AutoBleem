@@ -11,7 +11,7 @@ using namespace std;
 //*******************************
 // GuiOptions::getOption
 //*******************************
-string GuiOptions::getOption(vector<string> list, string current, bool next) {
+string GuiOptions::getOption(const vector<string> & list, string current, bool next) {
     int pos = 0;
     for (int i = 0; i < list.size(); i++) {
         if (list[i] == current) {

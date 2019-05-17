@@ -15,7 +15,7 @@ public:
     void init();
     void render();
     void loop();
-    std::string getOption(std::vector<std::string> list, std::string current, bool next);
+    std::string getOption(const std::vector<std::string> & list, std::string current, bool next);
     std::string getBooleanIcon(std::string input);
     void renderOptionLine(std::string text, int pos, int offset);
 
