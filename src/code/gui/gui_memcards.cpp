@@ -13,7 +13,11 @@
 #include "gui_confirm.h"
 #include "gui_keyboard.h"
 #include "../lang.h"
+using namespace std;
 
+//*******************************
+// GuiMemcards::init
+//*******************************
 void GuiMemcards::init() {
     shared_ptr<Gui> gui(Gui::getInstance());
     Memcard *memcardOps = new Memcard(gui->path);
@@ -22,9 +26,11 @@ void GuiMemcards::init() {
     firstVisible = 0;
     lastVisible = firstVisible + maxVisible;
     delete memcardOps;
-
 }
 
+//*******************************
+// GuiMemcards::render
+//*******************************
 void GuiMemcards::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
@@ -45,7 +51,6 @@ void GuiMemcards::render() {
         lastVisible++;
     }
 
-
     int pos = 1;
     for (int i = firstVisible; i < lastVisible; i++) {
         if (i >= cards.size()) {
@@ -64,6 +69,9 @@ void GuiMemcards::render() {
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiMemcards::loop
+//*******************************
 void GuiMemcards::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
@@ -75,7 +83,6 @@ void GuiMemcards::loop() {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
             // this is for pc Only
@@ -130,17 +137,13 @@ void GuiMemcards::loop() {
                         render();
                     };
 
-
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         menuVisible = false;
-
                     };
                     if (e.jbutton.button == PCS_BTN_TRIANGLE) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         if (cards.size() != 0) {
-
-
                             GuiConfirm *guiConfirm = new GuiConfirm(renderer);
                             guiConfirm->label = _("Delete card")+" '" + cards[selected] + "' ?";
                             guiConfirm->show();
@@ -252,13 +255,8 @@ void GuiMemcards::loop() {
                             delete memcardOps;
                         }
                         render();
-
-
                     };
-
-
             }
-
         }
     }
 }

@@ -11,7 +11,11 @@
 #include <string>
 #include "gui.h"
 #include "../lang.h"
+using namespace std;
 
+//*******************************
+// GuiConfirm::render
+//*******************************
 void GuiConfirm::render()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -26,6 +30,9 @@ void GuiConfirm::render()
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiConfirm::loop
+//*******************************
 void GuiConfirm::loop()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -38,7 +45,6 @@ void GuiConfirm::loop()
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
             // this is for pc Only
@@ -47,24 +53,17 @@ void GuiConfirm::loop()
             }
             switch (e.type) {
                 case SDL_JOYBUTTONDOWN:
-
-
                     if (e.jbutton.button == PCS_BTN_CROSS) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         result = true;
                         menuVisible = false;
-
                     };
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         result = false;
                         menuVisible = false;
-
                     };
-
-
             }
-
         }
     }
 }

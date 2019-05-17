@@ -11,6 +11,7 @@
 #include <string>
 #include "gui.h"
 #include "../lang.h"
+using namespace std;
 
 vector<string> row0 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
 vector<string> row1 = {"q", "w", "e", "r", "t", "y", "u", "i", "o", "p"};
@@ -19,6 +20,9 @@ vector<string> row3 = {"z", "x", "c", "v", "b", "n", "m", "_", "-", " "};
 
 vector<vector<string>> rows = {row0, row1, row2, row3};
 
+//*******************************
+// GuiKeyboard::render
+//*******************************
 void GuiKeyboard::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
@@ -28,19 +32,16 @@ void GuiKeyboard::render() {
     gui->renderTextLine("-= " + label + " =-", 0, offset, true);
     gui->renderTextLine(result + "#", 1, offset, true);
 
-
     SDL_Rect rect2;
     rect2.x = atoi(gui->themeData.values["opscreenx"].c_str());
     rect2.y = atoi(gui->themeData.values["opscreeny"].c_str());
     rect2.w = atoi(gui->themeData.values["opscreenw"].c_str());
     rect2.h = atoi(gui->themeData.values["opscreenh"].c_str());
 
-
     SDL_Texture *tex;
     SDL_Rect rect;
     gui->getTextAndRect(renderer, 0, 0, "*", gui->font, &tex, &rect);
     SDL_DestroyTexture(tex);
-
 
     for (int x = 0; x < 10; x++) {
         for (int y = 0; y < 4; y++) {
@@ -58,13 +59,11 @@ void GuiKeyboard::render() {
 
             rectSelection.x = rectSelection.x + ((buttonWidth + 11) * x);
 
-
             string bg = gui->themeData.values["key_bg"];
             SDL_SetRenderDrawColor(renderer, gui->getR(bg), gui->getG(bg), gui->getB(bg),
                                    atoi(gui->themeData.values["keyalpha"].c_str()));
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
             SDL_RenderFillRect(renderer, &rectSelection);
-
 
             string text = rows[y][x];
             if (caps) {
@@ -84,12 +83,9 @@ void GuiKeyboard::render() {
                 rectSelection2.w = rectSelection.w - 2;
                 rectSelection2.h = rectSelection.h - 2;
                 SDL_RenderDrawRect(renderer, &rectSelection2);
-
             }
-
         }
     }
-
 
     gui->renderStatus(
             "|@X| " + _("Select") + "  |@T|  " + _("Delete") + "  |@L1| " + _("Caps") + " |@S| " + _("Space") +
@@ -97,6 +93,9 @@ void GuiKeyboard::render() {
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiKeyboard::loop
+//*******************************
 void GuiKeyboard::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
 
@@ -109,7 +108,6 @@ void GuiKeyboard::loop() {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
             // this is for pc Only
@@ -164,13 +162,11 @@ void GuiKeyboard::loop() {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         cancelled = false;
                         menuVisible = false;
-
                     };
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         cancelled = true;
                         menuVisible = false;
-
                     };
                     break;
                 case SDL_JOYAXISMOTION:
@@ -211,10 +207,7 @@ void GuiKeyboard::loop() {
                         }
                     }
                     break;
-
-
             }
-
         }
     }
 }

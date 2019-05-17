@@ -1,20 +1,21 @@
 //
 // Created by screemer on 2019-01-24.
 //
-
 #pragma once
 
 #include "gui_screen.h"
 #include "../engine/inifile.h"
 #include <vector>
-using namespace std;
 
+//********************
+// GuiManager
+//********************
 class GuiManager : public GuiScreen{
 public:
     void init();
     void render();
     void loop();
-    vector<Inifile> gameInis;
+    std::vector<Inifile> gameInis;
 
     int selected=0;
     int maxVisible=8;

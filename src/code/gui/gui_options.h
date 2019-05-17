@@ -1,49 +1,43 @@
 //
 // Created by screemer on 2019-01-24.
 //
-
-#ifndef AUTOBLEEM_GUI_GUI_OPTIONS_H
-#define AUTOBLEEM_GUI_GUI_OPTIONS_H
+#pragma once
 
 #include "gui_screen.h"
 #include <string>
 #include <vector>
 
-using namespace std;
-
-
+//********************
+// GuiOptions
+//********************
 class GuiOptions : public GuiScreen{
 public:
     void init();
     void render();
     void loop();
-    string getOption(vector<string> list, string current, bool next);
-    string getBooleanIcon(string input);
-    void renderOptionLine(string text, int pos, int offset);
-
+    std::string getOption(std::vector<std::string> list, std::string current, bool next);
+    std::string getBooleanIcon(std::string input);
+    void renderOptionLine(std::string text, int pos, int offset);
 
     int selOption=0;
     int totalHeight=0;
 
-    vector<string> themes;
-    vector<string> sthemes;
-    vector<string> pcsx;
-    vector<string> mip;
-    vector<string> nomusic;
-    vector<string> autoregion;
-    vector<string> quickboot;
-    vector<string> quickmenu;
-    vector<string> retroarch;
-    vector<string> adv;
-    vector<string> languages;
-    vector<string> ui;
-    vector<string> aspect;
-    vector<string> origames;
-    vector<string> jewels;
-    vector<string> music;
+    std::vector<std::string> themes;
+    std::vector<std::string> sthemes;
+    std::vector<std::string> pcsx;
+    std::vector<std::string> mip;
+    std::vector<std::string> nomusic;
+    std::vector<std::string> autoregion;
+    std::vector<std::string> quickboot;
+    std::vector<std::string> quickmenu;
+    std::vector<std::string> retroarch;
+    std::vector<std::string> adv;
+    std::vector<std::string> languages;
+    std::vector<std::string> ui;
+    std::vector<std::string> aspect;
+    std::vector<std::string> origames;
+    std::vector<std::string> jewels;
+    std::vector<std::string> music;
 
     using GuiScreen::GuiScreen;
 };
-
-
-#endif //AUTOBLEEM_GUI_GUI_OPTIONS_H

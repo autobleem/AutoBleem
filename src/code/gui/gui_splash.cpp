@@ -6,9 +6,13 @@
 #include "gui.h"
 #include "../ver_migration.h"
 #include "../lang.h"
+using namespace std;
 
+//*******************************
+// GuiSplash::render
+//*******************************
 void GuiSplash::render() {
-    shared_ptr<Gui> gui(Gui::getInstance());
+    std::shared_ptr<Gui> gui(Gui::getInstance());
     int w, h; // texture width & height
     SDL_SetTextureBlendMode(gui->backgroundImg, SDL_BLENDMODE_BLEND);
     SDL_QueryTexture(gui->backgroundImg, NULL, NULL, &w, &h);
@@ -25,7 +29,6 @@ void GuiSplash::render() {
         splashText += " ("+_("Quick boot")+" - |@O| "+_("Menu");
         splashText += ")";
     }
-
 
     gui->getEmojiTextTexture(renderer, splashText.c_str(), gui->font, &textTex, &textRec);
     int screencenter = 1280 / 2;
@@ -58,6 +61,9 @@ void GuiSplash::render() {
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiSplash::loop
+//*******************************
 void GuiSplash::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
 
@@ -72,7 +78,6 @@ void GuiSplash::loop() {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
             if (e.type == SDL_QUIT)
@@ -82,7 +87,6 @@ void GuiSplash::loop() {
 
             if (e.type == SDL_JOYBUTTONDOWN) {
                 gui->overrideQuickBoot = true;
-
             }
         }
         render();
@@ -100,7 +104,5 @@ void GuiSplash::loop() {
             }
             start = SDL_GetTicks();
         }
-
     }
-
 }

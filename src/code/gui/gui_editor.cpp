@@ -9,6 +9,7 @@
 #include "../engine/memcard.h"
 #include "../engine/cfgprocessor.h"
 #include "../lang.h"
+using namespace std;
 
 #define OPT_FAVORITE       5
 #define OPT_LOCK           6
@@ -21,6 +22,9 @@
 #define OPT_PLUGIN         13
 #define OPT_INTERPOLATION  14
 
+//*******************************
+// GuiEditor::processOptionChange
+//*******************************
 void GuiEditor::processOptionChange(bool direction) {
     shared_ptr<Gui> gui(Gui::getInstance());
     CfgProcessor *processor = new CfgProcessor();
@@ -49,6 +53,7 @@ void GuiEditor::processOptionChange(bool direction) {
                 gameIni.save(gameIni.path);
             }
             break;
+
         case OPT_LOCK:
             if (!internal) {
                 if (direction == true) {
@@ -63,8 +68,8 @@ void GuiEditor::processOptionChange(bool direction) {
                 gameIni.save(gameIni.path);
             }
             break;
-        case OPT_HIGHRES:
 
+        case OPT_HIGHRES:
             if (direction == false) {
                 if (highres == 1) {
                     highres = 0;
@@ -76,7 +81,6 @@ void GuiEditor::processOptionChange(bool direction) {
             }
             gameIni.values["highres"] = to_string(highres);
 
-
             processor->replace(gameIni.entry, path, "gpu_neon.enhancement_enable",
                                "gpu_neon.enhancement_enable = " + gameIni.values["highres"], internal);
             if (!internal) {
@@ -84,8 +88,8 @@ void GuiEditor::processOptionChange(bool direction) {
             }
 
             refreshData();
-
             break;
+
         case OPT_SPEEDHACK:
             if (direction == false) {
                 if (speedhack == 1) {
@@ -100,7 +104,6 @@ void GuiEditor::processOptionChange(bool direction) {
             processor->replace(gameIni.entry, path, "gpu_neon.enhancement_no_main",
                                "gpu_neon.enhancement_no_main = " + to_string(speedhack), internal);
             refreshData();
-
             break;
 
         case OPT_SCANLINES:
@@ -117,21 +120,19 @@ void GuiEditor::processOptionChange(bool direction) {
                                "scanlines = " + to_string(scanlines), internal);
             refreshData();
             break;
+
         case OPT_SCANLINELV:
             if (direction == true) {
-
                 scanlineLevel++;
                 if (scanlineLevel > 100) {
                     scanlineLevel = 100;
                 }
-
             } else {
                 scanlineLevel--;
                 if (scanlineLevel < 0) {
                     scanlineLevel = 0;
                 }
             }
-
 
             ss << std::hex << scanlineLevel;
             s = ss.str();
@@ -143,7 +144,6 @@ void GuiEditor::processOptionChange(bool direction) {
 
         case OPT_CLOCK_PSX:
             if (direction == true) {
-
                 clock++;
                 if (clock > 100) {
                     clock = 100;
@@ -156,7 +156,6 @@ void GuiEditor::processOptionChange(bool direction) {
                 }
             }
 
-
             ss << std::hex << clock;
             s = ss.str();
 
@@ -164,6 +163,7 @@ void GuiEditor::processOptionChange(bool direction) {
                                "psx_clock = " + s, internal);
             refreshData();
             break;
+
         case OPT_FRAMESKIP:
             if (direction == true) {
 
@@ -171,14 +171,12 @@ void GuiEditor::processOptionChange(bool direction) {
                 if (frameskip > 3) {
                     frameskip = 3;
                 }
-
             } else {
                 frameskip--;
                 if (frameskip < 0) {
                     frameskip = 0;
                 }
             }
-
 
             ss << std::hex << frameskip;
             s = ss.str();
@@ -190,19 +188,16 @@ void GuiEditor::processOptionChange(bool direction) {
 
         case OPT_INTERPOLATION:
             if (direction == true) {
-
                 interpolation++;
                 if (interpolation > 3) {
                     interpolation = 3;
                 }
-
             } else {
                 interpolation--;
                 if (interpolation < 0) {
                     interpolation = 0;
                 }
             }
-
 
             ss << std::hex << interpolation;
             s = ss.str();
@@ -211,11 +206,11 @@ void GuiEditor::processOptionChange(bool direction) {
                                "spu_config.iUseInterpolation = " + s, internal);
             refreshData();
             break;
+
         case OPT_PLUGIN:
             if (!internal) {
                 if (direction == true) {
                     gpu = "gpu_peops.so";
-
                 } else {
                     gpu = "builtin_gpu";
                 }
@@ -224,11 +219,13 @@ void GuiEditor::processOptionChange(bool direction) {
                 refreshData();
             }
             break;
-
     }
     delete (processor);
 }
 
+//*******************************
+// GuiEditor::refreshData
+//*******************************
 void GuiEditor::refreshData() {
     shared_ptr<Gui> gui(Gui::getInstance());
     CfgProcessor *processor = new CfgProcessor();
@@ -250,6 +247,9 @@ void GuiEditor::refreshData() {
     delete processor;
 }
 
+//*******************************
+// GuiEditor::init
+//*******************************
 void GuiEditor::init() {
     shared_ptr<Gui> gui(Gui::getInstance());
     if (!internal) {
@@ -304,6 +304,9 @@ void GuiEditor::init() {
     refreshData();
 }
 
+//*******************************
+// GuiEditor::render
+//*******************************
 void GuiEditor::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
 
@@ -361,7 +364,6 @@ void GuiEditor::render() {
 
     gui->renderSelectionBox(selOption, offset, 300);
 
-
     string guiMenu = "|@T| " + _("Rename");
 
     if (!internal) {
@@ -371,7 +373,6 @@ void GuiEditor::render() {
             guiMenu += "|@Start| " + _("Share MC") + "  ";
         }
     }
-
 
     guiMenu += " |@O| " + _("Go back") + "|";
 
@@ -388,6 +389,9 @@ void GuiEditor::render() {
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiEditor::loop
+//*******************************
 void GuiEditor::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
@@ -399,7 +403,6 @@ void GuiEditor::loop() {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
             // this is for pc Only
@@ -408,7 +411,6 @@ void GuiEditor::loop() {
             }
             switch (e.type) {
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
-
                     if (e.jaxis.axis == 1) {
                         if (e.jaxis.value > PCS_DEADZONE) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
@@ -441,6 +443,7 @@ void GuiEditor::loop() {
                         render();
                     }
                     break;
+
                 case SDL_JOYBUTTONDOWN:
                     if (!internal) {
                         if (gameIni.values["memcard"] == "SONY") {
@@ -458,7 +461,6 @@ void GuiEditor::loop() {
                                     cancelled = true;
                                 }
 
-
                                 if (!cancelled) {
                                     Memcard *memcard = new Memcard(gui->path);
                                     string savePath =
@@ -470,14 +472,12 @@ void GuiEditor::loop() {
                                     gameIni.save(gameIni.path);
                                 }
                                 render();
-
                             };
                         }
                     } else
                         {
                             Mix_PlayChannel(-1, gui->cancel, 0);
                         }
-
 
                     if (e.jbutton.button == PCS_BTN_SQUARE) {
                         if (!internal) {
@@ -500,9 +500,7 @@ void GuiEditor::loop() {
                             Mix_PlayChannel(-1, gui->cancel, 0);
                         }
                         render();
-
                     };
-
 
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
@@ -526,7 +524,6 @@ void GuiEditor::loop() {
                             cancelled = true;
                         }
 
-
                         if (!cancelled) {
                             if (!internal) {
                                 gameIni.values["title"] = result;
@@ -540,13 +537,8 @@ void GuiEditor::loop() {
                         }
                         refreshData();
                         render();
-
-
                     };
-
-
             }
-
         }
     }
 }

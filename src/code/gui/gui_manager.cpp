@@ -14,7 +14,11 @@
 #include "../main.h"
 #include "../lang.h"
 #include <ftw.h>
+using namespace std;
 
+//*******************************
+// GuiManager::init
+//*******************************
 void GuiManager::init()
 {
     gameInis.clear();
@@ -37,7 +41,6 @@ void GuiManager::init()
         }
         ini.entry=entry.name;
         gameInis.push_back(ini);
-
     }
     // sort them
     sort(gameInis.begin(), gameInis.end(), sortByTitle);
@@ -45,6 +48,10 @@ void GuiManager::init()
     firstVisible = 0;
     lastVisible = firstVisible + maxVisible;
 }
+
+//*******************************
+// GuiManager::render
+//*******************************
 void GuiManager::render()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -66,7 +73,6 @@ void GuiManager::render()
         lastVisible++;
     }
 
-
     int pos = 1;
     for (int i = firstVisible; i < lastVisible; i++) {
         if (i >= gameInis.size()) {
@@ -80,28 +86,29 @@ void GuiManager::render()
         gui->renderSelectionBox(selected - firstVisible + 1, offset);
     }
 
-
     gui->renderStatus(_("Game")+" " + to_string(selected + 1) + "/" + to_string(gameInis.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"  |@T| "+_("Flush covers")+" |@O| "+_("Close")+" |");
     SDL_RenderPresent(renderer);
 }
 
-
+//*******************************
+// GuiManager::process
+//*******************************
 int process(const char *file, const struct stat *sb,
             int flag, struct FTW *s)
 {
     int retval = 0;
 
-
     if (Util::getFileExtension(file)=="png")
     {
-
         remove(file);
     }
-
 
     return retval;
 }
 
+//*******************************
+// GuiManager::loop
+//*******************************
 void GuiManager::loop()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -114,7 +121,6 @@ void GuiManager::loop()
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
             // this is for pc Only
@@ -168,7 +174,6 @@ void GuiManager::loop()
                         render();
                     };
 
-
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         if (changes)
@@ -176,9 +181,7 @@ void GuiManager::loop()
                             gui->forceScan=true;
                         }
                         menuVisible = false;
-
                     };
-
 
                     if (e.jbutton.button == PCS_BTN_TRIANGLE) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
@@ -193,17 +196,12 @@ void GuiManager::loop()
                             cout << "Trying to delete covers" << endl;
                             gui->renderStatus(_("Please wait ... deleting covers..."));
 
-
                             int errors = 0;
                             int flags = FTW_DEPTH | FTW_PHYS | FTW_CHDIR;
 
-
                             if (nftw("/media/Games", process, 1, flags) != 0) {
-
                                 errors++;
                             }
-
-
 
                             gui->forceScan = true;
                             menuVisible = false;
@@ -211,7 +209,6 @@ void GuiManager::loop()
                             render();
                         }
                     }
-
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
@@ -244,14 +241,8 @@ void GuiManager::loop()
                             render();
                             delete editor;
                         }
-
-
-
                     };
-
-
             }
-
         }
     }
 }

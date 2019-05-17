@@ -11,6 +11,7 @@
 #include <string>
 #include "../gui/gui.h"
 #include "../lang.h"
+using namespace std;
 
 //*******************************
 // GuiBtnGuide::render

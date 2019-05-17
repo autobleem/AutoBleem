@@ -8,6 +8,7 @@
 #include "../gui/gui.h"
 #include "../lang.h"
 #include "../engine/memcard.h"
+using namespace std;
 
 //*******************************
 // PcsxInterceptor::execute
