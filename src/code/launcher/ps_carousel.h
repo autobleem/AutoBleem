@@ -4,8 +4,12 @@
 
 #pragma once
 
+#include "ps_game.h"
 #include <vector>
 
+//******************
+// PsScreenpoint
+//******************
 class PsScreenpoint {
 public:
     int x = 0;
@@ -14,6 +18,32 @@ public:
     int shade = 0;
 };
 
+//******************
+// PsCarouselGame
+//******************
+// Note that if there are less than 13 games in the gamesList the games are duplicated to fill out the carousel.
+// So more than one PsCarouselGame could be using the same PsGamePtr.
+struct PsCarouselGame : public PsGamePtr {
+    PsCarouselGame() = delete;
+    PsCarouselGame(PsGamePtr & game) : PsGamePtr(game) { };
+
+    PsScreenpoint current;
+    PsScreenpoint destination;
+    PsScreenpoint actual;
+    int screenPointIndex = -1;
+    int nextPointIndex = -1;
+    long animationStart = 0;
+    long animationDuration = 0;
+    bool visible = false;
+    SDL_Texture *coverPng = nullptr;
+
+    void loadTex(SDL_Renderer *renderer);
+    void freeTex();
+};
+
+//******************
+// PsCarousel
+//******************
 class PsCarousel {
 public:
     int activeItem = 0;

@@ -5,9 +5,9 @@
 #ifndef AUTOBLEEM_GUI_GUI_LAUNCHER_H
 #define AUTOBLEEM_GUI_GUI_LAUNCHER_H
 
+#include "NotificationLine.h"
 #include "../gui/gui_screen.h"
 #include "ps_obj.h"
-#include <vector>
 #include "ps_settings_back.h"
 #include "ps_zoom_btn.h"
 #include "ps_meta.h"
@@ -31,57 +31,6 @@
 #define SET_EXTERNAL 2
 #define SET_FAVORITE 3
 #define SET_LAST 3
-
-// Note that if there are less than 13 games in the gamesList the games are duplicated to fill out the carousel.
-// So more than one PsCarouselGame could be using the same PsGamePtr.
-struct PsCarouselGame : public PsGamePtr {
-    PsCarouselGame() = delete;
-    PsCarouselGame(PsGamePtr & game) : PsGamePtr(game) { };
-
-    PsScreenpoint current;
-    PsScreenpoint destination;
-    PsScreenpoint actual;
-    int screenPointIndex = -1;
-    int nextPointIndex = -1;
-    long animationStart = 0;
-    long animationDuration = 0;
-    bool visible = false;
-    SDL_Texture *coverPng = nullptr;
-
-    void loadTex(SDL_Renderer *renderer);
-    void freeTex();
-};
-
-// global renderText
-void renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool center, bool background);
-
-static const SDL_Color brightWhite = { 255, 255, 255, 0 };
-
-#define TicksPerSecond 1000
-#define DefaultShowingTimeout 2 * TicksPerSecond
-
-struct NotificationLine {
-    int x = 10;
-    int y = 10;
-    std::string text = "";
-    bool timed = true;
-    long notificationTime = 0;  // the tick time when setText was called
-    long timeLimit = 0; // display ends when current tick - notificationTime > timeLimit
-    SDL_Color textColor =  { 255, 255, 255, 0 };  // brightWhite
-    TTF_Font *font = nullptr;
-
-    void setText(std::string _text, bool _timed, long _timeLimit, const SDL_Color & _textColor, TTF_Font *_font);
-    void setText(std::string _text, bool _timed, long _timeLimit);
-
-    void tickTock(SDL_Renderer * renderer);
-};
-
-struct NotificationLines {
-    std::vector<NotificationLine> lines;
-
-    void createAndSetDefaults(int count, int x_start, int y_start, TTF_Font * font, int fontHeight, int separationBetweenLines);
-    NotificationLine & operator [] (int i) { return lines[i]; };
-};
 
 class GuiLauncher : public GuiScreen {
 public:

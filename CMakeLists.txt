@@ -104,7 +104,14 @@ add_executable(autobleem-gui
         src/code/launcher/ps_centerlabel.h
         src/code/launcher/ps_stateselector.cpp
         src/code/launcher/ps_stateselector.h
-        src/code/launcher/gui_btn_guide.cpp src/code/launcher/gui_btn_guide.h src/code/engine/padmapper.cpp src/code/engine/padmapper.h)
+        src/code/launcher/gui_btn_guide.cpp
+		src/code/launcher/gui_btn_guide.h
+		src/code/engine/padmapper.cpp
+		src/code/engine/padmapper.h
+		src/code/launcher/NotificationLine.h
+		src/code/launcher/NotificationLine.cpp
+		src/code/gui/renderText.h
+		src/code/gui/renderText.cpp)
 
 add_executable(starter
 		src/code/starter.cpp
