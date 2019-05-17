@@ -4,11 +4,17 @@
 
 #include "ps_menu.h"
 
+//*******************************
+// PsMenu::PsMenu
+//*******************************
 PsMenu::PsMenu(SDL_Renderer *renderer1, string name1, string texPath) : PsObj(renderer1, name1, "") {
     path = texPath;
     loadAssets();
 }
 
+//*******************************
+// PsMenu::loadAssets
+//*******************************
 void PsMenu::loadAssets() {
     settings = IMG_LoadTexture(renderer, (path + "/CB/Setting_ICN.png").c_str());
     guide = IMG_LoadTexture(renderer, (path + "/CB/Manual_ICN.png").c_str());
@@ -18,9 +24,11 @@ void PsMenu::loadAssets() {
     y = 520;
     oy = y;
     ox = x;
-
 }
 
+//*******************************
+// PsMenu::freeAssets
+//*******************************
 void PsMenu::freeAssets() {
     SDL_DestroyTexture(settings);
     SDL_DestroyTexture(guide);
@@ -35,6 +43,9 @@ void PsMenu::freeAssets() {
 
 #define ICON_GAP 130.0f
 
+//*******************************
+// PsMenu::update
+//*******************************
 void PsMenu::update(long time) {
     if (animationStarted != 0) {
         float progress = time - animationStarted;
@@ -54,7 +65,6 @@ void PsMenu::update(long time) {
                 xoff[selOption] = -((neww - 118) / 2);
                 yoff[selOption] = -((newh - 118) / 2);
 
-
             } else {
 
                 optionscales[selOption] = 1 + (1 - progress) * (maxZoom - 1);
@@ -63,8 +73,6 @@ void PsMenu::update(long time) {
 
                 xoff[selOption] = -((neww - 118) / 2);
                 yoff[selOption] = -((newh - 118) / 2);
-
-
             }
 
             if (progress == 1) {
@@ -79,7 +87,6 @@ void PsMenu::update(long time) {
                     xoff[selOption] = -((neww - 118) / 2);
                     yoff[selOption] = -((newh - 118) / 2);
 
-
                 } else {
 
                     optionscales[selOption] = 1;
@@ -88,8 +95,6 @@ void PsMenu::update(long time) {
 
                     xoff[selOption] = -((neww - 118) / 2);
                     yoff[selOption] = -((newh - 118) / 2);
-
-
                 }
             }
         } else {
@@ -108,7 +113,6 @@ void PsMenu::update(long time) {
 
                 xoff[selOption] = -((neww - 118) / 2);
                 yoff[selOption] = -((newh - 118) / 2);
-
 
                 if (progress >= 1.0f) {
                     optionscales[selOption]=1.0;
@@ -142,7 +146,6 @@ void PsMenu::update(long time) {
                 xoff[selOption] = -((neww - 118) / 2);
                 yoff[selOption] = -((newh - 118) / 2);
 
-
                 if (progress >= 1.0f) {
                     optionscales[selOption]=1.0;
                     xoff[selOption] = 0;
@@ -157,14 +160,15 @@ void PsMenu::update(long time) {
                     x = ox - ICON_GAP;
                     animationStarted = 0;
                     ox = x;
-
                 }
             }
         }
     }
 }
 
-
+//*******************************
+// PsMenu::render
+//*******************************
 void PsMenu::render() {
     int w = 118 * optionscales[0];
     int h = 118 * optionscales[0];
@@ -229,6 +233,9 @@ void PsMenu::render() {
     }
 }
 
+//*******************************
+// PsMenu::setResumePic
+//*******************************
 void PsMenu::setResumePic(string picturePath)
 {
     if (resume!=nullptr)
@@ -237,6 +244,4 @@ void PsMenu::setResumePic(string picturePath)
     }
 
     resume = IMG_LoadTexture(renderer,picturePath.c_str());
-
-
 }

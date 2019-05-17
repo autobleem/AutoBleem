@@ -9,8 +9,10 @@
 #include "../lang.h"
 #include "../engine/memcard.h"
 
+//*******************************
+// PcsxInterceptor::execute
+//*******************************
 bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
-
     shared_ptr<Gui> gui(Gui::getInstance());
     string lastCDpoint = game->ssFolder + "lastcdimg.txt";
     string lastCDpointX = game->ssFolder + "lastcdimg."+to_string(resumepoint)+".txt";
@@ -40,7 +42,6 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
     argvNew.push_back(link.c_str());
     argvNew.push_back(game->ssFolder.c_str());
 
-
     remove (lastCDpoint.c_str());
 
     if (Util::exists(lastCDpointX))
@@ -61,7 +62,6 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
             gameIso += ".cue";
         }
     }
-
 
     gameIso += "";
 
@@ -101,6 +101,9 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
     return true;
 }
 
+//*******************************
+// PcsxInterceptor::memcardIn
+//*******************************
 void PcsxInterceptor::memcardIn(PsGamePtr & game) {
     string memcard = "SONY";
     if (!game->internal) {
@@ -120,22 +123,26 @@ void PcsxInterceptor::memcardIn(PsGamePtr & game) {
     }
 }
 
+//*******************************
+// PcsxInterceptor::memcardOut
+//*******************************
 void PcsxInterceptor::memcardOut(PsGamePtr & game) {
     string memcard = "SONY";
     if (!game->internal) {
         Inifile gameini;
         gameini.load(game->folder + "/Game.ini");
         memcard = gameini.values["memcard"];
-
     }
     if (memcard != "SONY") {
         Memcard *card = new Memcard("/media/Games/");
         card->swapOut(game->ssFolder, game->memcard);
         delete card;
-
     }
 }
 
+//*******************************
+// PcsxInterceptor::saveResumePoint
+//*******************************
 void PcsxInterceptor::saveResumePoint(PsGamePtr & game, int pointId) {
     string filenamefile = game->ssFolder + "filename.txt";
     string filenamefileX = game->ssFolder + "filename.txt.res";
@@ -172,11 +179,12 @@ void PcsxInterceptor::saveResumePoint(PsGamePtr & game, int pointId) {
             Util::copy(lastCDpoint, lastCDpointX);
             remove(lastCDpoint.c_str());
         }
-
-
     }
 }
 
+//*******************************
+// PcsxInterceptor::prepareResumePoint
+//*******************************
 void PcsxInterceptor::prepareResumePoint(PsGamePtr & game, int pointId) {
 
     // cleanup after previous crash as pcsx doest not want to save
@@ -243,7 +251,3 @@ void PcsxInterceptor::prepareResumePoint(PsGamePtr & game, int pointId) {
         }
     }
 }
-
-
-
-

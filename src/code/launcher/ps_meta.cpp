@@ -6,8 +6,10 @@
 #include "ps_game.h"
 #include "../util.h"
 
-void
-PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, string playersTxt, bool internal, bool hd,
+//*******************************
+// PsMeta::updateTexts
+//*******************************
+void PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, string playersTxt, bool internal, bool hd,
                     bool locked, int discs, bool favorite, int r,int g, int b) {
     this->discs = discs;
     this->internal = internal;
@@ -32,14 +34,19 @@ PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, str
     discsTex = createTextTex(to_string(discs),r,g,b,font15);
 }
 
+//*******************************
+// PsMeta::updateTexts
+//*******************************
 void PsMeta::updateTexts(PsGamePtr & game, int r,int g, int b) {
-
     string appendText = game->players == 1 ? "Player" : "Players";
 
     updateTexts(game->title, game->publisher, to_string(game->year), to_string(game->players) + " " + appendText,
                 game->internal, game->hd, game->locked, game->cds, game->favorite, r, g, b);
 }
 
+//*******************************
+// PsMeta::destroy
+//*******************************
 void PsMeta::destroy() {
     if (gameNameTex != nullptr) SDL_DestroyTexture(gameNameTex);
     if (publisherTex != nullptr) SDL_DestroyTexture(publisherTex);
@@ -59,11 +66,12 @@ void PsMeta::destroy() {
         SDL_DestroyTexture(cdTex);
         SDL_DestroyTexture(favoriteTex);
     }
-
 }
 
+//*******************************
+// PsMeta::render
+//*******************************
 void PsMeta::render() {
-
     if (gameName=="")
     {
         return;
@@ -168,8 +176,6 @@ void PsMeta::render() {
         fullRect.h = h;
         SDL_RenderCopy(renderer, discsTex, &fullRect, &rect);
 
-
-
         rect.x = x+offset;
         rect.y = y + 43 + 22 + 28;
         rect.w = 30;
@@ -213,6 +219,9 @@ void PsMeta::render() {
     }
 }
 
+//*******************************
+// PsMeta::createTextTex
+//*******************************
 SDL_Texture *PsMeta::createTextTex(string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
 
     SDL_Surface *surface;
@@ -227,22 +236,19 @@ SDL_Texture *PsMeta::createTextTex(string text, Uint8 r, Uint8 g, Uint8 b, TTF_F
         texture = SDL_CreateTextureFromSurface(renderer, surface);
 
         SDL_FreeSurface(surface);
-
     }
 
     return texture;
-
-
 }
 
+//*******************************
+// PsMeta::update
+//*******************************
 void PsMeta::update(long time) {
-
-
     if (visible)
         if (animEndTime != 0) {
             if (animStarted == 0) {
                 animStarted = time;
-
             }
 
             if (animStarted != 0) {
@@ -252,17 +258,13 @@ void PsMeta::update(long time) {
                 float position = currentAnim * 1.0f / totalAnimTime * 1.0f;
                 int newPos = prevPos + ((nextPos - prevPos) * position);
                 y = newPos;
-
-
             }
 
             if (time >= animEndTime) {
                 animStarted = 0;
                 animEndTime = 0;
                 y = nextPos;
-
             }
-
         }
     lastTime = time;
 }

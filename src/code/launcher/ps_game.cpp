@@ -8,11 +8,17 @@
 #include "../gui/gui.h"
 using namespace std;
 
+//*******************************
+// PsGame::isCleanExit
+//*******************************
 bool PsGame::isCleanExit() {
     string filenamefile = ssFolder + "filename.txt";
     return Util::exists(filenamefile);
 }
 
+//*******************************
+// PsGame::setMemCard
+//*******************************
 void PsGame::setMemCard(string name) {
     this->memcard = name;
     Inifile *ini = new Inifile();
@@ -23,6 +29,9 @@ void PsGame::setMemCard(string name) {
     gui->db->updateMemcard(this->gameId, name);
 }
 
+//*******************************
+// PsGame::removeResumePoint
+//*******************************
 void PsGame::removeResumePoint(int slot) {
     // TODO: Remove ssfile
     string filenamefile = ssFolder + "filename.txt.res";
@@ -54,6 +63,9 @@ void PsGame::removeResumePoint(int slot) {
     }
 }
 
+//*******************************
+// PsGame::isResumeSlotActive
+//*******************************
 bool PsGame::isResumeSlotActive(int slot) {
     string filenamefile = ssFolder + "filename.txt.res";
     string filenamepoint = ssFolder + "filename." + to_string(slot) + ".txt.res";
@@ -86,6 +98,9 @@ bool PsGame::isResumeSlotActive(int slot) {
     return false;
 }
 
+//*******************************
+// PsGame::storeResumePicture
+//*******************************
 void PsGame::storeResumePicture(int slot) {
     string filenamefile = ssFolder + "filename.txt.res";
     string filenamepoint = ssFolder + "filename." + to_string(slot) + ".txt.res";
@@ -111,19 +126,19 @@ void PsGame::storeResumePicture(int slot) {
 
             } else {
                 slotImg = ssFolder + "screenshots/" + line + "." + to_string(slot) + ".png.res";
-
             }
             is.close();
 
             remove(slotImg.c_str());
             Util::copy(inputImg, slotImg);
             remove(inputImg.c_str());
-
         }
     }
-
 }
 
+//*******************************
+// PsGame::findResumePicture
+//*******************************
 string PsGame::findResumePicture(int slot) {
     string filenamefile = ssFolder + "filename.txt.res";
     string filenamepoint = ssFolder + "filename." + to_string(slot) + ".txt.res";
@@ -157,6 +172,9 @@ string PsGame::findResumePicture(int slot) {
 }
 
 
+//*******************************
+// PsGame::findResumePicture
+//*******************************
 string PsGame::findResumePicture() {
     // try to do it in silly Sony way
     string filenamefile = ssFolder + "filename.txt.res";

@@ -4,11 +4,17 @@
 
 #include "ps_centerlabel.h"
 
+//*******************************
+// PsCenterLabel::PsCenterLabel
+//*******************************
 PsCenterLabel::PsCenterLabel(SDL_Renderer *renderer1, string name1, string texPath) : PsObj(renderer1,name1,"")
 {
 
 }
 
+//*******************************
+// PsCenterLabel::setText
+//*******************************
 void PsCenterLabel::setText(string text, int r, int g, int b)
 {
     if (texture!=nullptr)
@@ -30,6 +36,9 @@ void PsCenterLabel::setText(string text, int r, int g, int b)
 
 }
 
+//*******************************
+// PsCenterLabel::~PsCenterLabel
+//*******************************
 PsCenterLabel::~PsCenterLabel()
 {
     if (texture!=nullptr)
@@ -40,6 +49,9 @@ PsCenterLabel::~PsCenterLabel()
 
 }
 
+//*******************************
+// PsCenterLabel::render
+//*******************************
 void PsCenterLabel::render()
 {
     if (visible) {
@@ -57,6 +69,9 @@ void PsCenterLabel::render()
     }
 }
 
+//*******************************
+// PsCenterLabel::createTextTex
+//*******************************
 SDL_Texture *PsCenterLabel::createTextTex(string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
 
     SDL_Surface *surface;
@@ -71,10 +86,7 @@ SDL_Texture *PsCenterLabel::createTextTex(string text, Uint8 r, Uint8 g, Uint8 b
         texture = SDL_CreateTextureFromSurface(renderer, surface);
 
         SDL_FreeSurface(surface);
-
     }
 
     return texture;
-
-
 }

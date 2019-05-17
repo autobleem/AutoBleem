@@ -32,6 +32,9 @@ public:
     static bool sortByName(const DirEntry & i, const DirEntry & j) { return SortByCaseInsensitive(i.name, j.name); }
 };
 
+//******************
+// Util
+//******************
 class Util {
 public:
     static const char *separator();

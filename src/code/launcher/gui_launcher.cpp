@@ -463,7 +463,6 @@ void GuiLauncher::render() {
                 coverRect.w = 226 * point.scale;
                 coverRect.h = 226 * point.scale;
 
-
                 SDL_Rect fullRect;
                 fullRect.x = 0;
                 fullRect.y = 0;

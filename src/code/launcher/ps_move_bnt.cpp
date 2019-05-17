@@ -4,7 +4,9 @@
 
 #include "ps_move_bnt.h"
 
-
+//*******************************
+// PsMoveBtn::update
+//*******************************
 void PsMoveBtn::update(long time) {
     int duration = 500;
 
@@ -21,10 +23,8 @@ void PsMoveBtn::update(long time) {
         y = (originaly + maxMove) - maxMove * progress;
     }
 
-
     if (progress >= 1.0f) {
         up = !up;
-
         animationStarted = time;
     }
 

@@ -7,7 +7,11 @@
 #include "../gui/gui.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+using namespace std;
 
+//*******************************
+// PsStateSelector::renderText
+//*******************************
 void PsStateSelector::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool center) {
     int text_width;
     int text_height;
@@ -37,18 +41,17 @@ void PsStateSelector::renderText(int x, int y, string text, Uint8 r, Uint8 g, Ui
     inputRect.x = 0;
     inputRect.y = 0;
     inputRect.w = rect.w;
-
-
     inputRect.h = rect.h;
 
     if (center) rect.x=640-text_width/2;
 
     SDL_RenderCopy(renderer, texture, &inputRect, &rect);
     SDL_DestroyTexture(texture);
-
-
 }
 
+//*******************************
+// PsStateSelector::cleanSaveStateImages
+//*******************************
 void PsStateSelector::cleanSaveStateImages()
 {
     for (int i=0;i<4;i++)
@@ -60,6 +63,9 @@ void PsStateSelector::cleanSaveStateImages()
     }
 }
 
+//*******************************
+// PsStateSelector::loadSaveStateImages
+//*******************************
 void PsStateSelector::loadSaveStateImages(PsGamePtr & game, bool saving)
 {
     if (saving)
@@ -89,6 +95,9 @@ void PsStateSelector::loadSaveStateImages(PsGamePtr & game, bool saving)
     }
 }
 
+//*******************************
+// PsStateSelector::render
+//*******************************
 void PsStateSelector::render()
 {
     if (visible)
@@ -120,7 +129,6 @@ void PsStateSelector::render()
         {
             text = _("SELECT SLOT TO SAVE STATE");
         }
-
 
         renderText(0,110,_(text),255,255,255,font30,true);
 
@@ -179,12 +187,6 @@ void PsStateSelector::render()
             }
 
             renderText(output.x+60, 270, _("Slot")+" "+to_string(i+1), 255, 255, 255, font24,false);
-
-
-
         }
-
-
-
     }
 }

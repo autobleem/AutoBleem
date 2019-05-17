@@ -2,13 +2,15 @@
 // Created by screemer on 2/13/19.
 //
 
-#ifndef AUTOBLEEM_GUI_PCSX_INTERCEPTOR_H
-#define AUTOBLEEM_GUI_PCSX_INTERCEPTOR_H
+#pragma once
 
 #include "ps_game.h"
 
 #define RUNPOINT "/media/AutoBleem/run/"
 
+//******************
+// PcsxInterceptor
+//******************
 class PcsxInterceptor {
 public:
     bool execute(PsGamePtr & game, int resumepoint);
@@ -17,6 +19,3 @@ public:
     void prepareResumePoint(PsGamePtr & game, int pointId);
     void saveResumePoint(PsGamePtr & game, int pointId);
 };
-
-
-#endif //AUTOBLEEM_GUI_PCSX_INTERCEPTOR_H

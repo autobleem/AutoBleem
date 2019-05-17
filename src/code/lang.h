@@ -2,8 +2,7 @@
 // Created by screemer on 2/4/19.
 //
 
-#ifndef AUTOBLEEM_GUI_LANG_H
-#define AUTOBLEEM_GUI_LANG_H
+#pragma once
 
 #include <map>
 #include <string>
@@ -14,7 +13,9 @@ using namespace std;
 
 string _(string input);
 
-
+//******************
+// Lang
+//******************
 class Lang {
 public:
 
@@ -36,6 +37,3 @@ private:
     vector<string> newData;
 
 };
-
-
-#endif //AUTOBLEEM_GUI_LANG_H

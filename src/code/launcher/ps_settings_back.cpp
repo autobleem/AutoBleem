@@ -4,6 +4,9 @@
 
 #include "ps_settings_back.h"
 
+//*******************************
+// PsSettingsBack::setCurLen
+//*******************************
 void PsSettingsBack::setCurLen(int len) {
     y = 632 - len;
     h = len;
@@ -14,6 +17,9 @@ void PsSettingsBack::setCurLen(int len) {
     animEndTime = 0;
 }
 
+//*******************************
+// PsSettingsBack::update
+//*******************************
 void PsSettingsBack::update(long time) {
     if (visible)
     if (animEndTime != 0) {

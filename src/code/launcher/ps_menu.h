@@ -2,9 +2,7 @@
 // Created by screemer on 2/16/19.
 //
 
-#ifndef AUTOBLEEM_GUI_PS_MENU_H
-#define AUTOBLEEM_GUI_PS_MENU_H
-
+#pragma once
 
 #include <SDL2/SDL_system.h>
 #include "ps_obj.h"
@@ -12,23 +10,22 @@
 #define TR_MENUON 0
 #define TR_OPTION 1
 
+//******************
+// PsMenu
+//******************
 class PsMenu : public PsObj {
 public:
     SDL_Texture *settings= nullptr;
     SDL_Texture *guide= nullptr;
     SDL_Texture *memcard= nullptr;
     SDL_Texture *savestate= nullptr;
-
     SDL_Texture *resume= nullptr;
-
-
 
     int x,y,oy,ox;
     int xoff[4] = {0,0,0,0};
     int yoff[4] = {0,0,0,0};
 
     float optionscales[4] = {1.0f,1.0f,1.0f,1.0f};
-
 
     float maxZoom = 1.5;
 
@@ -53,6 +50,3 @@ public:
 
     PsMenu(SDL_Renderer *renderer1, string name1, string texPath = "");
 };
-
-
-#endif //AUTOBLEEM_GUI_PS_MENU_H

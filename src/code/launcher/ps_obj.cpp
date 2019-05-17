@@ -4,6 +4,9 @@
 
 #include "ps_obj.h"
 
+//*******************************
+// PsObj::PsObj
+//*******************************
 PsObj::PsObj(SDL_Renderer *renderer1, string name1, string texPath) {
     this->renderer = renderer1;
     this->name = name;
@@ -12,6 +15,9 @@ PsObj::PsObj(SDL_Renderer *renderer1, string name1, string texPath) {
     }
 }
 
+//*******************************
+// PsObj::load
+//*******************************
 void PsObj::load(string imagePath) {
     tex = IMG_LoadTexture(renderer, imagePath.c_str());
     Uint32 format;
@@ -23,10 +29,16 @@ void PsObj::load(string imagePath) {
     oh = h;
 }
 
+//*******************************
+// PsObj::destroy
+//*******************************
 void PsObj::destroy() {
     SDL_DestroyTexture(tex);
 }
 
+//*******************************
+// PsObj::render
+//*******************************
 void PsObj::render() {
     if (visible) {
         SDL_Rect rect;

@@ -12,6 +12,9 @@
 #include "../gui/gui.h"
 #include "../lang.h"
 
+//*******************************
+// GuiBtnGuide::render
+//*******************************
 void GuiBtnGuide::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
@@ -29,11 +32,13 @@ void GuiBtnGuide::render() {
 
     gui->renderTextLine("|@R2| + |@L2|  "+_("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 10, offset,true);
 
-
     gui->renderStatus("|@O| " + _("Go back") + "|");
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiBtnGuide::loop
+//*******************************
 void GuiBtnGuide::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
@@ -45,7 +50,6 @@ void GuiBtnGuide::loop() {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
             // this is for pc Only
@@ -54,17 +58,12 @@ void GuiBtnGuide::loop() {
             }
             switch (e.type) {
                 case SDL_JOYBUTTONUP:
-
-
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         menuVisible = false;
 
                     };
-
-
             }
-
         }
     }
 }

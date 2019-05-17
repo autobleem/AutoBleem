@@ -12,6 +12,9 @@
 #include <vector>
 #include <memory>
 
+//******************
+// PsGame
+//******************
 class PsGame {
 public:
     int gameId = 0;
