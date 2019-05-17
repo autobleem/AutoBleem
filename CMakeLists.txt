@@ -80,6 +80,8 @@ add_executable(autobleem-gui
         src/code/lang.h 
         src/code/launcher/gui_launcher.cpp
         src/code/launcher/gui_launcher.h 
+		src/code/launcher/gui_NotificationLine.h
+		src/code/launcher/gui_NotificationLine.cpp
         src/code/launcher/ps_obj.cpp
         src/code/launcher/ps_obj.h 
         src/code/launcher/ps_static.cpp
@@ -108,8 +110,6 @@ add_executable(autobleem-gui
 		src/code/launcher/gui_btn_guide.h
 		src/code/engine/padmapper.cpp
 		src/code/engine/padmapper.h
-		src/code/launcher/NotificationLine.h
-		src/code/launcher/NotificationLine.cpp
 		src/code/gui/renderText.h
 		src/code/gui/renderText.cpp)
 

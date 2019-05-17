@@ -1,4 +1,4 @@
-#include "NotificationLine.h"
+#include "gui_NotificationLine.h"
 #include "../gui/renderText.h"
 
 using namespace std;

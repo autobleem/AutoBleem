@@ -12,7 +12,6 @@
 #include "pcsx_interceptor.h"
 #include "gui_btn_guide.h"
 #include "../gui/renderText.h"
-#include "NotificationLine.h"
 #include <algorithm>
 
 using namespace std;
