@@ -1,5 +1,5 @@
 #include "gui_NotificationLine.h"
-#include "../gui/gui_renderText.h"
+#include "gui_launcher.h"
 
 using namespace std;
 
@@ -35,9 +35,9 @@ void NotificationLine::tickTock(SDL_Renderer * renderer) {
                 notificationTime = 0;   // turn off the display
         }
         if (notificationTime != 0)
-            ::renderText(renderer, x, y, text, textColor, font, true, true);
+            GuiLauncher::renderText(renderer, x, y, text, textColor, font, true, true);
     } else // not timed - keep display on
-        ::renderText(renderer, x, y, text, textColor, font, true, true);
+        GuiLauncher::renderText(renderer, x, y, text, textColor, font, true, true);
 }
 
 //*******************************

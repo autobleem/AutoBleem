@@ -68,8 +68,6 @@ add_executable(autobleem-gui
         src/code/gui/gui_manager.h
         src/code/gui/gui_editor.cpp
         src/code/gui/gui_editor.h
-		src/code/gui/gui_renderText.h
-		src/code/gui/gui_renderText.cpp
 		src/code/gui/gui_selectmemcard.cpp
         src/code/gui/gui_selectmemcard.h
 		src/code/ver_migration.cpp
@@ -85,7 +83,7 @@ add_executable(autobleem-gui
 		src/code/launcher/gui_NotificationLine.h
 		src/code/launcher/gui_NotificationLine.cpp
         src/code/launcher/ps_obj.cpp
-        src/code/launcher/ps_obj.h 
+        src/code/launcher/ps_obj.h
         src/code/launcher/ps_static.cpp
         src/code/launcher/ps_static.h
         src/code/launcher/ps_settings_back.cpp 

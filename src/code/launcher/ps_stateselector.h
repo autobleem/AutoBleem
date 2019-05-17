@@ -17,7 +17,6 @@ class PsStateSelector : public PsObj {
 public:
     int operation=0;
     void render();
-    void renderText(int x, int y, std::string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool center);
 
     void loadSaveStateImages(PsGamePtr & game, bool saving);
     void cleanSaveStateImages();
