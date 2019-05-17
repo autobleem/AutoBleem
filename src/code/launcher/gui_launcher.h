@@ -53,8 +53,7 @@ struct PsCarouselGame : public PsGamePtr {
 };
 
 // global renderText
-void renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool background, bool center);
-void renderText(SDL_Renderer * renderer, int x, int y, const std::string &text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background, bool center);
+void renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool center, bool background);
 
 static const SDL_Color brightWhite = { 255, 255, 255, 0 };
 
@@ -71,10 +70,9 @@ struct NotificationLine {
     SDL_Color textColor =  { 255, 255, 255, 0 };  // brightWhite
     TTF_Font *font = nullptr;
 
-    void setText(std::string _text, bool _timed, long _timeLimit);
     void setText(std::string _text, bool _timed, long _timeLimit, const SDL_Color & _textColor, TTF_Font *_font);
-    void setText(std::string _text, bool _timed, long _timeLimit, Uint8 r, Uint8 g, Uint8 b, TTF_Font *_font);
-    void renderText(SDL_Renderer * renderer);
+    void setText(std::string _text, bool _timed, long _timeLimit);
+
     void tickTock(SDL_Renderer * renderer);
 };
 
@@ -94,7 +92,6 @@ public:
     void nextGame(int speed);
     void prevGame(int speed);
     void updateMeta();
-    void renderText(int x, int y, const std::string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background, bool center);
     void loadAssets();
     void freeAssets();
     void moveMainCover(int state);
@@ -127,8 +124,8 @@ public:
     TTF_Font *font15;
     TTF_Font *font24;
 
-    int fgR=255, fgG=255, fgB=255;
-    int secR=100, secG=100, secB=100;
+    Uint8 fgR=255, fgG=255, fgB=255;
+    Uint8 secR=100, secG=100, secB=100;
 
     std::vector<PsObj *> staticElements;
     std::vector<PsObj *> frontElemets;

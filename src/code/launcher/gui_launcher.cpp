@@ -23,7 +23,7 @@ void PsCarouselGame::loadTex(SDL_Renderer *renderer) {
         SDL_RenderClear(renderer);
         SDL_Rect fullRect;
 
-        string imagePath = get()->folder + Util::separator() + get()->base + ".png";
+        string imagePath = (*this)->folder + Util::separator() + (*this)->base + ".png";
         if (Util::exists(imagePath)) {
             coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
         } else coverPng = nullptr;
@@ -78,7 +78,7 @@ void PsCarouselGame::freeTex() {
 
 
 // global renderText
-void renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool background, bool center) {
+void renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool center, bool background) {
     int text_width;
     int text_height;
     SDL_Surface *surface;
@@ -127,16 +127,6 @@ void renderText(SDL_Renderer * renderer, int x, int y, const std::string & text,
     SDL_DestroyTexture(texture);
 };
 
-// global renderText
-void renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background, bool center) {
-    SDL_Color textColor = {r, g, b, 0};
-    renderText(renderer, x, y, text, textColor, font, background, center);
-};
-
-void NotificationLine::setText(string _text, bool _timed, long _timeLimit) {
-    setText(_text, _timed, _timeLimit, textColor, font);
-};
-
 void NotificationLine::setText(string _text, bool _timed, long _timeLimit, const SDL_Color & _textColor, TTF_Font *_font) {
     text = _text;
     timed = _timed;
@@ -148,12 +138,8 @@ void NotificationLine::setText(string _text, bool _timed, long _timeLimit, const
     font = _font;
 };
 
-void NotificationLine::setText(string _text, bool _timed, long _timeLimit, Uint8 r, Uint8 g, Uint8 b, TTF_Font *_font) {
-    setText(_text, _timed, _timeLimit, SDL_Color{r, g, b, 0}, _font);
-};
-
-void NotificationLine::renderText(SDL_Renderer * renderer) {
-    ::renderText(renderer, x, y, text, textColor, font, true, true);
+void NotificationLine::setText(string _text, bool _timed, long _timeLimit) {
+    setText(_text, _timed, _timeLimit, textColor, font);
 };
 
 void NotificationLine::tickTock(SDL_Renderer * renderer) {
@@ -164,9 +150,9 @@ void NotificationLine::tickTock(SDL_Renderer * renderer) {
                 notificationTime = 0;   // turn off the display
         }
         if (notificationTime != 0)
-            renderText(renderer);   // display text - we haven't reached timer limit yet
+        ::renderText(renderer, x, y, text, textColor, font, true, true);
     } else // not timed - keep display on
-        renderText(renderer);
+        ::renderText(renderer, x, y, text, textColor, font, true, true);
 }
 
 void NotificationLines::createAndSetDefaults(int count, int x_start, int y_start, TTF_Font * font, int fontHeight, int separationBetweenLines) {
@@ -187,12 +173,6 @@ void NotificationLines::createAndSetDefaults(int count, int x_start, int y_start
 }
 
 bool wayToSort(const PsGamePtr &i, const PsGamePtr &j) { return SortByCaseInsensitive(i->title, j->title); }
-
-// Text rendering routines - places text at x,y with selected color and font
-void GuiLauncher::renderText(int x, int y, const string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background,
-                             bool center) {
-    ::renderText(renderer, x, y, text, r, g, b, font, background, center);
-}
 
 // just update metadata section to be visible on the screen
 void GuiLauncher::updateMeta() {
@@ -623,9 +603,9 @@ void GuiLauncher::render() {
 
     menu->render();
 
-    renderText(638, 640, _("Enter"), secR, secG, secB, font24, false, false);
-    renderText(760, 640, _("Cancel"), secR, secG, secB, font24, false, false);
-    renderText(902, 640, _("Console Button Guide"), secR, secG, secB, font24, false, false);
+    ::renderText(renderer, 638, 640, _("Enter"), {secR, secG, secB, 0}, font24, false, false);
+    ::renderText(renderer, 760, 640, _("Cancel"), {secR, secG, secB, 0}, font24, false, false);
+    ::renderText(renderer, 902, 640, _("Console Button Guide"), {secR, secG, secB, 0}, font24, false, false);
 
     for (auto & notify : notificationLines.lines) {
         notify.font =  font24;
