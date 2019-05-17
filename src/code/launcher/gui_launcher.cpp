@@ -481,10 +481,7 @@ void GuiLauncher::render() {
     ::renderText(renderer, 760, 640, _("Cancel"), {secR, secG, secB, 0}, font24, false, false);
     ::renderText(renderer, 902, 640, _("Console Button Guide"), {secR, secG, secB, 0}, font24, false, false);
 
-    for (auto & notify : notificationLines.lines) {
-        notify.font =  font24;
-        notify.tickTock(renderer);
-    }
+    notificationLines.tickTock(renderer);
 
     for (auto obj:frontElemets)
         obj->render();

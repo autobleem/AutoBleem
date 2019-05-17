@@ -32,8 +32,9 @@ struct NotificationLine {
 //******************
 struct NotificationLines {
     std::vector<NotificationLine> lines;
+    NotificationLine & operator [] (int i) { return lines[i]; };
 
     void createAndSetDefaults(int count, int x_start, int y_start, TTF_Font * font, int fontHeight, int separationBetweenLines);
-    NotificationLine & operator [] (int i) { return lines[i]; };
+    void tickTock(SDL_Renderer * renderer);
 };
 

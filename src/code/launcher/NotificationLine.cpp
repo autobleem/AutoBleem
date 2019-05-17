@@ -59,3 +59,11 @@ void NotificationLines::createAndSetDefaults(int count, int x_start, int y_start
         lines.push_back(notificationLine);
     }
 }
+
+//*******************************
+// NotificationLines::tickTock
+//*******************************
+void NotificationLines::tickTock(SDL_Renderer * renderer) {
+    for (auto & line : lines)
+        line.tickTock(renderer);
+}
