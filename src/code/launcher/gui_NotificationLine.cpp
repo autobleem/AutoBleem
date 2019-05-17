@@ -1,5 +1,5 @@
 #include "gui_NotificationLine.h"
-#include "../gui/renderText.h"
+#include "../gui/gui_renderText.h"
 
 using namespace std;
 

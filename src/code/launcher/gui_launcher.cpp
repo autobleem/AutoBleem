@@ -11,7 +11,7 @@
 #include "../lang.h"
 #include "pcsx_interceptor.h"
 #include "gui_btn_guide.h"
-#include "../gui/renderText.h"
+#include "../gui/gui_renderText.h"
 #include <algorithm>
 
 using namespace std;
