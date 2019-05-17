@@ -23,6 +23,9 @@
 #include <unistd.h>
 #include "main.h"
 
+//******************
+// DirEntry
+//******************
 class DirEntry {
 public:
     std::string name;

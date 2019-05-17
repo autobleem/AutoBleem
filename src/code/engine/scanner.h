@@ -1,9 +1,7 @@
 //
 // Created by screemer on 2018-12-15.
 //
-
-#ifndef CBLEEMSYNC_SCANNER_H
-#define CBLEEMSYNC_SCANNER_H
+#pragma once
 
 #include "../main.h"
 #include "game.h"
@@ -11,6 +9,9 @@
 #include "../gui/gui.h"
 #include "../util.h"
 
+//******************
+// Scanner
+//******************
 class Scanner {
 public:
     Scanner() {}
@@ -30,14 +31,10 @@ public:
         static std::shared_ptr<Scanner> s{new Scanner};
         return s;
     }
-    static bool sortByTitle(const shared_ptr<Game> i, const shared_ptr<Game> j) { return SortByCaseInsensitive(i->title, j->title); }
+    static bool sortByTitle(const std::shared_ptr<Game> i, const std::shared_ptr<Game> j) { return SortByCaseInsensitive(i->title, j->title); }
 
 private:
-
     int getImageType(std::string path);
     bool complete;
     void moveFolderIfNeeded(const DirEntry & entry, std::string gameDataPath, std::string path);
 };
-
-
-#endif //CBLEEMSYNC_SCANNER_H

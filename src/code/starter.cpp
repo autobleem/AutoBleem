@@ -8,6 +8,9 @@
 
 using namespace std;
 
+//*******************************
+// valueOrDefault
+//*******************************
 string valueOrDefault(string name, string def, map<string,string> iniValues) {
     string value;
     if (iniValues.find(name) != iniValues.end()) {
@@ -25,6 +28,9 @@ string valueOrDefault(string name, string def, map<string,string> iniValues) {
 
 #define PCSX "/tmp/pcsx"
 
+//*******************************
+// execute
+//*******************************
 void execute(int argc, char** argv)
 {
     int pid = fork();
@@ -34,6 +40,9 @@ void execute(int argc, char** argv)
     waitpid(pid, NULL, 0);
 }
 
+//*******************************
+// main
+//*******************************
 int main (int argc, char *argv[])
 {
     string path="/data/AppData/sony/title/";
@@ -89,7 +98,6 @@ int main (int argc, char *argv[])
         arguments.push_back("0");
     }
 
-
     if (imageType!="0")
     {
         for (int i=0;i<arguments.size();i++)
@@ -105,22 +113,18 @@ int main (int argc, char *argv[])
         }
     }
 
-
     vector<char*> argvNew;
     for (const auto& arg : arguments)
         argvNew.push_back((char*)arg.data());
-
 
     argvNew.push_back(nullptr);
     execute(argvNew.size() - 1, argvNew.data());
 
     if (memcard!="SONY")
     {
-
             Memcard * card = new Memcard("/media/Games/");
             card->swapOut("./.pcsx",memcard);
             delete card;
-
     }
 
     return 0;

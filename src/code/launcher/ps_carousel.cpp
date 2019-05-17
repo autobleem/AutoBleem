@@ -107,7 +107,6 @@ void PsCarousel::initCoverPositions() {
     //405 x 100
     coverPositions.clear();
 
-
     coverPositions.push_back(createCoverPoint(5, 40, 0));
     coverPositions.push_back(createCoverPoint(4, 70, 0));
     coverPositions.push_back(createCoverPoint(3, 90, 0));

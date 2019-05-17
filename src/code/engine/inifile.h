@@ -1,12 +1,14 @@
 //
 // Created by screemer on 2018-12-19.
 //
-
 #pragma once
 
 #include "../main.h"
 #include <map>
 
+//******************
+// Inifile
+//******************
 //
 // Example USB game inifile.  stored in map<string, string> values:
 //
@@ -21,7 +23,6 @@
 // Title=Twisted Metal 2
 // Year=1996
 //
-
 class Inifile {
 public:
     std::string section="";			// example: "Game" inside [Game] above

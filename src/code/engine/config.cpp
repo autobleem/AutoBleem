@@ -5,6 +5,9 @@
 #include "config.h"
 #include "../util.h"
 
+//*******************************
+// Config::Config()
+//*******************************
 Config::Config()
 {
     std::string path=Util::getWorkingPath()+Util::separator()+"config.ini";
@@ -40,6 +43,9 @@ Config::Config()
     inifile.values["pcsx"]="bleemsync";
 }
 
+//*******************************
+// Config::save
+//*******************************
 void Config::save()
 {
     inifile.values["pcsx"]="bleemsync";

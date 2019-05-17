@@ -17,6 +17,9 @@ int unecmify(FILE *in, FILE *out);
 // https://www.lifewire.com/ecm-file-2620956
 // this class removes them from the bin files to save space.
 
+//*******************************
+// Ecmhelper::unecm
+//*******************************
 bool Ecmhelper::unecm(string input, string output) {
     cout << "Unpacking: " << input << " to " << output << endl;
     if (!Util::matchExtension(output, EXT_BIN)) {

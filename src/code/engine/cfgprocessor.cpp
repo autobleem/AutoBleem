@@ -7,6 +7,9 @@
 
 using namespace std;
 
+//*******************************
+// CfgProcessor::replaceInternal
+//*******************************
 void CfgProcessor::replaceInternal(string filePath, string property, string newline) {
     if (!Util::exists(filePath)) {
         return;
@@ -37,8 +40,6 @@ void CfgProcessor::replaceInternal(string filePath, string property, string newl
             } else {
                 lines.push_back(line);
             }
-
-
         }
         file.close();
         if (fileUpdated) {
@@ -53,6 +54,9 @@ void CfgProcessor::replaceInternal(string filePath, string property, string newl
     }
 }
 
+//*******************************
+// CfgProcessor::getValue
+//*******************************
 string CfgProcessor::getValue(string entry, string gamePath, string property, bool internal) {
     string filePath;
     if (!internal) {
@@ -68,13 +72,8 @@ string CfgProcessor::getValue(string entry, string gamePath, string property, bo
     lines.clear();
 
     if (file.is_open()) {
-
         string line;
-
-
         while (getline(file, line)) {
-
-
             string lcaseline = line;
             string lcasepattern = property;
             lcase(lcaseline);
@@ -84,14 +83,15 @@ string CfgProcessor::getValue(string entry, string gamePath, string property, bo
                 string value = line.substr(lcaseline.find("=") + 1);
                 return value;
             }
-
-
         }
         file.close();
     }
     return "";
 }
 
+//*******************************
+// CfgProcessor::replace
+//*******************************
 void CfgProcessor::replace(string entry, string gamePath, string property, string newline, bool internal) {
 
     if (!internal) {
@@ -119,7 +119,4 @@ void CfgProcessor::replace(string entry, string gamePath, string property, strin
             replaceInternal(path, property, newline);
         }
     }
-
 }
-
-

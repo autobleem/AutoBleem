@@ -12,7 +12,7 @@
 //******************
 class VerMigration {
 public:
-    string getLastRunVersion();
+    std::string getLastRunVersion();
     void migrate04_05(Database * db);
     void migrate(Database * db);
 };

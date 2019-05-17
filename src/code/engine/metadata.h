@@ -1,29 +1,26 @@
 //
 // Created by screemer on 2018-12-16.
 //
-
+#pragma once
 #include "../main.h"
 
-using namespace std;
-
-#ifndef CBLEEMSYNC_METADATA_H
-#define CBLEEMSYNC_METADATA_H
-
-
+//******************
+// Metadata
+//******************
 class Metadata {
 public:
-    string title;
-    string publisher;
+    std::string title;
+    std::string publisher;
     int year;
     int players;
     char *bytes = NULL;
     int dataSize = 0;
     bool valid = false;
 
-    string lastRegion="U";
+    std::string lastRegion="U";
 
-    bool lookupBySerial(string serial);
-    bool lookupByTitle(string title);
+    bool lookupBySerial(std::string serial);
+    bool lookupByTitle(std::string title);
     void clean()
     {
         if (bytes!=NULL)
@@ -32,8 +29,4 @@ public:
             bytes=NULL;
         }
     }
-
 };
-
-
-#endif //CBLEEMSYNC_METADATA_H

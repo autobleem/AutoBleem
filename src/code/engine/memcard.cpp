@@ -4,7 +4,11 @@
 
 #include "memcard.h"
 #include "inifile.h"
+using namespace std;
 
+//*******************************
+// Memcard::newCard
+//*******************************
 void Memcard::newCard(string name)
 {
     string curPath = path+Util::separator()+"!MemCards/"+name;
@@ -16,23 +20,25 @@ void Memcard::newCard(string name)
         Util::copy(autobleemPath+Util::separator()+"memcard/card2.mcd",curPath+Util::separator()+"card2.mcd");
         Util::copy(autobleemPath+Util::separator()+"memcard/card1.mcd",curPath+Util::separator()+"card1.bak");
         Util::copy(autobleemPath+Util::separator()+"memcard/card2.mcd",curPath+Util::separator()+"card2.bak");
-
     }
 }
 
+//*******************************
+// Memcard::deleteCard
+//*******************************
 void Memcard::deleteCard(string name)
 {
     string curPath = path+Util::separator()+"!MemCards/"+name;
     string autobleemPath = Util::getWorkingPath();
     if (Util::exists(curPath))
     {
-
-
         Util::rmDir(curPath);
-
     }
 }
 
+//*******************************
+// Memcard::swapIn
+//*******************************
 bool Memcard::swapIn(string path, string name)
 {
     backup(path);
@@ -51,12 +57,13 @@ bool Memcard::swapIn(string path, string name)
         }
         return true;
     }
-
 }
 
+//*******************************
+// Memcard::storeToRepo
+//*******************************
 void Memcard::storeToRepo(string path, string name)
 {
-
     string customPath = this->path+Util::separator()+"!MemCards/"+name;
     if (!Util::exists(customPath))
     {
@@ -70,18 +77,13 @@ void Memcard::storeToRepo(string path, string name)
         string output = customPath+Util::separator()+entry.name;
         Util::copy(input,output);
     }
-
-
-
-
-
-
-
 }
 
+//*******************************
+// Memcard::rename
+//*******************************
 void Memcard::rename(string oldName, string newName)
 {
-
     string oldPath = this->path+Util::separator()+"!MemCards/"+oldName;
     string newPath = this->path+Util::separator()+"!MemCards/"+newName;
 
@@ -112,13 +114,12 @@ void Memcard::rename(string oldName, string newName)
                 inifile.save(gameIniPath);
             }
         }
-
     }
-
-
-
 }
 
+//*******************************
+// Memcard::list
+//*******************************
 vector<string> Memcard::list()
 {
     vector<string> memcards;
@@ -132,6 +133,9 @@ vector<string> Memcard::list()
     return memcards;
 }
 
+//*******************************
+// Memcard::swapOut
+//*******************************
 void Memcard::swapOut(string path, string name)
 {
     string customPath = this->path+Util::separator()+"!MemCards/"+name;
@@ -140,16 +144,17 @@ void Memcard::swapOut(string path, string name)
         restore(path);
     } else
     {
-
         for (DirEntry entry:Util::diru(customPath))
         {
             Util::copy(path+Util::separator()+"memcards"+Util::separator()+entry.name,customPath+Util::separator()+entry.name);
         }
         restore(path);
-
     }
 }
 
+//*******************************
+// Memcard::restoreAll
+//*******************************
 void Memcard::restoreAll(string mainDir)
 {
     for (DirEntry entry: Util::diru(mainDir))
@@ -159,6 +164,9 @@ void Memcard::restoreAll(string mainDir)
     }
 }
 
+//*******************************
+// Memcard::backup
+//*******************************
 void Memcard::backup(string path)
 {
     string curPath = path+Util::separator()+"backup";
@@ -176,6 +184,9 @@ void Memcard::backup(string path)
     }
 }
 
+//*******************************
+// Memcard::restore
+//*******************************
 void Memcard::restore(string path)
 {
     string curPath = path+Util::separator()+"backup";

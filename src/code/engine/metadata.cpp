@@ -5,8 +5,11 @@
 #include "metadata.h"
 #include "database.h"
 #include "../gui/gui.h"
+using namespace std;
 
-
+//*******************************
+// Metadata::lookupBySerial
+//*******************************
 bool Metadata::lookupBySerial(string serial) {
     shared_ptr<Gui> gui(Gui::getInstance());
     for (int i = 0; i < 3; i++) {
@@ -17,12 +20,14 @@ bool Metadata::lookupBySerial(string serial) {
                 this->lastRegion = gui->coverdb->regionStr[i];
                 return true;
             }
-
     }
 
     return false;
 }
 
+//*******************************
+// Metadata::lookupByTitle
+//*******************************
 bool Metadata::lookupByTitle(string title) {
     shared_ptr<Gui> gui(Gui::getInstance());
     for (int i = 0; i < 3; i++) {

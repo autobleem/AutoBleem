@@ -6,6 +6,9 @@
 
 using namespace std;
 
+//*******************************
+// Inifile::load
+//*******************************
 void Inifile::load(const string & _path) {
     this->path = _path;
     ifstream file;
@@ -14,7 +17,6 @@ void Inifile::load(const string & _path) {
 
     if (!file.good()) {
         return;
-
     }
     while (getline(file, iniLine)) {
         iniLine = trim(iniLine);
@@ -37,6 +39,9 @@ void Inifile::load(const string & _path) {
     file.close();
 }
 
+//*******************************
+// Inifile::save
+//*******************************
 void Inifile::save(const string & _path) {
     cout << "Writting ini file" << _path << endl;
     ofstream os;
@@ -53,5 +58,4 @@ void Inifile::save(const string & _path) {
     }
     os.flush();
     os.close();
-
 }

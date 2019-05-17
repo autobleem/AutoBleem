@@ -10,6 +10,9 @@
 
 using namespace std;
 
+//*******************************
+// Scanner::isFirstRun
+//*******************************
 bool Scanner::isFirstRun(string path, Database *db) {
 
     bool listFileExists = Util::exists(Util::getWorkingPath() + Util::separator() + "autobleem.list");
@@ -17,7 +20,7 @@ bool Scanner::isFirstRun(string path, Database *db) {
         return true;
     }
 
-	bool prevFileExists = Util::exists(Util::getWorkingPath() + Util::separator() + "autobleem.prev");
+    bool prevFileExists = Util::exists(Util::getWorkingPath() + Util::separator() + "autobleem.prev");
     if (!prevFileExists) {
         return true;
     }
@@ -39,9 +42,11 @@ bool Scanner::isFirstRun(string path, Database *db) {
     prev.close();
 
     return false;
-
 }
 
+//*******************************
+// Scanner::unecm
+//*******************************
 //
 // this routine removes Error Correction files from the bin file to save space
 // https://www.lifewire.com/ecm-file-2620956
@@ -55,15 +60,15 @@ void Scanner::unecm(const string & path) {
             shared_ptr<Gui> splash(Gui::getInstance());
             splash->logText(_("Decompressing ecm:"));
             if (ecm.unecm(path + entry.name, path + entry.name.substr(0, entry.name.length() - 4))) {
-
                 remove((path + entry.name).c_str());
-
             }
         }
-
     }
 }
 
+//*******************************
+// Scanner::updateDB
+//*******************************
 void Scanner::updateDB(Database *db) {
     shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText(_("Updating regional.db..."));
@@ -81,7 +86,6 @@ void Scanner::updateDB(Database *db) {
             }
             outfile << i + 1 << "," << Util::escape(data->fullPath.substr(0, data->fullPath.size() - 1)) << ","
                     << Util::escape(data->saveStatePath.substr(0, data->saveStatePath.size() - 1)) << endl;
-
         }
     outfile.flush();
     outfile.close();
@@ -95,6 +99,9 @@ static const char cue2[] = "FILE \"{binName}\" BINARY\n"
                            "    INDEX 00 00:00:00\n"
                            "    INDEX 01 00:02:00\n";
 
+//*******************************
+// Scanner::repairBinCommaNames
+//*******************************
 void repairBinCommaNames(string path) {
     // TODO: Add support for German diactrics for nex here
     for (DirEntry entry : Util::diru(path)) {
@@ -125,14 +132,14 @@ void repairBinCommaNames(string path) {
                 remove((path + Util::separator() + entry.name).c_str());
                 rename((path + Util::separator() + entry.name + ".new").c_str(),
                        (path + Util::separator() + entry.name).c_str());
-
             }
         }
-
-
     }
 }
 
+//*******************************
+// Scanner::repairMissingCue
+//*******************************
 void repairMissingCue(string path, string folderName) {
     vector<string> binFiles;
     bool hasCue = false;
@@ -178,6 +185,9 @@ void repairMissingCue(string path, string folderName) {
     }
 }
 
+//*******************************
+// Scanner::moveFolderIfNeeded
+//*******************************
 void Scanner::moveFolderIfNeeded(const DirEntry & entry, string gameDataPath, string path) {
     bool gameDataExists = Util::exists(gameDataPath);
 
@@ -194,6 +204,9 @@ void Scanner::moveFolderIfNeeded(const DirEntry & entry, string gameDataPath, st
     Util::rmDir(gameDataPath);
 }
 
+//*******************************
+// Scanner::repairBrokenCueFiles
+//*******************************
 void Scanner::repairBrokenCueFiles(string path) {
     vector<string> allBinFiles;
     vector<string> allCues;
@@ -206,8 +219,6 @@ void Scanner::repairBrokenCueFiles(string path) {
     cueTracks.clear();
 
     for (DirEntry entryGame:Util::diru(path)) {
-
-
         if (Util::matchExtension(entryGame.name, EXT_CUE)) {
             allCues.push_back(entryGame.name);
         }
@@ -219,13 +230,10 @@ void Scanner::repairBrokenCueFiles(string path) {
         if (Util::matchExtension(entryGame.name, EXT_IMG)) {
             allBinFiles.push_back(entryGame.name);
         }
-
-
     }
 
     for (string cue:allCues) {
         ifstream cueStream;
-
 
         cueStream.open(path + Util::separator() + cue);
         string line;
@@ -241,15 +249,12 @@ void Scanner::repairBrokenCueFiles(string path) {
                 if (std::find(allBinFiles.begin(), allBinFiles.end(), line) == allBinFiles.end()) {
                     cueOk = false;
                 }
-
             }
-
         }
         validCue.push_back(cueOk);
         cueTracks.push_back(bins);
         cueStream.close();
     }
-
 
     // now we know cues that are corrupted - regenerate them
 
@@ -290,16 +295,14 @@ void Scanner::repairBrokenCueFiles(string path) {
             }
             os.flush();
             os.close();
-
         }
         startPos += cueTracks[i];
-
-
     }
-
-
 }
 
+//*******************************
+// Scanner::getImageType
+//*******************************
 int Scanner::getImageType(string path) {
     bool hasASubDir {false};
     for (DirEntry entry: Util::diru(path)) {
@@ -320,6 +323,9 @@ int Scanner::getImageType(string path) {
         return IMAGE_NO_GAME_FOUND;
 }
 
+//*******************************
+// Scanner::scanDirectory
+//*******************************
 void Scanner::scanDirectory(string path) {
     path = Util::pathWithSeparatorAtEnd(path); // it looks like the Games path must have a / at the end for changing the game conig to work
 
@@ -346,7 +352,6 @@ void Scanner::scanDirectory(string path) {
         if (!Util::isDirectory(path + entry.name)) continue;
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
-
 
         // fix for comma in dirname
         if (entry.name.find(",") != string::npos) {
@@ -397,7 +402,6 @@ void Scanner::scanDirectory(string path) {
 			}
 
 			for (DirEntry entryGame : Util::diru(gameDataPath)) {
-
 				if (Util::matchesLowercase(entryGame.name, GAME_INI)) {
 					string gameIniPath = gameDataPath + GAME_INI;
 					game->readIni(gameIniPath);
@@ -414,8 +418,6 @@ void Scanner::scanDirectory(string path) {
 				if (Util::matchExtension(entryGame.name, EXT_LIC)) {
 					game->licFound = true;
 				}
-
-
 			}
 
 			cout << game->automationUsed << endl;
@@ -477,6 +479,9 @@ void Scanner::scanDirectory(string path) {
     complete = true;
 }
 
+//*******************************
+// Scanner::detectAndSortGamefiles
+//*******************************
 /*
  * Searching for games with supported extension and create associated folders
  */

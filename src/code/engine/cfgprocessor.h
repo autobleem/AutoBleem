@@ -6,6 +6,9 @@
 
 #include "config.h"
 
+//******************
+// CfgProcessor
+//******************
 class CfgProcessor {
 public:
     Config config;

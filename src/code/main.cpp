@@ -22,10 +22,9 @@ using namespace std;
 
 Database * db;
 
-//
+//*******************************
 // scanGames
-//
-
+//*******************************
 int scanGames(string path, string dbpath) {
     shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr<Scanner> scanner(Scanner::getInstance());
@@ -47,17 +46,15 @@ int scanGames(string path, string dbpath) {
     scanner->scanDirectory(path);
     scanner->updateDB(gui->db);
 
-
     gui->drawText(_("Total:") + " " + to_string(scanner->games.size()) + " " + _("games scanned") + ".");
     sleep(1);
     scanner->games.clear();
     return (EXIT_SUCCESS);
 }
 
-//
+//*******************************
 // main
-//
-
+//*******************************
 int main(int argc, char *argv[]) {
     shared_ptr<Lang> lang(Lang::getInstance());
     if (argc < 3) {
@@ -72,7 +69,6 @@ int main(int argc, char *argv[]) {
     Coverdb *coverdb = new Coverdb();
     gui->coverdb = coverdb;
 
-
     db = new Database();
     if (!db->connect(argv[1])) {
         delete db;
@@ -81,7 +77,6 @@ int main(int argc, char *argv[]) {
     gui->db=db;
     db->createInitialDatabase();
     db->createFavColumn();
-
 
     string dbpath = argv[1];
     string path = argv[2];
@@ -93,7 +88,6 @@ int main(int argc, char *argv[]) {
     if (scanner->isFirstRun(path, db)) {
         scanner->forceScan = true;
     }
-
 
     gui->display(scanner->forceScan, path, db, false);
 
@@ -108,7 +102,6 @@ int main(int argc, char *argv[]) {
             } else {
                 //break;
             }
-
         }
 
         if (gui->menuOption == MENU_OPTION_START) {
@@ -124,15 +117,12 @@ int main(int argc, char *argv[]) {
             }
             numtimesopened=Mix_QuerySpec(&frequency, &format, &channels);
 
-
             for (SDL_Joystick* joy:gui->joysticks) {
                 if (SDL_JoystickGetAttached(joy)) {
                     SDL_JoystickClose(joy);
                 }
             }
             SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
-
-
 
             gui->saveSelection();
             PcsxInterceptor *interceptor = new PcsxInterceptor();
@@ -159,9 +149,5 @@ int main(int argc, char *argv[]) {
     SDL_Quit();
     delete coverdb;
 
-
     exit(0);
-
 }
-
-

@@ -1,33 +1,30 @@
 //
 // Created by screemer on 2019-01-23.
 //
-
-#ifndef AUTOBLEEM_GUI_MEMCARD_H
-#define AUTOBLEEM_GUI_MEMCARD_H
+#pragma once
 
 #include <string>
 #include "../util.h"
-using namespace std;
 
+//******************
+// Memcard
+//******************
 class Memcard {
 public:
-    void newCard(string name);
-    void deleteCard(string name);
-    void backup(string path);
-    void restore(string path);
-    bool swapIn(string path, string name);
-    void swapOut(string path, string name);
-    vector<string> list();
-    void storeToRepo(string path, string name);
-    void rename(string oldName, string newName);
-    void restoreAll(string mainDir);
+    void newCard(std::string name);
+    void deleteCard(std::string name);
+    void backup(std::string path);
+    void restore(std::string path);
+    bool swapIn(std::string path, std::string name);
+    void swapOut(std::string path, std::string name);
+    std::vector<std::string> list();
+    void storeToRepo(std::string path, std::string name);
+    void rename(std::string oldName, std::string newName);
+    void restoreAll(std::string mainDir);
 
-    Memcard(string path) {
+    Memcard(std::string path) {
         this->path = path;
     }
 private:
-    string path;
+    std::string path;
 };
-
-
-#endif //AUTOBLEEM_GUI_MEMCARD_H
