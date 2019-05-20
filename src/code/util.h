@@ -13,14 +13,8 @@
 
 #pragma once
 
-#include <stdio.h>
-#include <string.h>
-#include <dirent.h>
-#include <stdlib.h>
-#include <iostream>
-#include <cstdlib>
+#include <string>
 #include <vector>
-#include <unistd.h>
 #include "main.h"
 
 //******************

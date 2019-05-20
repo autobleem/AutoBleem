@@ -8,12 +8,14 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include <string>
+#include <iostream>
 #include "gui.h"
 #include "gui_editor.h"
 #include "gui_confirm.h"
 #include "../main.h"
 #include "../lang.h"
 #include <ftw.h>
+#include "../engine/scanner.h"
 using namespace std;
 
 //*******************************

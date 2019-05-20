@@ -10,6 +10,7 @@
 #include <string>
 #include "gui.h"
 #include "../lang.h"
+#include "../engine/scanner.h"
 
 //*******************************
 // GuiAbout::render

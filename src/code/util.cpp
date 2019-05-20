@@ -8,7 +8,11 @@
 #include <math.h>
 #include <algorithm>
 #include <iomanip>
+#include <string.h>
 #include <libgen.h>
+#include <sstream>
+#include <iostream>
+#include <dirent.h>
 #include "main.h"
 
 using namespace std;

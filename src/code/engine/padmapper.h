@@ -4,6 +4,7 @@
 #pragma once
 
 #include "../main.h"
+#include <map>
 
 #define PCS_BTN_L2       4
 #define PCS_BTN_R2       5

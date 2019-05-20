@@ -4,13 +4,8 @@
 
 #pragma once
 
-#include "../main.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_ttf.h>
-
-using namespace std;
+#include <SDL2/SDL_render.h>
+#include <string>
 
 //******************
 // PsObj
@@ -21,16 +16,16 @@ public:
     int x, y, w, h;
     int ox, oy, ow, oh;
 
-    string name;
+    std::string name;
 
     SDL_Texture *tex = nullptr;
 
     bool visible = false;
     long lastTime = 0;
 
-    PsObj(SDL_Renderer *renderer1, string name1, string texPath = "");
+    PsObj(SDL_Renderer *renderer1, std::string name1, std::string texPath = "");
 
-    virtual void load(string imagePath);
+    virtual void load(std::string imagePath);
 
     virtual void destroy();
 

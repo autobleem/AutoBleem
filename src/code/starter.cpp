@@ -1,5 +1,6 @@
 
 #include <string>
+#include <unistd.h>
 #include <sys/wait.h>
 #include "util.h"
 #include "engine/inifile.h"

@@ -9,12 +9,12 @@
 #include "ps_settings_back.h"
 #include "ps_zoom_btn.h"
 #include "ps_meta.h"
-#include "ps_game.h"
 #include "ps_carousel.h"
 #include "ps_move_bnt.h"
 #include "ps_menu.h"
 #include "ps_centerlabel.h"
 #include "ps_stateselector.h"
+#include "../main.h"
 #include <vector>
 #include <memory>
 

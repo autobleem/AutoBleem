@@ -6,6 +6,7 @@
 
 #include "ps_game.h"
 #include <vector>
+#include <SDL2/SDL_ttf.h>
 
 //******************
 // PsScreenpoint

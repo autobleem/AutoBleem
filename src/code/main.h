@@ -1,17 +1,7 @@
 #pragma once
 
-#include <vector>
-#include <map>
-#include <cstdio>
-#include <fstream>
 #include <algorithm>
-#include <functional>
-#include <cctype>
-#include <locale>
-#include <sstream>
 #include <string>
-#include <cstring>
-#include <iostream>
 
 #define IMAGE_CUE_BIN 0
 #define IMAGE_PBP     1

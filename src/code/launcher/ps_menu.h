@@ -4,8 +4,9 @@
 
 #pragma once
 
-#include <SDL2/SDL_system.h>
+#include <SDL2/SDL_render.h>
 #include "ps_obj.h"
+#include <string>
 
 #define TR_MENUON 0
 #define TR_OPTION 1
@@ -37,16 +38,16 @@ public:
 
     int direction = 0;
 
-    string path;
+    std::string path;
 
     void loadAssets();
     void freeAssets();
     void update(long time);
     void render();
 
-    void setResumePic(string picturePath);
+    void setResumePic(std::string picturePath);
 
     int transition =0;
 
-    PsMenu(SDL_Renderer *renderer1, string name1, string texPath = "");
+    PsMenu(SDL_Renderer *renderer1, std::string name1, std::string texPath = "");
 };

@@ -8,6 +8,9 @@
 #include "../gui/gui.h"
 #include "../lang.h"
 #include "../engine/memcard.h"
+#include <fstream>
+#include <iostream>
+#include <unistd.h>
 using namespace std;
 
 //*******************************

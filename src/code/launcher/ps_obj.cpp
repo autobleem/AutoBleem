@@ -3,6 +3,8 @@
 //
 
 #include "ps_obj.h"
+#include <SDL2/SDL_image.h>
+using namespace std;
 
 //*******************************
 // PsObj::PsObj

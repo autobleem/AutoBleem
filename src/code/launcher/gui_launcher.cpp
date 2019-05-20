@@ -12,6 +12,8 @@
 #include "pcsx_interceptor.h"
 #include "gui_btn_guide.h"
 #include <algorithm>
+#include <iostream>
+#include "../engine/scanner.h"
 
 using namespace std;
 

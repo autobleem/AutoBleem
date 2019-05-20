@@ -6,11 +6,9 @@
  */
 #pragma once
 
-#include "../main.h"
 #include "metadata.h"
 #include "../sqlite3.h"
 #include "../launcher/ps_game.h"
-#include <memory>
 
 //******************
 // Database

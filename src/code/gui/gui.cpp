@@ -9,9 +9,16 @@
 #include "gui_memcards.h"
 #include "gui_manager.h"
 #include "gui_confirm.h"
+#include <SDL2/SDL_image.h>
 #include "../ver_migration.h"
 #include "../lang.h"
 #include "../launcher/gui_launcher.h"
+#include <fstream>
+#include <unistd.h>
+#include "../util.h"
+#include <iostream>
+#include "../engine/scanner.h"
+
 using namespace std;
 
 //*******************************

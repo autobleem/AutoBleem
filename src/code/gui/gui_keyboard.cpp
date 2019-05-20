@@ -11,6 +11,7 @@
 #include <string>
 #include "gui.h"
 #include "../lang.h"
+#include "../engine/scanner.h"
 using namespace std;
 
 vector<string> row0 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};

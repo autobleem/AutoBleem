@@ -3,6 +3,8 @@
 //
 
 #include "ps_menu.h"
+#include <SDL2/SDL_image.h>
+using namespace std;
 
 //*******************************
 // PsMenu::PsMenu

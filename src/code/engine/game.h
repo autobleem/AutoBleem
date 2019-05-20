@@ -4,6 +4,8 @@
 #pragma once
 
 #include "../main.h"
+#include <vector>
+#include <map>
 
 //******************
 // Disc

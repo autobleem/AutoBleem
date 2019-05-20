@@ -1,6 +1,8 @@
 #include "database.h"
 #include "inifile.h"
 #include "../util.h"
+#include <iostream>
+#include <SDL2/SDL_ttf.h>
 
 using namespace std;
 

@@ -7,6 +7,9 @@
 #include "cfgprocessor.h"
 #include "serialscanner.h"
 #include "../lang.h"
+#include <fstream>
+#include <iostream>
+#include <unistd.h>
 
 using namespace std;
 

@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include "../main.h"
+#include <string>
 
 // ECM files are Error Code Modeler files used in disc images.
 // https://www.lifewire.com/ecm-file-2620956

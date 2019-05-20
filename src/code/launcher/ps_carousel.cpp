@@ -4,6 +4,8 @@
 
 #include "ps_carousel.h"
 #include "../gui/gui.h"
+#include "../engine/scanner.h"
+#include <SDL2/SDL_image.h>
 
 using namespace std;
 

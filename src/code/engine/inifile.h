@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include "../main.h"
+#include <string>
 #include <map>
 
 //******************

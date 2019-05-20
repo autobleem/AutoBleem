@@ -3,17 +3,11 @@
 //
 #pragma once
 
-#include "../main.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_ttf.h>
 #include <string>
-#include <memory>
-#include "../engine/database.h"
 #include "../engine/config.h"
 #include "../engine/coverdb.h"
-#include "../engine/scanner.h"
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
 
 #define PCS_DEADZONE     32000
 #define PCS_BTN_L2       4

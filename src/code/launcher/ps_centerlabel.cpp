@@ -3,6 +3,7 @@
 //
 
 #include "ps_centerlabel.h"
+using namespace std;
 
 //*******************************
 // PsCenterLabel::PsCenterLabel
