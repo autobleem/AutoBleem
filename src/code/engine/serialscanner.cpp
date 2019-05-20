@@ -6,13 +6,19 @@
 #include "serialscanner.h"
 #include "isodir.h"
 #include <sstream>
+#include "../util.h"
 
 using namespace std;
 
+// The SerialScanner class reads the serial number in a CDROM BIN file which is an ISO 9660 image of a CDROM.
+// https://en.wikipedia.org/wiki/ISO_9660
 
+//*******************************
+// SerialScanner::fixSerial
+//*******************************
 string SerialScanner::fixSerial(string serial) {
     replace(serial.begin(), serial.end(), '_', '-');
-    serial.erase(std::remove(serial.begin(), serial.end(), '.'), serial.end());
+    serial.erase(remove(serial.begin(), serial.end(), '.'), serial.end());
     string fixed = "";
     stringstream alpha;
     stringstream digits;
@@ -34,6 +40,9 @@ string SerialScanner::fixSerial(string serial) {
     return alpha.str() + "-" + digits.str();
 }
 
+//*******************************
+// SerialScanner::scanSerial
+//*******************************
 string SerialScanner::scanSerial(int imageType, string path, string firstBinPath)
 {
     string serial = scanSerialInternal(imageType,path,firstBinPath);
@@ -45,6 +54,9 @@ string SerialScanner::scanSerial(int imageType, string path, string firstBinPath
     return serial;
 }
 
+//*******************************
+// SerialScanner::scanSerialInternal
+//*******************************
 string SerialScanner::scanSerialInternal(int imageType, string path, string firstBinPath) {
     if (imageType == IMAGE_PBP) {
         string destinationDir = path ;
@@ -105,16 +117,12 @@ string SerialScanner::scanSerialInternal(int imageType, string path, string firs
         }
     }
     if (imageType == IMAGE_CUE_BIN) {
-
-
         string prefixes[] = {
                 "CPCS", "ESPM", "HPS", "LPS", "LSP", "SCAJ", "SCED", "SCES", "SCPS", "SCUS", "SIPS", "SLES", "SLKA",
                 "SLPM", "SLPS", "SLUS"};
-
         if (firstBinPath == "") {
             return ""; // not at this stage
         }
-
 
         for (int level = 1; level < 4; level++) {
             Isodir *dirLoader = new Isodir();
@@ -132,7 +140,6 @@ string SerialScanner::scanSerialInternal(int imageType, string path, string firs
                             cout << "Serial number: " << serialFound << endl;
                             return serialFound;
                         }
-
                     }
                 }
                 string volume = fixSerial(dir.volumeName);
@@ -143,21 +150,21 @@ string SerialScanner::scanSerialInternal(int imageType, string path, string firs
                         cout << "Serial number: " << serialFound << endl;
                         return serialFound;
                     }
-
                 }
 
             } else {
                 return "";
             }
-
         }
     }
     return "";
 }
 
+//*******************************
+// SerialScanner::workarounds
+//*******************************
 string SerialScanner::workarounds(int imageType, string path, string firstBinPath)
 {
-
     string fileToScan = "";
     if (imageType == IMAGE_CUE_BIN)
     {
@@ -177,6 +184,9 @@ string SerialScanner::workarounds(int imageType, string path, string firstBinPat
 }
 
 
+//*******************************
+// SerialScanner::serialByMd5
+//*******************************
 string SerialScanner::serialByMd5(string scanFile)
 {
     string head=Util::execUnixCommad(("head -c 1M \""+scanFile+"\" | md5sum | awk '{print $1}'").c_str());

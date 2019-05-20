@@ -2,11 +2,13 @@
 // Created by screemer on 2/15/19.
 //
 
-#ifndef AUTOBLEEM_GUI_PS_MOVE_BNT_H
-#define AUTOBLEEM_GUI_PS_MOVE_BNT_H
+#pragma once
 
 #include "ps_obj.h"
 
+//******************
+// PsMoveBtn
+//******************
 class PsMoveBtn : public PsObj {
 public:
     float moveStep = 4;
@@ -19,6 +21,3 @@ public:
 
     using PsObj::PsObj;
 };
-
-
-#endif //AUTOBLEEM_GUI_PS_MOVE_BNT_H

@@ -4,6 +4,9 @@
 
 #include "ps_zoom_btn.h"
 
+//*******************************
+// PsZoomBtn::update
+//*******************************
 void PsZoomBtn::update(long time) {
     long timeSinceLastFrame = time - lastTime;
 
@@ -25,7 +28,6 @@ void PsZoomBtn::update(long time) {
         up = true;
         zoom = 1.0f;
     }
-
 
     int sizeChangeX = w - ow;
     int sizeChangeY = h - oh;

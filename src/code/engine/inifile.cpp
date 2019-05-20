@@ -4,16 +4,19 @@
 
 #include "inifile.h"
 
+using namespace std;
 
-void Inifile::load(string path) {
-    this->path = path;
+//*******************************
+// Inifile::load
+//*******************************
+void Inifile::load(const string & _path) {
+    this->path = _path;
     ifstream file;
     string iniLine;
     file.open(path);
 
     if (!file.good()) {
         return;
-
     }
     while (getline(file, iniLine)) {
         iniLine = trim(iniLine);
@@ -36,12 +39,15 @@ void Inifile::load(string path) {
     file.close();
 }
 
-void Inifile::save(string path) {
-    cout << "Writting ini file" << path << endl;
+//*******************************
+// Inifile::save
+//*******************************
+void Inifile::save(const string & _path) {
+    cout << "Writting ini file" << _path << endl;
     ofstream os;
-    os.open(path);
+    os.open(_path);
     os << "[" << section <<"]" << endl;
-    for(std::map<string,string>::iterator iter = values.begin(); iter != values.end(); ++iter)
+    for(map<string,string>::iterator iter = values.begin(); iter != values.end(); ++iter)
     {
         string k =  iter->first;
         string v = iter->second;
@@ -52,5 +58,4 @@ void Inifile::save(string path) {
     }
     os.flush();
     os.close();
-
 }

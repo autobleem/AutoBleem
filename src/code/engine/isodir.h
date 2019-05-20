@@ -1,39 +1,38 @@
 //
 // Created by screemer on 23.12.18.
 //
-
-#ifndef CBLEEMSYNC_ISODIR_H
-#define CBLEEMSYNC_ISODIR_H
+#pragma once
 
 #include "../main.h"
 
-using namespace std;
 #define SECTOR_SIZE 2352
 
+//******************
+// IsoDirectory
+//******************
 class IsoDirectory
 {
 public:
-    string systemName;
-    string volumeName;
-    vector<string> rootDir;
+    std::string systemName;
+    std::string volumeName;
+    std::vector<std::string> rootDir;
 };
 
+//******************
+// Isodir
+//******************
 class Isodir {
 public:
-    IsoDirectory getDir(string binPath,int maxlevel );
-    void readDir(vector<string> * data, unsigned int sector, int maxlevel, int level);
+    IsoDirectory getDir(std::string binPath,int maxlevel );
+    void readDir(std::vector<std::string> * data, unsigned int sector, int maxlevel, int level);
 private:
     IsoDirectory getEmptyDir();
-    string removeVersion(string input);
+    std::string removeVersion(std::string input);
     int getSectorAddress(int sector);
     unsigned char readChar();
-    string readString(int size);
+    std::string readString(int size);
     unsigned long readDword();
     int findPrimaryDescriptor(int maxOffset);
     int offset = 0;
-    ifstream * stream;
-
+    std::ifstream * stream;
 };
-
-
-#endif //CBLEEMSYNC_ISODIR_H

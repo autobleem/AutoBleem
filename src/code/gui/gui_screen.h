@@ -1,9 +1,7 @@
 //
 // Created by screemer on 2019-01-24.
 //
-
-#ifndef AUTOBLEEM_GUI_GUI_SCREEN_H
-#define AUTOBLEEM_GUI_GUI_SCREEN_H
+#pragma once
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -11,6 +9,9 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 
+//********************
+// GuiScreen
+//********************
 class GuiScreen {
 public:
     virtual void init(){};
@@ -31,6 +32,3 @@ public:
     };
     SDL_Renderer * renderer;
 };
-
-
-#endif //AUTOBLEEM_GUI_GUI_SCREEN_H

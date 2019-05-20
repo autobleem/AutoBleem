@@ -11,6 +11,9 @@
 
 using namespace std;
 
+//*******************************
+// Game::validateCue
+//*******************************
 bool Game::validateCue(string cuePath, string path) {
     vector<string> binFiles;
     string line;
@@ -30,7 +33,6 @@ bool Game::validateCue(string cuePath, string path) {
     for (int i = 0; i < binFiles.size(); i++) {
         string binPath = path + binFiles[i];
         if (!Util::exists(binPath)) {
-
             result = false;
         } else {
             if (i == 0) {
@@ -38,13 +40,15 @@ bool Game::validateCue(string cuePath, string path) {
                     firstBinPath = binPath;
                 }
             }
-
         }
     }
     cueStream.close();
     return result;
 }
 
+//*******************************
+// Game::valueOrDefault
+//*******************************
 string Game::valueOrDefault(string name, string def) {
     string value;
     if (iniValues.find(name) != iniValues.end()) {
@@ -60,6 +64,9 @@ string Game::valueOrDefault(string name, string def) {
     return value;
 }
 
+//*******************************
+// Game::verify
+//*******************************
 bool Game::verify() {
     bool result = true;
 
@@ -83,6 +90,9 @@ bool Game::verify() {
     return result;
 }
 
+//*******************************
+// Game::print
+//*******************************
 bool Game::print() {
     cout << "-------------------" << endl;
     cout << "Printing game data:" << endl;
@@ -100,14 +110,13 @@ bool Game::print() {
     cout << "LIC found:" << licFound << endl;
     cout << "pcsx.cfg found: " << pcsxCfgFound << endl;
     cout << "TotalDiscs: " << discs.size() << endl;
+    cout << "Favorite: " << favorite << endl;
 
     for (int i = 0; i < discs.size(); i++) {
         cout << "  Disc:" << i + 1 << "  " << discs[i].diskName << endl;
         cout << "  CUE found: " << discs[i].cueFound << endl;
         cout << "  BIN correct: " << discs[i].binVerified << endl;
-
     }
-
 
     bool result = verify();
     if (result) {
@@ -119,6 +128,9 @@ bool Game::print() {
     return result;
 }
 
+//*******************************
+// Game::recoverMissingFiles
+//*******************************
 void Game::recoverMissingFiles() {
     string path = Util::getWorkingPath();
 
@@ -126,7 +138,6 @@ void Game::recoverMissingFiles() {
     bool metadataLoaded = false;
 
     if (this->imageType == IMAGE_PBP) {
-
         // disc link
         string destinationDir = fullPath ;
         string pbpFileName = Util::findFirstFile(EXT_PBP, destinationDir);
@@ -139,7 +150,6 @@ void Game::recoverMissingFiles() {
                 disc.cueName = pbpFileName;
                 disc.binVerified = true;
                 discs.push_back(disc);
-
             }
         } else
         {
@@ -148,8 +158,6 @@ void Game::recoverMissingFiles() {
         }
     }
     if (this->imageType == IMAGE_CUE_BIN) {
-
-
         if (discs.size() == 0) {
             automationUsed = true;
             cout << "Switching automation no discs" << endl;
@@ -211,7 +219,6 @@ void Game::recoverMissingFiles() {
         }
     }
 
-
     if (!pcsxCfgFound) {
         automationUsed = true;
         cout << "Switching automation no pcsx" << endl;
@@ -222,7 +229,6 @@ void Game::recoverMissingFiles() {
         int region = 0;
         bool japan = false;
 
-
         if (!metadataLoaded) {
             SerialScanner * serialScanner = new SerialScanner();
             string serial = serialScanner->scanSerial(imageType,fullPath,firstBinPath);
@@ -230,7 +236,6 @@ void Game::recoverMissingFiles() {
             if (serial != "") {
                 metadataLoaded = md.lookupBySerial(serial);
             }
-
         }
 
         if (metadataLoaded) {
@@ -246,7 +251,6 @@ void Game::recoverMissingFiles() {
                 japan = false;
                 region = 2;
             }
-
         }
         md.clean();
         shared_ptr<Gui> gui(Gui::getInstance());
@@ -257,15 +261,16 @@ void Game::recoverMissingFiles() {
         delete(processor);
         pcsxCfgFound = true;
     }
-
 }
 
+//*******************************
+// Game::updateObj
+//*******************************
 void Game::updateObj() {
     string tmp;
     discs.clear();
     title = valueOrDefault("title", pathName);
     memcard = valueOrDefault("memcard", "");
-
 
     publisher = valueOrDefault("publisher", "Other");
     string automation = valueOrDefault("automation", "0");
@@ -274,11 +279,11 @@ void Game::updateObj() {
     if (Util::isInteger(tmp.c_str())) players = atoi(tmp.c_str()); else players = 1;
     tmp = valueOrDefault("year", "2018");
 
-
     if (Util::isInteger(tmp.c_str())) year = atoi(tmp.c_str()); else year = 2018;
     tmp = valueOrDefault("highres","0");
     if (Util::isInteger(tmp.c_str())) highRes = atoi(tmp.c_str()); else highRes = 0;
     tmp = valueOrDefault("discs", "");
+    favorite = valueOrDefault("favorite", "0");
 
     if (!tmp.empty()) {
         vector<string> strings;
@@ -310,17 +315,16 @@ void Game::updateObj() {
                 }
 
                 disc.binVerified = true;
-
                 disc.cueName = disc.diskName;
             }
-
         }
     }
     gameIniValid = true;
-
-
 }
 
+//*******************************
+// Game::saveIni
+//*******************************
 void Game::saveIni(string path) {
     cout << "Overwritting ini file" << path << endl;
     Inifile *ini = new Inifile();
@@ -339,6 +343,7 @@ void Game::saveIni(string path) {
     {
         ini->values["memcard"] = memcard;
     }
+    ini->values["Favorite"] = favorite;
 
     stringstream ss;
     for (int i = 0; i < discs.size(); i++) {
@@ -353,6 +358,9 @@ void Game::saveIni(string path) {
     gameIniFound = true;
 }
 
+//*******************************
+// Game::parseIni
+//*******************************
 void Game::parseIni(string path) {
     iniValues.clear();
     Inifile *ini = new Inifile();
@@ -367,6 +375,9 @@ void Game::parseIni(string path) {
     delete ini;
 }
 
+//*******************************
+// Game::readIni
+//*******************************
 void Game::readIni(string path) {
     parseIni(path);
     updateObj();

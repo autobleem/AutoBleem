@@ -14,10 +14,13 @@
 #include "gui_confirm.h"
 #include "gui_keyboard.h"
 #include "../lang.h"
+using namespace std;
 
+//*******************************
+// GuiSelectMemcard::init
+//*******************************
 void GuiSelectMemcard::init() {
     cards.clear();
-
 
     shared_ptr<Gui> gui(Gui::getInstance());
     Memcard *memcardOps = new Memcard(gui->path);
@@ -26,7 +29,6 @@ void GuiSelectMemcard::init() {
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
     firstVisible = 0;
     lastVisible = firstVisible + maxVisible;
-
 
     if (!cardSelected.empty()) {
         for (int i = 0; i < cards.size(); i++) {
@@ -41,9 +43,11 @@ void GuiSelectMemcard::init() {
     cards.insert(it, string(_("(Internal)")));
 
     delete memcardOps;
-
 }
 
+//*******************************
+// GuiSelectMemcard::render
+//*******************************
 void GuiSelectMemcard::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
@@ -64,7 +68,6 @@ void GuiSelectMemcard::render() {
         lastVisible++;
     }
 
-
     int pos = 1;
     for (int i = firstVisible; i < lastVisible; i++) {
         if (i >= cards.size()) {
@@ -83,6 +86,9 @@ void GuiSelectMemcard::render() {
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiSelectMemcard::loop
+//*******************************
 void GuiSelectMemcard::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
@@ -93,7 +99,6 @@ void GuiSelectMemcard::loop() {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
             // this is for pc Only
@@ -163,10 +168,7 @@ void GuiSelectMemcard::loop() {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         menuVisible = false;
                     };
-
-
             }
-
         }
     }
 }

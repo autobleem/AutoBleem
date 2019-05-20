@@ -4,55 +4,42 @@
  *
  * Created on 11 dec 2018, 21:49
  */
-
-
-#ifndef DATABASE_H
-#define DATABASE_H
+#pragma once
 
 #include "../main.h"
 #include "metadata.h"
 #include "../sqlite3.h"
 #include "../launcher/ps_game.h"
+#include <memory>
 
-
-using namespace std;
-
-
+//******************
+// Database
+//******************
 class Database {
 public:
 
-    bool connect(string fileName);
+    bool connect(std::string fileName);
     void disconnect();
     bool createInitialDatabase();
     void createFavColumn();
     bool truncate();
 
-    bool insertGame(int id, string title, string publisher, int players, int year, string path, string sspath,
-                    string memcard);
-    bool insertDisc(int id, int discNum, string discName);
-    bool querySerial(string serial, Metadata *md);
-    bool queryTitle(string title, Metadata *md);
+    bool insertGame(int id, std::string title, std::string publisher, int players, int year, std::string path, std::string sspath,
+                    std::string memcard);
+    bool insertDisc(int id, int discNum, std::string discName);
+    bool querySerial(std::string serial, Metadata *md);
+    bool queryTitle(std::string title, Metadata *md);
     int getNumGames();
     bool updateYear(int id, int year);
-    bool updateMemcard(int id, string memcard);
+    bool updateMemcard(int id, std::string memcard);
 
-    bool getGames(vector<PsGame *> *result);
-    bool getInternalGames(vector<PsGame *> *result);
-    bool updateTitle(int id, string title);
-    bool refreshGame(PsGame  *game);
-    bool refreshGameInternal(PsGame  *game);
+    bool getGames(PsGames *result);
+    bool getInternalGames(PsGames *result);
+    bool updateTitle(int id, std::string title);
+    bool refreshGame(PsGamePtr & game);
+    bool refreshGameInternal(PsGamePtr & game);
 private:
     sqlite3 *db;
-    bool executeCreateStatement(char *sql, string tableName);
-    bool executeStatement(char *sql, string outMsg, string errorMsg);
-
-
+    bool executeCreateStatement(char *sql, std::string tableName);
+    bool executeStatement(char *sql, std::string outMsg, std::string errorMsg);
 };
-
-
-
-
-
-
-#endif /* DATABASE_H */
-

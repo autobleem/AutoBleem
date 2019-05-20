@@ -6,9 +6,12 @@
 #include "../util.h"
 #include "gui.h"
 #include "../lang.h"
+using namespace std;
 
-
-string GuiOptions::getOption(vector<string> list, string current, bool next) {
+//*******************************
+// GuiOptions::getOption
+//*******************************
+string GuiOptions::getOption(const vector<string> & list, string current, bool next) {
     int pos = 0;
     for (int i = 0; i < list.size(); i++) {
         if (list[i] == current) {
@@ -29,7 +32,9 @@ string GuiOptions::getOption(vector<string> list, string current, bool next) {
     return list[pos];
 }
 
-
+//*******************************
+// GuiOptions::init
+//*******************************
 void GuiOptions::init() {
     shared_ptr<Lang> lang(Lang::getInstance());
     themes.clear();
@@ -116,8 +121,9 @@ void GuiOptions::init() {
 #define CFG_RA         12
 #define CFG_ADV        13
 
-
-
+//*******************************
+// GuiOptions::getBooleanIcon
+//*******************************
 string GuiOptions::getBooleanIcon(string input) {
     shared_ptr<Gui> gui(Gui::getInstance());
     string value = gui->cfg.inifile.values[input];
@@ -132,6 +138,9 @@ string GuiOptions::getBooleanIcon(string input) {
     }
 }
 
+//*******************************
+// GuiOptions::renderOptionLine
+//*******************************
 void GuiOptions::renderOptionLine(string text, int pos, int offset) {
     shared_ptr<Gui> gui(Gui::getInstance());
     string fg = gui->themeData.values["text_fg"];
@@ -145,7 +154,6 @@ void GuiOptions::renderOptionLine(string text, int pos, int offset) {
         rect2.w = atoi(gui->themeData.values["opscreenw"].c_str());
         rect2.h = atoi(gui->themeData.values["opscreenh"].c_str());
 
-
         SDL_Rect rectSelection;
         rectSelection.x = rect2.x + 5;
         rectSelection.y = offset + totalHeight;
@@ -158,8 +166,9 @@ void GuiOptions::renderOptionLine(string text, int pos, int offset) {
     }
 }
 
-
-
+//*******************************
+// GuiOptions::render
+//*******************************
 void GuiOptions::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
@@ -188,6 +197,9 @@ void GuiOptions::render() {
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiOptions::loop
+//*******************************
 void GuiOptions::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr<Lang> lang(Lang::getInstance());
@@ -203,7 +215,6 @@ void GuiOptions::loop() {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
             // this is for pc Only
@@ -240,7 +251,6 @@ void GuiOptions::loop() {
                             render();
                         }
                     }
-
 
                     if (e.jaxis.axis == 0) {
                         if (e.jaxis.value > PCS_DEADZONE) {
@@ -331,10 +341,7 @@ void GuiOptions::loop() {
                                 delay++;
                                 if (last == "false") delay = 1;
                                 gui->cfg.inifile.values["delay"] = to_string(delay);
-
-
                             }
-
 
                             render();
                         }
@@ -345,8 +352,6 @@ void GuiOptions::loop() {
                                 gui->cfg.inifile.values["language"] = nextValue;
                                 lang->load(nextValue);
                                 init();
-
-
                             }
                             if (selOption == CFG_THEME) {
                                 string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], false);
@@ -359,7 +364,6 @@ void GuiOptions::loop() {
                                 gui->cfg.inifile.values["music"] = nextValue;
                                 init();
                                 gui->loadAssets();
-
                             }
                             if (selOption == CFG_MENUTH) {
                                 string nextValue = getOption(sthemes, gui->cfg.inifile.values["stheme"], false);
@@ -371,50 +375,41 @@ void GuiOptions::loop() {
                                 gui->cfg.inifile.values["nomusic"] = nextValue;
                                 init();
                                 gui->loadAssets();
-
                             }
 
                             if (selOption == CFG_MIP) {
                                 string nextValue = getOption(mip, gui->cfg.inifile.values["mip"], false);
                                 gui->cfg.inifile.values["mip"] = nextValue;
-
                             }
 
                             if (selOption == CFG_UI) {
                                 string nextValue = getOption(ui, gui->cfg.inifile.values["ui"], false);
                                 gui->cfg.inifile.values["ui"] = nextValue;
-
                             }
 
                             if (selOption == CFG_RA) {
                                 string nextValue = getOption(retroarch, gui->cfg.inifile.values["retroarch"], false);
                                 gui->cfg.inifile.values["retroarch"] = nextValue;
-
                             }
                             if (selOption == CFG_ADV) {
                                 string nextValue = getOption(adv, gui->cfg.inifile.values["adv"], false);
                                 gui->cfg.inifile.values["adv"] = nextValue;
-
                             }
                             if (selOption == CFG_ASPECT) {
                                 string nextValue = getOption(aspect, gui->cfg.inifile.values["aspect"], false);
                                 gui->cfg.inifile.values["aspect"] = nextValue;
-
                             }
                             if (selOption == CFG_ORIGAMES) {
                                 string nextValue = getOption(origames, gui->cfg.inifile.values["origames"], false);
                                 gui->cfg.inifile.values["origames"] = nextValue;
-
                             }
                             if (selOption == CFG_JEWEL) {
                                 string nextValue = getOption(jewels, gui->cfg.inifile.values["jewel"], false);
                                 gui->cfg.inifile.values["jewel"] = nextValue;
-
                             }
                             if (selOption == CFG_QUICKMENU) {
                                 string nextValue = getOption(quickmenu, gui->cfg.inifile.values["quickmenu"], false);
                                 gui->cfg.inifile.values["quickmenu"] = nextValue;
-
                             }
                             if (selOption == CFG_QUICK) {
                                 string nextValue = getOption(quickboot, gui->cfg.inifile.values["quick"], false);
@@ -428,12 +423,8 @@ void GuiOptions::loop() {
                         }
                     }
 
-
                     break;
-
-
             }
-
         }
     }
 }

@@ -6,102 +6,19 @@
 #include "../util.h"
 #include "../engine/inifile.h"
 #include "../gui/gui.h"
+using namespace std;
 
-
-void PsGame::loadTex(SDL_Renderer *renderer) {
-    shared_ptr<Gui> gui(Gui::getInstance());
-
-    if (coverPng == nullptr) {
-
-        SDL_Texture *renderSurface = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, 226,
-                                                       226);
-        SDL_SetRenderTarget(renderer, renderSurface);
-        SDL_RenderClear(renderer);
-        SDL_Rect fullRect;
-
-        string imagePath = this->folder + Util::separator() + this->base + ".png";
-        if (Util::exists(imagePath)) {
-            coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
-        } else coverPng = nullptr;
-
-        if (coverPng != nullptr) {
-            fullRect.x = 0;
-            fullRect.y = 0;
-            fullRect.h = 226, fullRect.w = 226;
-
-            Uint32 format;
-            int access;
-            SDL_QueryTexture(coverPng, &format, &access, &fullRect.w, &fullRect.h);
-
-            SDL_Rect outputRect;
-            if (gui->cdJewel != nullptr) {
-                outputRect.x = 23;
-                outputRect.y = 5;
-                outputRect.h = 217;
-                outputRect.w = 199;
-            } else {
-                outputRect.x = 0;
-                outputRect.y = 0;
-                outputRect.h = 226;
-                outputRect.w = 226;
-            }
-            if (coverPng != nullptr) {
-                SDL_RenderCopy(renderer, coverPng, &fullRect, &outputRect);
-            }
-            if (coverPng != nullptr) {
-                SDL_DestroyTexture(coverPng);
-                coverPng = nullptr;
-            }
-
-
-            fullRect.x = 0;
-            fullRect.y = 0;
-            fullRect.h = 226, fullRect.w = 226;
-            if (gui->cdJewel != nullptr) {
-                SDL_RenderCopy(renderer, gui->cdJewel, &fullRect, &fullRect);
-            }
-            coverPng = renderSurface;
-        }
-        SDL_SetRenderTarget(renderer, nullptr);
-    }
-
-}
-
-void PsGame::freeTex() {
-    if (coverPng != nullptr) {
-
-        SDL_DestroyTexture(coverPng);
-        coverPng = nullptr;
-    }
-
-
-}
-
-
+//*******************************
+// PsGame::isCleanExit
+//*******************************
 bool PsGame::isCleanExit() {
     string filenamefile = ssFolder + "filename.txt";
     return Util::exists(filenamefile);
 }
 
-PsGame *PsGame::clone() {
-    PsGame *clone = new PsGame();
-    clone->visible = this->visible;
-    clone->gameId = this->gameId;
-    clone->folder = this->folder;
-    clone->title = this->title;
-    clone->base = this->base;
-    clone->ssFolder = this->ssFolder;
-    clone->memcard = this->memcard;
-    clone->players = this->players;
-    clone->publisher = this->publisher;
-    clone->coverPng = this->coverPng;
-    clone->year = this->year;
-    clone->internal = this->internal;
-
-
-    return clone;
-}
-
+//*******************************
+// PsGame::setMemCard
+//*******************************
 void PsGame::setMemCard(string name) {
     this->memcard = name;
     Inifile *ini = new Inifile();
@@ -112,6 +29,9 @@ void PsGame::setMemCard(string name) {
     gui->db->updateMemcard(this->gameId, name);
 }
 
+//*******************************
+// PsGame::removeResumePoint
+//*******************************
 void PsGame::removeResumePoint(int slot) {
     // TODO: Remove ssfile
     string filenamefile = ssFolder + "filename.txt.res";
@@ -143,6 +63,9 @@ void PsGame::removeResumePoint(int slot) {
     }
 }
 
+//*******************************
+// PsGame::isResumeSlotActive
+//*******************************
 bool PsGame::isResumeSlotActive(int slot) {
     string filenamefile = ssFolder + "filename.txt.res";
     string filenamepoint = ssFolder + "filename." + to_string(slot) + ".txt.res";
@@ -175,6 +98,9 @@ bool PsGame::isResumeSlotActive(int slot) {
     return false;
 }
 
+//*******************************
+// PsGame::storeResumePicture
+//*******************************
 void PsGame::storeResumePicture(int slot) {
     string filenamefile = ssFolder + "filename.txt.res";
     string filenamepoint = ssFolder + "filename." + to_string(slot) + ".txt.res";
@@ -200,19 +126,19 @@ void PsGame::storeResumePicture(int slot) {
 
             } else {
                 slotImg = ssFolder + "screenshots/" + line + "." + to_string(slot) + ".png.res";
-
             }
             is.close();
 
             remove(slotImg.c_str());
             Util::copy(inputImg, slotImg);
             remove(inputImg.c_str());
-
         }
     }
-
 }
 
+//*******************************
+// PsGame::findResumePicture
+//*******************************
 string PsGame::findResumePicture(int slot) {
     string filenamefile = ssFolder + "filename.txt.res";
     string filenamepoint = ssFolder + "filename." + to_string(slot) + ".txt.res";
@@ -246,6 +172,9 @@ string PsGame::findResumePicture(int slot) {
 }
 
 
+//*******************************
+// PsGame::findResumePicture
+//*******************************
 string PsGame::findResumePicture() {
     // try to do it in silly Sony way
     string filenamefile = ssFolder + "filename.txt.res";

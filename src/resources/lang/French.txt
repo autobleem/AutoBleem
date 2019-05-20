@@ -194,7 +194,7 @@ Showing: Internal games
 Montrer: Jeux Internes
 Showing: USB games
 Montrer: Jeux USB
-Showing: Favourite games
+Showing: Favorite games
 Montrer: Jeux Favoris
 Player
 Joueur

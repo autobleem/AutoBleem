@@ -2,8 +2,7 @@
 // Created by screemer on 2/11/19.
 //
 
-#ifndef AUTOBLEEM_GUI_PS_OBJ_H
-#define AUTOBLEEM_GUI_PS_OBJ_H
+#pragma once
 
 #include "../main.h"
 #include <SDL2/SDL.h>
@@ -13,6 +12,9 @@
 
 using namespace std;
 
+//******************
+// PsObj
+//******************
 class PsObj {
 public:
     SDL_Renderer *renderer;
@@ -21,9 +23,7 @@ public:
 
     string name;
 
-
     SDL_Texture *tex = nullptr;
-
 
     bool visible = false;
     long lastTime = 0;
@@ -37,8 +37,4 @@ public:
     virtual void update(long time) {};
 
     virtual void render();
-
 };
-
-
-#endif //AUTOBLEEM_GUI_PS_OBJ_H

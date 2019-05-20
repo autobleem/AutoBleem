@@ -2,11 +2,13 @@
 // Created by screemer on 2019-03-02.
 //
 
-#ifndef AUTOBLEEM_GUI_GUI_BTN_GUIDE_H
-#define AUTOBLEEM_GUI_GUI_BTN_GUIDE_H
+#pragma once
 
 #include "../gui/gui_screen.h"
 
+//******************
+// GuiBtnGuide
+//******************
 class GuiBtnGuide : public GuiScreen {
 public:
     void render();
@@ -15,6 +17,3 @@ public:
 
     using GuiScreen::GuiScreen;
 };
-
-
-#endif //AUTOBLEEM_GUI_GUI_BTN_GUIDE_H

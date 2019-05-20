@@ -3,19 +3,20 @@ project(autobleem-gui)
 
 set(CMAKE_CXX_STANDARD 11)
 
-
 if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm" )
 	SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -s -Os -O3")
-	SET(CMAKE_CXX_FLAGS " -mfloat-abi=hard -march=armv8-a+simd -Os -O3")
+	SET(CMAKE_CXX_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -Os -O3")
 	include_directories(src/include /home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/include)
 	link_directories(/home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/lib$)
-	else()
-
-
+else()
+	if( "${CMAKE_BUILD_TYPE}" STREQUAL "Debug" )
+		if ( "$ENV{MEM_DEBUG}" STREQUAL "1" )
+			message("Enabling additional memory debugging")
+			SET(CMAKE_C_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
+			SET(CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
+		endif()
 	endif()
-
-
-
+endif()
 
 find_package(Threads REQUIRED)
 
@@ -67,7 +68,7 @@ add_executable(autobleem-gui
         src/code/gui/gui_manager.h
         src/code/gui/gui_editor.cpp
         src/code/gui/gui_editor.h
-        src/code/gui/gui_selectmemcard.cpp
+		src/code/gui/gui_selectmemcard.cpp
         src/code/gui/gui_selectmemcard.h
 		src/code/ver_migration.cpp
 		src/code/ver_migration.h
@@ -79,8 +80,10 @@ add_executable(autobleem-gui
         src/code/lang.h 
         src/code/launcher/gui_launcher.cpp
         src/code/launcher/gui_launcher.h 
+		src/code/launcher/gui_NotificationLine.h
+		src/code/launcher/gui_NotificationLine.cpp
         src/code/launcher/ps_obj.cpp
-        src/code/launcher/ps_obj.h 
+        src/code/launcher/ps_obj.h
         src/code/launcher/ps_static.cpp
         src/code/launcher/ps_static.h
         src/code/launcher/ps_settings_back.cpp 
@@ -103,7 +106,10 @@ add_executable(autobleem-gui
         src/code/launcher/ps_centerlabel.h
         src/code/launcher/ps_stateselector.cpp
         src/code/launcher/ps_stateselector.h
-        src/code/launcher/gui_btn_guide.cpp src/code/launcher/gui_btn_guide.h src/code/engine/padmapper.cpp src/code/engine/padmapper.h)
+        src/code/launcher/gui_btn_guide.cpp
+		src/code/launcher/gui_btn_guide.h
+		src/code/engine/padmapper.cpp
+		src/code/engine/padmapper.h)
 
 add_executable(starter
 		src/code/starter.cpp
@@ -126,7 +132,6 @@ target_link_libraries(autobleem-gui
 add_custom_command(TARGET autobleem-gui PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:autobleem-gui>)
-
 
 configure_file(src/resources/default.lic default.lic COPYONLY)
 configure_file(src/resources/default.png default.png COPYONLY)

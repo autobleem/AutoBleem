@@ -8,6 +8,9 @@
 
 static const char *jDatabases[] = {"../db/coversU.db", "../db/coversP.db", "../db/coversJ.db"};
 
+//*******************************
+// Coverdb::Coverdb()
+//*******************************
 Coverdb::Coverdb()
 {
     for (int i=0;i<3;i++)
@@ -25,6 +28,9 @@ Coverdb::Coverdb()
     regionStr[2] = "J";
 }
 
+//*******************************
+// Coverdb::~Coverdb()
+//*******************************
 Coverdb::~Coverdb()
 {
     for (int i=0;i<3;i++)
@@ -35,9 +41,11 @@ Coverdb::~Coverdb()
             delete covers[i];
         }
     }
-
 }
 
+//*******************************
+// Coverdb::isValid
+//*******************************
 bool Coverdb::isValid()
 {
     bool valid = false;

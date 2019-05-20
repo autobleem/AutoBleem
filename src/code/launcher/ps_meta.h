@@ -2,14 +2,19 @@
 // Created by screemer on 2/12/19.
 //
 
-#ifndef AUTOBLEEM_GUI_PS_META_H
-#define AUTOBLEEM_GUI_PS_META_H
+#pragma once
 
 #include "ps_obj.h"
+#include "ps_game.h"
+#include <memory>
 
+class PsGame;
+
+//******************
+// PsMeta
+//******************
 class PsMeta : public PsObj {
 public:
-
     string gameName;
     string publisher;
     string year;
@@ -32,6 +37,7 @@ public:
     SDL_Texture *lockOnTex = nullptr;
     SDL_Texture *lockOffTex = nullptr;
     SDL_Texture *cdTex = nullptr;
+    SDL_Texture *favoriteTex = nullptr;
 
     int nextPos = 0;
     int prevPos = 0;
@@ -42,11 +48,13 @@ public:
     bool hd = false;
     bool locked = false;
     bool discs = 1;
-
+    bool favorite = false;
 
     void updateTexts(string gameNameTxt, string publisherTxt,
-                     string yearTxt, string playersTxt, bool internal, bool hd, bool locked, int discs, int r, int g,
+                     string yearTxt, string playersTxt, bool internal, bool hd, bool locked, int discs, bool favorite, int r, int g,
                      int b);
+
+    void updateTexts(PsGamePtr & game, int r, int g, int b);
 
     void destroy();
 
@@ -54,11 +62,7 @@ public:
 
     void update(long time);
 
-
     using PsObj::PsObj;
 private:
     SDL_Texture *createTextTex(string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
 };
-
-
-#endif //AUTOBLEEM_GUI_PS_META_H

@@ -4,14 +4,20 @@
 
 #include "lang.h"
 #include "util.h"
+using namespace std;
 
-
+//*******************************
+// string _(string input)
+//*******************************
 string _(string input) {
     shared_ptr<Lang> lang(Lang::getInstance());
 
     return lang->translate(input);
 }
 
+//*******************************
+// Lang::translate
+//*******************************
 string Lang::translate(string input){
     if (currentLang == "English") return input;
     trim(input);
@@ -25,6 +31,9 @@ string Lang::translate(string input){
     return translated;
 }
 
+//*******************************
+// Lang::load
+//*******************************
 void Lang::load(string lang) {
     string path = Util::getWorkingPath() + Util::separator() + "lang" + Util::separator() + lang + ".txt";
     langData.clear();
@@ -47,8 +56,9 @@ void Lang::load(string lang) {
     is.close();
 }
 
-
-
+//*******************************
+// Lang::dump
+//*******************************
 void Lang::dump(string fileName) {
 
     string fileSave = Util::getWorkingPath() + Util::separator() + fileName;
@@ -63,6 +73,9 @@ void Lang::dump(string fileName) {
     os.close();
 }
 
+//*******************************
+// Lang::listLanguages
+//*******************************
 vector<string> Lang::listLanguages()
 {
     vector<string> languages;

@@ -1,13 +1,11 @@
 //
 // Created by screemer on 2/8/19.
 //
+#pragma once
 
-#ifndef AUTOBLEEM_GUI_GUI_LAUNCHER_H
-#define AUTOBLEEM_GUI_GUI_LAUNCHER_H
-
+#include "gui_NotificationLine.h"
 #include "../gui/gui_screen.h"
 #include "ps_obj.h"
-#include <vector>
 #include "ps_settings_back.h"
 #include "ps_zoom_btn.h"
 #include "ps_meta.h"
@@ -17,17 +15,26 @@
 #include "ps_menu.h"
 #include "ps_centerlabel.h"
 #include "ps_stateselector.h"
+#include <vector>
+#include <memory>
 
 #define STATE_GAMES    0
 #define STATE_SET      1
 #define STATE_RESUME   2
 #define STATE_INFO     3
 
+// if you add a new set also update setNames in gui_launcher.cpp
 #define SET_ALL      0
 #define SET_INTERNAL 1
 #define SET_EXTERNAL 2
+#define SET_FAVORITE 3
+#define SET_LAST 3
 
+static const SDL_Color brightWhite = { 255, 255, 255, 0 };
 
+//******************
+// GuiLauncher
+//******************
 class GuiLauncher : public GuiScreen {
 public:
     void init();
@@ -37,17 +44,20 @@ public:
     void nextGame(int speed);
     void prevGame(int speed);
     void updateMeta();
-    void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background, bool center);
     void loadAssets();
     void freeAssets();
     void moveMainCover(int state);
 
     int currentSet=SET_ALL;
     void switchSet(int newSet);
-    void showSetNotification();
+    void showSetName();
+    NotificationLines notificationLines; // top two lines of the screen
+    int numberOfNonDuplicatedGamesInCarousel = 0;
+
+    static void renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, const SDL_Color & textColor,
+            TTF_Font *font, bool center, bool background);
+
     bool powerOffShift=false;
-
-
 
     PsCarousel carouselPositions;
 
@@ -69,34 +79,32 @@ public:
     TTF_Font *font15;
     TTF_Font *font24;
 
-    int fgR=255, fgG=255, fgB=255;
-    int secR=100, secG=100, secB=100;
+    Uint8 fgR=255, fgG=255, fgB=255;
+    Uint8 secR=100, secG=100, secB=100;
 
-
-    vector<PsObj *> staticElements;
-    vector<PsObj *> frontElemets;
-    vector<PsObj *> menuElements;
-    vector<PsObj *> carousel;
+    std::vector<PsObj *> staticElements;
+    std::vector<PsObj *> frontElemets;
+    std::vector<PsObj *> menuElements;
+    std::vector<PsObj *> carousel;
 
     PsCenterLabel * menuHead;
     PsCenterLabel * menuText;
 
-    string gameName;
-    string publisher;
-    string year;
-    string players;
-
-    string notificationText;
-    long notificationTime=0;
+    std::string gameName;
+    std::string publisher;
+    std::string year;
+    std::string players;
 
     bool staticMeta=false;
-
-    void showNotification(string text);
-
     bool gameInfoVisible = true;
     bool scrolling = false;
     using GuiScreen::GuiScreen;
-    vector<PsGame *> gamesList;
+
+    // the carousel of games.
+    // Note that if there are less than 13 games in the gamesList the games are duplicated to fill out the carousel.
+    // So the same PsGamePtr could be in more than one PsCarouselGame.
+    std::vector<PsCarouselGame> carouselGames;
+
     int selGame = 0;
     int state = STATE_GAMES;
     void setInitialPositions(int selected);
@@ -107,7 +115,6 @@ public:
     void updatePositions();
     void updateVisibility();
     void switchState(int state, int time);
+
+    static bool sortByTitle(const PsGamePtr &i, const PsGamePtr &j) { return SortByCaseInsensitive(i->title, j->title); }
 };
-
-
-#endif //AUTOBLEEM_GUI_GUI_LAUNCHER_H

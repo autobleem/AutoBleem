@@ -11,8 +11,11 @@
 #include "gui.h"
 #include "../lang.h"
 
+//*******************************
+// GuiAbout::render
+//*******************************
 void GuiAbout::render() {
-    shared_ptr<Gui> gui(Gui::getInstance());
+    std::shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
@@ -34,8 +37,11 @@ void GuiAbout::render() {
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiAbout::loop
+//*******************************
 void GuiAbout::loop() {
-    shared_ptr<Gui> gui(Gui::getInstance());
+    std::shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
     while (menuVisible) {
         gui->watchJoystickPort();
@@ -45,7 +51,6 @@ void GuiAbout::loop() {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
             // this is for pc Only
@@ -54,17 +59,11 @@ void GuiAbout::loop() {
             }
             switch (e.type) {
                 case SDL_JOYBUTTONUP:
-
-
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         menuVisible = false;
-
                     };
-
-
             }
-
         }
     }
 }

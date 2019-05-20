@@ -47,13 +47,19 @@ CMakeLists.txt
 #CLion folder
 .idea/
 
+#Clion build folders
+cmake-build-*/
+
 #OS X DS_Store files
 .DS_Store
 
-#Test build folder
-cmake-build-debug/
-
-#ARM Build folder
+#ARM and local system shell script Build folders
 build_arm/
+build_sys/
 db/
 
+#If you edit, or view, a file in Visual Studio in open folder mode it creates files in a .vs folder to keep track
+.vs/
+
+#VS Code
+.vscode/

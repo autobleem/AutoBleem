@@ -1,12 +1,9 @@
 //
 // Created by screemer on 2019-03-21.
 //
-
-#ifndef AUTOBLEEM_GUI_PADMAPPER_H
-#define AUTOBLEEM_GUI_PADMAPPER_H
+#pragma once
 
 #include "../main.h"
-using namespace std;
 
 #define PCS_BTN_L2       4
 #define PCS_BTN_R2       5
@@ -19,16 +16,12 @@ using namespace std;
 #define PCS_BTN_CIRCLE   1
 #define PCS_BTN_SELECT   8
 
+//******************
+// PadMapper
+//******************
 class PadMapper {
 public:
-    string gamePadName;
-    map<int,int> currentPadMap;
+    std::string gamePadName;
+    std::map<int,int> currentPadMap;
     bool dpadEmu;
-
-
-
-
 };
-
-
-#endif //AUTOBLEEM_GUI_PADMAPPER_H

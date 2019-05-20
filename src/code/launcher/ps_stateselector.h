@@ -2,23 +2,23 @@
 // Created by screemer on 2019-02-22.
 //
 
-#ifndef AUTOBLEEM_GUI_PS_STATESELECTOR_H
-#define AUTOBLEEM_GUI_PS_STATESELECTOR_H
+#pragma once
 
 #include "ps_obj.h"
 #include "ps_game.h"
-using namespace std;
 
 #define OP_LOAD 0
 #define OP_SAVE 1
 
+//******************
+// PsStateSelector
+//******************
 class PsStateSelector : public PsObj {
 public:
     int operation=0;
     void render();
-    void renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool center);
 
-    void loadSaveStateImages(PsGame * game, bool saving);
+    void loadSaveStateImages(PsGamePtr & game, bool saving);
     void cleanSaveStateImages();
 
     void freeImages();
@@ -35,6 +35,3 @@ public:
 
     using PsObj::PsObj;
 };
-
-
-#endif //AUTOBLEEM_GUI_PS_STATESELECTOR_H

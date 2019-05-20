@@ -1,20 +1,17 @@
 //
 // Created by screemer on 23.12.18.
 //
-
-#ifndef CBLEEMSYNC_CONFIG_H
-#define CBLEEMSYNC_CONFIG_H
+#pragma once
 
 #include "../main.h"
 #include "inifile.h"
 
-
+//******************
+// Config
+//******************
 class Config {
 public:
     Inifile inifile;
     Config();
     void save();
 };
-
-
-#endif //CBLEEMSYNC_CONFIG_H

@@ -1,9 +1,7 @@
 //
 // Created by screemer on 2018-12-19.
 //
-
-#ifndef CBLEEMSYNC_SPLASH_H
-#define CBLEEMSYNC_SPLASH_H
+#pragma once
 
 #include "../main.h"
 #include <SDL2/SDL.h>
@@ -29,9 +27,6 @@
 #define PCS_BTN_CIRCLE   1
 #define PCS_BTN_SELECT   8
 
-
-using namespace std;
-
 #define MENU_OPTION_SCAN  1
 #define MENU_OPTION_RUN   2
 #define MENU_OPTION_SONY  3
@@ -39,18 +34,16 @@ using namespace std;
 #define MENU_OPTION_START 5
 #define MENU_OPTION_POWER 6
 
-
+//********************
+// Gui
+//********************
 class Gui {
 private:
     Gui() {}
-    string themePath;
-
-
-
+    std::string themePath;
 
 public:
-
-    vector<SDL_Joystick*> joysticks;
+    std::vector<SDL_Joystick*> joysticks;
 
     Config cfg;
     Coverdb *coverdb;
@@ -58,47 +51,46 @@ public:
     Inifile themeData;
     Inifile defaultData;
 
-
     void watchJoystickPort();
 
     void loadAssets();
-    void display(bool forceScan, string path, Database *db, bool resume);
+    void display(bool forceScan, std::string path, Database *db, bool resume);
     void waitForGamepad();
     void finish();
-    void drawText(string text);
-    void getEmojiTextTexture(SDL_Renderer *renderer, string text,
+    void drawText(std::string text);
+    void getEmojiTextTexture(SDL_Renderer *renderer, std::string text,
                          TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
-    void logText(string message);
+    void logText(std::string message);
     void menuSelection();
     void saveSelection();
     bool quickBoot();
     void renderBackground();
     int renderLogo(bool small);
-    void renderStatus(string text);
+    void renderStatus(std::string text);
     void renderTextBar();
-    int renderTextLine(string text, int line, int offset, bool center, int xoffset);
-    int renderTextLine(string text, int line, int offset, bool center);
-    int renderTextLine(string text, int line, int offset);
-    int renderTextLineOptions(string text, int line, int offset, bool center);
-    int renderTextLineOptions(string text, int line, int offset, bool center, int xoffset);
+    int renderTextLine(std::string text, int line, int offset, bool center, int xoffset);
+    int renderTextLine(std::string text, int line, int offset, bool center);
+    int renderTextLine(std::string text, int line, int offset);
+    int renderTextLineOptions(std::string text, int line, int offset, bool center);
+    int renderTextLineOptions(std::string text, int line, int offset, bool center, int xoffset);
     void renderSelectionBox(int line, int offset);
     void renderSelectionBox(int line, int offset, int xoffset);
     void renderLabelBox(int line, int offset);
-    void renderTextChar(string text, int line, int offset, int posx);
+    void renderTextChar(std::string text, int line, int offset, int posx);
     void renderFreeSpace();
     void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
-    string getSonyImagePath();
-    string getSonyFontPath();
-    string getSonySoundPath();
-    string getSonyRootPath();
+    std::string getSonyImagePath();
+    std::string getSonyFontPath();
+    std::string getSonySoundPath();
+    std::string getSonyRootPath();
 
-    Uint8 getR(string val);
-    Uint8 getG(string val);
-    Uint8 getB(string val);
+    Uint8 getR(std::string val);
+    Uint8 getG(std::string val);
+    Uint8 getB(std::string val);
 
-    void criticalException(string text);
-    SDL_Texture *  loadThemeTexture(SDL_Renderer * renderer, string themePath, string defaultPath, string texname);
+    void criticalException(std::string text);
+    SDL_Texture *  loadThemeTexture(SDL_Renderer * renderer, std::string themePath, std::string defaultPath, std::string texname);
 
     int menuOption=MENU_OPTION_SCAN;
     int lastSet = 0;
@@ -123,13 +115,9 @@ public:
     SDL_Texture *buttonUncheck = NULL;
     SDL_Texture *cdJewel = NULL;
 
-
     bool overrideQuickBoot = false;
 
-    string path;
-
-
-
+    std::string path;
 
     Mix_Music * music = NULL;
     TTF_Font *font =  NULL;
@@ -144,7 +132,7 @@ public:
     bool startingGame = false;
     bool resumingGui = false;
     int lastSelIndex = 0;
-    PsGame *runningGame;
+    PsGamePtr runningGame;
     int resumepoint=-1;
 
     Gui(Gui const &) = delete;
@@ -154,6 +142,3 @@ public:
         return s;
     }
 };
-
-
-#endif //CBLEEMSYNC_SPLASH_H

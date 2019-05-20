@@ -14,19 +14,14 @@
 #include "../main.h"
 #include "../lang.h"
 #include <ftw.h>
+using namespace std;
 
-bool wayToSort(Inifile i, Inifile j) {
-    string title1 = i.values["title"];
-    string title2 = j.values["title"];
-
-    title1=lcase(title1);
-    title2=lcase(title2);
-    return title1 < title2;
-}
-
+//*******************************
+// GuiManager::init
+//*******************************
 void GuiManager::init()
 {
-    games.clear();
+    gameInis.clear();
     // Create list of games
 
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -45,15 +40,18 @@ void GuiManager::init()
             continue;
         }
         ini.entry=entry.name;
-        games.push_back(ini);
-
+        gameInis.push_back(ini);
     }
     // sort them
-    sort(games.begin(), games.end(), wayToSort);
+    sort(gameInis.begin(), gameInis.end(), sortByTitle);
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
     firstVisible = 0;
     lastVisible = firstVisible + maxVisible;
 }
+
+//*******************************
+// GuiManager::render
+//*******************************
 void GuiManager::render()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -62,8 +60,8 @@ void GuiManager::render()
     int offset = gui->renderLogo(true);
     gui->renderFreeSpace();
     gui->renderTextLine(_("-=Game manager - Select game=-"),0,offset,true);
-    if (selected >= games.size()) {
-        selected = games.size() - 1;
+    if (selected >= gameInis.size()) {
+        selected = gameInis.size() - 1;
     }
 
     if (selected < firstVisible) {
@@ -75,42 +73,42 @@ void GuiManager::render()
         lastVisible++;
     }
 
-
     int pos = 1;
     for (int i = firstVisible; i < lastVisible; i++) {
-        if (i >= games.size()) {
+        if (i >= gameInis.size()) {
             break;
         }
-        gui->renderTextLine(games[i].values["title"], pos, offset);
+        gui->renderTextLine(gameInis[i].values["title"], pos, offset);
         pos++;
     }
 
-    if (!games.size() == 0) {
+    if (!gameInis.size() == 0) {
         gui->renderSelectionBox(selected - firstVisible + 1, offset);
     }
 
-
-    gui->renderStatus(_("Game")+" " + to_string(selected + 1) + "/" + to_string(games.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"  |@T| "+_("Flush covers")+" |@O| "+_("Close")+" |");
+    gui->renderStatus(_("Game")+" " + to_string(selected + 1) + "/" + to_string(gameInis.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"  |@T| "+_("Flush covers")+" |@O| "+_("Close")+" |");
     SDL_RenderPresent(renderer);
 }
 
-
+//*******************************
+// GuiManager::process
+//*******************************
 int process(const char *file, const struct stat *sb,
             int flag, struct FTW *s)
 {
     int retval = 0;
 
-
     if (Util::getFileExtension(file)=="png")
     {
-
         remove(file);
     }
-
 
     return retval;
 }
 
+//*******************************
+// GuiManager::loop
+//*******************************
 void GuiManager::loop()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -123,7 +121,6 @@ void GuiManager::loop()
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
             // this is for pc Only
@@ -136,7 +133,7 @@ void GuiManager::loop()
                         if (e.jaxis.value > PCS_DEADZONE) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             selected++;
-                            if (selected >= games.size()) {
+                            if (selected >= gameInis.size()) {
                                 selected = 0;
                                 firstVisible = selected;
                                 lastVisible = firstVisible+maxVisible;
@@ -147,7 +144,7 @@ void GuiManager::loop()
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             selected--;
                             if (selected < 0) {
-                                selected = games.size()-1;
+                                selected = gameInis.size()-1;
                                 firstVisible = selected;
                                 lastVisible = firstVisible+maxVisible;
                             }
@@ -159,8 +156,8 @@ void GuiManager::loop()
                     if (e.jbutton.button == PCS_BTN_R1) {
                         Mix_PlayChannel(-1, gui->home_up, 0);
                         selected+=maxVisible;
-                        if (selected >= games.size()) {
-                            selected = games.size() - 1;
+                        if (selected >= gameInis.size()) {
+                            selected = gameInis.size() - 1;
                         }
                         firstVisible = selected;
                         lastVisible = firstVisible+maxVisible;
@@ -177,7 +174,6 @@ void GuiManager::loop()
                         render();
                     };
 
-
                     if (e.jbutton.button == PCS_BTN_CIRCLE) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         if (changes)
@@ -185,9 +181,7 @@ void GuiManager::loop()
                             gui->forceScan=true;
                         }
                         menuVisible = false;
-
                     };
-
 
                     if (e.jbutton.button == PCS_BTN_TRIANGLE) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
@@ -202,17 +196,12 @@ void GuiManager::loop()
                             cout << "Trying to delete covers" << endl;
                             gui->renderStatus(_("Please wait ... deleting covers..."));
 
-
                             int errors = 0;
                             int flags = FTW_DEPTH | FTW_PHYS | FTW_CHDIR;
 
-
                             if (nftw("/media/Games", process, 1, flags) != 0) {
-
                                 errors++;
                             }
-
-
 
                             gui->forceScan = true;
                             menuVisible = false;
@@ -221,14 +210,13 @@ void GuiManager::loop()
                         }
                     }
 
-
                     if (e.jbutton.button == PCS_BTN_CROSS) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
-                        if (!games.empty())
+                        if (!gameInis.empty())
                         {
-                            string selectedEntry = games[selected].entry;
+                            string selectedEntry = gameInis[selected].entry;
                             GuiEditor *editor = new GuiEditor(renderer);
-                            editor->game = games[selected];
+                            editor->gameIni = gameInis[selected];
                             editor->show();
                             if (editor->changes)
                             {
@@ -240,9 +228,9 @@ void GuiManager::loop()
 
                             init();
                             int pos=0;
-                            for (Inifile game:games)
+                            for (const Inifile & gameIni:gameInis)
                             {
-                                if (game.entry==selectedEntry)
+                                if (gameIni.entry==selectedEntry)
                                 {
                                     selected=pos;
                                     firstVisible=pos;
@@ -253,14 +241,8 @@ void GuiManager::loop()
                             render();
                             delete editor;
                         }
-
-
-
                     };
-
-
             }
-
         }
     }
 }

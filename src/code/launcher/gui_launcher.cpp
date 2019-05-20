@@ -2,6 +2,7 @@
 // Created by screemer on 2/8/19.
 //
 
+#include <SDL2/SDL.h>
 #include "gui_launcher.h"
 #include "../gui/gui.h"
 #include "../gui/gui_options.h"
@@ -10,25 +11,112 @@
 #include "../lang.h"
 #include "pcsx_interceptor.h"
 #include "gui_btn_guide.h"
+#include <algorithm>
 
+using namespace std;
 
-bool wayToSort(PsGame *i, PsGame *j) {
-    string name1 = i->title;
-    string name2 = j->title;
-    name1 = lcase(name1);
-    name2 = lcase(name2);
-    return name1 < name2;
+//*******************************
+// GuiLauncher::updateMeta
+//*******************************
+// just update metadata section to be visible on the screen
+void GuiLauncher::updateMeta() {
+    if (carouselGames.empty()) {
+        gameName = "";
+        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0, false, fgR,fgG,fgB);
+        return;
+    }
+    meta->updateTexts(carouselGames[selGame], fgR,fgG,fgB);
 }
 
-// Text rendering routines - places text at x,y with selected color and font
-void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font, bool background,
-                             bool center) {
-    int text_width;
-    int text_height;
-    SDL_Surface *surface;
-    SDL_Texture *texture;
-    SDL_Rect rect;
-    SDL_Color textColor = {r, g, b, 0};
+//*******************************
+// GuiLauncher::switchSet
+//*******************************
+void GuiLauncher::switchSet(int newSet) {
+    shared_ptr<Gui> gui(Gui::getInstance());
+
+    // clear the carousel text
+    if (!carouselGames.empty()) {
+        for (auto & game : carouselGames) {
+            game.freeTex();
+        }
+    }
+
+    // get fresh list of games for this set
+    PsGames gamesList;
+    if (currentSet == SET_ALL || currentSet == SET_EXTERNAL) {
+        gui->db->getGames(&gamesList);
+    }
+    else if (currentSet == SET_FAVORITE) {
+        PsGames completeList;
+        gui->db->getGames(&completeList);
+        // put only the favorites in gamesList
+        copy_if(begin(completeList), end(completeList), back_inserter(gamesList), [] (const PsGamePtr & game) { return game->favorite; });
+    }
+
+    if (gui->cfg.inifile.values["origames"] == "true")
+        if (currentSet == SET_ALL || currentSet == SET_INTERNAL) {
+            PsGames internal;
+            Database *internalDB = new Database();
+#if defined(__x86_64__) || defined(_M_X64)
+            internalDB->connect("internal.db");
+#else
+            internalDB->connect("/media/System/Databases/internal.db");
+#endif
+            internalDB->getInternalGames(&internal);
+            internalDB->disconnect();
+            delete internalDB;
+            for (auto internalGame : internal) {
+                gamesList.push_back(internalGame);
+        }
+    }
+
+    sort(gamesList.begin(), gamesList.end(), sortByTitle);
+
+    // copy the gamesList into the carousel
+    carouselGames.clear();
+    for_each(begin(gamesList), end(gamesList), [&] (PsGamePtr & game)
+        { carouselGames.emplace_back(game); });
+
+    // save the actual number of (non-duplicated) games for the "showing" display
+    numberOfNonDuplicatedGamesInCarousel =  carouselGames.size();
+
+    if (carouselGames.size() > 0) {
+        if (carouselGames.size() < 13) {    // if not enough games to fill the carousel
+            // duplicate the gamesList until the carousel is full
+            while (carouselGames.size() < 13) {
+                for (auto & game : gamesList)
+                    carouselGames.emplace_back(game);
+            }
+        }
+    }
+
+    if (carouselGames.empty()) {
+        selGame = -1;
+    } else {
+        selGame = 0;
+        setInitialPositions(0);
+    }
+}
+
+//*******************************
+// GuiLauncher::showSetName
+//*******************************
+void GuiLauncher::showSetName() {
+    static vector<string> setNames = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
+                           _("Showing: Favorite games")};
+    string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " games)";
+    notificationLines[0].setText(setNames[currentSet] + numGames, false, 0);   // line starts at 0 for top
+}
+
+//*******************************
+// GuiLauncher::renderText
+//*******************************
+void GuiLauncher::renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool center, bool background) {
+    int text_width = 0;
+    int text_height = 0;
+    SDL_Surface *surface = nullptr;
+    SDL_Texture *texture = nullptr;
+    SDL_Rect rect{0,0,0,0};
 
     if (text.size() == 0) {
         texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, 0, 0);
@@ -70,94 +158,11 @@ void GuiLauncher::renderText(int x, int y, string text, Uint8 r, Uint8 g, Uint8 
 
     SDL_RenderCopy(renderer, texture, &inputRect, &rect);
     SDL_DestroyTexture(texture);
+};
 
-
-}
-
-// just update metadata section to be visible on the screen
-void GuiLauncher::updateMeta() {
-    if (gamesList.empty()) {
-        gameName = "";
-        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0, fgR,fgG,fgB);
-        return;
-    }
-    PsGame *game = gamesList[selGame];
-    gameName = game->title;
-    publisher = game->publisher;
-    year = to_string(game->year);
-    if (game->players == 1) {
-        players = to_string(game->players) + " " + _("Player");
-    } else {
-        players = to_string(game->players) + " " + _("Players");
-    }
-    meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal, gamesList[selGame]->hd,
-                      gamesList[selGame]->locked, gamesList[selGame]->cds, fgR,fgG,fgB);
-}
-
-void GuiLauncher::switchSet(int newSet) {
-    shared_ptr<Gui> gui(Gui::getInstance());
-
-    if (!gamesList.empty()) {
-        for (PsGame *game : gamesList) {
-            game->freeTex();
-            delete game;
-        }
-    }
-    gamesList.clear();
-    if (currentSet == SET_ALL || currentSet == SET_EXTERNAL) {
-        gui->db->getGames(&gamesList);
-    }
-
-    if (gui->cfg.inifile.values["origames"] == "true")
-
-        if (currentSet == SET_ALL || currentSet == SET_INTERNAL) {
-            vector<PsGame *> internal;
-            Database *internalDB = new Database();
-#if defined(__x86_64__) || defined(_M_X64)
-            internalDB->connect("internal.db");
-#else
-            internalDB->connect("/media/System/Databases/internal.db");
-#endif
-            internalDB->getInternalGames(&internal);
-            internalDB->disconnect();
-            delete internalDB;
-            for (auto internalGame:internal) {
-                gamesList.push_back(internalGame);
-            }
-
-
-        }
-
-    sort(gamesList.begin(), gamesList.end(), wayToSort);
-
-    if (gamesList.size() > 0) {
-        while (gamesList.size() < 13) {
-            vector<PsGame *> temp;
-            for (PsGame *game:gamesList) {
-                temp.push_back(game->clone());
-            }
-            for (PsGame *game:temp) {
-                gamesList.push_back(game);
-            }
-
-        }
-    }
-
-    if (gamesList.empty()) {
-        selGame = -1;
-    } else {
-        selGame = 0;
-        setInitialPositions(0);
-    }
-}
-
-void GuiLauncher::showSetNotification() {
-
-    vector<string> sets = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
-                           _("Showing: Favourite games")};
-    showNotification(sets[currentSet]);
-}
-
+//*******************************
+// GuiLauncher::loadAssets
+//*******************************
 // load all assets needed by the screen
 void GuiLauncher::loadAssets() {
 
@@ -170,27 +175,6 @@ void GuiLauncher::loadAssets() {
     for (int i = 0; i < 100; i++) {
         SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
     }
-    staticElements.clear();
-    frontElemets.clear();
-    gamesList.clear();
-    carouselPositions.initCoverPositions();
-    switchSet(currentSet);
-    showSetNotification();
-
-
-    gameName = "";
-    publisher = "";
-    year = "";
-    players = "";
-
-
-    if (gui->lastSelIndex != 0) {
-        selGame = gui->lastSelIndex;
-        setInitialPositions(selGame);
-    }
-
-
-    long time = SDL_GetTicks();
 
     Inifile colorsFile;
     if (Util::exists(gui->getSonyRootPath() + "/colors.ini")) {
@@ -201,12 +185,31 @@ void GuiLauncher::loadAssets() {
         secR = gui->getR(colorsFile.values["sec"]);
         secG = gui->getG(colorsFile.values["sec"]);
         secB = gui->getB(colorsFile.values["sec"]);
-
     }
     font30 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Bold.ttf").c_str(), 28);
     font15 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Bold.ttf").c_str(), 15);
     font24 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Medium.ttf").c_str(), 22);
 
+    notificationLines.createAndSetDefaults(2, 10, 10, font24, 24, 8);    // count, x_start, y_start, TTF_Font*, fontHeight, separationBetweenLines
+
+    staticElements.clear();
+    frontElemets.clear();
+    carouselGames.clear();
+    carouselPositions.initCoverPositions();
+    switchSet(currentSet);
+    showSetName();
+
+    gameName = "";
+    publisher = "";
+    year = "";
+    players = "";
+
+    if (gui->lastSelIndex != 0) {
+        selGame = gui->lastSelIndex;
+        setInitialPositions(selGame);
+    }
+
+    long time = SDL_GetTicks();
 
     PsObj* background;
     if (Util::exists(gui->getSonyImagePath()+"/GR/AB_BG.png"))
@@ -218,8 +221,6 @@ void GuiLauncher::loadAssets() {
         staticMeta = false;
         background  = new PsObj(renderer, "background", gui->getSonyImagePath() + "/GR/JP_US_BG.png");
     }
-
-
 
     background->x = 0;
     background->y = 0;
@@ -274,10 +275,9 @@ void GuiLauncher::loadAssets() {
     meta->y = 285;
     meta->visible = true;
     if (selGame != -1) {
-        meta->updateTexts(gameName, publisher, year, players, gamesList[selGame]->internal, gamesList[selGame]->hd,
-                          gamesList[selGame]->locked, gamesList[selGame]->cds, fgR,fgG,fgB);
+        meta->updateTexts(carouselGames[selGame], fgR,fgG,fgB);
     } else {
-        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0, fgR,fgG,fgB);
+        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0, false, fgR,fgG,fgB);
     }
     staticElements.push_back(meta);
 
@@ -294,7 +294,6 @@ void GuiLauncher::loadAssets() {
     xButton->visible = true;
     staticElements.push_back(xButton);
 
-
     oButton = new PsObj(renderer, "obtn", gui->getSonyImagePath() + "/GR/Circle_Btn_ICN.png");
     oButton->x = 725;
     oButton->y = 640;
@@ -307,10 +306,8 @@ void GuiLauncher::loadAssets() {
     tButton->visible = true;
     staticElements.push_back(tButton);
 
-
     menu = new PsMenu(renderer, "menu", gui->getSonyImagePath());
     menu->loadAssets();
-
 
     menuHead = new PsCenterLabel(renderer, "header");
     menuHead->font = font30;
@@ -333,13 +330,13 @@ void GuiLauncher::loadAssets() {
     sselector->visible = false;
 
     if (gui->resumingGui) {
-        PsGame *game = gamesList[selGame];
+        PsGamePtr & game = carouselGames[selGame];
         if (game->isCleanExit()) {
             sselector->loadSaveStateImages(game, true);
             sselector->visible = true;
             state = STATE_RESUME;
         } else {
-            showNotification(_("OOPS! Game crashed. Resume point not available."));
+            notificationLines[1].setText(_("OOPS! Game crashed. Resume point not available."), true, DefaultShowingTimeout);
         }
     }
 
@@ -348,11 +345,13 @@ void GuiLauncher::loadAssets() {
     updateMeta();
 
     if (selGame >= 0) {
-        menu->setResumePic(gamesList[selGame]->findResumePicture());
+        menu->setResumePic(carouselGames[selGame]->findResumePicture());
     }
-
 }
 
+//*******************************
+// GuiLauncher::freeAssets
+//*******************************
 // memory cleanup for assets disposal
 void GuiLauncher::freeAssets() {
     for (auto obj:staticElements) {
@@ -369,77 +368,86 @@ void GuiLauncher::freeAssets() {
     TTF_CloseFont(font30);
     TTF_CloseFont(font24);
     TTF_CloseFont(font15);
-    for (PsGame *game:gamesList) {
-        game->freeTex();
-        delete game;
-
+    for (auto & game : carouselGames) {
+        game.freeTex();
     }
-    gamesList.clear();
+    carouselGames.clear();
     menu->freeAssets();
 }
 
+//*******************************
+// GuiLauncher::init
+//*******************************
 // run when screen is loaded
 void GuiLauncher::init() {
     loadAssets();
 }
 
+//*******************************
+// GuiLauncher::scrollLeft
+//*******************************
 // start scroll animation to next game
 void GuiLauncher::scrollLeft(int speed) {
     scrolling = true;
     long time = SDL_GetTicks();
-    for (PsGame *game:gamesList) {
+    for (auto & game : carouselGames) {
 
-        if (game->visible) {
-            int nextIndex = game->screenPointIndex;
+        if (game.visible) {
+            int nextIndex = game.screenPointIndex;
 
-            if (game->screenPointIndex != 0) {
-                nextIndex = game->screenPointIndex - 1;
+            if (game.screenPointIndex != 0) {
+                nextIndex = game.screenPointIndex - 1;
             } else {
-                game->visible = false;
+                game.visible = false;
 
             }
-            game->destination = carouselPositions.coverPositions[nextIndex];
-            game->animationDuration = speed;
-            game->animationStart = time;
+            game.destination = carouselPositions.coverPositions[nextIndex];
+            game.animationDuration = speed;
+            game.animationStart = time;
 
-            game->screenPointIndex = nextIndex;
-            game->current = game->actual;
+            game.screenPointIndex = nextIndex;
+            game.current = game.actual;
         }
     }
 }
 
+//*******************************
+// GuiLauncher::scrollRight
+//*******************************
 // start scroll animation to previous game
 void GuiLauncher::scrollRight(int speed) {
     scrolling = true;
     long time = SDL_GetTicks();
-    for (PsGame *game:gamesList) {
-        if (game->visible) {
-            int nextIndex = game->screenPointIndex;
-            if (game->screenPointIndex != carouselPositions.coverPositions.size() - 1) {
-                nextIndex = game->screenPointIndex + 1;
+    for (auto & game : carouselGames) {
+        if (game.visible) {
+            int nextIndex = game.screenPointIndex;
+            if (game.screenPointIndex != carouselPositions.coverPositions.size() - 1) {
+                nextIndex = game.screenPointIndex + 1;
             } else {
-                game->visible = false;
+                game.visible = false;
 
             }
-            game->destination = carouselPositions.coverPositions[nextIndex];
-            game->animationDuration = speed;
-            game->animationStart = time;
+            game.destination = carouselPositions.coverPositions[nextIndex];
+            game.animationDuration = speed;
+            game.animationStart = time;
 
-            game->screenPointIndex = nextIndex;
-            game->current = game->actual;
+            game.screenPointIndex = nextIndex;
+            game.current = game.actual;
         }
     }
 }
 
+//*******************************
+// GuiLauncher::updateVisibility
+//*******************************
 // update potentially visible covers to save the memory
 void GuiLauncher::updateVisibility() {
     bool allAnimationFinished = true;
-    for (PsGame *game:gamesList) {
-        if ((game->animationStart != 0) && game->visible) {
+    for (const auto & game : carouselGames) {
+        if ((game.animationStart != 0) && game.visible) {
             allAnimationFinished = false;
         }
     }
-
 
     if (allAnimationFinished && scrolling) {
         setInitialPositions(selGame);
@@ -447,35 +455,36 @@ void GuiLauncher::updateVisibility() {
     }
 }
 
+//*******************************
+// GuiLauncher::updatePositions
+//*******************************
 // this method runs during the loop to update positions of the covers during animation
 void GuiLauncher::updatePositions() {
-
-
     long currentTime = SDL_GetTicks();
-    for (PsGame *game:gamesList) {
-        if (game->visible) {
-            if (game->animationStart != 0) {
-                long position = currentTime - game->animationStart;
-                float delta = position * 1.0f / game->animationDuration;
-                game->actual.x = game->current.x + (game->destination.x - game->current.x) * delta;
-                game->actual.y = game->current.y + (game->destination.y - game->current.y) * delta;
-                game->actual.scale = game->current.scale + (game->destination.scale - game->current.scale) * delta;
-                game->actual.shade = game->current.shade + (game->destination.shade - game->current.shade) * delta;
+    for (auto & game : carouselGames) {
+        if (game.visible) {
+            if (game.animationStart != 0) {
+                long position = currentTime - game.animationStart;
+                float delta = position * 1.0f / game.animationDuration;
+                game.actual.x = game.current.x + (game.destination.x - game.current.x) * delta;
+                game.actual.y = game.current.y + (game.destination.y - game.current.y) * delta;
+                game.actual.scale = game.current.scale + (game.destination.scale - game.current.scale) * delta;
+                game.actual.shade = game.current.shade + (game.destination.shade - game.current.shade) * delta;
 
                 if (delta > 1.0f) {
-                    game->actual = game->destination;
-                    game->current = game->destination;
-                    game->animationStart = 0;
+                    game.actual = game.destination;
+                    game.current = game.destination;
+                    game.animationStart = 0;
                 }
-
-
             }
-
         }
     }
     updateVisibility();
 }
 
+//*******************************
+// GuiLauncher::render
+//*******************************
 // render method called every loop
 void GuiLauncher::render() {
     if (sselector != nullptr) {
@@ -492,18 +501,17 @@ void GuiLauncher::render() {
     }
     // covers render
 
-    if (!gamesList.empty()) {
-        for (auto game:gamesList) {
-            if (game->visible) {
-                SDL_Texture *currentGameTex = game->coverPng;
-                PsScreenpoint point = game->actual;
+    if (!carouselGames.empty()) {
+        for (auto game : carouselGames) {
+            if (game.visible) {
+                SDL_Texture *currentGameTex = game.coverPng;
+                PsScreenpoint point = game.actual;
 
                 SDL_Rect coverRect;
                 coverRect.x = point.x;
                 coverRect.y = point.y;
                 coverRect.w = 226 * point.scale;
                 coverRect.h = 226 * point.scale;
-
 
                 SDL_Rect fullRect;
                 fullRect.x = 0;
@@ -514,47 +522,41 @@ void GuiLauncher::render() {
                 SDL_RenderCopy(renderer, currentGameTex, &fullRect, &coverRect);
             }
         }
-
-
     }
-
 
     menu->render();
 
+    renderText(renderer, 638, 640, _("Enter"), {secR, secG, secB, 0}, font24, false, false);
+    renderText(renderer, 760, 640, _("Cancel"), {secR, secG, secB, 0}, font24, false, false);
+    renderText(renderer, 902, 640, _("Console Button Guide"), {secR, secG, secB, 0}, font24, false, false);
 
-    renderText(638, 640, _("Enter"), secR, secG, secB, font24, false, false);
-    renderText(760, 640, _("Cancel"), secR, secG, secB, font24, false, false);
-    renderText(902, 640, _("Console Button Guide"), secR, secG, secB, font24, false, false);
+    notificationLines.tickTock(renderer);
 
-    if (notificationTime != 0) {
-        renderText(10, 10, notificationText, fgR, fgG, fgB, font24, true, true);
-        long time = SDL_GetTicks();
-        if (time - notificationTime > 2000) {
-            notificationTime = 0;
-        }
-    }
-
-    for (auto obj:frontElemets) {
-
+    for (auto obj:frontElemets)
         obj->render();
-    }
 
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiLauncher::nextGame
+//*******************************
 // handler of next game
 void GuiLauncher::nextGame(int speed) {
     shared_ptr<Gui> gui(Gui::getInstance());
     Mix_PlayChannel(-1, gui->cursor, 0);
     scrollLeft(speed);
     selGame++;
-    if (selGame >= gamesList.size()) {
+    if (selGame >= carouselGames.size()) {
         selGame = 0;
     }
     updateMeta();
-    menu->setResumePic(gamesList[selGame]->findResumePicture());
+    menu->setResumePic(carouselGames[selGame]->findResumePicture());
 }
 
+//*******************************
+// GuiLauncher::prevGame
+//*******************************
 // handler of prev game
 void GuiLauncher::prevGame(int speed) {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -562,128 +564,137 @@ void GuiLauncher::prevGame(int speed) {
     scrollRight(speed);
     selGame--;
     if (selGame < 0) {
-        selGame = gamesList.size() - 1;
+        selGame = carouselGames.size() - 1;
     }
     updateMeta();
-    menu->setResumePic(gamesList[selGame]->findResumePicture());
+    menu->setResumePic(carouselGames[selGame]->findResumePicture());
 }
 
+//*******************************
+// GuiLauncher::getNextId
+//*******************************
 // just small method to get next / prev game
 int GuiLauncher::getNextId(int id) {
     int next = id + 1;
-    if (next >= gamesList.size()) {
+    if (next >= carouselGames.size()) {
         return 0;
     }
     return next;
 }
 
+//*******************************
+// GuiLauncher::getPreviousId
+//*******************************
 int GuiLauncher::getPreviousId(int id) {
     int prev = id - 1;
     if (prev < 0) {
-        return gamesList.size() - 1;
+        return carouselGames.size() - 1;
     }
     return prev;
 }
 
 
+//*******************************
+// GuiLauncher::setInitialPositions
+//*******************************
 // initialize a table with positions for covers
 void GuiLauncher::setInitialPositions(int selected) {
-    for (PsGame *game:gamesList) {
-        game->visible = false;
+    for (auto & game : carouselGames) {
+        game.visible = false;
     }
 
-    gamesList[selected]->visible = true;
-    gamesList[selected]->current = this->carouselPositions.coverPositions[6];
-    gamesList[selected]->screenPointIndex = 6;
+    carouselGames[selected].visible = true;
+    carouselGames[selected].current = this->carouselPositions.coverPositions[6];
+    carouselGames[selected].screenPointIndex = 6;
 
     int prev = getPreviousId(selected);
-    if (!gamesList[prev]->visible) {
-        gamesList[prev]->current = this->carouselPositions.coverPositions[5];
-        gamesList[prev]->visible = true;
-        gamesList[prev]->screenPointIndex = 5;
+    if (!carouselGames[prev].visible) {
+        carouselGames[prev].current = this->carouselPositions.coverPositions[5];
+        carouselGames[prev].visible = true;
+        carouselGames[prev].screenPointIndex = 5;
     }
     prev = getPreviousId(prev);
-    if (!gamesList[prev]->visible) {
-        gamesList[prev]->current = this->carouselPositions.coverPositions[4];
-        gamesList[prev]->visible = true;
-        gamesList[prev]->screenPointIndex = 4;
+    if (!carouselGames[prev].visible) {
+        carouselGames[prev].current = this->carouselPositions.coverPositions[4];
+        carouselGames[prev].visible = true;
+        carouselGames[prev].screenPointIndex = 4;
     }
     prev = getPreviousId(prev);
-    if (!gamesList[prev]->visible) {
-        gamesList[prev]->current = this->carouselPositions.coverPositions[3];
-        gamesList[prev]->visible = true;
-        gamesList[prev]->screenPointIndex = 3;
+    if (!carouselGames[prev].visible) {
+        carouselGames[prev].current = this->carouselPositions.coverPositions[3];
+        carouselGames[prev].visible = true;
+        carouselGames[prev].screenPointIndex = 3;
     }
     prev = getPreviousId(prev);
-    if (!gamesList[prev]->visible) {
-        gamesList[prev]->current = this->carouselPositions.coverPositions[2];
-        gamesList[prev]->visible = true;
-        gamesList[prev]->screenPointIndex = 2;
+    if (!carouselGames[prev].visible) {
+        carouselGames[prev].current = this->carouselPositions.coverPositions[2];
+        carouselGames[prev].visible = true;
+        carouselGames[prev].screenPointIndex = 2;
     }
     prev = getPreviousId(prev);
-    if (!gamesList[prev]->visible) {
-        gamesList[prev]->current = this->carouselPositions.coverPositions[1];
-        gamesList[prev]->visible = true;
-        gamesList[prev]->screenPointIndex = 1;
+    if (!carouselGames[prev].visible) {
+        carouselGames[prev].current = this->carouselPositions.coverPositions[1];
+        carouselGames[prev].visible = true;
+        carouselGames[prev].screenPointIndex = 1;
     }
     prev = getPreviousId(prev);
-    if (!gamesList[prev]->visible) {
-        gamesList[prev]->current = this->carouselPositions.coverPositions[0];
-        gamesList[prev]->visible = true;
-        gamesList[prev]->screenPointIndex = 0;
+    if (!carouselGames[prev].visible) {
+        carouselGames[prev].current = this->carouselPositions.coverPositions[0];
+        carouselGames[prev].visible = true;
+        carouselGames[prev].screenPointIndex = 0;
     }
 
     int next = getNextId(selected);
-    if (!gamesList[next]->visible) {
-        gamesList[next]->current = this->carouselPositions.coverPositions[7];
-        gamesList[next]->visible = true;
-        gamesList[next]->screenPointIndex = 7;
+    if (!carouselGames[next].visible) {
+        carouselGames[next].current = this->carouselPositions.coverPositions[7];
+        carouselGames[next].visible = true;
+        carouselGames[next].screenPointIndex = 7;
     }
     next = getNextId(next);
-    if (!gamesList[next]->visible) {
-        gamesList[next]->current = this->carouselPositions.coverPositions[8];
-        gamesList[next]->visible = true;
-        gamesList[next]->screenPointIndex = 8;
+    if (!carouselGames[next].visible) {
+        carouselGames[next].current = this->carouselPositions.coverPositions[8];
+        carouselGames[next].visible = true;
+        carouselGames[next].screenPointIndex = 8;
     }
     next = getNextId(next);
-    if (!gamesList[next]->visible) {
-        gamesList[next]->current = this->carouselPositions.coverPositions[9];
-        gamesList[next]->visible = true;
-        gamesList[next]->screenPointIndex = 9;
+    if (!carouselGames[next].visible) {
+        carouselGames[next].current = this->carouselPositions.coverPositions[9];
+        carouselGames[next].visible = true;
+        carouselGames[next].screenPointIndex = 9;
     }
     next = getNextId(next);
-    if (!gamesList[next]->visible) {
-        gamesList[next]->current = this->carouselPositions.coverPositions[10];
-        gamesList[next]->visible = true;
-        gamesList[next]->screenPointIndex = 10;
+    if (!carouselGames[next].visible) {
+        carouselGames[next].current = this->carouselPositions.coverPositions[10];
+        carouselGames[next].visible = true;
+        carouselGames[next].screenPointIndex = 10;
     }
     next = getNextId(next);
-    if (!gamesList[next]->visible) {
-        gamesList[next]->current = this->carouselPositions.coverPositions[11];
-        gamesList[next]->visible = true;
-        gamesList[next]->screenPointIndex = 11;
+    if (!carouselGames[next].visible) {
+        carouselGames[next].current = this->carouselPositions.coverPositions[11];
+        carouselGames[next].visible = true;
+        carouselGames[next].screenPointIndex = 11;
     }
     next = getNextId(next);
-    if (!gamesList[next]->visible) {
-        gamesList[next]->current = this->carouselPositions.coverPositions[12];
-        gamesList[next]->visible = true;
-        gamesList[next]->screenPointIndex = 12;
+    if (!carouselGames[next].visible) {
+        carouselGames[next].current = this->carouselPositions.coverPositions[12];
+        carouselGames[next].visible = true;
+        carouselGames[next].screenPointIndex = 12;
     }
 
-    for (PsGame *game:gamesList) {
-        game->actual = game->current;
-        game->destination = game->current;
-        if (game->visible) {
-            game->loadTex(renderer);
+    for (auto & game : carouselGames) {
+        game.actual = game.current;
+        game.destination = game.current;
+        if (game.visible) {
+            game.loadTex(renderer);
         } else {
-            game->freeTex();
+            game.freeTex();
         }
-
     }
-
-
 }
 
+//*******************************
+// GuiLauncher::moveMainCover
+//*******************************
 void GuiLauncher::moveMainCover(int state) {
     if (selGame == -1) {
         return;
@@ -703,18 +714,19 @@ void GuiLauncher::moveMainCover(int state) {
     long time = SDL_GetTicks();
 
     if (state == STATE_GAMES) {
-        gamesList[selGame]->destination = point1;
-        gamesList[selGame]->animationStart = time;
-        gamesList[selGame]->animationDuration = 200;
+        carouselGames[selGame].destination = point1;
+        carouselGames[selGame].animationStart = time;
+        carouselGames[selGame].animationDuration = 200;
     } else {
-        gamesList[selGame]->destination = point2;
-        gamesList[selGame]->animationStart = time;
-        gamesList[selGame]->animationDuration = 200;
-
-
+        carouselGames[selGame].destination = point2;
+        carouselGames[selGame].animationStart = time;
+        carouselGames[selGame].animationDuration = 200;
     }
 }
 
+//*******************************
+// GuiLauncher::switchState
+//*******************************
 void GuiLauncher::switchState(int state, int time) {
     shared_ptr<Gui> gui(Gui::getInstance());
     if (state == STATE_GAMES) {
@@ -763,15 +775,10 @@ void GuiLauncher::switchState(int state, int time) {
     }
 }
 
-void GuiLauncher::showNotification(string text) {
-    long time = SDL_GetTicks();
-    notificationText = text;
-    notificationTime = time;
-}
-
+//*******************************
+// GuiLauncher::loop
+//*******************************
 // event loop
-
-
 void GuiLauncher::loop() {
     powerOffShift = false;
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -834,7 +841,7 @@ void GuiLauncher::loop() {
 
                     if (e.jaxis.axis == 0) {
                         if (state == STATE_GAMES) {
-                            if (gamesList.empty()) {
+                            if (carouselGames.empty()) {
                                 continue;
                             }
                             if (e.jaxis.value > PCS_DEADZONE) {
@@ -950,15 +957,15 @@ void GuiLauncher::loop() {
                     }
                     if (e.jbutton.button == PCS_BTN_L1) {
                         if (state == STATE_GAMES) {
-                            if (gamesList.empty()) {
+                            if (carouselGames.empty()) {
                                 continue;
                             }
                             // find prev game
                             int nextGame = selGame;
-                            string currentFirst = gamesList[selGame]->title.substr(0, 1);
-                            string futureFirst = gamesList[selGame]->title.substr(0, 1);
+                            string currentFirst = carouselGames[selGame]->title.substr(0, 1);
+                            string futureFirst = carouselGames[selGame]->title.substr(0, 1);
                             for (int i = selGame; i >= 0; i--) {
-                                futureFirst = gamesList[i]->title.substr(0, 1);
+                                futureFirst = carouselGames[i]->title.substr(0, 1);
                                 if (currentFirst != futureFirst) {
                                     nextGame = i;
                                     break;
@@ -966,7 +973,7 @@ void GuiLauncher::loop() {
                             }
                             // now find the same
                             for (int i = nextGame; i >= 0; i--) {
-                                string foundFirst = gamesList[i]->title.substr(0, 1);
+                                string foundFirst = carouselGames[i]->title.substr(0, 1);
                                 if (futureFirst == foundFirst) {
                                     nextGame = i;
 
@@ -977,30 +984,28 @@ void GuiLauncher::loop() {
                             if (nextGame != selGame) {
                                 // we have next game;
                                 Mix_PlayChannel(-1, gui->cursor, 0);
-                                notificationTime = time;
-                                notificationText = futureFirst;
+                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, font24);
                                 selGame = nextGame;
                                 setInitialPositions(selGame);
                                 updateMeta();
-                                menu->setResumePic(gamesList[selGame]->findResumePicture());
+                                menu->setResumePic(carouselGames[selGame]->findResumePicture());
                             } else {
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationTime = time;
-                                notificationText = futureFirst;
+                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, font24);
                             }
                         }
                     }
                     if (e.jbutton.button == PCS_BTN_R1) {
                         if (state == STATE_GAMES) {
-                            if (gamesList.empty()) {
+                            if (carouselGames.empty()) {
                                 continue;
                             }
                             // find next game
                             int nextGame = selGame;
-                            string currentFirst = gamesList[selGame]->title.substr(0, 1);
-                            string futureFirst = gamesList[selGame]->title.substr(0, 1);
-                            for (int i = selGame; i < gamesList.size(); i++) {
-                                futureFirst = gamesList[i]->title.substr(0, 1);
+                            string currentFirst = carouselGames[selGame]->title.substr(0, 1);
+                            string futureFirst = carouselGames[selGame]->title.substr(0, 1);
+                            for (int i = selGame; i < carouselGames.size(); i++) {
+                                futureFirst = carouselGames[i]->title.substr(0, 1);
                                 if (currentFirst != futureFirst) {
                                     nextGame = i;
                                     break;
@@ -1009,16 +1014,14 @@ void GuiLauncher::loop() {
                             if (nextGame != selGame) {
                                 // we have next game;
                                 Mix_PlayChannel(-1, gui->cursor, 0);
-                                notificationTime = time;
-                                notificationText = futureFirst;
+                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, font24);
                                 selGame = nextGame;
                                 setInitialPositions(selGame);
                                 updateMeta();
-                                menu->setResumePic(gamesList[selGame]->findResumePicture());
+                                menu->setResumePic(carouselGames[selGame]->findResumePicture());
                             } else {
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationTime = time;
-                                notificationText = futureFirst;
+                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, font24);
                             }
                         }
                     }
@@ -1038,7 +1041,7 @@ void GuiLauncher::loop() {
                             sselector->visible = false;
                             arrow->visible = true;
                             sselector->cleanSaveStateImages();
-                            menu->setResumePic(gamesList[selGame]->findResumePicture());
+                            menu->setResumePic(carouselGames[selGame]->findResumePicture());
 
                             if (sselector->operation == OP_LOAD) {
                                 state = STATE_SET;
@@ -1046,18 +1049,15 @@ void GuiLauncher::loop() {
                                 state = STATE_GAMES;
                             }
                         }
-
-
                     };
-
 
                     if (e.jbutton.button == PCS_BTN_CROSS) {
                         if (state == STATE_GAMES) {
-                            if (gamesList.empty()) {
+                            if (carouselGames.empty()) {
                                 continue;
                             }
                             gui->startingGame = true;
-                            gui->runningGame = gamesList[selGame]->clone();
+                            gui->runningGame = carouselGames[selGame];
                             gui->lastSelIndex = selGame;
                             gui->resumepoint = -1;
                             gui->lastSet = currentSet;
@@ -1065,12 +1065,12 @@ void GuiLauncher::loop() {
                         } else if (state == STATE_SET) {
                             gui->resumingGui = false;
                             if (menu->selOption == 3) {
-                                if (gamesList.empty()) {
+                                if (carouselGames.empty()) {
                                     continue;
                                 }
                                 bool resumeAvailable = false;
                                 for (int i = 0; i < 4; i++) {
-                                    if (gamesList[selGame]->isResumeSlotActive(i)) {
+                                    if (carouselGames[selGame]->isResumeSlotActive(i)) {
                                         resumeAvailable = true;
                                     }
                                 }
@@ -1078,7 +1078,7 @@ void GuiLauncher::loop() {
                                 if (resumeAvailable) {
                                     Mix_PlayChannel(-1, gui->cursor, 0);
                                     sselector->visible = true;
-                                    sselector->loadSaveStateImages(gamesList[selGame], false);
+                                    sselector->loadSaveStateImages(carouselGames[selGame], false);
                                     state = STATE_RESUME;
                                     sselector->selSlot = 0;
                                     sselector->operation = OP_LOAD;
@@ -1087,41 +1087,43 @@ void GuiLauncher::loop() {
                                 }
                             }
                             if (menu->selOption == 2) {
-                                if (gamesList.empty()) {
+                                if (carouselGames.empty()) {
                                     continue;
                                 }
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationTime = time;
-                                notificationText = _("MemCard Manager will be available soon");
+                                notificationLines[1].setText(_("MemCard Manager will be available soon"), true, DefaultShowingTimeout, brightWhite, font24);
                             }
                             if (menu->selOption == 1) {
-                                if (gamesList.empty()) {
+                                if (carouselGames.empty()) {
                                     continue;
                                 }
 
-
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 GuiEditor *editor = new GuiEditor(renderer);
-                                editor->internal = gamesList[selGame]->internal;
+                                editor->internal = carouselGames[selGame]->internal;
                                 Inifile gameIni;
                                 if (!editor->internal) {
 
-                                    gameIni.load(gamesList[selGame]->folder + "Game.ini");
+                                    gameIni.load(carouselGames[selGame]->folder + "Game.ini");
                                     string folderNoLast =
-                                            gamesList[selGame]->folder.substr(0, gamesList[selGame]->folder.size() - 1);
+                                            carouselGames[selGame]->folder.substr(0, carouselGames[selGame]->folder.size() - 1);
                                     gameIni.entry = folderNoLast.substr(folderNoLast.find_last_of("//") + 1);
-                                    editor->game = gameIni;
+                                    editor->gameIni = gameIni;
                                 } else {
-                                    editor->gameData = gamesList[selGame];
+                                    editor->gameData = carouselGames[selGame];
                                 }
 
                                 editor->show();
                                 if (!editor->internal) {
                                     if (editor->changes) {
-                                        gameIni.load(gamesList[selGame]->folder + "Game.ini");
-                                        gui->db->updateTitle(gamesList[selGame]->gameId, gameIni.values["title"]);
+                                        gameIni.load(carouselGames[selGame]->folder + "Game.ini");
+                                        gui->db->updateTitle(carouselGames[selGame]->gameId, gameIni.values["title"]);
                                     }
-                                    gui->db->refreshGame(gamesList[selGame]);
+                                    gui->db->refreshGame(carouselGames[selGame]);
+                                    if (currentSet == SET_FAVORITE && editor->gameIni.values["favorite"] == "0") {
+                                        gui->lastSet = SET_FAVORITE;
+                                        loadAssets();
+                                    }
                                 } else {
                                     Database *internalDB = new Database();
 #if defined(__x86_64__) || defined(_M_X64)
@@ -1130,17 +1132,20 @@ void GuiLauncher::loop() {
                                     internalDB->connect("/media/System/Databases/internal.db");
 #endif
                                     if (editor->changes) {
-                                        internalDB->updateTitle(gamesList[selGame]->gameId, editor->lastName);
+                                        internalDB->updateTitle(carouselGames[selGame]->gameId, editor->lastName);
                                     }
-                                    internalDB->refreshGameInternal(gamesList[selGame]);
+                                    internalDB->refreshGameInternal(carouselGames[selGame]);
                                     internalDB->disconnect();
                                     delete internalDB;
 
                                 }
 
-                                setInitialPositions(selGame);
-                                updateMeta();
-                                menu->setResumePic(gamesList[selGame]->findResumePicture());
+                                // if the current set is favorites and the user removes the last favorite selGame will be -1
+                                if (selGame != -1) {
+                                    setInitialPositions(selGame);
+                                    updateMeta();
+                                    menu->setResumePic(carouselGames[selGame]->findResumePicture());
+                                }
 
                             } else if (menu->selOption == 0) {
 
@@ -1165,10 +1170,10 @@ void GuiLauncher::loop() {
                                 }
                                 cout << currentSet << gui->cfg.inifile.values["origames"] << endl;
                                 switchSet(currentSet);
-                                showSetNotification();
+                                showSetName();
 
                                 if (resetCarouselPosition) {
-                                    if (gamesList.empty()) {
+                                    if (carouselGames.empty()) {
                                         selGame = -1;
                                         updateMeta();
                                     } else {
@@ -1179,14 +1184,13 @@ void GuiLauncher::loop() {
                                 } else {
                                     setInitialPositions(selGame);
                                     updateMeta();
-                                    menu->setResumePic(gamesList[selGame]->findResumePicture());
+                                    menu->setResumePic(carouselGames[selGame]->findResumePicture());
                                 }
 
-                                if (!gamesList.empty()) {
+                                if (!carouselGames.empty()) {
                                     gui->loadAssets();
-                                    for (PsGame *game:gamesList) {
-                                        game->freeTex();
-
+                                    for (auto & game : carouselGames) {
+                                        game.freeTex();
                                     }
                                     setInitialPositions(selGame);
                                 }
@@ -1194,14 +1198,14 @@ void GuiLauncher::loop() {
                                 state = STATE_GAMES;
                             }
                         } else if (state == STATE_RESUME) {
-                            PsGame *game = gamesList[selGame];
+                            auto game = carouselGames[selGame];
                             int slot = sselector->selSlot;
 
                             if (sselector->operation == OP_LOAD) {
                                 if (game->isResumeSlotActive(slot)) {
                                     Mix_PlayChannel(-1, gui->cursor, 0);
                                     gui->startingGame = true;
-                                    gui->runningGame = gamesList[selGame]->clone();
+                                    gui->runningGame = carouselGames[selGame];
                                     gui->lastSelIndex = selGame;
                                     gui->resumepoint = slot;
                                     gui->lastSet = currentSet;
@@ -1213,16 +1217,17 @@ void GuiLauncher::loop() {
                             } else {
                                 //Mix_PlayChannel(-1, gui->cursor, 0);
                                 PcsxInterceptor *interceptor = new PcsxInterceptor();
-                                interceptor->saveResumePoint(gamesList[selGame], sselector->selSlot);
+                                interceptor->saveResumePoint(carouselGames[selGame], sselector->selSlot);
                                 delete interceptor;
-                                gamesList[selGame]->storeResumePicture(sselector->selSlot);
+                                carouselGames[selGame]->storeResumePicture(sselector->selSlot);
                                 sselector->visible = false;
                                 arrow->visible = true;
                                 Mix_PlayChannel(-1, gui->resume, 0);
-                                showNotification(
-                                        _("Resume point saved to slot") + " " + to_string(sselector->selSlot + 1));
+                                notificationLines[1].setText(
+                                        _("Resume point saved to slot") + " " + to_string(sselector->selSlot + 1),
+                                        true, DefaultShowingTimeout);
 
-                                menu->setResumePic(gamesList[selGame]->findResumePicture(sselector->selSlot));
+                                menu->setResumePic(carouselGames[selGame]->findResumePicture(sselector->selSlot));
 
                                 if (sselector->operation == OP_LOAD) {
                                     state = STATE_SET;
@@ -1242,7 +1247,7 @@ void GuiLauncher::loop() {
                             delete guide;
                         } else {
                             if (sselector->operation == OP_LOAD) {
-                                PsGame *game = gamesList[selGame];
+                                auto game = carouselGames[selGame];
                                 int slot = sselector->selSlot;
                                 if (game->isResumeSlotActive(slot)) {
                                     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -1255,7 +1260,7 @@ void GuiLauncher::loop() {
                                         game->removeResumePoint(slot);
                                     }
                                     sselector->cleanSaveStateImages();
-                                    sselector->loadSaveStateImages(gamesList[selGame], false);
+                                    sselector->loadSaveStateImages(carouselGames[selGame], false);
                                     state = STATE_RESUME;
                                     sselector->selSlot = 0;
                                     sselector->operation = OP_LOAD;
@@ -1280,25 +1285,20 @@ void GuiLauncher::loop() {
                                     currentSet = SET_EXTERNAL;
                                 }
                             }
-                            if (currentSet > 2) currentSet = 0;
+                            if (currentSet > SET_LAST) currentSet = 0;
                             switchSet(currentSet);
-                            showSetNotification();
+                            showSetName();
                             if (selGame != -1) {
                                 updateMeta();
-                                menu->setResumePic(gamesList[selGame]->findResumePicture());
+                                menu->setResumePic(carouselGames[selGame]->findResumePicture());
                             } else {
-                                showNotification(_("NO GAMES FOUND IN THIS SECTION"));
                                 updateMeta();
-
                             }
                         }
                     };
-
-
             }
-
         }
     }
-    freeAssets();
 
+    freeAssets();
 }
