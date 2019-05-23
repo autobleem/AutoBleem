@@ -24,8 +24,10 @@ add_executable(autobleem-gui
         src/code/unecm.c
         src/code/sqlite3.c
         src/code/main.h
-        src/code/engine/database.cpp
         src/code/main.cpp
+        src/code/DebugTimer.h
+        src/code/DebugTimer.cpp
+        src/code/engine/database.cpp
         src/code/engine/database.h
         src/code/sqlite3.h
         src/code/util.h
