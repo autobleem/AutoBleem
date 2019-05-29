@@ -113,12 +113,14 @@ void GuiLauncher::showSetName() {
 //*******************************
 // GuiLauncher::renderText
 //*******************************
-void GuiLauncher::renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool center, bool background) {
+void GuiLauncher::renderText(int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool center, bool background) {
     int text_width = 0;
     int text_height = 0;
     SDL_Surface *surface = nullptr;
     SDL_Texture *texture = nullptr;
     SDL_Rect rect{0,0,0,0};
+
+    auto renderer = Gui::getInstance()->renderer;
 
     if (text.size() == 0) {
         texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, 0, 0);
@@ -522,16 +524,17 @@ void GuiLauncher::render() {
 
     menu->render();
 
-    renderText(renderer, 638, 640, _("Enter"), {secR, secG, secB, 0}, gui->font24, false, false);
-    renderText(renderer, 760, 640, _("Cancel"), {secR, secG, secB, 0}, gui->font24, false, false);
-    renderText(renderer, 902, 640, _("Console Button Guide"), {secR, secG, secB, 0}, gui->font24, false, false);
+    auto font24 = gui->font24;
+    renderText(638, 640, _("Enter"), {secR, secG, secB, 0}, font24, false, false);
+    renderText(760, 640, _("Cancel"), {secR, secG, secB, 0}, font24, false, false);
+    renderText(902, 640, _("Console Button Guide"), {secR, secG, secB, 0}, font24, false, false);
 
-    notificationLines.tickTock(renderer);
+    notificationLines.tickTock();
 
     for (auto obj:frontElemets)
         obj->render();
 
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Gui::getInstance()->renderer);
 }
 
 //*******************************

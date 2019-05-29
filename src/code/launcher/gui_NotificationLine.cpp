@@ -27,7 +27,7 @@ void NotificationLine::setText(string _text, bool _timed, long _timeLimit) {
 //*******************************
 // NotificationLine::tickTock
 //*******************************
-void NotificationLine::tickTock(SDL_Renderer * renderer) {
+void NotificationLine::tickTock() {
     if (timed) {
         if (notificationTime != 0) {
             long currentTimeTicks = SDL_GetTicks();
@@ -35,9 +35,9 @@ void NotificationLine::tickTock(SDL_Renderer * renderer) {
                 notificationTime = 0;   // turn off the display
         }
         if (notificationTime != 0)
-            GuiLauncher::renderText(renderer, x, y, text, textColor, font, true, true);
+            GuiLauncher::renderText(x, y, text, textColor, font, true, true);
     } else // not timed - keep display on
-        GuiLauncher::renderText(renderer, x, y, text, textColor, font, true, true);
+        GuiLauncher::renderText(x, y, text, textColor, font, true, true);
 }
 
 //*******************************
@@ -63,7 +63,7 @@ void NotificationLines::createAndSetDefaults(int count, int x_start, int y_start
 //*******************************
 // NotificationLines::tickTock
 //*******************************
-void NotificationLines::tickTock(SDL_Renderer * renderer) {
+void NotificationLines::tickTock() {
     for (auto & line : lines)
-        line.tickTock(renderer);
+        line.tickTock();
 }

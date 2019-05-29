@@ -23,7 +23,7 @@ struct NotificationLine {
     void setText(std::string _text, bool _timed, long _timeLimit, const SDL_Color & _textColor, TTF_Font *_font);
     void setText(std::string _text, bool _timed, long _timeLimit);
 
-    void tickTock(SDL_Renderer * renderer);
+    void tickTock();
 };
 
 //******************
@@ -34,6 +34,6 @@ struct NotificationLines {
     NotificationLine & operator [] (int i) { return lines[i]; };
 
     void createAndSetDefaults(int count, int x_start, int y_start, TTF_Font * font, int fontHeight, int separationBetweenLines);
-    void tickTock(SDL_Renderer * renderer);
+    void tickTock();
 };
 
