@@ -188,11 +188,8 @@ void GuiLauncher::loadAssets() {
         secG = gui->getG(colorsFile.values["sec"]);
         secB = gui->getB(colorsFile.values["sec"]);
     }
-    font30 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Bold.ttf").c_str(), 28);
-    font15 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Bold.ttf").c_str(), 15);
-    font24 = TTF_OpenFont((gui->getSonyFontPath() + "/SST-Medium.ttf").c_str(), 22);
 
-    notificationLines.createAndSetDefaults(2, 10, 10, font24, 24, 8);    // count, x_start, y_start, TTF_Font*, fontHeight, separationBetweenLines
+    notificationLines.createAndSetDefaults(2, 10, 10, gui->font24, 24, 8);    // count, x_start, y_start, TTF_Font*, fontHeight, separationBetweenLines
 
     staticElements.clear();
     frontElemets.clear();
@@ -270,9 +267,9 @@ void GuiLauncher::loadAssets() {
     staticElements.push_back(settingsBack);
 
     meta = new PsMeta(renderer, "meta", gui->getSonyImagePath() + "/CB/PlayerOne.png");
-    meta->font15 = font15;
-    meta->font24 = font24;
-    meta->font30 = font30;
+    meta->font15 = gui->font15;
+    meta->font24 = gui->font24;
+    meta->font30 = gui->font30;
     meta->x = 785;
     meta->y = 285;
     meta->visible = true;
@@ -312,12 +309,12 @@ void GuiLauncher::loadAssets() {
     menu->loadAssets();
 
     menuHead = new PsCenterLabel(renderer, "header");
-    menuHead->font = font30;
+    menuHead->font = gui->font30;
     menuHead->visible = false;
     menuHead->y = 545;
     menuText = new PsCenterLabel(renderer, "menuText");
     menuText->visible = false;
-    menuText->font = font24;
+    menuText->font = gui->font24;
     menuText->y = 585;
 
     menuHead->setText(headers[0], fgR, fgG, fgB);
@@ -327,8 +324,8 @@ void GuiLauncher::loadAssets() {
     staticElements.push_back(menuText);
 
     sselector = new PsStateSelector(renderer, "selector");
-    sselector->font30 = font30;
-    sselector->font24 = font24;
+    sselector->font30 = gui->font30;
+    sselector->font24 = gui->font24;
     sselector->visible = false;
 
     if (gui->resumingGui) {
@@ -367,9 +364,6 @@ void GuiLauncher::freeAssets() {
     }
     staticElements.clear();
     frontElemets.clear();
-    TTF_CloseFont(font30);
-    TTF_CloseFont(font24);
-    TTF_CloseFont(font15);
     for (auto & game : carouselGames) {
         game.freeTex();
     }
@@ -528,9 +522,9 @@ void GuiLauncher::render() {
 
     menu->render();
 
-    renderText(renderer, 638, 640, _("Enter"), {secR, secG, secB, 0}, font24, false, false);
-    renderText(renderer, 760, 640, _("Cancel"), {secR, secG, secB, 0}, font24, false, false);
-    renderText(renderer, 902, 640, _("Console Button Guide"), {secR, secG, secB, 0}, font24, false, false);
+    renderText(renderer, 638, 640, _("Enter"), {secR, secG, secB, 0}, gui->font24, false, false);
+    renderText(renderer, 760, 640, _("Cancel"), {secR, secG, secB, 0}, gui->font24, false, false);
+    renderText(renderer, 902, 640, _("Console Button Guide"), {secR, secG, secB, 0}, gui->font24, false, false);
 
     notificationLines.tickTock(renderer);
 
@@ -986,14 +980,14 @@ void GuiLauncher::loop() {
                             if (nextGame != selGame) {
                                 // we have next game;
                                 Mix_PlayChannel(-1, gui->cursor, 0);
-                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, font24);
+                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, gui->font24);
                                 selGame = nextGame;
                                 setInitialPositions(selGame);
                                 updateMeta();
                                 menu->setResumePic(carouselGames[selGame]->findResumePicture());
                             } else {
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, font24);
+                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, gui->font24);
                             }
                         }
                     }
@@ -1016,14 +1010,14 @@ void GuiLauncher::loop() {
                             if (nextGame != selGame) {
                                 // we have next game;
                                 Mix_PlayChannel(-1, gui->cursor, 0);
-                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, font24);
+                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, gui->font24);
                                 selGame = nextGame;
                                 setInitialPositions(selGame);
                                 updateMeta();
                                 menu->setResumePic(carouselGames[selGame]->findResumePicture());
                             } else {
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, font24);
+                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, gui->font24);
                             }
                         }
                     }
@@ -1093,7 +1087,7 @@ void GuiLauncher::loop() {
                                     continue;
                                 }
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationLines[1].setText(_("MemCard Manager will be available soon"), true, DefaultShowingTimeout, brightWhite, font24);
+                                notificationLines[1].setText(_("MemCard Manager will be available soon"), true, DefaultShowingTimeout, brightWhite, gui->font24);
                             }
                             if (menu->selOption == 1) {
                                 if (carouselGames.empty()) {

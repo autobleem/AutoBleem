@@ -29,9 +29,31 @@
 #define MENU_OPTION_POWER 6
 
 //********************
+// GuiBase
+//********************
+struct GuiBase {
+    SDL_Window *window = nullptr;
+    SDL_Renderer *renderer = nullptr;
+
+    TTF_Font *font30 = nullptr;
+    TTF_Font *font15 = nullptr;
+    TTF_Font *font24 = nullptr;
+    Config cfg;
+
+    GuiBase();
+    ~GuiBase();
+
+    std::string getSonyImagePath();
+    std::string getSonyFontPath();
+    std::string getSonySoundPath();
+    std::string getSonyRootPath();
+
+};
+
+//********************
 // Gui
 //********************
-class Gui {
+class Gui : public GuiBase {
 private:
     Gui() {}
     std::string themePath;
@@ -39,7 +61,6 @@ private:
 public:
     std::vector<SDL_Joystick*> joysticks;
 
-    Config cfg;
     Coverdb *coverdb;
     Database *db;
     Inifile themeData;
@@ -74,10 +95,6 @@ public:
     void renderFreeSpace();
     void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
-    std::string getSonyImagePath();
-    std::string getSonyFontPath();
-    std::string getSonySoundPath();
-    std::string getSonyRootPath();
 
     Uint8 getR(std::string val);
     Uint8 getG(std::string val);
@@ -91,7 +108,6 @@ public:
 
     SDL_Rect backgroundRect;
     SDL_Rect logoRect;
-    SDL_Renderer *renderer = NULL;
 
     SDL_Texture *backgroundImg = NULL;
     SDL_Texture *logo = NULL;

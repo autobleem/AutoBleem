@@ -75,10 +75,6 @@ public:
     PsMenu *menu;
     PsStateSelector * sselector= nullptr;
 
-    TTF_Font *font30;
-    TTF_Font *font15;
-    TTF_Font *font24;
-
     Uint8 fgR=255, fgG=255, fgB=255;
     Uint8 secR=100, secG=100, secB=100;
 

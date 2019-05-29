@@ -21,6 +21,102 @@
 
 using namespace std;
 
+//********************
+// GuiBase::GuiBase
+//********************
+GuiBase::GuiBase() {
+    SDL_Init(SDL_INIT_VIDEO);
+    SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+    SDL_InitSubSystem(SDL_INIT_AUDIO);
+
+    window = SDL_CreateWindow("AutoBleem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, 0);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+    TTF_Init();
+    font30 = TTF_OpenFont((getSonyFontPath() + "/SST-Bold.ttf").c_str(), 28);
+    font15 = TTF_OpenFont((getSonyFontPath() + "/SST-Bold.ttf").c_str(), 15);
+    font24 = TTF_OpenFont((getSonyFontPath() + "/SST-Medium.ttf").c_str(), 22);
+}
+
+//********************
+// GuiBase::~GuiBase
+//********************
+GuiBase::~GuiBase() {
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+
+    TTF_CloseFont(font30);
+    TTF_CloseFont(font24);
+    TTF_CloseFont(font15);
+
+    SDL_Quit();
+}
+
+//*******************************
+// GuiBase::getSonyImagePath
+//*******************************
+string GuiBase::getSonyImagePath() {
+#if defined(__x86_64__) || defined(_M_X64)
+    return "./sony/images";
+#else
+    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/images";
+    if (!Util::exists(path))
+    {
+        path = "/usr/sony/share/data/images";
+    }
+    return path;
+#endif
+}
+
+//*******************************
+// GuiBase::getSonySoundPath
+//*******************************
+string GuiBase::getSonySoundPath() {
+#if defined(__x86_64__) || defined(_M_X64)
+    return "./sony/sounds";
+#else
+    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/sounds";
+    if (!Util::exists(path))
+    {
+        path = "/usr/sony/share/data/sounds";
+    }
+    return path;
+#endif
+}
+
+//*******************************
+// GuiBase::getSonyFontPath
+//*******************************
+string GuiBase::getSonyFontPath() {
+#if defined(__x86_64__) || defined(_M_X64)
+    return "./sony/font";
+#else
+    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/font";
+    if (!Util::exists(path))
+    {
+        path = "/usr/sony/share/data/font";
+    }
+    return path;
+#endif
+}
+
+//*******************************
+// GuiBase::getSonyRootPath
+//*******************************
+string GuiBase::getSonyRootPath() {
+#if defined(__x86_64__) || defined(_M_X64)
+    return "./sony";
+#else
+    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"";
+    if (!Util::exists(path))
+    {
+        path = "/usr/sony/share/data";
+    }
+    return path;
+#endif
+}
+
+
 //*******************************
 // Gui::logText
 //*******************************
@@ -318,9 +414,6 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
     this->forceScan = forceScan;
     if (forceScan) overrideQuickBoot = true;
 
-    SDL_Init(SDL_INIT_VIDEO);
-    SDL_InitSubSystem(SDL_INIT_JOYSTICK);
-    SDL_InitSubSystem(SDL_INIT_AUDIO);
     SDL_version compiled;
     SDL_version linked;
 
@@ -334,10 +427,7 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
     Mix_Init(0);
     TTF_Init();
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
-    SDL_Window *window = SDL_CreateWindow("AutoBleem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720,
-                                          0);
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     loadAssets();
 
     if (!resume) {
@@ -721,7 +811,6 @@ void Gui::finish() {
     SDL_DestroyTexture(buttonR2);
     SDL_DestroyTexture(buttonCheck);
     SDL_DestroyTexture(buttonUncheck);
-    SDL_DestroyRenderer(renderer);
     SDL_DestroyTexture(cdJewel);
     TTF_CloseFont(font);
     Mix_HaltMusic();
@@ -1133,70 +1222,6 @@ void Gui::renderFreeSpace() {
     rect.h = textRec.h;
     SDL_RenderFillRect(renderer, &rect);
     SDL_RenderCopy(renderer, textTex, nullptr, &rect);
-}
-
-//*******************************
-// Gui::getSonyImagePath
-//*******************************
-string Gui::getSonyImagePath() {
-#if defined(__x86_64__) || defined(_M_X64)
-    return "./sony/images";
-#else
-    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/images";
-    if (!Util::exists(path))
-    {
-        path = "/usr/sony/share/data/images";
-    }
-    return path;
-#endif
-}
-
-//*******************************
-// Gui::getSonySoundPath
-//*******************************
-string Gui::getSonySoundPath() {
-#if defined(__x86_64__) || defined(_M_X64)
-    return "./sony/sounds";
-#else
-    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/sounds";
-    if (!Util::exists(path))
-    {
-        path = "/usr/sony/share/data/sounds";
-    }
-    return path;
-#endif
-}
-
-//*******************************
-// Gui::getSonyFontPath
-//*******************************
-string Gui::getSonyFontPath() {
-#if defined(__x86_64__) || defined(_M_X64)
-    return "./sony/font";
-#else
-    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/font";
-    if (!Util::exists(path))
-    {
-        path = "/usr/sony/share/data/font";
-    }
-    return path;
-#endif
-}
-
-//*******************************
-// Gui::getSonyRootPath
-//*******************************
-string Gui::getSonyRootPath() {
-#if defined(__x86_64__) || defined(_M_X64)
-    return "./sony";
-#else
-    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"";
-    if (!Util::exists(path))
-    {
-        path = "/usr/sony/share/data";
-    }
-    return path;
-#endif
 }
 
 //*******************************
