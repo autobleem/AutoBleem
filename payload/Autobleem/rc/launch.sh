@@ -32,9 +32,9 @@ ln -s /media/Autobleem/bin/emu/plugins /tmp/runpcsx/plugins
 
 if [ "$6" == "0" ]
 then
-  /tmp/pcsx -filter $8 -ratio $7 -lang $3 -region 4 -enter 1 -cdfile "$2"
+  /tmp/pcsx -filter $8 -ratio $7 -lang $3 -region 4 -enter 1 -cdfile "$2" -pad $9
 else
-  /tmp/pcsx -filter $8 -ratio $7 -lang $3 -region 4 -enter 1 -load $6 -cdfile "$2"
+  /tmp/pcsx -filter $8 -ratio $7 -lang $3 -region 4 -enter 1 -load $6 -cdfile "$2" -pad $9
 fi
 
 echo FINISHED
