@@ -4,6 +4,8 @@
 #pragma once
 
 #include "../main.h"
+#include <string>
+#include <vector>
 
 #define SECTOR_SIZE 2352
 

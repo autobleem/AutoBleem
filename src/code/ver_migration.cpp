@@ -7,6 +7,7 @@
 #include "engine/config.h"
 #include "engine/inifile.h"
 #include <fstream>
+#include <iostream>
 using namespace std;
 
 string verFile = "/media/System/Logs/ver.txt";

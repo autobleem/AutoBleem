@@ -4,6 +4,7 @@
 
 #include "cfgprocessor.h"
 #include "../util.h"
+#include <fstream>
 
 using namespace std;
 

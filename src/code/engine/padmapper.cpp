@@ -4,6 +4,7 @@
 
 #include "padmapper.h"
 #include "../util.h"
+#include <iostream>
 
 #define DIR_UP    1
 #define DIR_DOWN  2

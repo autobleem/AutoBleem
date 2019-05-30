@@ -34,6 +34,8 @@ Game Manager
 Oyun yöneticisi
 Games changed. Press
 Oyunlar değiştirildi. Basın
+games
+oyunlar
 Go back
 Geri git
 Loading ... Please Wait ...

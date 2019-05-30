@@ -13,6 +13,7 @@
 #include "ver_migration.h"
 #include "engine/coverdb.h"
 #include "util.h"
+#include <unistd.h>
 
 using namespace std;
 

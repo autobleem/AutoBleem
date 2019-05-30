@@ -25,8 +25,10 @@ add_executable(autobleem-gui
         src/code/unecm.c
         src/code/sqlite3.c
         src/code/main.h
-        src/code/engine/database.cpp
         src/code/main.cpp
+        src/code/DebugTimer.h
+        src/code/DebugTimer.cpp
+        src/code/engine/database.cpp
         src/code/engine/database.h
         src/code/sqlite3.h
         src/code/util.h
@@ -132,6 +134,13 @@ target_link_libraries(autobleem-gui
          SDL2_ttf
          ${CMAKE_DL_LIBS}
 )
+
+
+add_custom_command(TARGET autobleem-gui PRE_BUILD
+	   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+	   VERBATIM
+       COMMAND /bin/bash make_english.txt.sh
+	   )
 
 add_custom_command(TARGET autobleem-gui PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory

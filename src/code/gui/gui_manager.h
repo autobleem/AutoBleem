@@ -5,6 +5,7 @@
 
 #include "gui_screen.h"
 #include "../engine/inifile.h"
+#include "../main.h"
 #include <vector>
 
 //********************

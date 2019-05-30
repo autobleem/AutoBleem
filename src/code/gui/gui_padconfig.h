@@ -5,6 +5,7 @@
 #ifndef AUTOBLEEM_GUI_GUI_PADCONFIG_H
 #define AUTOBLEEM_GUI_GUI_PADCONFIG_H
 
+#include <SDL2/SDL_joystick.h>
 #include "gui_screen.h"
 #include "../engine/inifile.h"
 

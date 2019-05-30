@@ -6,6 +6,7 @@
 #include "../util.h"
 #include "../engine/inifile.h"
 #include "../gui/gui.h"
+#include <fstream>
 using namespace std;
 
 //*******************************

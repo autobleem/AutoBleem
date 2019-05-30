@@ -9,12 +9,12 @@
 #include "ps_settings_back.h"
 #include "ps_zoom_btn.h"
 #include "ps_meta.h"
-#include "ps_game.h"
 #include "ps_carousel.h"
 #include "ps_move_bnt.h"
 #include "ps_menu.h"
 #include "ps_centerlabel.h"
 #include "ps_stateselector.h"
+#include "../main.h"
 #include <vector>
 #include <memory>
 
@@ -54,7 +54,7 @@ public:
     NotificationLines notificationLines; // top two lines of the screen
     int numberOfNonDuplicatedGamesInCarousel = 0;
 
-    static void renderText(SDL_Renderer * renderer, int x, int y, const std::string & text, const SDL_Color & textColor,
+    static void renderText(int x, int y, const std::string & text, const SDL_Color & textColor,
             TTF_Font *font, bool center, bool background);
 
     bool powerOffShift=false;
@@ -74,10 +74,6 @@ public:
     PsObj *tButton;
     PsMenu *menu;
     PsStateSelector * sselector= nullptr;
-
-    TTF_Font *font30;
-    TTF_Font *font15;
-    TTF_Font *font24;
 
     Uint8 fgR=255, fgG=255, fgB=255;
     Uint8 secR=100, secG=100, secB=100;

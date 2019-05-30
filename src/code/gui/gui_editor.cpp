@@ -8,7 +8,10 @@
 #include "gui_selectmemcard.h"
 #include "../engine/memcard.h"
 #include "../engine/cfgprocessor.h"
+#include <SDL2/SDL_image.h>
 #include "../lang.h"
+#include <sstream>
+
 using namespace std;
 
 #define OPT_FAVORITE       5

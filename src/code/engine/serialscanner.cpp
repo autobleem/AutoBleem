@@ -7,7 +7,8 @@
 #include "isodir.h"
 #include <sstream>
 #include "../util.h"
-
+#include <fstream>
+#include <iostream>
 using namespace std;
 
 // The SerialScanner class reads the serial number in a CDROM BIN file which is an ISO 9660 image of a CDROM.

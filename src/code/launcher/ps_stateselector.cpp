@@ -92,7 +92,7 @@ void PsStateSelector::render()
             text = _("SELECT SLOT TO SAVE STATE");
         }
 
-        GuiLauncher::renderText(renderer, 0, 110, _(text), brightWhite, font30, true, false);   // center=true, background=false
+        GuiLauncher::renderText(0, 110, _(text), brightWhite, font30, true, false);   // center=true, background=false
 
         shared_ptr<Gui> gui(Gui::getInstance());
         SDL_Texture *infoText;
@@ -148,7 +148,7 @@ void PsStateSelector::render()
                 SDL_RenderCopy(renderer, slotImg[i], &input, &imgOut);
             }
 
-            GuiLauncher::renderText(renderer, output.x+60, 270, _("Slot")+" "+to_string(i+1), brightWhite, font24, false, false); // center=false, background=false
+            GuiLauncher::renderText(output.x+60, 270, _("Slot")+" "+to_string(i+1), brightWhite, font24, false, false); // center=false, background=false
         }
     }
 }

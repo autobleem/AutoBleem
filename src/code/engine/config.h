@@ -3,7 +3,6 @@
 //
 #pragma once
 
-#include "../main.h"
 #include "inifile.h"
 
 //******************

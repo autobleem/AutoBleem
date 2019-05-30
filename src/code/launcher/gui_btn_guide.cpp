@@ -3,7 +3,6 @@
 //
 
 #include "gui_btn_guide.h"
-
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -11,6 +10,7 @@
 #include <string>
 #include "../gui/gui.h"
 #include "../lang.h"
+#include "../engine/scanner.h"
 using namespace std;
 
 //*******************************

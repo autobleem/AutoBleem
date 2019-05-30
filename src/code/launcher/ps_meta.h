@@ -6,7 +6,7 @@
 
 #include "ps_obj.h"
 #include "ps_game.h"
-#include <memory>
+#include <SDL2/SDL_ttf.h>
 
 class PsGame;
 
@@ -15,10 +15,10 @@ class PsGame;
 //******************
 class PsMeta : public PsObj {
 public:
-    string gameName;
-    string publisher;
-    string year;
-    string players;
+    std::string gameName;
+    std::string publisher;
+    std::string year;
+    std::string players;
 
     TTF_Font *font30;
     TTF_Font *font15;
@@ -50,8 +50,8 @@ public:
     bool discs = 1;
     bool favorite = false;
 
-    void updateTexts(string gameNameTxt, string publisherTxt,
-                     string yearTxt, string playersTxt, bool internal, bool hd, bool locked, int discs, bool favorite, int r, int g,
+    void updateTexts(std::string gameNameTxt, std::string publisherTxt,
+                     std::string yearTxt, std::string playersTxt, bool internal, bool hd, bool locked, int discs, bool favorite, int r, int g,
                      int b);
 
     void updateTexts(PsGamePtr & game, int r, int g, int b);
@@ -64,5 +64,5 @@ public:
 
     using PsObj::PsObj;
 private:
-    SDL_Texture *createTextTex(string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
+    SDL_Texture *createTextTex(std::string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
 };

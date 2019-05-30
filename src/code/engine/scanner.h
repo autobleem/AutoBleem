@@ -8,6 +8,7 @@
 #include "database.h"
 #include "../gui/gui.h"
 #include "../util.h"
+#include <map>
 
 //******************
 // Scanner

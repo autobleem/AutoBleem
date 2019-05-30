@@ -34,6 +34,8 @@ Game Manager
 Spiele Manager
 Games changed. Press
 Spiele aktualisiert. Drücke
+games
+spiele
 Go back
 Zurück
 Loading ... Please Wait ...

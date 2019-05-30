@@ -3,6 +3,8 @@
 //
 
 #include "isodir.h"
+#include <fstream>
+
 using namespace std;
 
 //*******************************

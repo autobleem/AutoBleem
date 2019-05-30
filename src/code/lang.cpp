@@ -4,12 +4,14 @@
 
 #include "lang.h"
 #include "util.h"
+#include <fstream>
+#include <iostream>
 using namespace std;
 
 //*******************************
 // string _(string input)
 //*******************************
-string _(string input) {
+string _(const string & input) {
     shared_ptr<Lang> lang(Lang::getInstance());
 
     return lang->translate(input);
@@ -82,7 +84,7 @@ vector<string> Lang::listLanguages()
     languages.push_back("English");
     for (DirEntry entry:Util::diru(Util::getWorkingPath() + Util::separator() + "lang"))
     {
-        if (Util::matchExtension(entry.name,".txt"))
+        if (Util::matchExtension(entry.name,".txt") && !Util::matchesLowercase(entry.name, "English.txt"))
         {
             languages.push_back(entry.name.substr(0,entry.name.size()-4));
         }

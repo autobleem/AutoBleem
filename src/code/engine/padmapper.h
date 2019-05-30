@@ -1,9 +1,7 @@
 //
 // Created by screemer on 2019-03-21.
 //
-
-#ifndef AUTOBLEEM_GUI_PADMAPPER_H
-#define AUTOBLEEM_GUI_PADMAPPER_H
+#pragma once
 
 #include <SDL2/SDL_events.h>
 #include "../main.h"
@@ -51,5 +49,3 @@ public:
     Inifile * defaultConfig;
 
 };
-
-#endif

@@ -6,6 +6,7 @@
 
 #include "ps_obj.h"
 #include "ps_game.h"
+#include <SDL2/SDL_ttf.h>
 
 #define OP_LOAD 0
 #define OP_SAVE 1

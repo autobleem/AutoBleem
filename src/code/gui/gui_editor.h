@@ -6,7 +6,6 @@
 #include "gui_screen.h"
 #include "../engine/inifile.h"
 #include "../launcher/ps_game.h"
-#include <vector>
 
 //********************
 // GuiEditor

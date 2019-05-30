@@ -8,6 +8,10 @@
 #include "cfgprocessor.h"
 #include "../gui/gui.h"
 #include "serialscanner.h"
+#include <sstream>
+#include <fstream>
+#include <iostream>
+#include "../engine/scanner.h"
 
 using namespace std;
 

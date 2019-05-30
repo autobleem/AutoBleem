@@ -5,6 +5,8 @@
 #include "ps_meta.h"
 #include "ps_game.h"
 #include "../util.h"
+#include <SDL2/SDL_image.h>
+using namespace std;
 
 //*******************************
 // PsMeta::updateTexts
