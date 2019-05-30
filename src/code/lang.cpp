@@ -84,7 +84,7 @@ vector<string> Lang::listLanguages()
     languages.push_back("English");
     for (DirEntry entry:Util::diru(Util::getWorkingPath() + Util::separator() + "lang"))
     {
-        if (Util::matchExtension(entry.name,".txt"))
+        if (Util::matchExtension(entry.name,".txt") && !Util::matchesLowercase(entry.name, "English.txt"))
         {
             languages.push_back(entry.name.substr(0,entry.name.size()-4));
         }

@@ -132,6 +132,12 @@ target_link_libraries(autobleem-gui
 )
 
 add_custom_command(TARGET autobleem-gui PRE_BUILD
+	   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+	   VERBATIM
+       COMMAND /bin/bash make_english.txt.sh
+	   )
+
+add_custom_command(TARGET autobleem-gui PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:autobleem-gui>)
 
