@@ -64,8 +64,9 @@ void GuiMemcards::render() {
         gui->renderSelectionBox(selected - firstVisible + 1, offset);
     }
 
-    gui->renderStatus(_("Card")+" " + to_string(selected + 1) + "/" + to_string(cards.size()) +
-                              "   |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Rename")+"  |@S| "+_("New Card")+"   |@T| "+_("Delete")+"  |@O| "+_("Go back")+"|");
+    gui->renderStatus(_("Card") + " " + to_string(selected + 1) + "/" + to_string(cards.size()) +
+                      "   |@L1|/|@R1| " + _("Page") + "   |@X| " + _("Rename") + "  |@S| " + _("New Card") +
+                      "   |@T| " + _("Delete") + "  |@O| " + _("Go back") + "|");
     SDL_RenderPresent(renderer);
 }
 
@@ -91,61 +92,63 @@ void GuiMemcards::loop() {
             }
             switch (e.type) {
                 case SDL_JOYAXISMOTION:
-                    if (e.jaxis.axis == 1) {
-                        if (e.jaxis.value > PCS_DEADZONE) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            selected++;
-                            if (selected >= cards.size()) {
-                                selected = 0;
-                                firstVisible = selected;
-                                lastVisible = firstVisible+maxVisible;
-                            }
-                            render();
+                case SDL_JOYHATMOTION:
+
+                    if (gui->mapper.isDown(&e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        selected++;
+                        if (selected >= cards.size()) {
+                            selected = 0;
+                            firstVisible = selected;
+                            lastVisible = firstVisible + maxVisible;
                         }
-                        if (e.jaxis.value < -PCS_DEADZONE) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            selected--;
-                            if (selected < 0) {
-                                selected = cards.size()-1;
-                                firstVisible = selected;
-                                lastVisible = firstVisible+maxVisible;
-                            }
-                            render();
-                        }
+                        render();
                     }
+                    if (gui->mapper.isUp(&e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        selected--;
+                        if (selected < 0) {
+                            selected = cards.size() - 1;
+                            firstVisible = selected;
+                            lastVisible = firstVisible + maxVisible;
+                        }
+                        render();
+                    }
+
                     break;
                 case SDL_JOYBUTTONDOWN:
 
-                    if (e.jbutton.button == PCS_BTN_R1) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_R1, &e)) {
                         Mix_PlayChannel(-1, gui->home_up, 0);
-                        selected+=maxVisible;
+                        selected += maxVisible;
                         if (selected >= cards.size()) {
                             selected = cards.size() - 1;
                         }
                         firstVisible = selected;
-                        lastVisible = firstVisible+maxVisible;
+                        lastVisible = firstVisible + maxVisible;
                         render();
                     };
-                    if (e.jbutton.button == PCS_BTN_L1) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)) {
                         Mix_PlayChannel(-1, gui->home_down, 0);
-                        selected-=maxVisible;
+                        selected -= maxVisible;
                         if (selected < 0) {
                             selected = 0;
                         }
                         firstVisible = selected;
-                        lastVisible = firstVisible+maxVisible;
+                        lastVisible = firstVisible + maxVisible;
                         render();
                     };
 
-                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
+
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         menuVisible = false;
                     };
-                    if (e.jbutton.button == PCS_BTN_TRIANGLE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         if (cards.size() != 0) {
                             GuiConfirm *guiConfirm = new GuiConfirm(renderer);
-                            guiConfirm->label = _("Delete card")+" '" + cards[selected] + "' ?";
+                            guiConfirm->label = _("Delete card") + " '" + cards[selected] + "' ?";
                             guiConfirm->show();
                             bool result = guiConfirm->result;
                             delete (guiConfirm);
@@ -160,15 +163,14 @@ void GuiMemcards::loop() {
                         }
                     };
 
-                    if (e.jbutton.button == PCS_BTN_CROSS) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
 
                         Mix_PlayChannel(-1, gui->cursor, 0);
-                        if (cards.empty())
-                        {
+                        if (cards.empty()) {
                             continue;
                         }
                         GuiKeyboard *keyboard = new GuiKeyboard(renderer);
-                        keyboard->label = _("Enter new name for card")+" '"+cards[selected]+"'";
+                        keyboard->label = _("Enter new name for card") + " '" + cards[selected] + "'";
                         keyboard->result = cards[selected];
                         keyboard->show();
                         string result = keyboard->result;
@@ -184,10 +186,8 @@ void GuiMemcards::loop() {
                             cancelled = true;
                         }
 
-                        for (string card:cards)
-                        {
-                            if (card==result)
-                            {
+                        for (string card:cards) {
+                            if (card == result) {
                                 // orevent overwrite other card
                                 cancelled = true;
                             }
@@ -195,17 +195,15 @@ void GuiMemcards::loop() {
 
                         if (!cancelled) {
                             Memcard *memcardOps = new Memcard(gui->path);
-                            memcardOps->rename(cards[selected],result);
+                            memcardOps->rename(cards[selected], result);
                             delete memcardOps;
                             init();
-                            int pos=0;
-                            for (string card:cards)
-                            {
-                                if (card==result)
-                                {
-                                    selected=pos;
-                                    firstVisible=pos;
-                                    lastVisible=firstVisible+maxVisible;
+                            int pos = 0;
+                            for (string card:cards) {
+                                if (card == result) {
+                                    selected = pos;
+                                    firstVisible = pos;
+                                    lastVisible = firstVisible + maxVisible;
                                 }
                                 pos++;
                             }
@@ -213,7 +211,7 @@ void GuiMemcards::loop() {
                         render();
                     }
 
-                    if (e.jbutton.button == PCS_BTN_SQUARE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
 
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         GuiKeyboard *keyboard = new GuiKeyboard(renderer);

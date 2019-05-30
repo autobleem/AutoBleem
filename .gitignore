@@ -30,6 +30,9 @@
 *.out
 *.app
 
+cmake-build-debug/
+cmake-build-debug
+build/
 
 CMakeLists.txt.user
 CMakeCache.txt
@@ -42,13 +45,9 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 
-CMakeLists.txt
 
 #CLion folder
 .idea/
-
-#Clion build folders
-cmake-build-*/
 
 #OS X DS_Store files
 .DS_Store

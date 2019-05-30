@@ -411,35 +411,37 @@ void GuiEditor::loop() {
             }
             switch (e.type) {
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
-                    if (e.jaxis.axis == 1) {
-                        if (e.jaxis.value > PCS_DEADZONE) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            selOption++;
-                            if (selOption > 13) {
-                                selOption = 13;
-                            }
-                            render();
-                        }
-                        if (e.jaxis.value < -PCS_DEADZONE) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            selOption--;
-                            if (selOption < 5) {
-                                selOption = 5;
-                            }
-                            render();
-                        }
-                    }
-                    if (e.jaxis.axis == 0) {
-                        if (e.jaxis.value > PCS_DEADZONE) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            processOptionChange(true);
+                case SDL_JOYHATMOTION:
 
-                            render();
+                    if (gui->mapper.isDown(&e)) {
+
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        selOption++;
+                        if (selOption > 13) {
+                            selOption = 13;
                         }
-                        if (e.jaxis.value < -PCS_DEADZONE) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            processOptionChange(false);
+                        render();
+                    }
+                    if (gui->mapper.isUp(&e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        selOption--;
+                        if (selOption < 5) {
+                            selOption = 5;
                         }
+                        render();
+                    }
+
+
+                    if (gui->mapper.isRight(&e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        processOptionChange(true);
+
+                        render();
+                    }
+                    if (gui->mapper.isLeft(&e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        processOptionChange(false);
+
                         render();
                     }
                     break;
@@ -447,7 +449,7 @@ void GuiEditor::loop() {
                 case SDL_JOYBUTTONDOWN:
                     if (!internal) {
                         if (gameIni.values["memcard"] == "SONY") {
-                            if (e.jbutton.button == PCS_BTN_START) {
+                            if (e.jbutton.button == gui->_cb(PCS_BTN_START, &e)) {
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                                 keyboard->label = _("Enter new name for memory card");
@@ -474,12 +476,12 @@ void GuiEditor::loop() {
                                 render();
                             };
                         }
-                    } else
-                        {
-                            Mix_PlayChannel(-1, gui->cancel, 0);
-                        }
+                    } else {
+                        Mix_PlayChannel(-1, gui->cancel, 0);
+                    }
 
-                    if (e.jbutton.button == PCS_BTN_SQUARE) {
+
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
                         if (!internal) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             GuiSelectMemcard *selector = new GuiSelectMemcard(renderer);
@@ -495,14 +497,13 @@ void GuiEditor::loop() {
                                     gameIni.save(gameIni.path);
                                 }
                             delete (selector);
-                        } else
-                        {
+                        } else {
                             Mix_PlayChannel(-1, gui->cancel, 0);
                         }
                         render();
                     };
 
-                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         SDL_DestroyTexture(cover);
                         cover = nullptr;
@@ -510,7 +511,7 @@ void GuiEditor::loop() {
 
                     };
 
-                    if (e.jbutton.button == PCS_BTN_TRIANGLE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         GuiKeyboard *keyboard = new GuiKeyboard(renderer);
                         keyboard->label = _("Enter new game name");

@@ -3,6 +3,7 @@ project(autobleem-gui)
 
 set(CMAKE_CXX_STANDARD 11)
 
+
 if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm" )
 	SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -s -Os -O3")
 	SET(CMAKE_CXX_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -Os -O3")
@@ -107,9 +108,12 @@ add_executable(autobleem-gui
         src/code/launcher/ps_stateselector.cpp
         src/code/launcher/ps_stateselector.h
         src/code/launcher/gui_btn_guide.cpp
-		src/code/launcher/gui_btn_guide.h
-		src/code/engine/padmapper.cpp
-		src/code/engine/padmapper.h)
+        src/code/launcher/gui_btn_guide.h
+        src/code/engine/padmapper.cpp
+        src/code/engine/padmapper.h
+        src/code/gui/gui_padconfig.cpp
+        src/code/gui/gui_padconfig.h)
+
 
 add_executable(starter
 		src/code/starter.cpp
@@ -132,6 +136,7 @@ target_link_libraries(autobleem-gui
 add_custom_command(TARGET autobleem-gui PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:autobleem-gui>)
+
 
 configure_file(src/resources/default.lic default.lic COPYONLY)
 configure_file(src/resources/default.png default.png COPYONLY)

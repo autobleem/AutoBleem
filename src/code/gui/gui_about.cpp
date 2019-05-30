@@ -51,6 +51,7 @@ void GuiAbout::loop() {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
+
                 }
             }
             // this is for pc Only
@@ -59,11 +60,17 @@ void GuiAbout::loop() {
             }
             switch (e.type) {
                 case SDL_JOYBUTTONUP:
-                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
+
+
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         menuVisible = false;
+
                     };
+
+
             }
+
         }
     }
 }

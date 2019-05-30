@@ -12,6 +12,7 @@
 #include "../ver_migration.h"
 #include "../lang.h"
 #include "../launcher/gui_launcher.h"
+#include "gui_padconfig.h"
 using namespace std;
 
 //*******************************
@@ -166,6 +167,7 @@ void Gui::loadAssets() {
         backgroundImg = nullptr;
     }
 
+
     logoRect.x = atoi(themeData.values["lpositionx"].c_str());
     logoRect.y = atoi(themeData.values["lpositiony"].c_str());
     logoRect.w = atoi(themeData.values["lw"].c_str());
@@ -200,6 +202,7 @@ void Gui::loadAssets() {
     }
     string fontPath = (themePath + themeData.values["font"]);
     font = TTF_OpenFont(fontPath.c_str(), atoi(themeData.values["fsize"].c_str()));
+
 
     if (music != nullptr) {
 
@@ -273,6 +276,10 @@ void Gui::waitForGamepad() {
         SDL_InitSubSystem(SDL_INIT_JOYSTICK);
         joysticksFound = SDL_NumJoysticks();
     }
+
+
+
+
 }
 
 //*******************************
@@ -287,6 +294,7 @@ void Gui::criticalException(string text) {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
+
                 }
             }
             if (e.type == SDL_QUIT)
@@ -306,6 +314,7 @@ void Gui::criticalException(string text) {
 //*******************************
 void Gui::display(bool forceScan, string path, Database *db, bool resume) {
     joysticks.clear();
+    joynames.clear();
     this->db = db;
     this->path = path;
     this->forceScan = forceScan;
@@ -326,12 +335,13 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
 
     Mix_Init(0);
     TTF_Init();
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
     SDL_Window *window = SDL_CreateWindow("AutoBleem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720,
                                           0);
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     loadAssets();
+
 
     if (!resume) {
         auto *splashScreen = new GuiSplash(renderer);
@@ -341,12 +351,21 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
         drawText(_("Importing internal games"));
         Util::execUnixCommad("/media/Autobleem/rc/backup_internal.sh");
 
-        /*
-        drawText(_("Upgrading AutoBleem - Please wait..."));
-        auto *migration = new VerMigration();
-        migration->migrate(db);
-        delete (migration);
-        */
+
+
+            for (int i = 0; i < SDL_NumJoysticks(); i++) {
+                SDL_Joystick* joystick = SDL_JoystickOpen(i);
+                if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick)))
+                {
+                    cout << "New pad type" <<endl;
+                    auto cfgPad = new GuiPadConfig(renderer);
+                    cfgPad->joyid = SDL_JoystickInstanceID(joystick);
+                    cfgPad->show();
+                    delete cfgPad;
+                }
+
+            }
+
 
         if (cfg.inifile.values["quick"] != "true")
             waitForGamepad();
@@ -354,6 +373,8 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
         resumingGui = true;
         overrideQuickBoot = true;
     }
+
+
 }
 
 //*******************************
@@ -372,6 +393,7 @@ void Gui::saveSelection() {
     os.flush();
     os.close();
 }
+
 
 bool otherMenuShift = false;
 bool powerOffShift = false;
@@ -402,6 +424,7 @@ bool Gui::quickBoot() {
             else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
                 return false;
 
+
             if (e.type == SDL_JOYBUTTONDOWN) {
                 overrideQuickBoot = true;
                 return false;
@@ -420,6 +443,11 @@ bool Gui::quickBoot() {
             return true;
         }
     }
+}
+
+int Gui::_cb(int button, SDL_Event *e)
+{
+    return mapper.translateButton(button,e);
 }
 
 
@@ -522,6 +550,7 @@ void Gui::menuSelection() {
             resumingGui = false;
             menuSelection();
             menuVisible = false;
+
         }
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
@@ -530,23 +559,27 @@ void Gui::menuSelection() {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
+
                 }
             }
 
+
+
             // this is for pc Only
             if (e.type == SDL_QUIT) {
+
                 menuVisible = false;
             }
             switch (e.type) {
                 case SDL_JOYBUTTONUP:
                     if (adv != "false") {
                         if (!forceScan) {
-                            if (e.jbutton.button == PCS_BTN_L1) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L1,&e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
                                 drawText(mainMenu);
                                 otherMenuShift = false;
                             }
-                            if (e.jbutton.button == PCS_BTN_L2) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L2,&e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
                                 powerOffShift = false;
                             }
@@ -557,12 +590,12 @@ void Gui::menuSelection() {
 
                     if (adv != "false") {
                         if (!forceScan) {
-                            if (e.jbutton.button == PCS_BTN_L1) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L1,&e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
                                 drawText(otherMenu);
                                 otherMenuShift = true;
                             }
-                            if (e.jbutton.button == PCS_BTN_L2) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L2,&e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
 
                                 powerOffShift = true;
@@ -570,8 +603,9 @@ void Gui::menuSelection() {
                         }
                     }
 
+
                     if (powerOffShift) {
-                        if (e.jbutton.button == PCS_BTN_R2) {
+                        if (e.jbutton.button == _cb(PCS_BTN_R2,&e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             drawText(_("POWERING OFF... PLEASE WAIT"));
 #if defined(__x86_64__) || defined(_M_X64)
@@ -586,7 +620,7 @@ void Gui::menuSelection() {
 
                     if (!otherMenuShift) {
                         if (!forceScan)
-                            if (e.jbutton.button == PCS_BTN_START) {
+                            if (e.jbutton.button == _cb(PCS_BTN_START,&e)) {
                                 if (cfg.inifile.values["ui"] == "classic") {
                                     Mix_PlayChannel(-1, cursor, 0);
                                     this->menuOption = MENU_OPTION_RUN;
@@ -606,7 +640,7 @@ void Gui::menuSelection() {
 
                         if (!forceScan)
                             if (retroarch != "false") {
-                                if (e.jbutton.button == PCS_BTN_SQUARE) {
+                                if (e.jbutton.button == _cb(PCS_BTN_SQUARE,&e)) {
                                     Mix_PlayChannel(-1, cursor, 0);
                                     if (!Util::exists("/media/RetroArch/retroarch")) {
                                         auto confirm = new GuiConfirm(renderer);
@@ -630,13 +664,13 @@ void Gui::menuSelection() {
                                 };
                             }
 
-                        if (e.jbutton.button == PCS_BTN_CROSS) {
+                        if (e.jbutton.button == _cb(PCS_BTN_CROSS,&e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             this->menuOption = MENU_OPTION_SCAN;
 
                             menuVisible = false;
                         };
-                        if (e.jbutton.button == PCS_BTN_TRIANGLE) {
+                        if (e.jbutton.button == _cb(PCS_BTN_TRIANGLE,&e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto *aboutScreen = new GuiAbout(renderer);
                             aboutScreen->show();
@@ -645,7 +679,7 @@ void Gui::menuSelection() {
                             menuSelection();
                             menuVisible = false;
                         };
-                        if (e.jbutton.button == PCS_BTN_SELECT) {
+                        if (e.jbutton.button == _cb(PCS_BTN_SELECT,&e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto options = new GuiOptions(renderer);
                             options->show();
@@ -655,14 +689,16 @@ void Gui::menuSelection() {
                         };
                         if (!forceScan)
                             if (cfg.inifile.values["ui"] == "classic")
-                                if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                                if (e.jbutton.button == _cb(PCS_BTN_CIRCLE,&e)) {
                                     Mix_PlayChannel(-1, cancel, 0);
                                     this->menuOption = MENU_OPTION_SONY;
                                     menuVisible = false;
+
+
                                 };
                         break;
                     } else {
-                        if (e.jbutton.button == PCS_BTN_CROSS) {
+                        if (e.jbutton.button == _cb(PCS_BTN_CROSS,&e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto memcardsScreen = new GuiMemcards(renderer);
                             memcardsScreen->show();
@@ -672,7 +708,7 @@ void Gui::menuSelection() {
                             menuVisible = false;
                         };
 
-                        if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                        if (e.jbutton.button == _cb(PCS_BTN_CIRCLE,&e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto managerScreen = new GuiManager(renderer);
                             managerScreen->show();
@@ -681,10 +717,16 @@ void Gui::menuSelection() {
                             menuSelection();
                             menuVisible = false;
                         };
+
+
                     }
+
+
             }
+
         }
     }
+
 }
 
 //*******************************
@@ -695,6 +737,7 @@ void Gui::finish() {
     if (Mix_PlayingMusic()) {
         Mix_FadeOutMusic(300);
         while (Mix_PlayingMusic()) {
+
         }
     } else {
         usleep(300 * 1000);
@@ -804,6 +847,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     int h = 0;
 
     for (SDL_Texture *tex:textTexures) {
+
         Uint32 format;
         int access;
         int tw, th;
@@ -812,6 +856,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
         w += tw;
         if (th > h) h = th;
     }
+
 
     *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
     SDL_SetTextureBlendMode(*texture, SDL_BLENDMODE_NONE);
@@ -828,8 +873,10 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
         int tw, th;
         SDL_QueryTexture(tex, &format, &access, &tw, &th);
 
+
         SDL_Rect posRect;
         posRect.x = xpos;
+
         posRect.y = 0;
 
         if (th != h) {
@@ -919,11 +966,13 @@ void Gui::renderLabelBox(int line, int offset) {
     rect2.w = atoi(themeData.values["opscreenw"].c_str());
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
 
+
     SDL_Rect rectSelection;
     rectSelection.x = rect2.x + 5;
     rectSelection.y = offset + textRec.h * (line);
     rectSelection.w = rect2.w - 10;
     rectSelection.h = textRec.h;
+
 
     SDL_SetRenderDrawColor(renderer, getR(bg), getG(bg), getB(bg), atoi(themeData.values["keyalpha"].c_str()));
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
@@ -954,6 +1003,7 @@ void Gui::renderSelectionBox(int line, int offset, int xoffset) {
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
     rect2.w = atoi(themeData.values["opscreenw"].c_str());
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
+
 
     SDL_Rect rectSelection;
     rectSelection.x = rect2.x + 5 + xoffset;
@@ -1000,6 +1050,7 @@ int Gui::renderTextLineOptions(string text, int line, int offset, bool center, i
     SDL_Texture *buttonTex = nullptr;
     SDL_Rect rect;
 
+
     if (button == -1) {
         return h;
     }
@@ -1043,6 +1094,8 @@ int Gui::renderTextLine(string text, int line, int offset, bool center)
     return renderTextLine(text,line,offset,center,0);
 }
 int Gui::renderTextLine(string text, int line, int offset, bool center, int xoffset) {
+
+
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
@@ -1066,8 +1119,10 @@ int Gui::renderTextLine(string text, int line, int offset, bool center, int xoff
         textRec.x = (1280 / 2) - textRec.w / 2;
     }
 
+
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
     SDL_DestroyTexture(textTex);
+
 
     return textRec.h;
 }
@@ -1108,6 +1163,7 @@ void Gui::renderTextBar() {
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
 
     SDL_RenderFillRect(renderer, &rect2);
+
 }
 
 //*******************************
@@ -1205,12 +1261,17 @@ void Gui::watchJoystickPort() {
                 SDL_JoystickClose(joy);
             }
             joysticks.clear();
+            joynames.clear();
         }
         SDL_Joystick *joystick;
         for (int i = 0; i < SDL_NumJoysticks(); i++) {
             joystick = SDL_JoystickOpen(i);
             joysticks.push_back(joystick);
+            joynames.push_back(SDL_JoystickName(joystick));
             cout << "Pad connected" << endl;
+            cout << "--" << SDL_JoystickName(joystick) << endl;
+
         }
+
     }
 }

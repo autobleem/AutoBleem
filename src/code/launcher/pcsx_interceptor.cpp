@@ -15,6 +15,9 @@ using namespace std;
 //*******************************
 bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
     shared_ptr<Gui> gui(Gui::getInstance());
+
+    string padMapping = gui->padMapping;
+
     string lastCDpoint = game->ssFolder + "lastcdimg.txt";
     string lastCDpointX = game->ssFolder + "lastcdimg."+to_string(resumepoint)+".txt";
     gui->saveSelection();
@@ -82,6 +85,15 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
     }
     argvNew.push_back(aspect.c_str());
     argvNew.push_back(filter.c_str());
+
+    if (padMapping.empty())
+    {
+        argvNew.push_back("NA");
+    } else
+    {
+        argvNew.push_back(padMapping.c_str());
+    }
+
     argvNew.push_back(nullptr);
 
     for (const char *s:argvNew) {
