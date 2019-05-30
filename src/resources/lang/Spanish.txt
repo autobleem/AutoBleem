@@ -34,6 +34,8 @@ Game Manager
 Administrador de juegos
 Games changed. Press
 Juegos cambiados. Prensa
+games
+juegos
 Go back
 Regreso
 Loading ... Please Wait ...

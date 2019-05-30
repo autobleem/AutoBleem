@@ -34,6 +34,8 @@ Game Manager
 Gestionnaire de jeux
 Games changed. Press
 Changement des jeux. Appuyer sur
+games
+jeux
 Go back
 Retour
 Loading ... Please Wait ...

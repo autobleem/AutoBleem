@@ -104,9 +104,9 @@ void GuiLauncher::switchSet(int newSet) {
 // GuiLauncher::showSetName
 //*******************************
 void GuiLauncher::showSetName() {
-    static vector<string> setNames = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
-                           _("Showing: Favorite games")};
-    string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " games)";
+    vector<string> setNames = { _("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
+                                _("Showing: Favorite games") };
+    string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
     notificationLines[0].setText(setNames[currentSet] + numGames, false, 0);   // line starts at 0 for top
 }
 

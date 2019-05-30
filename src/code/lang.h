@@ -9,7 +9,7 @@
 #include <memory>
 #include <vector>
 
-std::string _(std::string input);
+std::string _(const std::string & input);
 
 //******************
 // Lang

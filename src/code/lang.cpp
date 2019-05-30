@@ -11,7 +11,7 @@ using namespace std;
 //*******************************
 // string _(string input)
 //*******************************
-string _(string input) {
+string _(const string & input) {
     shared_ptr<Lang> lang(Lang::getInstance());
 
     return lang->translate(input);

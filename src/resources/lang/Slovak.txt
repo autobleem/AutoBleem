@@ -34,6 +34,8 @@ Game Manager
 Manažér hier
 Games changed. Press
 Zmenené hry. Stlač
+games
+hry
 Go back
 Naspäť
 Loading ... Please Wait ...
