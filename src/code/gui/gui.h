@@ -73,7 +73,6 @@ public:
     vector<string> joynames;
     PadMapper mapper;
 
-    Config cfg;
     Coverdb *coverdb;
     Database *db;
     Inifile themeData;
