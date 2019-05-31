@@ -16,13 +16,27 @@ using namespace std;
 //*******************************
 void PsCarouselGame::loadTex(SDL_Renderer *renderer) {
     shared_ptr<Gui> gui(Gui::getInstance());
-
+    unsigned char *pixels;
+    int pitch;
     if (coverPng == nullptr) {
-        SDL_Texture *renderSurface = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, 226,
+        SDL_Texture *renderSurface = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_TARGET,
+                                                       226,
                                                        226);
-        SDL_SetRenderTarget(renderer, renderSurface);
-        SDL_RenderClear(renderer);
         SDL_Rect fullRect;
+        fullRect.x = 0;
+        fullRect.y = 0;
+        fullRect.h = 226, fullRect.w = 226;
+
+        SDL_SetRenderTarget(renderer, renderSurface);
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+        SDL_SetTextureBlendMode(renderSurface,SDL_BLENDMODE_NONE);
+        SDL_SetRenderDrawColor(renderer, 255, 128, 128, 0);
+        SDL_RenderFillRect(renderer, NULL);
+        SDL_SetTextureBlendMode(renderSurface,SDL_BLENDMODE_BLEND);
+
+
+
+
 
         string imagePath = (*this)->folder + Util::separator() + (*this)->base + ".png";
         if (Util::exists(imagePath)) {
@@ -30,6 +44,7 @@ void PsCarouselGame::loadTex(SDL_Renderer *renderer) {
         } else coverPng = nullptr;
 
         if (coverPng != nullptr) {
+            SDL_SetRenderTarget(renderer, renderSurface);
             fullRect.x = 0;
             fullRect.y = 0;
             fullRect.h = 226, fullRect.w = 226;
@@ -67,6 +82,7 @@ void PsCarouselGame::loadTex(SDL_Renderer *renderer) {
             coverPng = renderSurface;
         }
         SDL_SetRenderTarget(renderer, nullptr);
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     }
 }
 
@@ -84,7 +100,7 @@ void PsCarouselGame::freeTex() {
 // PsCarousel::createCoverPoint
 //*******************************
 PsScreenpoint PsCarousel::createCoverPoint(int x, int shade, int side) {
-    shade=255;
+    shade = 255;
     if (side == 0) {
         PsScreenpoint point;
         point.x = 405 - SLOT_SIZE * x;

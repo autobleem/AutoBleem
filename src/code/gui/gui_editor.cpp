@@ -334,7 +334,7 @@ void GuiEditor::render() {
                         gameIni.values["players"], line++, offset, true);
 
     gui->renderTextLine(_("Memory Card:") + " " +
-                        (gameIni.values["memcard"] == "SONY" ? string(_("Internal")) : gameIni.values["memcard"] + " "
+                        (gameIni.values["memcard"] == "SONY" ? string(_("Internal")) : gameIni.values["memcard"] + " " +
                                                                                     _("(Custom)")),
                         line++, offset, true);
 
