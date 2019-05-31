@@ -330,11 +330,11 @@ void GuiEditor::render() {
 
     gui->renderTextLine(_("Published by:") + " " + gameIni.values["publisher"], line++, offset, true);
 
-    gui->renderTextLine(_("Year:") + gameIni.values["year"] + "   " + _("Players:") +
+    gui->renderTextLine(_("Year:") +" "+ gameIni.values["year"] + "   " + _("Players:") + " " +
                         gameIni.values["players"], line++, offset, true);
 
     gui->renderTextLine(_("Memory Card:") + " " +
-                        (gameIni.values["memcard"] == "SONY" ? string(_("Internal")) : gameIni.values["memcard"] +
+                        (gameIni.values["memcard"] == "SONY" ? string(_("Internal")) : gameIni.values["memcard"] + " "
                                                                                     _("(Custom)")),
                         line++, offset, true);
 
@@ -420,8 +420,8 @@ void GuiEditor::loop() {
 
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         selOption++;
-                        if (selOption > 13) {
-                            selOption = 13;
+                        if (selOption > 14) {
+                            selOption = 14;
                         }
                         render();
                     }
