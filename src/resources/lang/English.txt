@@ -36,6 +36,8 @@ Code: AutoBleem Team
 
 -=Configuration=-
 
+Configuration saved - Press |@X| to continue
+
 Confirm
 
 Console Button Guide
@@ -104,6 +106,8 @@ GFX Filter:
 
 Go back
 
+Graphics by: 
+
 High res:
 
 Hold
@@ -119,6 +123,8 @@ Internal
 (Internal)
 
 Internal Games:
+
+In your dpad analogue?
 
 Language:
 
@@ -142,6 +148,8 @@ Music:
 
 New Card
 
+-=New GamePad found=-
+
 OOPS! Game crashed. Resume point not available.
 
 Options
@@ -163,6 +171,8 @@ Plugin:
 POWERING OFF... PLEASE WAIT
 
 Power Off
+
+Press a key for
 
 Published by:
 
@@ -222,7 +232,7 @@ Show RetroArch:
 
 Slot
 
-Sorting :
+Sorting : 
 
 Sorting...
 
@@ -236,8 +246,6 @@ Starting EvolutionUI
 
 Support via Discord:
 
-'Tenchu' theme by Kevzombie
-
 This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
 
 to scan
@@ -247,8 +255,6 @@ Total:
 UI:
 
 Updating regional.db...
-
-Upgrading AutoBleem - Please wait...
 
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 

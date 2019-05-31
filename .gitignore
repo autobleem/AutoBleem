@@ -30,8 +30,7 @@
 *.out
 *.app
 
-cmake-build-debug/
-cmake-build-debug
+cmake-build*/
 build/
 
 CMakeLists.txt.user
