@@ -1153,6 +1153,18 @@ void GuiLauncher::loop() {
                                     updateMeta();
                                     menu->setResumePic(carouselGames[selGame]->findResumePicture());
                                 }
+                                // fix to put back cover on top position
+
+                                PsScreenpoint point2;
+                                point2.x = 640 - 113;
+                                point2.y = 90;
+                                point2.scale = 1;
+                                point2.shade = 220;
+
+                                carouselGames[selGame].destination = point2;
+                                carouselGames[selGame].actual = point2;
+                                carouselGames[selGame].current = point2;
+
 
                             } else if (menu->selOption == 0) {
 
