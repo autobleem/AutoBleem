@@ -39,7 +39,8 @@
 //********************
 // GuiBase
 //********************
-struct GuiBase {
+class GuiBase {
+public:
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
 

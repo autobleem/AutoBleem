@@ -33,7 +33,7 @@ void PsCarouselGame::loadTex(SDL_Renderer *renderer) {
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
         SDL_RenderFillRect(renderer, NULL);
         SDL_SetTextureBlendMode(renderSurface,SDL_BLENDMODE_BLEND);
-
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
         string imagePath = (*this)->folder + Util::separator() + (*this)->base + ".png";
         if (Util::exists(imagePath)) {

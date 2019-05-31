@@ -58,6 +58,7 @@ GuiBase::~GuiBase() {
 //*******************************
 string GuiBase::getSonyImagePath() {
 #if defined(__x86_64__) || defined(_M_X64)
+    cout << "/media/themes/"+cfg.inifile.values["stheme"]+"/images" << endl;
     return "./sony/images";
 #else
     string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/images";
