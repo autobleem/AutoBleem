@@ -16,16 +16,13 @@ using namespace std;
 //*******************************
 void PsCarouselGame::loadTex(SDL_Renderer *renderer) {
     shared_ptr<Gui> gui(Gui::getInstance());
-    unsigned char *pixels;
-    int pitch;
+
     if (coverPng == nullptr) {
-        SDL_Texture *renderSurface = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_TARGET,
+        SDL_Texture *renderSurface = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ABGR32, SDL_TEXTUREACCESS_TARGET,
                                                        226,
                                                        226);
         SDL_Rect fullRect;
-        fullRect.x = 0;
-        fullRect.y = 0;
-        fullRect.h = 226, fullRect.w = 226;
+
 
         SDL_SetRenderTarget(renderer, renderSurface);
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
@@ -36,6 +33,7 @@ void PsCarouselGame::loadTex(SDL_Renderer *renderer) {
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
         string imagePath = (*this)->folder + Util::separator() + (*this)->base + ".png";
+        SDL_SetRenderTarget(renderer, nullptr);
         if (Util::exists(imagePath)) {
             coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
         } else coverPng = nullptr;
