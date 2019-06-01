@@ -50,11 +50,15 @@ public:
     Config cfg;
 
     GuiBase();
+
     ~GuiBase();
 
     std::string getSonyImagePath();
+
     std::string getSonyFontPath();
+
     std::string getSonySoundPath();
+
     std::string getSonyRootPath();
 
 };
@@ -65,12 +69,15 @@ public:
 class Gui : public GuiBase {
 private:
 
-    Gui() {mapper.init();}
+    Gui() { mapper.init(); }
+
     string themePath;
 
 public:
-    std::vector<SDL_Joystick*> joysticks;
-    int _cb(int button, SDL_Event * e);
+    std::vector<SDL_Joystick *> joysticks;
+
+    int _cb(int button, SDL_Event *e);
+
     vector<string> joynames;
     PadMapper mapper;
 
@@ -82,41 +89,69 @@ public:
     void watchJoystickPort();
 
     void loadAssets();
+
     void display(bool forceScan, std::string path, Database *db, bool resume);
+
     void waitForGamepad();
+
     void finish();
+
     void drawText(std::string text);
+
     void getEmojiTextTexture(SDL_Renderer *renderer, std::string text,
-                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
+                             TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
+
     void logText(std::string message);
+
     void menuSelection();
+
     void saveSelection();
+
     bool quickBoot();
+
     void renderBackground();
+
     int renderLogo(bool small);
+
     void renderStatus(std::string text);
+
     void renderTextBar();
+
     int renderTextLine(std::string text, int line, int offset, bool center, int xoffset);
+
     int renderTextLine(std::string text, int line, int offset, bool center);
+
     int renderTextLine(std::string text, int line, int offset);
+
     int renderTextLineOptions(std::string text, int line, int offset, bool center);
+
     int renderTextLineOptions(std::string text, int line, int offset, bool center, int xoffset);
+
     void renderSelectionBox(int line, int offset);
+
     void renderSelectionBox(int line, int offset, int xoffset);
+
     void renderLabelBox(int line, int offset);
+
     void renderTextChar(std::string text, int line, int offset, int posx);
+
     void renderFreeSpace();
+
     void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
 
     Uint8 getR(std::string val);
+
     Uint8 getG(std::string val);
+
     Uint8 getB(std::string val);
 
     void criticalException(std::string text);
-    SDL_Texture *  loadThemeTexture(SDL_Renderer * renderer, std::string themePath, std::string defaultPath, std::string texname);
 
-    int menuOption=MENU_OPTION_SCAN;
+    SDL_Texture *
+    loadThemeTexture(SDL_Renderer *renderer, std::string themePath, std::string defaultPath, std::string texname);
+
+    int menuOption = MENU_OPTION_SCAN;
     int lastSet = 0;
 
     SDL_Rect backgroundRect;
@@ -143,9 +178,9 @@ public:
 
     std::string path;
 
-    Mix_Music * music = NULL;
-    TTF_Font *font =  NULL;
-    bool forceScan=false;
+    Mix_Music *music = NULL;
+    TTF_Font *font = NULL;
+    bool forceScan = false;
 
     Mix_Chunk *cancel = NULL;
     Mix_Chunk *cursor = NULL;
@@ -157,11 +192,15 @@ public:
     bool resumingGui = false;
     int lastSelIndex = 0;
     PsGamePtr runningGame;
-    int resumepoint=-1;
-   string padMapping;
+    int resumepoint = -1;
+    string padMapping;
+
+
 
     Gui(Gui const &) = delete;
+
     Gui &operator=(Gui const &) = delete;
+
     static std::shared_ptr<Gui> getInstance() {
         static std::shared_ptr<Gui> s{new Gui};
         return s;

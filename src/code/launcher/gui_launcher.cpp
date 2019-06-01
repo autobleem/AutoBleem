@@ -1188,7 +1188,7 @@ void GuiLauncher::loop() {
 
                                     }
                                 }
-                                cout << currentSet << gui->cfg.inifile.values["origames"] << endl;
+
                                 switchSet(currentSet);
                                 showSetName();
 
@@ -1215,6 +1215,11 @@ void GuiLauncher::loop() {
                                         game.freeTex();
                                     }
                                     setInitialPositions(selGame);
+                                } else
+                                {
+                                    gui->loadAssets();
+                                    meta->gameName="";
+                                    menu->setResumePic("");
                                 }
 
                                 state = STATE_GAMES;
