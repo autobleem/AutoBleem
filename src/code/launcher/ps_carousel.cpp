@@ -61,7 +61,9 @@ void PsCarouselGame::loadTex(SDL_Renderer *renderer) {
                 outputRect.w = 226;
             }
             if (coverPng != nullptr) {
+                SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_ADD);
                 SDL_RenderCopy(renderer, coverPng, &fullRect, &outputRect);
+                SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_BLEND);
             }
             if (coverPng != nullptr) {
                 SDL_DestroyTexture(coverPng);
