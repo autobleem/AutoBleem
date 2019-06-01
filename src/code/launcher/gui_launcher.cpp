@@ -1202,9 +1202,11 @@ void GuiLauncher::loop() {
                                         updateMeta();
                                     }
                                 } else {
-                                    setInitialPositions(selGame);
-                                    updateMeta();
-                                    menu->setResumePic(carouselGames[selGame]->findResumePicture());
+                                    if (selGame!=-1) {
+                                        setInitialPositions(selGame);
+                                        updateMeta();
+                                        menu->setResumePic(carouselGames[selGame]->findResumePicture());
+                                    }
                                 }
 
                                 if (!carouselGames.empty()) {
