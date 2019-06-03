@@ -6,13 +6,13 @@ using namespace std;
 //*******************************
 // NotificationLine::setText
 //*******************************
-void NotificationLine::setText(string _text, bool _timed, long _timeLimit, const SDL_Color & _textColor, TTF_Font *_font) {
+void NotificationLine::setText(string _text, long _timeLimitInMilliSeconds, const SDL_Color & _textColor, TTF_Font *_font) {
     text = _text;
-    timed = _timed;
+    timed = (_timeLimitInMilliSeconds != 0);
     notificationTime = SDL_GetTicks();  // tick count when setText called
     if (notificationTime == 0)  // if by chance it's 0.  0 flags that the timeLimit has been reached and to turn off the display
         ++notificationTime;
-    timeLimit = _timeLimit;
+    timeLimit = _timeLimitInMilliSeconds;
     textColor = _textColor;
     font = _font;
 };
@@ -20,8 +20,8 @@ void NotificationLine::setText(string _text, bool _timed, long _timeLimit, const
 //*******************************
 // NotificationLine::setText
 //*******************************
-void NotificationLine::setText(string _text, bool _timed, long _timeLimit) {
-    setText(_text, _timed, _timeLimit, textColor, font);
+void NotificationLine::setText(string _text, long _timeLimitInMilliSeconds) {
+    setText(_text, _timeLimitInMilliSeconds, textColor, font);
 };
 
 //*******************************
@@ -50,12 +50,9 @@ void NotificationLines::createAndSetDefaults(int count, int x_start, int y_start
         notificationLine.textColor = brightWhite;
         notificationLine.x = x_start;
         notificationLine.y = y_start + (line * (fontHeight + separationBetweenLines));
-        if (line == 0)
-            notificationLine.timed = false; // keep line 0 displayed
-        else {
-            notificationLine.timed = true;
-            notificationLine.timeLimit = DefaultShowingTimeout;
-        }
+        notificationLine.timed = true;
+        notificationLine.timeLimit = DefaultShowingTimeout;
+
         lines.push_back(notificationLine);
     }
 }

@@ -14,6 +14,7 @@
 
 using namespace std;
 
+#define OPT_FIRST          5
 #define OPT_FAVORITE       5
 #define OPT_LOCK           6
 #define OPT_HIGHRES        7
@@ -24,6 +25,7 @@ using namespace std;
 #define OPT_FRAMESKIP      12
 #define OPT_PLUGIN         13
 #define OPT_INTERPOLATION  14
+#define OPT_LAST           14
 
 //*******************************
 // GuiEditor::processOptionChange
@@ -420,16 +422,16 @@ void GuiEditor::loop() {
 
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         selOption++;
-                        if (selOption > 14) {
-                            selOption = 14;
+                        if (selOption > OPT_LAST) {
+                            selOption = OPT_LAST;
                         }
                         render();
                     }
                     if (gui->mapper.isUp(&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         selOption--;
-                        if (selOption < 5) {
-                            selOption = 5;
+                        if (selOption < OPT_FIRST) {
+                            selOption = OPT_FIRST;
                         }
                         render();
                     }

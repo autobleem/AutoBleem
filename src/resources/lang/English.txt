@@ -226,6 +226,8 @@ Showing: Favorite games
 
 Showing: Internal games
 
+Showing Timeout (0 = no timeout):
+
 Showing: USB games
 
 Show RetroArch:
