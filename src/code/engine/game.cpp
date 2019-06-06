@@ -107,6 +107,8 @@ bool Game::print() {
     cout << "Players: " << players << endl;
     cout << "Publisher: " << publisher << endl;
     cout << "Year: " << year << endl;
+    cout << "Serial: " << serial << endl;
+    cout << "Region: " << region << endl;
     cout << "GameData found: " << gameDataFound << endl;
     cout << "Game.ini found: " << gameIniFound << endl;
     cout << "Game.ini valid: " << gameIniValid << endl;
@@ -199,9 +201,7 @@ void Game::recoverMissingFiles() {
             cerr << "SRC:" << source << " DST:" << destination << endl;
             Util::copy(source, destination);
             // maybe we can do better ?
-            SerialScanner * serialScanner = new SerialScanner();
-            string serial = serialScanner->scanSerial(imageType,fullPath,firstBinPath);
-            delete serialScanner;
+            string serial = SerialScanner::scanSerial(imageType,fullPath,firstBinPath);
             if (serial != "") {
 
                 if (md.lookupBySerial(serial)) {
@@ -234,9 +234,7 @@ void Game::recoverMissingFiles() {
         bool japan = false;
 
         if (!metadataLoaded) {
-            SerialScanner * serialScanner = new SerialScanner();
-            string serial = serialScanner->scanSerial(imageType,fullPath,firstBinPath);
-            delete serialScanner;
+            string serial = SerialScanner::scanSerial(imageType,fullPath,firstBinPath);
             if (serial != "") {
                 metadataLoaded = md.lookupBySerial(serial);
             }
@@ -336,6 +334,8 @@ void Game::saveIni(string path) {
     ini->values["title"] = title;
     ini->values["publisher"] = publisher;
     ini->values["year"] = to_string(year);
+    ini->values["serial"] = serial;
+    ini->values["region"] = region;
     ini->values["players"] = to_string(players);
     ini->values["automation"] = to_string(automationUsed);
     ini->values["imagetype"] = to_string(imageType);

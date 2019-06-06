@@ -19,6 +19,8 @@ public:
     std::string publisher;
     std::string year;
     std::string players;
+    std::string serial = "";
+    std::string region = "";
 
     TTF_Font *font30;
     TTF_Font *font15;
@@ -26,8 +28,8 @@ public:
 
     SDL_Texture *discsTex = nullptr;
     SDL_Texture *gameNameTex = nullptr;
-    SDL_Texture *publisherTex = nullptr;
-    SDL_Texture *yearTex = nullptr;
+    SDL_Texture *publisherAndYearTex = nullptr;
+    SDL_Texture *serialAndRegionTex = nullptr;
     SDL_Texture *playersTex = nullptr;
 
     SDL_Texture *internalOnTex = nullptr;
@@ -51,7 +53,7 @@ public:
     bool favorite = false;
 
     void updateTexts(std::string gameNameTxt, std::string publisherTxt,
-                     std::string yearTxt, std::string playersTxt, bool internal, bool hd, bool locked, int discs, bool favorite, int r, int g,
+                     std::string yearTxt, const std::string & serial, const std::string & region, std::string playersTxt, bool internal, bool hd, bool locked, int discs, bool favorite, int r, int g,
                      int b);
 
     void updateTexts(PsGamePtr & game, int r, int g, int b);

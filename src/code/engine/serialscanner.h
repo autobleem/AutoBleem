@@ -12,9 +12,9 @@
 // https://en.wikipedia.org/wiki/ISO_9660
 class SerialScanner {
 public:
-    std::string fixSerial(std::string serial);
-    std::string scanSerial(int imageType, std::string path, std::string firstBinPath="");
-    std::string scanSerialInternal(int imageType, std::string path, std::string firstBinPath="");
-    std::string workarounds(int imageType, std::string path, std::string firstBinPath);
-    std::string serialByMd5(std::string scanFile);
+    static std::string fixSerial(std::string serial);
+    static std::string scanSerial(int imageType, std::string path, std::string firstBinPath="");
+    static std::string scanSerialInternal(int imageType, std::string path, std::string firstBinPath="");
+    static std::string workarounds(int imageType, std::string path, std::string firstBinPath);
+    static std::string serialByMd5(std::string scanFile);
 };
