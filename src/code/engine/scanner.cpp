@@ -424,20 +424,30 @@ void Scanner::scanDirectory(string path) {
 			}
 
 			cout << game->automationUsed << endl;
-
 			game->recoverMissingFiles();
 			cout << game->automationUsed << endl;
 
-			if (!game->gameIniFound || game->automationUsed) {
+            game->serial = SerialScanner::scanSerial(game->imageType, game->fullPath, game->firstBinPath);
+            if (game->serial.length() >= 3) {
+                char regionCode = game->serial[2];
+                if (regionCode == 'U') game->region = "US";                 // SLUS, SCUS = NTSC-U
+                else if (regionCode == 'E') game->region = "Europe-Aus";    // SLES, SCES = PAL
+                else if (regionCode == 'P') game->region = "Japan";         // SLPS, SLPM, SCPS = NTSC-J
+            }
+            //cout << "serial: " << game->serial << ", region: " << game->region << ", " << game->title <<endl;
 
-				SerialScanner* serialScanner = new SerialScanner();
-				string serial = serialScanner->scanSerial(game->imageType, game->fullPath, game->firstBinPath);
-				delete serialScanner;
+            // if there is no ini file, make one
+			if ( !game->gameIniFound || game->automationUsed ||
+			        // or there is an existing ini file but the serial hasn't been added yet
+                    ((game->serial != "") && (game->iniValues.find("Serial") == game->iniValues.end()))
+			   ) {
 
-				if (!serial.empty()) {
-					cout << "Accessing metadata for serial: " << serial << endl;
+                game->serial = SerialScanner::scanSerial(game->imageType, game->fullPath, game->firstBinPath);
+
+				if (!game->serial.empty()) {
+					cout << "Accessing metadata for serial: " << game->serial << endl;
 					Metadata md;
-					if (md.lookupBySerial(serial)) {
+					if (md.lookupBySerial(game->serial)) {
 						// at this stage we have more data;
 						game->title = md.title;
 						game->publisher = md.publisher;
@@ -456,7 +466,6 @@ void Scanner::scanDirectory(string path) {
 							pngFile.close();
 							game->automationUsed = false;
 							game->imageFound = true;
-
 						}
 
 						md.clean();
@@ -467,7 +476,7 @@ void Scanner::scanDirectory(string path) {
 				}
 			}
 			game->saveIni(gameDataPath + GAME_INI);
-			game->print();
+			//game->print();
 
 			if (game->verify()) {
 				games.push_back(game);

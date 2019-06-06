@@ -234,6 +234,7 @@ bool Database::getInternalGames(PsGames *result) {
             game->internal = true;
             game->cds = discs;
             result->push_back(game);
+            //cout << "getInternalGames: " << game->serial << ", " << game->title << endl;
         }
     } else {
         sqlite3_finalize(res);
@@ -371,6 +372,7 @@ bool Database::getGames(PsGames *result) {
             game->base = string(reinterpret_cast<const char *>(base));
             game->memcard = string(reinterpret_cast<const char *>(memcard));
             game->cds = discs;
+            //cout << "getGames: " << game->serial << ", " << game->title << endl;
 
             string gameIniPath = game->folder + "/Game.ini";
             if (Util::exists(gameIniPath)) {
@@ -419,8 +421,11 @@ bool Database::querySerial(string serial, Metadata *md) {
             md->title = string(reinterpret_cast<const char *>(title));
             md->publisher = string(reinterpret_cast<const char *>(publisher));
             md->year = year;
+            md->serial = serial;
             md->players = players;
             md->valid = true;
+            //cout << "querySerial: " << "serial " << serial << ", " << md->title << endl;
+
             return true;
 
         }

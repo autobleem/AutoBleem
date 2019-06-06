@@ -24,7 +24,7 @@ using namespace std;
 void GuiLauncher::updateMeta() {
     if (carouselGames.empty()) {
         gameName = "";
-        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0, false, fgR,fgG,fgB);
+        meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, fgR,fgG,fgB);
         return;
     }
     meta->updateTexts(carouselGames[selGame], fgR,fgG,fgB);
@@ -279,7 +279,7 @@ void GuiLauncher::loadAssets() {
     if (selGame != -1) {
         meta->updateTexts(carouselGames[selGame], fgR,fgG,fgB);
     } else {
-        meta->updateTexts(gameName, publisher, year, players, false, false, false, 0, false, fgR,fgG,fgB);
+        meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, fgR,fgG,fgB);
     }
     staticElements.push_back(meta);
 

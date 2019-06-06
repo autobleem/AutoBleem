@@ -89,6 +89,8 @@ public:
     std::string gameName;
     std::string publisher;
     std::string year;
+    std::string serial = "";
+    std::string region = "";
     std::string players;
 
     bool staticMeta=false;
