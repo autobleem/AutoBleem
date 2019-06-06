@@ -430,9 +430,9 @@ void Scanner::scanDirectory(string path) {
             game->serial = SerialScanner::scanSerial(game->imageType, game->fullPath, game->firstBinPath);
             if (game->serial.length() >= 3) {
                 char regionCode = game->serial[2];
-                if (regionCode == 'U') game->region = "US";
-                else if (regionCode == 'E') game->region = "Europe-Aus";
-                else if (regionCode == 'P') game->region = "Japan";
+                if (regionCode == 'U') game->region = "US";                 // SLUS, SCUS = NTSC-U
+                else if (regionCode == 'E') game->region = "Europe-Aus";    // SLES, SCES = PAL
+                else if (regionCode == 'P') game->region = "Japan";         // SLPS, SLPM, SCPS = NTSC-J
             }
             //cout << "serial: " << game->serial << ", region: " << game->region << ", " << game->title <<endl;
 
