@@ -186,6 +186,8 @@ Quick scroll to next letter
 
 Quit emulation - back to AutoBleem
 
+Region:
+
 Rename
 
 Re/Scan
@@ -215,6 +217,8 @@ Select or cancel highlighted option
 SELECT RESUME SLOT TO LOAD
 
 SELECT SLOT TO SAVE STATE
+
+Serial:
 
 SETTINGS
 

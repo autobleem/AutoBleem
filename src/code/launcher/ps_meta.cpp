@@ -6,12 +6,14 @@
 #include "ps_game.h"
 #include "../util.h"
 #include <SDL2/SDL_image.h>
+#include "../lang.h"
+#include "../engine/inifile.h"
 using namespace std;
 
 //*******************************
 // PsMeta::updateTexts
 //*******************************
-void PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, string playersTxt, bool internal, bool hd,
+void PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, const string & serial, const string & region, string playersTxt, bool internal, bool hd,
                     bool locked, int discs, bool favorite, int r,int g, int b) {
     this->discs = discs;
     this->internal = internal;
@@ -21,17 +23,19 @@ void PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt
     this->gameName = gameNameTxt;
     this->publisher = publisherTxt;
     this->year = yearTxt;
+    this->serial = serial;
+    this->region = region;
     this->players = playersTxt;
 
     if (discsTex != nullptr) SDL_DestroyTexture(discsTex);
     if (gameNameTex != nullptr) SDL_DestroyTexture(gameNameTex);
-    if (publisherTex != nullptr) SDL_DestroyTexture(publisherTex);
-    if (yearTex != nullptr) SDL_DestroyTexture(yearTex);
+    if (publisherAndYearTex != nullptr) SDL_DestroyTexture(publisherAndYearTex);
+    if (serialAndRegionTex != nullptr) SDL_DestroyTexture(serialAndRegionTex);
     if (playersTex != nullptr) SDL_DestroyTexture(gameNameTex);
 
     gameNameTex = createTextTex(gameName, r,g,b, font30);
-    publisherTex = createTextTex(publisher, r,g,b, font15);
-    yearTex = createTextTex(year, r,g,b, font15);
+    publisherAndYearTex = createTextTex(publisher + ", " + year, r,g,b, font15);
+    serialAndRegionTex = createTextTex(_("Serial:") + " " + serial + ", " + _("Region:") + " " + region, r,g,b, font15);
     playersTex = createTextTex(playersTxt, r,g,b, font15);
     discsTex = createTextTex(to_string(discs),r,g,b,font15);
 }
@@ -42,7 +46,12 @@ void PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt
 void PsMeta::updateTexts(PsGamePtr & game, int r,int g, int b) {
     string appendText = game->players == 1 ? "Player" : "Players";
 
-    updateTexts(game->title, game->publisher, to_string(game->year), to_string(game->players) + " " + appendText,
+    Inifile iniFile;
+    iniFile.load(game->folder + "/" + "Game.ini");
+    game->serial = iniFile.values["serial"];
+    game->region = iniFile.values["region"];
+
+    updateTexts(game->title, game->publisher, to_string(game->year), game->serial, game->region, to_string(game->players) + " " + appendText,
                 game->internal, game->hd, game->locked, game->cds, game->favorite, r, g, b);
 }
 
@@ -51,8 +60,8 @@ void PsMeta::updateTexts(PsGamePtr & game, int r,int g, int b) {
 //*******************************
 void PsMeta::destroy() {
     if (gameNameTex != nullptr) SDL_DestroyTexture(gameNameTex);
-    if (publisherTex != nullptr) SDL_DestroyTexture(publisherTex);
-    if (yearTex != nullptr) SDL_DestroyTexture(yearTex);
+    if (publisherAndYearTex != nullptr) SDL_DestroyTexture(publisherAndYearTex);
+    if (serialAndRegionTex != nullptr) SDL_DestroyTexture(serialAndRegionTex);
     if (playersTex != nullptr) SDL_DestroyTexture(playersTex);
     SDL_DestroyTexture(tex);
     SDL_DestroyTexture(discsTex);
@@ -111,7 +120,7 @@ void PsMeta::render() {
         fullRect.h = h;
         SDL_RenderCopy(renderer, gameNameTex, &fullRect, &rect);
 
-        SDL_QueryTexture(publisherTex, &format, &access, &w, &h);
+        SDL_QueryTexture(publisherAndYearTex, &format, &access, &w, &h);
 
         rect.x = x;
         rect.y = y + 43;
@@ -122,9 +131,9 @@ void PsMeta::render() {
         fullRect.y = 0;
         fullRect.w = w;
         fullRect.h = h;
-        SDL_RenderCopy(renderer, publisherTex, &fullRect, &rect);
+        SDL_RenderCopy(renderer, publisherAndYearTex, &fullRect, &rect);
 
-        SDL_QueryTexture(yearTex, &format, &access, &w, &h);
+        SDL_QueryTexture(serialAndRegionTex, &format, &access, &w, &h);
 
         rect.x = x;
         rect.y = y + 43 + 22;
@@ -135,7 +144,7 @@ void PsMeta::render() {
         fullRect.y = 0;
         fullRect.w = w;
         fullRect.h = h;
-        SDL_RenderCopy(renderer, yearTex, &fullRect, &rect);
+        SDL_RenderCopy(renderer, serialAndRegionTex, &fullRect, &rect);
 
         SDL_QueryTexture(playersTex, &format, &access, &w, &h);
         rect.x = x + 35;

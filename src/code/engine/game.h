@@ -29,13 +29,17 @@ public:
     std::string fullPath;
     std::string saveStatePath;
     std::string pathName;
+
     std::string title;
     std::string publisher;
-    std::string memcard;
-    int players;
     int year;
+    std::string serial ="";
+    std::string region ="";
+    int players;
     std::vector<Disc> discs;
     std::string favorite;
+
+    std::string memcard;
 
     bool gameDataFound = false;
     bool pcsxCfgFound = false;
@@ -55,9 +59,10 @@ public:
     bool print();
     void updateObj();
     bool validateCue(std::string cuePath, std::string path);
-private:
 
     std::map<std::string, std::string> iniValues;
+
+private:
     void parseIni(std::string path);
     std::string valueOrDefault(std::string name, std::string def);
 };

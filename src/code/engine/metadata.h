@@ -12,6 +12,8 @@ public:
     std::string title;
     std::string publisher;
     int year;
+    std::string serial = "";
+    std::string region = "";
     int players;
     char *bytes = NULL;
     int dataSize = 0;
