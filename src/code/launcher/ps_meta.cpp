@@ -35,7 +35,10 @@ void PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt
 
     gameNameTex = createTextTex(gameName, r,g,b, font30);
     publisherAndYearTex = createTextTex(publisher + ", " + year, r,g,b, font15);
-    serialAndRegionTex = createTextTex(_("Serial:") + " " + serial + ", " + _("Region:") + " " + region, r,g,b, font15);
+    if (serial != "")
+        serialAndRegionTex = createTextTex(_("Serial:") + " " + serial + ", " + _("Region:") + " " + region, r,g,b, font15);
+	else
+        serialAndRegionTex = createTextTex("" + region, r,g,b, font15);
     playersTex = createTextTex(playersTxt, r,g,b, font15);
     discsTex = createTextTex(to_string(discs),r,g,b,font15);
 }
