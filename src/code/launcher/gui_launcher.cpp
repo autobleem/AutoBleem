@@ -107,7 +107,14 @@ void GuiLauncher::showSetName() {
     vector<string> setNames = { _("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
                                 _("Showing: Favorite games") };
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
-    notificationLines[0].setText(setNames[currentSet] + numGames, false, 0);   // line starts at 0 for top
+
+    shared_ptr<Gui> gui(Gui::getInstance());
+    auto str = gui->cfg.inifile.values["showingTimeout"];
+    long timeout{0};
+    if (str != "")
+        timeout = stoi(str.c_str()) * TicksPerSecond;
+
+    notificationLines[0].setText(setNames[currentSet] + numGames, timeout);   // line starts at 0 for top
 }
 
 //*******************************
@@ -331,7 +338,7 @@ void GuiLauncher::loadAssets() {
             sselector->visible = true;
             state = STATE_RESUME;
         } else {
-            notificationLines[1].setText(_("OOPS! Game crashed. Resume point not available."), true, DefaultShowingTimeout);
+            notificationLines[1].setText(_("OOPS! Game crashed. Resume point not available."), DefaultShowingTimeout);
         }
     }
 
@@ -989,14 +996,14 @@ void GuiLauncher::loop() {
                             if (nextGame != selGame) {
                                 // we have next game;
                                 Mix_PlayChannel(-1, gui->cursor, 0);
-                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, gui->font24);
+                                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, gui->font24);
                                 selGame = nextGame;
                                 setInitialPositions(selGame);
                                 updateMeta();
                                 menu->setResumePic(carouselGames[selGame]->findResumePicture());
                             } else {
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, gui->font24);
+                                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, gui->font24);
                             }
                         }
                     }
@@ -1019,14 +1026,14 @@ void GuiLauncher::loop() {
                             if (nextGame != selGame) {
                                 // we have next game;
                                 Mix_PlayChannel(-1, gui->cursor, 0);
-                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, gui->font24);
+                                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, gui->font24);
                                 selGame = nextGame;
                                 setInitialPositions(selGame);
                                 updateMeta();
                                 menu->setResumePic(carouselGames[selGame]->findResumePicture());
                             } else {
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationLines[1].setText(futureFirst, true, DefaultShowingTimeout, brightWhite, gui->font24);
+                                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, gui->font24);
                             }
                         }
                     }
@@ -1098,7 +1105,7 @@ void GuiLauncher::loop() {
                                     continue;
                                 }
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationLines[1].setText(_("MemCard Manager will be available soon"), true, DefaultShowingTimeout, brightWhite, gui->font24);
+                                notificationLines[1].setText(_("MemCard Manager will be available soon"), DefaultShowingTimeout, brightWhite, gui->font24);
                             }
                             if (menu->selOption == 1) {
                                 if (carouselGames.empty()) {
@@ -1252,7 +1259,7 @@ void GuiLauncher::loop() {
                                 Mix_PlayChannel(-1, gui->resume, 0);
                                 notificationLines[1].setText(
                                         _("Resume point saved to slot") + " " + to_string(sselector->selSlot + 1),
-                                        true, DefaultShowingTimeout);
+                                        DefaultShowingTimeout);
 
                                 menu->setResumePic(carouselGames[selGame]->findResumePicture(sselector->selSlot));
 

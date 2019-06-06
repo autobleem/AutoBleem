@@ -101,23 +101,28 @@ void GuiOptions::init() {
             music.push_back(entry.name);
         }
     }
+    for (int i=0; i <= 20; ++i) {
+        showingTimeout.push_back(to_string(i));
+    }
 
 }
 
-#define CFG_LANG       0
-#define CFG_THEME      1
-#define CFG_MENUTH     2
-#define CFG_UI         3
-#define CFG_JEWEL      4
-#define CFG_MUSIC      5
-#define CFG_ORIGAMES   6
-#define CFG_ASPECT     7
-#define CFG_QUICK      8
-#define CFG_QUICKMENU  9
-#define CFG_BGM        10
-#define CFG_MIP        11
-#define CFG_RA         12
-#define CFG_ADV        13
+#define CFG_LANG           0
+#define CFG_THEME          1
+#define CFG_MENUTH         2
+#define CFG_UI             3
+#define CFG_JEWEL          4
+#define CFG_MUSIC          5
+#define CFG_ORIGAMES       6
+#define CFG_ASPECT         7
+#define CFG_QUICK          8
+#define CFG_QUICKMENU      9
+#define CFG_BGM            10
+#define CFG_MIP            11
+#define CFG_RA             12
+#define CFG_ADV            13
+#define CFG_SHOWINGTIMEOUT 14
+#define CFG_LAST           14
 
 //*******************************
 // GuiOptions::getBooleanIcon
@@ -189,6 +194,7 @@ void GuiOptions::render() {
     renderOptionLine(_("GFX Filter:") + " " + getBooleanIcon("mip"), CFG_MIP + 1, offset);
     renderOptionLine(_("Show RetroArch:") + " " + getBooleanIcon("retroarch"), CFG_RA + 1, offset);
     renderOptionLine(_("Advanced:") + " " + getBooleanIcon("adv"), CFG_ADV + 1, offset);
+    renderOptionLine(_("Showing Timeout (0 = no timeout):") + " " + gui->cfg.inifile.values["showingTimeout"], CFG_SHOWINGTIMEOUT + 1, offset);
     gui->renderStatus("|@O| " + _("Go back") + "|");
 
     //   gui->renderSelectionBox(selOption+1,offset);
@@ -254,8 +260,8 @@ void GuiOptions::loop() {
                     if (gui->mapper.isDown(&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         selOption++;
-                        if (selOption > 13) {
-                            selOption = 13;
+                        if (selOption > CFG_LAST) {
+                            selOption = CFG_LAST;
                         }
                         render();
                     }
@@ -268,8 +274,8 @@ void GuiOptions::loop() {
                             gui->cfg.inifile.values["language"] = nextValue;
                             lang->load(nextValue);
                             init();
-
                         }
+
                         if (selOption == CFG_THEME) {
                             string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], true);
                             gui->cfg.inifile.values["theme"] = nextValue;
@@ -280,68 +286,63 @@ void GuiOptions::loop() {
                         if (selOption == CFG_MENUTH) {
                             string nextValue = getOption(sthemes, gui->cfg.inifile.values["stheme"], true);
                             gui->cfg.inifile.values["stheme"] = nextValue;
-
                         }
+
                         if (selOption == CFG_BGM) {
                             string nextValue = getOption(nomusic, gui->cfg.inifile.values["nomusic"], true);
                             gui->cfg.inifile.values["nomusic"] = nextValue;
                             init();
                             gui->loadAssets();
-
                         }
+
                         if (selOption == CFG_MUSIC) {
                             string nextValue = getOption(music, gui->cfg.inifile.values["music"], true);
                             gui->cfg.inifile.values["music"] = nextValue;
                             init();
                             gui->loadAssets();
-
                         }
 
                         if (selOption == CFG_MIP) {
                             string nextValue = getOption(mip, gui->cfg.inifile.values["mip"], true);
                             gui->cfg.inifile.values["mip"] = nextValue;
-
-
                         }
 
                         if (selOption == CFG_UI) {
                             string nextValue = getOption(ui, gui->cfg.inifile.values["ui"], true);
                             gui->cfg.inifile.values["ui"] = nextValue;
-
                         }
 
                         if (selOption == CFG_RA) {
                             string nextValue = getOption(retroarch, gui->cfg.inifile.values["retroarch"], true);
                             gui->cfg.inifile.values["retroarch"] = nextValue;
-
                         }
+
                         if (selOption == CFG_ADV) {
                             string nextValue = getOption(adv, gui->cfg.inifile.values["adv"], true);
                             gui->cfg.inifile.values["adv"] = nextValue;
-
                         }
+
                         if (selOption == CFG_ASPECT) {
                             string nextValue = getOption(aspect, gui->cfg.inifile.values["aspect"], true);
                             gui->cfg.inifile.values["aspect"] = nextValue;
-
                         }
+
                         if (selOption == CFG_ORIGAMES) {
                             string nextValue = getOption(origames, gui->cfg.inifile.values["origames"], true);
                             gui->cfg.inifile.values["origames"] = nextValue;
-
                         }
+
                         if (selOption == CFG_JEWEL) {
                             string nextValue = getOption(jewels, gui->cfg.inifile.values["jewel"], true);
                             gui->cfg.inifile.values["jewel"] = nextValue;
-
                         }
+
                         if (selOption == CFG_QUICKMENU) {
                             string nextValue = getOption(quickmenu, gui->cfg.inifile.values["quickmenu"], true);
                             gui->cfg.inifile.values["quickmenu"] = nextValue;
-
                         }
-                        if (selOption == CFG_QUICK) {
 
+                        if (selOption == CFG_QUICK) {
                             string nextValue = getOption(quickboot, gui->cfg.inifile.values["quick"], true);
                             string last = gui->cfg.inifile.values["quick"];
                             gui->cfg.inifile.values["quick"] = nextValue;
@@ -349,6 +350,11 @@ void GuiOptions::loop() {
                             delay++;
                             if (last == "false") delay = 1;
                             gui->cfg.inifile.values["delay"] = to_string(delay);
+                        }
+
+                        if (selOption == CFG_SHOWINGTIMEOUT) {
+                            string nextValue = getOption(showingTimeout, gui->cfg.inifile.values["showingTimeout"], true);
+                            gui->cfg.inifile.values["showingTimeout"] = nextValue;
                         }
 
                         render();
@@ -362,23 +368,26 @@ void GuiOptions::loop() {
                             lang->load(nextValue);
                             init();
                         }
+
                         if (selOption == CFG_THEME) {
                             string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], false);
                             gui->cfg.inifile.values["theme"] = nextValue;
                             init();
                             gui->loadAssets();
                         }
+
                         if (selOption == CFG_MUSIC) {
                             string nextValue = getOption(music, gui->cfg.inifile.values["music"], false);
                             gui->cfg.inifile.values["music"] = nextValue;
                             init();
                             gui->loadAssets();
                         }
+
                         if (selOption == CFG_MENUTH) {
                             string nextValue = getOption(sthemes, gui->cfg.inifile.values["stheme"], false);
                             gui->cfg.inifile.values["stheme"] = nextValue;
-
                         }
+
                         if (selOption == CFG_BGM) {
                             string nextValue = getOption(nomusic, gui->cfg.inifile.values["nomusic"], false);
                             gui->cfg.inifile.values["nomusic"] = nextValue;
@@ -400,32 +409,43 @@ void GuiOptions::loop() {
                             string nextValue = getOption(retroarch, gui->cfg.inifile.values["retroarch"], false);
                             gui->cfg.inifile.values["retroarch"] = nextValue;
                         }
+
                         if (selOption == CFG_ADV) {
                             string nextValue = getOption(adv, gui->cfg.inifile.values["adv"], false);
                             gui->cfg.inifile.values["adv"] = nextValue;
                         }
+
                         if (selOption == CFG_ASPECT) {
                             string nextValue = getOption(aspect, gui->cfg.inifile.values["aspect"], false);
                             gui->cfg.inifile.values["aspect"] = nextValue;
                         }
+
                         if (selOption == CFG_ORIGAMES) {
                             string nextValue = getOption(origames, gui->cfg.inifile.values["origames"], false);
                             gui->cfg.inifile.values["origames"] = nextValue;
                         }
+
                         if (selOption == CFG_JEWEL) {
                             string nextValue = getOption(jewels, gui->cfg.inifile.values["jewel"], false);
                             gui->cfg.inifile.values["jewel"] = nextValue;
                         }
+
                         if (selOption == CFG_QUICKMENU) {
                             string nextValue = getOption(quickmenu, gui->cfg.inifile.values["quickmenu"], false);
                             gui->cfg.inifile.values["quickmenu"] = nextValue;
                         }
+
                         if (selOption == CFG_QUICK) {
                             string nextValue = getOption(quickboot, gui->cfg.inifile.values["quick"], false);
                             int delay = atoi(gui->cfg.inifile.values["delay"].c_str());
                             delay++;
                             gui->cfg.inifile.values["delay"] = to_string(1);
                             gui->cfg.inifile.values["quick"] = nextValue;
+                        }
+
+                        if (selOption == CFG_SHOWINGTIMEOUT) {
+                            string nextValue = getOption(showingTimeout, gui->cfg.inifile.values["showingTimeout"], false);
+                            gui->cfg.inifile.values["showingTimeout"] = nextValue;
                         }
 
                         render();

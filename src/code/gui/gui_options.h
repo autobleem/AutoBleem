@@ -38,6 +38,7 @@ public:
     std::vector<std::string> origames;
     std::vector<std::string> jewels;
     std::vector<std::string> music;
+    std::vector<std::string> showingTimeout;
 
     using GuiScreen::GuiScreen;
 };

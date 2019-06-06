@@ -5,7 +5,7 @@
 #include <string>
 
 #define TicksPerSecond 1000
-#define DefaultShowingTimeout 2 * TicksPerSecond
+#define DefaultShowingTimeout (2 * TicksPerSecond)
 
 //******************
 // NotificationLine
@@ -15,13 +15,14 @@ struct NotificationLine {
     int y = 10;
     std::string text = "";
     bool timed = true;
-    long notificationTime = 0;  // the tick time when setText was called
-    long timeLimit = 0; // display ends when current tick - notificationTime > timeLimit
+    long notificationTime = 0;  // the tick time when setText was called.  this is in milliseconds.
+    long timeLimit = 0; // display ends when current tick - notificationTime > timeLimit.  this is in milliseconds.
     SDL_Color textColor =  { 255, 255, 255, 0 };  // brightWhite
     TTF_Font *font = nullptr;
 
-    void setText(std::string _text, bool _timed, long _timeLimit, const SDL_Color & _textColor, TTF_Font *_font);
-    void setText(std::string _text, bool _timed, long _timeLimit);
+    // timelimit is in milliseconds.  a timeLimit of 0 = no limit.
+    void setText(std::string _text, long _timeLimit, const SDL_Color & _textColor, TTF_Font *_font);
+    void setText(std::string _text, long _timeLimit);
 
     void tickTock();
 };

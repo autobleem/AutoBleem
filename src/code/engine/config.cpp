@@ -12,35 +12,51 @@ Config::Config()
 {
     std::string path=Util::getWorkingPath()+Util::separator()+"config.ini";
     inifile.load(path);
+    bool aDefaultWasSet {false};
     if (inifile.values["language"]=="")
     {
         inifile.values["language"]="English";
+        aDefaultWasSet = true;
     }
     if (inifile.values["delay"] == "") {
         inifile.values["delay"] = "1";
+        aDefaultWasSet = true;
     }
-
     if (inifile.values["ui"]=="")
     {
         inifile.values["ui"]="classic";
+        aDefaultWasSet = true;
     }
     if (inifile.values["aspect"]=="")
     {
         inifile.values["aspect"]="false";
+        aDefaultWasSet = true;
     }
     if (inifile.values["jewel"]=="")
     {
         inifile.values["jewel"]="default";
+        aDefaultWasSet = true;
     }
     if (inifile.values["quickmenu"]=="")
     {
         inifile.values["quickmenu"]="UI";
+        aDefaultWasSet = true;
     }
     if (inifile.values["music"]=="")
     {
         inifile.values["music"]="--";
+        aDefaultWasSet = true;
     }
+    if (inifile.values["showingTimeout"]=="")
+    {
+        inifile.values["showingTimeout"]="2";
+        aDefaultWasSet = true;
+    }
+
     inifile.values["pcsx"]="bleemsync";
+
+    if (aDefaultWasSet)
+        save();
 }
 
 //*******************************

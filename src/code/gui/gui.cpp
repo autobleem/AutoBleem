@@ -529,13 +529,13 @@ bool Gui::quickBoot() {
         }
         drawText(splashText);
 
-        int delay = 1000;
+        int delay = TicksPerSecond;
 
         if (cfg.inifile.values["delay"] != "") {
             delay = delay * atoi(cfg.inifile.values["delay"].c_str());
         }
         int newTime = SDL_GetTicks();
-        int secs = delay / 1000 - (newTime - currentTime) / 1000;
+        int secs = (delay / TicksPerSecond) - (newTime - currentTime) / TicksPerSecond;
         if (newTime - currentTime > delay) {
             return true;
         }
@@ -837,7 +837,7 @@ void Gui::finish() {
 
         }
     } else {
-        usleep(300 * 1000);
+        usleep(300 * TicksPerSecond);
     }
 
     SDL_DestroyTexture(backgroundImg);
