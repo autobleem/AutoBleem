@@ -6,6 +6,153 @@
 
 using namespace std;
 
+                                  //*******************************
+                                  // DATABASE TABLES
+                                  //*******************************
+
+//*******************************
+// internal.db
+//*******************************
+// .tables
+//        DISC               GAME               LANGUAGE_SPECIFIC
+//
+// PRAGMA table_info(DISC);
+// 0|GAME_ID|integer|0||0
+// 1|DISC_NUMBER|integer|0||0
+// 2|BASENAME|text|0||0
+//
+// example data:
+// select * from DISC;
+// 1|1|SCES-00002
+// 2|1|SCES-00992
+// 3|1|SCES-00008
+// 4|1|SCUS-94163
+// 4|2|SCUS-94164
+// 4|3|SCUS-94165
+// 5|1|SLES-00032
+// 6|1|SCUS-94181
+// 7|1|SCES-00003
+// 8|1|SLUS-00594
+// 8|2|SLUS-00776
+// 9|1|SLUS-01111
+// 10|1|SLES-00664
+// 11|1|SLUS-00005
+// 12|1|SLES-00969
+// 13|1|SLUS-00339
+// 14|1|SLUS-00797
+// 15|1|SLUS-00418
+// 16|1|SCUS-94240
+// 17|1|SCES-01237
+// 18|1|SLES-01136
+// 19|1|SCUS-94304
+// 20|1|SCUS-94608
+//
+// PRAGMA table_info(GAME);
+// 0|GAME_ID|integer|1||1
+// 1|GAME_TITLE_STRING|text|0||0
+// 2|PUBLISHER_NAME|text|0||0
+// 3|RELEASE_YEAR|integer|0||0
+// 4|PLAYERS|integer|0||0
+// 5|RATING_IMAGE|text|0||0
+// 6|GAME_MANUAL_QR_IMAGE|text|0||0
+// 7|LINK_GAME_ID|integer|0||0
+//
+// example data:
+// select * from GAME;
+// 1|Battle Arena ToshindenΓäó|Takara Co., Ltd.|1995|2|CERO_A|QR_Code_GM|
+// 2|Cool Boarders 2 |UEP Systems/Sony Interactive Entertainment|1998|2|CERO_A|QR_Code_GM|
+//
+// PRAGMA table_info(LANGUAGE_SPECIFIC);
+// 0|DEFAULT_VALUE|text|0||0
+// 1|LANGUAGE_ID|integer|0||0
+// 2|VALUE|text|0||0
+//
+// example data:
+// select * from LANGUAGE_SPECIFIC;
+//
+//*******************************
+// output.db
+//*******************************
+// .tables
+//         DISC               GAME               LANGUAGE_SPECIFIC
+//
+// PRAGMA table_info(DISC);
+// 0|GAME_ID|integer|0||0
+// 1|DISC_NUMBER|integer|0||0
+// 2|BASENAME|text|0||0
+//
+// example data:
+// select * from DISC;
+// 1|1|Blasto (USA).PBP
+// 2|1|Centipede (USA).PBP
+//
+// PRAGMA table_info(GAME);
+// 0|GAME_ID|integer|1||1
+// 1|GAME_TITLE_STRING|text|0||0
+// 2|PUBLISHER_NAME|text|0||0
+// 3|RELEASE_YEAR|integer|0||0
+// 4|PLAYERS|integer|0||0
+// 5|RATING_IMAGE|text|0||0
+// 6|GAME_MANUAL_QR_IMAGE|text|0||0
+// 7|LINK_GAME_ID|integer|0||0
+// 8|PATH|text|0||0
+// 9|SSPATH|text|0||0
+// 10|MEMCARD|text|0||0
+//
+// example data:
+// select * from GAME;
+// 1|Blasto (USA)|Sony.|1998|1|CERO_A|QR_Code_GM||/media/sf_Games/Blasto (USA)/|/media/sf_Games/!SaveStates/Blasto (USA)/|SONY
+// 2|Centipede (USA)|Hasbro Interactive.|1999|2|CERO_A|QR_Code_GM||/media/sf_Games/Centipede (USA)/|/media/sf_Games/!SaveStates/Centipede (USA)/|SONY
+//
+// PRAGMA table_info(LANGUAGE_SPECIFIC);
+// 0|DEFAULT_VALUE|text|0||0
+// 1|LANGUAGE_ID|integer|0||0
+// 2|VALUE|text|0||0
+//
+// example data:
+// select * from LANGUAGE_SPECIFIC;
+//
+//*******************************
+// covers?.db
+//*******************************
+// .tables
+//         GAME     SERIALS
+// 
+//         PRAGMA table_info(GAME);
+// 0|ID|INTEGER|1||1
+// 1|TITLE|TEXT|1||0
+// 2|PUBLISHER|TEXT|1||0
+// 3|RELEASE|INTEGER|1||0
+// 4|PLAYERS|INTEGER|1||0
+// 5|COVER|BLOB|0||0
+// 6|VERSION|INT|1|1|0
+//
+// example data:
+// select * from GAME;
+// 1|3Xtreme|989 Sports.|1999|2|ëPNG
+// 2|2Xtreme|Sony Computer Entertaiment.|1996|2|ëPNG
+// ...
+//
+// 
+// PRAGMA table_info(SERIALS);
+// 0|SERIAL|TEXT|1||1
+// 1|GAME|INTEGER|1||0
+//
+// example data:
+// select * from SERIALS;
+// SCUS-94231|1
+// SCUS-94508|2
+// ...
+
+
+                                  //*******************************
+                                  // DATABASE SQL
+                                  //*******************************
+
+//*******************************
+// covers?.db
+//*******************************
+
 static const char SELECT_META[] = "SELECT SERIAL,TITLE, PUBLISHER, \
                                 RELEASE,PLAYERS,  COVER FROM SERIALS s \
                                 JOIN GAME g on s.GAME=g.id \
@@ -16,12 +163,18 @@ static const char SELECT_TITLE[] = "SELECT SERIAL,TITLE, PUBLISHER, \
                                 JOIN GAME g on s.GAME=g.id \
                                 WHERE TITLE=?";
 
+//*******************************
+// RELEASE_YEAR is found in both internal.db and output.db
+// used by Database::updateYear() which is only called by VerMigration::migrate04_05()
+// VerMigration appears to be no longer used
+//*******************************
 static const char UPDATE_YEAR[] = "UPDATE GAME SET RELEASE_YEAR=? WHERE GAME_ID=?";
 
-static const char UPDATE_MEMCARD[] = "UPDATE GAME SET MEMCARD=? WHERE GAME_ID=?";
-static const char UPDATE_TITLE[] = "UPDATE GAME SET GAME_TITLE_STRING=? WHERE GAME_ID=?";
+//*******************************
+// output.db
+//*******************************
 
-static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
+static const char UPDATE_MEMCARD[] = "UPDATE GAME SET MEMCARD=? WHERE GAME_ID=?";
 
 static const char GAMES_DATA[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, PATH, SSPATH, MEMCARD, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
                                   FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
@@ -34,18 +187,9 @@ static const char GAMES_DATA_SINGLE[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PU
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
-static const char GAMES_DATA_SINGLE_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
-                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
-                                    WHERE g.GAME_ID=?  \
-                                     GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
-                                     ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
-
-static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
-                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
-                                     GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
-                                     ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
-
-static const char UPDATE_GAME_DB[] = "ALTER TABLE GAME ADD COLUMN FAV INT DEFAULT 0";
+static const char INSERT_GAME[] = "INSERT INTO GAME ([GAME_ID],[GAME_TITLE_STRING],[PUBLISHER_NAME],[RELEASE_YEAR],[PLAYERS],[RATING_IMAGE],[GAME_MANUAL_QR_IMAGE],[LINK_GAME_ID],\
+                [PATH],[SSPATH],[MEMCARD]) \
+                values (?,?,?,?,?,'CERO_A','QR_Code_GM','',?,?,?)";
 
 static const char CREATE_GAME_SQL[] = " CREATE TABLE IF NOT EXISTS GAME  \
      ( GAME_ID integer NOT NULL UNIQUE, \
@@ -66,6 +210,27 @@ static const char CREATE_DISC_SQL[] = " CREATE TABLE IF NOT EXISTS DISC \
        [BASENAME] text, \
           UNIQUE ([GAME_ID], [DISC_NUMBER]) )";
 
+//*******************************
+// ????.db
+//*******************************
+
+static const char UPDATE_TITLE[] = "UPDATE GAME SET GAME_TITLE_STRING=? WHERE GAME_ID=?";
+
+static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
+
+static const char GAMES_DATA_SINGLE_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
+                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
+                                    WHERE g.GAME_ID=?  \
+                                     GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
+                                     ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
+
+static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
+                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
+                                     GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
+                                     ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
+
+static const char UPDATE_GAME_DB[] = "ALTER TABLE GAME ADD COLUMN FAV INT DEFAULT 0";
+
 static const char CREATE_LANGUAGE_SPECIFIC_SQL[] = "CREATE TABLE IF NOT EXISTS LANGUAGE_SPECIFIC \
       ( [DEFAULT_VALUE] text, \
         [LANGUAGE_ID] integer, \
@@ -75,12 +240,12 @@ static const char DELETE_DATA[] = "DELETE FROM GAME";
 static const char DELETE_DATA2[] = "DELETE FROM DISC";
 static const char DELETE_DATA3[] = "DELETE FROM LANGUAGE_SPECIFIC";
 
-static const char INSERT_GAME[] = "INSERT INTO GAME ([GAME_ID],[GAME_TITLE_STRING],[PUBLISHER_NAME],[RELEASE_YEAR],[PLAYERS],[RATING_IMAGE],[GAME_MANUAL_QR_IMAGE],[LINK_GAME_ID],\
-                [PATH],[SSPATH],[MEMCARD]) \
-                values (?,?,?,?,?,'CERO_A','QR_Code_GM','',?,?,?)";
-
 static const char INSERT_DISC[] = "INSERT INTO DISC ([GAME_ID],[DISC_NUMBER],[BASENAME]) \
                 values (?,?,?)";
+
+                                  //*******************************
+                                  // DATABASE code
+                                  //*******************************
 
 //*******************************
 // Database::getNumGames
@@ -106,6 +271,7 @@ int Database::getNumGames() {
 
 //*******************************
 // Database::updateYear
+// called by VerMigration::migrate04_05()
 //*******************************
 bool Database::updateYear(int id, int year) {
     char *errorReport = nullptr;
