@@ -23,7 +23,8 @@ void Inifile::load(const string & _path) {
     }
     while (getline(file, iniLine)) {
         iniLine = trim(iniLine);
-        if (iniLine.length() == 0) continue;
+        if (iniLine.length() == 0) continue;    // blank line
+        if (iniLine[0] == '#') continue;        // treat a line beginning with # as a comment
         if (iniLine[0]=='[')
         {
             iniLine = ltrim(iniLine);
