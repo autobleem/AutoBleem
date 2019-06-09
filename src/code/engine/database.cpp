@@ -3,6 +3,7 @@
 #include "../util.h"
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
+#include "SerialScanner.h"
 
 using namespace std;
 
@@ -211,12 +212,8 @@ static const char CREATE_DISC_SQL[] = " CREATE TABLE IF NOT EXISTS DISC \
           UNIQUE ([GAME_ID], [DISC_NUMBER]) )";
 
 //*******************************
-// ????.db
+// internal.db
 //*******************************
-
-static const char UPDATE_TITLE[] = "UPDATE GAME SET GAME_TITLE_STRING=? WHERE GAME_ID=?";
-
-static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
 
 static const char GAMES_DATA_SINGLE_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
                                   FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
@@ -228,6 +225,14 @@ static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, 
                                   FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
+
+//*******************************
+// ????.db
+//*******************************
+
+static const char UPDATE_TITLE[] = "UPDATE GAME SET GAME_TITLE_STRING=? WHERE GAME_ID=?";
+
+static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
 
 static const char UPDATE_GAME_DB[] = "ALTER TABLE GAME ADD COLUMN FAV INT DEFAULT 0";
 
@@ -387,19 +392,21 @@ bool Database::getInternalGames(PsGames *result) {
             const unsigned char *base = sqlite3_column_text(res, 5);
             int discs = sqlite3_column_int(res, 6);
 
-            PsGamePtr game{new PsGame};
-            game->gameId = id;
-            game->title = string(reinterpret_cast<const char *>(title));
-            game->publisher = string(reinterpret_cast<const char *>(publisher));
-            game->year = year;
-            game->players = players;
-            game->folder = "/gaadata/" + to_string(id) + "/";
-            game->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
-            game->base = string(reinterpret_cast<const char *>(base));
-            game->memcard = "SONY";
-            game->internal = true;
-            game->cds = discs;
-            result->push_back(game);
+            PsGamePtr psGame{new PsGame};
+            psGame->gameId = id;
+            psGame->title = string(reinterpret_cast<const char *>(title));
+            psGame->publisher = string(reinterpret_cast<const char *>(publisher));
+            psGame->year = year;
+            psGame->players = players;
+            psGame->folder = "/gaadata/" + to_string(id) + "/";
+            psGame->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
+            psGame->base = string(reinterpret_cast<const char *>(base));
+            psGame->serial = psGame->base;
+            psGame->region = SerialScanner::serialToRegion(psGame->serial);
+            psGame->memcard = "SONY";
+            psGame->internal = true;
+            psGame->cds = discs;
+            result->push_back(psGame);
             //cout << "getInternalGames: " << game->serial << ", " << game->title << endl;
         }
     } else {
@@ -413,12 +420,12 @@ bool Database::getInternalGames(PsGames *result) {
 //*******************************
 // Database::refreshGameInternal
 //*******************************
-bool Database::refreshGameInternal(PsGamePtr & game) {
+bool Database::refreshGameInternal(PsGamePtr & psGame) {
 
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, GAMES_DATA_SINGLE_INTERNAL, -1, &res, nullptr);
     if (rc == SQLITE_OK) {
-        sqlite3_bind_int(res, 1, game->gameId);
+        sqlite3_bind_int(res, 1, psGame->gameId);
         while (sqlite3_step(res) == SQLITE_ROW) {
             int id = sqlite3_column_int(res, 0);
             const unsigned char *title = sqlite3_column_text(res, 1);
@@ -428,25 +435,27 @@ bool Database::refreshGameInternal(PsGamePtr & game) {
             const unsigned char *base = sqlite3_column_text(res, 5);
             int discs = sqlite3_column_int(res, 6);
 
-            game->gameId = id;
-            game->title = string(reinterpret_cast<const char *>(title));
-            game->publisher = string(reinterpret_cast<const char *>(publisher));
-            game->year = year;
-            game->players = players;
-            game->folder = "/gaadata/" + to_string(id) + "/";
-            game->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
-            game->base = string(reinterpret_cast<const char *>(base));
-            game->memcard = "SONY";
-            game->internal = true;
-            game->cds = discs;
+            psGame->gameId = id;
+            psGame->title = string(reinterpret_cast<const char *>(title));
+            psGame->publisher = string(reinterpret_cast<const char *>(publisher));
+            psGame->year = year;
+            psGame->players = players;
+            psGame->folder = "/gaadata/" + to_string(id) + "/";
+            psGame->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
+            psGame->base = string(reinterpret_cast<const char *>(base));
+            psGame->serial = psGame->base;
+            psGame->region = SerialScanner::serialToRegion(psGame->serial);
+            psGame->memcard = "SONY";
+            psGame->internal = true;
+            psGame->cds = discs;
 
-            string gameIniPath = game->folder + "/Game.ini";
+            string gameIniPath = psGame->folder + "/Game.ini";
             if (Util::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
-                game->locked =  !(ini.values["automation"]=="1");
-                game->hd =       (ini.values["highres"]=="1");
-                game->favorite = (ini.values["favorite"] == "1");
+                psGame->locked =  !(ini.values["automation"]=="1");
+                psGame->hd =       (ini.values["highres"]=="1");
+                psGame->favorite = (ini.values["favorite"] == "1");
             }
         }
     } else {

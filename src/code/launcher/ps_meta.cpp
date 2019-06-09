@@ -46,16 +46,18 @@ void PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt
 //*******************************
 // PsMeta::updateTexts
 //*******************************
-void PsMeta::updateTexts(PsGamePtr & game, int r,int g, int b) {
-    string appendText = game->players == 1 ? "Player" : "Players";
+void PsMeta::updateTexts(PsGamePtr & psGame, int r,int g, int b) {
+    string appendText = psGame->players == 1 ? "Player" : "Players";
 
-    Inifile iniFile;
-    iniFile.load(game->folder + "/" + "Game.ini");
-    game->serial = iniFile.values["serial"];
-    game->region = iniFile.values["region"];
-
-    updateTexts(game->title, game->publisher, to_string(game->year), game->serial, game->region, to_string(game->players) + " " + appendText,
-                game->internal, game->hd, game->locked, game->cds, game->favorite, r, g, b);
+    if (psGame->serial == "") {
+        Inifile iniFile;
+        iniFile.load(psGame->folder + "/" + "Game.ini");
+        psGame->serial = iniFile.values["serial"];
+        psGame->region = iniFile.values["region"];
+    }
+    
+    updateTexts(psGame->title, psGame->publisher, to_string(psGame->year), psGame->serial, psGame->region, to_string(psGame->players) + " " + appendText,
+                psGame->internal, psGame->hd, psGame->locked, psGame->cds, psGame->favorite, r, g, b);
 }
 
 //*******************************
