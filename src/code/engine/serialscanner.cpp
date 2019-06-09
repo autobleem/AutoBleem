@@ -195,3 +195,19 @@ string SerialScanner::serialByMd5(string scanFile)
 
     return head+tail;
 }
+
+//*******************************
+// SerialScanner::serialToRegion
+//*******************************
+string SerialScanner::serialToRegion(const string & serial)
+{
+    string region;
+    if (serial.length() >= 3) {
+    	char regionCode = serial[2];
+    	if (regionCode == 'U') region = "US";                 // SLUS, SCUS = NTSC-U
+    	else if (regionCode == 'E') region = "Europe-Aus";    // SLES, SCES = PAL
+    	else if (regionCode == 'P') region = "Japan";         // SLPS, SLPM, SCPS = NTSC-J
+    }
+
+    return region;
+}

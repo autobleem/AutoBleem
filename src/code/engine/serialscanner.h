@@ -17,4 +17,5 @@ public:
     static std::string scanSerialInternal(int imageType, std::string path, std::string firstBinPath="");
     static std::string workarounds(int imageType, std::string path, std::string firstBinPath);
     static std::string serialByMd5(std::string scanFile);
+	static std::string serialToRegion(const std::string & serial);
 };
