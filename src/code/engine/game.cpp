@@ -318,6 +318,7 @@ void Game::updateObj() {
 
                 disc.binVerified = true;
                 disc.cueName = disc.diskName;
+                discs.push_back(disc);
             }
         }
     }
