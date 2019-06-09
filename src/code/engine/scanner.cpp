@@ -350,6 +350,7 @@ void Scanner::scanDirectory(string path) {
         Util::createDir(path + "!MemCards");
     }
 
+    // for each game dir
     for (DirEntry entry: Util::diru(path)) {
         if (entry.name[0] == '.') continue;
         if (!Util::isDirectory(path + entry.name)) continue;
@@ -384,6 +385,8 @@ void Scanner::scanDirectory(string path) {
         moveFolderIfNeeded(entry, gameDataPath, path);
         gameDataPath = path + entry.name + Util::separator();
 
+        string gameIniPath = gameDataPath + GAME_INI;
+
         int gameType = getImageType(gameDataPath);
         if (gameType == IMAGE_CUE_BIN || gameType == IMAGE_PBP) {
 			game->imageType = gameType;
@@ -396,29 +399,21 @@ void Scanner::scanDirectory(string path) {
 				unecm(gameDataPath);
 			}
 
-			if (!Util::exists(gameDataPath + GAME_INI)) {
-				game->readIni(gameDataPath + GAME_INI);
-				game->gameIniFound = false;
-			}
-			else {
-				game->gameIniFound = true;
-			}
-
-			for (DirEntry entryGame : Util::diru(gameDataPath)) {
-				if (Util::matchesLowercase(entryGame.name, GAME_INI)) {
-					string gameIniPath = gameDataPath + GAME_INI;
-					game->readIni(gameIniPath);
+            // for each file in the game dir
+			for (DirEntry file : Util::diru(gameDataPath)) {
+				if (Util::matchesLowercase(file.name, GAME_INI)) {
+                    game->gameIniFound = true;
 				}
 
-				if (Util::matchesLowercase(entryGame.name, PCSX_CFG)) {
+				if (Util::matchesLowercase(file.name, PCSX_CFG)) {
 					game->pcsxCfgFound = true;
 				}
 
-				if (Util::matchExtension(entryGame.name, EXT_PNG)) {
+				if (Util::matchExtension(file.name, EXT_PNG)) {
 					game->imageFound = true;
 				}
 
-				if (Util::matchExtension(entryGame.name, EXT_LIC)) {
+				if (Util::matchExtension(file.name, EXT_LIC)) {
 					game->licFound = true;
 				}
 			}
@@ -427,22 +422,15 @@ void Scanner::scanDirectory(string path) {
 			game->recoverMissingFiles();
 			cout << game->automationUsed << endl;
 
+            if (game->gameIniFound)
+                game->readIni(gameIniPath); // read it in now in case we need to create or update the serial/region
+
             game->serial = SerialScanner::scanSerial(game->imageType, game->fullPath, game->firstBinPath);
-            if (game->serial.length() >= 3) {
-                char regionCode = game->serial[2];
-                if (regionCode == 'U') game->region = "US";                 // SLUS, SCUS = NTSC-U
-                else if (regionCode == 'E') game->region = "Europe-Aus";    // SLES, SCES = PAL
-                else if (regionCode == 'P') game->region = "Japan";         // SLPS, SLPM, SCPS = NTSC-J
-            }
+            game->region = SerialScanner::serialToRegion(game->serial);
             //cout << "serial: " << game->serial << ", region: " << game->region << ", " << game->title <<endl;
 
-            // if there is no ini file, make one
-			if ( !game->gameIniFound || game->automationUsed ||
-			        // or there is an existing ini file but the serial hasn't been added yet
-                    ((game->serial != "") && (game->iniValues.find("Serial") == game->iniValues.end()))
-			   ) {
-
-                game->serial = SerialScanner::scanSerial(game->imageType, game->fullPath, game->firstBinPath);
+            // if there was no ini file before, get the values for the ini, create the cover file if needed, and create/update the game.ini file
+            if ( !game->gameIniFound || game->automationUsed) {
 
 				if (!game->serial.empty()) {
 					cout << "Accessing metadata for serial: " << game->serial << endl;
@@ -475,14 +463,14 @@ void Scanner::scanDirectory(string path) {
 					}
 				}
 			}
-			game->saveIni(gameDataPath + GAME_INI);
+			game->saveIni(gameIniPath);
 			//game->print();
 
 			if (game->verify()) {
 				games.push_back(game);
 			}
 		}
-	}
+	} // end for each game dir
 
     prev.flush();
     prev.close();
