@@ -1,0 +1,156 @@
+ - Automatic PlayStation Classic USB launcher
+ - Aviaire USB automatic PlayStation Classic
+'Tenchu' theme by Kevzombie
+Tèma 'Tenchu' per Kevzombie
+-=About=-
+-=A prepaus=-
+-=Configuration=-
+-=Paramètres=-
+-=Game manager - Select game=-
+-=Gestionari de jòcs - Causir un jòc=-
+About
+A prepaus
+Advanced
+Avançat
+Advanced:
+Paramètres avançats :
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+Tèma AutoBleem:
+Background Music:
+Musica de fons :
+Close
+Barrar
+Download latest: https://github.com/screemerpl/cbleemsync
+Darrièra version : https://github.com/screemerpl/cbleemsync
+Free space
+Espaci liure
+GFX Filter:
+Filtre grafic :
+Game
+Jòc
+Game Manager
+Gestionari de jòc
+Games changed. Press
+Cambiament de jòc. Quichatz
+Go back
+Tornar
+Loading ... Please Wait ...
+Cargament ... Esperatz ...
+Memory Cards
+Cartas memòria
+Menu Theme:
+Tèma del menú :
+Options
+Opcions
+PCSX Version:
+Version PCSX :
+Page
+Pagina
+QuickBoot:
+Aviada rapida :
+Re/Scan
+Percórrer de nòu
+RetroArch
+RetroArch
+Scanning...
+Analisi en cors...
+Select
+Causir
+Show RetroArch:
+Mostrar RetroArch :
+Support via Discord: https://discord.gg/AHUS3RM
+Sosten via Discord : https://discord.gg/AHUS3RM
+This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+Aqueste logicial es gratuit e open source. Es provesit coma aquò e pas cap de responsabilitat es nòstra.
+Total:
+Total :
+Updating regional.db...
+Actualizacion de regional.db...
+Upgrading AutoBleem - Please wait...
+Actualizacion d’AutoBleem - Esperatz...
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+ATENCION : CAP DE JÒC PAS TROBAT. QUICHATZ UNA TÒCA.
+games scanned
+jòcs analizats
+to scan
+per analizar
+Game:
+Jòc :
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Còdi : AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Folder:
+Dorsièr :
+Published by:
+Editat per :
+Players:
+Jogaires :
+Year:
+Annada:
+Memory Card:
+Carta memòria :
+High res:
+Nauta definicion :
+Lock data:
+Verrolhar las donadas :
+Change MC
+Cargar CM
+Hi/Lo Res
+Nauta/Bassa Definicion
+Lock
+Verrolhar
+Share MC
+Partejar CM
+(Internal)
+(Intèrna)
+-=Select memory card=-
+-=Seleccion carta memòria=-
+Card
+Carta
+-=Custom Memory Cards=-
+-=Cartas Memòrias personalizadas=-
+Delete
+Suprimir
+New Card
+Novèla Carta
+Rename
+Renommar
+Enter new name for memory card
+Nòu nom de la carta memòria
+Cancel
+Anullar
+Confirm
+Validar
+Space
+Espaci
+Enter new game name
+Picatz un nòu nom pel jòc
+Original
+Original
+Enter new card name
+Picatz un nòu nom
+Delete card
+Suprimir la carta
+-=Please confirm=-
+-=Volgatz validar=-
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+VOLGATZ CONNECTAR UNA MANETA A LA CONSÒLA
+Caps
+Maj.
+Internal
+Intèrna
+(Custom)
+(Personalizada)
+Enter new name for card
+Picatz lo nòu nom per la carta memòria
+Menu
+Menú
+Quick boot
+Aviada rapida
+Hold
+Manténer
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+ATENCION : CAP DE COBÈRTURA PAS TROBADA. QUICHATZ UNA BOTON
+RetroArch is not installed
+RetroArch es pas installat
