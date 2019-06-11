@@ -75,7 +75,7 @@ ATTENTION : AUCUN JEU TROUVÉ. APPUYEZ SUR UNE TOUCHE.
 games scanned
 jeux scannés
 to scan
-à scanner
+pour scanner
 Game:
 Jeu :
 Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
