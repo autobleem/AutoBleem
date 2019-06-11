@@ -109,7 +109,7 @@ void GuiLauncher::showSetName() {
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
 
     shared_ptr<Gui> gui(Gui::getInstance());
-    auto str = gui->cfg.inifile.values["showingTimeout"];
+    auto str = gui->cfg.inifile.values["showingtimeout"];
     long timeout{0};
     if (str != "")
         timeout = stoi(str.c_str()) * TicksPerSecond;

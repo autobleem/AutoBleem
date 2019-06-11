@@ -102,7 +102,7 @@ void GuiOptions::init() {
         }
     }
     for (int i=0; i <= 20; ++i) {
-        showingTimeout.push_back(to_string(i));
+        showingtimeout.push_back(to_string(i));
     }
 
 }
@@ -194,7 +194,7 @@ void GuiOptions::render() {
     renderOptionLine(_("GFX Filter:") + " " + getBooleanIcon("mip"), CFG_MIP + 1, offset);
     renderOptionLine(_("Show RetroArch:") + " " + getBooleanIcon("retroarch"), CFG_RA + 1, offset);
     renderOptionLine(_("Advanced:") + " " + getBooleanIcon("adv"), CFG_ADV + 1, offset);
-    renderOptionLine(_("Showing Timeout (0 = no timeout):") + " " + gui->cfg.inifile.values["showingTimeout"], CFG_SHOWINGTIMEOUT + 1, offset);
+    renderOptionLine(_("Showing Timeout (0 = no timeout):") + " " + gui->cfg.inifile.values["showingtimeout"], CFG_SHOWINGTIMEOUT + 1, offset);
     gui->renderStatus("|@O| " + _("Go back") + "|");
 
     //   gui->renderSelectionBox(selOption+1,offset);
@@ -353,8 +353,8 @@ void GuiOptions::loop() {
                         }
 
                         if (selOption == CFG_SHOWINGTIMEOUT) {
-                            string nextValue = getOption(showingTimeout, gui->cfg.inifile.values["showingTimeout"], true);
-                            gui->cfg.inifile.values["showingTimeout"] = nextValue;
+                            string nextValue = getOption(showingtimeout, gui->cfg.inifile.values["showingtimeout"], true);
+                            gui->cfg.inifile.values["showingtimeout"] = nextValue;
                         }
 
                         render();
@@ -444,8 +444,10 @@ void GuiOptions::loop() {
                         }
 
                         if (selOption == CFG_SHOWINGTIMEOUT) {
-                            string nextValue = getOption(showingTimeout, gui->cfg.inifile.values["showingTimeout"], false);
-                            gui->cfg.inifile.values["showingTimeout"] = nextValue;
+                            string curValue =gui->cfg.inifile.values["showingtimeout"];
+                            string nextValue = getOption(showingtimeout, curValue, false);
+                            if (curValue != "0")
+                                gui->cfg.inifile.values["showingtimeout"] = nextValue;
                         }
 
                         render();

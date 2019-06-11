@@ -47,9 +47,9 @@ Config::Config()
         inifile.values["music"]="--";
         aDefaultWasSet = true;
     }
-    if (inifile.values["showingTimeout"]=="")
+    if (inifile.values["showingtimeout"]=="")
     {
-        inifile.values["showingTimeout"]="2";
+        inifile.values["showingtimeout"]="2";
         aDefaultWasSet = true;
     }
 
