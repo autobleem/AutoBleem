@@ -13,13 +13,13 @@ About
 Advanced
 Paramètres avancés
 Advanced:
-Paramètres avancés:
+Paramètres avancés :
 AutoBleem
 AutoBleem
 AutoBleem Theme:
-Thème AutoBleem:
+Thème AutoBleem :
 Background Music:
-Musique de fond:
+Musique de fond :
 Close
 Fermer
 Download latest: https://github.com/screemerpl/cbleemsync
@@ -27,13 +27,13 @@ Dernière version: https://github.com/screemerpl/cbleemsync
 Free space
 Espace disponible
 GFX Filter:
-Filtre graphique:
+Filtre graphique :
 Game
 Jeu
 Game Manager
 Gestionnaire de jeux
 Games changed. Press
-Changement des jeux. Appuyer sur
+Changement des jeux. Appuyez sur
 Go back
 Retour
 Loading ... Please Wait ...
@@ -41,15 +41,15 @@ Veuillez patienter ...
 Memory Cards
 Cartes mémoires
 Menu Theme:
-Thème du menu:
+Thème du menu :
 Options
 Options
 PCSX Version:
-Version PCSX:
+Version PCSX :
 Page
 Page
 QuickBoot:
-Démarrage rapide:
+Démarrage rapide :
 Re/Scan
 Relancer le scan
 RetroArch
@@ -59,41 +59,41 @@ Scan en cours...
 Select
 Choisir
 Show RetroArch:
-Afficher RetroArch:
+Afficher RetroArch :
 Support via Discord: https://discord.gg/AHUS3RM
-Support via Discord: https://discord.gg/AHUS3RM
+Support via Discord : https://discord.gg/AHUS3RM
 This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
 Ce logiciel est gratuit et open source. Il est fourni tel quel et aucun problème ou dommage ne pourra nous être imputé.
 Total:
-Total:
+Total :
 Updating regional.db...
 Mise à jour du fichier regional.db...
 Upgrading AutoBleem - Please wait...
 Mise à jour d'AutoBleem - Veuillez patienter...
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
-ATTENTION : AUCUN JEU TROUVÉ. APPUYER SUR UNE TOUCHE.
+ATTENTION : AUCUN JEU TROUVÉ. APPUYEZ SUR UNE TOUCHE.
 games scanned
 jeux scannés
 to scan
 à scanner
 Game:
-Jeu:
+Jeu :
 Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Code : AutoBleem Team (screemer, mGGk, nex, ThaFridge)
 Folder:
-Dossier:
+Dossier :
 Published by:
-Publié par:
+Publié par :
 Players:
-Joueurs:
+Joueurs :
 Year:
-Année:
+Année :
 Memory Card:
-Carte mémoire:
+Carte mémoire :
 High res:
-Haute définition:
+Haute définition :
 Lock data:
-Verrouiller les données:
+Verrouiller les données :
 Change MC
 Charger CM
 Hi/Lo Res
@@ -135,7 +135,7 @@ Supprimer carte
 -=Please confirm=-
 -=Veuillez valider=-
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
-VEUILLEZ CONNECTER UNE MANETTE A LA CONSOLE
+VEUILLEZ CONNECTER UNE MANETTE À LA CONSOLE
 Caps
 Maj
 Internal
@@ -151,7 +151,7 @@ Démarrage rapide
 Hold
 Maintenir
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
-ATTANTION : PAS DE BDD DE JAQUETTE TROUVÉES. APPUYER SUR UNE TOUCHE
+ATTENTION : PAS DE BDD DE JAQUETTE TROUVÉE. APPUYEZ SUR UNE TOUCHE
 RetroArch is not installed
 RetroArch n'est pas installé
 
