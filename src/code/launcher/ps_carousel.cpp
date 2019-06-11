@@ -6,6 +6,7 @@
 #include "../gui/gui.h"
 #include "../engine/scanner.h"
 #include <SDL2/SDL_image.h>
+#include <fstream>
 
 using namespace std;
 
@@ -26,17 +27,34 @@ void PsCarouselGame::loadTex(SDL_Renderer *renderer) {
 
         SDL_SetRenderTarget(renderer, renderSurface);
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
-        SDL_SetTextureBlendMode(renderSurface,SDL_BLENDMODE_NONE);
+        SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_NONE);
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
         SDL_RenderFillRect(renderer, NULL);
-        SDL_SetTextureBlendMode(renderSurface,SDL_BLENDMODE_BLEND);
+        SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_BLEND);
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
         string imagePath = (*this)->folder + Util::separator() + (*this)->base + ".png";
         SDL_SetRenderTarget(renderer, nullptr);
         if (Util::exists(imagePath)) {
             coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
-        } else coverPng = nullptr;
+        } else {
+            coverPng = nullptr;
+            #if defined(__x86_64__) || defined(_M_X64)
+                if ((*this)->internal) {
+                    Metadata md;
+                    if (md.lookupBySerial((*this)->serial) && md.bytes && md.dataSize) {
+                        string tmpFileName = tmpnam(nullptr);
+                        ofstream pngFile;
+                        pngFile.open(tmpFileName);
+                        pngFile.write(md.bytes, md.dataSize);
+                        pngFile.flush();
+                        pngFile.close();
+                        coverPng = IMG_LoadTexture(renderer, tmpFileName.c_str());
+                        remove(tmpFileName.c_str());
+                    }
+                }
+            #endif
+        }
 
         if (coverPng != nullptr) {
             SDL_SetRenderTarget(renderer, renderSurface);

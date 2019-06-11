@@ -597,6 +597,7 @@ bool Database::querySerial(string serial, Metadata *md) {
             md->publisher = string(reinterpret_cast<const char *>(publisher));
             md->year = year;
             md->serial = serial;
+            md->region = SerialScanner::serialToRegion(md->serial);
             md->players = players;
             md->valid = true;
             //cout << "querySerial: " << "serial " << serial << ", " << md->title << endl;
