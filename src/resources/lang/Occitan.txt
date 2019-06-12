@@ -17,7 +17,7 @@ Paramètres avançats :
 AutoBleem
 AutoBleem
 AutoBleem Theme:
-Tèma AutoBleem:
+Tèma AutoBleem :
 Background Music:
 Musica de fons :
 Close
@@ -71,7 +71,7 @@ Actualizacion de regional.db...
 Upgrading AutoBleem - Please wait...
 Actualizacion d’AutoBleem - Esperatz...
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
-ATENCION : CAP DE JÒC PAS TROBAT. QUICHATZ UNA TÒCA.
+ATENCION : CAP DE JÒC PAS TROBAT. QUICHATZ UN BOTON.
 games scanned
 jòcs analizats
 to scan
@@ -127,9 +127,9 @@ Espaci
 Enter new game name
 Picatz un nòu nom pel jòc
 Original
-Original
+Originals
 Enter new card name
-Picatz un nòu nom
+Picatz un nòu nom per la carta
 Delete card
 Suprimir la carta
 -=Please confirm=-
@@ -151,6 +151,6 @@ Aviada rapida
 Hold
 Manténer
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
-ATENCION : CAP DE COBÈRTURA PAS TROBADA. QUICHATZ UNA BOTON
+ATENCION : CAP DE COBÈRTURA PAS TROBADA. QUICHATZ UN BOTON
 RetroArch is not installed
 RetroArch es pas installat
