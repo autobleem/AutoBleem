@@ -52,9 +52,10 @@ public:
     bool discs = 1;
     bool favorite = false;
 
-    void updateTexts(std::string gameNameTxt, std::string publisherTxt,
-                     std::string yearTxt, const std::string & serial, const std::string & region, std::string playersTxt, bool internal, bool hd, bool locked, int discs, bool favorite, int r, int g,
-                     int b);
+    void updateTexts(const std::string & gameNameTxt, const std::string & publisherTxt,
+                     const std::string & yearTxt, const std::string & serial, const std::string & region,
+                     const std::string & playersTxt, bool internal, bool hd, bool locked, int discs, bool favorite,
+                     int r, int g, int b);
 
     void updateTexts(PsGamePtr & game, int r, int g, int b);
 
@@ -66,5 +67,5 @@ public:
 
     using PsObj::PsObj;
 private:
-    SDL_Texture *createTextTex(std::string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
+    SDL_Texture *createTextTex(const std::string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
 };

@@ -659,7 +659,7 @@ string Util::getStringWithinChar(string s, char del) {
 vector<DirEntry> Util::getFilesWithExtension(const string& path, const vector<DirEntry>& entries, const vector<string>& extensions) {
     vector<DirEntry> fileList;
     string fileExt;
-    for (auto const &entry : entries){
+    for (const auto & entry : entries){
         if(Util::isDirectory(path + "/" + entry.name)) continue;
         fileExt = Util::getFileExtension(entry.name);
         if(find(extensions.begin(),extensions.end(),fileExt) != extensions.end()){

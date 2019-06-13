@@ -121,7 +121,7 @@ string GuiBase::getSonyRootPath() {
 //*******************************
 // Gui::logText
 //*******************************
-void Gui::logText(string message) {
+void Gui::logText(const string & message) {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->drawText(message);
 }
@@ -141,21 +141,21 @@ void logText(char *message) {
 //*******************************
 // Gui::getR
 //*******************************
-Uint8 Gui::getR(string val) {
+Uint8 Gui::getR(const string & val) {
     return atoi(Util::commaSep(val, 0).c_str());
 }
 
 //*******************************
 // Gui::getG
 //*******************************
-Uint8 Gui::getG(string val) {
+Uint8 Gui::getG(const string & val) {
     return atoi(Util::commaSep(val, 1).c_str());
 }
 
 //*******************************
 // Gui::getB
 //*******************************
-Uint8 Gui::getB(string val) {
+Uint8 Gui::getB(const string & val) {
     return atoi(Util::commaSep(val, 2).c_str());
 }
 
@@ -388,7 +388,7 @@ void Gui::waitForGamepad() {
 //*******************************
 // Gui::criticalException
 //*******************************
-void Gui::criticalException(string text) {
+void Gui::criticalException(const string & text) {
     drawText(text);
     while (true) {
         SDL_Event e;
@@ -397,7 +397,6 @@ void Gui::criticalException(string text) {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
             if (e.type == SDL_QUIT)
@@ -890,7 +889,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
         text.erase(0, pos + delimiter.length());
     }
 
-    for (string str:textParts) {
+    for (const string & str:textParts) {
         if (str.empty()) continue;
         if (str[0] == '@') {
             string icon = str.substr(1);
@@ -1011,7 +1010,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
 //*******************************
 // Gui::renderStatus
 //*******************************
-void Gui::renderStatus(string text) {
+void Gui::renderStatus(const string & text) {
 
     string bg = themeData.values["text_bg"];
 
@@ -1038,7 +1037,7 @@ void Gui::renderStatus(string text) {
 //*******************************
 // Gui::drawText
 //*******************************
-void Gui::drawText(string text) {
+void Gui::drawText(const string & text) {
     renderBackground();
     renderLogo(false);
     renderStatus(text);
@@ -1115,21 +1114,22 @@ void Gui::renderSelectionBox(int line, int offset, int xoffset) {
 //*******************************
 // Gui::renderTextLine
 //*******************************
-int Gui::renderTextLine(string text, int line, int offset) {
+int Gui::renderTextLine(const string & text, int line, int offset) {
     return renderTextLine(text, line, offset, false);
 }
 
 //*******************************
 // Gui::renderTextLineOptions
 //*******************************
-int Gui::renderTextLineOptions(string text, int line, int offset, bool center) {
+int Gui::renderTextLineOptions(const string & text, int line, int offset, bool center) {
     return renderTextLineOptions(text,line,offset,center,0);
 }
 
 //*******************************
 // Gui::renderTextLineOptions
 //*******************************
-int Gui::renderTextLineOptions(string text, int line, int offset, bool center, int xoffset) {
+int Gui::renderTextLineOptions(const string & _text, int line, int offset, bool center, int xoffset) {
+    string text = _text;
     int button = -1;
     if (text.find("|@Check|") != std::string::npos) {
         button = 1;
@@ -1185,11 +1185,11 @@ int Gui::renderTextLineOptions(string text, int line, int offset, bool center, i
 //*******************************
 // Gui::renderTextLine
 //*******************************
-int Gui::renderTextLine(string text, int line, int offset, bool center)
+int Gui::renderTextLine(const string & text, int line, int offset, bool center)
 {
     return renderTextLine(text,line,offset,center,0);
 }
-int Gui::renderTextLine(string text, int line, int offset, bool center, int xoffset) {
+int Gui::renderTextLine(const string & text, int line, int offset, bool center, int xoffset) {
 
 
     SDL_Rect rect2;
@@ -1226,7 +1226,7 @@ int Gui::renderTextLine(string text, int line, int offset, bool center, int xoff
 //*******************************
 // Gui::renderTextChar
 //*******************************
-void Gui::renderTextChar(string text, int line, int offset, int posx) {
+void Gui::renderTextChar(const string & text, int line, int offset, int posx) {
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());

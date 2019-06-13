@@ -6,6 +6,7 @@
 
 #define TicksPerSecond 1000
 #define DefaultShowingTimeout (2 * TicksPerSecond)
+#define DefaultShowingTimeoutText "2"
 
 //******************
 // NotificationLine

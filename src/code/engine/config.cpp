@@ -4,6 +4,7 @@
 
 #include "config.h"
 #include "../util.h"
+#include "../launcher/gui_NotificationLine.h"
 
 //*******************************
 // Config::Config()
@@ -49,7 +50,7 @@ Config::Config()
     }
     if (inifile.values["showingtimeout"]=="")
     {
-        inifile.values["showingtimeout"]="2";
+        inifile.values["showingtimeout"]=DefaultShowingTimeoutText;
         aDefaultWasSet = true;
     }
 

@@ -25,7 +25,7 @@ public:
 
     PsObj(SDL_Renderer *renderer1, std::string name1, std::string texPath = "");
 
-    virtual void load(std::string imagePath);
+    virtual void load(const std::string & imagePath);
 
     virtual void destroy();
 

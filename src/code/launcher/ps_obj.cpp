@@ -20,7 +20,7 @@ PsObj::PsObj(SDL_Renderer *renderer1, string name1, string texPath) {
 //*******************************
 // PsObj::load
 //*******************************
-void PsObj::load(string imagePath) {
+void PsObj::load(const string & imagePath) {
     tex = IMG_LoadTexture(renderer, imagePath.c_str());
     Uint32 format;
     int access;

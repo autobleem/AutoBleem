@@ -14,13 +14,16 @@ using namespace std;
 //*******************************
 void Inifile::load(const string & _path) {
     this->path = _path;
+    cout << "Reading ini file: " << path << endl;
     ifstream file;
     string iniLine;
     file.open(path);
 
     if (!file.good()) {
+        cout << "Error opening ini file: " << path << endl;
         return;
     }
+
     while (getline(file, iniLine)) {
         iniLine = trim(iniLine);
         if (iniLine.length() == 0) continue;    // blank line
@@ -47,11 +50,11 @@ void Inifile::load(const string & _path) {
 // Inifile::save
 //*******************************
 void Inifile::save(const string & _path) {
-    cout << "Writting ini file" << _path << endl;
+    cout << "Writing ini file: " << _path << endl;
     ofstream os;
     os.open(_path);
     os << "[" << section <<"]" << endl;
-    for(map<string,string>::iterator iter = values.begin(); iter != values.end(); ++iter)
+    for (map<string,string>::iterator iter = values.begin(); iter != values.end(); ++iter)
     {
         string k =  iter->first;
         string v = iter->second;

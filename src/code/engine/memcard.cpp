@@ -51,9 +51,9 @@ bool Memcard::swapIn(string path, string name)
     {
         Util::rmDir(path+Util::separator()+"memcards");
         Util::createDir(path+Util::separator()+"memcards");
-        for (DirEntry entry:Util::diru(customPath))
+        for (const DirEntry & entry:Util::diru(customPath))
         {
-            Util::copy(customPath+Util::separator()+entry.name,path+Util::separator()+"memcards"+Util::separator()+entry.name);
+            Util::copy(customPath + Util::separator() + entry.name,path + Util::separator() + "memcards" + Util::separator() + entry.name);
         }
         return true;
     }
@@ -64,14 +64,14 @@ bool Memcard::swapIn(string path, string name)
 //*******************************
 void Memcard::storeToRepo(string path, string name)
 {
-    string customPath = this->path+Util::separator()+"!MemCards/"+name;
+    string customPath = this->path+Util::separator() + "!MemCards/" + name;
     if (!Util::exists(customPath))
     {
         Util::createDir(customPath);
     }
 
     // copy memcard from game to repository
-    for (DirEntry entry:Util::diru(path))
+    for (const DirEntry & entry:Util::diru(path))
     {
         string input = path+Util::separator()+entry.name;
         string output = customPath+Util::separator()+entry.name;
@@ -96,7 +96,7 @@ void Memcard::rename(string oldName, string newName)
     std::rename(oldPath.c_str(),newPath.c_str());
 
     // now go to all game ini's and find out if needs updated
-    for (DirEntry entry: Util::dir(path)) {
+    for (const DirEntry & entry: Util::dir(path)) {
         if (entry.name[0] == '.') continue;
         if (!Util::isDirectory(path+Util::separator()+entry.name)) continue;
         if (entry.name == "!SaveStates") continue;
@@ -124,9 +124,9 @@ vector<string> Memcard::list()
 {
     vector<string> memcards;
     string customPath = this->path+Util::separator()+"!MemCards";
-    for (DirEntry entry: Util::diru(customPath))
+    for (const DirEntry & entry: Util::diru(customPath))
     {
-        if (Util::isDirectory(customPath+Util::separator()+entry.name)) {
+        if (Util::isDirectory(customPath + Util::separator() + entry.name)) {
             memcards.push_back(entry.name);
         }
     }
@@ -144,9 +144,9 @@ void Memcard::swapOut(string path, string name)
         restore(path);
     } else
     {
-        for (DirEntry entry:Util::diru(customPath))
+        for (const DirEntry & entry:Util::diru(customPath))
         {
-            Util::copy(path+Util::separator()+"memcards"+Util::separator()+entry.name,customPath+Util::separator()+entry.name);
+            Util::copy(path + Util::separator() + "memcards" + Util::separator() + entry.name,customPath + Util::separator() + entry.name);
         }
         restore(path);
     }
@@ -157,9 +157,9 @@ void Memcard::swapOut(string path, string name)
 //*******************************
 void Memcard::restoreAll(string mainDir)
 {
-    for (DirEntry entry: Util::diru(mainDir))
+    for (const DirEntry & entry: Util::diru(mainDir))
     {
-        string path = mainDir+Util::separator()+entry.name;
+        string path = mainDir + Util::separator() + entry.name;
         restore(path);
     }
 }
@@ -167,9 +167,9 @@ void Memcard::restoreAll(string mainDir)
 //*******************************
 // Memcard::backup
 //*******************************
-void Memcard::backup(string path)
+void Memcard::backup(const string & path)
 {
-    string curPath = path+Util::separator()+"backup";
+    string curPath = path + Util::separator() + "backup";
     if (!Util::exists(curPath)) {
         Util::createDir(curPath);
     } else
@@ -177,8 +177,8 @@ void Memcard::backup(string path)
         return;
     }
 
-    string original = path+Util::separator()+"memcards";
-    for (DirEntry entry:Util::diru(original))
+    string original = path + Util::separator() + "memcards";
+    for (const DirEntry & entry:Util::diru(original))
     {
         Util::copy(original+Util::separator()+entry.name,curPath+Util::separator()+entry.name);
     }
@@ -198,7 +198,7 @@ void Memcard::restore(string path)
     Util::rmDir(original);
     Util::createDir(original);
 
-    for (DirEntry entry:Util::diru(curPath))
+    for (const DirEntry & entry:Util::diru(curPath))
     {
         Util::copy(curPath+Util::separator()+entry.name,original+Util::separator()+entry.name);
     }

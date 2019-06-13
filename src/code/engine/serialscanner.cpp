@@ -131,10 +131,10 @@ string SerialScanner::scanSerialInternal(int imageType, string path, string firs
             delete dirLoader;
             string serialFound = "";
             if (!dir.rootDir.empty()) {
-                for (string entry:dir.rootDir) {
+                for (const string & entry:dir.rootDir) {
                  //   cout << entry << endl;
                     string potentialSerial = fixSerial(entry);
-                    for (string prefix:prefixes) {
+                    for (const string & prefix:prefixes) {
                         int pos = potentialSerial.find(prefix.c_str(), 0);
                         if (pos == 0) {
                             serialFound = potentialSerial;
@@ -144,7 +144,7 @@ string SerialScanner::scanSerialInternal(int imageType, string path, string firs
                     }
                 }
                 string volume = fixSerial(dir.volumeName);
-                for (string prefix:prefixes) {
+                for (const string & prefix:prefixes) {
                     int pos = volume.find(prefix.c_str(), 0);
                     if (pos == 0) {
                         serialFound = volume;

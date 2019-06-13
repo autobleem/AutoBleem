@@ -169,7 +169,7 @@ void Game::recoverMissingFiles() {
             cout << "Switching automation no discs" << endl;
             // find cue files
             string destination = fullPath ;
-            for (DirEntry entry: Util::diru(destination)) {
+            for (const DirEntry & entry: Util::diru(destination)) {
                 if (Util::matchExtension(entry.name, EXT_CUE)) {
                     string discEntry = entry.name.substr(0, entry.name.size() - 4);
                     Disc disc;

@@ -11,7 +11,7 @@ using namespace std;
 //*******************************
 // GuiOptions::getOption
 //*******************************
-string GuiOptions::getOption(const vector<string> & list, string current, bool next) {
+string GuiOptions::getOption(const vector<string> & list, const string & current, bool next) {
     int pos = 0;
     for (int i = 0; i < list.size(); i++) {
         if (list[i] == current) {
@@ -41,11 +41,11 @@ void GuiOptions::init() {
     sthemes.clear();
     sthemes.push_back("default");
     vector<DirEntry> folders = Util::diru(Util::getWorkingPath() + Util::separator() + "theme");
-    for (DirEntry entry:folders) {
+    for (const DirEntry & entry:folders) {
         themes.push_back(entry.name);
     }
     folders = Util::diru("/media/themes");
-    for (DirEntry entry:folders) {
+    for (const DirEntry & entry:folders) {
         sthemes.push_back(entry.name);
     }
     pcsx.clear();
@@ -85,7 +85,7 @@ void GuiOptions::init() {
     jewels.push_back("default");
 
     folders = Util::diru(Util::getWorkingPath() + "/evoimg/frames");
-    for (DirEntry entry:folders) {
+    for (const DirEntry & entry:folders) {
         if (Util::getFileExtension(entry.name) == "png") {
             jewels.push_back(entry.name);
         }
@@ -96,7 +96,7 @@ void GuiOptions::init() {
     music.clear();
     music.push_back("--");
     folders = Util::diru(Util::getWorkingPath() + "/music");
-    for (DirEntry entry:folders) {
+    for (const DirEntry & entry:folders) {
         if (Util::getFileExtension(entry.name) == "ogg") {
             music.push_back(entry.name);
         }
@@ -127,7 +127,7 @@ void GuiOptions::init() {
 //*******************************
 // GuiOptions::getBooleanIcon
 //*******************************
-string GuiOptions::getBooleanIcon(string input) {
+string GuiOptions::getBooleanIcon(const string & input) {
     shared_ptr<Gui> gui(Gui::getInstance());
     string value = gui->cfg.inifile.values[input];
     if (input == "quick") {
@@ -144,7 +144,7 @@ string GuiOptions::getBooleanIcon(string input) {
 //*******************************
 // GuiOptions::renderOptionLine
 //*******************************
-void GuiOptions::renderOptionLine(string text, int pos, int offset) {
+void GuiOptions::renderOptionLine(const string & text, int pos, int offset) {
     shared_ptr<Gui> gui(Gui::getInstance());
     string fg = gui->themeData.values["text_fg"];
     int height = gui->renderTextLineOptions(text, pos, offset, false);

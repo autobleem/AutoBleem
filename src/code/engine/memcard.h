@@ -13,7 +13,7 @@ class Memcard {
 public:
     void newCard(std::string name);
     void deleteCard(std::string name);
-    void backup(std::string path);
+    void backup(const std::string & path);
     void restore(std::string path);
     bool swapIn(std::string path, std::string name);
     void swapOut(std::string path, std::string name);

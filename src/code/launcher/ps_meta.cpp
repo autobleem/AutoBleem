@@ -13,8 +13,9 @@ using namespace std;
 //*******************************
 // PsMeta::updateTexts
 //*******************************
-void PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, const string & serial, const string & region, string playersTxt, bool internal, bool hd,
-                    bool locked, int discs, bool favorite, int r,int g, int b) {
+void PsMeta::updateTexts(const string & gameNameTxt, const string & publisherTxt, const string & yearTxt,
+                         const string & serial, const string & region, const string & playersTxt, bool internal,
+                         bool hd, bool locked, int discs, bool favorite, int r,int g, int b) {
     this->discs = discs;
     this->internal = internal;
     this->hd = hd;
@@ -238,7 +239,7 @@ void PsMeta::render() {
 //*******************************
 // PsMeta::createTextTex
 //*******************************
-SDL_Texture *PsMeta::createTextTex(string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
+SDL_Texture *PsMeta::createTextTex(const string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
 
     SDL_Surface *surface;
     SDL_Texture *texture;
