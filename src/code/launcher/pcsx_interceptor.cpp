@@ -210,7 +210,7 @@ void PcsxInterceptor::prepareResumePoint(PsGamePtr & game, int pointId) {
     }
 
     string ssfile = game->ssFolder + "sstates";
-    for (DirEntry sstate:Util::diru(ssfile)) {
+    for (const DirEntry & sstate:Util::diru(ssfile)) {
         if (Util::getFileExtension(sstate.name) == "000") {
             string toDelete = ssfile + "/" + sstate.name;
             remove(toDelete.c_str());
@@ -218,7 +218,7 @@ void PcsxInterceptor::prepareResumePoint(PsGamePtr & game, int pointId) {
     }
 
     ssfile = game->ssFolder + "screenshots";
-    for (DirEntry sstate:Util::diru(ssfile)) {
+    for (const DirEntry & sstate:Util::diru(ssfile)) {
         if (Util::getFileExtension(sstate.name) == "png") {
             string toDelete = ssfile + "/" + sstate.name;
             remove(toDelete.c_str());

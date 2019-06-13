@@ -3,8 +3,18 @@
 #include "../util.h"
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
+#include "SerialScanner.h"
 
 using namespace std;
+
+
+                                  //*******************************
+                                  // DATABASE SQL
+                                  //*******************************
+
+//*******************************
+// covers?.db
+//*******************************
 
 static const char SELECT_META[] = "SELECT SERIAL,TITLE, PUBLISHER, \
                                 RELEASE,PLAYERS,  COVER FROM SERIALS s \
@@ -16,12 +26,18 @@ static const char SELECT_TITLE[] = "SELECT SERIAL,TITLE, PUBLISHER, \
                                 JOIN GAME g on s.GAME=g.id \
                                 WHERE TITLE=?";
 
+//*******************************
+// RELEASE_YEAR is found in both internal.db and output.db
+// used by Database::updateYear() which is only called by VerMigration::migrate04_05()
+// VerMigration appears to be no longer used
+//*******************************
 static const char UPDATE_YEAR[] = "UPDATE GAME SET RELEASE_YEAR=? WHERE GAME_ID=?";
 
-static const char UPDATE_MEMCARD[] = "UPDATE GAME SET MEMCARD=? WHERE GAME_ID=?";
-static const char UPDATE_TITLE[] = "UPDATE GAME SET GAME_TITLE_STRING=? WHERE GAME_ID=?";
+//*******************************
+// output.db
+//*******************************
 
-static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
+static const char UPDATE_MEMCARD[] = "UPDATE GAME SET MEMCARD=? WHERE GAME_ID=?";
 
 static const char GAMES_DATA[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, PATH, SSPATH, MEMCARD, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
                                   FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
@@ -34,18 +50,9 @@ static const char GAMES_DATA_SINGLE[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PU
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
-static const char GAMES_DATA_SINGLE_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
-                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
-                                    WHERE g.GAME_ID=?  \
-                                     GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
-                                     ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
-
-static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
-                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
-                                     GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
-                                     ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
-
-static const char UPDATE_GAME_DB[] = "ALTER TABLE GAME ADD COLUMN FAV INT DEFAULT 0";
+static const char INSERT_GAME[] = "INSERT INTO GAME ([GAME_ID],[GAME_TITLE_STRING],[PUBLISHER_NAME],[RELEASE_YEAR],[PLAYERS],[RATING_IMAGE],[GAME_MANUAL_QR_IMAGE],[LINK_GAME_ID],\
+                [PATH],[SSPATH],[MEMCARD]) \
+                values (?,?,?,?,?,'CERO_A','QR_Code_GM','',?,?,?)";
 
 static const char CREATE_GAME_SQL[] = " CREATE TABLE IF NOT EXISTS GAME  \
      ( GAME_ID integer NOT NULL UNIQUE, \
@@ -66,6 +73,31 @@ static const char CREATE_DISC_SQL[] = " CREATE TABLE IF NOT EXISTS DISC \
        [BASENAME] text, \
           UNIQUE ([GAME_ID], [DISC_NUMBER]) )";
 
+//*******************************
+// internal.db
+//*******************************
+
+static const char GAMES_DATA_SINGLE_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
+                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
+                                    WHERE g.GAME_ID=?  \
+                                     GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
+                                     ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
+
+static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
+                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
+                                     GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
+                                     ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
+
+//*******************************
+// ????.db
+//*******************************
+
+static const char UPDATE_TITLE[] = "UPDATE GAME SET GAME_TITLE_STRING=? WHERE GAME_ID=?";
+
+static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
+
+static const char UPDATE_GAME_DB[] = "ALTER TABLE GAME ADD COLUMN FAV INT DEFAULT 0";
+
 static const char CREATE_LANGUAGE_SPECIFIC_SQL[] = "CREATE TABLE IF NOT EXISTS LANGUAGE_SPECIFIC \
       ( [DEFAULT_VALUE] text, \
         [LANGUAGE_ID] integer, \
@@ -75,12 +107,12 @@ static const char DELETE_DATA[] = "DELETE FROM GAME";
 static const char DELETE_DATA2[] = "DELETE FROM DISC";
 static const char DELETE_DATA3[] = "DELETE FROM LANGUAGE_SPECIFIC";
 
-static const char INSERT_GAME[] = "INSERT INTO GAME ([GAME_ID],[GAME_TITLE_STRING],[PUBLISHER_NAME],[RELEASE_YEAR],[PLAYERS],[RATING_IMAGE],[GAME_MANUAL_QR_IMAGE],[LINK_GAME_ID],\
-                [PATH],[SSPATH],[MEMCARD]) \
-                values (?,?,?,?,?,'CERO_A','QR_Code_GM','',?,?,?)";
-
 static const char INSERT_DISC[] = "INSERT INTO DISC ([GAME_ID],[DISC_NUMBER],[BASENAME]) \
                 values (?,?,?)";
+
+                                  //*******************************
+                                  // DATABASE code
+                                  //*******************************
 
 //*******************************
 // Database::getNumGames
@@ -106,6 +138,7 @@ int Database::getNumGames() {
 
 //*******************************
 // Database::updateYear
+// called by VerMigration::migrate04_05()
 //*******************************
 bool Database::updateYear(int id, int year) {
     char *errorReport = nullptr;
@@ -221,19 +254,21 @@ bool Database::getInternalGames(PsGames *result) {
             const unsigned char *base = sqlite3_column_text(res, 5);
             int discs = sqlite3_column_int(res, 6);
 
-            PsGamePtr game{new PsGame};
-            game->gameId = id;
-            game->title = string(reinterpret_cast<const char *>(title));
-            game->publisher = string(reinterpret_cast<const char *>(publisher));
-            game->year = year;
-            game->players = players;
-            game->folder = "/gaadata/" + to_string(id) + "/";
-            game->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
-            game->base = string(reinterpret_cast<const char *>(base));
-            game->memcard = "SONY";
-            game->internal = true;
-            game->cds = discs;
-            result->push_back(game);
+            PsGamePtr psGame{new PsGame};
+            psGame->gameId = id;
+            psGame->title = string(reinterpret_cast<const char *>(title));
+            psGame->publisher = string(reinterpret_cast<const char *>(publisher));
+            psGame->year = year;
+            psGame->players = players;
+            psGame->folder = "/gaadata/" + to_string(id) + "/";
+            psGame->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
+            psGame->base = string(reinterpret_cast<const char *>(base));
+            psGame->serial = psGame->base;
+            psGame->region = SerialScanner::serialToRegion(psGame->serial);
+            psGame->memcard = "SONY";
+            psGame->internal = true;
+            psGame->cds = discs;
+            result->push_back(psGame);
             //cout << "getInternalGames: " << game->serial << ", " << game->title << endl;
         }
     } else {
@@ -247,12 +282,12 @@ bool Database::getInternalGames(PsGames *result) {
 //*******************************
 // Database::refreshGameInternal
 //*******************************
-bool Database::refreshGameInternal(PsGamePtr & game) {
+bool Database::refreshGameInternal(PsGamePtr & psGame) {
 
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, GAMES_DATA_SINGLE_INTERNAL, -1, &res, nullptr);
     if (rc == SQLITE_OK) {
-        sqlite3_bind_int(res, 1, game->gameId);
+        sqlite3_bind_int(res, 1, psGame->gameId);
         while (sqlite3_step(res) == SQLITE_ROW) {
             int id = sqlite3_column_int(res, 0);
             const unsigned char *title = sqlite3_column_text(res, 1);
@@ -262,25 +297,27 @@ bool Database::refreshGameInternal(PsGamePtr & game) {
             const unsigned char *base = sqlite3_column_text(res, 5);
             int discs = sqlite3_column_int(res, 6);
 
-            game->gameId = id;
-            game->title = string(reinterpret_cast<const char *>(title));
-            game->publisher = string(reinterpret_cast<const char *>(publisher));
-            game->year = year;
-            game->players = players;
-            game->folder = "/gaadata/" + to_string(id) + "/";
-            game->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
-            game->base = string(reinterpret_cast<const char *>(base));
-            game->memcard = "SONY";
-            game->internal = true;
-            game->cds = discs;
+            psGame->gameId = id;
+            psGame->title = string(reinterpret_cast<const char *>(title));
+            psGame->publisher = string(reinterpret_cast<const char *>(publisher));
+            psGame->year = year;
+            psGame->players = players;
+            psGame->folder = "/gaadata/" + to_string(id) + "/";
+            psGame->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
+            psGame->base = string(reinterpret_cast<const char *>(base));
+            psGame->serial = psGame->base;
+            psGame->region = SerialScanner::serialToRegion(psGame->serial);
+            psGame->memcard = "SONY";
+            psGame->internal = true;
+            psGame->cds = discs;
 
-            string gameIniPath = game->folder + "/Game.ini";
+            string gameIniPath = psGame->folder + "/Game.ini";
             if (Util::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
-                game->locked =  !(ini.values["automation"]=="1");
-                game->hd =       (ini.values["highres"]=="1");
-                game->favorite = (ini.values["favorite"] == "1");
+                psGame->locked =  !(ini.values["automation"]=="1");
+                psGame->hd =       (ini.values["highres"]=="1");
+                psGame->favorite = (ini.values["favorite"] == "1");
             }
         }
     } else {
@@ -422,6 +459,7 @@ bool Database::querySerial(string serial, Metadata *md) {
             md->publisher = string(reinterpret_cast<const char *>(publisher));
             md->year = year;
             md->serial = serial;
+            md->region = SerialScanner::serialToRegion(md->serial);
             md->players = players;
             md->valid = true;
             //cout << "querySerial: " << "serial " << serial << ", " << md->title << endl;

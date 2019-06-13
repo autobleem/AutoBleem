@@ -10,7 +10,7 @@ using namespace std;
 //*******************************
 // Metadata::lookupBySerial
 //*******************************
-bool Metadata::lookupBySerial(string serial) {
+bool Metadata::lookupBySerial(const string & serial) {
     shared_ptr<Gui> gui(Gui::getInstance());
     for (int i = 0; i < 3; i++) {
             Database *db= gui->coverdb->covers[i];
@@ -28,7 +28,7 @@ bool Metadata::lookupBySerial(string serial) {
 //*******************************
 // Metadata::lookupByTitle
 //*******************************
-bool Metadata::lookupByTitle(string title) {
+bool Metadata::lookupByTitle(const string & title) {
     shared_ptr<Gui> gui(Gui::getInstance());
     for (int i = 0; i < 3; i++) {
         Database *db= gui->coverdb->covers[i];

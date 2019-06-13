@@ -18,10 +18,10 @@ public:
 
     void render();
 
-    void setText(std::string text, int r, int g, int b);
+    void setText(const std::string & text, int r, int g, int b);
 
-    PsCenterLabel(SDL_Renderer *renderer1, std::string name1, std::string texPath = "");
+    PsCenterLabel(SDL_Renderer *renderer1, const std::string & name1, const std::string & texPath = "");
     ~PsCenterLabel();
 
-    SDL_Texture *  createTextTex(std::string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
+    SDL_Texture *  createTextTex(const std::string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
 };

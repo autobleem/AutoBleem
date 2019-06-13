@@ -19,7 +19,7 @@ void PadMapper::reload() {
     }
     configs.clear();
     string path = Util::getWorkingPath() + "/gpmapping";
-    for (DirEntry entry:Util::diru(path)) {
+    for (const DirEntry & entry:Util::diru(path)) {
         if (Util::getFileExtension(entry.name) == "ini") {
 
             Inifile *mapping = new Inifile();

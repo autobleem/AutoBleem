@@ -96,12 +96,12 @@ public:
 
     void finish();
 
-    void drawText(std::string text);
+    void drawText(const std::string & text);
 
     void getEmojiTextTexture(SDL_Renderer *renderer, std::string text,
                              TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
 
-    void logText(std::string message);
+    void logText(const std::string & message);
 
     void menuSelection();
 
@@ -113,19 +113,19 @@ public:
 
     int renderLogo(bool small);
 
-    void renderStatus(std::string text);
+    void renderStatus(const std::string & text);
 
     void renderTextBar();
 
-    int renderTextLine(std::string text, int line, int offset, bool center, int xoffset);
+    int renderTextLine(const std::string & text, int line, int offset, bool center, int xoffset);
 
-    int renderTextLine(std::string text, int line, int offset, bool center);
+    int renderTextLine(const std::string & text, int line, int offset, bool center);
 
-    int renderTextLine(std::string text, int line, int offset);
+    int renderTextLine(const std::string & text, int line, int offset);
 
-    int renderTextLineOptions(std::string text, int line, int offset, bool center);
+    int renderTextLineOptions(const std::string & text, int line, int offset, bool center);
 
-    int renderTextLineOptions(std::string text, int line, int offset, bool center, int xoffset);
+    int renderTextLineOptions(const std::string & text, int line, int offset, bool center, int xoffset);
 
     void renderSelectionBox(int line, int offset);
 
@@ -133,20 +133,20 @@ public:
 
     void renderLabelBox(int line, int offset);
 
-    void renderTextChar(std::string text, int line, int offset, int posx);
+    void renderTextChar(const std::string & text, int line, int offset, int posx);
 
     void renderFreeSpace();
 
     void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
                         TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
 
-    Uint8 getR(std::string val);
+    Uint8 getR(const std::string & val);
 
-    Uint8 getG(std::string val);
+    Uint8 getG(const std::string & val);
 
-    Uint8 getB(std::string val);
+    Uint8 getB(const std::string & val);
 
-    void criticalException(std::string text);
+    void criticalException(const std::string & text);
 
     SDL_Texture *
     loadThemeTexture(SDL_Renderer *renderer, std::string themePath, std::string defaultPath, std::string texname);

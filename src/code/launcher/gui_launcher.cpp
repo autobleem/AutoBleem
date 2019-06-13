@@ -67,7 +67,7 @@ void GuiLauncher::switchSet(int newSet) {
             internalDB->getInternalGames(&internal);
             internalDB->disconnect();
             delete internalDB;
-            for (auto internalGame : internal) {
+            for (const auto & internalGame : internal) {
                 gamesList.push_back(internalGame);
         }
     }
@@ -109,7 +109,7 @@ void GuiLauncher::showSetName() {
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
 
     shared_ptr<Gui> gui(Gui::getInstance());
-    auto str = gui->cfg.inifile.values["showingTimeout"];
+    auto str = gui->cfg.inifile.values["showingtimeout"];
     long timeout{0};
     if (str != "")
         timeout = stoi(str.c_str()) * TicksPerSecond;
@@ -501,7 +501,7 @@ void GuiLauncher::render() {
     // covers render
 
     if (!carouselGames.empty()) {
-        for (auto game : carouselGames) {
+        for (const auto & game : carouselGames) {
             if (game.visible) {
                 SDL_Texture *currentGameTex = game.coverPng;
                 PsScreenpoint point = game.actual;

@@ -8,7 +8,7 @@ using namespace std;
 //*******************************
 // PsCenterLabel::PsCenterLabel
 //*******************************
-PsCenterLabel::PsCenterLabel(SDL_Renderer *renderer1, string name1, string texPath) : PsObj(renderer1,name1,"")
+PsCenterLabel::PsCenterLabel(SDL_Renderer *renderer1, const string & name1, const string & texPath) : PsObj(renderer1,name1,"")
 {
 
 }
@@ -16,7 +16,7 @@ PsCenterLabel::PsCenterLabel(SDL_Renderer *renderer1, string name1, string texPa
 //*******************************
 // PsCenterLabel::setText
 //*******************************
-void PsCenterLabel::setText(string text, int r, int g, int b)
+void PsCenterLabel::setText(const string & text, int r, int g, int b)
 {
     if (texture!=nullptr)
     {
@@ -73,7 +73,7 @@ void PsCenterLabel::render()
 //*******************************
 // PsCenterLabel::createTextTex
 //*******************************
-SDL_Texture *PsCenterLabel::createTextTex(string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
+SDL_Texture *PsCenterLabel::createTextTex(const string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
 
     SDL_Surface *surface;
     SDL_Texture *texture;

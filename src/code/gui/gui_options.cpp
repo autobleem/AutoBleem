@@ -11,7 +11,7 @@ using namespace std;
 //*******************************
 // GuiOptions::getOption
 //*******************************
-string GuiOptions::getOption(const vector<string> & list, string current, bool next) {
+string GuiOptions::getOption(const vector<string> & list, const string & current, bool next) {
     int pos = 0;
     for (int i = 0; i < list.size(); i++) {
         if (list[i] == current) {
@@ -41,11 +41,11 @@ void GuiOptions::init() {
     sthemes.clear();
     sthemes.push_back("default");
     vector<DirEntry> folders = Util::diru(Util::getWorkingPath() + Util::separator() + "theme");
-    for (DirEntry entry:folders) {
+    for (const DirEntry & entry:folders) {
         themes.push_back(entry.name);
     }
     folders = Util::diru("/media/themes");
-    for (DirEntry entry:folders) {
+    for (const DirEntry & entry:folders) {
         sthemes.push_back(entry.name);
     }
     pcsx.clear();
@@ -85,7 +85,7 @@ void GuiOptions::init() {
     jewels.push_back("default");
 
     folders = Util::diru(Util::getWorkingPath() + "/evoimg/frames");
-    for (DirEntry entry:folders) {
+    for (const DirEntry & entry:folders) {
         if (Util::getFileExtension(entry.name) == "png") {
             jewels.push_back(entry.name);
         }
@@ -96,13 +96,13 @@ void GuiOptions::init() {
     music.clear();
     music.push_back("--");
     folders = Util::diru(Util::getWorkingPath() + "/music");
-    for (DirEntry entry:folders) {
+    for (const DirEntry & entry:folders) {
         if (Util::getFileExtension(entry.name) == "ogg") {
             music.push_back(entry.name);
         }
     }
     for (int i=0; i <= 20; ++i) {
-        showingTimeout.push_back(to_string(i));
+        showingtimeout.push_back(to_string(i));
     }
 
 }
@@ -127,7 +127,7 @@ void GuiOptions::init() {
 //*******************************
 // GuiOptions::getBooleanIcon
 //*******************************
-string GuiOptions::getBooleanIcon(string input) {
+string GuiOptions::getBooleanIcon(const string & input) {
     shared_ptr<Gui> gui(Gui::getInstance());
     string value = gui->cfg.inifile.values[input];
     if (input == "quick") {
@@ -144,7 +144,7 @@ string GuiOptions::getBooleanIcon(string input) {
 //*******************************
 // GuiOptions::renderOptionLine
 //*******************************
-void GuiOptions::renderOptionLine(string text, int pos, int offset) {
+void GuiOptions::renderOptionLine(const string & text, int pos, int offset) {
     shared_ptr<Gui> gui(Gui::getInstance());
     string fg = gui->themeData.values["text_fg"];
     int height = gui->renderTextLineOptions(text, pos, offset, false);
@@ -194,7 +194,7 @@ void GuiOptions::render() {
     renderOptionLine(_("GFX Filter:") + " " + getBooleanIcon("mip"), CFG_MIP + 1, offset);
     renderOptionLine(_("Show RetroArch:") + " " + getBooleanIcon("retroarch"), CFG_RA + 1, offset);
     renderOptionLine(_("Advanced:") + " " + getBooleanIcon("adv"), CFG_ADV + 1, offset);
-    renderOptionLine(_("Showing Timeout (0 = no timeout):") + " " + gui->cfg.inifile.values["showingTimeout"], CFG_SHOWINGTIMEOUT + 1, offset);
+    renderOptionLine(_("Showing Timeout (0 = no timeout):") + " " + gui->cfg.inifile.values["showingtimeout"], CFG_SHOWINGTIMEOUT + 1, offset);
     gui->renderStatus("|@O| " + _("Go back") + "|");
 
     //   gui->renderSelectionBox(selOption+1,offset);
@@ -353,8 +353,8 @@ void GuiOptions::loop() {
                         }
 
                         if (selOption == CFG_SHOWINGTIMEOUT) {
-                            string nextValue = getOption(showingTimeout, gui->cfg.inifile.values["showingTimeout"], true);
-                            gui->cfg.inifile.values["showingTimeout"] = nextValue;
+                            string nextValue = getOption(showingtimeout, gui->cfg.inifile.values["showingtimeout"], true);
+                            gui->cfg.inifile.values["showingtimeout"] = nextValue;
                         }
 
                         render();
@@ -444,8 +444,10 @@ void GuiOptions::loop() {
                         }
 
                         if (selOption == CFG_SHOWINGTIMEOUT) {
-                            string nextValue = getOption(showingTimeout, gui->cfg.inifile.values["showingTimeout"], false);
-                            gui->cfg.inifile.values["showingTimeout"] = nextValue;
+                            string curValue =gui->cfg.inifile.values["showingtimeout"];
+                            string nextValue = getOption(showingtimeout, curValue, false);
+                            if (curValue != "0")
+                                gui->cfg.inifile.values["showingtimeout"] = nextValue;
                         }
 
                         render();

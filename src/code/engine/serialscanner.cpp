@@ -131,10 +131,10 @@ string SerialScanner::scanSerialInternal(int imageType, string path, string firs
             delete dirLoader;
             string serialFound = "";
             if (!dir.rootDir.empty()) {
-                for (string entry:dir.rootDir) {
+                for (const string & entry:dir.rootDir) {
                  //   cout << entry << endl;
                     string potentialSerial = fixSerial(entry);
-                    for (string prefix:prefixes) {
+                    for (const string & prefix:prefixes) {
                         int pos = potentialSerial.find(prefix.c_str(), 0);
                         if (pos == 0) {
                             serialFound = potentialSerial;
@@ -144,7 +144,7 @@ string SerialScanner::scanSerialInternal(int imageType, string path, string firs
                     }
                 }
                 string volume = fixSerial(dir.volumeName);
-                for (string prefix:prefixes) {
+                for (const string & prefix:prefixes) {
                     int pos = volume.find(prefix.c_str(), 0);
                     if (pos == 0) {
                         serialFound = volume;
@@ -194,4 +194,20 @@ string SerialScanner::serialByMd5(string scanFile)
     string tail=Util::execUnixCommad(("tail -c 1M \""+scanFile+"\" | md5sum | awk '{print $1}'").c_str());
 
     return head+tail;
+}
+
+//*******************************
+// SerialScanner::serialToRegion
+//*******************************
+string SerialScanner::serialToRegion(const string & serial)
+{
+    string region;
+    if (serial.length() >= 3) {
+    	char regionCode = serial[2];
+    	if (regionCode == 'U') region = "US";                 // SLUS, SCUS = NTSC-U
+    	else if (regionCode == 'E') region = "Europe-Aus";    // SLES, SCES = PAL
+    	else if (regionCode == 'P') region = "Japan";         // SLPS, SLPM, SCPS = NTSC-J
+    }
+
+    return region;
 }

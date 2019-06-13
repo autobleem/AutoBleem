@@ -186,7 +186,7 @@ void GuiMemcards::loop() {
                             cancelled = true;
                         }
 
-                        for (string card:cards) {
+                        for (const string & card:cards) {
                             if (card == result) {
                                 // orevent overwrite other card
                                 cancelled = true;
@@ -199,7 +199,7 @@ void GuiMemcards::loop() {
                             delete memcardOps;
                             init();
                             int pos = 0;
-                            for (string card:cards) {
+                            for (const string & card:cards) {
                                 if (card == result) {
                                     selected = pos;
                                     firstVisible = pos;
@@ -235,7 +235,7 @@ void GuiMemcards::loop() {
                             memcardOps->newCard(result);
                             cards = memcardOps->list();
                             int i = 0;
-                            for (string card:cards) {
+                            for (const string & card:cards) {
                                 if (card == result) {
                                     selected = i;
                                     firstVisible = i;

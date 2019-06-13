@@ -267,7 +267,7 @@ void GuiEditor::init() {
         }
 
         bool pngLoaded = false;
-        for (DirEntry entry:Util::diru(gui->path + Util::separator() + gameIni.entry)) {
+        for (const DirEntry & entry:Util::diru(gui->path + Util::separator() + gameIni.entry)) {
             if (Util::matchExtension(entry.name, EXT_PNG)) {
                 cover = IMG_LoadTexture(renderer, (gui->path + Util::separator() + gameIni.entry + Util::separator() +
                                                    entry.name).c_str());
@@ -294,7 +294,7 @@ void GuiEditor::init() {
         }
 
         bool pngLoaded = false;
-        for (DirEntry entry:Util::diru(gameData->folder)) {
+        for (const DirEntry & entry:Util::diru(gameData->folder)) {
             if (Util::matchExtension(entry.name, EXT_PNG)) {
                 cover = IMG_LoadTexture(renderer, (gameData->folder + Util::separator() +
                                                    entry.name).c_str());

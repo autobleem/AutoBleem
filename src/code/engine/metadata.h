@@ -21,8 +21,8 @@ public:
 
     std::string lastRegion="U";
 
-    bool lookupBySerial(std::string serial);
-    bool lookupByTitle(std::string title);
+    bool lookupBySerial(const std::string & serial);
+    bool lookupByTitle(const std::string & title);
     void clean()
     {
         if (bytes!=NULL)

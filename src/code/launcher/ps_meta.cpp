@@ -13,8 +13,9 @@ using namespace std;
 //*******************************
 // PsMeta::updateTexts
 //*******************************
-void PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt, const string & serial, const string & region, string playersTxt, bool internal, bool hd,
-                    bool locked, int discs, bool favorite, int r,int g, int b) {
+void PsMeta::updateTexts(const string & gameNameTxt, const string & publisherTxt, const string & yearTxt,
+                         const string & serial, const string & region, const string & playersTxt, bool internal,
+                         bool hd, bool locked, int discs, bool favorite, int r,int g, int b) {
     this->discs = discs;
     this->internal = internal;
     this->hd = hd;
@@ -35,7 +36,10 @@ void PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt
 
     gameNameTex = createTextTex(gameName, r,g,b, font30);
     publisherAndYearTex = createTextTex(publisher + ", " + year, r,g,b, font15);
-    serialAndRegionTex = createTextTex(_("Serial:") + " " + serial + ", " + _("Region:") + " " + region, r,g,b, font15);
+    if (serial != "")
+        serialAndRegionTex = createTextTex(_("Serial:") + " " + serial + ", " + _("Region:") + " " + region, r,g,b, font15);
+	else
+        serialAndRegionTex = createTextTex("", r,g,b, font15);
     playersTex = createTextTex(playersTxt, r,g,b, font15);
     discsTex = createTextTex(to_string(discs),r,g,b,font15);
 }
@@ -43,16 +47,18 @@ void PsMeta::updateTexts(string gameNameTxt, string publisherTxt, string yearTxt
 //*******************************
 // PsMeta::updateTexts
 //*******************************
-void PsMeta::updateTexts(PsGamePtr & game, int r,int g, int b) {
-    string appendText = game->players == 1 ? "Player" : "Players";
+void PsMeta::updateTexts(PsGamePtr & psGame, int r,int g, int b) {
+    string appendText = psGame->players == 1 ? "Player" : "Players";
 
-    Inifile iniFile;
-    iniFile.load(game->folder + "/" + "Game.ini");
-    game->serial = iniFile.values["serial"];
-    game->region = iniFile.values["region"];
-
-    updateTexts(game->title, game->publisher, to_string(game->year), game->serial, game->region, to_string(game->players) + " " + appendText,
-                game->internal, game->hd, game->locked, game->cds, game->favorite, r, g, b);
+    if (psGame->serial == "") {
+        Inifile iniFile;
+        iniFile.load(psGame->folder + "/" + "Game.ini");
+        psGame->serial = iniFile.values["serial"];
+        psGame->region = iniFile.values["region"];
+    }
+    
+    updateTexts(psGame->title, psGame->publisher, to_string(psGame->year), psGame->serial, psGame->region, to_string(psGame->players) + " " + appendText,
+                psGame->internal, psGame->hd, psGame->locked, psGame->cds, psGame->favorite, r, g, b);
 }
 
 //*******************************
@@ -233,7 +239,7 @@ void PsMeta::render() {
 //*******************************
 // PsMeta::createTextTex
 //*******************************
-SDL_Texture *PsMeta::createTextTex(string text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
+SDL_Texture *PsMeta::createTextTex(const string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
 
     SDL_Surface *surface;
     SDL_Texture *texture;

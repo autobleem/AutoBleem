@@ -18,14 +18,14 @@ public:
     Scanner() {}
     std::vector<std::shared_ptr<Game>> games;
 
-    void scanDirectory(std::string path);
-    void repairBrokenCueFiles(std::string path);
-    bool isFirstRun(std::string path, Database * db);
+    void scanDirectory(const std::string & path);
+    void repairBrokenCueFiles(const std::string & path);
+    bool isFirstRun(const std::string & path, Database * db);
     void unecm(const std::string & path); // this routine removes Error Correction files from the bin file to save space
     void updateDB(Database *db);
     bool forceScan=false;
     bool noGamesFound=false;
-    void detectAndSortGamefiles(std::string path);
+    void detectAndSortGamefiles(const std::string & path);
     Scanner(Scanner const &) = delete;
     Scanner &operator=(Scanner const &) = delete;
     static std::shared_ptr<Scanner> getInstance() {
