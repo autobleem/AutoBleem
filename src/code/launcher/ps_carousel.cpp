@@ -6,7 +6,7 @@
 #include "../gui/gui.h"
 #include "../engine/scanner.h"
 #include <SDL2/SDL_image.h>
-#include <fstream>
+#include <unistd.h>
 
 using namespace std;
 
@@ -43,14 +43,12 @@ void PsCarouselGame::loadTex(SDL_Renderer *renderer) {
                 if ((*this)->internal) {
                     Metadata md;
                     if (md.lookupBySerial((*this)->serial) && md.bytes && md.dataSize) {
-                        string tmpFileName = tmpnam(nullptr);
-                        ofstream pngFile;
-                        pngFile.open(tmpFileName);
-                        pngFile.write(md.bytes, md.dataSize);
-                        pngFile.flush();
-                        pngFile.close();
-                        coverPng = IMG_LoadTexture(renderer, tmpFileName.c_str());
-                        remove(tmpFileName.c_str());
+                        char fname[] = "/tmp/AutoBleem_XXXXXX.png";
+                        int pngFile = mkstemps(fname, 4);
+                        write(pngFile, md.bytes, md.dataSize);
+                        close(pngFile);
+                        coverPng = IMG_LoadTexture(renderer, fname);
+                        remove(fname);
                     }
                 }
             #endif
