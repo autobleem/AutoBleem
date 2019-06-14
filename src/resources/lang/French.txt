@@ -1,13 +1,13 @@
-﻿ - Automatic PlayStation Classic USB launcher
- - Launcher USB Automatique PlayStation Classic
+﻿Automatic PlayStation Classic USB launcher
+Launcher USB Automatique PlayStation Classic
 'Tenchu' theme by Kevzombie
 Thème 'Tenchu' par Kevzombie
--=About=-
--=À propos=-
--=Configuration=-
--=Paramètres=-
--=Game manager - Select game=-
--=Gestion des jeux - Choisir un jeu=-
+About
+À propos
+Configuration
+Paramètres
+Game manager - Select game
+Gestion des jeux - Choisir un jeu
 About
 À propos
 Advanced
@@ -80,8 +80,8 @@ to scan
 à scanner
 Game:
 Jeu:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
 Folder:
 Dossier:
 Published by:
@@ -104,14 +104,14 @@ Lock
 Verrouiller
 Share MC
 Partager CM
-(Internal)
-(Interne)
--=Select memory card=-
--=Sélection carte mémoire=-
+Internal
+Interne
+Select memory card
+Sélection carte mémoire
 Card
 Carte
--=Custom Memory Cards=-
--=Cartes Mémoires personnalisées=-
+Custom Memory Cards
+Cartes Mémoires personnalisées
 Delete
 Supprimer
 New Card
@@ -134,16 +134,16 @@ Enter new card name
 Nouveau nom de la carte
 Delete card
 Supprimer carte
--=Please confirm=-
--=Veuillez valider=-
+Please confirm
+Veuillez valider
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 VEUILLEZ CONNECTER UNE MANETTE A LA CONSOLE
 Caps
 Maj
 Internal
 Interne
-(Custom)
-(Personnalisée)
+Custom
+Personnalisée
 Enter new name for card
 Nouveau nom de la carte
 Menu
@@ -156,8 +156,8 @@ WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 ATTANTION : PAS DE BDD DE JAQUETTE TROUVÉES. APPUYER SUR UNE TOUCHE
 RetroArch is not installed
 RetroArch n'est pas installé
--=Button Guide=-
--=Guide des touches=-
+Button Guide
+Guide des touches
 DPAD - Same as classic menu
 DPAD - Meme que sur menu classique
 Select or cancel highlighted option
@@ -166,8 +166,8 @@ Quick scroll to next letter
 Déroulement rapide jusqu'à la prochaine lettre
 Games filter
 Recherche de jeux
--=In Game=-
--=En cours de jeu=-
+In Game
+En cours de jeu
 Emulator config MENU
 Menu de configuration de l'émulateur
 Quit emulation - back to AutoBleem

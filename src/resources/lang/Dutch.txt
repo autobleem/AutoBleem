@@ -1,13 +1,13 @@
- - Automatic PlayStation Classic USB launcher
- - Automatische Playstation Classic USB Launcher
+Automatic PlayStation Classic USB launcher
+Automatische Playstation Classic USB Launcher
 'Tenchu' theme by Kevzombie
 'Tenchu' thema door Kevzombie
--=About=-
--=Over=-
--=Configuration=-
--=Configuratie=-
--=Game manager - Select game=-
--=Game manager - Selecteer game=-
+About
+Over
+Configuration
+Configuratie
+Game manager - Select game
+Game manager - Selecteer game
 About
 Over
 Advanced
@@ -80,8 +80,8 @@ to scan
 te scannen
 Game:
 Game:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
 Folder:
 Map:
 Published by:
@@ -104,14 +104,14 @@ Lock
 Gesloten
 Share MC
 Deel MC
-(Internal)
-(Intern)
--=Select memory card=-
--=Selecteer memory card=-
+Internal
+Intern
+Select memory card
+Selecteer memory card
 Card
 Kaart
--=Custom Memory Cards=-
--=Custom Memory Kaart=-
+Custom Memory Cards
+Custom Memory Kaart
 Delete
 Verwijder
 New Card
@@ -134,16 +134,16 @@ Enter new card name
 Nieuwe kaart naam
 Delete card
 Verwijder kaart
--=Please confirm=-
--=Bevestig=-
+Please confirm
+Bevestig
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 SLUIT EEB PLAYSTATION CLASSIC CONTROLLER AAN
 Caps
 Caps
 Internal
 Intern
-(Custom)
-(Aangepast)
+Custom
+Aangepast
 Enter new name for card
 Nieuwe naam voor kaart
 Menu

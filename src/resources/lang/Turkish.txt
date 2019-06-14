@@ -1,13 +1,13 @@
-﻿ - Automatic PlayStation Classic USB launcher
- - Otomatik PlayStation Classic USB başlatıcısı
+﻿Automatic PlayStation Classic USB launcher
+Otomatik PlayStation Classic USB başlatıcısı
 'Tenchu' theme by Kevzombie
 Kevzombie tarafından 'Tenchu' Teması
--=About=-
--=Hakkında=-
--=Configuration=-
--=Konfigürasyon=-
--=Game manager - Select game=-
--=Oyun yöneticisi - Oyun seç=-
+About
+Hakkında
+Configuration
+Konfigürasyon
+Game manager - Select game
+Oyun yöneticisi - Oyun seç
 About
 Hakkında
 Advanced
@@ -80,8 +80,8 @@ to scan
 taramak için
 Game:
 Oyun:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Oluşturanlar: AutoBleem Takımı (screemer, mGGk, nex, ThaFridge). Gadsby tarafından çevirilmiştir.
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
+Oluşturanlar: AutoBleem Takımı (screemer, mGGk, nex, ThaFridge, Axanar). Gadsby tarafından çevirilmiştir.
 Folder:
 Dosya:
 Published by:
@@ -104,14 +104,14 @@ Lock
 Kilitle
 Share MC
 MC'ı paylaş
-(Internal)
-(Dahili)
--=Select memory card=-
--=Memory card seç=-
+Internal
+Dahili
+Select memory card
+Memory card seç
 Card
 Kart
--=Custom Memory Cards=-
--=Özel Memory Cardlar=-
+Custom Memory Cards
+Özel Memory Cardlar
 Delete
 Sil
 New Card
@@ -134,16 +134,16 @@ Enter new card name
 Yeni kart ismi gir
 Delete card
 Kart'ı sil
--=Please confirm=-
--=Lütfen onaylayın=-
+Please confirm
+Lütfen onaylayın
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 GAMEPAD'I PLAYSTATION CLASSIC'E BAĞLAYIN LÜTFEN
 Caps
 Caps
 Internal
 Dahili
-(Custom)
-(Özel)
+Custom
+Özel
 Enter new name for card
 Kart için yeni isim girin
 Menu

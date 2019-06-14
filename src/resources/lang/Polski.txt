@@ -1,13 +1,13 @@
- - Automatic PlayStation Classic USB launcher
- - Automatyczny loader dla Playstation Classic
+Automatic PlayStation Classic USB launcher
+Automatyczny loader dla Playstation Classic
 'Tenchu' theme by Kevzombie
 Skórka 'Tenchu' wykonana przez Kevzombie
--=About=-
--=O programie=-
--=Configuration=-
--=Konfiguracja=-
--=Game manager - Select game=-
--=Manadżer gier - Wybierz grę=-
+About
+O programie
+Configuration
+Konfiguracja
+Game manager - Select game
+Manadżer gier - Wybierz grę
 About
 O programie
 Advanced
@@ -80,8 +80,8 @@ to scan
 do skanowania
 Game:
 Gra:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Autorzy: AutoBleem Team (screemer, mGGk, nex, ThaFridge) / Tłumczenie screemer, Azazel
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
+Autorzy: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar) / Tłumczenie screemer, Azazel
 Folder:
 Folder
 Published by:
@@ -104,14 +104,14 @@ Lock
 Blokuj
 Share MC
 Udostępnij
-(Internal)
-(Wewnętrzna)
--=Select memory card=-
--=Wybierz kartę=-
+Internal
+Wewnętrzna
+Select memory card
+Wybierz kartę
 Card
 Karta
--=Custom Memory Cards=-
--=Współdzielone karty pamięci=-
+Custom Memory Cards
+Współdzielone karty pamięci
 Delete
 Kasuj
 New Card
@@ -134,16 +134,16 @@ Enter new card name
 Podaj nową nazwę karty
 Delete card
 Usuń kartę
--=Please confirm=-
--=Potwierdź=-
+Please confirm
+Potwierdź
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 PODŁĄCZ KONTROLER DO PLAYSTATION CLASSIC
 Caps
 Duże
 Internal
 Wewnętrzna
-(Custom)
-(Własna)
+Custom
+Własna
 Enter new name for card
 Podaj nową nazwę karty
 Menu
@@ -162,8 +162,8 @@ Enter
 Wejdź
 Console Button Guide
 Opis funkcji konsoli
--=Button Guide=-
--=Sterowanie=-
+Button Guide
+Sterowanie
 DPAD - Same as classic menu
 Kierunki - Tak samo jak w klasycznym menu
 Select or cancel highlighted option
@@ -172,8 +172,8 @@ Quick scroll to next letter
 Szybki przeskok do następnej litery
 Games filter
 Filtr gier
--=In Game=-
--=W Grze=-
+In Game
+W Grze
 Emulator config MENU
 MENU kofiguracji emulatora
 Quit emulation - back to AutoBleem

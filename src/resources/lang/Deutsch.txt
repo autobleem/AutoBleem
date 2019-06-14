@@ -1,13 +1,13 @@
-﻿ - Automatic PlayStation Classic USB launcher
- - Automatischer PlayStation Classic USB launcher
+﻿Automatic PlayStation Classic USB launcher
+Automatischer PlayStation Classic USB launcher
 'Tenchu' theme by Kevzombie
 'Tenchu' Theme von Kevzombie
--=About=-
--=Über=-
--=Configuration=-
--=Konfiguration=-
--=Game manager - Select game=-
--=Spielemanager - Spiel auswählen=-
+About
+Über
+Configuration
+Konfiguration
+Game manager - Select game
+Spielemanager - Spiel auswählen
 About
 Über
 Advanced
@@ -80,8 +80,8 @@ to scan
 zum scannen
 Game:
 Spiel:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Entwicklung: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
+Entwicklung: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
 Folder:
 Ordner:
 Published by:
@@ -104,14 +104,14 @@ Lock
 Sperren
 Share MC
 MC teilen
-(Internal)
-(Intern)
--=Select memory card=-
--=Memory Card auswählen=-
+Internal
+Intern
+Select memory card
+Memory Card auswählen
 Card
 Karte
--=Custom Memory Cards=-
--=Benutzerdefinierte Memory Cards=-
+Custom Memory Cards
+Benutzerdefinierte Memory Cards
 Delete
 Löschen
 New Card
@@ -134,16 +134,16 @@ Enter new card name
 Name für neue Karte
 Delete card
 Karte löschen
--=Please confirm=-
--=Bitte bestätigen=-
+Please confirm
+Bitte bestätigen
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 BITTE CONTROLLER AN DIE PLAYSTATION CLASSIC ANSCHLIESSEN
 Caps
 Großbuchstaben
 Internal
 Interne
-(Custom)
-(Benutzer)
+Custom
+Benutzer
 Enter new name for card
 Neuer Name für Karte eingeben
 Menu
@@ -158,8 +158,8 @@ Language:
 Sprache:
 RetroArch is not installed
 RetroArch ist nicht installiert
--=Button Guide=-
--=Übersicht über die Konsolentasten=-
+Button Guide
+Übersicht über die Konsolentasten
 DPAD - Same as classic menu
 Steuerkreuz - Spiel bzw Options-Auswahl
 Select or cancel highlighted option
@@ -168,8 +168,8 @@ Quick scroll to next letter
 Zum nächsten Buchstaben springen                      
 Games filter
 Spiele filtern (Intern/USB/Alle)
--=In Game=-
--=Im Spiel=-
+In Game
+Im Spiel
 Emulator config MENU
 Emulator Options Menü
 Quit emulation - back to AutoBleem

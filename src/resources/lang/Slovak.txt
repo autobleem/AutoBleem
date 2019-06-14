@@ -1,13 +1,13 @@
-﻿ - Automatic PlayStation Classic USB launcher
- - Automatický USB spúšťač Playstation Classic
+﻿Automatic PlayStation Classic USB launcher
+Automatický USB spúšťač Playstation Classic
 'Tenchu' theme by Kevzombie
 Téma 'Tenchu' od Kevzombie
--=About=-
--=O programe=-
--=Configuration=-
--=Nastavenia=-
--=Game manager - Select game=-
--=Manažér hier - Vybrať hru=-
+About
+O programe
+Configuration
+Nastavenia
+Game manager - Select game
+Manažér hier - Vybrať hru
 About
 O programe
 Advanced
@@ -80,8 +80,8 @@ to scan
 nájsť
 Game:
 Hra:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Autori: AutoBleem Team (screemer, mGGk, nex, ThaFridge); Slovak translation: Pardubák
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
+Autori: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar); Slovak translation: Pardubák
 Folder:
 Priečinok:
 Published by:
@@ -104,14 +104,14 @@ Lock
 Uzamknúť
 Share MC
 Zdieľať Pamäťovú kartu
-(Internal)
-(Vnútorná)
--=Select memory card=-
--=Vybrať Pamäťovú kartu=-
+Internal
+Vnútorná
+Select memory card
+Vybrať Pamäťovú kartu
 Card
 Karta
--=Custom Memory Cards=-
--=Vlastná Pamäťová karta=-
+Custom Memory Cards
+Vlastná Pamäťová karta
 Delete
 Zmazať
 New Card
@@ -134,16 +134,16 @@ Enter new card name
 Zadajte nový názov karty
 Delete card
 Zmazať kartu
--=Please confirm=-
--=Potvrďte prosím=-
+Please confirm
+Potvrďte prosím
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 PRIPOJTE PROSÍM GAMEPAD K PLAYSTATIONU CLASSIC
 Caps
 Veľké
 Internal
 Vnútorná
-(Custom)
-(Vlastná)
+Custom
+Vlastná
 Enter new name for card
 Zadajte nový názov karty
 Menu

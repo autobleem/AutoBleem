@@ -1,13 +1,13 @@
-﻿ - Automatic PlayStation Classic USB launcher
- - Launcher USB Automatique PlayStation Classic
+﻿Automatic PlayStation Classic USB launcher
+Launcher USB Automatique PlayStation Classic
 'Tenchu' theme by Kevzombie
 Tema 'Tenchu' por Kevzombie
--=About=-
--=Sobre=-
--=Configuration=-
--=Configuración=-
--=Game manager - Select game=-
--=Gestión de los juegos - Elige un juego=-
+About
+Sobre
+Configuration
+Configuración
+Game manager - Select game
+Gestión de los juegos - Elige un juego
 About
 Sobre
 Advanced
@@ -80,8 +80,8 @@ to scan
 para escanear
 Game:
 Juego:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Código: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
+Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
+Código: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
 Folder:
 Carpeta:
 Published by:
@@ -104,14 +104,14 @@ Lock
 Bloquear
 Share MC
 Compartir TM
-(Internal)
-(Interna)
--=Select memory card=-
--=Seleccione tarjeta de memoria=-
+Internal
+Interna
+Select memory card
+Seleccione tarjeta de memoria
 Card
 Tarjeta
--=Custom Memory Cards=-
--=Tarjetas de memoria personalizadas=-
+Custom Memory Cards
+Tarjetas de memoria personalizadas
 Delete
 Eliminar
 New Card
@@ -134,16 +134,16 @@ Enter new card name
 Introduce el nuevo nombre de la tarjeta
 Delete card
 Eliminar tarjeta
--=Please confirm=-
--=Por favor confirmar=-
+Please confirm
+Por favor confirmar
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 POR FAVOR CONECTE EL MANDO A LA PLAYSTATION CLASSIC
 Caps
 Maj
 Internal
 Interna
-(Custom)
-(Personalizada)
+Custom
+Personalizada
 Enter new name for card
 Introduce un nuevo nombre para la tarjeta
 Menu
