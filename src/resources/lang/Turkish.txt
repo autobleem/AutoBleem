@@ -22,8 +22,8 @@ Background Music:
 Arkaplan Müziği:
 Close
 Kapat
-Download latest: https://github.com/screemerpl/cbleemsync
-Son sürümü indirmek için: https://github.com/screemerpl/cbleemsync
+Download latest:
+Son sürümü indirmek için:
 Free space
 Boş Alan
 GFX Filter:
@@ -80,8 +80,8 @@ to scan
 taramak için
 Game:
 Oyun:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
-Oluşturanlar: AutoBleem Takımı (screemer, mGGk, nex, ThaFridge, Axanar). Gadsby tarafından çevirilmiştir.
+Code: AutoBleem Team
+Oluşturanlar: AutoBleem Takımı
 Folder:
 Dosya:
 Published by:

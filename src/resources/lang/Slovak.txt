@@ -22,8 +22,8 @@ Background Music:
 Hudba na pozadí:
 Close
 Zatvoriť
-Download latest: https://github.com/screemerpl/cbleemsync
-Najnovšia verzia: https://github.com/screemerpl/cbleemsync
+Download latest:
+Najnovšia verzia:
 Free space
 Voľné miesto
 GFX Filter:
@@ -80,8 +80,8 @@ to scan
 nájsť
 Game:
 Hra:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
-Autori: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar); Slovak translation: Pardubák
+Code: AutoBleem Team
+Autori: AutoBleem Team
 Folder:
 Priečinok:
 Published by:

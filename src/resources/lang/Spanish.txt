@@ -22,8 +22,8 @@ Background Music:
 Música de fondo:
 Close
 Cerrar
-Download latest: https://github.com/screemerpl/cbleemsync
-Última version: https://github.com/screemerpl/cbleemsync
+Download latest:
+Última version:
 Free space
 Espacio libre
 GFX Filter:
@@ -80,8 +80,8 @@ to scan
 para escanear
 Game:
 Juego:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
-Código: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
+Code: AutoBleem Team
+Código: AutoBleem Team
 Folder:
 Carpeta:
 Published by:

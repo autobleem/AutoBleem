@@ -22,8 +22,8 @@ Background Music:
 Achtergrond Muziek
 Close
 Sluiten
-Download latest: https://github.com/autobleem/autobleem
-Download laatste versie: https://github.com/autobleem/autobleem
+Download latest:
+Download laatste versie:
 Free space
 Vrije ruimte
 GFX Filter:
@@ -80,8 +80,8 @@ to scan
 te scannen
 Game:
 Game:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
+Code: AutoBleem Team
+Code: AutoBleem Team
 Folder:
 Map:
 Published by:

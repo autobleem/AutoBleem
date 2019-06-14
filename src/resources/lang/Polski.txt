@@ -22,8 +22,8 @@ Background Music:
 Muzyka w tle:
 Close
 Zamknij
-Download latest: https://github.com/screemerpl/cbleemsync
-Pobierz najnowsze: https://github.com/screemerpl/cbleemsync
+Download latest:
+Pobierz najnowsze:
 Free space
 Wolne miejsce
 GFX Filter:
@@ -80,8 +80,8 @@ to scan
 do skanowania
 Game:
 Gra:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar)
-Autorzy: AutoBleem Team (screemer, mGGk, nex, ThaFridge, Axanar) / Tłumczenie screemer, Azazel
+Code: AutoBleem Team
+Autorzy: AutoBleem Team
 Folder:
 Folder
 Published by:
