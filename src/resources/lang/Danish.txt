@@ -1,0 +1,158 @@
+﻿Automatic PlayStation Classic USB launcher
+Automatisk PlayStation Classic USB launcher
+'Tenchu' theme by Kevzombie
+'Tenchu' Theme af Kevzombie
+About
+Om
+Configuration
+Konfiguration
+Game manager - Select game
+Spilbibliotek - Vælg spil
+About
+Om
+Advanced
+Advanceret
+Advanced:
+Advanceret:
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+AutoBleem Tema:
+Background Music:
+Baggrundsmusik:
+Close
+Luk
+Download latest:
+Aktuelle version:
+Free space
+Ledig plads
+GFX Filter:
+Grafik Filter:
+Game
+Spil
+Game Manager
+Spilbibliotek
+Games changed. Press
+Spil skiftet. Tryk
+Go back
+Tilbage
+Loading ... Please Wait ...
+Indlæser ... Vent venligst ...
+Memory Cards
+Memory Kort
+Menu Theme:
+Menu Tema:
+Options
+Indstillinger
+PCSX Version:
+PCSX Version:
+Page
+Side
+QuickBoot:
+Hurtigstart:
+Re/Scan
+Gen/Scan
+RetroArch
+RetroArch
+Scanning...
+Scanner...
+Select
+Vælg
+Show RetroArch:
+Vis RetroArch:
+Support via Discord: https://discord.gg/AHUS3RM
+Support Discord: https://discord.gg/AHUS3RM
+This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+Dette er gratis open source software. Det virker som det er og vi tager ikke ansvaret for problemer eller skader.
+Total:
+Total:
+Updating regional.db...
+Opdaterer regional.db...
+Upgrading AutoBleem - Please wait...
+Opgraderer AutoBleem - Vent venligst...
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+ADVARSEL: INGEN SPIL FUNDET. TRYK PÅ EN TAST.
+games scanned
+spil scannet
+to scan
+til scanning
+Game:
+Spil:
+Code: AutoBleem Team
+Af: AutoBleem Team
+Folder:
+Mappe:
+Published by:
+Udgivet af:
+Players:
+Spillere:
+Year:
+År:
+Memory Card:
+Memory Card:
+High res:
+Høj opløsning:
+Lock data:
+Lås data:
+Change MC
+Skift Memory Card
+Hi/Lo Res
+Høj/Lav opløsning
+Lock
+Lås
+Share MC
+Del MC
+Internal
+Intern
+Select memory card
+Vælg Memory card
+Card
+Kort
+Custom Memory Cards
+Custom Memory Cards
+Delete
+Slet
+New Card
+Nyt kort
+Rename
+Omdøb
+Enter new name for memory card
+Indtast nyt navn for memory kort
+Cancel
+Annuller
+Confirm
+Bekræft
+Space
+Space
+Enter new game name
+Indtast nyt spilnavn
+Original
+Original
+Enter new card name
+Indtast nyt kort navn
+Delete card
+Slet kort
+Please confirm
+Bekræft venligst
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+TILSLUT VENLIGST CONTROLLER TIL PLAYSTATION CLASSIC
+Caps
+Caps
+Internal
+Intern
+Custom
+Custom
+Enter new name for card
+Indtast nyt navn for kort
+Menu
+Menu
+Quick boot
+Hurtigstart
+Hold
+Vent
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+ADVARSEL: INGEN COVER DB FUNDET. TRYK PÅ EN TAST.
+Language:
+Sprog:
+RetroArch is not installed
+RetroArch er ikke installeret
