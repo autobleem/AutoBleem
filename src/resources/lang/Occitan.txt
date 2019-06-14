@@ -1,25 +1,23 @@
 About
 A prepaus
--=About=-
--=A prepaus=-
 Advanced
 Avançat
 Advanced:
 Paramètres avançats :
 Are you sure?
 O volètz vertadièrament ?
-Are you sure you want to flush all covers ?
+Are you sure you want to flush all covers?
 Volètz vertadièrament suprimir totas las cobèrturas ?
 AutoBleem
 AutoBleem
 AutoBleem Theme:
 Tèma AutoBleem :
- - Automatic PlayStation Classic USB launcher
- - Aviaire USB automatic PlayStation Classic
+Automatic PlayStation Classic USB launcher
+Aviaire USB automatic PlayStation Classic
 Background Music:
 Musica de fons :
--=Button Guide=-
--=Guida dels botons=-
+Button Guide
+Guida dels botons
 Cancel
 Anullar
 Caps
@@ -34,8 +32,8 @@ Close
 Barrar
 Code: AutoBleem Team
 Còdi : AutoBleem Team
--=Configuration=-
--=Configuracion=-
+Configuration
+Configuracion
 Configuration saved - Press |@X| to continue
 Configuracion salvagarda - Quichatz |@X| per contunhar
 Confirm
@@ -44,12 +42,12 @@ Console Button Guide
 Guida botons consòla
 Cover Style:
 Estil cobèrtura :
-(Custom)
-(Personalizada)
+Custom
+Personalizada
 Customize AutoBleem settings
 Personalizar los paramètres AutoBleem
--=Custom Memory Cards=-
--=Cartas memòria personalizada=-
+Custom Memory Cards
+Cartas memòria personalizada
 Decompressing ecm:
 Descompression de l'ecm :
 Delete
@@ -90,10 +88,12 @@ Game
 Jòc
 Game:
 Jòc :
+GAME
+JÒC
 Game Manager
 Gestionari de jòcs
--=Game manager - Select game=-
--=Gestionari de jòcs - Causir un jòc=-
+Game manager - Select game
+Gestionari de jòcs - Causir un jòc
 games
 jòcs
 Games changed. Press
@@ -116,16 +116,14 @@ Importing internal games
 Importacion dels jòcs intèrnes
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 AL MENÚ D'AVIADA PER ATUDAR LA CONSÒLA (EXTINCION SEGURA !!!)
--=In Game=-
--=Jòcs intèrnes=-
+In Game
+Jòcs intèrnes
 Internal
 Intèrne
-(Internal)
-(Intèrne)
 Internal Games:
 Jòcs intèrnes :
-In your dpad analogue?
-Dins vòstre dpad analòg ?
+IS your dpad analogue?
+Es vòstre dpad analòg ?
 Language:
 Lenga :
 Loading ... Please Wait ...
@@ -134,10 +132,10 @@ Lock data:
 Verrolhar las donadas :
 MemCard Manager will be available soon
 MemCard Manager serà lèu disponible
-MEMORY CARD
-CARTA MEMÒRIA
 Memory Card:
 Carta memòria :
+MEMORY CARD
+CARTA MEMÒRIA
 Memory Cards
 Cartas memòria
 Menu
@@ -148,8 +146,8 @@ Music:
 Musica :
 New Card
 Nòva carta
--=New GamePad found=-
--=Nòva maneta trobada=-
+New GamePad found
+Nòva maneta trobada
 OOPS! Game crashed. Resume point not available.
 Ops ! Lo jòc a agut un problèma. Lo punt de represa es pas disponible.
 Options
@@ -158,10 +156,12 @@ Original
 Originals
 Page
 Pagina
-Players:
-Jogaires :
--=Please confirm=-
--=Volgatz confirmar=-
+Player
+Jogaire
+Players
+Jogaires
+Please confirm
+Volgatz confirmar
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 VOLGATZ CONNECTAR UNA MANETA A LA CONSÒLA
 Please wait ... deleting covers...
@@ -210,8 +210,8 @@ Scanning...
 Analisi...
 Select
 Causir
--=Select memory card=-
--=Causir una carta memòria=-
+Select memory card
+Causir una carta memòria
 Select or cancel highlighted option
 Activar o desactivar las opcions subrelinhadas
 SELECT RESUME SLOT TO LOAD
@@ -252,7 +252,7 @@ Starting EvolutionUI
 Aviada d'EvolutionUI
 Support via Discord:
 Sosten via Discord :
-This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 Aqueste logicial es gratuit e open source. Es provesit coma aquò e pas cap de responsabilitat es nòstra.
 to scan
 per analizar
