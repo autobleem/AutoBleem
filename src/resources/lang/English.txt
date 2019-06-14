@@ -1,24 +1,22 @@
 About
 
--=About=-
-
 Advanced
 
 Advanced:
 
 Are you sure?
 
-Are you sure you want to flush all covers ?
+Are you sure you want to flush all covers?
 
 AutoBleem
 
 AutoBleem Theme:
 
- - Automatic PlayStation Classic USB launcher
+Automatic PlayStation Classic USB launcher
 
 Background Music:
 
--=Button Guide=-
+Button Guide
 
 Cancel
 
@@ -34,7 +32,7 @@ Close
 
 Code: AutoBleem Team
 
--=Configuration=-
+Configuration
 
 Configuration saved - Press |@X| to continue
 
@@ -44,11 +42,11 @@ Console Button Guide
 
 Cover Style:
 
-(Custom)
+Custom
 
 Customize AutoBleem settings
 
--=Custom Memory Cards=-
+Custom Memory Cards
 
 Decompressing ecm:
 
@@ -90,9 +88,11 @@ Game
 
 Game:
 
+GAME
+
 Game Manager
 
--=Game manager - Select game=-
+Game manager - Select game
 
 games
 
@@ -116,11 +116,9 @@ Importing internal games
 
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 
--=In Game=-
+In Game
 
 Internal
-
-(Internal)
 
 Internal Games:
 
@@ -134,9 +132,9 @@ Lock data:
 
 MemCard Manager will be available soon
 
-MEMORY CARD
-
 Memory Card:
+
+MEMORY CARD
 
 Memory Cards
 
@@ -148,7 +146,7 @@ Music:
 
 New Card
 
--=New GamePad found=-
+New GamePad found
 
 OOPS! Game crashed. Resume point not available.
 
@@ -160,7 +158,7 @@ Page
 
 Players:
 
--=Please confirm=-
+Please confirm
 
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 
@@ -210,7 +208,7 @@ Scanning...
 
 Select
 
--=Select memory card=-
+Select memory card
 
 Select or cancel highlighted option
 
@@ -252,7 +250,7 @@ Starting EvolutionUI
 
 Support via Discord:
 
-This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 
 to scan
 

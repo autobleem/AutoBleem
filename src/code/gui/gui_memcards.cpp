@@ -36,7 +36,7 @@ void GuiMemcards::render() {
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine(_("-=Custom Memory Cards=-"), 0, offset, true);
+    gui->renderTextLine("-=" + _("Custom Memory Cards") + "=-", 0, offset, true);
 
     if (selected >= cards.size()) {
         selected = cards.size() - 1;

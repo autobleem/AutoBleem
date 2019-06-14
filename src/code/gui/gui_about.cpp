@@ -20,9 +20,9 @@ void GuiAbout::render() {
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine(_("-=About=-"), 0, offset, true);
+    gui->renderTextLine("-=" + _("About") + "=-", 0, offset, true);
     gui->renderTextLine(_("AutoBleem") + " " + gui->cfg.inifile.values["version"] +
-                        _(" - Automatic PlayStation Classic USB launcher"), 1, offset);
+                        " - " + _("Automatic PlayStation Classic USB launcher"), 1, offset);
     gui->renderTextLine(_("Code: AutoBleem Team") + " (screemer, mGGk, nex, ThaFridge, Axanar) ", 2, offset);
     gui->renderTextLine(_("Graphics by: ")+"Kevzombie" , 3, offset);
 
@@ -30,7 +30,7 @@ void GuiAbout::render() {
 
     gui->renderTextLine(_("Support via Discord:") + " https://discord.gg/AHUS3RM", 5, offset);
     gui->renderTextLine(
-            _("This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage."),
+            _("This is free and open source software. It works AS IS and We take no responsibility for any issues or damage."),
             6, offset);
 
     gui->renderTextLine(_("Download latest:") + " https://github.com/screemerpl/cbleemsync", 8, offset);
