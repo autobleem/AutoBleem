@@ -64,7 +64,7 @@ Show RetroArch:
 Toon RetroArch:
 Support via Discord: https://discord.gg/AHUS3RM
 Support ons via Discord: https://discord.gg/AHUS3RM
-This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 Dit is gratis en open source software. Het werkt ZOALS AANGELEVERD en wij nemen geen verantwoordelijkheid voor eventuele problemen of schade. 
 Total:
 Totaal:

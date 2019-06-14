@@ -64,7 +64,7 @@ Show RetroArch:
 RetroArch:
 Support via Discord: https://discord.gg/AHUS3RM
 Podpora na Discorde: https://discord.gg/AHUS3RM
-This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 AutoBleem je bezplatný a open source softvér. Funguje TAK, AKO JE, a NENESIEME žiadnu zodpovednosť za akékoľvek problémy alebo škody.
 Total:
 Celkom:

@@ -62,7 +62,7 @@ Show RetroArch:
 Vis RetroArch:
 Support via Discord: https://discord.gg/AHUS3RM
 Support Discord: https://discord.gg/AHUS3RM
-This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 Dette er gratis open source software. Det virker som det er og vi tager ikke ansvaret for problemer eller skader.
 Total:
 Total:

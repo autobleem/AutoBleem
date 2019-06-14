@@ -209,7 +209,7 @@ Scanlines:
 Scanning...
 Escaneando
 Select
-Serleccione
+Seleccione
 Select memory card
 Seleccione memory card
 Select or cancel highlighted option
@@ -252,7 +252,7 @@ Starting EvolutionUI
 Iniciando EvolutionUI
 Support via Discord:
 Soporte via Discord:
-This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 Este es un software gratuito y de codigo abierto. Funciona COMO ESTA y no nos hacemos responsables de ningun problema o daño.
 to scan
 para escanear
