@@ -51,7 +51,7 @@ void GuiPadConfig::render() {
     if (step > 8)
         gui->renderTextLine(_("Press a key for") + "  |@R2| " + newConfig.values["r2"], 12, offset, true);
     if (step > 9)
-        gui->renderTextLine(_("In your dpad analogue?") + "  |@X| / |@O| ", 13, offset, true);
+        gui->renderTextLine(_("Is your dpad analogue?") + "  |@X| / |@O| ", 13, offset, true);
     if (step > 10)
         gui->renderStatus(_("Configuration saved - Press |@X| to continue"));
 

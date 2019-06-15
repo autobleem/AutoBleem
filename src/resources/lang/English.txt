@@ -122,7 +122,7 @@ Internal
 
 Internal Games:
 
-In your dpad analogue?
+Is your dpad analogue?
 
 Language:
 
@@ -156,7 +156,9 @@ Original
 
 Page
 
-Players:
+Player
+
+Players
 
 Please confirm
 

@@ -90,7 +90,7 @@ static inline std::string ReturnLowerCase(const std::string& s) {
 }
 
 //*******************************
-// 
+// ReturnUpperCase
 //*******************************
 // returns an upper case copy of the string.  the passed string is not modified.
 static inline std::string ReturnUpperCase(const std::string& s) {
@@ -103,7 +103,7 @@ static inline std::string ReturnUpperCase(const std::string& s) {
 }
 
 //*******************************
-// 
+// SortByCaseInsensitive
 //*******************************
 static inline bool SortByCaseInsensitive(const std::string & left, const std::string & right) {
     return ReturnLowerCase(left) < ReturnLowerCase(right);

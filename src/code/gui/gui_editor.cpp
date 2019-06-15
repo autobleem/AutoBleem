@@ -332,7 +332,7 @@ void GuiEditor::render() {
 
     gui->renderTextLine(_("Published by:") + " " + gameIni.values["publisher"], line++, offset, true);
 
-    gui->renderTextLine(_("Year:") +" "+ gameIni.values["year"] + "   " + _("Players:") + " " +
+    gui->renderTextLine(_("Year:") +" "+ gameIni.values["year"] + "   " + _("Players") + ":" + " " +
                         gameIni.values["players"], line++, offset, true);
 
     gui->renderTextLine(_("Memory Card:") + " " +
