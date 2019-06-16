@@ -1,13 +1,7 @@
-Automatic PlayStation Classic USB launcher
-Automatyczny loader dla Playstation Classic
 'Tenchu' theme by Kevzombie
 Skórka 'Tenchu' wykonana przez Kevzombie
 About
 O programie
-Configuration
-Konfiguracja
-Game manager - Select game
-Manadżer gier - Wybierz grę
 About
 O programie
 Advanced
@@ -18,223 +12,229 @@ AutoBleem
 AutoBleem
 AutoBleem Theme:
 Skórka AutoBleem:
+Automatic PlayStation Classic USB launcher
+Automatyczny loader dla Playstation Classic
 Background Music:
 Muzyka w tle:
+Button Guide
+Sterowanie
+Cancel
+Anuluj
+Caps
+Duże
+Card
+Karta
+Change MC
+Zmień kartę
 Close
 Zamknij
+Code: AutoBleem Team
+Autorzy: AutoBleem Team
+Configuration
+Konfiguracja
+Confirm
+Potwierdź
+Console Button Guide
+Opis funkcji konsoli
+Console Button Guide
+Opis funkcji konsoli
+Custom
+Własna
+Custom Memory Cards
+Współdzielone karty pamięci
+Customize AutoBleem settings
+Dostosuj ustawienia Autobleem
+Customize PlayStationClassic or AutoBleem settings
+Dostosuj ustawienia PlayStationClassic lub Autobleem
+Delete
+Kasuj
+Delete card
+Usuń kartę
 Download latest:
 Pobierz najnowsze:
+DPAD - Same as classic menu
+Kierunki - Tak samo jak w klasycznym menu
+Edit game parameters
+Edytuj parametry gry
+Edit Memory Card information
+Edytuj informacje Karty Pamięci
+Emulator config MENU
+MENU kofiguracji emulatora
+Enter
+Wejdź
+Enter
+Wejdź
+Enter new card name
+Podaj nową nazwę karty
+Enter new game name
+Podaj nową nazwę gry
+Enter new name for card
+Podaj nową nazwę karty
+Enter new name for memory card
+Podaj nową nazwę dla karty
+Folder:
+Folder
 Free space
 Wolne miejsce
-GFX Filter:
-Filtr grafiki:
 Game
 Gra
+GAME
+GRA
 Game Manager
 Menadżer gier
-Games changed. Press
-Gry zmienione. Naciśnij
+Game manager - Select game
+Manadżer gier - Wybierz grę
+Game:
+Gra:
 games
 gier
+Games changed. Press
+Gry zmienione. Naciśnij
+Games filter
+Filtr gier
+games scanned
+gier znaleziono
+GFX Filter:
+Filtr grafiki:
 Go back
 Powrót
+Hi/Lo Res
+Rozdzielczość
+High res:
+Rozdzielczość:
+Hold
+Przytrzymaj
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+W MENU STARTOWYM - BEZPIECZNE WYŁĄCZENIE KONSOLI
+In Game
+W Grze
+Internal
+Wewnętrzna
+Internal
+Wewnętrzna
+Internal Games:
+Wewnętrzne Gry:
+It is not possible to edit internal games
+Nie można edytować wewnętrznych gier
+Language:
+Język:
 Loading ... Please Wait ...
 Ładuję ... Proszę czekać ...
+Lock
+Blokuj
+Lock data:
+Blokuj zmiany:
+MemCard Manager will be available soon
+Menadżer Katy Pamięci będzie dostępny wkrótce
+MEMORY CARD
+KARTA PAMIĘCI
+Memory Card:
+Karta pamięci:
 Memory Cards
 Karty Pamięci
+Menu
+Menu
 Menu Theme:
 Skórka menu:
+New Card
+Nowa karta
+NO GAMES FOUND IN THIS SECTION
+BRAK GIER W TEJ SEKCJI
+OOPS! Game crashed. Resume point not available.
+UUPS! Wysypało grę. Punkt wznowienia niedostępny.
 Options
 Opcje
-PCSX Version:
-Wersja PCSX:
+Original
+Oryginał
 Page
 Strona
+PCSX Version:
+Wersja PCSX:
+Player
+Gracz
+Players
+Graczy
+Players:
+Liczba graczy:
+Please confirm
+Potwierdź
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+PODŁĄCZ KONTROLER DO PLAYSTATION CLASSIC
+Power Off
+Wyłączanie
+POWERING OFF... PLEASE WAIT
+WYŁĄCZANIE KONSOLI ... PROSZĘ CZEKAĆ
+Published by:
+Wydany przez:
+Quick boot
+Szybki start
+Quick scroll to next letter
+Szybki przeskok do następnej litery
 QuickBoot:
 Szybki Start:
+Quit emulation - back to AutoBleem
+Zakończ emulację - powrót do AutoBleem
 Re/Scan
 Skanuj
+Rename
+Zmień nazwę
+RESUME
+WZNÓW
+Resume game from saved state point
+Wznów grę od ostatnigo punktu zapisu
+Resume point saved to slot
+Zapisano punkt wznowienia do slotu
 RetroArch
 RetroArch
+RetroArch is not installed
+RetroArch jest nie zainstalowany
 Scanning...
 Skanuję...
 Select
 Wybierz
+Select memory card
+Wybierz kartę
+Select or cancel highlighted option
+Wybierz lub anuluj podświetloną opcję
+SELECT RESUME SLOT TO LOAD
+WYBIERZ SLOT DO WCZYTANIA
+SELECT SLOT TO SAVE STATE
+WYBIERZ SLOT DO ZAPISU
+SETTINGS
+USTAWIENIA
+Share MC
+Udostępnij
 Show RetroArch:
 Pokazuj RetroArch:
+Showing: All games
+Wyświetla: Wszystkie gry
+Showing: Favorite games
+Wyświetla: Ulubione gry
+Showing: Internal games
+Wyświetla: Wewnętrzne gry
+Showing: USB games
+Wyświetla: Gry z USB
+Slot
+Slot
+Space
+Spacja
 Support via Discord: https://discord.gg/AHUS3RM
 Wsparcie na Discord: https://discord.gg/AHUS3RM
 This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 To jest darmowe i wolne oprogramowanie. Nie bierzemy żadnej odpowiedzialności za szkody nim wywołane.
+to scan
+do skanowania
 Total:
 Razem:
 Updating regional.db...
 Uaktualniam regional.db...
 Upgrading AutoBleem - Please wait...
 Uaktualniam AutoBleem - Proszę czekać...
-WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
-UWAGA: NIE WYKRYTO GIER. WCIŚNIJ DOWOLNY PRZYCISK.
-games scanned
-gier znaleziono
-to scan
-do skanowania
-Game:
-Gra:
-Code: AutoBleem Team
-Autorzy: AutoBleem Team
-Folder:
-Folder
-Published by:
-Wydany przez:
-Players:
-Liczba graczy:
-Year:
-Rok:
-Memory Card:
-Karta pamięci:
-High res:
-Rozdzielczość:
-Lock data:
-Blokuj zmiany:
-Change MC
-Zmień kartę
-Hi/Lo Res
-Rozdzielczość
-Lock
-Blokuj
-Share MC
-Udostępnij
-Internal
-Wewnętrzna
-Select memory card
-Wybierz kartę
-Card
-Karta
-Custom Memory Cards
-Współdzielone karty pamięci
-Delete
-Kasuj
-New Card
-Nowa karta
-Rename
-Zmień nazwę
-Enter new name for memory card
-Podaj nową nazwę dla karty
-Cancel
-Anuluj
-Confirm
-Potwierdź
-Space
-Spacja
-Enter new game name
-Podaj nową nazwę gry
-Original
-Oryginał
-Enter new card name
-Podaj nową nazwę karty
-Delete card
-Usuń kartę
-Please confirm
-Potwierdź
-PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
-PODŁĄCZ KONTROLER DO PLAYSTATION CLASSIC
-Caps
-Duże
-Internal
-Wewnętrzna
-Custom
-Własna
-Enter new name for card
-Podaj nową nazwę karty
-Menu
-Menu
-Quick boot
-Szybki start
-Hold
-Przytrzymaj
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 UWAGA: BRAK BAZY OKŁADEK. NACIŚNIJ DOWOLNY PRZYCISK
-Language:
-Język:
-RetroArch is not installed
-RetroArch jest nie zainstalowany
-Enter
-Wejdź
-Console Button Guide
-Opis funkcji konsoli
-Button Guide
-Sterowanie
-DPAD - Same as classic menu
-Kierunki - Tak samo jak w klasycznym menu
-Select or cancel highlighted option
-Wybierz lub anuluj podświetloną opcję
-Quick scroll to next letter
-Szybki przeskok do następnej litery
-Games filter
-Filtr gier
-In Game
-W Grze
-Emulator config MENU
-MENU kofiguracji emulatora
-Quit emulation - back to AutoBleem
-Zakończ emulację - powrót do AutoBleem
-IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
-W MENU STARTOWYM - BEZPIECZNE WYŁĄCZENIE KONSOLI
-SETTINGS
-USTAWIENIA
-GAME
-GRA
-MEMORY CARD
-KARTA PAMIĘCI
-RESUME
-WZNÓW
-Customize AutoBleem settings
-Dostosuj ustawienia Autobleem
-Edit game parameters
-Edytuj parametry gry
-Edit Memory Card information
-Edytuj informacje Karty Pamięci
-Resume game from saved state point
-Wznów grę od ostatnigo punktu zapisu
-Showing: All games
-Wyświetla: Wszystkie gry
-Showing: Internal games
-Wyświetla: Wewnętrzne gry
-Showing: USB games
-Wyświetla: Gry z USB
-Showing: Favorite games
-Wyświetla: Ulubione gry
-Player
-Gracz
-Players
-Graczy
-Customize PlayStationClassic or AutoBleem settings
-Dostosuj ustawienia PlayStationClassic lub Autobleem
-OOPS! Game crashed. Resume point not available.
-UUPS! Wysypało grę. Punkt wznowienia niedostępny.
-Enter
-Wejdź
-Console Button Guide
-Opis funkcji konsoli
-MemCard Manager will be available soon
-Menadżer Katy Pamięci będzie dostępny wkrótce
-It is not possible to edit internal games
-Nie można edytować wewnętrznych gier
-Resume point saved to slot
-Zapisano punkt wznowienia do slotu
-NO GAMES FOUND IN THIS SECTION
-BRAK GIER W TEJ SEKCJI
-SELECT RESUME SLOT TO LOAD
-WYBIERZ SLOT DO WCZYTANIA
-SELECT SLOT TO SAVE STATE
-WYBIERZ SLOT DO ZAPISU
-Slot
-Slot
-Internal Games:
-Wewnętrzne Gry:
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+UWAGA: NIE WYKRYTO GIER. WCIŚNIJ DOWOLNY PRZYCISK.
 Widescreen:
 Pełny ekran:
-Power Off
-Wyłączanie
-POWERING OFF... PLEASE WAIT
-WYŁĄCZANIE KONSOLI ... PROSZĘ CZEKAĆ
+Year:
+Rok:

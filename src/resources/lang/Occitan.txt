@@ -4,10 +4,10 @@ Advanced
 Avançat
 Advanced:
 Paramètres avançats :
-Are you sure?
-O volètz vertadièrament ?
 Are you sure you want to flush all covers?
 Volètz vertadièrament suprimir totas las cobèrturas ?
+Are you sure?
+O volètz vertadièrament ?
 AutoBleem
 AutoBleem
 AutoBleem Theme:
@@ -44,10 +44,10 @@ Cover Style:
 Estil cobèrtura :
 Custom
 Personalizada
-Customize AutoBleem settings
-Personalizar los paramètres AutoBleem
 Custom Memory Cards
 Cartas memòria personalizada
+Customize AutoBleem settings
+Personalizar los paramètres AutoBleem
 Decompressing ecm:
 Descompression de l'ecm :
 Delete
@@ -86,14 +86,14 @@ Free space
 Espaci liure
 Game
 Jòc
-Game:
-Jòc :
 GAME
 JÒC
 Game Manager
 Gestionari de jòcs
 Game manager - Select game
 Gestionari de jòcs - Causir un jòc
+Game:
+Jòc :
 games
 jòcs
 Games changed. Press
@@ -132,10 +132,10 @@ Lock data:
 Verrolhar las donadas :
 MemCard Manager will be available soon
 MemCard Manager serà lèu disponible
-Memory Card:
-Carta memòria :
 MEMORY CARD
 CARTA MEMÒRIA
+Memory Card:
+Carta memòria :
 Memory Cards
 Cartas memòria
 Menu
@@ -168,30 +168,30 @@ Please wait ... deleting covers...
 Esperatz ... supression de las cobèrturas...
 Plugin:
 Extension :
-POWERING OFF... PLEASE WAIT
-EXTINCION... ESPERATZ
 Power Off
 Atudar
+POWERING OFF... PLEASE WAIT
+EXTINCION... ESPERATZ
 Press a key for
 Quichatz un boton per
 Published by:
 Editat per : 
 Quick boot
 Aviada rapida
-QuickBoot:
-Aviada rapida :
-QuickBoot Init:
-Init aviada rapida :
 Quick scroll to next letter
 Davalada rapida fins a la letra seguenta
+QuickBoot Init:
+Init aviada rapida :
+QuickBoot:
+Aviada rapida :
 Quit emulation - back to AutoBleem
 Quitar l'emulation - tornar a AutoBleem
+Re/Scan
+Re/Scan
 Region:
 Region :
 Rename
 Renomenar
-Re/Scan
-Re/Scan
 RESUME
 REPRENDRE
 Resume game from saved state point
@@ -224,18 +224,18 @@ SETTINGS
 PARAMÈTRES
 Share MC
 Partejar MC
+Show RetroArch:
+Mostrar RetroArch :
+Showing Timeout (0 = no timeout):
+Afichatge Timeout (0 = cap de timeout) :
 Showing: All games
 Afichatge : totes los jòcs
 Showing: Favorite games
 Afichatge : jòcs favorits
 Showing: Internal games
 Afichatge : jòcs intèrnes
-Showing Timeout (0 = no timeout):
-Afichatge Timeout (0 = cap de timeout) :
 Showing: USB games
 Afichatge : jòcs USB
-Show RetroArch:
-Mostrar RetroArch :
 Slot
 Lòc
 Sorting : 

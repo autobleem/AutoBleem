@@ -4,9 +4,9 @@ Advanced
 
 Advanced:
 
-Are you sure?
-
 Are you sure you want to flush all covers?
+
+Are you sure?
 
 AutoBleem
 
@@ -44,9 +44,9 @@ Cover Style:
 
 Custom
 
-Customize AutoBleem settings
-
 Custom Memory Cards
+
+Customize AutoBleem settings
 
 Decompressing ecm:
 
@@ -86,13 +86,13 @@ Free space
 
 Game
 
-Game:
-
 GAME
 
 Game Manager
 
 Game manager - Select game
+
+Game:
 
 games
 
@@ -132,9 +132,9 @@ Lock data:
 
 MemCard Manager will be available soon
 
-Memory Card:
-
 MEMORY CARD
+
+Memory Card:
 
 Memory Cards
 
@@ -168,9 +168,9 @@ Please wait ... deleting covers...
 
 Plugin:
 
-POWERING OFF... PLEASE WAIT
-
 Power Off
+
+POWERING OFF... PLEASE WAIT
 
 Press a key for
 
@@ -178,19 +178,19 @@ Published by:
 
 Quick boot
 
-QuickBoot:
+Quick scroll to next letter
 
 QuickBoot Init:
 
-Quick scroll to next letter
+QuickBoot:
 
 Quit emulation - back to AutoBleem
+
+Re/Scan
 
 Region:
 
 Rename
-
-Re/Scan
 
 RESUME
 
@@ -224,17 +224,17 @@ SETTINGS
 
 Share MC
 
+Show RetroArch:
+
+Showing Timeout (0 = no timeout):
+
 Showing: All games
 
 Showing: Favorite games
 
 Showing: Internal games
 
-Showing Timeout (0 = no timeout):
-
 Showing: USB games
-
-Show RetroArch:
 
 Slot
 

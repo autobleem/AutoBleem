@@ -1,13 +1,7 @@
-Automatic PlayStation Classic USB launcher
-Automatische Playstation Classic USB Launcher
 'Tenchu' theme by Kevzombie
 'Tenchu' thema door Kevzombie
 About
 Over
-Configuration
-Configuratie
-Game manager - Select game
-Game manager - Selecteer game
 About
 Over
 Advanced
@@ -18,143 +12,147 @@ AutoBleem
 AutoBleem
 AutoBleem Theme:
 AutoBleem Thema:
+Automatic PlayStation Classic USB launcher
+Automatische Playstation Classic USB Launcher
 Background Music:
 Achtergrond Muziek
+Cancel
+Annuleer
+Caps
+Caps
+Card
+Kaart
+Change MC
+Verander MC
 Close
 Sluiten
+Code: AutoBleem Team
+Code: AutoBleem Team
+Configuration
+Configuratie
+Confirm
+Bevestig
+Custom
+Aangepast
+Custom Memory Cards
+Custom Memory Kaart
+Delete
+Verwijder
+Delete card
+Verwijder kaart
 Download latest:
 Download laatste versie:
+Enter new card name
+Nieuwe kaart naam
+Enter new game name
+Nieuwe game naam
+Enter new name for card
+Nieuwe naam voor kaart
+Enter new name for memory card
+Nieuwe naam voor memory card
+Folder:
+Map:
 Free space
 Vrije ruimte
-GFX Filter:
-GFX Filter:
 Game
 Game
 Game Manager
 Game Manager
+Game manager - Select game
+Game manager - Selecteer game
+Game:
+Game:
+games
+games
 Games changed. Press
 Games geüpdate. Druk
-games
-games
+games scanned
+games gescand
+GFX Filter:
+GFX Filter:
 Go back
 Ga terug
+Hi/Lo Res
+Hi/Lo Res
+High res:
+High res:
+Hold
+Pauze
+Internal
+Intern
+Internal
+Intern
 Loading ... Please Wait ...
 Laden... Even geduld ...
+Lock
+Gesloten
+Lock data:
+Lock data:
+Memory Card:
+Memory Kaart:
 Memory Cards
 Memory Kaarten
+Menu
+Menu
 Menu Theme:
 Menu Thema:
+New Card
+Nieuwe Kaart
 Options
 Options
-PCSX Version:
-PCSX Versie:
+Original
+Origineel
 Page
 Pagina
+PCSX Version:
+PCSX Versie:
+Players:
+Spelers:
+Please confirm
+Bevestig
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+SLUIT EEB PLAYSTATION CLASSIC CONTROLLER AAN
+Published by:
+Gepubliceerd door:
+Quick boot
+Snel starten
 QuickBoot:
 Snel Starten:
 Re/Scan
 Re/Scan
+Rename
+Hernoem
 RetroArch
 RetroArch
+RetroArch is not installed
+RetroArch is niet geïnstalleerd
 Scanning...
 Scannen...
 Select
 Selecteer
+Select memory card
+Selecteer memory card
+Share MC
+Deel MC
 Show RetroArch:
 Toon RetroArch:
+Space
+Spatie
 Support via Discord: https://discord.gg/AHUS3RM
 Support ons via Discord: https://discord.gg/AHUS3RM
 This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 Dit is gratis en open source software. Het werkt ZOALS AANGELEVERD en wij nemen geen verantwoordelijkheid voor eventuele problemen of schade. 
+to scan
+te scannen
 Total:
 Totaal:
 Updating regional.db...
 regional.db updaten...
 Upgrading AutoBleem - Please wait...
 AutoBleem upgraden - Moment...
-WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
-WAARSCHUWING: GEEN GAMES GEVONDEN. DRUK OP EEN KNOP.
-games scanned
-games gescand
-to scan
-te scannen
-Game:
-Game:
-Code: AutoBleem Team
-Code: AutoBleem Team
-Folder:
-Map:
-Published by:
-Gepubliceerd door:
-Players:
-Spelers:
-Year:
-Jaar:
-Memory Card:
-Memory Kaart:
-High res:
-High res:
-Lock data:
-Lock data:
-Change MC
-Verander MC
-Hi/Lo Res
-Hi/Lo Res
-Lock
-Gesloten
-Share MC
-Deel MC
-Internal
-Intern
-Select memory card
-Selecteer memory card
-Card
-Kaart
-Custom Memory Cards
-Custom Memory Kaart
-Delete
-Verwijder
-New Card
-Nieuwe Kaart
-Rename
-Hernoem
-Enter new name for memory card
-Nieuwe naam voor memory card
-Cancel
-Annuleer
-Confirm
-Bevestig
-Space
-Spatie
-Enter new game name
-Nieuwe game naam
-Original
-Origineel
-Enter new card name
-Nieuwe kaart naam
-Delete card
-Verwijder kaart
-Please confirm
-Bevestig
-PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
-SLUIT EEB PLAYSTATION CLASSIC CONTROLLER AAN
-Caps
-Caps
-Internal
-Intern
-Custom
-Aangepast
-Enter new name for card
-Nieuwe naam voor kaart
-Menu
-Menu
-Quick boot
-Snel starten
-Hold
-Pauze
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 WAARSCHUWING: GEEN COVER DATABASE GEVONDEN. DRUK OP KNOP
-RetroArch is not installed
-RetroArch is niet geïnstalleerd
-
-
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+WAARSCHUWING: GEEN GAMES GEVONDEN. DRUK OP EEN KNOP.
+Year:
+Jaar:

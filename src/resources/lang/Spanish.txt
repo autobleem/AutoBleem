@@ -6,10 +6,10 @@ Advanced
 Avanzado
 Advanced:
 Avanzado:
-Are you sure?
-Estas seguro?
 Are you sure you want to flush all covers ?
 Estas seguro que quieres eliminar todas las caratulas ?
+Are you sure?
+Estas seguro?
 AutoBleem
 AutoBleem
 AutoBleem Theme:
@@ -46,10 +46,10 @@ Cover Style:
 Estilo de Caratulas
 Custom
 Custom
-Customize AutoBleem settings
-Personalizar ajustes AutoBleem
 Custom Memory Cards
 Custom MEmory Cards
+Customize AutoBleem settings
+Personalizar ajustes AutoBleem
 Decompressing ecm:
 Descomprimiendo ecm:
 Delete
@@ -88,12 +88,12 @@ Free space
 Espacio libre
 Game
 Juego
-Game:
-Juego:
 Game Manager
 Administrador de Juegos
 Game manager - Select game
 Administrador de juegos - Elige juego
+Game:
+Juego:
 games
 juegos
 Games changed. Press
@@ -168,30 +168,30 @@ Please wait ... deleting covers...
 Por favor espera ... borrando caratulas ...
 Plugin:
 Plugin:
-POWERING OFF... PLEASE WAIT
-APAGANDO... POR FAVOR ESPERA
 Power Off
 Apagar
+POWERING OFF... PLEASE WAIT
+APAGANDO... POR FAVOR ESPERA
 Press a key for
 Pulsa un boton para
 Published by:
 Publicado por:
 Quick boot
 Arranque rapido
-QuickBoot:
-QuickBoot:
-QuickBoot Init:
-QuickBoot Inicio:
 Quick scroll to next letter
 Desplazamiento rapido a la siguiente letra
+QuickBoot Init:
+QuickBoot Inicio:
+QuickBoot:
+QuickBoot:
 Quit emulation - back to AutoBleem
 Quitar emulacion - volver a AutoBleem
+Re/Scan
+Re/Escanear
 Region:
 Region:
 Rename
 Renombrar
-Re/Scan
-Re/Escanear
 RESUME
 REANUDAR
 Resume game from saved state point
@@ -224,18 +224,18 @@ SETTINGS
 AJUSTES
 Share MC
 Compartir MC
+Show RetroArch:
+Mostrar RetroArch:
+Showing Timeout (0 = no timeout):
+Tiempo de muestra (0 = sin tiempo):
 Showing: All games
 Mostrando: Todos los Juegos
 Showing: Favorite games
 Mostrando: Juegos Favoritos
 Showing: Internal games
 Mostrando: Juegos Internos
-Showing Timeout (0 = no timeout):
-Tiempo de muestra (0 = sin tiempo):
 Showing: USB games
 Mostrando: Juegos USB
-Show RetroArch:
-Mostrar RetroArch:
 Slot
 Slot
 Sorting : 

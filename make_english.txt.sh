@@ -6,5 +6,5 @@
 # double space so english.txt can be easily compared to the other lang.txt files to see what has been added or modified.
 
 if [[ "$OSTYPE" != "darwin"* ]]; then
-grep -r --include=*.cpp -h -o '_("[^"]*")' | sed 's/_("//g' | sed 's/")//g' | sed '/^|@lang|$/d' | sed '/^$/d' | sort -u | sed G > src/resources/lang/English.txt
+grep -r --include=*.cpp -h -o '_("[^"]*")' | sed 's/_("//g' | sed 's/")//g' | sed '/^|@lang|$/d' | sed '/^$/d' | sort -u -f | sed G > src/resources/lang/English.txt
 fi
