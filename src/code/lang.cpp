@@ -46,9 +46,20 @@ void Lang::load(string lang) {
     ifstream is(path);
     string line;
     std::vector<std::string> lines;
+    int lineNum = 0;
     while (std::getline(is, line)) {
+        // if this is the first line of the file and the beginning of the string contains the UTF-8 header
+        // strip the UTF-8 header off
+        if (lineNum == 0 && line.size() >= 3) {
+            unsigned char* p = (unsigned char*) line.c_str();
+            if ((p[0] == 0xEF) && (p[1] == 0xBB) && (p[2] == 0xBF)) {
+                string skipUTF8Header =  (char*) p + 3;
+                line = skipUTF8Header;
+            }
+        }
         trim(line);
         lines.push_back(line);
+        ++lineNum;
     }
     for (int i = 0; i < lines.size(); i += 2) {
         if (i+1<lines.size()) {
