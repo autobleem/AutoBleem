@@ -65,7 +65,7 @@ Modificar las informacions de la carta memòria
 Emulator config MENU
 Menú config de l'emulator
 Enter
-Entrada
+Dintrar
 Enter new card name
 Picatz un nòu nom per la carta
 Enter new game name
