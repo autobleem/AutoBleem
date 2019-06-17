@@ -471,12 +471,12 @@ void Scanner::scanDirectory(const string & _path) {
 					}
 				}
 			}
-			game->saveIni(gameIniPath);
+            game->saveIni(gameIniPath);
+            game->readIni(gameIniPath); // the updated iniValues are needed for updateObj
 			//game->print();
 
-			if (game->verify()) {
+			if (game->verify())
 				games.push_back(game);
-			}
 		}
 	} // end for each game dir
 

@@ -74,6 +74,8 @@ string Game::valueOrDefault(string name, string def) {
 bool Game::verify() {
     bool result = true;
 
+    if (discs.size() == 0) result = false;
+
     for (int i = 0; i < discs.size(); i++) {
         if (discs[i].diskName.length() == 0) result = false;
         if (!discs[i].cueFound) result = false;
