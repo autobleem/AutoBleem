@@ -23,7 +23,7 @@ void GuiConfirm::render()
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine(_("-=Please confirm=-"),0,offset, true);
+    gui->renderTextLine("-=" + _("Please confirm") + "=-",0,offset, true);
     gui->renderTextLine(label,2,offset, true);
 
 

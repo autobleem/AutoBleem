@@ -1,13 +1,7 @@
-﻿ - Automatic PlayStation Classic USB launcher
- - Automatický USB spúšťač Playstation Classic
 'Tenchu' theme by Kevzombie
 Téma 'Tenchu' od Kevzombie
--=About=-
--=O programe=-
--=Configuration=-
--=Nastavenia=-
--=Game manager - Select game=-
--=Manažér hier - Vybrať hru=-
+About
+O programe
 About
 O programe
 Advanced
@@ -20,141 +14,147 @@ AutoBleem Theme:
 Téma AutoBleemu:
 Background Music:
 Hudba na pozadí:
+Cancel
+Zrušiť
+Caps
+Veľké
+Card
+Karta
+Change MC
+Vymeniť Pamäťovú kartu
 Close
 Zatvoriť
-Download latest: https://github.com/screemerpl/cbleemsync
-Najnovšia verzia: https://github.com/screemerpl/cbleemsync
+Code: AutoBleem Team
+Autori: AutoBleem Team
+Configuration
+Nastavenia
+Confirm
+Potvrdiť
+Custom
+Vlastná
+Custom Memory Cards
+Vlastná Pamäťová karta
+Delete
+Zmazať
+Delete card
+Zmazať kartu
+Download latest:
+Najnovšia verzia:
+Enter new card name
+Zadajte nový názov karty
+Enter new game name
+Zadajte nový názov hry
+Enter new name for card
+Zadajte nový názov karty
+Enter new name for memory card
+Zadajte nový názov pamäťovej karty
+Folder:
+Priečinok:
 Free space
 Voľné miesto
-GFX Filter:
-Grafický filter:
 Game
 Hra
 Game Manager
 Manažér hier
-Games changed. Press
-Zmenené hry. Stlač
+Game manager - Select game
+Manažér hier - Vybrať hru
+Game:
+Hra:
 games
 hry
+Games changed. Press
+Zmenené hry. Stlač
+games scanned
+nájdené hry
+GFX Filter:
+Grafický filter:
 Go back
 Naspäť
+Hi/Lo Res
+Vysoké/Nízke rozlíšenie
+High res:
+Vysoké rozlíšenie:
+Hold
+Čakajte
+Internal
+Vnútorná
+Internal
+Vnútorná
+Language:
+Jazyk:
 Loading ... Please Wait ...
 Nahrávam ... Čakajte prosím ...
+Lock
+Uzamknúť
+Lock data:
+Uzamknúť zmeny:
+Memory Card:
+Pamäťová karta:
 Memory Cards
 Pamäťová karta
+Menu
+Menu
 Menu Theme:
 Téma:
+New Card
+Nová karta
 Options
 Nastavenia
-PCSX Version:
-Verzia PCSX:
+Original
+PSC hry
 Page
 Strana
+PCSX Version:
+Verzia PCSX:
+Players:
+Počet hráčov:
+Please confirm
+Potvrďte prosím
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+PRIPOJTE PROSÍM GAMEPAD K PLAYSTATIONU CLASSIC
+Published by:
+Vydavateľ:
+Quick boot
+Rýchly štart
 QuickBoot:
 Rýchly štart:
 Re/Scan
 Pre/Skenovať
+Rename
+Premenovať
 RetroArch
 RetroArch
+RetroArch is not installed
+RetroArch nie je nainštalovaný
 Scanning...
 Skenujem...
 Select
 Vybrať
+Select memory card
+Vybrať Pamäťovú kartu
+Share MC
+Zdieľať Pamäťovú kartu
 Show RetroArch:
 RetroArch:
+Space
+Medzera
 Support via Discord: https://discord.gg/AHUS3RM
 Podpora na Discorde: https://discord.gg/AHUS3RM
-This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 AutoBleem je bezplatný a open source softvér. Funguje TAK, AKO JE, a NENESIEME žiadnu zodpovednosť za akékoľvek problémy alebo škody.
+to scan
+nájsť
 Total:
 Celkom:
 Updating regional.db...
 Aktualizujem regional.db...
 Upgrading AutoBleem - Please wait...
 Aktualizujem AutoBleem - Prosím čakajte...
-WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
-POZOR: NEBOLA NÁJDENÁ ŽIADNA HRA. STLAČTE ĽUBOVOĽNÚ KLÁVESU.
-games scanned
-nájdené hry
-to scan
-nájsť
-Game:
-Hra:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Autori: AutoBleem Team (screemer, mGGk, nex, ThaFridge); Slovak translation: Pardubák
-Folder:
-Priečinok:
-Published by:
-Vydavateľ:
-Players:
-Počet hráčov:
-Year:
-Rok:
-Memory Card:
-Pamäťová karta:
-High res:
-Vysoké rozlíšenie:
-Lock data:
-Uzamknúť zmeny:
-Change MC
-Vymeniť Pamäťovú kartu
-Hi/Lo Res
-Vysoké/Nízke rozlíšenie
-Lock
-Uzamknúť
-Share MC
-Zdieľať Pamäťovú kartu
-(Internal)
-(Vnútorná)
--=Select memory card=-
--=Vybrať Pamäťovú kartu=-
-Card
-Karta
--=Custom Memory Cards=-
--=Vlastná Pamäťová karta=-
-Delete
-Zmazať
-New Card
-Nová karta
-Rename
-Premenovať
-Enter new name for memory card
-Zadajte nový názov pamäťovej karty
-Cancel
-Zrušiť
-Confirm
-Potvrdiť
-Space
-Medzera
-Enter new game name
-Zadajte nový názov hry
-Original
-PSC hry
-Enter new card name
-Zadajte nový názov karty
-Delete card
-Zmazať kartu
--=Please confirm=-
--=Potvrďte prosím=-
-PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
-PRIPOJTE PROSÍM GAMEPAD K PLAYSTATIONU CLASSIC
-Caps
-Veľké
-Internal
-Vnútorná
-(Custom)
-(Vlastná)
-Enter new name for card
-Zadajte nový názov karty
-Menu
-Menu
-Quick boot
-Rýchly štart
-Hold
-Čakajte
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 POZOR: NENAŠLA SA DATABÁZA OBALOV NA HRY. STLAČTE ĽUBOVOĽNÚ KLÁVESU.
-Language:
-Jazyk:
-RetroArch is not installed
-RetroArch nie je nainštalovaný
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+POZOR: NEBOLA NÁJDENÁ ŽIADNA HRA. STLAČTE ĽUBOVOĽNÚ KLÁVESU.
+Year:
+Rok:
+﻿Automatic PlayStation Classic USB launcher
+Automatický USB spúšťač Playstation Classic

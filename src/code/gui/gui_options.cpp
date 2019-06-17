@@ -178,7 +178,7 @@ void GuiOptions::render() {
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     totalHeight = 0;
-    gui->renderTextLine(_("-=Configuration=-"), 0, offset, true);
+    gui->renderTextLine("-=" + _("Configuration") + "=-", 0, offset, true);
     renderOptionLine(_("Language:") + " " + gui->cfg.inifile.values["language"], CFG_LANG + 1, offset);
     renderOptionLine(_("AutoBleem Theme:") + " " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
     renderOptionLine(_("Menu Theme:") + " " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);

@@ -1,13 +1,7 @@
-﻿ - Automatic PlayStation Classic USB launcher
- - Otomatik PlayStation Classic USB başlatıcısı
 'Tenchu' theme by Kevzombie
 Kevzombie tarafından 'Tenchu' Teması
--=About=-
--=Hakkında=-
--=Configuration=-
--=Konfigürasyon=-
--=Game manager - Select game=-
--=Oyun yöneticisi - Oyun seç=-
+About
+Hakkında
 About
 Hakkında
 Advanced
@@ -20,139 +14,145 @@ AutoBleem Theme:
 AutoBleem Tema:
 Background Music:
 Arkaplan Müziği:
+Cancel
+İptal
+Caps
+Caps
+Card
+Kart
+Change MC
+Memory Card değiştir
 Close
 Kapat
-Download latest: https://github.com/screemerpl/cbleemsync
-Son sürümü indirmek için: https://github.com/screemerpl/cbleemsync
+Code: AutoBleem Team
+Oluşturanlar: AutoBleem Takımı
+Configuration
+Konfigürasyon
+Confirm
+Onayla
+Custom
+Özel
+Custom Memory Cards
+Özel Memory Cardlar
+Delete
+Sil
+Delete card
+Kart'ı sil
+Download latest:
+Son sürümü indirmek için:
+Enter new card name
+Yeni kart ismi gir
+Enter new game name
+Yeni oyun ismi gir
+Enter new name for card
+Kart için yeni isim girin
+Enter new name for memory card
+Yeni memory card için isim gir
+Folder:
+Dosya:
 Free space
 Boş Alan
-GFX Filter:
-Grafik Filtresi:
 Game
 Oyun
 Game Manager
 Oyun yöneticisi
-Games changed. Press
-Oyunlar değiştirildi. Basın
+Game manager - Select game
+Oyun yöneticisi - Oyun seç
+Game:
+Oyun:
 games
 oyunlar
+Games changed. Press
+Oyunlar değiştirildi. Basın
+games scanned
+oyunlar tarandı
+GFX Filter:
+Grafik Filtresi:
 Go back
 Geri git
+Hi/Lo Res
+Yüksek/Düşük Çözünürlük
+High res:
+Yüksek Çözünürlük:
+Hold
+Basılı tutun
+Internal
+Dahili
+Internal
+Dahili
+Language:
+Dil:
 Loading ... Please Wait ...
 Yükleniyor ... Lütfen Bekleyin ...
+Lock
+Kilitle
+Lock data:
+Daten Sperren:
+Memory Card:
+Memory Card:
 Memory Cards
 Memory Cardları
+Menu
+Menü
 Menu Theme:
 Menü Tema:
+New Card
+Yeni Kart
 Options
 Ayarlar
-PCSX Version:
-PCSX Versiyonu:
+Original
+Orijinal
 Page
 Sayfa
+PCSX Version:
+PCSX Versiyonu:
+Players:
+Kullanıcı:
+Please confirm
+Lütfen onaylayın
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+GAMEPAD'I PLAYSTATION CLASSIC'E BAĞLAYIN LÜTFEN
+Published by:
+Yayımcı:
+Quick boot
+Hızlı önyükleme
 QuickBoot:
 Hızlı Önyükleme:
 Re/Scan
 Tekrar/tara
+Rename
+Yeniden adlandır
 RetroArch
 RetroArch
 Scanning...
 Taranıyor...
 Select
 Seç
+Select memory card
+Memory card seç
+Share MC
+MC'ı paylaş
 Show RetroArch:
 RetroArch'ı göster:
+Space
+Boşluk
 Support via Discord: https://discord.gg/AHUS3RM
 Discord kanalımız: https://discord.gg/AHUS3RM
-This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 Ücretsiz ve açık kaynaklı bir yazılımdır. Olduğu gibi çalışır ve herhangi bir sorun veya hasar için sorumluluk kabul etmeyiz.
+to scan
+taramak için
 Total:
 Toplam:
 Updating regional.db...
 Güncelleniyor regional.db...
 Upgrading AutoBleem - Please wait...
 AutoBleem güncelleniyor - Lütfen bekleyin...
-WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
-UYARI: OYUNLAR BULUNAMADI. HERHANGİ BİR TUŞA BASIN.
-games scanned
-oyunlar tarandı
-to scan
-taramak için
-Game:
-Oyun:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Oluşturanlar: AutoBleem Takımı (screemer, mGGk, nex, ThaFridge). Gadsby tarafından çevirilmiştir.
-Folder:
-Dosya:
-Published by:
-Yayımcı:
-Players:
-Kullanıcı:
-Year:
-Yıl:
-Memory Card:
-Memory Card:
-High res:
-Yüksek Çözünürlük:
-Lock data:
-Daten Sperren:
-Change MC
-Memory Card değiştir
-Hi/Lo Res
-Yüksek/Düşük Çözünürlük
-Lock
-Kilitle
-Share MC
-MC'ı paylaş
-(Internal)
-(Dahili)
--=Select memory card=-
--=Memory card seç=-
-Card
-Kart
--=Custom Memory Cards=-
--=Özel Memory Cardlar=-
-Delete
-Sil
-New Card
-Yeni Kart
-Rename
-Yeniden adlandır
-Enter new name for memory card
-Yeni memory card için isim gir
-Cancel
-İptal
-Confirm
-Onayla
-Space
-Boşluk
-Enter new game name
-Yeni oyun ismi gir
-Original
-Orijinal
-Enter new card name
-Yeni kart ismi gir
-Delete card
-Kart'ı sil
--=Please confirm=-
--=Lütfen onaylayın=-
-PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
-GAMEPAD'I PLAYSTATION CLASSIC'E BAĞLAYIN LÜTFEN
-Caps
-Caps
-Internal
-Dahili
-(Custom)
-(Özel)
-Enter new name for card
-Kart için yeni isim girin
-Menu
-Menü
-Quick boot
-Hızlı önyükleme
-Hold
-Basılı tutun
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 UYARI: KAPAK VERITABANI BULUNAMADI. HERHANGİ BİR TUŞA BASIN.
-Language:
-Dil:
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+UYARI: OYUNLAR BULUNAMADI. HERHANGİ BİR TUŞA BASIN.
+Year:
+Yıl:
+﻿Automatic PlayStation Classic USB launcher
+Otomatik PlayStation Classic USB başlatıcısı

@@ -1,24 +1,22 @@
 About
 
--=About=-
-
 Advanced
 
 Advanced:
 
-Are you sure?
+Are you sure you want to flush all covers?
 
-Are you sure you want to flush all covers ?
+Are you sure?
 
 AutoBleem
 
 AutoBleem Theme:
 
- - Automatic PlayStation Classic USB launcher
+Automatic PlayStation Classic USB launcher
 
 Background Music:
 
--=Button Guide=-
+Button Guide
 
 Cancel
 
@@ -34,7 +32,7 @@ Close
 
 Code: AutoBleem Team
 
--=Configuration=-
+Configuration
 
 Configuration saved - Press |@X| to continue
 
@@ -44,11 +42,11 @@ Console Button Guide
 
 Cover Style:
 
-(Custom)
+Custom
+
+Custom Memory Cards
 
 Customize AutoBleem settings
-
--=Custom Memory Cards=-
 
 Decompressing ecm:
 
@@ -88,11 +86,13 @@ Free space
 
 Game
 
-Game:
+GAME
 
 Game Manager
 
--=Game manager - Select game=-
+Game manager - Select game
+
+Game:
 
 games
 
@@ -116,15 +116,13 @@ Importing internal games
 
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 
--=In Game=-
+In Game
 
 Internal
 
-(Internal)
-
 Internal Games:
 
-In your dpad analogue?
+Is your dpad analogue?
 
 Language:
 
@@ -148,7 +146,7 @@ Music:
 
 New Card
 
--=New GamePad found=-
+New GamePad found
 
 OOPS! Game crashed. Resume point not available.
 
@@ -158,9 +156,11 @@ Original
 
 Page
 
-Players:
+Player
 
--=Please confirm=-
+Players
+
+Please confirm
 
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 
@@ -168,9 +168,9 @@ Please wait ... deleting covers...
 
 Plugin:
 
-POWERING OFF... PLEASE WAIT
-
 Power Off
+
+POWERING OFF... PLEASE WAIT
 
 Press a key for
 
@@ -178,19 +178,19 @@ Published by:
 
 Quick boot
 
-QuickBoot:
+Quick scroll to next letter
 
 QuickBoot Init:
 
-Quick scroll to next letter
+QuickBoot:
 
 Quit emulation - back to AutoBleem
+
+Re/Scan
 
 Region:
 
 Rename
-
-Re/Scan
 
 RESUME
 
@@ -210,7 +210,7 @@ Scanning...
 
 Select
 
--=Select memory card=-
+Select memory card
 
 Select or cancel highlighted option
 
@@ -224,17 +224,17 @@ SETTINGS
 
 Share MC
 
+Show RetroArch:
+
+Showing Timeout (0 = no timeout):
+
 Showing: All games
 
 Showing: Favorite games
 
 Showing: Internal games
 
-Showing Timeout (0 = no timeout):
-
 Showing: USB games
-
-Show RetroArch:
 
 Slot
 
@@ -252,7 +252,7 @@ Starting EvolutionUI
 
 Support via Discord:
 
-This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 
 to scan
 

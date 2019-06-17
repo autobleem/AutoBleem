@@ -61,7 +61,7 @@ void GuiManager::render()
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     gui->renderFreeSpace();
-    gui->renderTextLine(_("-=Game manager - Select game=-"),0,offset,true);
+    gui->renderTextLine("-=" + _("Game manager - Select game") + "=-",0,offset,true);
     if (selected >= gameInis.size()) {
         selected = gameInis.size() - 1;
     }
@@ -190,7 +190,7 @@ void GuiManager::loop()
                     if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         GuiConfirm * confirm = new GuiConfirm(renderer);
-                        confirm->label = _("Are you sure you want to flush all covers ?");
+                        confirm->label = _("Are you sure you want to flush all covers?");
                         confirm->show();
                         bool delCovers = confirm->result;
                         delete confirm;

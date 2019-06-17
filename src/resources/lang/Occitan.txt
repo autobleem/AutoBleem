@@ -1,0 +1,272 @@
+About
+A prepaus
+Advanced
+Avançat
+Advanced:
+Paramètres avançats :
+Are you sure you want to flush all covers?
+Volètz vertadièrament suprimir totas las cobèrturas ?
+Are you sure?
+O volètz vertadièrament ?
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+Tèma AutoBleem :
+Automatic PlayStation Classic USB launcher
+Aviaire USB automatic PlayStation Classic
+Background Music:
+Musica de fons :
+Button Guide
+Guida dels botons
+Cancel
+Anullar
+Caps
+Maj.
+Card
+Carta
+Change MC
+Cambiar de MC
+Clock:
+Frequéncia :
+Close
+Barrar
+Code: AutoBleem Team
+Còdi : AutoBleem Team
+Configuration
+Configuracion
+Configuration saved - Press |@X| to continue
+Configuracion salvagarda - Quichatz |@X| per contunhar
+Confirm
+Confirmar
+Console Button Guide
+Guida botons consòla
+Cover Style:
+Estil cobèrtura :
+Custom
+Personalizada
+Custom Memory Cards
+Cartas memòria personalizada
+Customize AutoBleem settings
+Personalizar los paramètres AutoBleem
+Decompressing ecm:
+Descompression de l'ecm :
+Delete
+Suprimir
+Delete card
+Suprimir la carta
+Download latest:
+Darrièra version :
+DPAD - Same as classic menu
+DPAD - Coma lo menú classic
+Edit game parameters
+Modificar los paramètres del jòc
+Edit Memory Card information
+Modificar las informacions de la carta memòria
+Emulator config MENU
+Menú config de l'emulator
+Enter
+Dintrar
+Enter new card name
+Picatz un nòu nom per la carta
+Enter new game name
+Picatz un nòu nom pel jòc
+Enter new name for card
+Picatz un nòu nom per la carta
+Enter new name for memory card
+Picatz un nòu nom per la carta memòria
+Favorite:
+Favorits :
+Flush covers
+Suprimir las cobèrturas
+Folder:
+Dorsièr :
+Frameskip:
+Frameskip :
+Free space
+Espaci liure
+Game
+Jòc
+GAME
+JÒC
+Game Manager
+Gestionari de jòcs
+Game manager - Select game
+Gestionari de jòcs - Causir un jòc
+Game:
+Jòc :
+games
+jòcs
+Games changed. Press
+Jòcs cambiats. Quichatz
+Games filter
+Filtre jòcs
+games scanned
+jòcs trobats
+GFX Filter:
+Filtre GFX :
+Go back
+Tornar
+Graphics by: 
+Grafic per :
+High res:
+Nauta resolucion :
+Hold
+Manténer
+Importing internal games
+Importacion dels jòcs intèrnes
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+AL MENÚ D'AVIADA PER ATUDAR LA CONSÒLA (EXTINCION SEGURA !!!)
+In Game
+Jòcs intèrnes
+Internal
+Intèrne
+Internal Games:
+Jòcs intèrnes :
+Is your dpad analogue?
+Es vòstre dpad analòg ?
+Language:
+Lenga :
+Loading ... Please Wait ...
+Cargament ... Esperatz ...
+Lock data:
+Verrolhar las donadas :
+MemCard Manager will be available soon
+MemCard Manager serà lèu disponible
+MEMORY CARD
+CARTA MEMÒRIA
+Memory Card:
+Carta memòria :
+Memory Cards
+Cartas memòria
+Menu
+Menú
+Menu Theme:
+Tèma del menú :
+Music:
+Musica :
+New Card
+Nòva carta
+New GamePad found
+Nòva maneta trobada
+OOPS! Game crashed. Resume point not available.
+Ops ! Lo jòc a agut un problèma. Lo punt de represa es pas disponible.
+Options
+Opcions
+Original
+Originals
+Page
+Pagina
+Player
+Jogaire
+Players
+Jogaires
+Please confirm
+Volgatz confirmar
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+VOLGATZ CONNECTAR UNA MANETA A LA CONSÒLA
+Please wait ... deleting covers...
+Esperatz ... supression de las cobèrturas...
+Plugin:
+Extension :
+Power Off
+Atudar
+POWERING OFF... PLEASE WAIT
+EXTINCION... ESPERATZ
+Press a key for
+Quichatz un boton per
+Published by:
+Editat per : 
+Quick boot
+Aviada rapida
+Quick scroll to next letter
+Davalada rapida fins a la letra seguenta
+QuickBoot Init:
+Init aviada rapida :
+QuickBoot:
+Aviada rapida :
+Quit emulation - back to AutoBleem
+Quitar l'emulation - tornar a AutoBleem
+Re/Scan
+Re/Scan
+Region:
+Region :
+Rename
+Renomenar
+RESUME
+REPRENDRE
+Resume game from saved state point
+Reprendre lo jòc a un punt de represa salvagardat
+Resume point saved to slot
+Punt de reprisa salvagardat al lòc
+RetroArch
+RetroArch
+RetroArch is not installed
+RetroArch es pas installat
+Scanline Level:
+Nivèl d'escansion
+Scanlines:
+Linhas de escansion :
+Scanning...
+Analisi...
+Select
+Causir
+Select memory card
+Causir una carta memòria
+Select or cancel highlighted option
+Activar o desactivar las opcions subrelinhadas
+SELECT RESUME SLOT TO LOAD
+CAUSISSÈTZ UN PUNT DE REPRESA A CARGAR
+SELECT SLOT TO SAVE STATE
+CAUSISSÈTZ UN LÒC PER SALVAGARDAR L'ESTAT
+Serial:
+Numèro de seria :
+SETTINGS
+PARAMÈTRES
+Share MC
+Partejar MC
+Show RetroArch:
+Mostrar RetroArch :
+Showing Timeout (0 = no timeout):
+Afichatge Timeout (0 = cap de timeout) :
+Showing: All games
+Afichatge : totes los jòcs
+Showing: Favorite games
+Afichatge : jòcs favorits
+Showing: Internal games
+Afichatge : jòcs intèrnes
+Showing: USB games
+Afichatge : jòcs USB
+Slot
+Lòc
+Sorting : 
+Tria :
+Sorting...
+Triada...
+Space
+Espaci
+SpeedHack:
+Hack velocitat
+Spu Interpolation:
+Interpolacion Spu
+Starting EvolutionUI
+Aviada d'EvolutionUI
+Support via Discord:
+Sosten via Discord :
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+Aqueste logicial es gratuit e open source. Es provesit coma aquò e pas cap de responsabilitat es nòstra.
+to scan
+per analizar
+Total:
+Total :
+UI:
+UI :
+Updating regional.db...
+Actualizacion de regional.db...
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+ATENCION : CAP DE COBÈRTURA PAS TROBADA. QUICHATZ UN BOTON
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+ATENCION : CAP DE JÒC PAS TROBAT. QUICHATZ UN BOTON
+Widescreen:
+Grand ecran :
+Year:
+Annada :

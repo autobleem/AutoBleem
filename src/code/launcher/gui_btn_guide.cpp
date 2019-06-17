@@ -21,13 +21,13 @@ void GuiBtnGuide::render() {
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine(_("-=Button Guide=-"), 0, offset, true);
+    gui->renderTextLine("-=" + _("Button Guide") + "=-", 0, offset, true);
     gui->renderTextLine(_("DPAD - Same as classic menu"), 1, offset,true);
     gui->renderTextLine("|@X| / |@O|   "+_("Select or cancel highlighted option"), 2, offset,true);
     gui->renderTextLine("|@R1| / |@L1|   "+_("Quick scroll to next letter"), 3, offset,true);
     gui->renderTextLine("|@Select|   "+_("Games filter"), 4, offset,true);
 
-    gui->renderTextLine(_("-=In Game=-"),6,offset,true);
+    gui->renderTextLine("-=" + _("In Game") + "=-",6,offset,true);
     gui->renderTextLine("|@Select| + |@T|   "+_("Emulator config MENU"), 7, offset,true);
     gui->renderTextLine("RESET   "+_("Quit emulation - back to AutoBleem"), 8, offset,true);
 
