@@ -47,7 +47,7 @@ string SerialScanner::fixSerial(string serial) {
 string SerialScanner::scanSerial(int imageType, string path, string firstBinPath)
 {
     string serial = scanSerialInternal(imageType,path,firstBinPath);
-    cout <<serial<<endl;
+    //cout <<serial<<endl;
     if (serial.empty())
     {
         serial = workarounds(imageType,path,firstBinPath);
@@ -138,7 +138,7 @@ string SerialScanner::scanSerialInternal(int imageType, string path, string firs
                         int pos = potentialSerial.find(prefix.c_str(), 0);
                         if (pos == 0) {
                             serialFound = potentialSerial;
-                            cout << "Serial number: " << serialFound << endl;
+                            //cout << "Serial number: " << serialFound << endl;
                             return serialFound;
                         }
                     }
@@ -148,7 +148,7 @@ string SerialScanner::scanSerialInternal(int imageType, string path, string firs
                     int pos = volume.find(prefix.c_str(), 0);
                     if (pos == 0) {
                         serialFound = volume;
-                        cout << "Serial number: " << serialFound << endl;
+                        //cout << "Serial number: " << serialFound << endl;
                         return serialFound;
                     }
                 }

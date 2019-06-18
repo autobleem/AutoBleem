@@ -6,8 +6,8 @@ Advanced
 Avanzado
 Advanced:
 Avanzado:
-Are you sure you want to flush all covers ?
-Estas seguro que quieres eliminar todas las caratulas ?
+Are you sure you want to flush all covers?
+Estas seguro que quieres eliminar todas las caratulas?
 Are you sure?
 Estas seguro?
 AutoBleem
@@ -158,8 +158,8 @@ Original
 Original
 Page
 Pagina
-Players:
-Jugadores:
+Players
+Jugadores
 Please confirm
 Por favor confirma
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC

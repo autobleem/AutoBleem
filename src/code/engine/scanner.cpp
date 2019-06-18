@@ -30,7 +30,7 @@ bool Scanner::isFirstRun(const string & path, Database *db) {
     ifstream prev;
     string prevName = Util::getWorkingPath() + Util::separator() + "autobleem.prev";
     prev.open(prevName.c_str(), ios::binary);
-    vector<DirEntry> entries = Util::diru(path);
+    vector<DirEntry> entries = Util::diru_DirsOnly(path);
     noGamesFound = true;
     for (const DirEntry & entry:entries) {
         if (entry.name == "!SaveStates") continue;
@@ -81,9 +81,11 @@ void Scanner::updateDB(Database *db) {
     if (complete)
         for (int i = 0; i < games.size(); i++) {
             shared_ptr<Game> data = games[i];
-            cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
+            //cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
             db->insertGame(i + 1, data->title, data->publisher, data->players, data->year, data->fullPath,
                            data->saveStatePath, data->memcard);
+            if (data->discs.size() == 0)
+                cout << "No discs ingame: " << data->title << endl;
             for (int j = 0; j < data->discs.size(); j++) {
                 db->insertDisc(i + 1, j + 1, data->discs[j].diskName);
             }
@@ -359,9 +361,8 @@ void Scanner::scanDirectory(const string & _path) {
     }
 
     // for each game dir
-    for (DirEntry entry: Util::diru(path)) {
+    for (DirEntry entry: Util::diru_DirsOnly(path)) {
         if (entry.name[0] == '.') continue;
-        if (!Util::isDirectory(path + entry.name)) continue;
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
 
@@ -426,9 +427,9 @@ void Scanner::scanDirectory(const string & _path) {
 				}
 			}
 
-			cout << game->automationUsed << endl;
+			//cout << "before calling recoverMissingFiles() automationUsed = " << game->automationUsed << endl;
 			game->recoverMissingFiles();
-			cout << game->automationUsed << endl;
+            //cout << "after calling recoverMissingFiles() automationUsed = " << game->automationUsed << endl;
 
             if (game->gameIniFound)
                 game->readIni(gameIniPath); // read it in now in case we need to create or update the serial/region
@@ -441,7 +442,7 @@ void Scanner::scanDirectory(const string & _path) {
             if ( !game->gameIniFound || game->automationUsed) {
 
 				if (!game->serial.empty()) {
-					cout << "Accessing metadata for serial: " << game->serial << endl;
+					//cout << "Accessing metadata for serial: " << game->serial << endl;
 					Metadata md;
 					if (md.lookupBySerial(game->serial)) {
 						// at this stage we have more data;
@@ -454,7 +455,7 @@ void Scanner::scanDirectory(const string & _path) {
 							// all recovered :)
 
 							string newFilename = gameDataPath + game->discs[0].cueName + EXT_PNG;
-							cout << "Updating cover" << newFilename << endl;
+							//cout << "Updating cover" << newFilename << endl;
 							ofstream pngFile;
 							pngFile.open(newFilename);
 							pngFile.write(md.bytes, md.dataSize);
@@ -471,12 +472,14 @@ void Scanner::scanDirectory(const string & _path) {
 					}
 				}
 			}
-			game->saveIni(gameIniPath);
+            game->saveIni(gameIniPath);
+            game->readIni(gameIniPath); // the updated iniValues are needed for updateObj
 			//game->print();
 
-			if (game->verify()) {
+			if (game->verify())
 				games.push_back(game);
-			}
+            else
+                cout << "game: " << game->title << " did not pass verify() test" << endl;
 		}
 	} // end for each game dir
 
