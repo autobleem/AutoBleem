@@ -148,8 +148,6 @@ Player
 Spieler
 Players
 Spieler
-Players:
-Spieler:
 Please confirm
 Bitte bestätigen
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
@@ -212,8 +210,8 @@ Slot
 Slot
 Space
 Leertaste
-Support via Discord: https://discord.gg/AHUS3RM
-Support Discord: https://discord.gg/AHUS3RM
+Support via Discord:
+Support Discord:
 This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 Dies ist eine freie und quelloffene Software. Es funktioniert wie vorgegeben und wir tragen keine Verantwortung für eventuelle Schäden.
 to scan

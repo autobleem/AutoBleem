@@ -146,8 +146,6 @@ Player
 Joueur
 Players
 Joueurs
-Players:
-Joueurs:
 Please confirm
 Veuillez valider
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
@@ -210,8 +208,8 @@ Slot
 point de reprise
 Space
 Espace
-Support via Discord: https://discord.gg/AHUS3RM
-Support via Discord: https://discord.gg/AHUS3RM
+Support via Discord:
+Support via Discord:
 This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 Ce logiciel est gratuit et open source. Il est fourni tel quel et aucun problème ou dommage ne pourra nous être imputé.
 to scan

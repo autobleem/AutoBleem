@@ -106,8 +106,8 @@ Page
 Strana
 PCSX Version:
 Verzia PCSX:
-Players:
-Počet hráčov:
+Players
+Počet hráčov
 Please confirm
 Potvrďte prosím
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
@@ -138,8 +138,8 @@ Show RetroArch:
 RetroArch:
 Space
 Medzera
-Support via Discord: https://discord.gg/AHUS3RM
-Podpora na Discorde: https://discord.gg/AHUS3RM
+Support via Discord:
+Podpora na Discorde:
 This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 AutoBleem je bezplatný a open source softvér. Funguje TAK, AKO JE, a NENESIEME žiadnu zodpovednosť za akékoľvek problémy alebo škody.
 to scan
