@@ -30,7 +30,7 @@ bool Scanner::isFirstRun(const string & path, Database *db) {
     ifstream prev;
     string prevName = Util::getWorkingPath() + Util::separator() + "autobleem.prev";
     prev.open(prevName.c_str(), ios::binary);
-    vector<DirEntry> entries = Util::diru(path);
+    vector<DirEntry> entries = Util::diru_DirsOnly(path);
     noGamesFound = true;
     for (const DirEntry & entry:entries) {
         if (entry.name == "!SaveStates") continue;
@@ -361,9 +361,8 @@ void Scanner::scanDirectory(const string & _path) {
     }
 
     // for each game dir
-    for (DirEntry entry: Util::diru(path)) {
+    for (DirEntry entry: Util::diru_DirsOnly(path)) {
         if (entry.name[0] == '.') continue;
-        if (!Util::isDirectory(path + entry.name)) continue;
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
 
