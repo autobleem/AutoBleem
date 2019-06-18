@@ -208,7 +208,7 @@ void Game::recoverMissingFiles() {
 
                 if (md.lookupBySerial(serial)) {
                     metadataLoaded = true;
-                    cout << "Updating cover" << destination << endl;
+                    //cout << "Updating cover" << destination << endl;
                     ofstream pngFile;
                     pngFile.open(destination);
                     pngFile.write(md.bytes, md.dataSize);
@@ -331,7 +331,7 @@ void Game::updateObj() {
 // Game::saveIni
 //*******************************
 void Game::saveIni(string path) {
-    cout << "Overwritting ini file" << path << endl;
+    //cout << "Overwritting ini file" << path << endl;
     Inifile *ini = new Inifile();
     ini->section = "Game";
     ini->values["title"] = title;

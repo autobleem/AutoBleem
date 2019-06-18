@@ -543,7 +543,7 @@ bool Database::executeCreateStatement(char *sql, string tableName) {
 //*******************************
 bool Database::executeStatement(char *sql, string outMsg, string errorMsg) {
     char *errorReport = nullptr;
-    cout << outMsg << endl;
+    //cout << outMsg << endl;
     int rc = sqlite3_exec(db, sql, nullptr, nullptr, &errorReport);
     if (rc != SQLITE_OK) {
         cerr << errorMsg << sqlite3_errmsg(db) << endl;

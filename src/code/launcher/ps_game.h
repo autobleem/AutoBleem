@@ -23,7 +23,7 @@ public:
 
     std::string memcard = "";
     std::string folder = "";
-    std::string ssFolder = "";
+    std::string ssFolder = "";  // screen shot folder
 
     std::string base = "";
 
