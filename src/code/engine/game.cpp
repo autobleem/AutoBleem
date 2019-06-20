@@ -53,16 +53,18 @@ bool Game::validateCue(string cuePath, string path) {
 //*******************************
 // Game::valueOrDefault
 //*******************************
-string Game::valueOrDefault(string name, string def) {
+string Game::valueOrDefault(string name, string def, bool setAutomationIfDefaultUsed) {
     string value;
     if (iniValues.find(name) != iniValues.end()) {
         value = trim(iniValues.find(name)->second);
         if (value.length() == 0) {
-            automationUsed = true;
+            if (setAutomationIfDefaultUsed)
+                automationUsed = true;
             return def;
         }
     } else {
-        automationUsed = true;
+        if (setAutomationIfDefaultUsed)
+            automationUsed = true;
         value = def;
     }
     return value;
@@ -287,7 +289,8 @@ void Game::updateObj() {
     tmp = valueOrDefault("highres","0");
     if (Util::isInteger(tmp.c_str())) highRes = atoi(tmp.c_str()); else highRes = 0;
     tmp = valueOrDefault("discs", "");
-    favorite = valueOrDefault("favorite", "0");
+    favorite = valueOrDefault("favorite", "0", false);  // favorite is a new field that didn't exist before so
+                                                        // don't set automationUsed if it doesn't exist
 
     if (!tmp.empty()) {
         vector<string> strings;
