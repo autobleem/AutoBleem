@@ -446,29 +446,35 @@ void Scanner::scanDirectory(const string & _path) {
 					Metadata md;
 					if (md.lookupBySerial(game->serial)) {
 						// at this stage we have more data;
-						game->title = md.title;
-						game->publisher = md.publisher;
-						game->players = md.players;
-						game->year = md.year;
+                        if (game->title == "")
+						    game->title = md.title;
+                        if (game->publisher == "")
+                            game->publisher = md.publisher;
+                        if (game->players == 0)
+						    game->players = md.players;
+                        if (game->year == 0)
+						    game->year = md.year;
 
 						if (game->discs.size() > 0) {
 							// all recovered :)
-
-							string newFilename = gameDataPath + game->discs[0].cueName + EXT_PNG;
-							//cout << "Updating cover" << newFilename << endl;
-							ofstream pngFile;
-							pngFile.open(newFilename);
-							pngFile.write(md.bytes, md.dataSize);
-							pngFile.flush();
-							pngFile.close();
-							game->automationUsed = false;
-							game->imageFound = true;
+                            if (!game->imageFound) {
+                                string newFilename = gameDataPath + game->discs[0].cueName + EXT_PNG;
+                                cout << "Updating cover" << newFilename << endl;
+                                ofstream pngFile;
+                                pngFile.open(newFilename);
+                                pngFile.write(md.bytes, md.dataSize);
+                                pngFile.flush();
+                                pngFile.close();
+                                game->automationUsed = false;
+                                game->imageFound = true;
+                            }
 						}
 
 						md.clean();
 					}
 					else {
-						game->title = game->pathName;
+					    if (game->title == "")
+						    game->title = game->pathName;
 					}
 				}
 			}
