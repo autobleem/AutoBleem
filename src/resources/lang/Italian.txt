@@ -1,0 +1,272 @@
+About
+Informazioni su
+Advanced
+Avanzate
+Advanced:
+Avanzate:
+Are you sure you want to flush all covers?
+Sei sicuro di voler svuotare le cover?
+Are you sure?
+Sei sicuro?
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+Tema di AutoBleem:
+Automatic PlayStation Classic USB launcher
+Launcher Automatico PlayStation Classic USB
+Background Music:
+Musica di Sottofondo:
+Button Guide
+Guida ai Pulsanti
+Cancel
+Annulla
+Caps
+Limiti
+Card
+Schede
+Change MC
+Cambia MC
+Clock:
+Frequenza:
+Close
+Chiudi
+Code: AutoBleem Team
+Codice: AutoBleem Team
+Configuration
+Configurazione
+Configuration saved - Press |@X| to continue
+Configurazione salvata - Premi |@X| per continuare
+Confirm
+Conferma
+Console Button Guide
+Guida ai Pulsanti della Console
+Cover Style:
+Stile delle Cover:
+Custom
+Personalizza
+Custom Memory Cards
+Memory Card Personalizzate
+Customize AutoBleem settings
+Personalizza impostazioni AutoBleem
+Decompressing ecm:
+Decompressione ecm:
+Delete
+Cancella
+Delete card
+Cancella scheda
+Download latest:
+Scarica la più recente:
+DPAD - Same as classic menu
+DPAD - Come nel menu classico
+Edit game parameters
+Modifica parametri del gioco
+Edit Memory Card information
+Modifica le informazioni della Memory Card
+Emulator config MENU
+MENU di configurazione dell'emulatore
+Enter
+Seleziona
+Enter new card name
+Inserisci il nome della nuova scheda
+Enter new game name
+Inserisci i lnome del nuovo gioco
+Enter new name for card
+Inserisci il nuovo nome della scheda
+Enter new name for memory card
+Inserisci il nuovo nome della memory card
+Favorite:
+Preferiti:
+Flush covers
+Svuota le cover
+Folder:
+Cartella:
+Frameskip:
+Frameskip:
+Free space
+Spazio libero
+Game
+Gioco
+GAME
+GIOCO
+Game Manager
+Gestione del gioco
+Game manager - Select game
+Gestione del gioco - Seleziona gioco
+Game:
+Gioco:
+games
+giochi
+Games changed. Press
+I giochi sono cambiati. Premi
+Games filter
+Filtra i giochi
+games scanned
+giochi scansionati
+GFX Filter:
+Filtri Grafici:
+Go back
+Ritorna
+Graphics by: 
+Grafica di: 
+High res:
+Alta risoluzione:
+Hold
+Mantieni
+Importing internal games
+Importazione giochi interni
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+NEL MENU DI AVVIO PER SPEGNERE LA CONSOLE (ARRESTO SICURO !!!)
+In Game
+In Gioco
+Internal
+Interno
+Internal Games:
+Giochi Interni:
+Is your dpad analogue?
+Il tuo dpad è analogico?
+Language:
+Lingua:
+Loading ... Please Wait ...
+Caricamento ... Attendere ...
+Lock data:
+Blocca dati:
+MemCard Manager will be available soon
+Il Gestore MemCard sarà presto disponibile
+MEMORY CARD
+MEMORY CARD
+Memory Card:
+Memory Card:
+Memory Cards
+Memory Cards
+Menu
+Menu
+Menu Theme:
+Tema del Menu:
+Music:
+Musica:
+New Card
+Nuova Card
+New GamePad found
+Trovato nuovo GamePad
+OOPS! Game crashed. Resume point not available.
+OOPS! Il gioco ha crashato. Punto di salvataggio non disponibile.
+Options
+Opzioni
+Original
+Originale
+Page
+Pagina
+Player
+Giocatore
+Players
+Giocatori
+Please confirm
+Prego confermare
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+COLLEGA UN GAMEPAD A PLAYSTATION CLASSIC
+Please wait ... deleting covers...
+Attendere ... cancellazione cover...
+Plugin:
+Plugin:
+Power Off
+Spegni
+POWERING OFF... PLEASE WAIT
+SPEGNIMENTO IN CORSO... ATTENDERE
+Press a key for
+Premi un tasto per
+Published by:
+Pubblicato da:
+Quick boot
+Avvio rapido
+Quick scroll to next letter
+Scorri rapidamente alla lettera successiva
+QuickBoot Init:
+QuickBoot Init:
+QuickBoot:
+QuickBoot:
+Quit emulation - back to AutoBleem
+Esci dall'emulazione - torna ad AutoBleem
+Re/Scan
+Scansiona/di nuovo
+Region:
+Regione:
+Rename
+Rinomina
+RESUME
+RIPRENDI
+Resume game from saved state point
+Riprendi il gioco dal punto di salvataggio
+Resume point saved to slot
+Punto di ripristino salvato nello slot
+RetroArch
+RetroArch
+RetroArch is not installed
+RetroArch non è installato
+Scanline Level:
+Livello Scanline:
+Scanlines:
+Scanline:
+Scanning...
+Scansione...
+Select
+Seleziona
+Select memory card
+Selezione memory card
+Select or cancel highlighted option
+Seleziona o annulla l'opzione evidenziata
+SELECT RESUME SLOT TO LOAD
+SELEZIONA UNO SLOT DA CARICARE
+SELECT SLOT TO SAVE STATE
+SELEZIONA UNO SLOT PER SALVARE
+Serial:
+Seriale:
+SETTINGS
+IMPOSTAZIONI
+Share MC
+Condividi MC
+Show RetroArch:
+Mostra RetroArch:
+Showing Timeout (0 = no timeout):
+Timeout Visualizzazione (0 = nessun timeout):
+Showing: All games
+Visualizza: Tutti i giochi
+Showing: Favorite games
+Visualizza: Giochi preferiti
+Showing: Internal games
+Visualizza: Giochi interni
+Showing: USB games
+Visualizza: Giochi su USB
+Slot
+Slot
+Sorting : 
+Ordinamento : 
+Sorting...
+Ordinando...
+Space
+Spazio
+SpeedHack:
+SpeedHack:
+Spu Interpolation:
+Interpolazione Spu:
+Starting EvolutionUI
+Avvio di EvolutionUI
+Support via Discord:
+Supporto via Discord:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+Questo è un programma gratuito e open source. Funziona COSì COME E' e Noi non ci assumiamo alcuna responsabilità per eventuali problemi o danni.
+to scan
+per scansionare
+Total:
+Totale:
+UI:
+UI:
+Updating regional.db...
+Aggiornando regional.db...
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+ATTENZIONE: DB DELLE COVER NON TROVATO. PREMI UN TASTO QUALSIASI.
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+ATTENZIONE: NESSUN GIOCO TROVATO. PREMI UN TASTO QUALSIASI.
+Widescreen:
+Widescreen:
+Year:
+Anno:
