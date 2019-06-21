@@ -64,5 +64,5 @@ public:
 
 private:
     void parseIni(std::string path);
-    std::string valueOrDefault(std::string name, std::string def);
+    std::string valueOrDefault(std::string name, std::string def, bool setAutomationIfDefaultUsed = true);
 };

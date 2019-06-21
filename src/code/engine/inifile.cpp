@@ -14,7 +14,7 @@ using namespace std;
 //*******************************
 void Inifile::load(const string & _path) {
     this->path = _path;
-    //cout << "Reading ini file: " << path << endl;
+    cout << "Reading ini file: " << path << endl;
     ifstream file;
     string iniLine;
     file.open(path);
@@ -50,7 +50,7 @@ void Inifile::load(const string & _path) {
 // Inifile::save
 //*******************************
 void Inifile::save(const string & _path) {
-    //cout << "Writing ini file: " << _path << endl;
+    cout << "Writing ini file: " << _path << endl;
     ofstream os;
     os.open(_path);
     os << "[" << section <<"]" << endl;

@@ -81,11 +81,11 @@ void Scanner::updateDB(Database *db) {
     if (complete)
         for (int i = 0; i < games.size(); i++) {
             shared_ptr<Game> data = games[i];
-            //cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
+            cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
             db->insertGame(i + 1, data->title, data->publisher, data->players, data->year, data->fullPath,
                            data->saveStatePath, data->memcard);
             if (data->discs.size() == 0)
-                cout << "No discs ingame: " << data->title << endl;
+                cout << "No discs in game: " << data->title << endl;
             for (int j = 0; j < data->discs.size(); j++) {
                 db->insertDisc(i + 1, j + 1, data->discs[j].diskName);
             }
@@ -427,9 +427,9 @@ void Scanner::scanDirectory(const string & _path) {
 				}
 			}
 
-			//cout << "before calling recoverMissingFiles() automationUsed = " << game->automationUsed << endl;
+			cout << "before calling recoverMissingFiles() automationUsed = " << game->automationUsed << endl;
 			game->recoverMissingFiles();
-            //cout << "after calling recoverMissingFiles() automationUsed = " << game->automationUsed << endl;
+            cout << "after calling recoverMissingFiles() automationUsed = " << game->automationUsed << endl;
 
             if (game->gameIniFound)
                 game->readIni(gameIniPath); // read it in now in case we need to create or update the serial/region
@@ -446,29 +446,35 @@ void Scanner::scanDirectory(const string & _path) {
 					Metadata md;
 					if (md.lookupBySerial(game->serial)) {
 						// at this stage we have more data;
-						game->title = md.title;
-						game->publisher = md.publisher;
-						game->players = md.players;
-						game->year = md.year;
+                        if (game->title == "")
+						    game->title = md.title;
+                        if (game->publisher == "")
+                            game->publisher = md.publisher;
+                        if (game->players == 0)
+						    game->players = md.players;
+                        if (game->year == 0)
+						    game->year = md.year;
 
 						if (game->discs.size() > 0) {
 							// all recovered :)
-
-							string newFilename = gameDataPath + game->discs[0].cueName + EXT_PNG;
-							//cout << "Updating cover" << newFilename << endl;
-							ofstream pngFile;
-							pngFile.open(newFilename);
-							pngFile.write(md.bytes, md.dataSize);
-							pngFile.flush();
-							pngFile.close();
-							game->automationUsed = false;
-							game->imageFound = true;
+                            if (!game->imageFound) {
+                                string newFilename = gameDataPath + game->discs[0].cueName + EXT_PNG;
+                                cout << "Updating cover" << newFilename << endl;
+                                ofstream pngFile;
+                                pngFile.open(newFilename);
+                                pngFile.write(md.bytes, md.dataSize);
+                                pngFile.flush();
+                                pngFile.close();
+                                game->automationUsed = false;
+                                game->imageFound = true;
+                            }
 						}
 
 						md.clean();
 					}
 					else {
-						game->title = game->pathName;
+					    if (game->title == "")
+						    game->title = game->pathName;
 					}
 				}
 			}
