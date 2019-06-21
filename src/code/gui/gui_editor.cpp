@@ -365,7 +365,7 @@ void GuiEditor::render() {
     if (!internal) {
         gui->renderTextLineOptions(_("Plugin:") + gpu, line++, offset, false, 300);
     }
-    gui->renderTextLineOptions(_("Spu Interpolation:") + to_string(interpolation), line++, offset, false, 300);
+    gui->renderTextLineOptions(_("Spu Interpolation:") + " " + to_string(interpolation), line++, offset, false, 300);
 
     gui->renderSelectionBox(selOption, offset, 300);
 
