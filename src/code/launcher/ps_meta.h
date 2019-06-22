@@ -15,10 +15,10 @@ class PsGame;
 //******************
 class PsMeta : public PsObj {
 public:
-    std::string gameName;
-    std::string publisher;
-    std::string year;
-    std::string players;
+    std::string gameName = "";
+    std::string publisher = "";
+    std::string year = "";
+    std::string players = "";
     std::string serial = "";
     std::string region = "";
 
