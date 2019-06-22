@@ -21,7 +21,7 @@ Guida ai Pulsanti
 Cancel
 Annulla
 Caps
-Limiti
+Maiuscolo
 Card
 Schede
 Change MC
@@ -39,7 +39,7 @@ Configurazione salvata - Premi |@X| per continuare
 Confirm
 Conferma
 Console Button Guide
-Guida ai Pulsanti della Console
+Guida ai Pulsanti
 Cover Style:
 Stile delle Cover:
 Custom
@@ -47,29 +47,29 @@ Personalizza
 Custom Memory Cards
 Memory Card Personalizzate
 Customize AutoBleem settings
-Personalizza impostazioni AutoBleem
+Personalizza le impostazioni di AutoBleem
 Decompressing ecm:
 Decompressione ecm:
 Delete
 Cancella
 Delete card
-Cancella scheda
+Cancella memory
 Download latest:
-Scarica la più recente:
+Scarica la versione piu' recente:
 DPAD - Same as classic menu
 DPAD - Come nel menu classico
 Edit game parameters
-Modifica parametri del gioco
+Modifica i parametri del gioco
 Edit Memory Card information
 Modifica le informazioni della Memory Card
 Emulator config MENU
 MENU di configurazione dell'emulatore
 Enter
-Seleziona
+Scegli
 Enter new card name
-Inserisci il nome della nuova scheda
+Inserisci il nome della nuova memory card
 Enter new game name
-Inserisci i lnome del nuovo gioco
+Inserisci il nome del nuovo gioco
 Enter new name for card
 Inserisci il nuovo nome della scheda
 Enter new name for memory card
@@ -91,7 +91,7 @@ GIOCO
 Game Manager
 Gestione del gioco
 Game manager - Select game
-Gestione del gioco - Seleziona gioco
+Gestione del gioco - Seleziona un gioco
 Game:
 Gioco:
 games
@@ -101,7 +101,7 @@ I giochi sono cambiati. Premi
 Games filter
 Filtra i giochi
 games scanned
-giochi scansionati
+giochi trovati
 GFX Filter:
 Filtri Grafici:
 Go back
@@ -113,7 +113,7 @@ Alta risoluzione:
 Hold
 Mantieni
 Importing internal games
-Importazione giochi interni
+Importando giochi interni
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 NEL MENU DI AVVIO PER SPEGNERE LA CONSOLE (ARRESTO SICURO !!!)
 In Game
@@ -123,7 +123,7 @@ Interno
 Internal Games:
 Giochi Interni:
 Is your dpad analogue?
-Il tuo dpad è analogico?
+Il tuo dpad e' analogico?
 Language:
 Lingua:
 Loading ... Please Wait ...
@@ -131,7 +131,7 @@ Caricamento ... Attendere ...
 Lock data:
 Blocca dati:
 MemCard Manager will be available soon
-Il Gestore MemCard sarà presto disponibile
+Il Gestore MemCard sara' presto disponibile
 MEMORY CARD
 MEMORY CARD
 Memory Card:
@@ -179,15 +179,15 @@ Pubblicato da:
 Quick boot
 Avvio rapido
 Quick scroll to next letter
-Scorri rapidamente alla lettera successiva
+Scorri rapidamente alla lettera successiva/precedente
 QuickBoot Init:
-QuickBoot Init:
+Esegui all'AvvioRapido:
 QuickBoot:
-QuickBoot:
+AvvioRapido:
 Quit emulation - back to AutoBleem
 Esci dall'emulazione - torna ad AutoBleem
 Re/Scan
-Scansiona/di nuovo
+Ri/Cerca
 Region:
 Regione:
 Rename
@@ -201,7 +201,7 @@ Punto di ripristino salvato nello slot
 RetroArch
 RetroArch
 RetroArch is not installed
-RetroArch non è installato
+RetroArch non e' installato
 Scanline Level:
 Livello Scanline:
 Scanlines:
@@ -211,13 +211,13 @@ Scansione...
 Select
 Seleziona
 Select memory card
-Selezione memory card
+Seleziona memory card
 Select or cancel highlighted option
 Seleziona o annulla l'opzione evidenziata
 SELECT RESUME SLOT TO LOAD
 SELEZIONA UNO SLOT DA CARICARE
 SELECT SLOT TO SAVE STATE
-SELEZIONA UNO SLOT PER SALVARE
+SELEZIONA UNO SLOT DOVE SALVARE
 Serial:
 Seriale:
 SETTINGS
@@ -253,7 +253,7 @@ Avvio di EvolutionUI
 Support via Discord:
 Supporto via Discord:
 This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
-Questo è un programma gratuito e open source. Funziona COSì COME E' e Noi non ci assumiamo alcuna responsabilità per eventuali problemi o danni.
+Questo e' un programma gratuito e open source. Funziona COSI' COME E' e Noi non ci assumiamo alcuna responsabilita' per eventuali problemi o danni.
 to scan
 per scansionare
 Total:
