@@ -1,15 +1,13 @@
-About
-Sobre
-About
+﻿About
 Sobre
 Advanced
 Avanzado
 Advanced:
 Avanzado:
 Are you sure you want to flush all covers?
-Estas seguro que quieres eliminar todas las caratulas?
+¿Estas seguro que quieres eliminar todas las caratulas?
 Are you sure?
-Estas seguro?
+¿Estas seguro?
 AutoBleem
 AutoBleem
 AutoBleem Theme:
@@ -23,7 +21,7 @@ Guia de Botones
 Cancel
 Cancelar
 Caps
-Mayus
+Mayusculas
 Card
 Tarjeta
 Change MC
@@ -43,13 +41,13 @@ Confirmar
 Console Button Guide
 Guia de Botones de la Consola
 Cover Style:
-Estilo de Caratulas
+Estilo de Caratulas:
 Custom
 Custom
 Custom Memory Cards
-Custom MEmory Cards
+Custom Memory Cards
 Customize AutoBleem settings
-Personalizar ajustes AutoBleem
+Personalizar Ajustes de AutoBleem
 Decompressing ecm:
 Descomprimiendo ecm:
 Delete
@@ -65,9 +63,9 @@ Editar parametros de juego
 Edit Memory Card information
 Editar informacion de Memory Card
 Emulator config MENU
-MENU configuracion Emulador
+MENU de configuracion del Emulador
 Enter
-Entra
+Entrar
 Enter new card name
 Entra nuevo nombre de tarjeta
 Enter new game name
@@ -88,6 +86,8 @@ Free space
 Espacio libre
 Game
 Juego
+GAME
+JUEGO
 Game Manager
 Administrador de Juegos
 Game manager - Select game
@@ -115,17 +115,15 @@ Manten
 Importing internal games
 Importando juegos internos
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
-EN EL MENU DE ARRANQUE PARA APAGAR LA CONSOLA (APAGADO SEGURO!!!)
+EN EL MENU PRINCIPAL PARA APAGAR LA CONSOLA (APAGADO SEGURO!!!)
 In Game
 En Juego
-Internal
-Interno
 Internal
 Interno
 Internal Games:
 Juegos Internos:
 Is your dpad analogue?
-Es tu dpad analogico?
+¿Es tu dpad analogico?
 Language:
 Idioma:
 Loading ... Please Wait ...
@@ -158,6 +156,8 @@ Original
 Original
 Page
 Pagina
+Player
+Jugador
 Players
 Jugadores
 Please confirm
@@ -181,7 +181,7 @@ Arranque rapido
 Quick scroll to next letter
 Desplazamiento rapido a la siguiente letra
 QuickBoot Init:
-QuickBoot Inicio:
+Inicio QuickBoot:
 QuickBoot:
 QuickBoot:
 Quit emulation - back to AutoBleem
@@ -195,29 +195,29 @@ Renombrar
 RESUME
 REANUDAR
 Resume game from saved state point
-Reanudar un juego desde un save state
+Reanudar juego desde un save state
 Resume point saved to slot
-Punto de reanudacion guardado en el slot
+Punto de reanudacion guardado en la ranura
 RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch no esta instalado
 Scanline Level:
-Scanline Level:
+Nivel de Scanline:
 Scanlines:
 Scanlines:
 Scanning...
-Escaneando
+Escaneando...
 Select
-Seleccione
+Elegir
 Select memory card
-Seleccione memory card
+Elige memory card
 Select or cancel highlighted option
-Seleccione o cancele la opción resaltada
+Elige o cancela la opcion resaltada
 SELECT RESUME SLOT TO LOAD
-SELECCIONAR SLOT PARA CARGAR
+ELIGE RANURA PARA CARGAR
 SELECT SLOT TO SAVE STATE
-SELECCIONAR SLOT PARA GUARDAR
+ELIGE RANURA PARA GUARDAR
 Serial:
 Serial:
 SETTINGS
@@ -227,7 +227,7 @@ Compartir MC
 Show RetroArch:
 Mostrar RetroArch:
 Showing Timeout (0 = no timeout):
-Tiempo de muestra (0 = sin tiempo):
+Tiempo de Muestra (0 = sin tiempo):
 Showing: All games
 Mostrando: Todos los Juegos
 Showing: Favorite games
@@ -235,11 +235,11 @@ Mostrando: Juegos Favoritos
 Showing: Internal games
 Mostrando: Juegos Internos
 Showing: USB games
-Mostrando: Juegos USB
+Mostrando: Juegos en USB
 Slot
-Slot
+Ranura
 Sorting : 
-Ordenando :
+Orden:
 Sorting...
 Ordenando...
 Space
