@@ -86,12 +86,12 @@ public:
     PsCenterLabel * menuHead;
     PsCenterLabel * menuText;
 
-    std::string gameName;
-    std::string publisher;
-    std::string year;
+    std::string gameName = "";
+    std::string publisher = "";
+    std::string year = "";
     std::string serial = "";
     std::string region = "";
-    std::string players;
+    std::string players = "";
 
     bool staticMeta=false;
     bool gameInfoVisible = true;

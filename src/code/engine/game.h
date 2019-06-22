@@ -32,10 +32,10 @@ public:
 
     std::string title;
     std::string publisher;
-    int year;
-    std::string serial ="";
-    std::string region ="";
-    int players;
+    int year = 0;
+    std::string serial = "";
+    std::string region = "";
+    int players = 0;
     std::vector<Disc> discs;
     std::string favorite;
 
