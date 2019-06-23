@@ -93,9 +93,9 @@ void GuiManager::render()
 }
 
 //*******************************
-// GuiManager::process
+// GuiManager::flushCovers
 //*******************************
-int process(const char *file, const struct stat *sb,
+int flushCovers(const char *file, const struct stat *sb,
             int flag, struct FTW *s)
 {
     int retval = 0;
@@ -203,7 +203,7 @@ void GuiManager::loop()
                             int errors = 0;
                             int flags = FTW_DEPTH | FTW_PHYS | FTW_CHDIR;
 
-                            if (nftw("/media/Games", process, 1, flags) != 0) {
+                            if (nftw("/media/Games", flushCovers, 1, flags) != 0) {
                                 errors++;
                             }
 
