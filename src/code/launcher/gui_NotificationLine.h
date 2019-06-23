@@ -14,7 +14,7 @@
 struct NotificationLine {
     int x = 10;
     int y = 10;
-    std::string text = "";
+    std::string text;
     bool timed = true;
     long notificationTime = 0;  // the tick time when setText was called.  this is in milliseconds.
     long timeLimit = 0; // display ends when current tick - notificationTime > timeLimit.  this is in milliseconds.

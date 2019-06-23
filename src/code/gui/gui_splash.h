@@ -13,8 +13,8 @@ public:
     void render();
     void loop();
 
-    int alpha;
-    int start;
+    int alpha = 0;
+    int start = 0;
 
     using GuiScreen::GuiScreen;
 };

@@ -19,24 +19,24 @@ public:
     void refreshData();
     Inifile gameIni;
 
-    int highres;
-    int speedhack;
+    int highres = 0;
+    int speedhack = 0;
 
-    int clock;
-    int frameskip;
+    int clock = 0;
+    int frameskip = 0;
 
     std::string gpu="";
-    int dither;
+    int dither = 0;
 
-    int scanlines;
-    int scanlineLevel;
-    int interpolation;
+    int scanlines = 0;
+    int scanlineLevel = 0;
+    int interpolation = 0;
 
     PsGamePtr gameData;
 
     bool internal = false;
     int selOption = 5;
-    std::string lastName = "";
+    std::string lastName;
     bool changes=false;
 
     void processOptionChange(bool direction);

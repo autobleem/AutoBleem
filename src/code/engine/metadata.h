@@ -11,10 +11,10 @@ class Metadata {
 public:
     std::string title;
     std::string publisher;
-    int year;
-    std::string serial = "";
-    std::string region = "";
-    int players;
+    int year = 0;
+    std::string serial;
+    std::string region;
+    int players = 0;
     char *bytes = NULL;
     int dataSize = 0;
     bool valid = false;

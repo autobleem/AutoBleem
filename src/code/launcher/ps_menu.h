@@ -22,7 +22,7 @@ public:
     SDL_Texture *savestate= nullptr;
     SDL_Texture *resume= nullptr;
 
-    int x,y,oy,ox;
+    int x = 0, y = 0, oy = 0, ox = 0;
     int xoff[4] = {0,0,0,0};
     int yoff[4] = {0,0,0,0};
 
@@ -32,8 +32,8 @@ public:
 
     int selOption=0;
     int animationStarted=0;
-    int targety;
-    int duration;
+    int targety = 0;
+    int duration = 0;
     bool active = false;
 
     int direction = 0;

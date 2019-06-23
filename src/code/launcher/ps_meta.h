@@ -15,12 +15,12 @@ class PsGame;
 //******************
 class PsMeta : public PsObj {
 public:
-    std::string gameName = "";
-    std::string publisher = "";
-    std::string year = "";
-    std::string players = "";
-    std::string serial = "";
-    std::string region = "";
+    std::string gameName;
+    std::string publisher;
+    std::string year;
+    std::string players;
+    std::string serial;
+    std::string region;
 
     TTF_Font *font30;
     TTF_Font *font15;

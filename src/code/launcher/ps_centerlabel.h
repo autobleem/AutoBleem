@@ -14,8 +14,8 @@ class PsCenterLabel : public PsObj {
 public:
     TTF_Font * font;
     SDL_Texture* texture=nullptr;
-    int w,h;
-
+    int w = 0, h = 0;
+ 
     void render();
 
     void setText(const std::string & text, int r, int g, int b);
