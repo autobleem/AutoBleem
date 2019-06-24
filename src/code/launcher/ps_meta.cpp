@@ -178,11 +178,11 @@ void PsMeta::render() {
 
         int offset = 190, spread=40;
         // render internal icon
-        rect.x = x+120;
+        rect.x = x+135;
         SDL_RenderCopy(renderer, cdTex, &fullRect, &rect);
 
         SDL_QueryTexture(discsTex, &format, &access, &w, &h);
-        rect.x =  x+155;
+        rect.x =  x+170;
         rect.y = y + 43 + 22 + 30;
         rect.w = w;
         rect.h = h;
