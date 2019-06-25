@@ -238,8 +238,8 @@ Showing: USB games
 Afiseaza: Jocurile USB
 Slot
 Port
-Sorting : 
-Sorteaza: 
+Sorting :
+Sorteaza:
 Sorting...
 Sortez...
 Space

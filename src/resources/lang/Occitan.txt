@@ -238,7 +238,7 @@ Showing: USB games
 Afichatge : jòcs USB
 Slot
 Lòc
-Sorting : 
+Sorting :
 Tria :
 Sorting...
 Triada...
