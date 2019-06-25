@@ -519,7 +519,7 @@ void Scanner::detectAndSortGamefiles(const string & path){
 
     //On first run, we won't process bin/img files, as cue file may handle a part of them
     for (const auto &entry : fileList){
-        splash->logText(_("Sorting : ") + entry.name);
+        splash->logText(_("Sorting :") + " " + entry.name);
         fileExt = Util::getFileExtension(entry.name);
         filenameWE = Util::getFileNameWithoutExtension(entry.name);
         //Checking if file exists
@@ -533,7 +533,7 @@ void Scanner::detectAndSortGamefiles(const string & path){
                     rename((path + "/" + entry.name).c_str(), (path + "/" + filenameWE + "/" + entry.name).c_str());
                     //Move bin files
                     for (const auto &bin : binList){
-                        splash->logText(_("Sorting : ")+bin);
+                        splash->logText(_("Sorting :") + " " + bin);
                         rename((path + "/" + bin).c_str(), (path + "/" + filenameWE + "/" + bin).c_str());
                     }
                 }
@@ -551,7 +551,7 @@ void Scanner::detectAndSortGamefiles(const string & path){
     extensions.push_back("bin");
     fileList = Util::getFilesWithExtension(path, globalFileList, extensions);
     for (const auto &entry : fileList){
-        splash->logText(_("Sorting : ") + entry.name);
+        splash->logText(_("Sorting :") + " " + entry.name);
         fileExt = Util::getFileExtension(entry.name);
         filenameWE = Util::getFileNameWithoutExtension(entry.name);
         //Checking if file exists

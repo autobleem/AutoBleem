@@ -13,7 +13,7 @@
 class Disc {
 public:
     std::string diskName;
-    std::string cueName = "";
+    std::string cueName;
     // verifications
 
     bool cueFound = false;
@@ -25,7 +25,7 @@ public:
 //******************
 class Game {
 public:
-    int folder_id;
+    int folder_id = 0;
     std::string fullPath;
     std::string saveStatePath;
     std::string pathName;
@@ -33,8 +33,8 @@ public:
     std::string title;
     std::string publisher;
     int year = 0;
-    std::string serial = "";
-    std::string region = "";
+    std::string serial;
+    std::string region;
     int players = 0;
     std::vector<Disc> discs;
     std::string favorite;
@@ -50,7 +50,7 @@ public:
     bool automationUsed = false;
     int imageType=IMAGE_CUE_BIN;
     bool highRes = false;
-    std::string firstBinPath = "";
+    std::string firstBinPath;
 
     void readIni(std::string path);
     void saveIni(std::string path);

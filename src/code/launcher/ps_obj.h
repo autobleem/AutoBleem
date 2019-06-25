@@ -13,8 +13,8 @@
 class PsObj {
 public:
     SDL_Renderer *renderer;
-    int x, y, w, h;
-    int ox, oy, ow, oh;
+    int x = 0, y = 0, w = 0, h = 0;
+    int ox = 0, oy = 0, ow = 0, oh = 0;
 
     std::string name;
 

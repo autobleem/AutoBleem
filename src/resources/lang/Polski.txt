@@ -238,7 +238,7 @@ Show RetroArch:
 Pokazuj RetroArch:
 Slot
 Slot
-Sorting : 
+Sorting :
 Sortowanie :
 Sorting...
 Sortuję...

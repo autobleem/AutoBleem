@@ -238,8 +238,8 @@ Showing: USB games
 Visualizza: Giochi su USB
 Slot
 Slot
-Sorting : 
-Ordinamento : 
+Sorting :
+Ordinamento :
 Sorting...
 Ordinando...
 Space
