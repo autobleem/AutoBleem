@@ -24,9 +24,9 @@ public:
 
     void freeImages();
 
-    SDL_Texture * frame;
+    SDL_Shared<SDL_Texture> frame;
 
-    SDL_Texture *slotImg[4];
+    SDL_Shared<SDL_Texture> slotImg[4];
     bool slotActive[4];
 
     TTF_Font * font30;

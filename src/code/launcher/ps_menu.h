@@ -16,11 +16,11 @@
 //******************
 class PsMenu : public PsObj {
 public:
-    SDL_Texture *settings= nullptr;
-    SDL_Texture *guide= nullptr;
-    SDL_Texture *memcard= nullptr;
-    SDL_Texture *savestate= nullptr;
-    SDL_Texture *resume= nullptr;
+    SDL_Shared<SDL_Texture> settings;
+    SDL_Shared<SDL_Texture> guide;
+    SDL_Shared<SDL_Texture> memcard;
+    SDL_Shared<SDL_Texture> savestate;
+    SDL_Shared<SDL_Texture> resume;
 
     int x = 0, y = 0, oy = 0, ox = 0;
     int xoff[4] = {0,0,0,0};
@@ -49,5 +49,5 @@ public:
 
     int transition =0;
 
-    PsMenu(SDL_Renderer *renderer1, std::string name1, std::string texPath = "");
+    PsMenu(SDL_Shared<SDL_Renderer> renderer1, std::string name1, std::string texPath = "");
 };

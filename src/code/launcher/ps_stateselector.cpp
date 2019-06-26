@@ -16,13 +16,6 @@ using namespace std;
 //*******************************
 void PsStateSelector::cleanSaveStateImages()
 {
-    for (int i=0;i<4;i++)
-    {
-        if (slotImg[i]!= nullptr)
-        {
-            SDL_DestroyTexture(slotImg[i]);
-        }
-    }
 }
 
 //*******************************
@@ -95,7 +88,7 @@ void PsStateSelector::render()
         GuiLauncher::renderText(0, 110, _(text), brightWhite, font30, true, false);   // center=true, background=false
 
         shared_ptr<Gui> gui(Gui::getInstance());
-        SDL_Texture *infoText;
+        SDL_Shared<SDL_Texture> infoText;
         SDL_Rect infoRect, infoDest;
 
         if (operation==OP_LOAD) {
@@ -114,7 +107,6 @@ void PsStateSelector::render()
         infoDest.h=infoRect.h;
 
         SDL_RenderCopy(renderer,infoText,&infoRect, &infoDest);
-        SDL_DestroyTexture(infoText);
 
         for (int i=0;i<4;i++)
         {

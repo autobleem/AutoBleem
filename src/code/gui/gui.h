@@ -15,7 +15,7 @@
 #include "../engine/coverdb.h"
 #include "../engine/scanner.h"
 #include "../engine/padmapper.h"
-
+#include "sdl_wrapper.h"
 
 #define PCS_DEADZONE     32000
 #define PCS_BTN_L2       4
@@ -41,8 +41,8 @@
 //********************
 class GuiBase {
 public:
-    SDL_Window *window = nullptr;
-    SDL_Renderer *renderer = nullptr;
+    SDL_Shared<SDL_Window> window = nullptr;
+    SDL_Shared<SDL_Renderer> renderer = nullptr;
 
     TTF_Font *font30 = nullptr;
     TTF_Font *font15 = nullptr;
@@ -98,8 +98,8 @@ public:
 
     void drawText(const std::string & text);
 
-    void getEmojiTextTexture(SDL_Renderer *renderer, std::string text,
-                             TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
+    void getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, std::string text,
+                             TTF_Font *font, SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect);
 
     void logText(const std::string & message);
 
@@ -137,8 +137,8 @@ public:
 
     void renderFreeSpace();
 
-    void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
-                        TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
+    void getTextAndRect(SDL_Shared<SDL_Renderer> renderer, int x, int y, const char *text,
+                        TTF_Font *font, SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect);
 
     Uint8 getR(const std::string & val);
 
@@ -148,8 +148,8 @@ public:
 
     void criticalException(const std::string & text);
 
-    SDL_Texture *
-    loadThemeTexture(SDL_Renderer *renderer, std::string themePath, std::string defaultPath, std::string texname);
+    SDL_Shared<SDL_Texture>
+    loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, std::string themePath, std::string defaultPath, std::string texname);
 
     int menuOption = MENU_OPTION_SCAN;
     int lastSet = 0;
@@ -157,36 +157,36 @@ public:
     SDL_Rect backgroundRect;
     SDL_Rect logoRect;
 
-    SDL_Texture *backgroundImg = NULL;
-    SDL_Texture *logo = NULL;
-    SDL_Texture *buttonX = NULL;
-    SDL_Texture *buttonO = NULL;
-    SDL_Texture *buttonT = NULL;
-    SDL_Texture *buttonS = NULL;
-    SDL_Texture *buttonStart = NULL;
-    SDL_Texture *buttonSelect = NULL;
-    SDL_Texture *buttonL1 = NULL;
-    SDL_Texture *buttonR1 = NULL;
-    SDL_Texture *buttonL2 = NULL;
-    SDL_Texture *buttonR2 = NULL;
-    SDL_Texture *buttonCheck = NULL;
-    SDL_Texture *buttonUncheck = NULL;
-    SDL_Texture *cdJewel = NULL;
+    SDL_Shared<SDL_Texture> backgroundImg;
+    SDL_Shared<SDL_Texture> logo;
+    SDL_Shared<SDL_Texture> buttonX;
+    SDL_Shared<SDL_Texture> buttonO;
+    SDL_Shared<SDL_Texture> buttonT;
+    SDL_Shared<SDL_Texture> buttonS;
+    SDL_Shared<SDL_Texture> buttonStart;
+    SDL_Shared<SDL_Texture> buttonSelect;
+    SDL_Shared<SDL_Texture> buttonL1;
+    SDL_Shared<SDL_Texture> buttonR1;
+    SDL_Shared<SDL_Texture> buttonL2;
+    SDL_Shared<SDL_Texture> buttonR2;
+    SDL_Shared<SDL_Texture> buttonCheck;
+    SDL_Shared<SDL_Texture> buttonUncheck;
+    SDL_Shared<SDL_Texture> cdJewel;
 
 
     bool overrideQuickBoot = false;
 
     std::string path;
 
-    Mix_Music *music = NULL;
-    TTF_Font *font = NULL;
+    Mix_Music *music = nullptr;
+    TTF_Font *font = nullptr;
     bool forceScan = false;
 
-    Mix_Chunk *cancel = NULL;
-    Mix_Chunk *cursor = NULL;
-    Mix_Chunk *home_down = NULL;
-    Mix_Chunk *home_up = NULL;
-    Mix_Chunk *resume = NULL;
+    Mix_Chunk *cancel = nullptr;
+    Mix_Chunk *cursor = nullptr;
+    Mix_Chunk *home_down = nullptr;
+    Mix_Chunk *home_up = nullptr;
+    Mix_Chunk *resume = nullptr;
 
     bool startingGame = false;
     bool resumingGui = false;

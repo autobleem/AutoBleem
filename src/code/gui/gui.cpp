@@ -43,9 +43,6 @@ GuiBase::GuiBase() {
 // GuiBase::~GuiBase
 //********************
 GuiBase::~GuiBase() {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-
     TTF_CloseFont(font30);
     TTF_CloseFont(font24);
     TTF_CloseFont(font15);
@@ -162,11 +159,11 @@ Uint8 Gui::getB(const string & val) {
 //*******************************
 // Gui::getTextAndRect
 //*******************************
-void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text, TTF_Font *font,
-                         SDL_Texture **texture, SDL_Rect *rect) {
+void Gui::getTextAndRect(SDL_Shared<SDL_Renderer> renderer, int x, int y, const char *text, TTF_Font *font,
+                         SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect) {
     int text_width;
     int text_height;
-    SDL_Surface *surface;
+    SDL_Shared<SDL_Surface> surface;
     string fg = themeData.values["text_fg"];
     SDL_Color textColor = {getR(fg), getG(fg), getB(fg), 0};
 
@@ -183,7 +180,6 @@ void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
     *texture = SDL_CreateTextureFromSurface(renderer, surface);
     text_width = surface->w;
     text_height = surface->h;
-    SDL_FreeSurface(surface);
     rect->x = x;
     rect->y = y;
     rect->w = text_width;
@@ -220,8 +216,8 @@ int Gui::renderLogo(bool small) {
 //*******************************
 // Gui::loadThemeTexture
 //*******************************
-SDL_Texture *Gui::loadThemeTexture(SDL_Renderer *renderer, string themePath, string defaultPath, string texname) {
-    SDL_Texture *tex;
+SDL_Shared<SDL_Texture> Gui::loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, string themePath, string defaultPath, string texname) {
+    SDL_Shared<SDL_Texture> tex = nullptr;
     if (Util::exists(themePath + themeData.values[texname])) {
         tex = IMG_LoadTexture(renderer, (themePath + themeData.values[texname]).c_str());
     } else {
@@ -246,21 +242,6 @@ void Gui::loadAssets() {
     bool reloading = false;
 
     if (backgroundImg != nullptr) {
-        SDL_DestroyTexture(backgroundImg);
-        SDL_DestroyTexture(logo);
-        SDL_DestroyTexture(buttonT);
-        SDL_DestroyTexture(buttonO);
-        SDL_DestroyTexture(buttonX);
-        SDL_DestroyTexture(buttonS);
-        SDL_DestroyTexture(buttonStart);
-        SDL_DestroyTexture(buttonSelect);
-        SDL_DestroyTexture(buttonL1);
-        SDL_DestroyTexture(buttonR1);
-        SDL_DestroyTexture(buttonL2);
-        SDL_DestroyTexture(buttonR2);
-        SDL_DestroyTexture(buttonCheck);
-        SDL_DestroyTexture(buttonUncheck);
-        SDL_DestroyTexture(cdJewel);
         TTF_CloseFont(font);
         Mix_FreeChunk(cursor);
         Mix_FreeChunk(cancel);
@@ -839,21 +820,6 @@ void Gui::finish() {
         usleep(300 * TicksPerSecond);
     }
 
-    SDL_DestroyTexture(backgroundImg);
-    SDL_DestroyTexture(logo);
-    SDL_DestroyTexture(buttonT);
-    SDL_DestroyTexture(buttonO);
-    SDL_DestroyTexture(buttonX);
-    SDL_DestroyTexture(buttonS);
-    SDL_DestroyTexture(buttonStart);
-    SDL_DestroyTexture(buttonSelect);
-    SDL_DestroyTexture(buttonL1);
-    SDL_DestroyTexture(buttonR1);
-    SDL_DestroyTexture(buttonL2);
-    SDL_DestroyTexture(buttonR2);
-    SDL_DestroyTexture(buttonCheck);
-    SDL_DestroyTexture(buttonUncheck);
-    SDL_DestroyTexture(cdJewel);
     TTF_CloseFont(font);
     Mix_HaltMusic();
     Mix_FreeMusic(music);
@@ -869,14 +835,14 @@ void Gui::finish() {
 //*******************************
 // Gui::getEmojiTextTexture
 //*******************************
-void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *font, SDL_Texture **texture,
+void Gui::getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, string text, TTF_Font *font, SDL_Shared<SDL_Texture> *texture,
                               SDL_Rect *rect) {
     if (text.empty()) text = " ";
     if (text.back() != '|') {
         text = text + "|";
     }
 
-    vector<SDL_Texture *> textTexures;
+    vector<SDL_Shared<SDL_Texture>> textTexures;
     vector<string> textParts;
     std::string delimiter = "|";
 
@@ -930,7 +896,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
                 textTexures.push_back(buttonUncheck);
             }
         } else {
-            SDL_Texture *textTex;
+            SDL_Shared<SDL_Texture> textTex = nullptr;
             SDL_Rect textRec;
             getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), str.c_str(), font, &textTex,
                            &textRec);
@@ -941,7 +907,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     int w = 0;
     int h = 0;
 
-    for (SDL_Texture *tex:textTexures) {
+    for (SDL_Shared<SDL_Texture> tex:textTexures) {
 
         Uint32 format;
         int access;
@@ -962,7 +928,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     SDL_RenderClear(renderer);
 
     int xpos = 0;
-    for (SDL_Texture *tex:textTexures) {
+    for (SDL_Shared<SDL_Texture> tex:textTexures) {
         Uint32 format;
         int access;
         int tw, th;
@@ -988,22 +954,6 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     rect->y = 0;
     SDL_SetRenderTarget(renderer, nullptr);
 
-    for (SDL_Texture *tex:textTexures) {
-        if ((tex != buttonSelect) &&
-            (tex != buttonS) &&
-            (tex != buttonStart) &&
-            (tex != buttonO) &&
-            (tex != buttonT) &&
-            (tex != buttonL1) &&
-            (tex != buttonR1) &&
-            (tex != buttonL2) &&
-            (tex != buttonR2) &&
-            (tex != buttonCheck) &&
-            (tex != buttonUncheck) &&
-            (tex != buttonX))
-
-            SDL_DestroyTexture(tex);
-    }
     textTexures.clear();
 }
 
@@ -1014,7 +964,7 @@ void Gui::renderStatus(const string & text) {
 
     string bg = themeData.values["text_bg"];
 
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
     SDL_SetRenderDrawColor(renderer, getR(bg), getG(bg), getB(bg), atoi(themeData.values["textalpha"].c_str()));
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
@@ -1031,7 +981,6 @@ void Gui::renderStatus(const string & text) {
     textRec.y = atoi(themeData.values["ttop"].c_str());
     if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
-    SDL_DestroyTexture(textTex);
 }
 
 //*******************************
@@ -1048,7 +997,7 @@ void Gui::drawText(const string & text) {
 // Gui::renderLabelBox
 //*******************************
 void Gui::renderLabelBox(int line, int offset) {
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
     string bg = themeData.values["label_bg"];
@@ -1086,7 +1035,7 @@ void Gui::renderSelectionBox(int line, int offset)
 // Gui::renderSelectionBox
 //*******************************
 void Gui::renderSelectionBox(int line, int offset, int xoffset) {
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
     string fg = themeData.values["text_fg"];
@@ -1143,7 +1092,7 @@ int Gui::renderTextLineOptions(const string & _text, int line, int offset, bool 
 
     int h = renderTextLine(text, line, offset, center, xoffset);
 
-    SDL_Texture *buttonTex = nullptr;
+    SDL_Shared<SDL_Texture> buttonTex = nullptr;
     SDL_Rect rect;
 
 
@@ -1160,7 +1109,6 @@ int Gui::renderTextLineOptions(const string & _text, int line, int offset, bool 
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
     getTextAndRect(renderer, 0, 0, "*", font, &buttonTex, &textRec);
     int lineh = textRec.h;
-    SDL_DestroyTexture(buttonTex);
     if (button == 1) {
         getEmojiTextTexture(renderer, "|@Check|", font, &buttonTex, &textRec);
     } else if (button == 0) {
@@ -1178,7 +1126,6 @@ int Gui::renderTextLineOptions(const string & _text, int line, int offset, bool 
     }
 
     SDL_RenderCopy(renderer, buttonTex, nullptr, &textRec);
-    SDL_DestroyTexture(buttonTex);
     return h;
 }
 
@@ -1198,11 +1145,10 @@ int Gui::renderTextLine(const string & text, int line, int offset, bool center, 
     rect2.w = atoi(themeData.values["opscreenw"].c_str());
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
 
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
     getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
-    SDL_DestroyTexture(textTex);
     int lineh = textRec.h;
     getEmojiTextTexture(renderer, text, font, &textTex, &textRec);
     textRec.x = rect2.x + 10 + xoffset;
@@ -1217,7 +1163,6 @@ int Gui::renderTextLine(const string & text, int line, int offset, bool center, 
 
 
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
-    SDL_DestroyTexture(textTex);
 
 
     return textRec.h;
@@ -1233,7 +1178,7 @@ void Gui::renderTextChar(const string & text, int line, int offset, int posx) {
     rect2.w = atoi(themeData.values["opscreenw"].c_str());
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
 
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
     getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
@@ -1241,7 +1186,6 @@ void Gui::renderTextChar(const string & text, int line, int offset, int posx) {
                    text.c_str(), font, &textTex, &textRec);
 
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
-    SDL_DestroyTexture(textTex);
 }
 
 //*******************************
@@ -1266,7 +1210,7 @@ void Gui::renderTextBar() {
 // Gui::renderFreeSpace
 //*******************************
 void Gui::renderFreeSpace() {
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
     SDL_Rect rect;
 

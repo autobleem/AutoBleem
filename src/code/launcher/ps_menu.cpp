@@ -9,7 +9,7 @@ using namespace std;
 //*******************************
 // PsMenu::PsMenu
 //*******************************
-PsMenu::PsMenu(SDL_Renderer *renderer1, string name1, string texPath) : PsObj(renderer1, name1, "") {
+PsMenu::PsMenu(SDL_Shared<SDL_Renderer> renderer1, string name1, string texPath) : PsObj(renderer1, name1, "") {
     path = texPath;
     loadAssets();
 }
@@ -32,15 +32,6 @@ void PsMenu::loadAssets() {
 // PsMenu::freeAssets
 //*******************************
 void PsMenu::freeAssets() {
-    SDL_DestroyTexture(settings);
-    SDL_DestroyTexture(guide);
-    SDL_DestroyTexture(memcard);
-    SDL_DestroyTexture(savestate);
-    if (resume!= nullptr)
-    {
-        SDL_DestroyTexture(resume);
-        resume = nullptr;
-    }
 }
 
 #define ICON_GAP 130.0f
@@ -240,10 +231,5 @@ void PsMenu::render() {
 //*******************************
 void PsMenu::setResumePic(string picturePath)
 {
-    if (resume!=nullptr)
-    {
-        SDL_DestroyTexture(resume);
-    }
-
     resume = IMG_LoadTexture(renderer,picturePath.c_str());
 }

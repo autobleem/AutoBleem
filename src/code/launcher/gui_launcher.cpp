@@ -123,8 +123,8 @@ void GuiLauncher::showSetName() {
 void GuiLauncher::renderText(int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool center, bool background) {
     int text_width = 0;
     int text_height = 0;
-    SDL_Surface *surface = nullptr;
-    SDL_Texture *texture = nullptr;
+    SDL_Shared<SDL_Surface> surface = nullptr;
+    SDL_Shared<SDL_Texture> texture = nullptr;
     SDL_Rect rect{0,0,0,0};
 
     auto renderer = Gui::getInstance()->renderer;
@@ -140,7 +140,6 @@ void GuiLauncher::renderText(int x, int y, const std::string & text, const SDL_C
         texture = SDL_CreateTextureFromSurface(renderer, surface);
         text_width = surface->w;
         text_height = surface->h;
-        SDL_FreeSurface(surface);
         rect.x = x;
         rect.y = y;
         rect.w = text_width;
@@ -168,7 +167,6 @@ void GuiLauncher::renderText(int x, int y, const std::string & text, const SDL_C
     }
 
     SDL_RenderCopy(renderer, texture, &inputRect, &rect);
-    SDL_DestroyTexture(texture);
 };
 
 //*******************************
@@ -503,7 +501,7 @@ void GuiLauncher::render() {
     if (!carouselGames.empty()) {
         for (const auto & game : carouselGames) {
             if (game.visible) {
-                SDL_Texture *currentGameTex = game.coverPng;
+                SDL_Shared<SDL_Texture> currentGameTex = game.coverPng;
                 PsScreenpoint point = game.actual;
 
                 SDL_Rect coverRect;

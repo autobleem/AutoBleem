@@ -28,12 +28,6 @@ void PsMeta::updateTexts(const string & gameNameTxt, const string & publisherTxt
     this->region = region;
     this->players = playersTxt;
 
-    if (discsTex != nullptr) SDL_DestroyTexture(discsTex);
-    if (gameNameTex != nullptr) SDL_DestroyTexture(gameNameTex);
-    if (publisherAndYearTex != nullptr) SDL_DestroyTexture(publisherAndYearTex);
-    if (serialAndRegionTex != nullptr) SDL_DestroyTexture(serialAndRegionTex);
-    if (playersTex != nullptr) SDL_DestroyTexture(gameNameTex);
-
     gameNameTex = createTextTex(gameName, r,g,b, font30);
     publisherAndYearTex = createTextTex(publisher + ", " + year, r,g,b, font15);
     if (serial != "")
@@ -65,24 +59,6 @@ void PsMeta::updateTexts(PsGamePtr & psGame, int r,int g, int b) {
 // PsMeta::destroy
 //*******************************
 void PsMeta::destroy() {
-    if (gameNameTex != nullptr) SDL_DestroyTexture(gameNameTex);
-    if (publisherAndYearTex != nullptr) SDL_DestroyTexture(publisherAndYearTex);
-    if (serialAndRegionTex != nullptr) SDL_DestroyTexture(serialAndRegionTex);
-    if (playersTex != nullptr) SDL_DestroyTexture(playersTex);
-    SDL_DestroyTexture(tex);
-    SDL_DestroyTexture(discsTex);
-
-    if (internalOffTex != nullptr) {
-
-        SDL_DestroyTexture(internalOnTex);
-        SDL_DestroyTexture(internalOffTex);
-        SDL_DestroyTexture(hdOnTex);
-        SDL_DestroyTexture(hdOffTex);
-        SDL_DestroyTexture(lockOnTex);
-        SDL_DestroyTexture(lockOffTex);
-        SDL_DestroyTexture(cdTex);
-        SDL_DestroyTexture(favoriteTex);
-    }
 }
 
 //*******************************
@@ -239,10 +215,10 @@ void PsMeta::render() {
 //*******************************
 // PsMeta::createTextTex
 //*******************************
-SDL_Texture *PsMeta::createTextTex(const string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
+SDL_Shared<SDL_Texture> PsMeta::createTextTex(const string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font) {
 
-    SDL_Surface *surface;
-    SDL_Texture *texture;
+    SDL_Shared<SDL_Surface> surface;
+    SDL_Shared<SDL_Texture> texture;
     SDL_Color textColor = {r, g, b, 0};
 
     if (text.size() == 0) {
@@ -251,8 +227,6 @@ SDL_Texture *PsMeta::createTextTex(const string & text, Uint8 r, Uint8 g, Uint8 
     } else {
         surface = TTF_RenderUTF8_Blended(font, text.c_str(), textColor);
         texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-        SDL_FreeSurface(surface);
     }
 
     return texture;
