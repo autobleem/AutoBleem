@@ -9,9 +9,7 @@ using namespace std;
 //*******************************
 // PsObj::PsObj
 //*******************************
-PsObj::PsObj(SDL_Renderer *renderer1, string name1, string texPath) {
-    this->renderer = renderer1;
-    this->name = name;
+PsObj::PsObj(SDL_Renderer *renderer1, string name1, string texPath) : renderer(renderer1), name(name1) {
     if (texPath != "") {
         load(texPath);
     }
