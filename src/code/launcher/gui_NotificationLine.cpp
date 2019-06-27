@@ -6,7 +6,7 @@ using namespace std;
 //*******************************
 // NotificationLine::setText
 //*******************************
-void NotificationLine::setText(string _text, long _timeLimitInMilliSeconds, const SDL_Color & _textColor, TTF_Font *_font) {
+void NotificationLine::setText(string _text, long _timeLimitInMilliSeconds, const SDL_Color & _textColor, TTF_Font_Shared _font) {
     text = _text;
     timed = (_timeLimitInMilliSeconds != 0);
     notificationTime = SDL_GetTicks();  // tick count when setText called
@@ -43,7 +43,7 @@ void NotificationLine::tickTock() {
 //*******************************
 // NotificationLines::createAndSetDefaults
 //*******************************
-void NotificationLines::createAndSetDefaults(int count, int x_start, int y_start, TTF_Font * font, int fontHeight, int separationBetweenLines) {
+void NotificationLines::createAndSetDefaults(int count, int x_start, int y_start, TTF_Font_Shared font, int fontHeight, int separationBetweenLines) {
     for (int line=0; line < count; ++line) {
         NotificationLine notificationLine;
         notificationLine.font = font;

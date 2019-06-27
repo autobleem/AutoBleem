@@ -43,10 +43,6 @@ GuiBase::GuiBase() {
 // GuiBase::~GuiBase
 //********************
 GuiBase::~GuiBase() {
-    TTF_CloseFont(font30);
-    TTF_CloseFont(font24);
-    TTF_CloseFont(font15);
-
     SDL_Quit();
 }
 
@@ -159,7 +155,7 @@ Uint8 Gui::getB(const string & val) {
 //*******************************
 // Gui::getTextAndRect
 //*******************************
-void Gui::getTextAndRect(SDL_Shared<SDL_Renderer> renderer, int x, int y, const char *text, TTF_Font *font,
+void Gui::getTextAndRect(SDL_Shared<SDL_Renderer> renderer, int x, int y, const char *text, TTF_Font_Shared font,
                          SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect) {
     int text_width;
     int text_height;
@@ -242,7 +238,6 @@ void Gui::loadAssets() {
     bool reloading = false;
 
     if (backgroundImg != nullptr) {
-        TTF_CloseFont(font);
         Mix_FreeChunk(cursor);
         Mix_FreeChunk(cancel);
         Mix_FreeChunk(home_down);
@@ -820,7 +815,6 @@ void Gui::finish() {
         usleep(300 * TicksPerSecond);
     }
 
-    TTF_CloseFont(font);
     Mix_HaltMusic();
     Mix_FreeMusic(music);
     Mix_FreeChunk(cursor);
@@ -835,7 +829,7 @@ void Gui::finish() {
 //*******************************
 // Gui::getEmojiTextTexture
 //*******************************
-void Gui::getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, string text, TTF_Font *font, SDL_Shared<SDL_Texture> *texture,
+void Gui::getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, string text, TTF_Font_Shared font, SDL_Shared<SDL_Texture> *texture,
                               SDL_Rect *rect) {
     if (text.empty()) text = " ";
     if (text.back() != '|') {

@@ -5,14 +5,14 @@
 #pragma once
 
 #include "ps_obj.h"
-#include <SDL2/SDL_ttf.h>
+#include "../gui/gui_font_wrapper.h"
 
 //******************
 // PsCenterLabel
 //******************
 class PsCenterLabel : public PsObj {
 public:
-    TTF_Font * font;
+    TTF_Font_Shared font;
     SDL_Shared<SDL_Texture> texture=nullptr;
     int w = 0, h = 0;
  
@@ -23,5 +23,5 @@ public:
     PsCenterLabel(SDL_Shared<SDL_Renderer> renderer1, const std::string & name1, const std::string & texPath = "");
     ~PsCenterLabel();
 
-    SDL_Shared<SDL_Texture> createTextTex(const std::string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
+    SDL_Shared<SDL_Texture> createTextTex(const std::string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font_Shared font);
 };

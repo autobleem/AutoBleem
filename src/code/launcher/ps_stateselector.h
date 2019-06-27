@@ -7,6 +7,7 @@
 #include "ps_obj.h"
 #include "ps_game.h"
 #include <SDL2/SDL_ttf.h>
+#include "../gui/gui_font_wrapper.h"
 
 #define OP_LOAD 0
 #define OP_SAVE 1
@@ -29,8 +30,8 @@ public:
     SDL_Shared<SDL_Texture> slotImg[4];
     bool slotActive[4];
 
-    TTF_Font * font30;
-    TTF_Font * font24;
+    TTF_Font_Shared font30;
+    TTF_Font_Shared font24;
 
     int selSlot = 0;
 

@@ -4,7 +4,7 @@
 #pragma once
 
 #include <SDL2/SDL_render.h>
-#include "sdl_wrapper.h"
+#include "gui_sdl_wrapper.h"
 
 //********************
 // GuiScreen

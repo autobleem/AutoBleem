@@ -15,7 +15,8 @@
 #include "../engine/coverdb.h"
 #include "../engine/scanner.h"
 #include "../engine/padmapper.h"
-#include "sdl_wrapper.h"
+#include "gui_sdl_wrapper.h"
+#include "gui_font_wrapper.h"
 
 #define PCS_DEADZONE     32000
 #define PCS_BTN_L2       4
@@ -41,16 +42,16 @@
 //********************
 class GuiBase {
 public:
-    SDL_Shared<SDL_Window> window = nullptr;
-    SDL_Shared<SDL_Renderer> renderer = nullptr;
+    SDL_Shared<SDL_Window> window;
+    SDL_Shared<SDL_Renderer> renderer;
 
-    TTF_Font *font30 = nullptr;
-    TTF_Font *font15 = nullptr;
-    TTF_Font *font24 = nullptr;
+    TTF_Font_Shared font30;
+    TTF_Font_Shared font15;
+    TTF_Font_Shared font24;
+
     Config cfg;
 
     GuiBase();
-
     ~GuiBase();
 
     std::string getSonyImagePath();
@@ -60,7 +61,6 @@ public:
     std::string getSonySoundPath();
 
     std::string getSonyRootPath();
-
 };
 
 //********************
@@ -99,7 +99,7 @@ public:
     void drawText(const std::string & text);
 
     void getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, std::string text,
-                             TTF_Font *font, SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect);
+                             TTF_Font_Shared font, SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect);
 
     void logText(const std::string & message);
 
@@ -138,7 +138,7 @@ public:
     void renderFreeSpace();
 
     void getTextAndRect(SDL_Shared<SDL_Renderer> renderer, int x, int y, const char *text,
-                        TTF_Font *font, SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect);
+                        TTF_Font_Shared font, SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect);
 
     Uint8 getR(const std::string & val);
 
@@ -179,7 +179,7 @@ public:
     std::string path;
 
     Mix_Music *music = nullptr;
-    TTF_Font *font = nullptr;
+    TTF_Font_Shared font;
     bool forceScan = false;
 
     Mix_Chunk *cancel = nullptr;

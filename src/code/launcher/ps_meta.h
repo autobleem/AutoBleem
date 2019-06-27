@@ -7,7 +7,8 @@
 #include "ps_obj.h"
 #include "ps_game.h"
 #include <SDL2/SDL_ttf.h>
-#include "../gui/sdl_wrapper.h"
+#include "../gui/gui_sdl_wrapper.h"
+#include "../gui/gui_font_wrapper.h"
 
 class PsGame;
 
@@ -23,9 +24,9 @@ public:
     std::string serial;
     std::string region;
 
-    TTF_Font *font30;
-    TTF_Font *font15;
-    TTF_Font *font24;
+    TTF_Font_Shared font30;
+    TTF_Font_Shared font15;
+    TTF_Font_Shared font24;
 
     SDL_Shared<SDL_Texture> discsTex;
     SDL_Shared<SDL_Texture> gameNameTex;
@@ -68,5 +69,5 @@ public:
 
     using PsObj::PsObj;
 private:
-    SDL_Shared<SDL_Texture> createTextTex(const std::string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font *font);
+    SDL_Shared<SDL_Texture> createTextTex(const std::string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font_Shared font);
 };

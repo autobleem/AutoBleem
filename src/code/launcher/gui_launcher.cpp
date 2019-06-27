@@ -120,7 +120,7 @@ void GuiLauncher::showSetName() {
 //*******************************
 // GuiLauncher::renderText
 //*******************************
-void GuiLauncher::renderText(int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool center, bool background) {
+void GuiLauncher::renderText(int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font_Shared font, bool center, bool background) {
     int text_width = 0;
     int text_height = 0;
     SDL_Shared<SDL_Surface> surface = nullptr;
@@ -196,7 +196,7 @@ void GuiLauncher::loadAssets() {
         secB = gui->getB(colorsFile.values["sec"]);
     }
 
-    notificationLines.createAndSetDefaults(2, 10, 10, gui->font24, 24, 8);    // count, x_start, y_start, TTF_Font*, fontHeight, separationBetweenLines
+    notificationLines.createAndSetDefaults(2, 10, 10, gui->font24, 24, 8);    // count, x_start, y_start, TTF_Font_Shared, fontHeight, separationBetweenLines
 
     staticElements.clear();
     frontElemets.clear();
