@@ -238,7 +238,7 @@ Showing: USB games
 Mostrando: Juegos en USB
 Slot
 Ranura
-Sorting : 
+Sorting :
 Orden:
 Sorting...
 Ordenando...
