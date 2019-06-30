@@ -141,7 +141,7 @@ Memory Cards
 Menu
 Menu
 Menu Theme:
-Tema Memu:
+Tema Menu:
 Music:
 Musica:
 New Card
@@ -238,7 +238,7 @@ Showing: USB games
 Mostrando: Juegos en USB
 Slot
 Ranura
-Sorting :
+Sorting : 
 Orden:
 Sorting...
 Ordenando...
