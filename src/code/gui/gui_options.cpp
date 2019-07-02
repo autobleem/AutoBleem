@@ -70,7 +70,7 @@ void GuiOptions::init() {
     quickboot.push_back("false");
     quickboot.push_back("true");
     languages.clear();
-    languages = lang->listLanguages();
+    languages = lang->getListOfLanguages();
     ui.clear();
     ui.push_back("classic");
     ui.push_back("EvolutionUI");

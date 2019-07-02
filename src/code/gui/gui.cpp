@@ -34,9 +34,9 @@ GuiBase::GuiBase() {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     TTF_Init();
-    font30 = TTF_OpenFont((getSonyFontPath() + "/SST-Bold.ttf").c_str(), 28);
-    font15 = TTF_OpenFont((getSonyFontPath() + "/SST-Bold.ttf").c_str(), 15);
-    font24 = TTF_OpenFont((getSonyFontPath() + "/SST-Medium.ttf").c_str(), 22);
+    fonts[FONT_30] = TTF_OpenFont((getSonyFontPath() + "/SST-Bold.ttf").c_str(), 28);
+    fonts[FONT_15] = TTF_OpenFont((getSonyFontPath() + "/SST-Bold.ttf").c_str(), 15);
+    fonts[FONT_24] = TTF_OpenFont((getSonyFontPath() + "/SST-Medium.ttf").c_str(), 22);
 }
 
 //********************

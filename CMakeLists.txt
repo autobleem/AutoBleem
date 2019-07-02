@@ -74,6 +74,7 @@ add_executable(autobleem-gui
 		src/code/gui/gui_selectmemcard.cpp
         src/code/gui/gui_selectmemcard.h
         src/code/gui/gui_sdl_wrapper.h
+        src/code/gui/gui_font.h
         src/code/gui/gui_font_wrapper.h
 		src/code/ver_migration.cpp
 		src/code/ver_migration.h

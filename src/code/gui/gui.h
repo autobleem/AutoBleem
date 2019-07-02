@@ -16,7 +16,8 @@
 #include "../engine/scanner.h"
 #include "../engine/padmapper.h"
 #include "gui_sdl_wrapper.h"
-#include "gui_font_wrapper.h"
+//#include "gui_font_wrapper.h"
+#include "gui_font.h"
 
 #define PCS_DEADZONE     32000
 #define PCS_BTN_L2       4
@@ -45,22 +46,20 @@ public:
     SDL_Shared<SDL_Window> window;
     SDL_Shared<SDL_Renderer> renderer;
 
-    TTF_Font_Shared font30;
-    TTF_Font_Shared font15;
-    TTF_Font_Shared font24;
+    Fonts fonts;
 
     Config cfg;
 
     GuiBase();
     ~GuiBase();
 
-    std::string getSonyImagePath();
+    static std::string getSonyImagePath();
 
-    std::string getSonyFontPath();
+    static std::string getSonyFontPath();
 
-    std::string getSonySoundPath();
+    static std::string getSonySoundPath();
 
-    std::string getSonyRootPath();
+    static std::string getSonyRootPath();
 };
 
 //********************
