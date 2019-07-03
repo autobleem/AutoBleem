@@ -179,7 +179,7 @@ public:
     std::string path;
 
     Mix_Music *music = NULL;
-    TTF_Font *font = NULL;
+    TTF_Font *themeFont = NULL;
     bool forceScan = false;
 
     Mix_Chunk *cancel = NULL;

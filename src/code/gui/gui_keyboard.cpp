@@ -41,7 +41,7 @@ void GuiKeyboard::render() {
 
     SDL_Texture *tex;
     SDL_Rect rect;
-    gui->getTextAndRect(renderer, 0, 0, "*", gui->font, &tex, &rect);
+    gui->getTextAndRect(renderer, 0, 0, "*", gui->themeFont, &tex, &rect);
     SDL_DestroyTexture(tex);
 
     for (int x = 0; x < 10; x++) {
