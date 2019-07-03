@@ -178,7 +178,7 @@ public:
     std::string path;
 
     Mix_Music *music = nullptr;
-    TTF_Font_Shared font;
+    TTF_Font_Shared themeFont;
     bool forceScan = false;
 
     Mix_Chunk *cancel = nullptr;

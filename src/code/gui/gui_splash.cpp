@@ -31,7 +31,7 @@ void GuiSplash::render() {
         splashText += ")";
     }
 
-    gui->getEmojiTextTexture(renderer, splashText.c_str(), gui->font, &textTex, &textRec);
+    gui->getEmojiTextTexture(renderer, splashText.c_str(), gui->themeFont, &textTex, &textRec);
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);
     textRec.y = atoi(gui->themeData.values["ttop"].c_str());
