@@ -44,7 +44,11 @@ void GuiOptions::init() {
     for (const DirEntry & entry:folders) {
         themes.push_back(entry.name);
     }
+#if defined(__x86_64__) || defined(_M_X64)
+    folders = Util::diru(Util::getWorkingPath() + Util::separator() + "themes");
+#else
     folders = Util::diru("/media/themes");
+#endif
     for (const DirEntry & entry:folders) {
         sthemes.push_back(entry.name);
     }
