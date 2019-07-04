@@ -47,18 +47,21 @@ public:
     TTF_Font *font30 = nullptr;
     TTF_Font *font15 = nullptr;
     TTF_Font *font24 = nullptr;
+
     Config cfg;
 
     GuiBase();
-
     ~GuiBase();
 
+    TTF_Font* openFont(const std::string &filename, int fontSize);
+    void closeFont(TTF_Font* &font);
+    void openBaseFonts(const std::string &fontDirPath);
+    void openBaseFonts() { getSonyFontPath(); }
+    void closeBaseFonts();
+
     std::string getSonyImagePath();
-
     std::string getSonyFontPath();
-
     std::string getSonySoundPath();
-
     std::string getSonyRootPath();
 
 };

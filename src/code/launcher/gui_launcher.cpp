@@ -198,6 +198,8 @@ void GuiLauncher::loadAssets() {
         secB = gui->getB(colorsFile.values["sec"]);
     }
 
+    gui->openBaseFonts(gui->getSonyFontPath());
+
     notificationLines.createAndSetDefaults(2, 10, 10, gui->font24, 24, 8);    // count, x_start, y_start, TTF_Font*, fontHeight, separationBetweenLines
 
     staticElements.clear();
@@ -367,6 +369,10 @@ void GuiLauncher::freeAssets() {
     }
     staticElements.clear();
     frontElemets.clear();
+
+    shared_ptr<Gui> gui(Gui::getInstance());
+    gui->closeBaseFonts();
+
     for (auto & game : carouselGames) {
         game.freeTex();
     }

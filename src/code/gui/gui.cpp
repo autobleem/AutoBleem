@@ -34,9 +34,7 @@ GuiBase::GuiBase() {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     TTF_Init();
-    font30 = TTF_OpenFont((getSonyFontPath() + "/SST-Bold.ttf").c_str(), 28);
-    font15 = TTF_OpenFont((getSonyFontPath() + "/SST-Bold.ttf").c_str(), 15);
-    font24 = TTF_OpenFont((getSonyFontPath() + "/SST-Medium.ttf").c_str(), 22);
+    openBaseFonts();
 }
 
 //********************
@@ -46,11 +44,54 @@ GuiBase::~GuiBase() {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
-    TTF_CloseFont(font30);
-    TTF_CloseFont(font24);
-    TTF_CloseFont(font15);
-
     SDL_Quit();
+}
+
+//********************
+// GuiBase::openFont
+//********************
+TTF_Font* GuiBase::openFont(const std::string &filename, int fontSize) {
+    TTF_Font* font = TTF_OpenFont(filename.c_str(), fontSize);
+    if (font) {
+        cout << "Success opening font " << filename << " of size " << fontSize << endl;
+    } else {
+        cout << "FAILURE opening font " << filename << " of size " << fontSize << endl;
+        font = nullptr;
+    }
+
+    return font;
+}
+
+//********************
+// GuiBase::closeFont
+//********************
+void GuiBase::closeFont(TTF_Font* &font) {
+    TTF_CloseFont(font);
+    font = nullptr;
+}
+
+//********************
+// GuiBase::openBaseFonts
+//********************
+void GuiBase::openBaseFonts(const std::string &fontDirPath) {
+    if (font30)
+        closeFont(font30);
+    font30 = openFont(fontDirPath + "/SST-Bold.ttf", 28);
+    if (font15)
+        closeFont(font15);
+    font15 = openFont(fontDirPath + "/SST-Bold.ttf", 15);
+    if (font24)
+        closeFont(font24);
+    font24 = openFont(fontDirPath + "/SST-Medium.ttf", 22);
+}
+
+//********************
+// GuiBase::closeBaseFonts
+//********************
+void GuiBase::closeBaseFonts() {
+    closeFont(font30);
+    closeFont(font24);
+    closeFont(font15);
 }
 
 //*******************************
