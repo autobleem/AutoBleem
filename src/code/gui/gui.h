@@ -53,13 +53,13 @@ public:
     GuiBase();
     ~GuiBase();
 
-    static std::string getSonyImagePath();
+    std::string getSonyImagePath();
 
-    static std::string getSonyFontPath();
+    std::string getSonyFontPath();
 
-    static std::string getSonySoundPath();
+    std::string getSonySoundPath();
 
-    static std::string getSonyRootPath();
+    std::string getSonyRootPath();
 };
 
 //********************

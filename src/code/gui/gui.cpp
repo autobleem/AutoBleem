@@ -51,7 +51,12 @@ GuiBase::~GuiBase() {
 //*******************************
 string GuiBase::getSonyImagePath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    return "./sony/images";
+    string path =  Util::getWorkingPath() + Util::separator() + "themes" + Util::separator() + cfg.inifile.values["stheme"] + "/images";
+    if (!Util::exists(path))
+    {
+        path = "./sony/images";
+    }
+    return path;
 #else
     string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/images";
     if (!Util::exists(path))
@@ -67,7 +72,12 @@ string GuiBase::getSonyImagePath() {
 //*******************************
 string GuiBase::getSonySoundPath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    return "./sony/sounds";
+    string path =  Util::getWorkingPath() + Util::separator() + "themes" + Util::separator() + cfg.inifile.values["stheme"] + "/sounds";
+    if (!Util::exists(path))
+    {
+        path = "./sony/sounds";
+    }
+    return path;
 #else
     string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/sounds";
     if (!Util::exists(path))
@@ -83,7 +93,12 @@ string GuiBase::getSonySoundPath() {
 //*******************************
 string GuiBase::getSonyFontPath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    return "./sony/font";
+    string path =  Util::getWorkingPath() + Util::separator() + "themes" + Util::separator() + cfg.inifile.values["stheme"] + "/font";
+    if (!Util::exists(path))
+    {
+        path = "./sony/font";
+    }
+    return path;
 #else
     string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/font";
     if (!Util::exists(path))
@@ -99,7 +114,12 @@ string GuiBase::getSonyFontPath() {
 //*******************************
 string GuiBase::getSonyRootPath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    return "./sony";
+    string path =  Util::getWorkingPath() + Util::separator() + cfg.inifile.values["stheme"];
+    if (!Util::exists(path))
+    {
+        path = "./sony";
+    }
+    return path;
 #else
     string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"";
     if (!Util::exists(path))
