@@ -322,7 +322,7 @@ void Gui::loadAssets() {
         SDL_DestroyTexture(buttonCheck);
         SDL_DestroyTexture(buttonUncheck);
         SDL_DestroyTexture(cdJewel);
-        TTF_CloseFont(themeFont);
+        closeFont(themeFont);
         Mix_FreeChunk(cursor);
         Mix_FreeChunk(cancel);
         Mix_FreeChunk(home_down);
@@ -364,23 +364,12 @@ void Gui::loadAssets() {
     {
         cdJewel = nullptr;
     }
+
     string fontPath = (themePath + themeData.values["font"]);
-    int fontSize = 0;
-    string fontSizeString = themeData.values["fsize"];
-    if (fontSizeString != "")
-        fontSize = atoi(fontSizeString.c_str());
-    auto temp = TTF_OpenFont(fontPath.c_str(), fontSize);
-    if (temp) {
-        cout << "Success opening font " << fontPath << " of size " << fontSize << endl;
-        themeFont = temp;
-    }
-    else {
-        cout << "FAILURE opening font " << fontPath << " of size " << fontSize << endl;
-        themeFont = font24; // do not set themeFont to nullptr
-    }
+    int fontSize = atoi(themeData.values["fsize"].c_str());
+    themeFont = Gui::getInstance()->openFont(fontPath, fontSize);
 
     if (music != nullptr) {
-
         Mix_FreeMusic(music);
         music = nullptr;
     }
@@ -926,7 +915,7 @@ void Gui::finish() {
     SDL_DestroyTexture(buttonCheck);
     SDL_DestroyTexture(buttonUncheck);
     SDL_DestroyTexture(cdJewel);
-    TTF_CloseFont(themeFont);
+    Gui::getInstance()->closeFont(themeFont);
     Mix_HaltMusic();
     Mix_FreeMusic(music);
     Mix_FreeChunk(cursor);
