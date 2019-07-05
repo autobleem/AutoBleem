@@ -510,6 +510,7 @@ void GuiEditor::loop() {
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
+                        cover = nullptr;
                         menuVisible = false;
 
                     };

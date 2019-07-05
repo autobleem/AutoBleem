@@ -14,7 +14,7 @@ using namespace std;
 //*******************************
 void Inifile::load(const string & _path) {
     this->path = _path;
-    cout << "Reading ini file: " << path << endl;
+    //cout << "Reading ini file: " << path << endl;
     ifstream file;
     string iniLine;
     file.open(path);

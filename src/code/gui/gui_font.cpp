@@ -1,6 +1,7 @@
 #include "gui_font.h"
 #include <iostream>
 #include "../util.h"
+#include <assert.h>
 
 using namespace std;
 
@@ -14,6 +15,7 @@ TTF_Font_Shared Fonts::openFont(const string &filename, int fontSize) {
     } else {
         cout << "FAILURE opening font " << filename << " of size " << fontSize << endl;
         font = nullptr;
+        assert(false);
     }
 
     return font;

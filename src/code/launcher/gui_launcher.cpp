@@ -123,8 +123,8 @@ void GuiLauncher::showSetName() {
 void GuiLauncher::renderText(int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font_Shared font, bool center, bool background) {
     int text_width = 0;
     int text_height = 0;
-    SDL_Shared<SDL_Surface> surface = nullptr;
-    SDL_Shared<SDL_Texture> texture = nullptr;
+    SDL_Shared<SDL_Surface> surface;
+    SDL_Shared<SDL_Texture> texture;
     SDL_Rect rect{0,0,0,0};
 
     auto renderer = Gui::getInstance()->renderer;
@@ -198,7 +198,7 @@ void GuiLauncher::loadAssets() {
 
     gui->fonts.openAllFonts(gui->getSonyFontPath());
 
-    notificationLines.createAndSetDefaults(2, 10, 10, FONT_24, 24, 8);    // count, x_start, y_start, TTF_Font_Shared, fontHeight, separationBetweenLines
+    notificationLines.createAndSetDefaults(2, 10, 10, FONT_24, 24, 8);    // count, x_start, y_start, FontSize, fontHeight, separationBetweenLines
 
     staticElements.clear();
     frontElemets.clear();

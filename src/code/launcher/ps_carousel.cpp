@@ -79,6 +79,7 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
                 SDL_RenderCopy(renderer, coverPng, &fullRect, &outputRect);
                 SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_BLEND);
             }
+                coverPng = nullptr;
 
             fullRect.x = 0;
             fullRect.y = 0;
@@ -97,6 +98,7 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
 // PsCarouselGame::freeTex
 //*******************************
 void PsCarouselGame::freeTex() {
+        coverPng = nullptr;
 }
 
 //*******************************

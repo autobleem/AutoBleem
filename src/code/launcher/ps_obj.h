@@ -19,7 +19,7 @@ public:
 
     std::string name;
 
-    SDL_Shared<SDL_Texture> tex = nullptr;
+    SDL_Shared<SDL_Texture> tex;
 
     bool visible = false;
     long lastTime = 0;

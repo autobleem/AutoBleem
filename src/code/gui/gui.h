@@ -80,8 +80,8 @@ public:
     vector<string> joynames;
     PadMapper mapper;
 
-    Coverdb *coverdb;
-    Database *db;
+    Coverdb *coverdb = nullptr;
+    Database *db = nullptr;
     Inifile themeData;
     Inifile defaultData;
 

@@ -32,6 +32,7 @@ void PsMenu::loadAssets() {
 // PsMenu::freeAssets
 //*******************************
 void PsMenu::freeAssets() {
+    resume = nullptr;
 }
 
 #define ICON_GAP 130.0f

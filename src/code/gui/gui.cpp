@@ -1109,7 +1109,7 @@ int Gui::renderTextLineOptions(const string & _text, int line, int offset, bool 
 
     int h = renderTextLine(text, line, offset, center, xoffset);
 
-    SDL_Shared<SDL_Texture> buttonTex = nullptr;
+    SDL_Shared<SDL_Texture> buttonTex;
     SDL_Rect rect;
 
 

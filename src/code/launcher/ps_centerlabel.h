@@ -13,7 +13,7 @@
 class PsCenterLabel : public PsObj {
 public:
     TTF_Font_Shared font;
-    SDL_Shared<SDL_Texture> texture=nullptr;
+    SDL_Shared<SDL_Texture> texture;
     int w = 0, h = 0;
  
     void render();

@@ -16,6 +16,8 @@ using namespace std;
 //*******************************
 void PsStateSelector::cleanSaveStateImages()
 {
+    for (int i=0;i<4;i++)
+        slotImg[i] = nullptr;
 }
 
 //*******************************
