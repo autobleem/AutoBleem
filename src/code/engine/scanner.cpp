@@ -90,7 +90,7 @@ void Scanner::updateDB(Database *db) {
                 db->insertDisc(i + 1, j + 1, data->discs[j].diskName);
             }
             outfile << i + 1 << "," << Util::escape(data->fullPath.substr(0, data->fullPath.size() - 1)) << ","
-                    << Util::escape(data->saveStatePath.substr(0, data->saveStatePath.size() - 1)) << endl;
+                    << Util::escape(data->saveStatePath.substr(0, data->saveStatePath.size() - 1)) << '\n';
         }
     outfile.flush();
     outfile.close();
