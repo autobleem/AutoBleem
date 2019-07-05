@@ -36,6 +36,8 @@
 #define MENU_OPTION_START 5
 #define MENU_OPTION_POWER 6
 
+enum FontSize { FONT_15=15, FONT_24=22, FONT_30=28 };
+
 //********************
 // GuiBase
 //********************
@@ -44,9 +46,10 @@ public:
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
 
-    TTF_Font *font30 = nullptr;
     TTF_Font *font15 = nullptr;
     TTF_Font *font24 = nullptr;
+    TTF_Font *font30 = nullptr;
+    TTF_Font* getFont(FontSize fontSize);
 
     Config cfg;
 

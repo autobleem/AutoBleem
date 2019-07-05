@@ -19,6 +19,7 @@
 #include "../util.h"
 #include <iostream>
 #include "../engine/scanner.h"
+#include <assert.h>
 
 using namespace std;
 
@@ -45,6 +46,23 @@ GuiBase::~GuiBase() {
     SDL_DestroyWindow(window);
 
     SDL_Quit();
+}
+
+//********************
+// GuiBase::getFont
+//********************
+TTF_Font* GuiBase::getFont(FontSize fontSize) {
+    TTF_Font* font = nullptr;
+    if (fontSize == FONT_15)
+        font = font15;
+    else if (fontSize == FONT_24)
+        font = font24;
+    else if (fontSize == FONT_30)
+        font = font30;
+    else
+        { assert(false); }
+
+    return font;
 }
 
 //********************
