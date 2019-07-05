@@ -36,6 +36,8 @@
 #define MENU_OPTION_START 5
 #define MENU_OPTION_POWER 6
 
+enum FontSize { FONT_15=15, FONT_24=22, FONT_30=28 };
+
 //********************
 // GuiBase
 //********************
@@ -44,21 +46,25 @@ public:
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
 
-    TTF_Font *font30 = nullptr;
     TTF_Font *font15 = nullptr;
     TTF_Font *font24 = nullptr;
+    TTF_Font *font30 = nullptr;
+    TTF_Font* getFont(FontSize fontSize);
+
     Config cfg;
 
     GuiBase();
-
     ~GuiBase();
 
+    TTF_Font* openFont(const std::string &filename, int fontSize);
+    void closeFont(TTF_Font* &font);
+    void openBaseFonts(const std::string &fontDirPath);
+    void openBaseFonts() { getSonyFontPath(); }
+    void closeBaseFonts();
+
     std::string getSonyImagePath();
-
     std::string getSonyFontPath();
-
     std::string getSonySoundPath();
-
     std::string getSonyRootPath();
 
 };
@@ -179,7 +185,7 @@ public:
     std::string path;
 
     Mix_Music *music = NULL;
-    TTF_Font *font = NULL;
+    TTF_Font *themeFont = NULL;
     bool forceScan = false;
 
     Mix_Chunk *cancel = NULL;
