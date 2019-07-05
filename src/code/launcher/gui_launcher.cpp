@@ -196,6 +196,8 @@ void GuiLauncher::loadAssets() {
         secB = gui->getB(colorsFile.values["sec"]);
     }
 
+    gui->fonts.openAllFonts(gui->getSonyFontPath());
+
     notificationLines.createAndSetDefaults(2, 10, 10, gui->fonts[FONT_24], 24, 8);    // count, x_start, y_start, TTF_Font_Shared, fontHeight, separationBetweenLines
 
     staticElements.clear();

@@ -75,6 +75,7 @@ add_executable(autobleem-gui
         src/code/gui/gui_selectmemcard.h
         src/code/gui/gui_sdl_wrapper.h
         src/code/gui/gui_font.h
+        src/code/gui/gui_font.cpp
         src/code/gui/gui_font_wrapper.h
 		src/code/ver_migration.cpp
 		src/code/ver_migration.h
@@ -117,7 +118,8 @@ add_executable(autobleem-gui
         src/code/engine/padmapper.cpp
         src/code/engine/padmapper.h
         src/code/gui/gui_padconfig.cpp
-        src/code/gui/gui_padconfig.h)
+        src/code/gui/gui_padconfig.h
+		)
 
 
 add_executable(starter
