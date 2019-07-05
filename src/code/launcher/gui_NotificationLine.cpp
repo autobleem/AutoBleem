@@ -1,12 +1,13 @@
 #include "gui_NotificationLine.h"
 #include "gui_launcher.h"
+#include "../gui/gui.h"
 
 using namespace std;
 
 //*******************************
 // NotificationLine::setText
 //*******************************
-void NotificationLine::setText(string _text, long _timeLimitInMilliSeconds, const SDL_Color & _textColor, TTF_Font_Shared _font) {
+void NotificationLine::setText(string _text, long _timeLimitInMilliSeconds, const SDL_Color & _textColor, FontSize _fontSize) {
     text = _text;
     timed = (_timeLimitInMilliSeconds != 0);
     notificationTime = SDL_GetTicks();  // tick count when setText called
@@ -14,20 +15,21 @@ void NotificationLine::setText(string _text, long _timeLimitInMilliSeconds, cons
         ++notificationTime;
     timeLimit = _timeLimitInMilliSeconds;
     textColor = _textColor;
-    font = _font;
+    fontSize = _fontSize;
 };
 
 //*******************************
 // NotificationLine::setText
 //*******************************
 void NotificationLine::setText(string _text, long _timeLimitInMilliSeconds) {
-    setText(_text, _timeLimitInMilliSeconds, textColor, font);
+    setText(_text, _timeLimitInMilliSeconds, textColor, fontSize);
 };
 
 //*******************************
 // NotificationLine::tickTock
 //*******************************
 void NotificationLine::tickTock() {
+    auto gui = Gui::getInstance();
     if (timed) {
         if (notificationTime != 0) {
             long currentTimeTicks = SDL_GetTicks();
@@ -35,18 +37,18 @@ void NotificationLine::tickTock() {
                 notificationTime = 0;   // turn off the display
         }
         if (notificationTime != 0)
-            GuiLauncher::renderText(x, y, text, textColor, font, true, true);
+            GuiLauncher::renderText(x, y, text, textColor, gui->fonts[fontSize], true, true);
     } else // not timed - keep display on
-        GuiLauncher::renderText(x, y, text, textColor, font, true, true);
+        GuiLauncher::renderText(x, y, text, textColor, gui->fonts[fontSize], true, true);
 }
 
 //*******************************
 // NotificationLines::createAndSetDefaults
 //*******************************
-void NotificationLines::createAndSetDefaults(int count, int x_start, int y_start, TTF_Font_Shared font, int fontHeight, int separationBetweenLines) {
+void NotificationLines::createAndSetDefaults(int count, int x_start, int y_start, FontSize fontSize, int fontHeight, int separationBetweenLines) {
     for (int line=0; line < count; ++line) {
         NotificationLine notificationLine;
-        notificationLine.font = font;
+        notificationLine.fontSize = fontSize;
         notificationLine.textColor = brightWhite;
         notificationLine.x = x_start;
         notificationLine.y = y_start + (line * (fontHeight + separationBetweenLines));

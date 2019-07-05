@@ -198,7 +198,7 @@ void GuiLauncher::loadAssets() {
 
     gui->fonts.openAllFonts(gui->getSonyFontPath());
 
-    notificationLines.createAndSetDefaults(2, 10, 10, gui->fonts[FONT_24], 24, 8);    // count, x_start, y_start, TTF_Font_Shared, fontHeight, separationBetweenLines
+    notificationLines.createAndSetDefaults(2, 10, 10, FONT_24, 24, 8);    // count, x_start, y_start, TTF_Font_Shared, fontHeight, separationBetweenLines
 
     staticElements.clear();
     frontElemets.clear();
@@ -996,14 +996,14 @@ void GuiLauncher::loop() {
                             if (nextGame != selGame) {
                                 // we have next game;
                                 Mix_PlayChannel(-1, gui->cursor, 0);
-                                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, gui->fonts[FONT_24]);
+                                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, FONT_24);
                                 selGame = nextGame;
                                 setInitialPositions(selGame);
                                 updateMeta();
                                 menu->setResumePic(carouselGames[selGame]->findResumePicture());
                             } else {
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, gui->fonts[FONT_24]);
+                                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, FONT_24);
                             }
                         }
                     }
@@ -1026,14 +1026,14 @@ void GuiLauncher::loop() {
                             if (nextGame != selGame) {
                                 // we have next game;
                                 Mix_PlayChannel(-1, gui->cursor, 0);
-                                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, gui->fonts[FONT_24]);
+                                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, FONT_24);
                                 selGame = nextGame;
                                 setInitialPositions(selGame);
                                 updateMeta();
                                 menu->setResumePic(carouselGames[selGame]->findResumePicture());
                             } else {
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, gui->fonts[FONT_24]);
+                                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, FONT_24);
                             }
                         }
                     }
@@ -1105,7 +1105,8 @@ void GuiLauncher::loop() {
                                     continue;
                                 }
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationLines[1].setText(_("MemCard Manager will be available soon"), DefaultShowingTimeout, brightWhite, gui->fonts[FONT_24]);
+                                notificationLines[1].setText(_("MemCard Manager will be available soon"),
+                                        DefaultShowingTimeout, brightWhite, FONT_24);
                             }
                             if (menu->selOption == 1) {
                                 if (carouselGames.empty()) {
