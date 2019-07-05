@@ -304,15 +304,7 @@ void Gui::loadAssets() {
     string fontSizeString = themeData.values["fsize"];
     if (fontSizeString != "")
         fontSize = atoi(fontSizeString.c_str());
-    auto temp = TTF_OpenFont(fontPath.c_str(), fontSize);
-    if (temp) {
-        cout << "Success opening font " << fontPath << " of size " << fontSize << endl;
-        themeFont = temp;
-    }
-    else {
-        cout << "FAILURE opening font " << fontPath << " of size " << fontSize << endl;
-        themeFont = fonts[FONT_24]; // do not set themeFont to nullptr
-    }
+    themeFont = Fonts::openFont(fontPath, fontSize);
 
     if (music != nullptr) {
 
