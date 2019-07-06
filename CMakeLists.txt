@@ -21,7 +21,8 @@ endif()
 
 find_package(Threads REQUIRED)
 
-add_executable(autobleem-gui
+add_executable(
+        autobleem-gui
         src/code/unecm.c
         src/code/sqlite3.c
         src/code/main.h
