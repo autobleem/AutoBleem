@@ -8,17 +8,17 @@
 #define IMAGE_NO_GAME_FOUND 2
 #define IMAGE_NO_GAME_BUT_HAS_SUBDIR 3
 
-static const char GAME_DATA[] = "GameData";
-static const char GAME_INI[] = "Game.ini";
-static const char PCSX_CFG[] = "pcsx.cfg";
-static const char EXT_PNG[] = ".png";
-static const char EXT_PBP[] = ".pbp";
-static const char EXT_ECM[] = ".ecm";
-static const char EXT_BIN[] = ".bin";
-static const char EXT_IMG[] = ".img";
-static const char EXT_ISO[] = ".iso";
-static const char EXT_CUE[] = ".cue";
-static const char EXT_LIC[] = ".lic";
+extern const char GAME_DATA[];
+extern const char GAME_INI[];
+extern const char PCSX_CFG[];
+extern const char EXT_PNG[];
+extern const char EXT_PBP[];
+extern const char EXT_ECM[];
+extern const char EXT_BIN[];
+extern const char EXT_IMG[];
+extern const char EXT_ISO[];
+extern const char EXT_CUE[];
+extern const char EXT_LIC[];
 
 //////////////////////////////
 // inline std:string functions

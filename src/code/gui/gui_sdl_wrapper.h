@@ -6,10 +6,10 @@
 #include <memory>
 #include <SDL2/SDL.h>
 
-static void SDL_DelRes(SDL_Window   *r) { SDL_DestroyWindow(r);   }
-static void SDL_DelRes(SDL_Renderer *r) { SDL_DestroyRenderer(r); }
-static void SDL_DelRes(SDL_Texture  *r) { SDL_DestroyTexture(r);  }
-static void SDL_DelRes(SDL_Surface  *r) { SDL_FreeSurface(r);     }
+extern void SDL_DelRes(SDL_Window   *r);
+extern void SDL_DelRes(SDL_Renderer *r);
+extern void SDL_DelRes(SDL_Texture  *r);
+extern void SDL_DelRes(SDL_Surface  *r);
 
 template <typename T>
 struct SDL_Shared {

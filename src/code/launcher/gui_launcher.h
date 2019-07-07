@@ -30,7 +30,7 @@
 #define SET_FAVORITE 3
 #define SET_LAST 3
 
-static const SDL_Color brightWhite = { 255, 255, 255, 0 };
+extern const SDL_Color brightWhite;
 
 //******************
 // GuiLauncher

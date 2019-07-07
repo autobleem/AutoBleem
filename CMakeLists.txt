@@ -75,6 +75,7 @@ add_executable(
 		src/code/gui/gui_selectmemcard.cpp
         src/code/gui/gui_selectmemcard.h
         src/code/gui/gui_sdl_wrapper.h
+        src/code/gui/gui_sdl_wrapper.cpp
         src/code/gui/gui_font.h
         src/code/gui/gui_font.cpp
         src/code/gui/gui_font_wrapper.h

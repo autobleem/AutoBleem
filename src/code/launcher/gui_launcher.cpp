@@ -17,6 +17,9 @@
 
 using namespace std;
 
+const SDL_Color brightWhite = { 255, 255, 255, 0 };
+
+
 //*******************************
 // GuiLauncher::updateMeta
 //*******************************

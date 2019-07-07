@@ -5,6 +5,21 @@
 
 using namespace std;
 
+FontSize allFontSizes[] { FONT_15, FONT_24, FONT_30 };
+map<FontSize, string> TTF_FileNameToUseForFontSize  {
+        {FONT_15, "SST-Bold.ttf"},
+        {FONT_24, "SST-Medium.ttf"},
+        {FONT_30, "SST-Bold.ttf"}
+};
+
+//********************
+// Fonts::Fonts
+//********************
+Fonts::Fonts() {
+    for (auto size : allFontSizes)
+        fonts.emplace(size, TTF_Font_Shared()); // insert an empty TTF_Font_Shared pointing to nullptr for now
+}
+
 //********************
 // Fonts::openFont
 //********************
