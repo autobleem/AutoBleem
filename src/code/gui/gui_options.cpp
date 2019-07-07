@@ -199,7 +199,7 @@ void GuiOptions::render() {
     renderOptionLine(_("Show RetroArch:") + " " + getBooleanIcon("retroarch"), CFG_RA + 1, offset);
     renderOptionLine(_("Advanced:") + " " + getBooleanIcon("adv"), CFG_ADV + 1, offset);
     renderOptionLine(_("Showing Timeout (0 = no timeout):") + " " + gui->cfg.inifile.values["showingtimeout"], CFG_SHOWINGTIMEOUT + 1, offset);
-    gui->renderStatus("|@O| " + _("Go back") + "|");
+    gui->renderStatus("|@X| " + _("OK") + "     " + "|@O| " + _("Cancel") + "|");
 
     //   gui->renderSelectionBox(selOption+1,offset);
     SDL_RenderPresent(renderer);
@@ -214,10 +214,19 @@ void GuiOptions::loop() {
 
     render();
 
+    bool waitForButtonToBeReleased = true;
     bool menuVisible = true;
     while (menuVisible) {
         gui->watchJoystickPort();
         SDL_Event e;
+
+        if (waitForButtonToBeReleased) {
+            if (SDL_PollEvent(&e) && e.type == SDL_KEYDOWN)
+                continue;   // wait until the button that was pressed is released
+            else
+                waitForButtonToBeReleased = false;
+        }
+
         if (SDL_PollEvent(&e)) {
             if (e.type == SDL_KEYDOWN) {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
@@ -236,11 +245,22 @@ void GuiOptions::loop() {
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
+                        string cfg_path = Util::getWorkingPath() + Util::separator() + "config.ini";
+                        gui->cfg.inifile.load(cfg_path);    // restore the original config.ini settings
+                        lang->load(gui->cfg.inifile.values["language"]);    // restore the original lang
+                        gui->overrideQuickBoot = true;
+                        menuVisible = false;
+                    };
+
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
+                        Mix_PlayChannel(-1, gui->cancel, 0);
                         gui->cfg.save();
                         gui->overrideQuickBoot = true;
                         menuVisible = false;
                     };
+
                     break;
+
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
                 case SDL_JOYHATMOTION:
 

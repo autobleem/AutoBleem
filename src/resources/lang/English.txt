@@ -148,6 +148,8 @@ New Card
 
 New GamePad found
 
+OK
+
 OOPS! Game crashed. Resume point not available.
 
 Options
