@@ -54,11 +54,12 @@ public:
     static int rmDir(std::string path);
     static std::string getWorkingPath();
     static bool isInteger(const char *input);
-    static bool matchExtension(std::string path, std::string ext);
+    static bool matchExtension(std::string path, std::string ext);  // this does a case insensitive compare
     static bool matchesLowercase(std::string first, std::string second);
     static std::string findFirstFile(std::string ext, std::string path);
     static bool isDirectory(const std::string& path);
-    static std::vector<DirEntry> getFilesWithExtension(const std::string& path, const std::vector<DirEntry>& entries, const std::vector<std::string>& extensions);
+    static std::vector<DirEntry> getFilesWithExtension(const std::string& path, const std::vector<DirEntry>& entries,
+            const std::vector<std::string>& extensions);    // pass file extensions in lower case
     static std::string getFileNameFromPath(const std::string& path);
 
     static unsigned char readChar(std::ifstream * stream);

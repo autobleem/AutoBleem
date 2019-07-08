@@ -660,8 +660,10 @@ vector<DirEntry> Util::getFilesWithExtension(const string& path, const vector<Di
     vector<DirEntry> fileList;
     string fileExt;
     for (const auto & entry : entries){
-        if(Util::isDirectory(path + "/" + entry.name)) continue;
-        fileExt = Util::getFileExtension(entry.name);
+        if(Util::isDirectory(path + "/" + entry.name))
+            continue;
+        // make it case insensitive compare (find .bin and .BIN)
+        fileExt = ReturnLowerCase(Util::getFileExtension(entry.name));
         if(find(extensions.begin(),extensions.end(),fileExt) != extensions.end()){
             fileList.push_back(entry);
         }
