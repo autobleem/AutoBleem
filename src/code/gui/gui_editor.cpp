@@ -342,30 +342,38 @@ void GuiEditor::render() {
 
     gui->renderTextLineOptions(
             _("Favorite:") + (gameIni.values["favorite"] == "1" ? string("|@Check|") : string("|@Uncheck|")),
-            line++, offset,
-            false, 300);
+            OPT_FAVORITE, offset, false, 300);
 
     // pcsx.cfg
 
     gui->renderTextLineOptions(
             _("Lock data:") + (gameIni.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|")),
-            line++, offset,
-            false, 300);
+            OPT_LOCK, offset, false, 300);
 
-    gui->renderTextLineOptions(_("High res:") + (highres == 1 ? string("|@Check|") : string("|@Uncheck|")), line++, offset,
-                               false, 300);
+    gui->renderTextLineOptions(_("High res:") + (highres == 1 ? string("|@Check|") : string("|@Uncheck|")),
+            OPT_HIGHRES, offset, false, 300);
 
-    gui->renderTextLineOptions(_("SpeedHack:") + (speedhack == 1 ? string("|@Check|") : string("|@Uncheck|")), line++,
-                               offset, false, 300);
-    gui->renderTextLineOptions(_("Scanlines:") + (scanlines == 1 ? string("|@Check|") : string("|@Uncheck|")), line++,
-                               offset, false, 300);
-    gui->renderTextLineOptions(_("Scanline Level:") + " " + to_string(scanlineLevel), line++, offset, false, 300);
-    gui->renderTextLineOptions(_("Clock:") + " " + to_string(clock), line++, offset, false, 300);
-    gui->renderTextLineOptions(_("Frameskip:") + " " + to_string(frameskip), line++, offset, false, 300);
+    gui->renderTextLineOptions(_("SpeedHack:") + (speedhack == 1 ? string("|@Check|") : string("|@Uncheck|")),
+            OPT_SPEEDHACK, offset, false, 300);
+
+    gui->renderTextLineOptions(_("Scanlines:") + (scanlines == 1 ? string("|@Check|") : string("|@Uncheck|")),
+            OPT_SCANLINES, offset, false, 300);
+
+    gui->renderTextLineOptions(_("Scanline Level:") + " " + to_string(scanlineLevel),
+            OPT_SCANLINELV, offset, false, 300);
+
+    gui->renderTextLineOptions(_("Clock:") + " " + to_string(clock),
+            OPT_CLOCK_PSX, offset, false, 300);
+
+    gui->renderTextLineOptions(_("Frameskip:") + " " + to_string(frameskip),
+            OPT_FRAMESKIP, offset, false, 300);
+
     if (!internal) {
-        gui->renderTextLineOptions(_("Plugin:") + gpu, line++, offset, false, 300);
+        gui->renderTextLineOptions(_("Plugin:") + gpu, OPT_PLUGIN, offset, false, 300);
     }
-    gui->renderTextLineOptions(_("Spu Interpolation:") + " " + to_string(interpolation), line++, offset, false, 300);
+
+    gui->renderTextLineOptions(_("Spu Interpolation:") + " " + to_string(interpolation),
+            OPT_INTERPOLATION, offset, false, 300);
 
     gui->renderSelectionBox(selOption, offset, 300);
 
