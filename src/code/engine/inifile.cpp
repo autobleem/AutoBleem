@@ -66,3 +66,16 @@ void Inifile::save(const string & _path) {
     os.flush();
     os.close();
 }
+
+//*******************************
+// Inifile::print
+//*******************************
+void Inifile::print() {
+    cout << "section = " << section << '\n';
+    cout << "path = " << path << '\n';
+    cout << "entry = " << entry << '\n';
+
+    for (auto & item : values)
+        cout << item.first << " = " << item.second << '\n';
+    cout << flush;
+}

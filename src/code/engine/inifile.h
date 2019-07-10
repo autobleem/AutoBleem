@@ -32,4 +32,5 @@ public:
 
     void load(const std::string & path);
     void save(const std::string & path);
+    void print();
 };
