@@ -79,17 +79,26 @@ bool Game::verify() {
     if (discs.size() == 0) result = false;
 
     for (int i = 0; i < discs.size(); i++) {
-        if (discs[i].diskName.length() == 0) result = false;
-        if (!discs[i].cueFound) result = false;
-        if (!discs[i].binVerified) result = false;
+        if (discs[i].diskName.length() == 0)
+            result = false;
+        if (!discs[i].cueFound)
+            result = false;
+        if (!discs[i].binVerified)
+            result = false;
     }
 
-    if (!gameDataFound) result = false;
-    if (!gameIniFound) result = false;
-    if (!gameIniValid) result = false;
-    if (!imageFound) result = false;
-    if (!licFound) result = false;
-    if (!pcsxCfgFound) result = false;
+    if (!gameDataFound)
+        result = false;
+    if (!gameIniFound)
+        result = false;
+    if (!gameIniValid)
+        result = false;
+    if (!imageFound)
+        result = false;
+    if (!licFound)
+        result = false;
+    if (!pcsxCfgFound)
+        result = false;
 
     if (!result) {
         cerr << "Game: " << title << " Validation Failed" << endl;
@@ -167,7 +176,7 @@ void Game::recoverMissingFiles() {
             cout << "Switching automation in PBP" << endl;
         }
     }
-    if (this->imageType == IMAGE_CUE_BIN) {
+    if (this->imageType == IMAGE_CUE_BIN || imageType == IMAGE_IMG || imageType == IMAGE_ISO) {
         if (discs.size() == 0) {
             automationUsed = true;
             cout << "Switching automation no discs" << endl;
@@ -288,10 +297,10 @@ void Game::updateObj() {
     if (Util::isInteger(tmp.c_str())) year = atoi(tmp.c_str()); else year = 2018;
     tmp = valueOrDefault("highres","0");
     if (Util::isInteger(tmp.c_str())) highRes = atoi(tmp.c_str()); else highRes = 0;
-    tmp = valueOrDefault("discs", "");
     favorite = valueOrDefault("favorite", "0", false);  // favorite is a new field that didn't exist before so
-                                                        // don't set automationUsed if it doesn't exist
+    // don't set automationUsed if it doesn't exist
 
+    tmp = valueOrDefault("discs", "");
     if (!tmp.empty()) {
         vector<string> strings;
         istringstream f(tmp);
@@ -303,7 +312,7 @@ void Game::updateObj() {
         for (int i = 0; i < strings.size(); i++) {
             Disc disc;
             disc.diskName = strings[i];
-            if (imageType == IMAGE_CUE_BIN) {
+            if (imageType == IMAGE_CUE_BIN || imageType == IMAGE_IMG || imageType == IMAGE_ISO) {
                 string cueFile = fullPath  + disc.diskName + EXT_CUE;
                 bool discCueExists = Util::exists(cueFile);
                 if (discCueExists) {

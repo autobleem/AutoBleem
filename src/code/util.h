@@ -54,6 +54,8 @@ public:
     static int rmDir(std::string path);
     static std::string getWorkingPath();
     static bool isInteger(const char *input);
+    static std::string removeDotFromExtension(const std::string & ext); // if it has it
+    static std::string addDotToExtension(const std::string & ext); // if it doesn't start with a "."
     static bool matchExtension(std::string path, std::string ext);  // this does a case insensitive compare
     static bool matchesLowercase(std::string first, std::string second);
     static std::string findFirstFile(std::string ext, std::string path);

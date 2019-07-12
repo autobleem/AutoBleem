@@ -340,16 +340,39 @@ string Util::findFirstFile(string ext, string path) {
 }
 
 //*******************************
+// Util::removeDotFromExtension
+//*******************************
+// if it begins with a ".", remove it
+string Util::removeDotFromExtension(const std::string & ext) {
+    if (ext.c_str()[0] == '.')
+        return ext.c_str() + 1;
+    else
+        return ext;
+}
+
+//*******************************
+// Util::addDotToExtension
+//*******************************
+// if it doesn't start with a ".", add it to the front
+string Util::addDotToExtension(const std::string & ext) {
+    if (ext.c_str()[0] != '.')
+        return string(".") + ext;
+    else
+        return ext;
+}
+
+//*******************************
 // Util::matchExtension
 //*******************************
 bool Util::matchExtension(string path, string ext) {
     fixPath(path);
     if (path.length() >= 4) {
-        string fileExt = path.substr(path.length() - 4, path.length());
+        string fileExt = path.substr(path.length() - 4, path.length()); // file extension includes the "."
         if (fileExt[0] != '.') {
             return false;
         } else {
-            return lcase(fileExt) == lcase(ext);
+            auto temp = addDotToExtension(ext);
+            return lcase(fileExt) == lcase(temp);
         }
     } else {
         return false;
@@ -542,10 +565,7 @@ void Util::execFork(const char *cmd,  vector<const char *> argvNew)
 //*******************************
 // Util::getFileExtension
 //*******************************
-/*
- * Return the extension of a filename out of string
- * myfile.txt will return txt
- */
+// Return the extension of a filename without the "."
 string Util::getFileExtension(const string & fileName) {
     size_t i = fileName.rfind('.', fileName.length());
     if (i != string::npos) {
@@ -557,9 +577,7 @@ string Util::getFileExtension(const string & fileName) {
 //*******************************
 // Util::getFileNameWithoutExtension
 //*******************************
-/*
- * Return the name of a file without extension
- */
+// Return the name of a file without extension
 string Util::getFileNameWithoutExtension(const string& filename) {
     size_t indexBeforeDot = filename.find_last_of(".");
     return filename.substr(0, indexBeforeDot);
@@ -568,9 +586,7 @@ string Util::getFileNameWithoutExtension(const string& filename) {
 //*******************************
 // Util::cueToBinList
 //*******************************
-/*
- * Return the bin list declared in a cue file
- */
+// Return the bin list declared in a cue file
 vector<string> Util::cueToBinList(string cueFile) {
     vector<string> binList;
     FILE *fp;
@@ -609,9 +625,7 @@ vector<string> Util::cueToBinList(string cueFile) {
 //*******************************
 // Util::ltrim
 //*******************************
-/*
- * Left trimming
- */
+// Left trimming
 string Util::ltrim(const string& s){
     size_t start = s.find_first_not_of(" \n\r\t\f\v");
     return (start == string::npos) ? "" : s.substr(start);
@@ -620,9 +634,7 @@ string Util::ltrim(const string& s){
 //*******************************
 // Util::rtrim
 //*******************************
-/*
- * Right trimming
- */
+// Right trimming
 string Util::rtrim(const string& s){
     size_t end = s.find_last_not_of(" \n\r\t\f\v");
     return (end == string::npos) ? "" : s.substr(0, end + 1);
@@ -631,9 +643,7 @@ string Util::rtrim(const string& s){
 //*******************************
 // Util::trim
 //*******************************
-/*
- * Trimming both left and right
- */
+// Trimming both left and right
 string Util::trim(const string &s) {
     return rtrim(ltrim(s));
 }

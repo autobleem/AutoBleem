@@ -329,6 +329,12 @@ int Scanner::getImageType(string path) {
             if (Util::matchExtension(entry.name, EXT_PBP)) {
                 return IMAGE_PBP;
             }
+            if (Util::matchExtension(entry.name, EXT_IMG)) {
+                return IMAGE_IMG;
+            }
+            if (Util::matchExtension(entry.name, EXT_ISO)) {
+                return IMAGE_ISO;
+            }
         }
     }
     if (hasASubDir)
@@ -398,11 +404,11 @@ void Scanner::scanDirectory(const string & _path) {
         string gameIniPath = gameDataPath + GAME_INI;
 
         int gameType = getImageType(gameDataPath);
-        if (gameType == IMAGE_CUE_BIN || gameType == IMAGE_PBP) {
+        if (gameType == IMAGE_CUE_BIN || gameType == IMAGE_PBP || gameType == IMAGE_IMG || gameType == IMAGE_ISO) {
 			game->imageType = gameType;
 			game->gameDataFound = true;
 
-			if (game->imageType == IMAGE_CUE_BIN) // only cue/bin
+			if (game->imageType == IMAGE_CUE_BIN || game->imageType == IMAGE_IMG || game->imageType == IMAGE_ISO) // only cue/bin
 			{
 				repairMissingCue(gameDataPath, entry.name);
 				repairBrokenCueFiles(gameDataPath);

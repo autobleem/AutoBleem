@@ -117,7 +117,7 @@ string SerialScanner::scanSerialInternal(int imageType, string path, string firs
             }
         }
     }
-    if (imageType == IMAGE_CUE_BIN) {
+    if (imageType == IMAGE_CUE_BIN || imageType == IMAGE_IMG || imageType == IMAGE_ISO) {
         string prefixes[] = {
                 "CPCS", "ESPM", "HPS", "LPS", "LSP", "SCAJ", "SCED", "SCES", "SCPS", "SCUS", "SIPS", "SLES", "SLKA",
                 "SLPM", "SLPS", "SLUS"};
@@ -167,7 +167,7 @@ string SerialScanner::scanSerialInternal(int imageType, string path, string firs
 string SerialScanner::workarounds(int imageType, string path, string firstBinPath)
 {
     string fileToScan = "";
-    if (imageType == IMAGE_CUE_BIN)
+    if (imageType == IMAGE_CUE_BIN || imageType == IMAGE_IMG || imageType == IMAGE_ISO)
     {
         fileToScan = firstBinPath;
     }

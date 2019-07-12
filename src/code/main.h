@@ -5,8 +5,10 @@
 
 #define IMAGE_CUE_BIN 0
 #define IMAGE_PBP     1
-#define IMAGE_NO_GAME_FOUND 2
-#define IMAGE_NO_GAME_BUT_HAS_SUBDIR 3
+#define IMAGE_IMG     2
+#define IMAGE_ISO     3
+#define IMAGE_NO_GAME_FOUND 4
+#define IMAGE_NO_GAME_BUT_HAS_SUBDIR 5
 
 extern const char GAME_DATA[];
 extern const char GAME_INI[];
