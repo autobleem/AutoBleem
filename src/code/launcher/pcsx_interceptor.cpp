@@ -101,7 +101,7 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
 
     for (const char *s:argvNew) {
         if (s != nullptr) {
-            cout << s << " ";
+            cout << "'" << s << "' ";
         }
     }
     cout << endl;
