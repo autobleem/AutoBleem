@@ -142,6 +142,10 @@ Menu
 
 Menu Theme:
 
+Moving :
+
+Moving...
+
 Music:
 
 New Card
@@ -239,10 +243,6 @@ Showing: Internal games
 Showing: USB games
 
 Slot
-
-Sorting :
-
-Sorting...
 
 Space
 

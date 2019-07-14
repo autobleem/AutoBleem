@@ -437,7 +437,6 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
 
     loadAssets();
 
-
     if (!resume) {
         auto *splashScreen = new GuiSplash(renderer);
         splashScreen->show();
@@ -446,21 +445,16 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
         drawText(_("Importing internal games"));
         Util::execUnixCommad("/media/Autobleem/rc/backup_internal.sh");
 
-
-
             for (int i = 0; i < SDL_NumJoysticks(); i++) {
                 SDL_Joystick* joystick = SDL_JoystickOpen(i);
-                if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick)))
-                {
+                if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick))) {
                     cout << "New pad type" <<endl;
                     auto cfgPad = new GuiPadConfig(renderer);
                     cfgPad->joyid = SDL_JoystickInstanceID(joystick);
                     cfgPad->show();
                     delete cfgPad;
                 }
-
             }
-
 
         if (cfg.inifile.values["quick"] != "true")
             waitForGamepad();
@@ -468,8 +462,6 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
         resumingGui = true;
         overrideQuickBoot = true;
     }
-
-
 }
 
 //*******************************

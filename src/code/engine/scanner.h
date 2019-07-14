@@ -25,9 +25,12 @@ public:
     void updateDB(Database *db);
     bool forceScan=false;
     bool noGamesFound=false;
-    void detectAndSortGamefiles(const std::string & path);
+    bool areThereGameFilesInGamesDir(const std::string & path);
+    bool copyGameFilesInGamesDirToSubDirs(const std::string & path);    // returns true is any files moved into sub-dirs
+
     Scanner(Scanner const &) = delete;
     Scanner &operator=(Scanner const &) = delete;
+
     static std::shared_ptr<Scanner> getInstance() {
         static std::shared_ptr<Scanner> s{new Scanner};
         return s;
