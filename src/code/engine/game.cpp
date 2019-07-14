@@ -176,7 +176,7 @@ void Game::recoverMissingFiles() {
             cout << "Switching automation in PBP" << endl;
         }
     }
-    if (this->imageType == IMAGE_CUE_BIN || imageType == IMAGE_IMG || imageType == IMAGE_ISO) {
+    if (imageTypeIsAGameFileThatUsesACueFile(this->imageType)) {
         if (discs.size() == 0) {
             automationUsed = true;
             cout << "Switching automation no discs" << endl;
@@ -312,7 +312,7 @@ void Game::updateObj() {
         for (int i = 0; i < strings.size(); i++) {
             Disc disc;
             disc.diskName = strings[i];
-            if (imageType == IMAGE_CUE_BIN || imageType == IMAGE_IMG || imageType == IMAGE_ISO) {
+            if (imageTypeIsAGameFileThatUsesACueFile(imageType)) {
                 string cueFile = fullPath  + disc.diskName + EXT_CUE;
                 bool discCueExists = Util::exists(cueFile);
                 if (discCueExists) {

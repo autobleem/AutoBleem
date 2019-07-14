@@ -35,7 +35,7 @@ public:
     static bool sortByTitle(const std::shared_ptr<Game> i, const std::shared_ptr<Game> j) { return SortByCaseInsensitive(i->title, j->title); }
 
 private:
-    int getImageType(std::string path);
+    ImageType getImageType(std::string path);
     bool complete;
     void moveFolderIfNeeded(const DirEntry & entry, std::string gameDataPath, std::string path);
 };

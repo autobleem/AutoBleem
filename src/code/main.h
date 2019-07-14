@@ -3,12 +3,20 @@
 #include <algorithm>
 #include <string>
 
-#define IMAGE_CUE_BIN 0
-#define IMAGE_PBP     1
-#define IMAGE_IMG     2
-#define IMAGE_ISO     3
-#define IMAGE_NO_GAME_FOUND 4
-#define IMAGE_NO_GAME_BUT_HAS_SUBDIR 5
+enum ImageType { IMAGE_NO_GAME_FOUND = -2, IMAGE_NO_GAME_BUT_HAS_SUBDIR = -1,
+                 IMAGE_CUE_BIN = 0,
+                 IMAGE_PBP,
+                 IMAGE_IMG,
+                 IMAGE_ISO // not supported yet
+};
+
+inline bool imageTypeIsAGameFile(ImageType type) {
+    return type >= IMAGE_CUE_BIN;
+}
+
+inline bool imageTypeIsAGameFileThatUsesACueFile(ImageType type) {
+    return imageTypeIsAGameFile(type) && (type != IMAGE_PBP);
+}
 
 extern const char GAME_DATA[];
 extern const char GAME_INI[];
