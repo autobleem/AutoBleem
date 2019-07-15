@@ -3,7 +3,7 @@
 #include "../util.h"
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
-#include "SerialScanner.h"
+#include "serialscanner.h"
 
 using namespace std;
 
