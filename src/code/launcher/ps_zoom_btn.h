@@ -1,12 +1,13 @@
 //
 // Created by screemer on 2/11/19.
 //
-
-#ifndef AUTOBLEEM_GUI_PS_ZOOM_BTN_H
-#define AUTOBLEEM_GUI_PS_ZOOM_BTN_H
+#pragma once
 
 #include "ps_obj.h"
 
+//******************
+// PsZoomBtn
+//******************
 class PsZoomBtn : public PsObj {
 
     float zoom = 1.0f;
@@ -17,8 +18,4 @@ class PsZoomBtn : public PsObj {
     void update(long time);
 
     using PsObj::PsObj;
-
 };
-
-
-#endif //AUTOBLEEM_GUI_PS_ZOOM_BTN_H

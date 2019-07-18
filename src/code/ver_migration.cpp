@@ -7,9 +7,14 @@
 #include "engine/config.h"
 #include "engine/inifile.h"
 #include <fstream>
+#include <iostream>
+using namespace std;
 
 string verFile = "/media/System/Logs/ver.txt";
 
+//*******************************
+// VerMigration::getLastRunVersion
+//*******************************
 string VerMigration::getLastRunVersion()
 {
     string version="";
@@ -27,8 +32,11 @@ string VerMigration::getLastRunVersion()
     }
     trim(version);
     return version;
-
 }
+
+//*******************************
+// VerMigration::split
+//*******************************
 void split(const string& s, char c,
            vector<string>& v) {
     int i = 0;
@@ -45,6 +53,9 @@ void split(const string& s, char c,
     }
 }
 
+//*******************************
+// VerMigration::migrate04_05
+//*******************************
 void VerMigration::migrate04_05(Database * db)
 {
     cout << "Migrating 0.4.0 to 0.5.0" << endl;
@@ -53,7 +64,7 @@ void VerMigration::migrate04_05(Database * db)
     ifstream is(Util::getWorkingPath()+Util::separator()+"autobleem.list");
     string line;
     while (getline(is, line)) {
-        std::vector<string> vect;
+        vector<string> vect;
 
         split(line,',',vect);
 
@@ -90,13 +101,14 @@ void VerMigration::migrate04_05(Database * db)
                 }
             }
             delete (md);
-
         }
     }
     is.close();
-
-
 }
+
+//*******************************
+// VerMigration::migrate
+//*******************************
 void VerMigration::migrate(Database * db)
 {
     string last=getLastRunVersion();
@@ -110,12 +122,8 @@ void VerMigration::migrate(Database * db)
         {
             migrate04_05(db);
         }
-
-
-
     }
     ofstream os(verFile);
     os << current << endl;
     os.close();
-
 }

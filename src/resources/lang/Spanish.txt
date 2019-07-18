@@ -1,156 +1,272 @@
-﻿ - Automatic PlayStation Classic USB launcher
- - Launcher USB Automatique PlayStation Classic
-'Tenchu' theme by Kevzombie
-Tema 'Tenchu' por Kevzombie
--=About=-
--=Sobre=-
--=Configuration=-
--=Configuración=-
--=Game manager - Select game=-
--=Gestión de los juegos - Elige un juego=-
-About
+﻿About
 Sobre
 Advanced
-Configuración avanzada
+Avanzado
 Advanced:
-Configuración avanzada:
+Avanzado:
+Are you sure you want to flush all covers?
+¿Estas seguro que quieres eliminar todas las caratulas?
+Are you sure?
+¿Estas seguro?
 AutoBleem
 AutoBleem
 AutoBleem Theme:
 Tema AutoBleem:
+Automatic PlayStation Classic USB launcher
+PlayStation Classic lanzador USB Automatico
 Background Music:
-Música de fondo:
-Close
-Cerrar
-Download latest: https://github.com/screemerpl/cbleemsync
-Última version: https://github.com/screemerpl/cbleemsync
-Free space
-Espacio libre
-GFX Filter:
-Filtro gráfico:
-Game
-Juego
-Game Manager
-Administrador de juegos
-Games changed. Press
-Juegos cambiados. Prensa
-Go back
-Regreso
-Loading ... Please Wait ...
-Cargando ... Espere por favor ...
-Memory Cards
-Tarjetas de memoria
-Menu Theme:
-Tema del menú:
-Options
-Opciones
-PCSX Version:
-Versión PCSX:
-Page
-Pagina
-QuickBoot:
-Arranque rápido:
-Re/Scan
-Reinicie el escaneo
-RetroArch
-RetroArch
-Scanning...
-Escaneo en progreso...
-Select
-Eligir
-Show RetroArch:
-Mostrar RetroArch:
-Support via Discord: https://discord.gg/AHUS3RM
-Apoyo a través de Discord: https://discord.gg/AHUS3RM
-This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
-Este software es gratuito y de código abierto. Funciona TAL CUAL y no nos hacemos responsables de cualquier problema o daño..
-Total:
-Total:
-Updating regional.db...
-Actualizando el archivo regional.db...
-Upgrading AutoBleem - Please wait...
-Actualizando AutoBleem - Espere por favor...
-WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
-ADVERTENCIA: NO HAY JUEGOS ENCONTRADOS. PRESIONE CUALQUIER BOTÓN.
-games scanned
-juegos escaneados
-to scan
-para escanear
-Game:
-Juego:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Código: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Folder:
-Carpeta:
-Published by:
-Publicado por:
-Players:
-Jugadores:
-Year:
-Año:
-Memory Card:
-Tarjeta de Memoria:
-High res:
-Alta definición:
-Lock data:
-Bloquear datos:
-Change MC
-Cambio TM
-Hi/Lo Res
-Alta/baja definición
-Lock
-Bloquear
-Share MC
-Compartir TM
-(Internal)
-(Interna)
--=Select memory card=-
--=Seleccione tarjeta de memoria=-
-Card
-Tarjeta
--=Custom Memory Cards=-
--=Tarjetas de memoria personalizadas=-
-Delete
-Eliminar
-New Card
-Nueva Tarjeta
-Rename
-poner nuevo nombre
-Enter new name for memory card
-Nuevo nombre de la tarjeta de memoria
+Musica de Fondo:
+Button Guide
+Guia de Botones
 Cancel
 Cancelar
+Caps
+Mayusculas
+Card
+Tarjeta
+Change MC
+Cambiar MC
+Clock:
+Clock:
+Close
+Cerrar
+Code: AutoBleem Team
+Codigo: Equipo AutoBleem
+Configuration
+Configuracion
+Configuration saved - Press |@X| to continue
+Configuracion guardada - Pulsa |@X| para continuar
 Confirm
 Confirmar
+Console Button Guide
+Guia de Botones de la Consola
+Cover Style:
+Estilo de Caratulas:
+Custom
+Custom
+Custom Memory Cards
+Custom Memory Cards
+Customize AutoBleem settings
+Personalizar Ajustes de AutoBleem
+Decompressing ecm:
+Descomprimiendo ecm:
+Delete
+Borrar
+Delete card
+Borrar tarjeta
+Download latest:
+Descargar ultimo:
+DPAD - Same as classic menu
+DPAD - Igual que el menu clasico
+Edit game parameters
+Editar parametros de juego
+Edit Memory Card information
+Editar informacion de Memory Card
+Emulator config MENU
+MENU de configuracion del Emulador
+Enter
+Entrar
+Enter new card name
+Entra nuevo nombre de tarjeta
+Enter new game name
+Entra nuevo nombre de juego
+Enter new name for card
+Entra nuevo monbre para tarjeta
+Enter new name for memory card
+Entra nuevo nombre para memory card
+Favorite:
+Favorito:
+Flush covers
+Eliminar caratulas
+Folder:
+Carpeta:
+Frameskip:
+Frameskip:
+Free space
+Espacio libre
+Game
+Juego
+GAME
+JUEGO
+Game Manager
+Administrador de Juegos
+Game manager - Select game
+Administrador de juegos - Elige juego
+Game:
+Juego:
+games
+juegos
+Games changed. Press
+Juegos cambiados. Pulsa
+Games filter
+Filtro de juegos
+games scanned
+juegos escaneados
+GFX Filter:
+Filtro GFX:
+Go back
+Ir atras
+Graphics by: 
+Graficos por:
+High res:
+High res:
+Hold
+Manten
+Importing internal games
+Importando juegos internos
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+EN EL MENU PRINCIPAL PARA APAGAR LA CONSOLA (APAGADO SEGURO!!!)
+In Game
+En Juego
+Internal
+Interno
+Internal Games:
+Juegos Internos:
+Is your dpad analogue?
+¿Es tu dpad analogico?
+Language:
+Idioma:
+Loading ... Please Wait ...
+Cargando ... Por favor espera ...
+Lock data:
+Bloquear datos:
+MemCard Manager will be available soon
+Administrador de MemCard estara disponible pronto
+MEMORY CARD
+MEMORY CARD
+Memory Card:
+Memory Card:
+Memory Cards
+Memory Cards
+Menu
+Menu
+Menu Theme:
+Tema Menu:
+Music:
+Musica:
+New Card
+Nueva Tarjeta
+New GamePad found
+Nuevo GamePad encontrado
+OOPS! Game crashed. Resume point not available.
+OOPS! Juego dañado. Punto de resumen no disponible.
+Options
+Opciones
+Original
+Original
+Page
+Pagina
+Player
+Jugador
+Players
+Jugadores
+Please confirm
+Por favor confirma
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+POR FAVOR CONECTA EL GAMEPAD A LA PLAYSTATION CLASSIC
+Please wait ... deleting covers...
+Por favor espera ... borrando caratulas ...
+Plugin:
+Plugin:
+Power Off
+Apagar
+POWERING OFF... PLEASE WAIT
+APAGANDO... POR FAVOR ESPERA
+Press a key for
+Pulsa un boton para
+Published by:
+Publicado por:
+Quick boot
+Arranque rapido
+Quick scroll to next letter
+Desplazamiento rapido a la siguiente letra
+QuickBoot Init:
+Inicio QuickBoot:
+QuickBoot:
+QuickBoot:
+Quit emulation - back to AutoBleem
+Quitar emulacion - volver a AutoBleem
+Re/Scan
+Re/Escanear
+Region:
+Region:
+Rename
+Renombrar
+RESUME
+REANUDAR
+Resume game from saved state point
+Reanudar juego desde un save state
+Resume point saved to slot
+Punto de reanudacion guardado en la ranura
+RetroArch
+RetroArch
+RetroArch is not installed
+RetroArch no esta instalado
+Scanline Level:
+Nivel de Scanline:
+Scanlines:
+Scanlines:
+Scanning...
+Escaneando...
+Select
+Elegir
+Select memory card
+Elige memory card
+Select or cancel highlighted option
+Elige o cancela la opcion resaltada
+SELECT RESUME SLOT TO LOAD
+ELIGE RANURA PARA CARGAR
+SELECT SLOT TO SAVE STATE
+ELIGE RANURA PARA GUARDAR
+Serial:
+Serial:
+SETTINGS
+AJUSTES
+Share MC
+Compartir MC
+Show RetroArch:
+Mostrar RetroArch:
+Showing Timeout (0 = no timeout):
+Tiempo de Muestra (0 = sin tiempo):
+Showing: All games
+Mostrando: Todos los Juegos
+Showing: Favorite games
+Mostrando: Juegos Favoritos
+Showing: Internal games
+Mostrando: Juegos Internos
+Showing: USB games
+Mostrando: Juegos en USB
+Slot
+Ranura
+Sorting :
+Orden:
+Sorting...
+Ordenando...
 Space
 Espacio
-Enter new game name
-Introduce el nuevo nombre del juego
-Original
-Original
-Enter new card name
-Introduce el nuevo nombre de la tarjeta
-Delete card
-Eliminar tarjeta
--=Please confirm=-
--=Por favor confirmar=-
-PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
-POR FAVOR CONECTE EL MANDO A LA PLAYSTATION CLASSIC
-Caps
-Maj
-Internal
-Interna
-(Custom)
-(Personalizada)
-Enter new name for card
-Introduce un nuevo nombre para la tarjeta
-Menu
-Menú
-Quick boot
-Arranque rápido
-Hold
-Mantener
+SpeedHack:
+SpeedHack:
+Spu Interpolation:
+Spu Interpolation:
+Starting EvolutionUI
+Iniciando EvolutionUI
+Support via Discord:
+Soporte via Discord:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+Este es un software gratuito y de codigo abierto. Funciona COMO ESTA y no nos hacemos responsables de ningun problema o daño.
+to scan
+para escanear
+Total:
+Total:
+UI:
+UI:
+Updating regional.db...
+Actualizando regional.db...
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
-ADVERTENCIA : CARÁTURA EN DB NO ENCONTRADO. PRESIONE CUALQUIER BOTÓN.
-RetroArch is not installed
-RetroArch no está instalado
+ADVERTENCIA: COVER BD NO ENCONTRADO. PULSE CUALQUIER BOTON.
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+ADVERTENCIA: JUEGOS NO ENCONTRADOS. PULSE CUALQUIER BOTON.
+Widescreen:
+Widescreen:
+Year:
+Año:

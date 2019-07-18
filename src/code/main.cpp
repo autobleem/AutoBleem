@@ -12,68 +12,72 @@
 #include "main.h"
 #include "ver_migration.h"
 #include "engine/coverdb.h"
-
+#include "util.h"
+#include <unistd.h>
 
 using namespace std;
 
 #include "engine/memcard.h"
 #include "lang.h"
+#include "launcher/pcsx_interceptor.h"
 
+Database * db;
 
+//*******************************
+// scanGames
+//*******************************
 int scanGames(string path, string dbpath) {
-    shared_ptr <Scanner> scanner(Scanner::getInstance());
-    Database *db = new Database();
-    if (!db->connect(dbpath)) {
-        delete db;
-        return EXIT_FAILURE;
-    }
+    shared_ptr<Gui> gui(Gui::getInstance());
+    shared_ptr<Scanner> scanner(Scanner::getInstance());
+
     if (!db->createInitialDatabase()) {
         cout << "Error creating db structure" << endl;
-        db->disconnect();
-        delete db;
+
         return EXIT_FAILURE;
     };
 
-
-    scanner->scanDirectory(path);
-    scanner->updateDB(db);
-
-
-    db->disconnect();
-    shared_ptr <Gui> gui(Gui::getInstance());
-    gui->drawText(_("Total:")+" " + to_string(scanner->games.size()) + " "+_("games scanned")+".");
-    sleep(1);
-    delete db;
-    for (Game * game:scanner->games)
+    if (!db->truncate())
     {
-        delete(game);
-
+        gui->drawText("ERROR IN DB");
+        sleep(1);
+        return EXIT_FAILURE;
     }
+
+    scanner->detectAndSortGamefiles(path);
+    scanner->scanDirectory(path);
+    scanner->updateDB(gui->db);
+
+    gui->drawText(_("Total:") + " " + to_string(scanner->games.size()) + " " + _("games scanned") + ".");
+    sleep(1);
     scanner->games.clear();
     return (EXIT_SUCCESS);
 }
 
-
+//*******************************
+// main
+//*******************************
 int main(int argc, char *argv[]) {
-    shared_ptr <Lang> lang(Lang::getInstance());
+    shared_ptr<Lang> lang(Lang::getInstance());
     if (argc < 3) {
-        cout << "USAGE: bleemsync /path/dbfilename.db /path/to/games" << endl;
+        cout << "USAGE: autobleem-gui /path/dbfilename.db /path/to/games" << endl;
         return EXIT_FAILURE;
     }
-    shared_ptr <Gui> gui(Gui::getInstance());
-    shared_ptr <Scanner> scanner(Scanner::getInstance());
+    shared_ptr<Gui> gui(Gui::getInstance());
+    shared_ptr<Scanner> scanner(Scanner::getInstance());
 
     lang->load(gui->cfg.inifile.values["language"]);
 
     Coverdb *coverdb = new Coverdb();
     gui->coverdb = coverdb;
 
-
-    Database *db = new Database();
+    db = new Database();
     if (!db->connect(argv[1])) {
         delete db;
         return EXIT_FAILURE;
     }
+    gui->db=db;
+    db->createInitialDatabase();
+    db->createFavColumn();
 
     string dbpath = argv[1];
     string path = argv[2];
@@ -86,13 +90,9 @@ int main(int argc, char *argv[]) {
         scanner->forceScan = true;
     }
 
+    gui->display(scanner->forceScan, path, db, false);
 
-
-
-    gui->display(scanner->forceScan, path, db);
-    db->disconnect();
-    delete db;
-    while (gui->menuOption == MENU_OPTION_SCAN) {
+    while (gui->menuOption == MENU_OPTION_SCAN || gui->menuOption == MENU_OPTION_START) {
 
         gui->menuSelection();
         gui->saveSelection();
@@ -101,21 +101,54 @@ int main(int argc, char *argv[]) {
             if (gui->forceScan) {
                 gui->forceScan = false;
             } else {
-                break;
+                //break;
             }
+        }
 
+        if (gui->menuOption == MENU_OPTION_START) {
+            cout << "Starting game" << endl;
+            gui->finish();
+
+            int numtimesopened, frequency, channels;
+            Uint16 format;
+            numtimesopened=Mix_QuerySpec(&frequency, &format, &channels);
+            for (int i=0;i<numtimesopened;i++)
+            {
+                Mix_CloseAudio();
+            }
+            numtimesopened=Mix_QuerySpec(&frequency, &format, &channels);
+
+            for (SDL_Joystick* joy:gui->joysticks) {
+                if (SDL_JoystickGetAttached(joy)) {
+                    SDL_JoystickClose(joy);
+                }
+            }
+            SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+
+            gui->saveSelection();
+            PcsxInterceptor *interceptor = new PcsxInterceptor();
+            interceptor->memcardIn(gui->runningGame);
+            interceptor->prepareResumePoint(gui->runningGame, gui->resumepoint);
+            interceptor->execute(gui->runningGame, gui->resumepoint );
+            interceptor->memcardOut(gui->runningGame);
+            delete (interceptor);
+
+            SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+
+            usleep(300*1000);
+            gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
+            gui->startingGame = false;
+
+            gui->display(false, path, db, true);
         }
     }
-
+    db->disconnect();
+    delete db;
 
     gui->logText(_("Loading ... Please Wait ..."));
     gui->finish();
     SDL_Quit();
     delete coverdb;
 
-
-   // lang->dump("output.txt");
-    return 0;
+    exit(0);
 }
-
-

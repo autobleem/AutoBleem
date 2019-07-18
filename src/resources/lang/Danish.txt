@@ -1,0 +1,158 @@
+'Tenchu' theme by Kevzombie
+'Tenchu' Theme af Kevzombie
+About
+Om
+About
+Om
+Advanced
+Advanceret
+Advanced:
+Advanceret:
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+AutoBleem Tema:
+Background Music:
+Baggrundsmusik:
+Cancel
+Annuller
+Caps
+Caps
+Card
+Kort
+Change MC
+Skift Memory Card
+Close
+Luk
+Code: AutoBleem Team
+Af: AutoBleem Team
+Configuration
+Konfiguration
+Confirm
+Bekræft
+Custom
+Custom
+Custom Memory Cards
+Custom Memory Cards
+Delete
+Slet
+Delete card
+Slet kort
+Download latest:
+Aktuelle version:
+Enter new card name
+Indtast nyt kort navn
+Enter new game name
+Indtast nyt spilnavn
+Enter new name for card
+Indtast nyt navn for kort
+Enter new name for memory card
+Indtast nyt navn for memory kort
+Folder:
+Mappe:
+Free space
+Ledig plads
+Game
+Spil
+Game Manager
+Spilbibliotek
+Game manager - Select game
+Spilbibliotek - Vælg spil
+Game:
+Spil:
+Games changed. Press
+Spil skiftet. Tryk
+games scanned
+spil scannet
+GFX Filter:
+Grafik Filter:
+Go back
+Tilbage
+Hi/Lo Res
+Høj/Lav opløsning
+High res:
+Høj opløsning:
+Hold
+Vent
+Internal
+Intern
+Internal
+Intern
+Language:
+Sprog:
+Loading ... Please Wait ...
+Indlæser ... Vent venligst ...
+Lock
+Lås
+Lock data:
+Lås data:
+Memory Card:
+Memory Card:
+Memory Cards
+Memory Kort
+Menu
+Menu
+Menu Theme:
+Menu Tema:
+New Card
+Nyt kort
+Options
+Indstillinger
+Original
+Original
+Page
+Side
+PCSX Version:
+PCSX Version:
+Players
+Spillere
+Please confirm
+Bekræft venligst
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+TILSLUT VENLIGST CONTROLLER TIL PLAYSTATION CLASSIC
+Published by:
+Udgivet af:
+Quick boot
+Hurtigstart
+QuickBoot:
+Hurtigstart:
+Re/Scan
+Gen/Scan
+Rename
+Omdøb
+RetroArch
+RetroArch
+RetroArch is not installed
+RetroArch er ikke installeret
+Scanning...
+Scanner...
+Select
+Vælg
+Select memory card
+Vælg Memory card
+Share MC
+Del MC
+Show RetroArch:
+Vis RetroArch:
+Space
+Space
+Support via Discord:
+Support Discord:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+Dette er gratis open source software. Det virker som det er og vi tager ikke ansvaret for problemer eller skader.
+to scan
+til scanning
+Total:
+Total:
+Updating regional.db...
+Opdaterer regional.db...
+Upgrading AutoBleem - Please wait...
+Opgraderer AutoBleem - Vent venligst...
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+ADVARSEL: INGEN COVER DB FUNDET. TRYK PÅ EN TAST.
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+ADVARSEL: INGEN SPIL FUNDET. TRYK PÅ EN TAST.
+Year:
+År:
+﻿Automatic PlayStation Classic USB launcher
+Automatisk PlayStation Classic USB launcher

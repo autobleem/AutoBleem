@@ -2,43 +2,34 @@
 // Created by screemer on 2/11/19.
 //
 
-#ifndef AUTOBLEEM_GUI_PS_OBJ_H
-#define AUTOBLEEM_GUI_PS_OBJ_H
+#pragma once
 
-#include "../main.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_render.h>
+#include <string>
 
-using namespace std;
-
+//******************
+// PsObj
+//******************
 class PsObj {
 public:
     SDL_Renderer *renderer;
-    int x, y, w, h;
-    int ox, oy, ow, oh;
+    int x = 0, y = 0, w = 0, h = 0;
+    int ox = 0, oy = 0, ow = 0, oh = 0;
 
-    string name;
-
+    std::string name;
 
     SDL_Texture *tex = nullptr;
-
 
     bool visible = false;
     long lastTime = 0;
 
-    PsObj(SDL_Renderer *renderer1, string name1, string texPath = "");
+    PsObj(SDL_Renderer *renderer1, std::string name1, std::string texPath = "");
 
-    virtual void load(string imagePath);
+    virtual void load(const std::string & imagePath);
 
     virtual void destroy();
 
     virtual void update(long time) {};
 
     virtual void render();
-
 };
-
-
-#endif //AUTOBLEEM_GUI_PS_OBJ_H

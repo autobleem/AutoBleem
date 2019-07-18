@@ -11,14 +11,19 @@
 #include <string>
 #include "gui.h"
 #include "../lang.h"
+#include "../engine/scanner.h"
+using namespace std;
 
+//*******************************
+// GuiConfirm::render
+//*******************************
 void GuiConfirm::render()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine(_("-=Please confirm=-"),0,offset, true);
+    gui->renderTextLine("-=" + _("Please confirm") + "=-",0,offset, true);
     gui->renderTextLine(label,2,offset, true);
 
 
@@ -26,13 +31,24 @@ void GuiConfirm::render()
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiConfirm::loop
+//*******************************
 void GuiConfirm::loop()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
     while (menuVisible) {
+        gui->watchJoystickPort();
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
+            if (e.type == SDL_KEYDOWN) {
+                if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
+                    gui->drawText(_("POWERING OFF... PLEASE WAIT"));
+                    Util::powerOff();
+
+                }
+            }
             // this is for pc Only
             if (e.type == SDL_QUIT) {
                 menuVisible = false;
@@ -41,13 +57,13 @@ void GuiConfirm::loop()
                 case SDL_JOYBUTTONDOWN:
 
 
-                    if (e.jbutton.button == PCS_BTN_CROSS) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         result = true;
                         menuVisible = false;
 
                     };
-                    if (e.jbutton.button == PCS_BTN_CIRCLE) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         result = false;
                         menuVisible = false;

@@ -2,15 +2,26 @@
 #include "main.h"
 
 #include <fstream>
+#include <sys/wait.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <math.h>
 #include <algorithm>
 #include <iomanip>
+#include <string.h>
+#include <libgen.h>
+#include <sstream>
+#include <iostream>
+#include <dirent.h>
+#include "main.h"
 
 using namespace std;
+
 #define FILE_BUFFER 524288
 
+//*******************************
+// Util::separator
+//*******************************
 const char *Util::separator() {
 #ifdef _WIN32
     return "\\";
@@ -19,14 +30,70 @@ const char *Util::separator() {
 #endif
 }
 
-bool wayToSort(DirEntry i, DirEntry j) {
-    string name1 = i.name;
-    string name2 = j.name;
-    name1 = lcase(name1);
-    name2 = lcase(name2);
-    return name1 < name2;
+//*******************************
+// Util::pathWithSeparatorAtEnd
+//*******************************
+// return the path with a separator at the end
+string Util::pathWithSeparatorAtEnd(const string& path)
+{
+    string ret = path;
+    if (ret.length() > 0)
+    {
+        char lastChar = ret[ret.length()-1];
+        if (lastChar != separator()[0])
+            ret += separator(); // add slash at end
+    }
+
+    return ret;
 }
 
+//*******************************
+// Util::pathWithOutSeparatorAtEnd
+//*******************************
+// return the path without a separator at the end
+string Util::pathWithOutSeparatorAtEnd(const string& path)
+{
+    string ret = path;
+    if (ret.length() > 0)
+    {
+        char & lastChar = ret[ret.length()-1];
+        if (lastChar == separator()[0])
+            lastChar = 0;   // remove slash at end
+    }
+
+    return ret;
+}
+
+//*******************************
+// Util::powerOff
+//*******************************
+void Util::powerOff()
+{
+#if defined(__x86_64__) || defined(_M_X64)
+    exit(0);
+#else
+    Util::execUnixCommad("shutdown -h now");
+    exit(0);
+#endif
+}
+
+//*******************************
+// Util::getFileNameFromPath
+//*******************************
+string Util::getFileNameFromPath(const string& path)
+{
+    string result = "";
+    char *cstr = new char[path.length() + 1];
+    strcpy(cstr, path.c_str());
+    char * base = basename(cstr);
+    result += base;
+    delete [] cstr;
+    return result;
+}
+
+//*******************************
+// Util::fixPath
+//*******************************
 string fixPath(string path)
 {
     trim(path);
@@ -37,40 +104,58 @@ string fixPath(string path)
     return path;
 }
 
-void Util::replaceAll(std::string &str, const std::string &from, const std::string &to) {
+//*******************************
+// Util::replaceAll
+//*******************************
+void Util::replaceAll(string &str, const string &from, const string &to) {
     if (from.empty())
         return;
     size_t start_pos = 0;
-    while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+    while ((start_pos = str.find(from, start_pos)) != string::npos) {
         str.replace(start_pos, from.length(), to);
         start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
     }
 }
 
+//*******************************
+// Util::escape
+//*******************************
 string Util::escape(string input) {
     replaceAll(input, "|", "||");
     replaceAll(input, ",", "|@");
     return input;
 }
 
+//*******************************
+// Util::decode
+//*******************************
 string Util::decode(string input) {
     replaceAll(input, "|@", ",");
     replaceAll(input, "||", "|");
     return input;
 }
 
-std::string Util::getWorkingPath() {
+//*******************************
+// Util::getWorkingPath
+//*******************************
+string Util::getWorkingPath() {
     char temp[2048];
-    return (getcwd(temp, sizeof(temp)) ? std::string(temp) : std::string(""));
+    return (getcwd(temp, sizeof(temp)) ? string(temp) : string(""));
 }
 
-bool Util::isDirectory(string path)
+//*******************************
+// Util::isDirectory
+//*******************************
+bool Util::isDirectory(const string& path)
 {
     struct stat path_stat;
     stat(path.c_str(), &path_stat);
     return S_ISDIR(path_stat.st_mode);
 }
 
+//*******************************
+// Util::dir
+//*******************************
 vector<DirEntry> Util::dir(string path) {
     fixPath(path);
     vector<DirEntry> result;
@@ -85,10 +170,13 @@ vector<DirEntry> Util::dir(string path) {
 
         closedir(dir);
     }
-    sort(result.begin(), result.end(), wayToSort);
+    sort(result.begin(), result.end(), DirEntry::sortByName);
     return result;
 }
 
+//*******************************
+// Util::diru
+//*******************************
 vector<DirEntry> Util::diru(string path) {
     fixPath(path);
     vector<DirEntry> result;
@@ -96,7 +184,7 @@ vector<DirEntry> Util::diru(string path) {
     if (dir != NULL) {
         struct dirent *entry = readdir(dir);
         while (entry != NULL) {
-            DirEntry obj(entry->d_name, entry->d_type);
+            DirEntry obj(entry->d_name, isDirectory(path + entry->d_name));
             if (entry->d_name[0] != '.') {
                 result.push_back(obj);
             }
@@ -105,23 +193,54 @@ vector<DirEntry> Util::diru(string path) {
 
         closedir(dir);
     }
-    sort(result.begin(), result.end(), wayToSort);
+    sort(result.begin(), result.end(), DirEntry::sortByName);
     return result;
 }
 
-bool Util::exists(const std::string &name) {
+//*******************************
+// Util::diru_DirsOnly
+//*******************************
+vector<DirEntry> Util::diru_DirsOnly(string path) {
+    auto temp = diru(path); // get all dirs and files
+    vector<DirEntry> ret;
+    copy_if(begin(temp), end(temp), back_inserter(ret), [](const DirEntry & dir) { return dir.isDir; });    // copy only dirs
+
+    return ret; // return only the dirs
+}
+
+//*******************************
+// Util::diru_FilesOnly
+//*******************************
+vector<DirEntry> Util::diru_FilesOnly(string path) {
+    auto temp = diru(path); // get all dirs and files
+    vector<DirEntry> ret;
+    copy_if(begin(temp), end(temp), back_inserter(ret), [](const DirEntry & dir) { return !dir.isDir; });   //copy only files
+
+    return ret; // return only the files
+}
+
+//*******************************
+// Util::exists
+//*******************************
+bool Util::exists(const string &name) {
     fixPath(name);
     struct stat buffer;
     return (stat(name.c_str(), &buffer) == 0);
 
 }
 
-bool Util::createDir(const std::string name) {
+//*******************************
+// Util::createDir
+//*******************************
+bool Util::createDir(const string name) {
     fixPath(name);
     const int dir_err = mkdir(name.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     return (-1 != dir_err);
 }
 
+//*******************************
+// Util::rmDir
+//*******************************
 int Util::rmDir(string path) {
     fixPath(path);
     DIR *d = opendir(path.c_str());
@@ -176,7 +295,10 @@ int Util::rmDir(string path) {
 
 }
 
-bool Util::copy(string source, string dest) {
+//*******************************
+// Util::copy
+//*******************************
+bool Util::copy(const string& source, const string& dest) {
     ifstream infile;
     ofstream outfile;
 
@@ -203,6 +325,9 @@ bool Util::copy(string source, string dest) {
     return true;
 }
 
+//*******************************
+// Util::findFirstFile
+//*******************************
 string Util::findFirstFile(string ext, string path) {
     fixPath(path);
     vector<DirEntry> entries = diru(path);
@@ -214,15 +339,40 @@ string Util::findFirstFile(string ext, string path) {
     return "";
 }
 
+//*******************************
+// Util::removeDotFromExtension
+//*******************************
+// if it begins with a ".", remove it
+string Util::removeDotFromExtension(const std::string & ext) {
+    if (ext.c_str()[0] == '.')
+        return ext.c_str() + 1;
+    else
+        return ext;
+}
+
+//*******************************
+// Util::addDotToExtension
+//*******************************
+// if it doesn't start with a ".", add it to the front
+string Util::addDotToExtension(const std::string & ext) {
+    if (ext.c_str()[0] != '.')
+        return string(".") + ext;
+    else
+        return ext;
+}
+
+//*******************************
+// Util::matchExtension
+//*******************************
 bool Util::matchExtension(string path, string ext) {
     fixPath(path);
     if (path.length() >= 4) {
-        string fileExt = path.substr(path.length() - 4, path.length());
+        string fileExt = path.substr(path.length() - 4, path.length()); // file extension includes the "."
         if (fileExt[0] != '.') {
             return false;
         } else {
-            return lcase(fileExt) == lcase(ext);
-
+            auto temp = addDotToExtension(ext);
+            return lcase(fileExt) == lcase(temp);
         }
     } else {
         return false;
@@ -231,28 +381,39 @@ bool Util::matchExtension(string path, string ext) {
 }
 
 
+//*******************************
+// Util::isInteger
+//*******************************
 bool Util::isInteger(const char *input) {
     size_t ln = strlen(input);
     for (size_t i = 0; i < ln; i++) {
         if (!isdigit(input[i])) {
             return false;
         }
-
     }
     return true;
 }
 
+//*******************************
+// Util::matchesLowercase
+//*******************************
 bool Util::matchesLowercase(string first, string second) {
     return lcase(first) == lcase(second);
 }
 
 
+//*******************************
+// Util::readChar
+//*******************************
 unsigned char Util::readChar(ifstream *stream) {
     unsigned char c;
     stream->read((char *) &c, 1);
     return c;
 }
 
+//*******************************
+// Util::readString
+//*******************************
 string Util::readString(int size, ifstream *stream) {
     char str[size + 1];
     str[size] = 0;
@@ -260,6 +421,9 @@ string Util::readString(int size, ifstream *stream) {
     return str;
 }
 
+//*******************************
+// Util::skipZeros
+//*******************************
 void Util::skipZeros(ifstream *stream) {
     char c = readChar(stream);
     while (c == 00) {
@@ -268,6 +432,9 @@ void Util::skipZeros(ifstream *stream) {
     stream->seekg(-1, ios::cur);
 }
 
+//*******************************
+// Util::readString
+//*******************************
 string Util::readString(ifstream *stream) {
     string str;
     char c = readChar(stream);
@@ -278,6 +445,9 @@ string Util::readString(ifstream *stream) {
     return str;
 }
 
+//*******************************
+// Util::readDword
+//*******************************
 unsigned long Util::readDword(ifstream *stream) {
     unsigned long res = 0;
     unsigned long c;
@@ -290,9 +460,18 @@ unsigned long Util::readDword(ifstream *stream) {
     c = readChar(stream);
     res += c << (3 * 8);
     return res;
-
 }
+
+//*******************************
+// Util::getAvailableSpace
+//*******************************
+/*
+ * Return the available space of a usb device
+ */
 string Util::getAvailableSpace(){
+#if defined(__x86_64__) || defined(_M_X64)
+    return "x86 - does not care about free space - Does not work on mac";
+    #else
     string str;
     int gb = 1024 * 1024;
     string dfResult;
@@ -304,16 +483,25 @@ string Util::getAvailableSpace(){
     freeSpacePerc = (freeSpace / totalSpace) * 100;
     str = floatToString(freeSpace, 2) + " GB / " + floatToString(totalSpace,2)+ " GB (" + to_string(freeSpacePerc)+"%)";
     return str;
+#endif
 }
 
-
+//*******************************
+// Util::floatToString
+//*******************************
+/*
+ * Convert a float f to a string with precision of n
+ */
 string Util::floatToString(float f, int n){
-    std::ostringstream stringStream;
-    stringStream << std::fixed << std::setprecision(n) << f;
+    ostringstream stringStream;
+    stringStream << fixed << setprecision(n) << f;
     return stringStream.str();
 }
 
-string Util::commaSep(string s, int pos) {
+//*******************************
+// Util::commaSep
+//*******************************
+string Util::commaSep(const string& s, int pos) {
     vector<string> v;
     v.clear();
     char c = ',';
@@ -336,9 +524,16 @@ string Util::commaSep(string s, int pos) {
     return "";
 }
 
+//*******************************
+// Util::execUnixCommad
+//*******************************
+/*
+ * Execute a shell command and return output
+ */
 string Util::execUnixCommad(const char* cmd){
     array<char, 128> buffer;
     string result;
+    cout << "Exec:" << cmd << endl;
     unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
     if (!pipe) {
         throw runtime_error("popen() failed!");
@@ -346,6 +541,142 @@ string Util::execUnixCommad(const char* cmd){
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
         result += buffer.data();
     }
-    result.erase(remove(result.begin(),result.end(),'\n'));
+    if (!result.empty()) {
+        result.erase(remove(result.begin(), result.end(), '\n'));
+    }
     return result;
+}
+
+//*******************************
+// Util::execFork
+//*******************************
+void Util::execFork(const char *cmd,  vector<const char *> argvNew)
+{
+    string link = cmd;
+
+    int pid = fork();
+    if (!pid) {
+        execvp(link.c_str(), (char **) argvNew.data());
+    }
+
+    waitpid(pid, NULL, 0);
+}
+
+//*******************************
+// Util::getFileExtension
+//*******************************
+// Return the extension of a filename without the "."
+string Util::getFileExtension(const string & fileName) {
+    size_t i = fileName.rfind('.', fileName.length());
+    if (i != string::npos) {
+        return(fileName.substr(i+1, fileName.length() - i));
+    }
+    return "";
+}
+
+//*******************************
+// Util::getFileNameWithoutExtension
+//*******************************
+// Return the name of a file without extension
+string Util::getFileNameWithoutExtension(const string& filename) {
+    size_t indexBeforeDot = filename.find_last_of(".");
+    return filename.substr(0, indexBeforeDot);
+}
+
+//*******************************
+// Util::cueToBinList
+//*******************************
+// Return the bin list declared in a cue file
+vector<string> Util::cueToBinList(string cueFile) {
+    vector<string> binList;
+    FILE *fp;
+    char *cline = NULL;
+    string line;
+    size_t length = 0;
+    ssize_t read;
+
+    //Opening file
+    fp = fopen(cueFile.c_str(),"r");
+    if(fp == NULL){
+        printf("Error opening cue file");
+        return binList;
+    }
+
+    //Reading line by line
+    while((read = getline(&cline, &length, fp)) != -1){
+        line = cline;
+        line = trim(line);
+        if(line.substr(0,4) == "FILE"){
+            binList.push_back(getStringWithinChar(line,'"').c_str());
+        }
+    }
+
+    //Closing file pointer
+    fclose(fp);
+
+    //Freeing line pointer
+    if(cline){
+        free(cline);
+    }
+
+    return binList;
+}
+
+//*******************************
+// Util::ltrim
+//*******************************
+// Left trimming
+string Util::ltrim(const string& s){
+    size_t start = s.find_first_not_of(" \n\r\t\f\v");
+    return (start == string::npos) ? "" : s.substr(start);
+}
+
+//*******************************
+// Util::rtrim
+//*******************************
+// Right trimming
+string Util::rtrim(const string& s){
+    size_t end = s.find_last_not_of(" \n\r\t\f\v");
+    return (end == string::npos) ? "" : s.substr(0, end + 1);
+}
+
+//*******************************
+// Util::trim
+//*******************************
+// Trimming both left and right
+string Util::trim(const string &s) {
+    return rtrim(ltrim(s));
+}
+
+//*******************************
+// Util::getStringWithinChar
+//*******************************
+/*
+ * Return a char between separator like :
+ * Super "GAMENAME" baby
+ * Will return
+ * GAMENAME
+ */
+string Util::getStringWithinChar(string s, char del) {
+    int first = s.find(del);
+    int last = s.find_last_of(del);
+    return s.substr(first+1, last-first-1);
+}
+
+//*******************************
+// Util::getFilesWithExtension
+//*******************************
+vector<DirEntry> Util::getFilesWithExtension(const string& path, const vector<DirEntry>& entries, const vector<string>& extensions) {
+    vector<DirEntry> fileList;
+    string fileExt;
+    for (const auto & entry : entries){
+        if(Util::isDirectory(path + "/" + entry.name))
+            continue;
+        // make it case insensitive compare (find .bin and .BIN)
+        fileExt = ReturnLowerCase(Util::getFileExtension(entry.name));
+        if(find(extensions.begin(),extensions.end(),fileExt) != extensions.end()){
+            fileList.push_back(entry);
+        }
+    }
+    return fileList;
 }

@@ -3,21 +3,31 @@
 //
 
 #include "inifile.h"
+#include "../main.h"
+#include <iostream>
+#include <fstream>
 
+using namespace std;
 
-void Inifile::load(string path) {
-    this->path = path;
+//*******************************
+// Inifile::load
+//*******************************
+void Inifile::load(const string & _path) {
+    this->path = _path;
+    cout << "Reading ini file: " << path << endl;
     ifstream file;
     string iniLine;
     file.open(path);
 
     if (!file.good()) {
+        cout << "Error opening ini file: " << path << endl;
         return;
-
     }
+
     while (getline(file, iniLine)) {
         iniLine = trim(iniLine);
-        if (iniLine.length() == 0) continue;
+        if (iniLine.length() == 0) continue;    // blank line
+        if (iniLine[0] == '#') continue;        // treat a line beginning with # as a comment
         if (iniLine[0]=='[')
         {
             iniLine = ltrim(iniLine);
@@ -36,12 +46,15 @@ void Inifile::load(string path) {
     file.close();
 }
 
-void Inifile::save(string path) {
-    cout << "Writting ini file" << path << endl;
+//*******************************
+// Inifile::save
+//*******************************
+void Inifile::save(const string & _path) {
+    cout << "Writing ini file: " << _path << endl;
     ofstream os;
-    os.open(path);
+    os.open(_path);
     os << "[" << section <<"]" << endl;
-    for(std::map<string,string>::iterator iter = values.begin(); iter != values.end(); ++iter)
+    for (map<string,string>::iterator iter = values.begin(); iter != values.end(); ++iter)
     {
         string k =  iter->first;
         string v = iter->second;
@@ -52,5 +65,4 @@ void Inifile::save(string path) {
     }
     os.flush();
     os.close();
-
 }

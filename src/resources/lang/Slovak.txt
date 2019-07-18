@@ -1,158 +1,272 @@
-﻿ - Automatic PlayStation Classic USB launcher
- - Automatický USB spúšťač Playstation Classic
-'Tenchu' theme by Kevzombie
-Téma 'Tenchu' od Kevzombie
--=About=-
--=O programe=-
--=Configuration=-
--=Nastavenia=-
--=Game manager - Select game=-
--=Manažér hier - Vybrať hru=-
-About
+﻿About
 O programe
 Advanced
 Rozšírené
 Advanced:
 Rozšírené:
+Are you sure you want to flush all covers?
+Naozaj chcete zmazať všetky obaly?
+Are you sure?
+Ste si tým istý?
 AutoBleem
 AutoBleem
 AutoBleem Theme:
 Téma AutoBleemu:
+Automatic PlayStation Classic USB launcher
+Automatický USB spúšťač hier PlayStation Classic
 Background Music:
 Hudba na pozadí:
-Close
-Zatvoriť
-Download latest: https://github.com/screemerpl/cbleemsync
-Najnovšia verzia: https://github.com/screemerpl/cbleemsync
-Free space
-Voľné miesto
-GFX Filter:
-Grafický filter:
-Game
-Hra
-Game Manager
-Manažér hier
-Games changed. Press
-Zmenené hry. Stlač
-Go back
-Naspäť
-Loading ... Please Wait ...
-Nahrávam ... Čakajte prosím ...
-Memory Cards
-Pamäťová karta
-Menu Theme:
-Téma:
-Options
-Nastavenia
-PCSX Version:
-Verzia PCSX:
-Page
-Strana
-QuickBoot:
-Rýchly štart:
-Re/Scan
-Pre/Skenovať
-RetroArch
-RetroArch
-Scanning...
-Skenujem...
-Select
-Vybrať
-Show RetroArch:
-RetroArch:
-Support via Discord: https://discord.gg/AHUS3RM
-Podpora na Discorde: https://discord.gg/AHUS3RM
-This is free and open source software. It works AS IS and We take no reponsibility for any issues or damage.
-AutoBleem je bezplatný a open source softvér. Funguje TAK, AKO JE, a NENESIEME žiadnu zodpovednosť za akékoľvek problémy alebo škody.
-Total:
-Celkom:
-Updating regional.db...
-Aktualizujem regional.db...
-Upgrading AutoBleem - Please wait...
-Aktualizujem AutoBleem - Prosím čakajte...
-WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
-POZOR: NEBOLA NÁJDENÁ ŽIADNA HRA. STLAČTE ĽUBOVOĽNÚ KLÁVESU.
-games scanned
-nájdené hry
-to scan
-nájsť
-Game:
-Hra:
-Code: AutoBleem Team (screemer, mGGk, nex, ThaFridge)
-Autori: AutoBleem Team (screemer, mGGk, nex, ThaFridge); Slovak translation: Pardubák
-Folder:
-Priečinok:
-Published by:
-Vydavateľ:
-Players:
-Počet hráčov:
-Year:
-Rok:
-Memory Card:
-Pamäťová karta:
-High res:
-Vysoké rozlíšenie:
-Lock data:
-Uzamknúť zmeny:
-Change MC
-Vymeniť Pamäťovú kartu
-Hi/Lo Res
-Vysoké/Nízke rozlíšenie
-Lock
-Uzamknúť
-Share MC
-Zdieľať Pamäťovú kartu
-(Internal)
-(Vnútorná)
--=Select memory card=-
--=Vybrať Pamäťovú kartu=-
-Card
-Karta
--=Custom Memory Cards=-
--=Vlastná Pamäťová karta=-
-Delete
-Zmazať
-New Card
-Nová karta
-Rename
-Premenovať
-Enter new name for memory card
-Zadajte nový názov pamäťovej karty
+Button Guide
+Sprievodca tlačidlami
 Cancel
 Zrušiť
+Caps
+Veľké písmená
+Card
+Karta
+Change MC
+Vymeniť Pamäťovú kartu
+Clock:
+CPU hodiny
+Close
+Zatvoriť
+Code: AutoBleem Team
+Autori: AutoBleem Team
+Configuration
+Nastavenia
+Configuration saved - Press |@X| to continue
+Nastavenia uložené - Stlačte |@X| pre pokračovanie
 Confirm
 Potvrdiť
-Space
-Medzera
-Enter new game name
-Zadajte nový názov hry
-Original
-PSC hry
-Enter new card name
-Zadajte nový názov karty
+Console Button Guide
+Sprievodca tlačidlami konzoly
+Cover Style:
+Štýl obalu:
+Custom
+Vlastné
+Custom Memory Cards
+Vlastné Pamäťové karty
+Customize AutoBleem settings
+Prispôsobiť nastavenia AutoBleem
+Decompressing ecm:
+Rozbaľovanie ECM:
+Delete
+Zmazať
 Delete card
 Zmazať kartu
--=Please confirm=-
--=Potvrďte prosím=-
-PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
-PRIPOJTE PROSÍM GAMEPAD K PLAYSTATIONU CLASSIC
-Caps
-Veľké
-Internal
-Vnútorná
-(Custom)
-(Vlastná)
+Download latest:
+Najnovšia verzia:
+DPAD - Same as classic menu
+DPAD - To isté ako na PlayStation Classic
+Edit game parameters
+Upraviť parametre hry
+Edit Memory Card information
+Upraviť informácie Pamäťovej karty
+Emulator config MENU
+Menu Emulátora
+Enter
+Spustiť
+Enter new card name
+Zadajte nový názov karty
+Enter new game name
+Zadajte nový názov hry
 Enter new name for card
 Zadajte nový názov karty
-Menu
-Menu
-Quick boot
-Rýchly štart
+Enter new name for memory card
+Zadajte nový názov pamäťovej karty
+Favorite:
+Obľúbené
+Flush covers
+Zmazané obaly
+Folder:
+Priečinok:
+Frameskip:
+Preskočenie snímok:
+Free space
+Voľné miesto
+Game
+Hra
+GAME
+HRA
+Game Manager
+Správca hier
+Game manager - Select game
+Správca hry - Vybrať hru
+Game:
+Hra:
+games
+hry
+Games changed. Press
+Hry sa zmenili. Stlač
+Games filter
+Filter hier
+games scanned
+nájdených hier
+GFX Filter:
+Grafický filter:
+Go back
+Späť
+Graphics by: 
+Grafika:
+High res:
+Vysoké rozlíšenie:
 Hold
 Čakajte
-WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
-POZOR: NENAŠLA SA DATABÁZA OBALOV NA HRY. STLAČTE ĽUBOVOĽNÚ KLÁVESU.
+Importing internal games
+Importovanie originálnych hier
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+V BOOT MENU VYPNÚŤ KONZOLU (BEZPEČNÉ VYPNUTIE !!!)
+In Game
+V hre
+Internal
+Originálne
+Internal Games:
+Originálne hry:
+Is your dpad analogue?
+Máte analógový dpad?
 Language:
 Jazyk:
+Loading ... Please Wait ...
+Nahrávam ... Čakajte prosím ...
+Lock data:
+Uzamknúť zmeny:
+MemCard Manager will be available soon
+Správca Pamäťových kariet nie je momentálne k dispozícii
+MEMORY CARD
+PAMÄŤOVÁ KARTA
+Memory Card:
+Pamäťová karta:
+Memory Cards
+Pamäťové karty
+Menu
+Menu
+Menu Theme:
+Téma:
+Music:
+Hudba:
+New Card
+Nová karta
+New GamePad found
+Nájdený nový Gamepad
+OOPS! Game crashed. Resume point not available.
+Och! Hra spadla. Bod obnovy nie je k dispozícii.
+Options
+Nastavenia
+Original
+Originálne hry
+Page
+Strana
+Player
+Hráč
+Players
+Hráči
+Please confirm
+Potvrďte prosím
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+PRIPOJTE PROSÍM GAMEPAD K PLAYSTATIONU CLASSIC
+Please wait ... deleting covers...
+Čakajte prosím... mažem obaly...
+Plugin:
+Plugin:
+Power Off
+Vypnúť
+POWERING OFF... PLEASE WAIT
+VYPÍNAM... ČAKAJTE PROSÍM
+Press a key for
+Stlačte hocijaké tlačidlo
+Published by:
+Vydavateľ:
+Quick boot
+Rýchly štart
+Quick scroll to next letter
+Rýchle prejdenie na nasledujúci znak  
+QuickBoot Init:
+Rýchly štart do:
+QuickBoot:
+Rýchly štart:
+Quit emulation - back to AutoBleem
+Ukončiť emuláciu - návrat do AutoBleemu
+Re/Scan
+Pre/Hľadať
+Region:
+Oblasť:
+Rename
+Premenovať
+RESUME
+OBNOVA
+Resume game from saved state point
+Pokračovať v hre od uloženého stavu
+Resume point saved to slot
+Bod obnovy uložený na pozíciu
+RetroArch
+RetroArch
 RetroArch is not installed
 RetroArch nie je nainštalovaný
+Scanline Level:
+Úroveň obrazových riadkov:
+Scanlines:
+Obrazové riadky:
+Scanning...
+Vyhľadávam...
+Select
+Vybrať
+Select memory card
+Vybrať Pamäťovú kartu
+Select or cancel highlighted option
+Vybrať alebo zrušiť zvýraznenú voľbu
+SELECT RESUME SLOT TO LOAD
+VYBERTE POZÍCIU, Z KTOREJ SA NAHRÁ PRERUŠENÁ HRA
+SELECT SLOT TO SAVE STATE
+VYBERTE POZÍCIU, NA KTORÚ SA ULOŽÍ ROZOHRANÁ HRA
+Serial:
+Serial:
+SETTINGS
+NASTAVENIA
+Share MC
+Zdieľať Pamäťovú kartu
+Show RetroArch:
+RetroArch:
+Showing Timeout (0 = no timeout):
+Zobrazenie časového limitu (0 = bez limitu):
+Showing: All games
+Všetky hry
+Showing: Favorite games
+Obľúbené hry
+Showing: Internal games
+Originálne hry
+Showing: USB games
+USB hry
+Slot
+Pozícia
+Sorting :
+Triedenie :
+Sorting...
+Triedenie...
+Space
+Medzera
+SpeedHack:
+SpeedHack
+Spu Interpolation:
+Interpolácia zvuku:
+Starting EvolutionUI
+Spúšťam EvolutionUI
+Support via Discord:
+Podpora na Discorde:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+AutoBleem je bezplatný a open source softvér. Funguje TAK, AKO JE, a NENESIEME žiadnu zodpovednosť za akékoľvek problémy alebo škody.
+to scan
+nájsť
+Total:
+Celkom:
+UI:
+Užívateľské rozhranie:
+Updating regional.db...
+Aktualizujem regional.db...
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+POZOR: NENAŠLA SA DATABÁZA OBALOV NA HRY. STLAČTE ĽUBOVOĽNÚ KLÁVESU.
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+POZOR: NEBOLA NÁJDENÁ ŽIADNA HRA. STLAČTE ĽUBOVOĽNÚ KLÁVESU.
+Widescreen:
+Širokouhlý obraz:
+Year:
+Rok:

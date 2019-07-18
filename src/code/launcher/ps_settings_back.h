@@ -2,11 +2,13 @@
 // Created by screemer on 2/11/19.
 //
 
-#ifndef AUTOBLEEM_GUI_PS_FOOTER_H
-#define AUTOBLEEM_GUI_PS_FOOTER_H
+#pragma once
 
 #include "ps_obj.h"
 
+//******************
+// PsSettingsBack
+//******************
 class PsSettingsBack : public PsObj {
 public:
     void setCurLen(int len);
@@ -19,6 +21,3 @@ public:
 
     using PsObj::PsObj;
 };
-
-
-#endif //AUTOBLEEM_GUI_PS_FOOTER_H

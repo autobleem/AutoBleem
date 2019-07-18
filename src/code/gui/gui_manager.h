@@ -1,20 +1,22 @@
 //
 // Created by screemer on 2019-01-24.
 //
+#pragma once
 
-#ifndef AUTOBLEEM_GUI_GUI_MANAGER_H
-#define AUTOBLEEM_GUI_GUI_MANAGER_H
 #include "gui_screen.h"
 #include "../engine/inifile.h"
+#include "../main.h"
 #include <vector>
-using namespace std;
 
+//********************
+// GuiManager
+//********************
 class GuiManager : public GuiScreen{
 public:
     void init();
     void render();
     void loop();
-    vector<Inifile> games;
+    std::vector<Inifile> gameInis;
 
     int selected=0;
     int maxVisible=8;
@@ -23,9 +25,7 @@ public:
 
     bool changes=false;
 
+    static bool sortByTitle(Inifile i, Inifile j) { return SortByCaseInsensitive(i.values["title"], j.values["title"]); }
+
     using GuiScreen::GuiScreen;
-
 };
-
-
-#endif //AUTOBLEEM_GUI_GUI_MANAGER_H

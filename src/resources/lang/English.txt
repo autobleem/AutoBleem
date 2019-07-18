@@ -1,0 +1,272 @@
+About
+
+Advanced
+
+Advanced:
+
+Are you sure you want to flush all covers?
+
+Are you sure?
+
+AutoBleem
+
+AutoBleem Theme:
+
+Automatic PlayStation Classic USB launcher
+
+Background Music:
+
+Button Guide
+
+Cancel
+
+Caps
+
+Card
+
+Change MC
+
+Clock:
+
+Close
+
+Code: AutoBleem Team
+
+Configuration
+
+Configuration saved - Press |@X| to continue
+
+Confirm
+
+Console Button Guide
+
+Cover Style:
+
+Custom
+
+Custom Memory Cards
+
+Customize AutoBleem settings
+
+Decompressing ecm:
+
+Delete
+
+Delete card
+
+Download latest:
+
+DPAD - Same as classic menu
+
+Edit game parameters
+
+Edit Memory Card information
+
+Emulator config MENU
+
+Enter
+
+Enter new card name
+
+Enter new game name
+
+Enter new name for card
+
+Enter new name for memory card
+
+Favorite:
+
+Flush covers
+
+Folder:
+
+Frameskip:
+
+Free space
+
+Game
+
+GAME
+
+Game Manager
+
+Game manager - Select game
+
+Game:
+
+games
+
+Games changed. Press
+
+Games filter
+
+games scanned
+
+GFX Filter:
+
+Go back
+
+Graphics by: 
+
+High res:
+
+Hold
+
+Importing internal games
+
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+
+In Game
+
+Internal
+
+Internal Games:
+
+Is your dpad analogue?
+
+Language:
+
+Loading ... Please Wait ...
+
+Lock data:
+
+MemCard Manager will be available soon
+
+MEMORY CARD
+
+Memory Card:
+
+Memory Cards
+
+Menu
+
+Menu Theme:
+
+Music:
+
+New Card
+
+New GamePad found
+
+OOPS! Game crashed. Resume point not available.
+
+Options
+
+Original
+
+Page
+
+Player
+
+Players
+
+Please confirm
+
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+
+Please wait ... deleting covers...
+
+Plugin:
+
+Power Off
+
+POWERING OFF... PLEASE WAIT
+
+Press a key for
+
+Published by:
+
+Quick boot
+
+Quick scroll to next letter
+
+QuickBoot Init:
+
+QuickBoot:
+
+Quit emulation - back to AutoBleem
+
+Re/Scan
+
+Region:
+
+Rename
+
+RESUME
+
+Resume game from saved state point
+
+Resume point saved to slot
+
+RetroArch
+
+RetroArch is not installed
+
+Scanline Level:
+
+Scanlines:
+
+Scanning...
+
+Select
+
+Select memory card
+
+Select or cancel highlighted option
+
+SELECT RESUME SLOT TO LOAD
+
+SELECT SLOT TO SAVE STATE
+
+Serial:
+
+SETTINGS
+
+Share MC
+
+Show RetroArch:
+
+Showing Timeout (0 = no timeout):
+
+Showing: All games
+
+Showing: Favorite games
+
+Showing: Internal games
+
+Showing: USB games
+
+Slot
+
+Sorting :
+
+Sorting...
+
+Space
+
+SpeedHack:
+
+Spu Interpolation:
+
+Starting EvolutionUI
+
+Support via Discord:
+
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+
+to scan
+
+Total:
+
+UI:
+
+Updating regional.db...
+
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+
+Widescreen:
+
+Year:
+

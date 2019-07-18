@@ -12,7 +12,6 @@
 *.pch
 
 # Compiled Dynamic libraries
-*.so
 *.dylib
 *.dll
 
@@ -31,6 +30,8 @@
 *.out
 *.app
 
+cmake-build*/
+build/
 
 CMakeLists.txt.user
 CMakeCache.txt
@@ -43,7 +44,6 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 
-CMakeLists.txt
 
 #CLion folder
 .idea/
@@ -51,10 +51,13 @@ CMakeLists.txt
 #OS X DS_Store files
 .DS_Store
 
-#Test build folder
-cmake-build-debug/
-
-#ARM Build folder
+#ARM and local system shell script Build folders
 build_arm/
+build_sys/
 db/
 
+#If you edit, or view, a file in Visual Studio in open folder mode it creates files in a .vs folder to keep track
+.vs/
+
+#VS Code
+.vscode/

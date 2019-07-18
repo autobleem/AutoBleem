@@ -1,0 +1,158 @@
+'Tenchu' theme by Kevzombie
+Kevzombie tarafından 'Tenchu' Teması
+About
+Hakkında
+About
+Hakkında
+Advanced
+Gelişmiş
+Advanced:
+Gelişmiş:
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+AutoBleem Tema:
+Background Music:
+Arkaplan Müziği:
+Cancel
+İptal
+Caps
+Caps
+Card
+Kart
+Change MC
+Memory Card değiştir
+Close
+Kapat
+Code: AutoBleem Team
+Oluşturanlar: AutoBleem Takımı
+Configuration
+Konfigürasyon
+Confirm
+Onayla
+Custom
+Özel
+Custom Memory Cards
+Özel Memory Cardlar
+Delete
+Sil
+Delete card
+Kart'ı sil
+Download latest:
+Son sürümü indirmek için:
+Enter new card name
+Yeni kart ismi gir
+Enter new game name
+Yeni oyun ismi gir
+Enter new name for card
+Kart için yeni isim girin
+Enter new name for memory card
+Yeni memory card için isim gir
+Folder:
+Dosya:
+Free space
+Boş Alan
+Game
+Oyun
+Game Manager
+Oyun yöneticisi
+Game manager - Select game
+Oyun yöneticisi - Oyun seç
+Game:
+Oyun:
+games
+oyunlar
+Games changed. Press
+Oyunlar değiştirildi. Basın
+games scanned
+oyunlar tarandı
+GFX Filter:
+Grafik Filtresi:
+Go back
+Geri git
+Hi/Lo Res
+Yüksek/Düşük Çözünürlük
+High res:
+Yüksek Çözünürlük:
+Hold
+Basılı tutun
+Internal
+Dahili
+Internal
+Dahili
+Language:
+Dil:
+Loading ... Please Wait ...
+Yükleniyor ... Lütfen Bekleyin ...
+Lock
+Kilitle
+Lock data:
+Daten Sperren:
+Memory Card:
+Memory Card:
+Memory Cards
+Memory Cardları
+Menu
+Menü
+Menu Theme:
+Menü Tema:
+New Card
+Yeni Kart
+Options
+Ayarlar
+Original
+Orijinal
+Page
+Sayfa
+PCSX Version:
+PCSX Versiyonu:
+Players
+Kullanıcı
+Please confirm
+Lütfen onaylayın
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+GAMEPAD'I PLAYSTATION CLASSIC'E BAĞLAYIN LÜTFEN
+Published by:
+Yayımcı:
+Quick boot
+Hızlı önyükleme
+QuickBoot:
+Hızlı Önyükleme:
+Re/Scan
+Tekrar/tara
+Rename
+Yeniden adlandır
+RetroArch
+RetroArch
+Scanning...
+Taranıyor...
+Select
+Seç
+Select memory card
+Memory card seç
+Share MC
+MC'ı paylaş
+Show RetroArch:
+RetroArch'ı göster:
+Space
+Boşluk
+Support via Discord:
+Discord kanalımız:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+Ücretsiz ve açık kaynaklı bir yazılımdır. Olduğu gibi çalışır ve herhangi bir sorun veya hasar için sorumluluk kabul etmeyiz.
+to scan
+taramak için
+Total:
+Toplam:
+Updating regional.db...
+Güncelleniyor regional.db...
+Upgrading AutoBleem - Please wait...
+AutoBleem güncelleniyor - Lütfen bekleyin...
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+UYARI: KAPAK VERITABANI BULUNAMADI. HERHANGİ BİR TUŞA BASIN.
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+UYARI: OYUNLAR BULUNAMADI. HERHANGİ BİR TUŞA BASIN.
+Year:
+Yıl:
+﻿Automatic PlayStation Classic USB launcher
+Otomatik PlayStation Classic USB başlatıcısı

@@ -8,9 +8,16 @@
 #include "cfgprocessor.h"
 #include "../gui/gui.h"
 #include "serialscanner.h"
+#include <sstream>
+#include <fstream>
+#include <iostream>
+#include "../engine/scanner.h"
 
 using namespace std;
 
+//*******************************
+// Game::validateCue
+//*******************************
 bool Game::validateCue(string cuePath, string path) {
     vector<string> binFiles;
     string line;
@@ -30,7 +37,6 @@ bool Game::validateCue(string cuePath, string path) {
     for (int i = 0; i < binFiles.size(); i++) {
         string binPath = path + binFiles[i];
         if (!Util::exists(binPath)) {
-
             result = false;
         } else {
             if (i == 0) {
@@ -38,43 +44,61 @@ bool Game::validateCue(string cuePath, string path) {
                     firstBinPath = binPath;
                 }
             }
-
         }
     }
     cueStream.close();
     return result;
 }
 
-string Game::valueOrDefault(string name, string def) {
+//*******************************
+// Game::valueOrDefault
+//*******************************
+string Game::valueOrDefault(string name, string def, bool setAutomationIfDefaultUsed) {
     string value;
     if (iniValues.find(name) != iniValues.end()) {
         value = trim(iniValues.find(name)->second);
         if (value.length() == 0) {
-            automationUsed = true;
+            if (setAutomationIfDefaultUsed)
+                automationUsed = true;
             return def;
         }
     } else {
-        automationUsed = true;
+        if (setAutomationIfDefaultUsed)
+            automationUsed = true;
         value = def;
     }
     return value;
 }
 
+//*******************************
+// Game::verify
+//*******************************
 bool Game::verify() {
     bool result = true;
 
+    if (discs.size() == 0) result = false;
+
     for (int i = 0; i < discs.size(); i++) {
-        if (discs[i].diskName.length() == 0) result = false;
-        if (!discs[i].cueFound) result = false;
-        if (!discs[i].binVerified) result = false;
+        if (discs[i].diskName.length() == 0)
+            result = false;
+        if (!discs[i].cueFound)
+            result = false;
+        if (!discs[i].binVerified)
+            result = false;
     }
 
-    if (!gameDataFound) result = false;
-    if (!gameIniFound) result = false;
-    if (!gameIniValid) result = false;
-    if (!imageFound) result = false;
-    if (!licFound) result = false;
-    if (!pcsxCfgFound) result = false;
+    if (!gameDataFound)
+        result = false;
+    if (!gameIniFound)
+        result = false;
+    if (!gameIniValid)
+        result = false;
+    if (!imageFound)
+        result = false;
+    if (!licFound)
+        result = false;
+    if (!pcsxCfgFound)
+        result = false;
 
     if (!result) {
         cerr << "Game: " << title << " Validation Failed" << endl;
@@ -83,6 +107,9 @@ bool Game::verify() {
     return result;
 }
 
+//*******************************
+// Game::print
+//*******************************
 bool Game::print() {
     cout << "-------------------" << endl;
     cout << "Printing game data:" << endl;
@@ -93,6 +120,8 @@ bool Game::print() {
     cout << "Players: " << players << endl;
     cout << "Publisher: " << publisher << endl;
     cout << "Year: " << year << endl;
+    cout << "Serial: " << serial << endl;
+    cout << "Region: " << region << endl;
     cout << "GameData found: " << gameDataFound << endl;
     cout << "Game.ini found: " << gameIniFound << endl;
     cout << "Game.ini valid: " << gameIniValid << endl;
@@ -100,14 +129,13 @@ bool Game::print() {
     cout << "LIC found:" << licFound << endl;
     cout << "pcsx.cfg found: " << pcsxCfgFound << endl;
     cout << "TotalDiscs: " << discs.size() << endl;
+    cout << "Favorite: " << favorite << endl;
 
     for (int i = 0; i < discs.size(); i++) {
         cout << "  Disc:" << i + 1 << "  " << discs[i].diskName << endl;
         cout << "  CUE found: " << discs[i].cueFound << endl;
         cout << "  BIN correct: " << discs[i].binVerified << endl;
-
     }
-
 
     bool result = verify();
     if (result) {
@@ -119,6 +147,9 @@ bool Game::print() {
     return result;
 }
 
+//*******************************
+// Game::recoverMissingFiles
+//*******************************
 void Game::recoverMissingFiles() {
     string path = Util::getWorkingPath();
 
@@ -126,7 +157,6 @@ void Game::recoverMissingFiles() {
     bool metadataLoaded = false;
 
     if (this->imageType == IMAGE_PBP) {
-
         // disc link
         string destinationDir = fullPath ;
         string pbpFileName = Util::findFirstFile(EXT_PBP, destinationDir);
@@ -139,7 +169,6 @@ void Game::recoverMissingFiles() {
                 disc.cueName = pbpFileName;
                 disc.binVerified = true;
                 discs.push_back(disc);
-
             }
         } else
         {
@@ -147,15 +176,13 @@ void Game::recoverMissingFiles() {
             cout << "Switching automation in PBP" << endl;
         }
     }
-    if (this->imageType == IMAGE_CUE_BIN) {
-
-
+    if (this->imageType == IMAGE_CUE_BIN || imageType == IMAGE_IMG || imageType == IMAGE_ISO) {
         if (discs.size() == 0) {
             automationUsed = true;
             cout << "Switching automation no discs" << endl;
             // find cue files
             string destination = fullPath ;
-            for (DirEntry entry: Util::diru(destination)) {
+            for (const DirEntry & entry: Util::diru(destination)) {
                 if (Util::matchExtension(entry.name, EXT_CUE)) {
                     string discEntry = entry.name.substr(0, entry.name.size() - 4);
                     Disc disc;
@@ -187,9 +214,7 @@ void Game::recoverMissingFiles() {
             cerr << "SRC:" << source << " DST:" << destination << endl;
             Util::copy(source, destination);
             // maybe we can do better ?
-            SerialScanner * serialScanner = new SerialScanner();
-            string serial = serialScanner->scanSerial(imageType,fullPath,firstBinPath);
-            delete serialScanner;
+            string serial = SerialScanner::scanSerial(imageType,fullPath,firstBinPath);
             if (serial != "") {
 
                 if (md.lookupBySerial(serial)) {
@@ -211,7 +236,6 @@ void Game::recoverMissingFiles() {
         }
     }
 
-
     if (!pcsxCfgFound) {
         automationUsed = true;
         cout << "Switching automation no pcsx" << endl;
@@ -222,15 +246,11 @@ void Game::recoverMissingFiles() {
         int region = 0;
         bool japan = false;
 
-
         if (!metadataLoaded) {
-            SerialScanner * serialScanner = new SerialScanner();
-            string serial = serialScanner->scanSerial(imageType,fullPath,firstBinPath);
-            delete serialScanner;
+            string serial = SerialScanner::scanSerial(imageType,fullPath,firstBinPath);
             if (serial != "") {
                 metadataLoaded = md.lookupBySerial(serial);
             }
-
         }
 
         if (metadataLoaded) {
@@ -246,26 +266,26 @@ void Game::recoverMissingFiles() {
                 japan = false;
                 region = 2;
             }
-
         }
         md.clean();
         shared_ptr<Gui> gui(Gui::getInstance());
         Util::copy(source, destination);
 
         CfgProcessor * processor=new CfgProcessor();
-        processor->replace(pathName, gui->path, "region", "region = " + to_string(region));
+        processor->replace(pathName, gui->path, "region", "region = " + to_string(region),false);
         delete(processor);
         pcsxCfgFound = true;
     }
-
 }
 
+//*******************************
+// Game::updateObj
+//*******************************
 void Game::updateObj() {
     string tmp;
     discs.clear();
     title = valueOrDefault("title", pathName);
     memcard = valueOrDefault("memcard", "");
-
 
     publisher = valueOrDefault("publisher", "Other");
     string automation = valueOrDefault("automation", "0");
@@ -274,12 +294,13 @@ void Game::updateObj() {
     if (Util::isInteger(tmp.c_str())) players = atoi(tmp.c_str()); else players = 1;
     tmp = valueOrDefault("year", "2018");
 
-
     if (Util::isInteger(tmp.c_str())) year = atoi(tmp.c_str()); else year = 2018;
     tmp = valueOrDefault("highres","0");
     if (Util::isInteger(tmp.c_str())) highRes = atoi(tmp.c_str()); else highRes = 0;
-    tmp = valueOrDefault("discs", "");
+    favorite = valueOrDefault("favorite", "0", false);  // favorite is a new field that didn't exist before so
+    // don't set automationUsed if it doesn't exist
 
+    tmp = valueOrDefault("discs", "");
     if (!tmp.empty()) {
         vector<string> strings;
         istringstream f(tmp);
@@ -291,7 +312,7 @@ void Game::updateObj() {
         for (int i = 0; i < strings.size(); i++) {
             Disc disc;
             disc.diskName = strings[i];
-            if (imageType == IMAGE_CUE_BIN) {
+            if (imageType == IMAGE_CUE_BIN || imageType == IMAGE_IMG || imageType == IMAGE_ISO) {
                 string cueFile = fullPath  + disc.diskName + EXT_CUE;
                 bool discCueExists = Util::exists(cueFile);
                 if (discCueExists) {
@@ -310,17 +331,17 @@ void Game::updateObj() {
                 }
 
                 disc.binVerified = true;
-
                 disc.cueName = disc.diskName;
+                discs.push_back(disc);
             }
-
         }
     }
     gameIniValid = true;
-
-
 }
 
+//*******************************
+// Game::saveIni
+//*******************************
 void Game::saveIni(string path) {
     cout << "Overwritting ini file" << path << endl;
     Inifile *ini = new Inifile();
@@ -328,6 +349,8 @@ void Game::saveIni(string path) {
     ini->values["title"] = title;
     ini->values["publisher"] = publisher;
     ini->values["year"] = to_string(year);
+    ini->values["serial"] = serial;
+    ini->values["region"] = region;
     ini->values["players"] = to_string(players);
     ini->values["automation"] = to_string(automationUsed);
     ini->values["imagetype"] = to_string(imageType);
@@ -339,6 +362,7 @@ void Game::saveIni(string path) {
     {
         ini->values["memcard"] = memcard;
     }
+    ini->values["Favorite"] = favorite;
 
     stringstream ss;
     for (int i = 0; i < discs.size(); i++) {
@@ -353,6 +377,9 @@ void Game::saveIni(string path) {
     gameIniFound = true;
 }
 
+//*******************************
+// Game::parseIni
+//*******************************
 void Game::parseIni(string path) {
     iniValues.clear();
     Inifile *ini = new Inifile();
@@ -367,6 +394,9 @@ void Game::parseIni(string path) {
     delete ini;
 }
 
+//*******************************
+// Game::readIni
+//*******************************
 void Game::readIni(string path) {
     parseIni(path);
     updateObj();

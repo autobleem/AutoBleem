@@ -6,9 +6,14 @@
 #include "gui.h"
 #include "../ver_migration.h"
 #include "../lang.h"
+#include "../engine/scanner.h"
+using namespace std;
 
+//*******************************
+// GuiSplash::render
+//*******************************
 void GuiSplash::render() {
-    shared_ptr<Gui> gui(Gui::getInstance());
+    std::shared_ptr<Gui> gui(Gui::getInstance());
     int w, h; // texture width & height
     SDL_SetTextureBlendMode(gui->backgroundImg, SDL_BLENDMODE_BLEND);
     SDL_QueryTexture(gui->backgroundImg, NULL, NULL, &w, &h);
@@ -26,8 +31,7 @@ void GuiSplash::render() {
         splashText += ")";
     }
 
-
-    gui->getEmojiTextTexture(renderer, splashText.c_str(), gui->font, &textTex, &textRec);
+    gui->getEmojiTextTexture(renderer, splashText.c_str(), gui->themeFont, &textTex, &textRec);
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);
     textRec.y = atoi(gui->themeData.values["ttop"].c_str());
@@ -58,6 +62,9 @@ void GuiSplash::render() {
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiSplash::loop
+//*******************************
 void GuiSplash::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
 
@@ -65,8 +72,15 @@ void GuiSplash::loop() {
     alpha = 0;
     start = SDL_GetTicks();
     while (1) {
+        gui->watchJoystickPort();
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
+            if (e.type == SDL_KEYDOWN) {
+                if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
+                    gui->drawText(_("POWERING OFF... PLEASE WAIT"));
+                    Util::powerOff();
+                }
+            }
             if (e.type == SDL_QUIT)
                 break;
             else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
@@ -74,22 +88,22 @@ void GuiSplash::loop() {
 
             if (e.type == SDL_JOYBUTTONDOWN) {
                 gui->overrideQuickBoot = true;
-
             }
         }
         render();
         int current = SDL_GetTicks();
         int time = current - start;
-        if (time > 5) {
+        if (time > 2) {
             if (alpha < 255) {
-                alpha += 1;
+                alpha += 2;
+                if (alpha > 255) {
+                    alpha = 255;
+                }
             } else {
 
                 break;
             }
             start = SDL_GetTicks();
         }
-
     }
-
 }

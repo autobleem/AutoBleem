@@ -32,12 +32,13 @@
 #include <stdio.h>
 #include <string.h>
 
-
-
 void logText(char *message);
 
 /***************************************************************************/
 
+//******************
+// banner
+//******************
 void banner(void) {
     fprintf(stderr,
             "UNECM - Decoder for Error Code Modeler format v1.0\n"
@@ -57,6 +58,9 @@ static ecc_uint8 ecc_f_lut[256];
 static ecc_uint8 ecc_b_lut[256];
 static ecc_uint32 edc_lut[256];
 
+//******************
+// eccedc_init
+//******************
 /* Init routine */
 void eccedc_init(void) {
     ecc_uint32 i, j, edc;
@@ -70,10 +74,10 @@ void eccedc_init(void) {
     }
 }
 
-/***************************************************************************/
-/*
-** Compute EDC for a block
-*/
+//******************
+// edc_partial_computeblock
+//******************
+// Compute EDC for a block
 ecc_uint32 edc_partial_computeblock(
         ecc_uint32 edc,
         const ecc_uint8 *src,
@@ -83,6 +87,9 @@ ecc_uint32 edc_partial_computeblock(
     return edc;
 }
 
+//******************
+// edc_computeblock
+//******************
 void edc_computeblock(
         const ecc_uint8 *src,
         ecc_uint16 size,
@@ -95,7 +102,9 @@ void edc_computeblock(
     dest[3] = (edc >> 24) & 0xFF;
 }
 
-/***************************************************************************/
+//******************
+// ecc_computeblock
+//******************
 /*
 ** Compute ECC for a block (can do either P or Q)
 */
@@ -106,7 +115,7 @@ static void ecc_computeblock(
         ecc_uint32 major_mult,
         ecc_uint32 minor_inc,
         ecc_uint8 *dest
-) {
+        ) {
     ecc_uint32 size = major_count * minor_count;
     ecc_uint32 major, minor;
     for (major = 0; major < major_count; major++) {
@@ -127,6 +136,9 @@ static void ecc_computeblock(
     }
 }
 
+//******************
+// ecc_generate
+//******************
 /*
 ** Generate ECC P and Q codes for a block
 */
@@ -149,7 +161,9 @@ static void ecc_generate(
     if (zeroaddress) for (i = 0; i < 4; i++) sector[12 + i] = address[i];
 }
 
-/***************************************************************************/
+//******************
+// eccedc_generate
+//******************
 /*
 ** Generate ECC/EDC information for a sector (must be 2352 = 0x930 bytes)
 ** Returns 0 on success
@@ -183,11 +197,17 @@ void eccedc_generate(ecc_uint8 *sector, int type) {
 unsigned mycounter;
 unsigned mycounter_total;
 
+//******************
+// resetcounter
+//******************
 void resetcounter(unsigned total) {
     mycounter = 0;
     mycounter_total = total;
 }
 
+//******************
+// setcounter
+//******************
 void setcounter(unsigned n) {
     if ((n >> 20) != (mycounter >> 20)) {
         unsigned a = (n + 64) / 128;
@@ -201,6 +221,9 @@ void setcounter(unsigned n) {
     mycounter = n;
 }
 
+//******************
+// unecmify
+//******************
 int unecmify(
         FILE *in,
         FILE *out

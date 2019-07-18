@@ -1,16 +1,17 @@
 //
 // Created by screemer on 2/2/19.
 //
-
-#ifndef AUTOBLEEM_GUI_COVERDB_H
-#define AUTOBLEEM_GUI_COVERDB_H
+#pragma once
 
 #include "database.h"
 
+//******************
+// Coverdb
+//******************
 class Coverdb {
 public:
     Database *covers[3];
-    string regionStr[3];
+    std::string regionStr[3];
 
     bool isValid();
     Coverdb();
@@ -18,5 +19,3 @@ public:
 
 };
 
-
-#endif //AUTOBLEEM_GUI_COVERDB_H

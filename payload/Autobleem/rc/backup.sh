@@ -2,6 +2,8 @@
 mount -o remount,ro /gaadata
 mount -o remount,ro /data
 
+
+mkdir -p /media/Games/!SaveStates
 mkdir -p /media/System/Bios
 mkdir -p /media/System/Preferences
 mkdir -p /media/System/Preferences/System
@@ -55,4 +57,5 @@ cp -r /usr/sony/share/recovery/AppData/sony/pcsx /tmp/datatmp/AppData/sony/pcsx
 ln -s /media/System/Bios /tmp/datatmp/AppData/sony/pcsx/bios
 ln -s /usr/sony/bin/plugins /tmp/datatmp/AppData/sony/pcsx/plugins
 
-sync
+#disable power button event
+echo 2 > /tmp/datatmp/power/disable

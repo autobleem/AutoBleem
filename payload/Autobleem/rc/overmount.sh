@@ -1,5 +1,5 @@
 #!/bin/sh
-
+# This is kind of deprecated - the overmount is not needed with EvoUI
 sync
 # Overmount partitions on tmpfs
 

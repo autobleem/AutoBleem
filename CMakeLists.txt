@@ -4,8 +4,20 @@ project(autobleem-gui)
 set(CMAKE_CXX_STANDARD 11)
 
 
-include_directories(src/include /usr/local/cross-tools/arm-linux-gnueabihf/include/)
-link_directories(/usr/local/cross-tools/arm-linux-gnueabihf/lib/)
+if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm" )
+	SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -s -Os -O3")
+	SET(CMAKE_CXX_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -Os -O3")
+	include_directories(src/include /home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/include)
+	link_directories(/home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/lib$)
+else()
+	if( "${CMAKE_BUILD_TYPE}" STREQUAL "Debug" )
+		if ( "$ENV{MEM_DEBUG}" STREQUAL "1" )
+			message("Enabling additional memory debugging")
+			SET(CMAKE_C_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
+			SET(CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
+		endif()
+	endif()
+endif()
 
 find_package(Threads REQUIRED)
 
@@ -13,8 +25,10 @@ add_executable(autobleem-gui
         src/code/unecm.c
         src/code/sqlite3.c
         src/code/main.h
-        src/code/engine/database.cpp
         src/code/main.cpp
+        src/code/DebugTimer.h
+        src/code/DebugTimer.cpp
+        src/code/engine/database.cpp
         src/code/engine/database.h
         src/code/sqlite3.h
         src/code/util.h
@@ -57,7 +71,7 @@ add_executable(autobleem-gui
         src/code/gui/gui_manager.h
         src/code/gui/gui_editor.cpp
         src/code/gui/gui_editor.h
-        src/code/gui/gui_selectmemcard.cpp
+		src/code/gui/gui_selectmemcard.cpp
         src/code/gui/gui_selectmemcard.h
 		src/code/ver_migration.cpp
 		src/code/ver_migration.h
@@ -65,7 +79,43 @@ add_executable(autobleem-gui
         src/code/engine/coverdb.h
         src/code/engine/serialscanner.cpp
         src/code/engine/serialscanner.h
-		src/code/lang.cpp src/code/lang.h src/code/launcher/gui_launcher.cpp src/code/launcher/gui_launcher.h src/code/launcher/ps_obj.cpp src/code/launcher/ps_obj.h src/code/launcher/ps_static.cpp src/code/launcher/ps_static.h src/code/launcher/ps_settings_back.cpp src/code/launcher/ps_settings_back.h src/code/launcher/ps_zoom_btn.cpp src/code/launcher/ps_zoom_btn.h src/code/launcher/ps_meta.cpp src/code/launcher/ps_meta.h)
+        src/code/lang.cpp
+        src/code/lang.h 
+        src/code/launcher/gui_launcher.cpp
+        src/code/launcher/gui_launcher.h 
+		src/code/launcher/gui_NotificationLine.h
+		src/code/launcher/gui_NotificationLine.cpp
+        src/code/launcher/ps_obj.cpp
+        src/code/launcher/ps_obj.h
+        src/code/launcher/ps_static.cpp
+        src/code/launcher/ps_static.h
+        src/code/launcher/ps_settings_back.cpp 
+        src/code/launcher/ps_settings_back.h
+        src/code/launcher/ps_zoom_btn.cpp
+        src/code/launcher/ps_zoom_btn.h
+        src/code/launcher/ps_meta.cpp
+        src/code/launcher/ps_meta.h
+        src/code/launcher/ps_game.cpp 
+        src/code/launcher/ps_game.h 
+        src/code/launcher/ps_carousel.cpp
+        src/code/launcher/ps_carousel.h
+        src/code/launcher/pcsx_interceptor.cpp
+        src/code/launcher/pcsx_interceptor.h
+        src/code/launcher/ps_move_bnt.cpp
+        src/code/launcher/ps_move_bnt.h 
+        src/code/launcher/ps_menu.cpp
+        src/code/launcher/ps_menu.h
+        src/code/launcher/ps_centerlabel.cpp
+        src/code/launcher/ps_centerlabel.h
+        src/code/launcher/ps_stateselector.cpp
+        src/code/launcher/ps_stateselector.h
+        src/code/launcher/gui_btn_guide.cpp
+        src/code/launcher/gui_btn_guide.h
+        src/code/engine/padmapper.cpp
+        src/code/engine/padmapper.h
+        src/code/gui/gui_padconfig.cpp
+        src/code/gui/gui_padconfig.h)
+
 
 add_executable(starter
 		src/code/starter.cpp
@@ -84,6 +134,13 @@ target_link_libraries(autobleem-gui
          SDL2_ttf
          ${CMAKE_DL_LIBS}
 )
+
+
+#add_custom_command(TARGET autobleem-gui PRE_BUILD
+#	   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+#	   VERBATIM
+#       COMMAND /bin/bash make_english.txt.sh
+#	   )
 
 add_custom_command(TARGET autobleem-gui PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory

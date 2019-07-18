@@ -3,16 +3,22 @@
 //
 
 #include "ps_obj.h"
+#include <SDL2/SDL_image.h>
+using namespace std;
 
-PsObj::PsObj(SDL_Renderer *renderer1, string name1, string texPath) {
-    this->renderer = renderer1;
-    this->name = name;
+//*******************************
+// PsObj::PsObj
+//*******************************
+PsObj::PsObj(SDL_Renderer *renderer1, string name1, string texPath) : renderer(renderer1), name(name1) {
     if (texPath != "") {
         load(texPath);
     }
 }
 
-void PsObj::load(string imagePath) {
+//*******************************
+// PsObj::load
+//*******************************
+void PsObj::load(const string & imagePath) {
     tex = IMG_LoadTexture(renderer, imagePath.c_str());
     Uint32 format;
     int access;
@@ -23,10 +29,16 @@ void PsObj::load(string imagePath) {
     oh = h;
 }
 
+//*******************************
+// PsObj::destroy
+//*******************************
 void PsObj::destroy() {
     SDL_DestroyTexture(tex);
 }
 
+//*******************************
+// PsObj::render
+//*******************************
 void PsObj::render() {
     if (visible) {
         SDL_Rect rect;

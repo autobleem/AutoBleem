@@ -3,7 +3,13 @@
 //
 
 #include "isodir.h"
+#include <fstream>
 
+using namespace std;
+
+//*******************************
+// Isodir::removeVersion
+//*******************************
 string Isodir::removeVersion(string input)
 {
     int len=input.length();
@@ -18,10 +24,16 @@ string Isodir::removeVersion(string input)
     return input;
 }
 
+//*******************************
+// Isodir::getSectorAddress
+//*******************************
 int Isodir::getSectorAddress(int sector) {
     return sector * SECTOR_SIZE + offset;
 }
 
+//*******************************
+// Isodir::readChar
+//*******************************
 unsigned char Isodir::readChar() {
     unsigned char x;
     stream->read(reinterpret_cast<char *>(&x), 1);
@@ -29,6 +41,9 @@ unsigned char Isodir::readChar() {
     return x;
 }
 
+//*******************************
+// Isodir::readString
+//*******************************
 string Isodir::readString(int size) {
     char str[size + 1];
     str[size] = 0;
@@ -36,6 +51,9 @@ string Isodir::readString(int size) {
     return str;
 }
 
+//*******************************
+// Isodir::readDword
+//*******************************
 unsigned long Isodir::readDword() {
     unsigned long res = 0;
     unsigned long c;
@@ -48,9 +66,11 @@ unsigned long Isodir::readDword() {
     c = readChar();
     res += c << (3 * 8);
     return res;
-
 }
 
+//*******************************
+// Isodir::findPrimaryDescriptor
+//*******************************
 int Isodir::findPrimaryDescriptor(int maxOffset) {
     unsigned char c=0;
     int addressStart = getSectorAddress(16);
@@ -80,6 +100,9 @@ int Isodir::findPrimaryDescriptor(int maxOffset) {
     return -1;
 }
 
+//*******************************
+// Isodir::getEmptyDir
+//*******************************
 IsoDirectory Isodir::getEmptyDir()
 {
     IsoDirectory dir;
@@ -88,6 +111,9 @@ IsoDirectory Isodir::getEmptyDir()
     return dir;
 }
 
+//*******************************
+// Isodir::readDir
+//*******************************
 void Isodir::readDir(vector<string> * data, unsigned int sector, int maxlevel, int level)
 {
     if (level>=maxlevel)
@@ -113,7 +139,6 @@ void Isodir::readDir(vector<string> * data, unsigned int sector, int maxlevel, i
         long len = readChar();
         if (len==0)
         {
-
             currSector++;
             sectorAddr = getSectorAddress(currSector);
             stream->seekg(sectorAddr, ios::beg);
@@ -150,6 +175,10 @@ void Isodir::readDir(vector<string> * data, unsigned int sector, int maxlevel, i
 
     stream->seekg(currentPos, ios::beg);
 }
+
+//*******************************
+// Isodir::getDir
+//*******************************
  IsoDirectory Isodir::getDir(string binPath,int maxlevel) {
     offset=0;
     stream = new ifstream(binPath,  ios::binary | ios::in);

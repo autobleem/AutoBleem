@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This is kind of deprecated - the overmount is not needed with EvoUI
+
 echo "Linking games"  >> /media/System/Logs/autobleem.log
 INPUT=/media/Autobleem/bin/autobleem/autobleem.list
 OLDIFS=$IFS
