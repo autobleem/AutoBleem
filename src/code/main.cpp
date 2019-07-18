@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
     memcardOperation->restoreAll(path + Util::separator() + "!SaveStates");
     delete memcardOperation;
 
-    bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInGamesDir(path);
+    bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(path);
     if (scanner->isFirstRun(path, db) || thereAreGameFilesInGamesDir) {
         scanner->forceScan = true;
     }

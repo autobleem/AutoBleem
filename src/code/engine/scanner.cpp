@@ -504,9 +504,9 @@ void Scanner::scanDirectory(const string & _path) {
 }
 
 //*******************************
-// Scanner::areThereGameFilesInGamesDir
+// Scanner::areThereGameFilesInsDir
 //*******************************
-bool Scanner::areThereGameFilesInGamesDir(const string & path) {
+bool Scanner::areThereGameFilesInDir(const string & path) {
     vector<string> extensions;
     extensions.push_back("pbp");
     extensions.push_back("bin");
