@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
 
             gui->saveSelection();
             EmuInterceptor *interceptor;
-            if (gui->emuMode = EMU_PCSX)
+            if (gui->emuMode == EMU_PCSX)
             {
                 interceptor = new PcsxInterceptor();
             } else
