@@ -1,8 +1,5 @@
-## Current Version 0.6.0beta2 
-Download: [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
-
-# Current version 0.6.0b3 please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
+### Current version 0.6.0b3 please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
 #### Please read this page before downloading AutoBleem [USB compatibility FAQ](https://github.com/screemerpl/cbleemsync/wiki/USB-compatibility-FAQ)
 
