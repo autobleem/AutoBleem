@@ -5,6 +5,8 @@
 
 #include "../main.h"
 #include <vector>
+#include <memory>
+#include <vector>
 #include <map>
 
 //******************
@@ -66,3 +68,6 @@ private:
     void parseIni(std::string path);
     std::string valueOrDefault(std::string name, std::string def, bool setAutomationIfDefaultUsed = true);
 };
+
+using GamePtr = std::shared_ptr<Game>;
+using Games = std::vector<GamePtr>;

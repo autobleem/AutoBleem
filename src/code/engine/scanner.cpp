@@ -81,7 +81,7 @@ void Scanner::updateDB(Database *db) {
 //    outfile.open(path);
     if (complete)
         for (int i = 0; i < games.size(); i++) {
-            shared_ptr<Game> data = games[i];
+            GamePtr data = games[i];
             cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
             db->insertGame(i + 1, data->title, data->publisher, data->players, data->year, data->fullPath,
                            data->saveStatePath, data->memcard);
@@ -387,7 +387,7 @@ void Scanner::scanDirectory(const string & _path) {
         string saveStateDir = path + "!SaveStates" + Util::separator() + entry.name;
         Util::createDir(saveStateDir);
 
-        shared_ptr<Game> game{new Game};
+        GamePtr game{new Game};
 
         game->folder_id = 0; // this will not be in use;
         game->fullPath = path + entry.name + Util::separator();
