@@ -19,7 +19,10 @@ using namespace std;
 
 #include "engine/memcard.h"
 #include "lang.h"
+#include "launcher/emu_interceptor.h"
 #include "launcher/pcsx_interceptor.h"
+#include "launcher/retboot_interceptor.h"
+
 
 Database * db;
 
@@ -126,7 +129,15 @@ int main(int argc, char *argv[]) {
             SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
 
             gui->saveSelection();
-            PcsxInterceptor *interceptor = new PcsxInterceptor();
+            EmuInterceptor *interceptor;
+            if (gui->emuMode = EMU_PCSX)
+            {
+                interceptor = new PcsxInterceptor();
+            } else
+            {
+                interceptor = new RetroArchInterceptor();
+            }
+
             interceptor->memcardIn(gui->runningGame);
             interceptor->prepareResumePoint(gui->runningGame, gui->resumepoint);
             interceptor->execute(gui->runningGame, gui->resumepoint );

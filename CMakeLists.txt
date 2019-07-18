@@ -114,7 +114,7 @@ add_executable(autobleem-gui
         src/code/engine/padmapper.cpp
         src/code/engine/padmapper.h
         src/code/gui/gui_padconfig.cpp
-        src/code/gui/gui_padconfig.h)
+        src/code/gui/gui_padconfig.h src/code/launcher/retboot_interceptor.cpp src/code/launcher/retboot_interceptor.h src/code/launcher/emu_interceptor.cpp src/code/launcher/emu_interceptor.h)
 
 
 add_executable(starter

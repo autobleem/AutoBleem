@@ -335,13 +335,21 @@ void GuiLauncher::loadAssets() {
 
     if (gui->resumingGui) {
         PsGamePtr & game = carouselGames[selGame];
-        if (game->isCleanExit()) {
-            sselector->loadSaveStateImages(game, true);
-            sselector->visible = true;
-            state = STATE_RESUME;
-        } else {
-            notificationLines[1].setText(_("OOPS! Game crashed. Resume point not available."), DefaultShowingTimeout);
-        }
+
+        if (gui->emuMode==EMU_PCSX) {
+            if (game->isCleanExit()) {
+                sselector->loadSaveStateImages(game, true);
+                sselector->visible = true;
+                state = STATE_RESUME;
+            } else {
+                notificationLines[1].setText(_("OOPS! Game crashed. Resume point not available."),
+                                             DefaultShowingTimeout);
+            }
+        } else
+            {
+                notificationLines[1].setText(_("AutoBleem resume points not available in RetroArch."),
+                                             DefaultShowingTimeout);
+            }
     }
 
     frontElemets.push_back(sselector);
@@ -1069,6 +1077,25 @@ void GuiLauncher::loop() {
                         }
                     };
 
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
+                        gui->padMapping = gui->mapper.getMappingString(e.jbutton.which);
+
+                        if (state == STATE_GAMES) {
+                            if (carouselGames.empty()) {
+                                continue;
+                            }
+                            gui->startingGame = true;
+                            gui->runningGame = carouselGames[selGame];
+                            gui->lastSelIndex = selGame;
+                            gui->resumepoint = -1;
+                            gui->lastSet = currentSet;
+                            menuVisible = false;
+
+                            gui->emuMode = EMU_RETROARCH;
+
+                        }
+                    }
+
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
                         gui->padMapping = gui->mapper.getMappingString(e.jbutton.which);
 
@@ -1082,6 +1109,9 @@ void GuiLauncher::loop() {
                             gui->resumepoint = -1;
                             gui->lastSet = currentSet;
                             menuVisible = false;
+
+                            gui->emuMode = EMU_PCSX;
+
                         } else if (state == STATE_SET) {
                             gui->resumingGui = false;
                             if (menu->selOption == 3) {

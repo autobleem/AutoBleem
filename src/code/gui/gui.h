@@ -36,6 +36,9 @@
 #define MENU_OPTION_START 5
 #define MENU_OPTION_POWER 6
 
+#define EMU_PCSX          0
+#define EMU_RETROARCH     1
+
 enum FontSize { FONT_15=15, FONT_24=22, FONT_30=28 };
 
 //********************
@@ -198,6 +201,7 @@ public:
     bool resumingGui = false;
     int lastSelIndex = 0;
     PsGamePtr runningGame;
+    int emuMode = EMU_PCSX;
     int resumepoint = -1;
     string padMapping;
 
