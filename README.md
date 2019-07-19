@@ -1,5 +1,5 @@
 ### Please Read: Important note about upgrading from previous versions with RetroBoot 0.9 installed manually
-The non RetroBoot package contains a startup script that is not compatible with RetroBoot 0.9 if it was previously installed. If you figure out RetroArch issues please update one file on your build to fix the loader:
+The non RetroBoot enabled packages (full, ntscU, palE, ntscJ) contain a startup script that is not compatible with RetroBoot 0.9. If RetroBoot 0.9 was previously installed manually on your build and you see issues running RetroArch  please update one file on your build to fix the loader:
 
 [RetroBoot startup script](https://github.com/screemerpl/cbleemsync/releases/download/0.6.0-b3/retroarch.sh)
 
