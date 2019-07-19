@@ -9,6 +9,8 @@
 
 class RetroArchInterceptor : public EmuInterceptor {
     bool execute(PsGamePtr & game, int resumepoint);
+    void memcardIn(PsGamePtr & game);
+    void memcardOut(PsGamePtr & game);
 };
 
 
