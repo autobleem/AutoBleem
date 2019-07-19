@@ -5,7 +5,7 @@
 RBCORE=/media/retroarch/cores/km_pcsx_rearmed_neon_libretro.so
 
 #kill sony stuffs and set powermanagement parameters
-killall -s KILL showLogo sonyapp ui_menu auto_dimmer pcsx dimmer autobleem-gui
+killall -s KILL showLogo sonyapp ui_menu auto_dimmer pcsx dimmer 
 echo 2 > /data/power/disable
 sync
 

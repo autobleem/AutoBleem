@@ -1079,21 +1079,24 @@ void GuiLauncher::loop() {
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
                         gui->padMapping = gui->mapper.getMappingString(e.jbutton.which);
+                         if (Util::exists("/media/retroarch/retroarch")) {
 
-                        if (state == STATE_GAMES) {
-                            if (carouselGames.empty()) {
-                                continue;
-                            }
-                            gui->startingGame = true;
-                            gui->runningGame = carouselGames[selGame];
-                            gui->lastSelIndex = selGame;
-                            gui->resumepoint = -1;
-                            gui->lastSet = currentSet;
-                            menuVisible = false;
 
-                            gui->emuMode = EMU_RETROARCH;
+                             if (state == STATE_GAMES) {
+                                 if (carouselGames.empty()) {
+                                     continue;
+                                 }
+                                 gui->startingGame = true;
+                                 gui->runningGame = carouselGames[selGame];
+                                 gui->lastSelIndex = selGame;
+                                 gui->resumepoint = -1;
+                                 gui->lastSet = currentSet;
+                                 menuVisible = false;
 
-                        }
+                                 gui->emuMode = EMU_RETROARCH;
+
+                             }
+                         }
                     }
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
