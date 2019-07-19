@@ -3,7 +3,8 @@
 #include <SDL2/SDL_ttf.h>
 #include <vector>
 #include <string>
-#include "../gui/gui.h"
+#include "../gui/gui_font_wrapper.h"
+#include "../gui/gui_font.h"
 
 #define TicksPerSecond 1000
 #define DefaultShowingTimeout (2 * TicksPerSecond)

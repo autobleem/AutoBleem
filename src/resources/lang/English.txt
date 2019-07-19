@@ -142,11 +142,17 @@ Menu
 
 Menu Theme:
 
+Moving :
+
+Moving...
+
 Music:
 
 New Card
 
 New GamePad found
+
+OK
 
 OOPS! Game crashed. Resume point not available.
 
@@ -237,10 +243,6 @@ Showing: Internal games
 Showing: USB games
 
 Slot
-
-Sorting :
-
-Sorting...
 
 Space
 

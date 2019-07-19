@@ -20,8 +20,8 @@ public:
     std::string currentLang;
     std::string translate(std::string input);
     void dump(std::string fileName);
-    void load(std::string langfile);
-    std::vector<std::string> listLanguages();
+    void load(std::string languageName);    // the filename without the .txt
+    std::vector<std::string> getListOfLanguages();
 
     Lang(Lang const &) = delete;
     Lang &operator=(Lang const &) = delete;

@@ -21,7 +21,8 @@ endif()
 
 find_package(Threads REQUIRED)
 
-add_executable(autobleem-gui
+add_executable(
+        autobleem-gui
         src/code/unecm.c
         src/code/sqlite3.c
         src/code/main.h
@@ -73,6 +74,11 @@ add_executable(autobleem-gui
         src/code/gui/gui_editor.h
 		src/code/gui/gui_selectmemcard.cpp
         src/code/gui/gui_selectmemcard.h
+        src/code/gui/gui_sdl_wrapper.h
+        src/code/gui/gui_sdl_wrapper.cpp
+        src/code/gui/gui_font.h
+        src/code/gui/gui_font.cpp
+        src/code/gui/gui_font_wrapper.h
 		src/code/ver_migration.cpp
 		src/code/ver_migration.h
         src/code/engine/coverdb.cpp
@@ -114,7 +120,8 @@ add_executable(autobleem-gui
         src/code/engine/padmapper.cpp
         src/code/engine/padmapper.h
         src/code/gui/gui_padconfig.cpp
-        src/code/gui/gui_padconfig.h)
+        src/code/gui/gui_padconfig.h
+		)
 
 
 add_executable(starter

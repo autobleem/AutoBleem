@@ -17,11 +17,12 @@ using namespace std;
 // Scanner::isFirstRun
 //*******************************
 bool Scanner::isFirstRun(const string & path, Database *db) {
-
+#if 0
     bool listFileExists = Util::exists(Util::getWorkingPath() + Util::separator() + "autobleem.list");
     if (!listFileExists) {
         return true;
     }
+#endif
 
     bool prevFileExists = Util::exists(Util::getWorkingPath() + Util::separator() + "autobleem.prev");
     if (!prevFileExists) {
@@ -75,12 +76,12 @@ void Scanner::unecm(const string & path) {
 void Scanner::updateDB(Database *db) {
     shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText(_("Updating regional.db..."));
-    string path = Util::getWorkingPath() + Util::separator() + "autobleem.list";
-    ofstream outfile;
-    outfile.open(path);
+//    string path = Util::getWorkingPath() + Util::separator() + "autobleem.list";
+//    ofstream outfile;
+//    outfile.open(path);
     if (complete)
         for (int i = 0; i < games.size(); i++) {
-            shared_ptr<Game> data = games[i];
+            USBGamePtr data = games[i];
             cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
             db->insertGame(i + 1, data->title, data->publisher, data->players, data->year, data->fullPath,
                            data->saveStatePath, data->memcard);
@@ -89,11 +90,11 @@ void Scanner::updateDB(Database *db) {
             for (int j = 0; j < data->discs.size(); j++) {
                 db->insertDisc(i + 1, j + 1, data->discs[j].diskName);
             }
-            outfile << i + 1 << "," << Util::escape(data->fullPath.substr(0, data->fullPath.size() - 1)) << ","
-                    << Util::escape(data->saveStatePath.substr(0, data->saveStatePath.size() - 1)) << endl;
+//            outfile << i + 1 << "," << Util::escape(data->fullPath.substr(0, data->fullPath.size() - 1)) << ","
+//                    << Util::escape(data->saveStatePath.substr(0, data->saveStatePath.size() - 1)) << '\n';
         }
-    outfile.flush();
-    outfile.close();
+//    outfile.flush();
+//    outfile.close();
 }
 
 static const char cue1[] = "FILE \"{binName}\" BINARY\n"
@@ -316,7 +317,7 @@ void Scanner::repairBrokenCueFiles(const string & path) {
 //*******************************
 // Scanner::getImageType
 //*******************************
-int Scanner::getImageType(string path) {
+ImageType Scanner::getImageType(string path) {
     bool hasASubDir {false};
     for (const DirEntry & entry: Util::diru(path)) {
         if (entry.isDir)
@@ -346,7 +347,7 @@ int Scanner::getImageType(string path) {
 // Scanner::scanDirectory
 //*******************************
 void Scanner::scanDirectory(const string & _path) {
-    string path = Util::pathWithSeparatorAtEnd(_path); // it looks like the Games path must have a / at the end for changing the game conig to work
+    string path = Util::pathWithSeparatorAtEnd(_path); // it looks like the USBGames path must have a / at the end for changing the game conig to work
 
     games.clear();  // clear games list
     complete = false;
@@ -386,7 +387,7 @@ void Scanner::scanDirectory(const string & _path) {
         string saveStateDir = path + "!SaveStates" + Util::separator() + entry.name;
         Util::createDir(saveStateDir);
 
-        shared_ptr<Game> game{new Game};
+        USBGamePtr game{new USBGame};
 
         game->folder_id = 0; // this will not be in use;
         game->fullPath = path + entry.name + Util::separator();
@@ -402,12 +403,12 @@ void Scanner::scanDirectory(const string & _path) {
 
         string gameIniPath = gameDataPath + GAME_INI;
 
-        int gameType = getImageType(gameDataPath);
-        if (gameType == IMAGE_CUE_BIN || gameType == IMAGE_PBP || gameType == IMAGE_IMG || gameType == IMAGE_ISO) {
+        ImageType gameType = getImageType(gameDataPath);
+        if (imageTypeIsAGameFile(gameType)) {
 			game->imageType = gameType;
 			game->gameDataFound = true;
 
-			if (game->imageType == IMAGE_CUE_BIN || game->imageType == IMAGE_IMG || game->imageType == IMAGE_ISO) // only cue/bin
+			if (imageTypeIsAGameFileThatUsesACueFile(game->imageType)) // only cue/bin
 			{
 				repairMissingCue(gameDataPath, entry.name);
 				repairBrokenCueFiles(gameDataPath);
@@ -503,29 +504,47 @@ void Scanner::scanDirectory(const string & _path) {
 }
 
 //*******************************
-// Scanner::detectAndSortGamefiles
+// Scanner::areThereGameFilesInsDir
 //*******************************
-/*
- * Searching for games with supported extension and create associated folders
- */
-void Scanner::detectAndSortGamefiles(const string & path){
+bool Scanner::areThereGameFilesInDir(const string & path) {
+    vector<string> extensions;
+    extensions.push_back("pbp");
+    extensions.push_back("bin");
+    extensions.push_back("cue");
+    extensions.push_back("img");
+    extensions.push_back("iso");
+
+    //Getting all files in USBGames Dir
+    vector<DirEntry> globalFileList = Util::diru(path);
+    vector<DirEntry> fileList = Util::getFilesWithExtension(path, globalFileList, extensions);
+
+    return fileList.size() > 0;
+}
+
+//*******************************
+// Scanner::copyGameFilesInGamesDirToSubDirs
+//*******************************
+// Search for games with supported extension and move to sub-dir
+// returns true is any files moved into sub-dirs
+bool Scanner::copyGameFilesInGamesDirToSubDirs(const string & path){
+    bool ret = false;
     string fileExt;
     string filenameWE;
     vector<string> extensions;
     vector<string> binList;
     shared_ptr<Gui> splash(Gui::getInstance());
-    splash->logText(_("Sorting..."));
+    splash->logText(_("Moving..."));
     extensions.push_back("iso");
     extensions.push_back("pbp");
     extensions.push_back("cue");
 
-    //Getting all files in Games Dir
+    //Getting all files in USBGames Dir
     vector<DirEntry> globalFileList = Util::diru(path);
     vector<DirEntry> fileList = Util::getFilesWithExtension(path, globalFileList, extensions);
 
     //On first run, we won't process bin/img files, as cue file may handle a part of them
     for (const auto &entry : fileList){
-        splash->logText(_("Sorting :") + " " + entry.name);
+        splash->logText(_("Moving :") + " " + entry.name);
         fileExt = Util::getFileExtension(entry.name);
         filenameWE = Util::getFileNameWithoutExtension(entry.name);
         //Checking if file exists
@@ -539,14 +558,16 @@ void Scanner::detectAndSortGamefiles(const string & path){
                     rename((path + "/" + entry.name).c_str(), (path + "/" + filenameWE + "/" + entry.name).c_str());
                     //Move bin files
                     for (const auto &bin : binList){
-                        splash->logText(_("Sorting :") + " " + bin);
+                        splash->logText(_("Moving :") + " " + bin);
                         rename((path + "/" + bin).c_str(), (path + "/" + filenameWE + "/" + bin).c_str());
                     }
+                    ret = true;
                 }
             }else{
                 Util::createDir(path + "/" + filenameWE);
 
                 rename((path + "/" + entry.name).c_str(),(path + "/" + filenameWE + "/" + entry.name).c_str());
+                ret = true;
             }
         }
     }
@@ -557,13 +578,15 @@ void Scanner::detectAndSortGamefiles(const string & path){
     extensions.push_back("bin");
     fileList = Util::getFilesWithExtension(path, globalFileList, extensions);
     for (const auto &entry : fileList){
-        splash->logText(_("Sorting :") + " " + entry.name);
+        splash->logText(_("Moving :") + " " + entry.name);
         fileExt = Util::getFileExtension(entry.name);
         filenameWE = Util::getFileNameWithoutExtension(entry.name);
         //Checking if file exists
         if(access((path + "/" + entry.name).c_str(),F_OK) != -1){
             Util::createDir(path + "/" + filenameWE);
             rename((path + "/" + entry.name).c_str(), (path + "/" + filenameWE + "/" + entry.name).c_str());
+            ret = true;
         }
     }
+    return ret; // true if any game files moved into a sub-dir
 }

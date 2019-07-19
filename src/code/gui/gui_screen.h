@@ -4,6 +4,7 @@
 #pragma once
 
 #include <SDL2/SDL_render.h>
+#include "gui_sdl_wrapper.h"
 
 //********************
 // GuiScreen
@@ -21,10 +22,10 @@ public:
         loop();
     }
 
-    GuiScreen(SDL_Renderer * renderer1)
+    GuiScreen(SDL_Shared<SDL_Renderer> renderer1)
     {
-        renderer=renderer1;
-
+        renderer = renderer1;
     };
-    SDL_Renderer * renderer;
+
+    SDL_Shared<SDL_Renderer> renderer;
 };
