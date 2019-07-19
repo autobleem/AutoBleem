@@ -81,7 +81,7 @@ void Scanner::updateDB(Database *db) {
 //    outfile.open(path);
     if (complete)
         for (int i = 0; i < games.size(); i++) {
-            GamePtr data = games[i];
+            USBGamePtr data = games[i];
             cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
             db->insertGame(i + 1, data->title, data->publisher, data->players, data->year, data->fullPath,
                            data->saveStatePath, data->memcard);
@@ -347,7 +347,7 @@ ImageType Scanner::getImageType(string path) {
 // Scanner::scanDirectory
 //*******************************
 void Scanner::scanDirectory(const string & _path) {
-    string path = Util::pathWithSeparatorAtEnd(_path); // it looks like the Games path must have a / at the end for changing the game conig to work
+    string path = Util::pathWithSeparatorAtEnd(_path); // it looks like the USBGames path must have a / at the end for changing the game conig to work
 
     games.clear();  // clear games list
     complete = false;
@@ -387,7 +387,7 @@ void Scanner::scanDirectory(const string & _path) {
         string saveStateDir = path + "!SaveStates" + Util::separator() + entry.name;
         Util::createDir(saveStateDir);
 
-        GamePtr game{new Game};
+        USBGamePtr game{new USBGame};
 
         game->folder_id = 0; // this will not be in use;
         game->fullPath = path + entry.name + Util::separator();
@@ -514,7 +514,7 @@ bool Scanner::areThereGameFilesInDir(const string & path) {
     extensions.push_back("img");
     extensions.push_back("iso");
 
-    //Getting all files in Games Dir
+    //Getting all files in USBGames Dir
     vector<DirEntry> globalFileList = Util::diru(path);
     vector<DirEntry> fileList = Util::getFilesWithExtension(path, globalFileList, extensions);
 
@@ -538,7 +538,7 @@ bool Scanner::copyGameFilesInGamesDirToSubDirs(const string & path){
     extensions.push_back("pbp");
     extensions.push_back("cue");
 
-    //Getting all files in Games Dir
+    //Getting all files in USBGames Dir
     vector<DirEntry> globalFileList = Util::diru(path);
     vector<DirEntry> fileList = Util::getFilesWithExtension(path, globalFileList, extensions);
 

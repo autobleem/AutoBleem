@@ -16,9 +16,9 @@
 using namespace std;
 
 //*******************************
-// Game::validateCue
+// USBGame::validateCue
 //*******************************
-bool Game::validateCue(string cuePath, string path) {
+bool USBGame::validateCue(string cuePath, string path) {
     vector<string> binFiles;
     string line;
     ifstream cueStream;
@@ -51,9 +51,9 @@ bool Game::validateCue(string cuePath, string path) {
 }
 
 //*******************************
-// Game::valueOrDefault
+// USBGame::valueOrDefault
 //*******************************
-string Game::valueOrDefault(string name, string def, bool setAutomationIfDefaultUsed) {
+string USBGame::valueOrDefault(string name, string def, bool setAutomationIfDefaultUsed) {
     string value;
     if (iniValues.find(name) != iniValues.end()) {
         value = trim(iniValues.find(name)->second);
@@ -71,9 +71,9 @@ string Game::valueOrDefault(string name, string def, bool setAutomationIfDefault
 }
 
 //*******************************
-// Game::verify
+// USBGame::verify
 //*******************************
-bool Game::verify() {
+bool USBGame::verify() {
     bool result = true;
 
     if (discs.size() == 0) result = false;
@@ -108,9 +108,9 @@ bool Game::verify() {
 }
 
 //*******************************
-// Game::print
+// USBGame::print
 //*******************************
-bool Game::print() {
+bool USBGame::print() {
     cout << "-------------------" << endl;
     cout << "Printing game data:" << endl;
     cout << "-----------------" << endl;
@@ -148,9 +148,9 @@ bool Game::print() {
 }
 
 //*******************************
-// Game::recoverMissingFiles
+// USBGame::recoverMissingFiles
 //*******************************
-void Game::recoverMissingFiles() {
+void USBGame::recoverMissingFiles() {
     string path = Util::getWorkingPath();
 
     Metadata md;
@@ -279,9 +279,9 @@ void Game::recoverMissingFiles() {
 }
 
 //*******************************
-// Game::updateObj
+// USBGame::updateObj
 //*******************************
-void Game::updateObj() {
+void USBGame::updateObj() {
     string tmp;
     discs.clear();
     title = valueOrDefault("title", pathName);
@@ -340,9 +340,9 @@ void Game::updateObj() {
 }
 
 //*******************************
-// Game::saveIni
+// USBGame::saveIni
 //*******************************
-void Game::saveIni(string path) {
+void USBGame::saveIni(string path) {
     cout << "Overwritting ini file" << path << endl;
     Inifile *ini = new Inifile();
     ini->section = "Game";
@@ -378,9 +378,9 @@ void Game::saveIni(string path) {
 }
 
 //*******************************
-// Game::parseIni
+// USBGame::parseIni
 //*******************************
-void Game::parseIni(string path) {
+void USBGame::parseIni(string path) {
     iniValues.clear();
     Inifile *ini = new Inifile();
     ini->load(path);
@@ -395,9 +395,9 @@ void Game::parseIni(string path) {
 }
 
 //*******************************
-// Game::readIni
+// USBGame::readIni
 //*******************************
-void Game::readIni(string path) {
+void USBGame::readIni(string path) {
     parseIni(path);
     updateObj();
 }

@@ -16,7 +16,7 @@
 class Scanner {
 public:
     Scanner() {}
-    Games games;
+    USBGames games;
 
     void scanDirectory(const std::string & path);
     void repairBrokenCueFiles(const std::string & path);
@@ -35,7 +35,7 @@ public:
         static std::shared_ptr<Scanner> s{new Scanner};
         return s;
     }
-    static bool sortByTitle(const GamePtr i, const GamePtr j) { return SortByCaseInsensitive(i->title, j->title); }
+    static bool sortByTitle(const USBGamePtr i, const USBGamePtr j) { return SortByCaseInsensitive(i->title, j->title); }
 
 private:
     ImageType getImageType(std::string path);

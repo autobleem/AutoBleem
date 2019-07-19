@@ -23,9 +23,9 @@ public:
 };
 
 //******************
-// Game
+// USBGame
 //******************
-class Game {
+class USBGame {
 public:
     int folder_id = 0;
     std::string fullPath;
@@ -69,5 +69,5 @@ private:
     std::string valueOrDefault(std::string name, std::string def, bool setAutomationIfDefaultUsed = true);
 };
 
-using GamePtr = std::shared_ptr<Game>;
-using Games = std::vector<GamePtr>;
+using USBGamePtr = std::shared_ptr<USBGame>;
+using USBGames = std::vector<USBGamePtr>;
