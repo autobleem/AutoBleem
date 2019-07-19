@@ -14,10 +14,9 @@ mkdir -p /media/System/Region
 mkdir -p /media/System/Logs
 mkdir -p /media/System/UI
 
-if [ -f /media/retroarch/retroboot ]
-then
-  [ ! -f /media/retroarch/retroboot/bin/launch_rom.sh  ] && cp -r /media/Autobleem/bin/autobleem/launch_rom.sh /media/retroarch/retroboot/bin/
-fi
+
+cp -r /media/Autobleem/bin/autobleem/launch_rom.sh /media/retroarch/retroboot/bin/
+
 
 # Copy the BIOS files to USB
 [ ! -f /media/System/Bios/romw.bin ] && cp -r /gaadata/system/bios/romw.bin /media/System/Bios/romw.bin
