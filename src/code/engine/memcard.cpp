@@ -102,7 +102,7 @@ void Memcard::rename(string oldName, string newName)
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
 
-        string gameIniPath = this->path+Util::separator()+entry.name+Util::separator()+GAME_INI;
+        string gameIniPath = this->path+Util::separator()+entry.name+Util::separator()+"Game.ini";
         if (Util::exists(gameIniPath))
         {
             Inifile inifile;

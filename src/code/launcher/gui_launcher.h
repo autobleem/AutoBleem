@@ -30,7 +30,7 @@
 #define SET_FAVORITE 3
 #define SET_LAST 3
 
-static const SDL_Color brightWhite = { 255, 255, 255, 0 };
+extern const SDL_Color brightWhite;
 
 //******************
 // GuiLauncher
@@ -55,7 +55,7 @@ public:
     int numberOfNonDuplicatedGamesInCarousel = 0;
 
     static void renderText(int x, int y, const std::string & text, const SDL_Color & textColor,
-            TTF_Font *font, bool center, bool background);
+                           TTF_Font_Shared font, bool center, bool background);
 
     bool powerOffShift=false;
 

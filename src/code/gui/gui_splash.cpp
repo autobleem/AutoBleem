@@ -23,7 +23,7 @@ void GuiSplash::render() {
     gui->backgroundRect.h = h;
     SDL_QueryTexture(gui->logo, NULL, NULL, &w, &h);
 
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
     string splashText = _("AutoBleem")+" " + gui->cfg.inifile.values["version"];
     if (gui->cfg.inifile.values["quick"] == "true") {

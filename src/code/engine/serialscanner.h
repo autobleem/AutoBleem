@@ -13,9 +13,9 @@
 class SerialScanner {
 public:
     static std::string fixSerial(std::string serial);
-    static std::string scanSerial(int imageType, std::string path, std::string firstBinPath="");
-    static std::string scanSerialInternal(int imageType, std::string path, std::string firstBinPath="");
-    static std::string workarounds(int imageType, std::string path, std::string firstBinPath);
+    static std::string scanSerial(ImageType imageType, std::string path, std::string firstBinPath="");
+    static std::string scanSerialInternal(ImageType imageType, std::string path, std::string firstBinPath="");
+    static std::string workarounds(ImageType imageType, std::string path, std::string firstBinPath);
     static std::string serialByMd5(std::string scanFile);
 	static std::string serialToRegion(const std::string & serial);
 };

@@ -19,7 +19,6 @@
 #include "../util.h"
 #include <iostream>
 #include "../engine/scanner.h"
-#include <assert.h>
 
 using namespace std;
 
@@ -35,81 +34,16 @@ GuiBase::GuiBase() {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     TTF_Init();
-    openBaseFonts();
+    fonts[FONT_30] = TTF_OpenFont((getSonyFontPath() + "/SST-Bold.ttf").c_str(), 28);
+    fonts[FONT_15] = TTF_OpenFont((getSonyFontPath() + "/SST-Bold.ttf").c_str(), 15);
+    fonts[FONT_24] = TTF_OpenFont((getSonyFontPath() + "/SST-Medium.ttf").c_str(), 22);
 }
 
 //********************
 // GuiBase::~GuiBase
 //********************
 GuiBase::~GuiBase() {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-
     SDL_Quit();
-}
-
-//********************
-// GuiBase::getFont
-//********************
-TTF_Font* GuiBase::getFont(FontSize fontSize) {
-    TTF_Font* font = nullptr;
-    if (fontSize == FONT_15)
-        font = font15;
-    else if (fontSize == FONT_24)
-        font = font24;
-    else if (fontSize == FONT_30)
-        font = font30;
-    else
-        { assert(false); }
-
-    return font;
-}
-
-//********************
-// GuiBase::openFont
-//********************
-TTF_Font* GuiBase::openFont(const std::string &filename, int fontSize) {
-    TTF_Font* font = TTF_OpenFont(filename.c_str(), fontSize);
-    if (font) {
-        cout << "Success opening font " << filename << " of size " << fontSize << endl;
-    } else {
-        cout << "FAILURE opening font " << filename << " of size " << fontSize << endl;
-        font = nullptr;
-    }
-
-    return font;
-}
-
-//********************
-// GuiBase::closeFont
-//********************
-void GuiBase::closeFont(TTF_Font* &font) {
-    TTF_CloseFont(font);
-    font = nullptr;
-}
-
-//********************
-// GuiBase::openBaseFonts
-//********************
-void GuiBase::openBaseFonts(const std::string &fontDirPath) {
-    if (font30)
-        closeFont(font30);
-    font30 = openFont(fontDirPath + "/SST-Bold.ttf", 28);
-    if (font15)
-        closeFont(font15);
-    font15 = openFont(fontDirPath + "/SST-Bold.ttf", 15);
-    if (font24)
-        closeFont(font24);
-    font24 = openFont(fontDirPath + "/SST-Medium.ttf", 22);
-}
-
-//********************
-// GuiBase::closeBaseFonts
-//********************
-void GuiBase::closeBaseFonts() {
-    closeFont(font30);
-    closeFont(font24);
-    closeFont(font15);
 }
 
 //*******************************
@@ -241,11 +175,11 @@ Uint8 Gui::getB(const string & val) {
 //*******************************
 // Gui::getTextAndRect
 //*******************************
-void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text, TTF_Font *font,
-                         SDL_Texture **texture, SDL_Rect *rect) {
+void Gui::getTextAndRect(SDL_Shared<SDL_Renderer> renderer, int x, int y, const char *text, TTF_Font_Shared font,
+                         SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect) {
     int text_width;
     int text_height;
-    SDL_Surface *surface;
+    SDL_Shared<SDL_Surface> surface;
     string fg = themeData.values["text_fg"];
     SDL_Color textColor = {getR(fg), getG(fg), getB(fg), 0};
 
@@ -262,7 +196,6 @@ void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
     *texture = SDL_CreateTextureFromSurface(renderer, surface);
     text_width = surface->w;
     text_height = surface->h;
-    SDL_FreeSurface(surface);
     rect->x = x;
     rect->y = y;
     rect->w = text_width;
@@ -299,8 +232,8 @@ int Gui::renderLogo(bool small) {
 //*******************************
 // Gui::loadThemeTexture
 //*******************************
-SDL_Texture *Gui::loadThemeTexture(SDL_Renderer *renderer, string themePath, string defaultPath, string texname) {
-    SDL_Texture *tex;
+SDL_Shared<SDL_Texture> Gui::loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, string themePath, string defaultPath, string texname) {
+    SDL_Shared<SDL_Texture> tex = nullptr;
     if (Util::exists(themePath + themeData.values[texname])) {
         tex = IMG_LoadTexture(renderer, (themePath + themeData.values[texname]).c_str());
     } else {
@@ -325,22 +258,6 @@ void Gui::loadAssets() {
     bool reloading = false;
 
     if (backgroundImg != nullptr) {
-        SDL_DestroyTexture(backgroundImg);
-        SDL_DestroyTexture(logo);
-        SDL_DestroyTexture(buttonT);
-        SDL_DestroyTexture(buttonO);
-        SDL_DestroyTexture(buttonX);
-        SDL_DestroyTexture(buttonS);
-        SDL_DestroyTexture(buttonStart);
-        SDL_DestroyTexture(buttonSelect);
-        SDL_DestroyTexture(buttonL1);
-        SDL_DestroyTexture(buttonR1);
-        SDL_DestroyTexture(buttonL2);
-        SDL_DestroyTexture(buttonR2);
-        SDL_DestroyTexture(buttonCheck);
-        SDL_DestroyTexture(buttonUncheck);
-        SDL_DestroyTexture(cdJewel);
-        closeFont(themeFont);
         Mix_FreeChunk(cursor);
         Mix_FreeChunk(cancel);
         Mix_FreeChunk(home_down);
@@ -382,12 +299,15 @@ void Gui::loadAssets() {
     {
         cdJewel = nullptr;
     }
-
     string fontPath = (themePath + themeData.values["font"]);
-    int fontSize = atoi(themeData.values["fsize"].c_str());
-    themeFont = Gui::getInstance()->openFont(fontPath, fontSize);
+    int fontSize = 0;
+    string fontSizeString = themeData.values["fsize"];
+    if (fontSizeString != "")
+        fontSize = atoi(fontSizeString.c_str());
+    themeFont = Fonts::openFont(fontPath, fontSize);
 
     if (music != nullptr) {
+
         Mix_FreeMusic(music);
         music = nullptr;
     }
@@ -517,7 +437,6 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
 
     loadAssets();
 
-
     if (!resume) {
         auto *splashScreen = new GuiSplash(renderer);
         splashScreen->show();
@@ -526,21 +445,16 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
         drawText(_("Importing internal games"));
         Util::execUnixCommad("/media/Autobleem/rc/backup_internal.sh");
 
-
-
             for (int i = 0; i < SDL_NumJoysticks(); i++) {
                 SDL_Joystick* joystick = SDL_JoystickOpen(i);
-                if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick)))
-                {
+                if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick))) {
                     cout << "New pad type" <<endl;
                     auto cfgPad = new GuiPadConfig(renderer);
                     cfgPad->joyid = SDL_JoystickInstanceID(joystick);
                     cfgPad->show();
                     delete cfgPad;
                 }
-
             }
-
 
         if (cfg.inifile.values["quick"] != "true")
             waitForGamepad();
@@ -548,8 +462,6 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
         resumingGui = true;
         overrideQuickBoot = true;
     }
-
-
 }
 
 //*******************************
@@ -918,22 +830,6 @@ void Gui::finish() {
         usleep(300 * TicksPerSecond);
     }
 
-    SDL_DestroyTexture(backgroundImg);
-    SDL_DestroyTexture(logo);
-    SDL_DestroyTexture(buttonT);
-    SDL_DestroyTexture(buttonO);
-    SDL_DestroyTexture(buttonX);
-    SDL_DestroyTexture(buttonS);
-    SDL_DestroyTexture(buttonStart);
-    SDL_DestroyTexture(buttonSelect);
-    SDL_DestroyTexture(buttonL1);
-    SDL_DestroyTexture(buttonR1);
-    SDL_DestroyTexture(buttonL2);
-    SDL_DestroyTexture(buttonR2);
-    SDL_DestroyTexture(buttonCheck);
-    SDL_DestroyTexture(buttonUncheck);
-    SDL_DestroyTexture(cdJewel);
-    Gui::getInstance()->closeFont(themeFont);
     Mix_HaltMusic();
     Mix_FreeMusic(music);
     Mix_FreeChunk(cursor);
@@ -948,14 +844,14 @@ void Gui::finish() {
 //*******************************
 // Gui::getEmojiTextTexture
 //*******************************
-void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *font, SDL_Texture **texture,
+void Gui::getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, string text, TTF_Font_Shared font, SDL_Shared<SDL_Texture> *texture,
                               SDL_Rect *rect) {
     if (text.empty()) text = " ";
     if (text.back() != '|') {
         text = text + "|";
     }
 
-    vector<SDL_Texture *> textTexures;
+    vector<SDL_Shared<SDL_Texture>> textTexures;
     vector<string> textParts;
     std::string delimiter = "|";
 
@@ -1009,7 +905,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
                 textTexures.push_back(buttonUncheck);
             }
         } else {
-            SDL_Texture *textTex;
+            SDL_Shared<SDL_Texture> textTex = nullptr;
             SDL_Rect textRec;
             getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), str.c_str(), font, &textTex,
                            &textRec);
@@ -1020,7 +916,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     int w = 0;
     int h = 0;
 
-    for (SDL_Texture *tex:textTexures) {
+    for (SDL_Shared<SDL_Texture> tex:textTexures) {
 
         Uint32 format;
         int access;
@@ -1041,7 +937,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     SDL_RenderClear(renderer);
 
     int xpos = 0;
-    for (SDL_Texture *tex:textTexures) {
+    for (SDL_Shared<SDL_Texture> tex:textTexures) {
         Uint32 format;
         int access;
         int tw, th;
@@ -1067,22 +963,6 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     rect->y = 0;
     SDL_SetRenderTarget(renderer, nullptr);
 
-    for (SDL_Texture *tex:textTexures) {
-        if ((tex != buttonSelect) &&
-            (tex != buttonS) &&
-            (tex != buttonStart) &&
-            (tex != buttonO) &&
-            (tex != buttonT) &&
-            (tex != buttonL1) &&
-            (tex != buttonR1) &&
-            (tex != buttonL2) &&
-            (tex != buttonR2) &&
-            (tex != buttonCheck) &&
-            (tex != buttonUncheck) &&
-            (tex != buttonX))
-
-            SDL_DestroyTexture(tex);
-    }
     textTexures.clear();
 }
 
@@ -1093,7 +973,7 @@ void Gui::renderStatus(const string & text) {
 
     string bg = themeData.values["text_bg"];
 
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
     SDL_SetRenderDrawColor(renderer, getR(bg), getG(bg), getB(bg), atoi(themeData.values["textalpha"].c_str()));
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
@@ -1110,7 +990,6 @@ void Gui::renderStatus(const string & text) {
     textRec.y = atoi(themeData.values["ttop"].c_str());
     if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
-    SDL_DestroyTexture(textTex);
 }
 
 //*******************************
@@ -1127,7 +1006,7 @@ void Gui::drawText(const string & text) {
 // Gui::renderLabelBox
 //*******************************
 void Gui::renderLabelBox(int line, int offset) {
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
     string bg = themeData.values["label_bg"];
@@ -1165,7 +1044,7 @@ void Gui::renderSelectionBox(int line, int offset)
 // Gui::renderSelectionBox
 //*******************************
 void Gui::renderSelectionBox(int line, int offset, int xoffset) {
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
     string fg = themeData.values["text_fg"];
@@ -1222,7 +1101,7 @@ int Gui::renderTextLineOptions(const string & _text, int line, int offset, bool 
 
     int h = renderTextLine(text, line, offset, center, xoffset);
 
-    SDL_Texture *buttonTex = nullptr;
+    SDL_Shared<SDL_Texture> buttonTex;
     SDL_Rect rect;
 
 
@@ -1239,7 +1118,6 @@ int Gui::renderTextLineOptions(const string & _text, int line, int offset, bool 
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
     getTextAndRect(renderer, 0, 0, "*", themeFont, &buttonTex, &textRec);
     int lineh = textRec.h;
-    SDL_DestroyTexture(buttonTex);
     if (button == 1) {
         getEmojiTextTexture(renderer, "|@Check|", themeFont, &buttonTex, &textRec);
     } else if (button == 0) {
@@ -1257,7 +1135,6 @@ int Gui::renderTextLineOptions(const string & _text, int line, int offset, bool 
     }
 
     SDL_RenderCopy(renderer, buttonTex, nullptr, &textRec);
-    SDL_DestroyTexture(buttonTex);
     return h;
 }
 
@@ -1277,11 +1154,10 @@ int Gui::renderTextLine(const string & text, int line, int offset, bool center, 
     rect2.w = atoi(themeData.values["opscreenw"].c_str());
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
 
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
     getTextAndRect(renderer, 0, 0, "*", themeFont, &textTex, &textRec);
-    SDL_DestroyTexture(textTex);
     int lineh = textRec.h;
     getEmojiTextTexture(renderer, text, themeFont, &textTex, &textRec);
     textRec.x = rect2.x + 10 + xoffset;
@@ -1296,7 +1172,6 @@ int Gui::renderTextLine(const string & text, int line, int offset, bool center, 
 
 
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
-    SDL_DestroyTexture(textTex);
 
 
     return textRec.h;
@@ -1312,7 +1187,7 @@ void Gui::renderTextChar(const string & text, int line, int offset, int posx) {
     rect2.w = atoi(themeData.values["opscreenw"].c_str());
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
 
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
     getTextAndRect(renderer, 0, 0, "*", themeFont, &textTex, &textRec);
@@ -1320,7 +1195,6 @@ void Gui::renderTextChar(const string & text, int line, int offset, int posx) {
                    text.c_str(), themeFont, &textTex, &textRec);
 
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
-    SDL_DestroyTexture(textTex);
 }
 
 //*******************************
@@ -1345,7 +1219,7 @@ void Gui::renderTextBar() {
 // Gui::renderFreeSpace
 //*******************************
 void Gui::renderFreeSpace() {
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
     SDL_Rect rect;
 

@@ -2,6 +2,8 @@
 // Created by screemer on 2019-01-27.
 //
 
+
+#if 0   // no longer used
 #include "ver_migration.h"
 #include "util.h"
 #include "engine/config.h"
@@ -127,3 +129,4 @@ void VerMigration::migrate(Database * db)
     os << current << endl;
     os.close();
 }
+#endif

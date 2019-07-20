@@ -3,24 +3,32 @@
 #include <algorithm>
 #include <string>
 
-#define IMAGE_CUE_BIN 0
-#define IMAGE_PBP     1
-#define IMAGE_IMG     2
-#define IMAGE_ISO     3
-#define IMAGE_NO_GAME_FOUND 4
-#define IMAGE_NO_GAME_BUT_HAS_SUBDIR 5
+enum ImageType { IMAGE_NO_GAME_FOUND = -2, IMAGE_NO_GAME_BUT_HAS_SUBDIR = -1,
+                 IMAGE_CUE_BIN = 0,
+                 IMAGE_PBP,
+                 IMAGE_IMG,
+                 IMAGE_ISO // not supported yet
+};
 
-static const char GAME_DATA[] = "GameData";
-static const char GAME_INI[] = "Game.ini";
-static const char PCSX_CFG[] = "pcsx.cfg";
-static const char EXT_PNG[] = ".png";
-static const char EXT_PBP[] = ".pbp";
-static const char EXT_ECM[] = ".ecm";
-static const char EXT_BIN[] = ".bin";
-static const char EXT_IMG[] = ".img";
-static const char EXT_ISO[] = ".iso";
-static const char EXT_CUE[] = ".cue";
-static const char EXT_LIC[] = ".lic";
+inline bool imageTypeIsAGameFile(ImageType type) {
+    return type >= IMAGE_CUE_BIN;
+}
+
+inline bool imageTypeIsAGameFileThatUsesACueFile(ImageType type) {
+    return imageTypeIsAGameFile(type) && (type != IMAGE_PBP);
+}
+
+extern const char GAME_DATA[];
+extern const char GAME_INI[];
+extern const char PCSX_CFG[];
+extern const char EXT_PNG[];
+extern const char EXT_PBP[];
+extern const char EXT_ECM[];
+extern const char EXT_BIN[];
+extern const char EXT_IMG[];
+extern const char EXT_ISO[];
+extern const char EXT_CUE[];
+extern const char EXT_LIC[];
 
 //////////////////////////////
 // inline std:string functions

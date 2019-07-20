@@ -17,6 +17,9 @@
 
 using namespace std;
 
+const SDL_Color brightWhite = { 255, 255, 255, 0 };
+
+
 //*******************************
 // GuiLauncher::updateMeta
 //*******************************
@@ -120,11 +123,11 @@ void GuiLauncher::showSetName() {
 //*******************************
 // GuiLauncher::renderText
 //*******************************
-void GuiLauncher::renderText(int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font *font, bool center, bool background) {
+void GuiLauncher::renderText(int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font_Shared font, bool center, bool background) {
     int text_width = 0;
     int text_height = 0;
-    SDL_Surface *surface = nullptr;
-    SDL_Texture *texture = nullptr;
+    SDL_Shared<SDL_Surface> surface;
+    SDL_Shared<SDL_Texture> texture;
     SDL_Rect rect{0,0,0,0};
 
     auto renderer = Gui::getInstance()->renderer;
@@ -140,7 +143,6 @@ void GuiLauncher::renderText(int x, int y, const std::string & text, const SDL_C
         texture = SDL_CreateTextureFromSurface(renderer, surface);
         text_width = surface->w;
         text_height = surface->h;
-        SDL_FreeSurface(surface);
         rect.x = x;
         rect.y = y;
         rect.w = text_width;
@@ -168,7 +170,6 @@ void GuiLauncher::renderText(int x, int y, const std::string & text, const SDL_C
     }
 
     SDL_RenderCopy(renderer, texture, &inputRect, &rect);
-    SDL_DestroyTexture(texture);
 };
 
 //*******************************
@@ -198,7 +199,7 @@ void GuiLauncher::loadAssets() {
         secB = gui->getB(colorsFile.values["sec"]);
     }
 
-    gui->openBaseFonts(gui->getSonyFontPath());
+    gui->fonts.openAllFonts(gui->getSonyFontPath());
 
     notificationLines.createAndSetDefaults(2, 10, 10, FONT_24, 24, 8);    // count, x_start, y_start, FontSize, fontHeight, separationBetweenLines
 
@@ -272,9 +273,9 @@ void GuiLauncher::loadAssets() {
     staticElements.push_back(settingsBack);
 
     meta = new PsMeta(renderer, "meta", gui->getSonyImagePath() + "/CB/PlayerOne.png");
-    meta->font15 = gui->font15;
-    meta->font24 = gui->font24;
-    meta->font30 = gui->font30;
+    meta->font15 = gui->fonts[FONT_15];
+    meta->font24 = gui->fonts[FONT_24];
+    meta->font30 = gui->fonts[FONT_30];
     meta->x = 785;
     meta->y = 285;
     meta->visible = true;
@@ -314,12 +315,12 @@ void GuiLauncher::loadAssets() {
     menu->loadAssets();
 
     menuHead = new PsCenterLabel(renderer, "header");
-    menuHead->font = gui->font30;
+    menuHead->font = gui->fonts[FONT_30];
     menuHead->visible = false;
     menuHead->y = 545;
     menuText = new PsCenterLabel(renderer, "menuText");
     menuText->visible = false;
-    menuText->font = gui->font24;
+    menuText->font = gui->fonts[FONT_24];
     menuText->y = 585;
 
     menuHead->setText(headers[0], fgR, fgG, fgB);
@@ -329,8 +330,8 @@ void GuiLauncher::loadAssets() {
     staticElements.push_back(menuText);
 
     sselector = new PsStateSelector(renderer, "selector");
-    sselector->font30 = gui->font30;
-    sselector->font24 = gui->font24;
+    sselector->font30 = gui->fonts[FONT_30];
+    sselector->font24 = gui->fonts[FONT_24];
     sselector->visible = false;
 
     if (gui->resumingGui) {
@@ -377,10 +378,6 @@ void GuiLauncher::freeAssets() {
     }
     staticElements.clear();
     frontElemets.clear();
-
-    shared_ptr<Gui> gui(Gui::getInstance());
-    gui->closeBaseFonts();
-
     for (auto & game : carouselGames) {
         game.freeTex();
     }
@@ -517,7 +514,7 @@ void GuiLauncher::render() {
     if (!carouselGames.empty()) {
         for (const auto & game : carouselGames) {
             if (game.visible) {
-                SDL_Texture *currentGameTex = game.coverPng;
+                SDL_Shared<SDL_Texture> currentGameTex = game.coverPng;
                 PsScreenpoint point = game.actual;
 
                 SDL_Rect coverRect;
@@ -539,7 +536,7 @@ void GuiLauncher::render() {
 
     menu->render();
 
-    auto font24 = gui->font24;
+    auto font24 = gui->fonts[FONT_24];
     renderText(638, 640, _("Enter"), {secR, secG, secB, 0}, font24, false, false);
     renderText(760, 640, _("Cancel"), {secR, secG, secB, 0}, font24, false, false);
     renderText(902, 640, _("Console Button Guide"), {secR, secG, secB, 0}, font24, false, false);
@@ -1144,7 +1141,8 @@ void GuiLauncher::loop() {
                                     continue;
                                 }
                                 Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationLines[1].setText(_("MemCard Manager will be available soon"), DefaultShowingTimeout, brightWhite, FONT_24);
+                                notificationLines[1].setText(_("MemCard Manager will be available soon"),
+                                        DefaultShowingTimeout, brightWhite, FONT_24);
                             }
                             if (menu->selOption == 1) {
                                 if (carouselGames.empty()) {
