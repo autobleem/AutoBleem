@@ -241,7 +241,7 @@ void GuiOptions::loop() {
 
 
             switch (e.type) {
-                case SDL_JOYBUTTONUP:  /* Handle Joystick Button Presses */
+                case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
@@ -250,6 +250,7 @@ void GuiOptions::loop() {
                         lang->load(gui->cfg.inifile.values["language"]);    // restore the original lang
                         gui->overrideQuickBoot = true;
                         menuVisible = false;
+                        exitCode = -1;
                     };
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
@@ -257,6 +258,7 @@ void GuiOptions::loop() {
                         gui->cfg.save();
                         gui->overrideQuickBoot = true;
                         menuVisible = false;
+                        exitCode = 0;
                     };
 
                     break;
