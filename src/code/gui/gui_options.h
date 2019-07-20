@@ -21,6 +21,7 @@ public:
 
     int selOption=0;
     int totalHeight=0;
+    int exitCode=0;
 
     std::vector<std::string> themes;
     std::vector<std::string> sthemes;

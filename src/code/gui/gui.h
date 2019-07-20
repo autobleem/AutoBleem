@@ -42,7 +42,6 @@
 #define EMU_PCSX          0
 #define EMU_RETROARCH     1
 
-enum FontSize { FONT_15=15, FONT_24=22, FONT_30=28 };
 
 
 //********************

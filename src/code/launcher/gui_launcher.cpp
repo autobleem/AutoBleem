@@ -1218,55 +1218,63 @@ void GuiLauncher::loop() {
                                 int lastGame = selGame;
                                 GuiOptions *option = new GuiOptions(renderer);
                                 option->show();
+                                bool exitCode = option->exitCode;
                                 delete option;
-                                freeAssets();
-                                loadAssets();
-                                gui->resumingGui = false;
-                                currentSet = lastSet;
-                                selGame = lastGame;
-                                bool resetCarouselPosition = false;
-                                if (gui->cfg.inifile.values["origames"] != "true") {
-                                    if (currentSet == SET_INTERNAL) {
-                                        currentSet = SET_ALL;
-                                        resetCarouselPosition = true;
 
-                                    }
-                                }
-
-                                switchSet(currentSet);
-                                showSetName();
-
-                                if (resetCarouselPosition) {
-                                    if (carouselGames.empty()) {
-                                        selGame = -1;
-                                        updateMeta();
-                                    } else {
-                                        selGame = 0;
-                                        setInitialPositions(0);
-                                        updateMeta();
-                                    }
-                                } else {
-                                    if (selGame!=-1) {
-                                        setInitialPositions(selGame);
-                                        updateMeta();
-                                        menu->setResumePic(carouselGames[selGame]->findResumePicture());
-                                    }
-                                }
-
-                                if (!carouselGames.empty()) {
-                                    gui->loadAssets();
-                                    for (auto & game : carouselGames) {
-                                        game.freeTex();
-                                    }
-                                    setInitialPositions(selGame);
-                                } else
+                                if (exitCode==0)
                                 {
-                                    gui->loadAssets();
-                                    meta->gameName="";
-                                    menu->setResumePic("");
+                                    freeAssets();
+                                    loadAssets();
+                                    gui->resumingGui = false;
+                                    currentSet = lastSet;
+                                    selGame = lastGame;
+                                    bool resetCarouselPosition = false;
+                                    if (gui->cfg.inifile.values["origames"] != "true") {
+                                        if (currentSet == SET_INTERNAL) {
+                                            currentSet = SET_ALL;
+                                            resetCarouselPosition = true;
+
+                                        }
+                                    }
+
+                                    switchSet(currentSet);
+                                    showSetName();
+
+                                    if (resetCarouselPosition) {
+                                        if (carouselGames.empty()) {
+                                            selGame = -1;
+                                            updateMeta();
+                                        } else {
+                                            selGame = 0;
+                                            setInitialPositions(0);
+                                            updateMeta();
+                                        }
+                                    } else {
+                                        if (selGame!=-1) {
+                                            setInitialPositions(selGame);
+                                            updateMeta();
+                                            menu->setResumePic(carouselGames[selGame]->findResumePicture());
+                                        }
+                                    }
+
+                                    if (!carouselGames.empty()) {
+                                        gui->loadAssets();
+                                        for (auto & game : carouselGames) {
+                                            game.freeTex();
+                                        }
+                                        setInitialPositions(selGame);
+                                    } else
+                                    {
+                                        gui->loadAssets();
+                                        meta->gameName="";
+                                        menu->setResumePic("");
+                                    }
+
+                                    state = STATE_GAMES;
+                                } else {
+                                    render();
                                 }
 
-                                state = STATE_GAMES;
                             }
                         } else if (state == STATE_RESUME) {
                             auto game = carouselGames[selGame];
