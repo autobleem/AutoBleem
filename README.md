@@ -1,6 +1,11 @@
+### Please Read: Important note about upgrading from previous versions with RetroBoot 0.9 installed manually
+The non RetroBoot enabled packages (full, ntscU, palE, ntscJ) contain a startup script that is not compatible with RetroBoot 0.9. If RetroBoot 0.9 was previously installed manually on your build and you see issues running RetroArch  please update one file on your build to fix the loader:
 
+[RetroBoot startup script](https://github.com/screemerpl/cbleemsync/releases/download/0.6.0-b3/retroarch.sh)
 
-# Current version 0.6.0b3 please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
+Replace the file in /Autobleem/rc with the version downloaded from this link
+
+### Current version 0.6.0b3 please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
 #### Please read this page before downloading AutoBleem [USB compatibility FAQ](https://github.com/screemerpl/cbleemsync/wiki/USB-compatibility-FAQ)
 
@@ -97,7 +102,6 @@ The files are available on release page. Look for latest release for most update
 
 ### Custom DB Updates
 
-You can edit cover databases using SQLite Browser software available here: [DOWNLOAD](https://sqlitebrowser.org/) that works on MAC and WINDOWS.
 
 We also created a tool to dump and reload all png files in one shot. The tool is available here [DOWNLOAD](https://github.com/autobleem/abcoverpacker) 
 
