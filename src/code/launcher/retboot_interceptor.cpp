@@ -149,10 +149,14 @@ void RetroArchInterceptor::backupCoreConfig() {
 }
 
 void RetroArchInterceptor::restoreCoreConfig() {
-    if (Util::exists(string(RA_CORE_CONFIG) + ".bak"))
+    if (Util::exists(string(RA_CORE_CONFIG) + ".bak")) {
         Util::copy(string(RA_CORE_CONFIG) + ".bak", RA_CORE_CONFIG);
-    if (Util::exists(string(RA_CONFIG) + ".bak"))
+        remove((string(RA_CORE_CONFIG) + ".bak").c_str());
+    }
+    if (Util::exists(string(RA_CONFIG) + ".bak")) {
         Util::copy(string(RA_CONFIG) + ".bak", RA_CONFIG);
+        remove((string(RA_CONFIG) + ".bak").c_str());
+    }
 }
 
 void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
@@ -178,6 +182,7 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
     int scanlines = atoi(processor->getValue(game->base, path, "scanlines", internal).c_str());
     int scanline_level = strtol(processor->getValue(game->base, path, "scanline_level", internal).c_str(),
                                NULL, 16);
+    int frameskip = atoi(processor->getValue(game->base, path, "frameskip3", internal).c_str());
 
 
 
@@ -235,6 +240,9 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
                                  "pcsx_rearmed_spu_interpolation = \"cubic\" ");
     }
 
+    processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_frameskip",
+                             "pcsx_rearmed_frameskip  = \""+to_string(frameskip)+"\" ");
+
     // RA_CONFIG
     if (aspect == "true") {
         // widescreen
@@ -285,6 +293,7 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
         processor->replaceRaConf(RA_CONFIG, "video_smooth",
                                  "video_smooth  = \"false\" ");
     }
+
 
 
 
