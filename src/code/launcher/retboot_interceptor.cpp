@@ -174,6 +174,12 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
     int interpolation = strtol(processor->getValue(game->base, path, "spu_config.iUseInterpolation", internal).c_str(),
                                NULL, 16);
     string aspect = gui->cfg.inifile.values["aspect"]; // true - 1280x720 - false 960x720
+    string filter = gui->cfg.inifile.values["mip"]; // true - billiner
+    int scanlines = atoi(processor->getValue(game->base, path, "scanlines", internal).c_str());
+    int scanline_level = strtol(processor->getValue(game->base, path, "scanline_level", internal).c_str(),
+                               NULL, 16);
+
+
 
 
 
@@ -241,7 +247,7 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
         processor->replaceRaConf(RA_CONFIG, "custom_viewport_y",
                                  "custom_viewport_y  = \"0\" ");
         processor->replaceRaConf(RA_CONFIG, "aspect_ratio_index",
-                                 "aspect_ratio_index  = \"20\" ");
+                                 "aspect_ratio_index  = \"23\" ");
 
     } else {
         // 4:3
@@ -257,6 +263,30 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
                                  "aspect_ratio_index  = \"0\" ");
 
     }
+
+    if (scanlines == 1)
+    {
+
+        float opacity = scanline_level/100.0f;
+        processor->replaceRaConf(RA_CONFIG, "input_overlay",
+                                 "input_overlay  = \":/overlay/scanlines.cfg\" ");
+        processor->replaceRaConf(RA_CONFIG, "input_overlay_enable",
+                                 "input_overlay_enable  = \"true\" ");
+        processor->replaceRaConf(RA_CONFIG, "input_overlay_opacity",
+                                 "input_overlay_opacity  = \""+to_string(opacity)+"\" ");
+    }
+
+    if (filter == "true")
+    {
+        processor->replaceRaConf(RA_CONFIG, "menu_linear_filter",
+                                 "menu_linear_filter  = \"true\" ");
+    } else
+    {
+        processor->replaceRaConf(RA_CONFIG, "menu_linear_filter",
+                                 "menu_linear_filter  = \"false\" ");
+    }
+
+
 
 
     delete processor;
