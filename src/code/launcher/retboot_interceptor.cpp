@@ -194,7 +194,6 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
     else
 
         processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_dithering",
-        processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_dithering",
                                  "pcsx_rearmed_dithering = \"disabled\" ");
 
     if (speedhack != 0)
