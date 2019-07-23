@@ -193,7 +193,8 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
                                  "pcsx_rearmed_dithering = \"enabled\" ");
     else
 
-        processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_neon_enhancement_enable",
+        processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_dithering",
+        processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_dithering",
                                  "pcsx_rearmed_dithering = \"disabled\" ");
 
     if (speedhack != 0)
