@@ -241,7 +241,7 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
         processor->replaceRaConf(RA_CONFIG, "custom_viewport_y",
                                  "custom_viewport_y  = \"0\" ");
         processor->replaceRaConf(RA_CONFIG, "aspect_ratio_index",
-                                 "aspect_ratio_index  = \"23\" ");
+                                 "aspect_ratio_index  = \"20\" ");
 
     } else {
         // 4:3
