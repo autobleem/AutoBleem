@@ -278,12 +278,12 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
 
     if (filter == "true")
     {
-        processor->replaceRaConf(RA_CONFIG, "menu_linear_filter",
-                                 "menu_linear_filter  = \"true\" ");
+        processor->replaceRaConf(RA_CONFIG, "video_smooth",
+                                 "video_smooth  = \"true\" ");
     } else
     {
-        processor->replaceRaConf(RA_CONFIG, "menu_linear_filter",
-                                 "menu_linear_filter  = \"false\" ");
+        processor->replaceRaConf(RA_CONFIG, "video_smooth",
+                                 "video_smooth  = \"false\" ");
     }
 
 
