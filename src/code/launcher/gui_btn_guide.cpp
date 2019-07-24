@@ -24,7 +24,7 @@ void GuiBtnGuide::render() {
     gui->renderTextLine("-=" + _("Button Guide") + "=-", 0, offset, true);
     gui->renderTextLine(_("DPAD - Same as classic menu"), 1, offset,true);
     gui->renderTextLine("|@X| / |@O|   "+_("Select or cancel highlighted option"), 2, offset,true);
-    gui->renderTextLine("|@S|   "+_("Run using RetroBoot(in installed)"), 3, offset,true);
+    gui->renderTextLine("|@S|   "+_("Run using RetroBoot(if installed)"), 3, offset,true);
     gui->renderTextLine("|@R1| / |@L1|   "+_("Quick scroll to next letter"), 4, offset,true);
     gui->renderTextLine("|@Select|   "+_("Games filter"), 5, offset,true);
 
