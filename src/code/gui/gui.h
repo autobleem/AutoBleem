@@ -156,6 +156,8 @@ public:
     SDL_Shared<SDL_Texture>
     loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, std::string themePath, std::string defaultPath, std::string texname);
 
+    void exportDBToRetroarch();
+
     int menuOption = MENU_OPTION_SCAN;
     int lastSet = 0;
 
@@ -211,4 +213,6 @@ public:
         static std::shared_ptr<Gui> s{new Gui};
         return s;
     }
+
+    static bool sortByTitle(const PsGamePtr &i, const PsGamePtr &j) { return SortByCaseInsensitive(i->title, j->title); }
 };
