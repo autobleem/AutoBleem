@@ -248,6 +248,7 @@ void GuiOptions::loop() {
                         string cfg_path = Util::getWorkingPath() + Util::separator() + "config.ini";
                         gui->cfg.inifile.load(cfg_path);    // restore the original config.ini settings
                         lang->load(gui->cfg.inifile.values["language"]);    // restore the original lang
+                        gui->loadAssets();                                  // restore original themes
                         gui->overrideQuickBoot = true;
                         menuVisible = false;
                         exitCode = -1;
@@ -312,6 +313,8 @@ void GuiOptions::loop() {
                         if (selOption == CFG_MENUTH) {
                             string nextValue = getOption(sthemes, gui->cfg.inifile.values["stheme"], true);
                             gui->cfg.inifile.values["stheme"] = nextValue;
+                            init();
+                            gui->loadAssets();
                         }
 
                         if (selOption == CFG_BGM) {
@@ -412,6 +415,8 @@ void GuiOptions::loop() {
                         if (selOption == CFG_MENUTH) {
                             string nextValue = getOption(sthemes, gui->cfg.inifile.values["stheme"], false);
                             gui->cfg.inifile.values["stheme"] = nextValue;
+                            init();
+                            gui->loadAssets();
                         }
 
                         if (selOption == CFG_BGM) {
