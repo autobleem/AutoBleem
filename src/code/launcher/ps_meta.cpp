@@ -15,7 +15,8 @@ using namespace std;
 //*******************************
 void PsMeta::updateTexts(const string & gameNameTxt, const string & publisherTxt, const string & yearTxt,
                          const string & serial, const string & region, const string & playersTxt, bool internal,
-                         bool hd, bool locked, int discs, bool favorite, int r,int g, int b) {
+                         bool hd, bool locked, int discs, bool favorite,  bool foreign,
+                         int r,int g, int b) {
     this->discs = discs;
     this->internal = internal;
     this->hd = hd;
@@ -27,6 +28,7 @@ void PsMeta::updateTexts(const string & gameNameTxt, const string & publisherTxt
     this->serial = serial;
     this->region = region;
     this->players = playersTxt;
+    this->foreign = foreign;
 
     gameNameTex = createTextTex(gameName, r,g,b, font30);
     publisherAndYearTex = createTextTex(publisher + ", " + year, r,g,b, font15);
@@ -36,6 +38,16 @@ void PsMeta::updateTexts(const string & gameNameTxt, const string & publisherTxt
         serialAndRegionTex = createTextTex("", r,g,b, font15);
     playersTex = createTextTex(playersTxt, r,g,b, font15);
     discsTex = createTextTex(to_string(discs),r,g,b,font15);
+
+    if (foreign)
+    {
+        trim(publisher);
+        if (publisher=="DETECT")
+        {
+            publisher = _("Unknown Core (AutoDetect)");
+        }
+        publisherAndYearTex = createTextTex(publisher, r,g,b, font15);
+    }
 }
 
 //*******************************
@@ -50,9 +62,20 @@ void PsMeta::updateTexts(PsGamePtr & psGame, int r,int g, int b) {
         psGame->serial = iniFile.values["serial"];
         psGame->region = iniFile.values["region"];
     }
-    
-    updateTexts(psGame->title, psGame->publisher, to_string(psGame->year), psGame->serial, psGame->region, to_string(psGame->players) + " " + appendText,
-                psGame->internal, psGame->hd, psGame->locked, psGame->cds, psGame->favorite, r, g, b);
+
+    if (!psGame->foreign) {
+        updateTexts(psGame->title, psGame->publisher, to_string(psGame->year), psGame->serial, psGame->region,
+                    to_string(psGame->players) + " " + appendText,
+                    psGame->internal, psGame->hd, psGame->locked, psGame->cds, psGame->favorite, psGame->foreign, r, g,
+                    b);
+    } else
+    {
+
+        updateTexts(psGame->title, psGame->core_name, to_string(psGame->year), psGame->serial, psGame->region,
+                    to_string(psGame->players) + " " + appendText,
+                    psGame->internal, psGame->hd, psGame->locked, psGame->cds, psGame->favorite, psGame->foreign, r, g,
+                    b);
+    }
 }
 
 //*******************************
@@ -80,6 +103,7 @@ void PsMeta::render() {
         lockOffTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/unlock.png").c_str());
         cdTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/cd.png").c_str());
         favoriteTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/favorite.png").c_str());
+        raTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/ra.png").c_str());
     }
 
     if (visible) {
@@ -128,85 +152,93 @@ void PsMeta::render() {
         fullRect.h = h;
         SDL_RenderCopy(renderer, serialAndRegionTex, &fullRect, &rect);
 
-        SDL_QueryTexture(playersTex, &format, &access, &w, &h);
-        rect.x = x + 35;
-        rect.y = y + 43 + 22 + 30;
-        rect.w = w;
-        rect.h = h;
+        if (!foreign) {
+            SDL_QueryTexture(playersTex, &format, &access, &w, &h);
+            rect.x = x + 35;
+            rect.y = y + 43 + 22 + 30;
+            rect.w = w;
+            rect.h = h;
 
-        fullRect.x = 0;
-        fullRect.y = 0;
-        fullRect.w = w;
-        fullRect.h = h;
-        SDL_RenderCopy(renderer, playersTex, &fullRect, &rect);
+            fullRect.x = 0;
+            fullRect.y = 0;
+            fullRect.w = w;
+            fullRect.h = h;
+            SDL_RenderCopy(renderer, playersTex, &fullRect, &rect);
 
-        SDL_QueryTexture(tex, &format, &access, &w, &h);
-        rect.x = x;
-        rect.y = y + 43 + 22 + 28;
-        rect.w = w;
-        rect.h = h;
+            SDL_QueryTexture(tex, &format, &access, &w, &h);
+            rect.x = x;
+            rect.y = y + 43 + 22 + 28;
+            rect.w = w;
+            rect.h = h;
 
-        fullRect.x = 0;
-        fullRect.y = 0;
-        fullRect.w = w;
-        fullRect.h = h;
-        SDL_RenderCopy(renderer, tex, &fullRect, &rect);
+            fullRect.x = 0;
+            fullRect.y = 0;
+            fullRect.w = w;
+            fullRect.h = h;
+            SDL_RenderCopy(renderer, tex, &fullRect, &rect);
 
-        int offset = 190, spread=40;
-        // render internal icon
-        rect.x = x+135;
-        SDL_RenderCopy(renderer, cdTex, &fullRect, &rect);
+            int offset = 190, spread = 40;
+            // render internal icon
+            rect.x = x + 135;
+            SDL_RenderCopy(renderer, cdTex, &fullRect, &rect);
 
-        SDL_QueryTexture(discsTex, &format, &access, &w, &h);
-        rect.x =  x+170;
-        rect.y = y + 43 + 22 + 30;
-        rect.w = w;
-        rect.h = h;
+            SDL_QueryTexture(discsTex, &format, &access, &w, &h);
+            rect.x = x + 170;
+            rect.y = y + 43 + 22 + 30;
+            rect.w = w;
+            rect.h = h;
 
-        fullRect.x = 0;
-        fullRect.y = 0;
-        fullRect.w = w;
-        fullRect.h = h;
-        SDL_RenderCopy(renderer, discsTex, &fullRect, &rect);
+            fullRect.x = 0;
+            fullRect.y = 0;
+            fullRect.w = w;
+            fullRect.h = h;
+            SDL_RenderCopy(renderer, discsTex, &fullRect, &rect);
 
-        rect.x = x+offset;
-        rect.y = y + 43 + 22 + 28;
-        rect.w = 30;
-        rect.h = 30;
+            rect.x = x + offset;
+            rect.y = y + 43 + 22 + 28;
+            rect.w = 30;
+            rect.h = 30;
 
-        fullRect.x = 0;
-        fullRect.y = 0;
-        fullRect.w = 30;
-        fullRect.h = 30;
-        if (internal)
-        {
-            locked = true;
-            hd = false;
-            SDL_RenderCopy(renderer, internalOnTex, &fullRect, &rect);
+            fullRect.x = 0;
+            fullRect.y = 0;
+            fullRect.w = 30;
+            fullRect.h = 30;
+            if (internal) {
+                locked = true;
+                hd = false;
+                SDL_RenderCopy(renderer, internalOnTex, &fullRect, &rect);
+            } else {
+                SDL_RenderCopy(renderer, internalOffTex, &fullRect, &rect);
+            }
+            rect.x = x + offset + spread;
+            if (hd) {
+                SDL_RenderCopy(renderer, hdOnTex, &fullRect, &rect);
+            } else {
+                SDL_RenderCopy(renderer, hdOffTex, &fullRect, &rect);
+            }
+            rect.x = x + offset + spread * 2;
+            if (locked) {
+                SDL_RenderCopy(renderer, lockOnTex, &fullRect, &rect);
+            } else {
+                SDL_RenderCopy(renderer, lockOffTex, &fullRect, &rect);
+            }
+            rect.x = x + offset + spread * 3;
+            if (favorite) {
+                SDL_RenderCopy(renderer, favoriteTex, &fullRect, &rect);
+            }
         } else
         {
-            SDL_RenderCopy(renderer, internalOffTex, &fullRect, &rect);
-        }
-        rect.x = x+offset+spread;
-        if (hd)
-        {
-            SDL_RenderCopy(renderer, hdOnTex, &fullRect, &rect);
-        } else
-        {
-            SDL_RenderCopy(renderer, hdOffTex, &fullRect, &rect);
-        }
-        rect.x = x+offset+spread*2;
-        if (locked)
-        {
-            SDL_RenderCopy(renderer, lockOnTex, &fullRect, &rect);
-        } else
-        {
-            SDL_RenderCopy(renderer, lockOffTex, &fullRect, &rect);
-        }
-        rect.x = x+offset+spread*3;
-        if (favorite)
-        {
-            SDL_RenderCopy(renderer, favoriteTex, &fullRect, &rect);
+            SDL_QueryTexture(raTex, &format, &access, &w, &h);
+            rect.x = x;
+            rect.y = y + 43 + 22 + 28;
+            rect.w = w;
+            rect.h = h;
+
+            fullRect.x = 0;
+            fullRect.y = 0;
+            fullRect.w = w;
+            fullRect.h = h;
+            SDL_RenderCopy(renderer, raTex, &fullRect, &rect);
         }
 
     }

@@ -176,54 +176,55 @@ void PsMenu::render() {
 
     SDL_RenderCopy(renderer, settings, &input, &output);
 
-    w = 118 * optionscales[1];
-    h = 118 * optionscales[1];
+    if (!foreign) {
+        w = 118 * optionscales[1];
+        h = 118 * optionscales[1];
 
-    input.x = 0, input.y = 0;
-    input.h = 118, input.w = 118;
-    output.x = x + 130 + xoff[1];
-    output.y = y + yoff[1];
-    output.w = w;
-    output.h = h;
+        input.x = 0, input.y = 0;
+        input.h = 118, input.w = 118;
+        output.x = x + 130 + xoff[1];
+        output.y = y + yoff[1];
+        output.w = w;
+        output.h = h;
 
-    SDL_RenderCopy(renderer, guide, &input, &output);
+        SDL_RenderCopy(renderer, guide, &input, &output);
 
 
-    w = 118 * optionscales[2];
-    h = 118 * optionscales[2];
-    input.x = 0, input.y = 0;
-    input.h = 118, input.w = 118;
-    output.x = x + 260 + xoff[2];
-    output.y = y + yoff[2];
-    output.w = w;
-    output.h = h;
+        w = 118 * optionscales[2];
+        h = 118 * optionscales[2];
+        input.x = 0, input.y = 0;
+        input.h = 118, input.w = 118;
+        output.x = x + 260 + xoff[2];
+        output.y = y + yoff[2];
+        output.w = w;
+        output.h = h;
 
-    SDL_RenderCopy(renderer, memcard, &input, &output);
+        SDL_RenderCopy(renderer, memcard, &input, &output);
 
-    w = 118 * optionscales[3];
-    h = 118 * optionscales[3];
-    input.x = 0, input.y = 0;
-    input.h = 118, input.w = 118;
-    output.x = x + 130 * 3 + xoff[3];
-    output.y = y + yoff[3];
-    output.w = w;
-    output.h = h;
+        w = 118 * optionscales[3];
+        h = 118 * optionscales[3];
+        input.x = 0, input.y = 0;
+        input.h = 118, input.w = 118;
+        output.x = x + 130 * 3 + xoff[3];
+        output.y = y + yoff[3];
+        output.w = w;
+        output.h = h;
 
-    SDL_RenderCopy(renderer, savestate, &input, &output);
+        SDL_RenderCopy(renderer, savestate, &input, &output);
 
-    if (resume!= nullptr)
-    {
-        Uint32 format;
-        int access;
-        int tw, th;
-        SDL_QueryTexture(resume, &format, &access, &tw, &th);
-        input.h=th;
-        input.w=tw;
-        output.x = x + 130 * 3 + 25*optionscales[3]+ xoff[3] ;
-        output.y = y + yoff[3] + 33*optionscales[3];
-        output.w = 68*optionscales[3];
-        output.h = 52*optionscales[3];
-        SDL_RenderCopy(renderer,resume,&input,&output);
+        if (resume != nullptr) {
+            Uint32 format;
+            int access;
+            int tw, th;
+            SDL_QueryTexture(resume, &format, &access, &tw, &th);
+            input.h = th;
+            input.w = tw;
+            output.x = x + 130 * 3 + 25 * optionscales[3] + xoff[3];
+            output.y = y + yoff[3] + 33 * optionscales[3];
+            output.w = 68 * optionscales[3];
+            output.h = 52 * optionscales[3];
+            SDL_RenderCopy(renderer, resume, &input, &output);
+        }
     }
 }
 

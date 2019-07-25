@@ -7,6 +7,7 @@
 #include "../engine/scanner.h"
 #include <SDL2/SDL_image.h>
 #include <unistd.h>
+#include <iostream>
 
 using namespace std;
 
@@ -18,26 +19,28 @@ using namespace std;
 void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
     shared_ptr<Gui> gui(Gui::getInstance());
 
-    if (coverPng == nullptr) {
-        SDL_Shared<SDL_Texture> renderSurface = SDL_CreateTexture(renderer,
-                SDL_PIXELFORMAT_ABGR32, SDL_TEXTUREACCESS_TARGET, 226, 226);
-        SDL_Rect fullRect;
+    if (!(*this)->foreign) {
+        if (coverPng == nullptr) {
+            SDL_Shared<SDL_Texture> renderSurface = SDL_CreateTexture(renderer,
+                                                                      SDL_PIXELFORMAT_ABGR32, SDL_TEXTUREACCESS_TARGET,
+                                                                      226, 226);
+            SDL_Rect fullRect;
 
-        SDL_SetRenderTarget(renderer, renderSurface);
-        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
-        SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_NONE);
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-        SDL_RenderFillRect(renderer, nullptr);
-        SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_BLEND);
-        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+            SDL_SetRenderTarget(renderer, renderSurface);
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+            SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_NONE);
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+            SDL_RenderFillRect(renderer, nullptr);
+            SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_BLEND);
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-        string imagePath = (*this)->folder + Util::separator() + (*this)->base + ".png";
-        SDL_SetRenderTarget(renderer, nullptr);
-        if (Util::exists(imagePath)) {
-            coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
-        } else {
-            coverPng = nullptr;
-            #if defined(__x86_64__) || defined(_M_X64)
+            string imagePath = (*this)->folder + Util::separator() + (*this)->base + ".png";
+            SDL_SetRenderTarget(renderer, nullptr);
+            if (Util::exists(imagePath)) {
+                coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
+            } else {
+                coverPng = nullptr;
+#if defined(__x86_64__) || defined(_M_X64)
                 if ((*this)->internal) {
                     Metadata md;
                     if (md.lookupBySerial((*this)->serial) && md.bytes && md.dataSize) {
@@ -49,10 +52,77 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
                         remove(fname);
                     }
                 }
-            #endif
-        }
+#endif
+            }
 
-        if (coverPng != nullptr) {
+            if (coverPng != nullptr) {
+                SDL_SetRenderTarget(renderer, renderSurface);
+                fullRect.x = 0;
+                fullRect.y = 0;
+                fullRect.h = 226, fullRect.w = 226;
+
+                Uint32 format;
+                int access;
+                SDL_QueryTexture(coverPng, &format, &access, &fullRect.w, &fullRect.h);
+
+                SDL_Rect outputRect;
+                if (gui->cdJewel != nullptr) {
+                    outputRect.x = 23;
+                    outputRect.y = 5;
+                    outputRect.h = 217;
+                    outputRect.w = 199;
+                } else {
+                    outputRect.x = 0;
+                    outputRect.y = 0;
+                    outputRect.h = 226;
+                    outputRect.w = 226;
+                }
+                if (coverPng != nullptr) {
+                    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_ADD);
+                    SDL_RenderCopy(renderer, coverPng, &fullRect, &outputRect);
+                    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+                }
+                coverPng = nullptr;
+
+                fullRect.x = 0;
+                fullRect.y = 0;
+                fullRect.h = 226, fullRect.w = 226;
+                if (gui->cdJewel != nullptr) {
+                    SDL_RenderCopy(renderer, gui->cdJewel, &fullRect, &fullRect);
+                }
+                coverPng = renderSurface;
+            }
+            SDL_SetRenderTarget(renderer, nullptr);
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+        }
+    } else {
+        if (coverPng == nullptr) {
+            SDL_Shared<SDL_Texture> renderSurface = SDL_CreateTexture(renderer,
+                                                                      SDL_PIXELFORMAT_ABGR32, SDL_TEXTUREACCESS_TARGET,
+                                                                      226, 226);
+            SDL_Rect fullRect;
+
+            SDL_SetRenderTarget(renderer, renderSurface);
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+            SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_NONE);
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+            SDL_RenderFillRect(renderer, nullptr);
+            SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_BLEND);
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+
+            string imagePath = string(RA_FOLDER) + Util::separator() + "thumbnails"+ Util::separator() + Util::getFileNameWithoutExtension((*this)->db_name) + Util::separator() +
+                    "Named_Boxarts" + Util::separator() + (*this)->title + ".png";
+
+            cout << imagePath << endl;
+
+            SDL_SetRenderTarget(renderer, nullptr);
+            if (Util::exists(imagePath)) {
+                coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
+            } else {
+                coverPng = IMG_LoadTexture(renderer, (Util::getWorkingPath() + "/evoimg/ra-cover.png").c_str());
+            }
+
+
             SDL_SetRenderTarget(renderer, renderSurface);
             fullRect.x = 0;
             fullRect.y = 0;
@@ -63,34 +133,38 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
             SDL_QueryTexture(coverPng, &format, &access, &fullRect.w, &fullRect.h);
 
             SDL_Rect outputRect;
-            if (gui->cdJewel != nullptr) {
-                outputRect.x = 23;
-                outputRect.y = 5;
-                outputRect.h = 217;
-                outputRect.w = 199;
-            } else {
-                outputRect.x = 0;
-                outputRect.y = 0;
-                outputRect.h = 226;
-                outputRect.w = 226;
+
+            outputRect.x = 0;
+            outputRect.y = 0;
+            outputRect.h = 226;
+            outputRect.w = 226;
+
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_ADD);
+            SDL_RenderCopy(renderer, coverPng, &fullRect, &outputRect);
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+
+            SDL_Shared<SDL_Texture> titleName;
+            SDL_Rect titleRect;
+            gui->getTextAndRect(renderer,0,0,(*this)->title.c_str(),gui->themeFont,&titleName,&titleRect);
+
+            outputRect.x = 0;
+            outputRect.y = 0;
+            outputRect.h = 26;
+            outputRect.w = 226;
+            if (!Util::exists(imagePath)) {
+                SDL_RenderCopy(renderer, titleName, &titleRect, &outputRect);
             }
-            if (coverPng != nullptr) {
-                SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_ADD);
-                SDL_RenderCopy(renderer, coverPng, &fullRect, &outputRect);
-                SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_BLEND);
-            }
-                coverPng = nullptr;
+
+            coverPng = nullptr;
 
             fullRect.x = 0;
             fullRect.y = 0;
             fullRect.h = 226, fullRect.w = 226;
-            if (gui->cdJewel != nullptr) {
-                SDL_RenderCopy(renderer, gui->cdJewel, &fullRect, &fullRect);
-            }
             coverPng = renderSurface;
+
+            SDL_SetRenderTarget(renderer, nullptr);
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
         }
-        SDL_SetRenderTarget(renderer, nullptr);
-        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     }
 }
 
@@ -98,7 +172,7 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
 // PsCarouselGame::freeTex
 //*******************************
 void PsCarouselGame::freeTex() {
-        coverPng = nullptr;
+    coverPng = nullptr;
 }
 
 //*******************************

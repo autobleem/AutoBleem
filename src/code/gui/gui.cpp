@@ -31,7 +31,7 @@ template<class K, class V, class dummy_compare, class A>
 using my_workaround_fifo_map = fifo_map<K, V, fifo_map_compare<K>, A>;
 using ordered_json = basic_json<my_workaround_fifo_map>;
 
-#define RA_FOLDER "/media/retroarch"
+
 #define RA_PLAYLIST "AutoBleem.lpl"
 #define RA_CORE "/media/retroarch/cores/km_pcsx_rearmed_neon_libretro.so"
 
