@@ -21,12 +21,18 @@
 #include <iomanip>
 #include "../engine/scanner.h"
 #include "../nlohmann/json.h"
+#include "../nlohmann/fifo_map.h"
 
 using namespace std;
-using json = nlohmann::json;
+using namespace nlohmann;
+
+// A workaround to give to use fifo_map as map, we are just ignoring the 'less' compare
+template<class K, class V, class dummy_compare, class A>
+using my_workaround_fifo_map = fifo_map<K, V, fifo_map_compare<K>, A>;
+using ordered_json = basic_json<my_workaround_fifo_map>;
 
 #define RA_FOLDER "/media/retroarch"
-#define RA_PLAYLIST "AutoBleem.lbl"
+#define RA_PLAYLIST "AutoBleem.lpl"
 #define RA_CORE "/media/retroarch/cores/km_pcsx_rearmed_neon_libretro.so"
 
 //********************
@@ -1265,18 +1271,18 @@ void Gui::watchJoystickPort() {
 }
 
 void Gui::exportDBToRetroarch() {
-    json j;
+    ordered_json j;
     j["version"]="1.0";
 
     PsGames gamesList;
     db->getGames(&gamesList);
     sort(gamesList.begin(), gamesList.end(), sortByTitle);
 
-    json items = json::array();
+    ordered_json items = ordered_json::array();
     // copy the gamesList into json object
     for_each(begin(gamesList), end(gamesList), [&](PsGamePtr &game)
     {
-        json item = json::object();
+        ordered_json item = ordered_json::object();
 
         string gameIso = (game->folder + game->base);
         if (!Util::matchExtension(game->base, ".pbp")) {

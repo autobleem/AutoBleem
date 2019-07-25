@@ -125,7 +125,7 @@ add_executable(
 		src/code/launcher/retboot_interceptor.h
 		src/code/launcher/emu_interceptor.cpp
 		src/code/launcher/emu_interceptor.h
-		src/code/nlohmann/json.h)
+		src/code/nlohmann/json.h src/code/nlohmann/fifo_map.h)
 
 
 
