@@ -1305,7 +1305,7 @@ void Gui::exportDBToRetroarch() {
 
     cout << j.dump() << endl;
     std::ofstream o(string(RA_FOLDER)+"/playlists/"+RA_PLAYLIST);
-    o << std::setw(4) << j << std::endl;
+    o << std::setw(2) << j << std::endl;
     o.flush();
     o.close();
 }
