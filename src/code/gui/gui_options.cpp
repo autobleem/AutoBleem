@@ -37,12 +37,12 @@ string GuiOptions::getOption(const vector<string> & list, const string & current
 //*******************************
 void GuiOptions::init() {
     shared_ptr<Lang> lang(Lang::getInstance());
-    themes.clear();
-    sthemes.clear();
-    sthemes.push_back("default");
+    autobleemUIThemes.clear();
+    menuThemes.clear();
+    menuThemes.push_back("default");
     vector<DirEntry> folders = Util::diru(Util::getWorkingPath() + Util::separator() + "theme");
     for (const DirEntry & entry:folders) {
-        themes.push_back(entry.name);
+        autobleemUIThemes.push_back(entry.name);
     }
 #if defined(__x86_64__) || defined(_M_X64)
     folders = Util::diru(Util::getWorkingPath() + Util::separator() + "themes");
@@ -50,7 +50,7 @@ void GuiOptions::init() {
     folders = Util::diru("/media/themes");
 #endif
     for (const DirEntry & entry:folders) {
-        sthemes.push_back(entry.name);
+        menuThemes.push_back(entry.name);
     }
     pcsx.clear();
     pcsx.push_back("original");
@@ -304,14 +304,14 @@ void GuiOptions::loop() {
                         }
 
                         if (selOption == CFG_THEME) {
-                            string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], true);
+                            string nextValue = getOption(autobleemUIThemes, gui->cfg.inifile.values["theme"], true);
                             gui->cfg.inifile.values["theme"] = nextValue;
                             init();
                             gui->loadAssets();
                         }
 
                         if (selOption == CFG_MENUTH) {
-                            string nextValue = getOption(sthemes, gui->cfg.inifile.values["stheme"], true);
+                            string nextValue = getOption(menuThemes, gui->cfg.inifile.values["stheme"], true);
                             gui->cfg.inifile.values["stheme"] = nextValue;
                             init();
                             gui->loadAssets();
@@ -399,7 +399,7 @@ void GuiOptions::loop() {
                         }
 
                         if (selOption == CFG_THEME) {
-                            string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], false);
+                            string nextValue = getOption(autobleemUIThemes, gui->cfg.inifile.values["theme"], false);
                             gui->cfg.inifile.values["theme"] = nextValue;
                             init();
                             gui->loadAssets();
@@ -413,7 +413,7 @@ void GuiOptions::loop() {
                         }
 
                         if (selOption == CFG_MENUTH) {
-                            string nextValue = getOption(sthemes, gui->cfg.inifile.values["stheme"], false);
+                            string nextValue = getOption(menuThemes, gui->cfg.inifile.values["stheme"], false);
                             gui->cfg.inifile.values["stheme"] = nextValue;
                             init();
                             gui->loadAssets();
