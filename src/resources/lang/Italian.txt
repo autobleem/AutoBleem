@@ -13,7 +13,7 @@ AutoBleem
 AutoBleem Theme:
 Tema di AutoBleem:
 Automatic PlayStation Classic USB launcher
-Launcher Automatico PlayStation Classic USB
+Launcher USB Automatico PlayStation Classic
 Background Music:
 Musica di Sottofondo:
 Button Guide
@@ -255,7 +255,7 @@ Supporto via Discord:
 This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 Questo e' un programma gratuito e open source. Funziona COSI' COME E' e Noi non ci assumiamo alcuna responsabilita' per eventuali problemi o danni.
 to scan
-per scansionare
+per cercare
 Total:
 Totale:
 UI:

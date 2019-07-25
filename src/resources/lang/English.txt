@@ -10,6 +10,8 @@ Are you sure?
 
 AutoBleem
 
+AutoBleem resume points not available in RetroArch.
+
 AutoBleem Theme:
 
 Automatic PlayStation Classic USB launcher
@@ -207,6 +209,8 @@ Resume point saved to slot
 RetroArch
 
 RetroArch is not installed
+
+Run using RetroBoot(if installed)
 
 Scanline Level:
 
