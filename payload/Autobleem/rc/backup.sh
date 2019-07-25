@@ -15,7 +15,9 @@ mkdir -p /media/System/Logs
 mkdir -p /media/System/UI
 
 
-cp -r /media/Autobleem/bin/autobleem/launch_rom.sh /media/retroarch/retroboot/bin/
+cp -r /media/Autobleem/rc/launch_rom.rfa.sh /media/retroarch/retroboot/bin/
+cp -r /media/Autobleem/bin/autobleem/AutoBleem.rdb /media/retroarch/database/rdb/
+chmod 777 /media/retroarch/retroboot/bin/*
 
 
 # Copy the BIOS files to USB

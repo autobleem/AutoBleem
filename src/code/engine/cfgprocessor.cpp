@@ -91,6 +91,13 @@ string CfgProcessor::getValue(string entry, string gamePath, string property, bo
 }
 
 //*******************************
+// CfgProcessor::replaceRaConf
+//*******************************
+void CfgProcessor::replaceRaConf(std::string filePath, std::string property, std::string newline)
+{
+    replaceInternal(filePath, property, newline);
+}
+//*******************************
 // CfgProcessor::replace
 //*******************************
 void CfgProcessor::replace(string entry, string gamePath, string property, string newline, bool internal) {

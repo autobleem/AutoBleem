@@ -18,9 +18,22 @@
 #include <unistd.h>
 #include "../util.h"
 #include <iostream>
+#include <iomanip>
 #include "../engine/scanner.h"
+#include "../nlohmann/json.h"
+#include "../nlohmann/fifo_map.h"
 
 using namespace std;
+using namespace nlohmann;
+
+// A workaround to give to use fifo_map as map, we are just ignoring the 'less' compare
+template<class K, class V, class dummy_compare, class A>
+using my_workaround_fifo_map = fifo_map<K, V, fifo_map_compare<K>, A>;
+using ordered_json = basic_json<my_workaround_fifo_map>;
+
+#define RA_FOLDER "/media/retroarch"
+#define RA_PLAYLIST "AutoBleem.lpl"
+#define RA_CORE "/media/retroarch/cores/km_pcsx_rearmed_neon_libretro.so"
 
 //********************
 // GuiBase::GuiBase
@@ -51,9 +64,10 @@ GuiBase::~GuiBase() {
 //*******************************
 string GuiBase::getSonyImagePath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    string path =  Util::getWorkingPath() + Util::separator() + "themes" + Util::separator() + cfg.inifile.values["stheme"] + "/images";
-    if (!Util::exists(path))
-    {
+    string path =
+            Util::getWorkingPath() + Util::separator() + "themes" + Util::separator() + cfg.inifile.values["stheme"] +
+            "/images";
+    if (!Util::exists(path)) {
         path = "./sony/images";
     }
     return path;
@@ -72,9 +86,10 @@ string GuiBase::getSonyImagePath() {
 //*******************************
 string GuiBase::getSonySoundPath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    string path =  Util::getWorkingPath() + Util::separator() + "themes" + Util::separator() + cfg.inifile.values["stheme"] + "/sounds";
-    if (!Util::exists(path))
-    {
+    string path =
+            Util::getWorkingPath() + Util::separator() + "themes" + Util::separator() + cfg.inifile.values["stheme"] +
+            "/sounds";
+    if (!Util::exists(path)) {
         path = "./sony/sounds";
     }
     return path;
@@ -93,9 +108,10 @@ string GuiBase::getSonySoundPath() {
 //*******************************
 string GuiBase::getSonyFontPath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    string path =  Util::getWorkingPath() + Util::separator() + "themes" + Util::separator() + cfg.inifile.values["stheme"] + "/font";
-    if (!Util::exists(path))
-    {
+    string path =
+            Util::getWorkingPath() + Util::separator() + "themes" + Util::separator() + cfg.inifile.values["stheme"] +
+            "/font";
+    if (!Util::exists(path)) {
         path = "./sony/font";
     }
     return path;
@@ -114,9 +130,8 @@ string GuiBase::getSonyFontPath() {
 //*******************************
 string GuiBase::getSonyRootPath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    string path =  Util::getWorkingPath() + Util::separator() + cfg.inifile.values["stheme"];
-    if (!Util::exists(path))
-    {
+    string path = Util::getWorkingPath() + Util::separator() + cfg.inifile.values["stheme"];
+    if (!Util::exists(path)) {
         path = "./sony";
     }
     return path;
@@ -134,7 +149,7 @@ string GuiBase::getSonyRootPath() {
 //*******************************
 // Gui::logText
 //*******************************
-void Gui::logText(const string & message) {
+void Gui::logText(const string &message) {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->drawText(message);
 }
@@ -154,21 +169,21 @@ void logText(char *message) {
 //*******************************
 // Gui::getR
 //*******************************
-Uint8 Gui::getR(const string & val) {
+Uint8 Gui::getR(const string &val) {
     return atoi(Util::commaSep(val, 0).c_str());
 }
 
 //*******************************
 // Gui::getG
 //*******************************
-Uint8 Gui::getG(const string & val) {
+Uint8 Gui::getG(const string &val) {
     return atoi(Util::commaSep(val, 1).c_str());
 }
 
 //*******************************
 // Gui::getB
 //*******************************
-Uint8 Gui::getB(const string & val) {
+Uint8 Gui::getB(const string &val) {
     return atoi(Util::commaSep(val, 2).c_str());
 }
 
@@ -232,7 +247,8 @@ int Gui::renderLogo(bool small) {
 //*******************************
 // Gui::loadThemeTexture
 //*******************************
-SDL_Shared<SDL_Texture> Gui::loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, string themePath, string defaultPath, string texname) {
+SDL_Shared<SDL_Texture>
+Gui::loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, string themePath, string defaultPath, string texname) {
     SDL_Shared<SDL_Texture> tex = nullptr;
     if (Util::exists(themePath + themeData.values[texname])) {
         tex = IMG_LoadTexture(renderer, (themePath + themeData.values[texname]).c_str());
@@ -295,8 +311,7 @@ void Gui::loadAssets() {
                                       (Util::getWorkingPath() + "/evoimg/frames/" +
                                        cfg.inifile.values["jewel"]).c_str());
         }
-    } else
-    {
+    } else {
         cdJewel = nullptr;
     }
     string fontPath = (themePath + themeData.values["font"]);
@@ -315,25 +330,22 @@ void Gui::loadAssets() {
     bool customMusic = false;
     int freq = 32000;
     string musicPath = themeData.values["music"];
-    if (cfg.inifile.values["music"] != "--")
-    {
+    if (cfg.inifile.values["music"] != "--") {
         customMusic = true;
         musicPath = cfg.inifile.values["music"];
     }
 
-    if (Util::getFileExtension(musicPath)=="ogg")
-    {
+    if (Util::getFileExtension(musicPath) == "ogg") {
         freq = 44100;
     }
 
     int numtimesopened, frequency, channels;
     Uint16 format;
-    numtimesopened=Mix_QuerySpec(&frequency, &format, &channels);
-    for (int i=0;i<numtimesopened;i++)
-    {
+    numtimesopened = Mix_QuerySpec(&frequency, &format, &channels);
+    for (int i = 0; i < numtimesopened; i++) {
         Mix_CloseAudio();
     }
-    numtimesopened=Mix_QuerySpec(&frequency, &format, &channels);
+    numtimesopened = Mix_QuerySpec(&frequency, &format, &channels);
 
     if (Mix_OpenAudio(freq, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
         printf("Unable to open audio: %s\n", Mix_GetError());
@@ -356,9 +368,9 @@ void Gui::loadAssets() {
                     printf("Unable to play music file: %s\n", Mix_GetError());
                 }
             } else {
-                music = Mix_LoadMUS((Util::getWorkingPath() +"/music/"+ musicPath).c_str());
+                music = Mix_LoadMUS((Util::getWorkingPath() + "/music/" + musicPath).c_str());
                 if (music == nullptr) { printf("Unable to load Music file: %s\n", Mix_GetError()); }
-                if (Mix_PlayMusic(music,  -1 ) == -1) {
+                if (Mix_PlayMusic(music, -1) == -1) {
                     printf("Unable to play music file: %s\n", Mix_GetError());
                 }
             }
@@ -380,14 +392,12 @@ void Gui::waitForGamepad() {
     }
 
 
-
-
 }
 
 //*******************************
 // Gui::criticalException
 //*******************************
-void Gui::criticalException(const string & text) {
+void Gui::criticalException(const string &text) {
     drawText(text);
     while (true) {
         SDL_Event e;
@@ -445,16 +455,16 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
         drawText(_("Importing internal games"));
         Util::execUnixCommad("/media/Autobleem/rc/backup_internal.sh");
 
-            for (int i = 0; i < SDL_NumJoysticks(); i++) {
-                SDL_Joystick* joystick = SDL_JoystickOpen(i);
-                if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick))) {
-                    cout << "New pad type" <<endl;
-                    auto cfgPad = new GuiPadConfig(renderer);
-                    cfgPad->joyid = SDL_JoystickInstanceID(joystick);
-                    cfgPad->show();
-                    delete cfgPad;
-                }
+        for (int i = 0; i < SDL_NumJoysticks(); i++) {
+            SDL_Joystick *joystick = SDL_JoystickOpen(i);
+            if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick))) {
+                cout << "New pad type" << endl;
+                auto cfgPad = new GuiPadConfig(renderer);
+                cfgPad->joyid = SDL_JoystickInstanceID(joystick);
+                cfgPad->show();
+                delete cfgPad;
             }
+        }
 
         if (cfg.inifile.values["quick"] != "true")
             waitForGamepad();
@@ -532,9 +542,8 @@ bool Gui::quickBoot() {
     }
 }
 
-int Gui::_cb(int button, SDL_Event *e)
-{
-    return mapper.translateButton(button,e);
+int Gui::_cb(int button, SDL_Event *e) {
+    return mapper.translateButton(button, e);
 }
 
 
@@ -573,13 +582,11 @@ void Gui::menuSelection() {
                         launcherScreen->show();
                         delete launcherScreen;
                     }
-                } else
-                {
+                } else {
                     if (Util::exists("/media/retroarch/retroarch")) {
                         this->menuOption = MENU_OPTION_RETRO;
                         return;
-                    } else
-                    {
+                    } else {
                         auto launcherScreen = new GuiLauncher(renderer);
                         launcherScreen->show();
                         delete launcherScreen;
@@ -661,12 +668,12 @@ void Gui::menuSelection() {
                 case SDL_JOYBUTTONUP:
                     if (adv != "false") {
                         if (!forceScan) {
-                            if (e.jbutton.button == _cb(PCS_BTN_L1,&e)) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L1, &e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
                                 drawText(mainMenu);
                                 otherMenuShift = false;
                             }
-                            if (e.jbutton.button == _cb(PCS_BTN_L2,&e)) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L2, &e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
                                 powerOffShift = false;
                             }
@@ -677,12 +684,12 @@ void Gui::menuSelection() {
 
                     if (adv != "false") {
                         if (!forceScan) {
-                            if (e.jbutton.button == _cb(PCS_BTN_L1,&e)) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L1, &e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
                                 drawText(otherMenu);
                                 otherMenuShift = true;
                             }
-                            if (e.jbutton.button == _cb(PCS_BTN_L2,&e)) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L2, &e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
 
                                 powerOffShift = true;
@@ -692,7 +699,7 @@ void Gui::menuSelection() {
 
 
                     if (powerOffShift) {
-                        if (e.jbutton.button == _cb(PCS_BTN_R2,&e)) {
+                        if (e.jbutton.button == _cb(PCS_BTN_R2, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             drawText(_("POWERING OFF... PLEASE WAIT"));
 #if defined(__x86_64__) || defined(_M_X64)
@@ -707,7 +714,7 @@ void Gui::menuSelection() {
 
                     if (!otherMenuShift) {
                         if (!forceScan)
-                            if (e.jbutton.button == _cb(PCS_BTN_START,&e)) {
+                            if (e.jbutton.button == _cb(PCS_BTN_START, &e)) {
                                 if (cfg.inifile.values["ui"] == "classic") {
                                     Mix_PlayChannel(-1, cursor, 0);
                                     this->menuOption = MENU_OPTION_RUN;
@@ -727,9 +734,10 @@ void Gui::menuSelection() {
 
                         if (!forceScan)
                             if (retroarch != "false") {
-                                if (e.jbutton.button == _cb(PCS_BTN_SQUARE,&e)) {
+                                if (e.jbutton.button == _cb(PCS_BTN_SQUARE, &e)) {
                                     Mix_PlayChannel(-1, cursor, 0);
                                     if (!Util::exists("/media/retroarch/retroarch")) {
+
                                         auto confirm = new GuiConfirm(renderer);
                                         confirm->label = _("RetroArch is not installed");
                                         confirm->show();
@@ -745,19 +753,20 @@ void Gui::menuSelection() {
 
 
                                     } else {
+                                        exportDBToRetroarch();
                                         this->menuOption = MENU_OPTION_RETRO;
                                         menuVisible = false;
                                     }
                                 };
                             }
 
-                        if (e.jbutton.button == _cb(PCS_BTN_CROSS,&e)) {
+                        if (e.jbutton.button == _cb(PCS_BTN_CROSS, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             this->menuOption = MENU_OPTION_SCAN;
 
                             menuVisible = false;
                         };
-                        if (e.jbutton.button == _cb(PCS_BTN_TRIANGLE,&e)) {
+                        if (e.jbutton.button == _cb(PCS_BTN_TRIANGLE, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto *aboutScreen = new GuiAbout(renderer);
                             aboutScreen->show();
@@ -766,7 +775,7 @@ void Gui::menuSelection() {
                             menuSelection();
                             menuVisible = false;
                         };
-                        if (e.jbutton.button == _cb(PCS_BTN_SELECT,&e)) {
+                        if (e.jbutton.button == _cb(PCS_BTN_SELECT, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto options = new GuiOptions(renderer);
                             options->show();
@@ -776,7 +785,7 @@ void Gui::menuSelection() {
                         };
                         if (!forceScan)
                             if (cfg.inifile.values["ui"] == "classic")
-                                if (e.jbutton.button == _cb(PCS_BTN_CIRCLE,&e)) {
+                                if (e.jbutton.button == _cb(PCS_BTN_CIRCLE, &e)) {
                                     Mix_PlayChannel(-1, cancel, 0);
                                     this->menuOption = MENU_OPTION_SONY;
                                     menuVisible = false;
@@ -785,7 +794,7 @@ void Gui::menuSelection() {
                                 };
                         break;
                     } else {
-                        if (e.jbutton.button == _cb(PCS_BTN_CROSS,&e)) {
+                        if (e.jbutton.button == _cb(PCS_BTN_CROSS, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto memcardsScreen = new GuiMemcards(renderer);
                             memcardsScreen->show();
@@ -795,7 +804,7 @@ void Gui::menuSelection() {
                             menuVisible = false;
                         };
 
-                        if (e.jbutton.button == _cb(PCS_BTN_CIRCLE,&e)) {
+                        if (e.jbutton.button == _cb(PCS_BTN_CIRCLE, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto managerScreen = new GuiManager(renderer);
                             managerScreen->show();
@@ -844,7 +853,8 @@ void Gui::finish() {
 //*******************************
 // Gui::getEmojiTextTexture
 //*******************************
-void Gui::getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, string text, TTF_Font_Shared font, SDL_Shared<SDL_Texture> *texture,
+void Gui::getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, string text, TTF_Font_Shared font,
+                              SDL_Shared<SDL_Texture> *texture,
                               SDL_Rect *rect) {
     if (text.empty()) text = " ";
     if (text.back() != '|') {
@@ -864,7 +874,7 @@ void Gui::getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, string text, TT
         text.erase(0, pos + delimiter.length());
     }
 
-    for (const string & str:textParts) {
+    for (const string &str:textParts) {
         if (str.empty()) continue;
         if (str[0] == '@') {
             string icon = str.substr(1);
@@ -969,7 +979,7 @@ void Gui::getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, string text, TT
 //*******************************
 // Gui::renderStatus
 //*******************************
-void Gui::renderStatus(const string & text) {
+void Gui::renderStatus(const string &text) {
 
     string bg = themeData.values["text_bg"];
 
@@ -995,7 +1005,7 @@ void Gui::renderStatus(const string & text) {
 //*******************************
 // Gui::drawText
 //*******************************
-void Gui::drawText(const string & text) {
+void Gui::drawText(const string &text) {
     renderBackground();
     renderLogo(false);
     renderStatus(text);
@@ -1035,9 +1045,8 @@ void Gui::renderLabelBox(int line, int offset) {
 //*******************************
 // Gui::renderSelectionBox
 //*******************************
-void Gui::renderSelectionBox(int line, int offset)
-{
-    renderSelectionBox(line,offset,0);
+void Gui::renderSelectionBox(int line, int offset) {
+    renderSelectionBox(line, offset, 0);
 }
 
 //*******************************
@@ -1072,21 +1081,21 @@ void Gui::renderSelectionBox(int line, int offset, int xoffset) {
 //*******************************
 // Gui::renderTextLine
 //*******************************
-int Gui::renderTextLine(const string & text, int line, int offset) {
+int Gui::renderTextLine(const string &text, int line, int offset) {
     return renderTextLine(text, line, offset, false);
 }
 
 //*******************************
 // Gui::renderTextLineOptions
 //*******************************
-int Gui::renderTextLineOptions(const string & text, int line, int offset, bool center) {
-    return renderTextLineOptions(text,line,offset,center,0);
+int Gui::renderTextLineOptions(const string &text, int line, int offset, bool center) {
+    return renderTextLineOptions(text, line, offset, center, 0);
 }
 
 //*******************************
 // Gui::renderTextLineOptions
 //*******************************
-int Gui::renderTextLineOptions(const string & _text, int line, int offset, bool center, int xoffset) {
+int Gui::renderTextLineOptions(const string &_text, int line, int offset, bool center, int xoffset) {
     string text = _text;
     int button = -1;
     if (text.find("|@Check|") != std::string::npos) {
@@ -1141,11 +1150,11 @@ int Gui::renderTextLineOptions(const string & _text, int line, int offset, bool 
 //*******************************
 // Gui::renderTextLine
 //*******************************
-int Gui::renderTextLine(const string & text, int line, int offset, bool center)
-{
-    return renderTextLine(text,line,offset,center,0);
+int Gui::renderTextLine(const string &text, int line, int offset, bool center) {
+    return renderTextLine(text, line, offset, center, 0);
 }
-int Gui::renderTextLine(const string & text, int line, int offset, bool center, int xoffset) {
+
+int Gui::renderTextLine(const string &text, int line, int offset, bool center, int xoffset) {
 
 
     SDL_Rect rect2;
@@ -1180,7 +1189,7 @@ int Gui::renderTextLine(const string & text, int line, int offset, bool center, 
 //*******************************
 // Gui::renderTextChar
 //*******************************
-void Gui::renderTextChar(const string & text, int line, int offset, int posx) {
+void Gui::renderTextChar(const string &text, int line, int offset, int posx) {
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
@@ -1259,4 +1268,44 @@ void Gui::watchJoystickPort() {
         }
 
     }
+}
+
+void Gui::exportDBToRetroarch() {
+    ordered_json j;
+    j["version"]="1.0";
+
+    PsGames gamesList;
+    db->getGames(&gamesList);
+    sort(gamesList.begin(), gamesList.end(), sortByTitle);
+
+    ordered_json items = ordered_json::array();
+    // copy the gamesList into json object
+    for_each(begin(gamesList), end(gamesList), [&](PsGamePtr &game)
+    {
+        ordered_json item = ordered_json::object();
+
+        string gameIso = (game->folder + game->base);
+        if (!Util::matchExtension(game->base, ".pbp")) {
+            gameIso += ".cue";
+        }
+        gameIso += "";
+
+        item["path"]=gameIso;
+        item["label"]=game->title;
+        item["core_path"]=RA_CORE;
+        item["core_name"]="DETECT";
+        item["crc32"]="00000000|crc";
+        item["db_name"]=RA_PLAYLIST;
+
+        items.push_back(item);
+
+    });
+
+    j["items"] = items;
+
+    cout << j.dump() << endl;
+    std::ofstream o(string(RA_FOLDER)+"/playlists/"+RA_PLAYLIST);
+    o << std::setw(2) << j << std::endl;
+    o.flush();
+    o.close();
 }

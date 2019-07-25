@@ -1,8 +1,32 @@
 #!/bin/sh
 
-# RetroBoot 0.9 - launch_rom.sh
+# RetroBoot 0.9 - launch_rom_rfa.sh
 # Direct ROM startup sequence
 
+showrbimage()
+{
+	chmod +x /media/retroarch/retroboot/bin/rbimage
+	rbimage &
+	RBPID=$!
+	while [ -z "$(ps | grep -E 'retroarch' | grep -v grep)" ]; do
+		sleep 1		
+	done
+	sleep 5
+	kill -9 $RBPID
+}
+
+showabimage()
+{
+	touch /tmp/.abload
+	chmod +x /media/retroarch/retroboot/bin/abimage
+	abimage &
+	ABPID=$!
+	while [ -f /tmp/.abload ]; do
+		sleep 1		
+	done
+	sleep 1
+	kill -9 $ABPID
+}
 
 echo 0 > /sys/class/leds/red/brightness
 echo 1 > /sys/class/leds/green/brightness
@@ -19,18 +43,16 @@ export XDG_CONFIG_HOME=/media
 export PATH=/media/retroarch/retroboot/bin:$PATH
 export LD_LIBRARY_PATH=/media/retroarch/retroboot/lib:$LD_LIBRARY_PATH
 
-# Run updates
-if [ $RB_PATCH -eq 1 ]; then
-	if [ -d /media/RB_PATCH ]; then
-		RB_PATCHED=0
-		
-		source /media/retroarch/retroboot/bin/update.sh
-		
-		if [ $RB_PATCHED -gt 0 ]; then
-			exit 2
-		fi
-	fi
+if [ $RB_SHOWSPLASH -eq 1 ]; then
+	showrbimage &
 fi
+
+if [ $2 == "PEOPS" ]
+then
+  RBCORE=/media/retroarch/cores/km_pcsx_rearmed_peops_libretro.so
+else
+  RBCORE=/media/retroarch/cores/km_pcsx_rearmed_neon_libretro.so
+fi;
 
 
 # Flash green LED while initializing
@@ -52,7 +74,7 @@ fi
 # Start RetroArch.  Restart it if it crashes.
 while : ; do
 	rm /tmp/retroboot/.monitor_killed_ra
-	/media/retroarch/retroarch --config /media/retroarch/config/retroarch.cfg -L $1 "$2" &> /media/retroarch/logs/retroarch.log
+	/media/retroarch/retroarch --config /media/retroarch/config/retroarch.cfg -L $RBCORE "$1" &> /media/retroarch/logs/retroarch.log
 	LVL=$?
 	  
 	if [ $LVL -eq 0 ] && [ ! -f /tmp/retroboot/.monitor_killed_ra ]; then
@@ -79,6 +101,9 @@ while : ; do
 	echo 1 > /sys/class/leds/green/brightness
 done
 
+if [ $RB_SHOWSPLASH -eq 1 ]; then
+	showabimage &
+fi
 
 # Kill the monitor
 if [ $RB_USEMONITOR -eq 1 ]; then
