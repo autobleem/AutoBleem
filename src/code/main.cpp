@@ -128,12 +128,15 @@ int main(int argc, char *argv[]) {
 
             // just a temp to test exec
             EmuInterceptor *interceptor;
-            if (gui->emuMode == EMU_PCSX)
-            {
-                interceptor = new PcsxInterceptor();
-            } else
+            if (gui->runningGame->foreign)
             {
                 interceptor = new RetroArchInterceptor();
+            } else {
+                if (gui->emuMode == EMU_PCSX) {
+                    interceptor = new PcsxInterceptor();
+                } else {
+                    interceptor = new RetroArchInterceptor();
+                }
             }
 
             interceptor->memcardIn(gui->runningGame);
