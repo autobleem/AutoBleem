@@ -16,7 +16,7 @@ mkdir -p /media/System/UI
 
 
 cp -r /media/Autobleem/rc/launch_rom.rfa.sh /media/retroarch/retroboot/bin/
-cp -r /media/Autobleem/bin/autobleem/AutoBleem.rdb /media/retroarch/database/rdb
+cp -r /media/Autobleem/bin/autobleem/AutoBleem.rdb /media/retroarch/database/rdb/
 chmod 777 /media/retroarch/retroboot/bin/*
 
 
