@@ -113,7 +113,6 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
             string imagePath = string(RA_FOLDER) + Util::separator() + "thumbnails"+ Util::separator() + Util::getFileNameWithoutExtension((*this)->db_name) + Util::separator() +
                     "Named_Boxarts" + Util::separator() + (*this)->title + ".png";
 
-            cout << imagePath << endl;
 
             SDL_SetRenderTarget(renderer, nullptr);
             if (Util::exists(imagePath)) {

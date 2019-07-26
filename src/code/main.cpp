@@ -167,12 +167,15 @@ int main(int argc, char *argv[]) {
 
             gui->saveSelection();
             EmuInterceptor *interceptor;
-            if (gui->emuMode == EMU_PCSX)
-            {
-                interceptor = new PcsxInterceptor();
-            } else
+            if (gui->runningGame->foreign)
             {
                 interceptor = new RetroArchInterceptor();
+            } else {
+                if (gui->emuMode == EMU_PCSX) {
+                    interceptor = new PcsxInterceptor();
+                } else {
+                    interceptor = new RetroArchInterceptor();
+                }
             }
 
             interceptor->memcardIn(gui->runningGame);

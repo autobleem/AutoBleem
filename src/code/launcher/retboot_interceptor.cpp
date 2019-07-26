@@ -78,9 +78,12 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
     if (game->foreign)
     {
         RACore = game->core_path;
+        if (RACore=="DETECT") RACore="";
     }
     argvNew.push_back(gameIso.c_str());
-    argvNew.push_back(RACore.c_str());
+    if (RACore!="") {
+        argvNew.push_back(RACore.c_str());
+    }
     argvNew.push_back(nullptr);
 
     for (const char *s:argvNew) {

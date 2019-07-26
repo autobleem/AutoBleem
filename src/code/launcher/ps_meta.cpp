@@ -56,20 +56,23 @@ void PsMeta::updateTexts(const string & gameNameTxt, const string & publisherTxt
 void PsMeta::updateTexts(PsGamePtr & psGame, int r,int g, int b) {
     string appendText = psGame->players == 1 ? _("Player") : _("Players");
 
-    if (psGame->serial == "") {
-        Inifile iniFile;
-        iniFile.load(psGame->folder + "/" + "Game.ini");
-        psGame->serial = iniFile.values["serial"];
-        psGame->region = iniFile.values["region"];
-    }
+
 
     if (!psGame->foreign) {
+        if (psGame->serial == "") {
+            Inifile iniFile;
+            iniFile.load(psGame->folder + "/" + "Game.ini");
+            psGame->serial = iniFile.values["serial"];
+            psGame->region = iniFile.values["region"];
+        }
         updateTexts(psGame->title, psGame->publisher, to_string(psGame->year), psGame->serial, psGame->region,
                     to_string(psGame->players) + " " + appendText,
                     psGame->internal, psGame->hd, psGame->locked, psGame->cds, psGame->favorite, psGame->foreign, r, g,
                     b);
     } else
     {
+        psGame->serial = "";
+        psGame->region = "";
 
         updateTexts(psGame->title, psGame->core_name, to_string(psGame->year), psGame->serial, psGame->region,
                     to_string(psGame->players) + " " + appendText,
