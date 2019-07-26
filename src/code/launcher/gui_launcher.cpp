@@ -39,7 +39,7 @@ void GuiLauncher::updateMeta() {
 //*******************************
 // GuiLauncher::switchSet
 //*******************************
-void GuiLauncher::switchSet(int newSet) {
+void GuiLauncher::switchSet(int newSet, bool noForce) {
     shared_ptr<Gui> gui(Gui::getInstance());
 
 
@@ -107,9 +107,11 @@ void GuiLauncher::switchSet(int newSet) {
         setInitialPositions(0);
     }
 
-    if (currentSet == SET_RETROARCH) {
-        forceSettingsOnly();
+    if (!noForce) {
+        if (currentSet == SET_RETROARCH) {
+            forceSettingsOnly();
 
+        }
     }
 }
 
@@ -195,6 +197,7 @@ void GuiLauncher::renderText(int x, int y, const std::string &text, const SDL_Co
 // load all assets needed by the screen
 void GuiLauncher::loadAssets() {
 
+
     raPlaylists.clear();
     raPlaylists = raIntegrator.getPlaylists();
 
@@ -204,6 +207,11 @@ void GuiLauncher::loadAssets() {
 
     shared_ptr<Gui> gui(Gui::getInstance());
     currentSet = gui->lastSet;
+    if (gui->lastPlaylist!= "")
+    {
+        retroarch_playlist_name = gui->lastPlaylist;
+        gui->lastPlaylist = "";
+    }
 
 
     for (int i = 0; i < 100; i++) {
@@ -230,7 +238,7 @@ void GuiLauncher::loadAssets() {
     frontElemets.clear();
     carouselGames.clear();
     carouselPositions.initCoverPositions();
-    switchSet(currentSet);
+    switchSet(currentSet,true);
     showSetName();
 
     gameName = "";
@@ -378,6 +386,13 @@ void GuiLauncher::loadAssets() {
 
     frontElemets.push_back(sselector);
 
+    //switchSet(currentSet,false);
+    if (currentSet==SET_RETROARCH)
+    {
+        forceSettingsOnly();
+    }
+
+    showSetName();
     updateMeta();
 
     if (selGame >= 0) {
@@ -1038,7 +1053,7 @@ void GuiLauncher::loop() {
                                 if (cancelled) continue;
                                 retroarch_playlist_name = raPlaylists[selected];
                                 currentSet = SET_RETROARCH;
-                                switchSet(currentSet);
+                                switchSet(currentSet,false);
                                 menuHead->setText(headers[0], fgR, fgG, fgB);
                                 menuText->setText(texts[0], fgR, fgG, fgB);
                                 showSetName();
@@ -1154,8 +1169,13 @@ void GuiLauncher::loop() {
                         if (Util::exists("/media/retroarch/retroarch")) {
 
 
+
                             if (state == STATE_GAMES) {
                                 if (carouselGames.empty()) {
+                                    continue;
+                                }
+                                if (carouselGames[selGame]->foreign)
+                                {
                                     continue;
                                 }
                                 gui->startingGame = true;
@@ -1186,6 +1206,11 @@ void GuiLauncher::loop() {
                             menuVisible = false;
 
                             gui->emuMode = EMU_PCSX;
+                            if (gui->runningGame->foreign)
+                            {
+                                gui->emuMode = EMU_RETROARCH;
+                                gui->lastPlaylist = retroarch_playlist_name;
+                            }
 
                         } else if (state == STATE_SET) {
                             gui->resumingGui = false;
@@ -1313,7 +1338,7 @@ void GuiLauncher::loop() {
                                         }
                                     }
 
-                                    switchSet(currentSet);
+                                    switchSet(currentSet,false);
                                     showSetName();
 
                                     if (resetCarouselPosition) {
@@ -1446,7 +1471,7 @@ void GuiLauncher::loop() {
                                 }
                             }
                             if (currentSet > SET_LAST) currentSet = 0;
-                            switchSet(currentSet);
+                            switchSet(currentSet,false);
                             showSetName();
                             if (selGame != -1) {
                                 updateMeta();

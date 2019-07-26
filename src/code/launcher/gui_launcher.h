@@ -52,7 +52,7 @@ public:
     void moveMainCover(int state);
 
     int currentSet=SET_ALL;
-    void switchSet(int newSet);
+    void switchSet(int newSet, bool noForce);
     void showSetName();
     NotificationLines notificationLines; // top two lines of the screen
     int numberOfNonDuplicatedGamesInCarousel = 0;

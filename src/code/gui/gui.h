@@ -198,6 +198,7 @@ public:
     bool startingGame = false;
     bool resumingGui = false;
     int lastSelIndex = 0;
+    string lastPlaylist = "";
     PsGamePtr runningGame;
     int emuMode = EMU_PCSX;
     int resumepoint = -1;

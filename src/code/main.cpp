@@ -145,6 +145,14 @@ int main(int argc, char *argv[]) {
             interceptor->memcardOut(gui->runningGame);
             delete (interceptor);
 
+            SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+
+            usleep(300*1000);
+            gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
+            gui->startingGame = false;
+
+            gui->display(false, path, db, true);
+
 #else
             cout << "Starting game" << endl;
             gui->finish();

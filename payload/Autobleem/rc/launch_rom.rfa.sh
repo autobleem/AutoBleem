@@ -47,7 +47,7 @@ if [ $RB_SHOWSPLASH -eq 1 ]; then
 	showrbimage &
 fi
 
-RBCORE = "$2"
+RBCORE = $2
 
 if [ $2 == "PEOPS" ]
 then
@@ -59,10 +59,7 @@ then
   RBCORE=/media/retroarch/cores/km_pcsx_rearmed_neon_libretro.so
 fi;
 
-if [ -z "$2" ]
-then
-  RBCORE = "DETECT"
-fi;
+
 
 echo Using RBCore: $RBCORE
 
