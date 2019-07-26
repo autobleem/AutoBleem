@@ -183,26 +183,29 @@ void RAIntegrator::autoDetectCorePath(PsGamePtr game, string &core_name, string 
         core_name = "???";
         core_path = "???";
     }
-
     core_name = pos->second->name;
     core_path = pos->second->core_path;
 }
 
 void RAIntegrator::initCoreInfo() {
-    if (!Util::exists(string(RA_FOLDER) + "/retroarch")) {
+    cout << "Building core list" << endl;
+    if (!Util::exists(RA_FOLDER)){
+        cout << "Retroarch Not Found" << endl;
         return;
     }
     cores.clear();
     databases.clear();
     defaultCores.clear();
     string infoFolder = string(RA_FOLDER) + Util::separator() + "info";
-
+    cout << "Scanning" << infoFolder << endl;
     vector<DirEntry> entries = Util::diru(infoFolder);
     for (const DirEntry &entry:entries) {
         if (entry.isDir) continue;
 
         if (Util::getFileExtension(entry.name) == "info") {
+
             string fullPath = infoFolder + Util::separator() + entry.name;
+            cout << "Reading info :" <<fullPath << endl;
             CoreInfoPtr ci = parseInfo(fullPath, entry.name);
             cores.push_back(ci);
         }
