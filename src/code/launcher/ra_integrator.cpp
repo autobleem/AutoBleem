@@ -68,14 +68,61 @@ void RAIntegrator::parseJSON(PsGames *result, string path) {
         game->db_name =  (*it)["db_name"];
         game->image_path =  (*it)["path"];
         result->push_back(game);
-        id++;
     }
+    in.close();
 
 
 }
 
 void RAIntegrator::parse6line(PsGames *result, string path) {
+    std::ifstream in(path, ifstream::binary);
 
+    string game_path="";
+    string label="";
+    string core_path="";
+    string core_name = "";
+    string crc = "";
+    string db_name = "";
+
+    int id = 0;
+    while (!in.eof())
+    {
+
+        getline(in,game_path);
+        if (in.eof()) return;
+        getline(in,label);
+        if (in.eof()) return;
+        getline(in,core_path);
+        if (in.eof()) return;
+        getline(in,core_name);
+        if (in.eof()) return;
+        getline(in,crc);
+        if (in.eof()) return;
+        getline(in,db_name);
+
+
+        PsGamePtr game{new PsGame};
+        game->gameId = id++;
+        game->title = label;
+        game->publisher = "";
+        game->year = 0;
+        game->players = 0;
+        game->folder = "";
+        game->ssFolder = "";
+        game->base = "";
+        game->memcard = "";
+        game->cds = 0;
+        game->locked = true;
+        game->hd = false;
+        game->favorite = false;
+        game->foreign = true;
+        game->core_name = core_name;
+        game->core_path = core_path;
+        game->db_name =  db_name;
+        game->image_path =  game_path;
+        result->push_back(game);
+    }
+    in.close();
 }
 
 bool RAIntegrator::getGames(PsGames *result, string playlist) {
@@ -106,3 +153,7 @@ vector<string> RAIntegrator::getPlaylists() {
     return result;
 }
 
+void RAIntegrator::autoDetectCorePath(PsGame *game, string *core_name, string *core_path)
+{
+
+}

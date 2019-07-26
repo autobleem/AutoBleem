@@ -14,6 +14,7 @@ class RAIntegrator {
 public:
     bool getGames(PsGames *result, string playlist);
     vector<string> getPlaylists();
+    bool autoDetectCorePath(PsGame *game, string* core_name, string* core_path);
 private:
     bool isValidPlaylist(string path);
     bool isJSONPlaylist(string path);
