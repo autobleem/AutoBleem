@@ -48,6 +48,11 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
     } else
     {
         gameIso = game->image_path + "";
+        int pos = gameIso.find("#");
+        if (pos>=0)
+        {
+            gameIso = gameIso.substr(0,pos);
+        }
     }
     // figure out which plugin is selected
     string gpu;
