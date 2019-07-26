@@ -85,5 +85,7 @@ public:
     static void powerOff();
 
     static std::vector<std::string> cueToBinList(std::string cueFile);
+
+    static void cleanPublisherString(std::string & pub);  // remove any trailing "." or spaces
 };
 

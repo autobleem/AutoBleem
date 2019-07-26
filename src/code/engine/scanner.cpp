@@ -332,9 +332,9 @@ ImageType Scanner::getImageType(string path) {
             if (Util::matchExtension(entry.name, EXT_IMG)) {
                 return IMAGE_IMG;
             }
-            if (Util::matchExtension(entry.name, EXT_ISO)) {
-                return IMAGE_ISO;
-            }
+//            if (Util::matchExtension(entry.name, EXT_ISO)) {
+//                return IMAGE_ISO;
+//            }
         }
     }
     if (hasASubDir)
@@ -512,7 +512,7 @@ bool Scanner::areThereGameFilesInDir(const string & path) {
     extensions.push_back("bin");
     extensions.push_back("cue");
     extensions.push_back("img");
-    extensions.push_back("iso");
+//    extensions.push_back("iso");
 
     //Getting all files in USBGames Dir
     vector<DirEntry> globalFileList = Util::diru(path);
@@ -534,7 +534,7 @@ bool Scanner::copyGameFilesInGamesDirToSubDirs(const string & path){
     vector<string> binList;
     shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText(_("Moving..."));
-    extensions.push_back("iso");
+//    extensions.push_back("iso");
     extensions.push_back("pbp");
     extensions.push_back("cue");
 

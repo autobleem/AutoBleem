@@ -6,8 +6,8 @@
 enum ImageType { IMAGE_NO_GAME_FOUND = -2, IMAGE_NO_GAME_BUT_HAS_SUBDIR = -1,
                  IMAGE_CUE_BIN = 0,
                  IMAGE_PBP,
-                 IMAGE_IMG,
-                 IMAGE_ISO // not supported yet
+                 IMAGE_IMG
+//                 IMAGE_ISO // not supported yet
 };
 
 inline bool imageTypeIsAGameFile(ImageType type) {
@@ -26,7 +26,7 @@ extern const char EXT_PBP[];
 extern const char EXT_ECM[];
 extern const char EXT_BIN[];
 extern const char EXT_IMG[];
-extern const char EXT_ISO[];
+//extern const char EXT_ISO[];
 extern const char EXT_CUE[];
 extern const char EXT_LIC[];
 

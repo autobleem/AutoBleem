@@ -27,7 +27,7 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
 
     gui->saveSelection();
     std::vector<const char *> argvNew;
-    string gameIso = "";
+    string gameFile = "";
 
     cout << "Starting RetroArch Emu" << endl;
 
@@ -35,11 +35,11 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
     argvNew.push_back(link.c_str());
 
 
-    gameIso += (game->folder + game->base);
+    gameFile += (game->folder + game->base);
     if (!Util::matchExtension(game->base, ".pbp")) {
-        gameIso += ".cue";
+        gameFile += ".cue";
     }
-    gameIso += "";
+    gameFile += "";
 
     // figure out which plugin is selected
     CfgProcessor *processor = new CfgProcessor();
@@ -61,7 +61,7 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
     if (gpu != PCSX_NEON) {
         RACore = RA_PEOPS;
     }
-    argvNew.push_back(gameIso.c_str());
+    argvNew.push_back(gameFile.c_str());
     argvNew.push_back(RACore.c_str());
     argvNew.push_back(nullptr);
 

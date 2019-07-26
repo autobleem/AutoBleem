@@ -25,7 +25,7 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
     string lastCDpointX = game->ssFolder + "lastcdimg."+to_string(resumepoint)+".txt";
     gui->saveSelection();
     std::vector<const char *> argvNew;
-    string gameIso = "";
+    string gameFile = "";
 
     string region = "2"; // need to find out if console is jap to switch to 2 - later on
     string link = "/media/Autobleem/rc/launch.sh";
@@ -60,19 +60,19 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
             std::getline(is, line);
 
             // last line is our filename
-            gameIso = line;
+            gameFile = line;
             is.close();
         }
     } else {
-        gameIso += (game->folder + game->base);
+        gameFile += (game->folder + game->base);
         if (!Util::matchExtension(game->base, ".pbp")) {
-            gameIso += ".cue";
+            gameFile += ".cue";
         }
     }
 
-    gameIso += "";
+    gameFile += "";
 
-    argvNew.push_back(gameIso.c_str());
+    argvNew.push_back(gameFile.c_str());
     // hack to get language from lang file
     string langStr = _("|@lang|");
     if (langStr == "|@lang|") {

@@ -1284,13 +1284,13 @@ void Gui::exportDBToRetroarch() {
     {
         ordered_json item = ordered_json::object();
 
-        string gameIso = (game->folder + game->base);
+        string gameFile = (game->folder + game->base);
         if (!Util::matchExtension(game->base, ".pbp")) {
-            gameIso += ".cue";
+            gameFile += ".cue";
         }
-        gameIso += "";
+        gameFile += "";
 
-        item["path"]=gameIso;
+        item["path"]=gameFile;
         item["label"]=game->title;
         item["core_path"]=RA_CORE;
         item["core_name"]="DETECT";

@@ -134,7 +134,6 @@ add_executable(starter
 		src/code/util.h
 		src/code/util.cpp
         src/code/engine/inifile.cpp
-        src/code/engine/inifile.cpp
         src/code/engine/memcard.cpp src/code/engine/memcard.h
 		)
 

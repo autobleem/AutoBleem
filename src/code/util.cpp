@@ -680,3 +680,14 @@ vector<DirEntry> Util::getFilesWithExtension(const string& path, const vector<Di
     }
     return fileList;
 }
+
+//*******************************
+// Util::cleanPublisherString
+//*******************************// remove any trailing "." or space or " ."
+void Util::cleanPublisherString(std::string & pub)
+{
+    if (pub.size() > 0 && pub[pub.size()-1] == '.')
+        pub.pop_back();
+    if (pub.size() > 0 && pub[pub.size()-1] == ' ')
+        pub.pop_back();
+}

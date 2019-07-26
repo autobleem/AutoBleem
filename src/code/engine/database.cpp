@@ -222,7 +222,7 @@ bool Database::queryTitle(string title, Metadata *md) {
             }
             md->title = string(reinterpret_cast<const char *>(title));
             md->publisher = string(reinterpret_cast<const char *>(publisher));
-            cleanPublisherString(md->publisher);
+            Util::cleanPublisherString(md->publisher);
             md->year = year;
             md->players = players;
             md->valid = true;
@@ -259,7 +259,7 @@ bool Database::getInternalGames(PsGames *result) {
             psGame->gameId = id;
             psGame->title = string(reinterpret_cast<const char *>(title));
             psGame->publisher = string(reinterpret_cast<const char *>(publisher));
-            cleanPublisherString(psGame->publisher);
+            Util::cleanPublisherString(psGame->publisher);
             psGame->year = year;
             psGame->players = players;
             psGame->folder = "/gaadata/" + to_string(id) + "/";
@@ -302,7 +302,7 @@ bool Database::refreshGameInternal(PsGamePtr & psGame) {
             psGame->gameId = id;
             psGame->title = string(reinterpret_cast<const char *>(title));
             psGame->publisher = string(reinterpret_cast<const char *>(publisher));
-            cleanPublisherString(psGame->publisher);
+            Util::cleanPublisherString(psGame->publisher);
             psGame->year = year;
             psGame->players = players;
             psGame->folder = "/gaadata/" + to_string(id) + "/";
@@ -356,7 +356,7 @@ bool Database::refreshGame(PsGamePtr & game) {
             game->gameId = id;
             game->title = string(reinterpret_cast<const char *>(title));
             game->publisher = string(reinterpret_cast<const char *>(publisher));
-            cleanPublisherString(game->publisher);
+            Util::cleanPublisherString(game->publisher);
             game->year = year;
             game->players = players;
             game->folder = string(reinterpret_cast<const char *>(path));
@@ -406,7 +406,7 @@ bool Database::getGames(PsGames *result) {
             game->gameId = id;
             game->title = string(reinterpret_cast<const char *>(title));
             game->publisher = string(reinterpret_cast<const char *>(publisher));
-            cleanPublisherString(game->publisher);
+            Util::cleanPublisherString(game->publisher);
             game->year = year;
             game->players = players;
             game->folder = string(reinterpret_cast<const char *>(path));
@@ -462,7 +462,7 @@ bool Database::querySerial(string serial, Metadata *md) {
             const unsigned char *path = sqlite3_column_text(res, 6);
             md->title = string(reinterpret_cast<const char *>(title));
             md->publisher = string(reinterpret_cast<const char *>(publisher));
-            cleanPublisherString(md->publisher);
+            Util::cleanPublisherString(md->publisher);
             md->year = year;
             md->serial = serial;
             md->region = SerialScanner::serialToRegion(md->serial);
@@ -508,7 +508,7 @@ bool Database::insertDisc(int id, int discNum, string discName) {
 bool Database::insertGame(int id, string title, string publisher, int players, int year, string path, string sspath,
                           string memcard) {
     sqlite3_stmt *res = nullptr;
-    cleanPublisherString(publisher);
+    Util::cleanPublisherString(publisher);
     int rc = sqlite3_prepare_v2(db, INSERT_GAME, -1, &res, nullptr);
     if (rc == SQLITE_OK) {
         sqlite3_bind_int(res, 1, id);
@@ -611,15 +611,4 @@ bool Database::createInitialDatabase() {
 void Database::createFavColumn()
 {
  //   executeCreateStatement((char*) UPDATE_GAME_DB, "FAV column" );
-}
-
-//*******************************
-// Database::cleanPublisherString
-//*******************************// remove any trailing "." or space or " ."
-void Database::cleanPublisherString(std::string & pub)
-{
-    if (pub.size() > 0 && pub[pub.size()-1] == '.')
-        pub.pop_back();
-    if (pub.size() > 0 && pub[pub.size()-1] == ' ')
-        pub.pop_back();
 }

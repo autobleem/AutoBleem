@@ -6,7 +6,7 @@
 #include "../main.h"
 #include <iostream>
 #include <fstream>
-#include "database.h"
+#include "../util.h"
 
 using namespace std;
 
@@ -40,7 +40,7 @@ void Inifile::load(const string & _path) {
             string paramName = iniLine.substr(0, iniLine.find('='));
             string paramVal = iniLine.substr(iniLine.find('=') + 1, string::npos);
             if (paramName == "publisher")
-                Database::cleanPublisherString(paramVal);
+                Util::cleanPublisherString(paramVal);
             values[paramName] = paramVal;
         }
 
@@ -63,7 +63,7 @@ void Inifile::save(const string & _path) {
         string v = iter->second;
         k=lcase(k);
         if (k == "publisher")
-            Database::cleanPublisherString(v);
+            Util::cleanPublisherString(v);
         k[0]=toupper(k[0]);
 
         os << k << "=" << v << endl;

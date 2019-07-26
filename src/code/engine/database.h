@@ -36,7 +36,6 @@ public:
     bool updateTitle(int id, std::string title);
     bool refreshGame(PsGamePtr & game);
     bool refreshGameInternal(PsGamePtr & game);
-    static void cleanPublisherString(std::string & pub);  // remove any trailing "." or spaces
 private:
     sqlite3 *db;
     bool executeCreateStatement(char *sql, std::string tableName);

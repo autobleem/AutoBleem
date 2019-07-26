@@ -32,7 +32,7 @@ const char EXT_PBP[] = ".pbp";
 const char EXT_ECM[] = ".ecm";
 const char EXT_BIN[] = ".bin";
 const char EXT_IMG[] = ".img";
-const char EXT_ISO[] = ".iso";
+//const char EXT_ISO[] = ".iso";
 const char EXT_CUE[] = ".cue";
 const char EXT_LIC[] = ".lic";
 
