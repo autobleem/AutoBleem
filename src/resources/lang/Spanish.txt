@@ -10,6 +10,8 @@ Are you sure?
 ¿Estas seguro?
 AutoBleem
 AutoBleem
+AutoBleem resume points not available in RetroArch.
+Los puntos de reanudacion de AutoBleem no estan disponibles en Retroarch.
 AutoBleem Theme:
 Tema AutoBleem:
 Automatic PlayStation Classic USB launcher
@@ -142,12 +144,18 @@ Menu
 Menu
 Menu Theme:
 Tema Menu:
+Moving :
+Moviendo :
+Moving...
+Moviendo...
 Music:
 Musica:
 New Card
 Nueva Tarjeta
 New GamePad found
 Nuevo GamePad encontrado
+OK
+OK
 OOPS! Game crashed. Resume point not available.
 OOPS! Juego dañado. Punto de resumen no disponible.
 Options
@@ -202,6 +210,8 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch no esta instalado
+Run using RetroBoot(if installed)
+Ejecutar con RetroBoot(si esta instalado)
 Scanline Level:
 Nivel de Scanline:
 Scanlines:
@@ -238,10 +248,6 @@ Showing: USB games
 Mostrando: Juegos en USB
 Slot
 Ranura
-Sorting :
-Orden:
-Sorting...
-Ordenando...
 Space
 Espacio
 SpeedHack:
