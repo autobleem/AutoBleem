@@ -430,6 +430,7 @@ void GuiLauncher::freeAssets() {
 //*******************************
 // run when screen is loaded
 void GuiLauncher::init() {
+    raIntegrator.initCoreInfo();
     loadAssets();
 }
 
@@ -736,7 +737,7 @@ void GuiLauncher::setInitialPositions(int selected) {
         game.actual = game.current;
         game.destination = game.current;
         if (game.visible) {
-            game.loadTex(renderer);
+            game.loadTex(renderer, &raIntegrator);
         } else {
             game.freeTex();
         }
@@ -1166,7 +1167,7 @@ void GuiLauncher::loop() {
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
                         gui->padMapping = gui->mapper.getMappingString(e.jbutton.which);
-                        if (Util::exists("/media/retroarch/retroarch")) {
+                        if (Util::exists(string(RA_FOLDER)+"/retroarch")) {
 
 
 

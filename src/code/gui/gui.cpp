@@ -583,7 +583,7 @@ void Gui::menuSelection() {
                         delete launcherScreen;
                     }
                 } else {
-                    if (Util::exists("/media/retroarch/retroarch")) {
+                    if (Util::exists(string(RA_FOLDER)+"/retroarch")) {
                         this->menuOption = MENU_OPTION_RETRO;
                         return;
                     } else {
@@ -736,7 +736,7 @@ void Gui::menuSelection() {
                             if (retroarch != "false") {
                                 if (e.jbutton.button == _cb(PCS_BTN_SQUARE, &e)) {
                                     Mix_PlayChannel(-1, cursor, 0);
-                                    if (!Util::exists("/media/retroarch/retroarch")) {
+                                    if (!Util::exists(string(RA_FOLDER)+"/retroarch")) {
 
                                         auto confirm = new GuiConfirm(renderer);
                                         confirm->label = _("RetroArch is not installed");

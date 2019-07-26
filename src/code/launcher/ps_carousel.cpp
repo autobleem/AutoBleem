@@ -5,6 +5,7 @@
 #include "ps_carousel.h"
 #include "../gui/gui.h"
 #include "../engine/scanner.h"
+#include "ra_integrator.h"
 #include <SDL2/SDL_image.h>
 #include <unistd.h>
 #include <iostream>
@@ -16,7 +17,7 @@ using namespace std;
 //*******************************
 // PsCarouselGame::loadTex
 //*******************************
-void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
+void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer, RAIntegrator* raIntegrator) {
     shared_ptr<Gui> gui(Gui::getInstance());
 
     if (!(*this)->foreign) {
@@ -111,7 +112,7 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
             string imagePath = string(RA_FOLDER) + Util::separator() + "thumbnails"+ Util::separator() + Util::getFileNameWithoutExtension((*this)->db_name) + Util::separator() +
-                    "Named_Boxarts" + Util::separator() + (*this)->title + ".png";
+                    "Named_Boxarts" + Util::separator() + raIntegrator->escapeName((*this)->title) + ".png";
 
 
             SDL_SetRenderTarget(renderer, nullptr);
