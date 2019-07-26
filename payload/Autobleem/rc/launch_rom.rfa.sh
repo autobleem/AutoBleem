@@ -47,12 +47,24 @@ if [ $RB_SHOWSPLASH -eq 1 ]; then
 	showrbimage &
 fi
 
+RBCORE = "$2"
+
 if [ $2 == "PEOPS" ]
 then
   RBCORE=/media/retroarch/cores/km_pcsx_rearmed_peops_libretro.so
-else
+fi;
+
+if [ $2 == "NEON" ]
+then
   RBCORE=/media/retroarch/cores/km_pcsx_rearmed_neon_libretro.so
 fi;
+
+if [ -z "$2" ]
+then
+  RBCORE = "DETECT"
+fi;
+
+echo Using RBCore: $RBCORE
 
 
 # Flash green LED while initializing
