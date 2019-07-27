@@ -156,9 +156,9 @@ bool DirEntry::isDirectory(const string& path)
 //*******************************
 // DirEntry::dir
 //*******************************
-vector<DirEntry> DirEntry::dir(string path) {
+DirEntries DirEntry::dir(string path) {
     fixPath(path);
-    vector<DirEntry> result;
+    DirEntries result;
     DIR *dir = opendir(path.c_str());
     if (dir != NULL) {
         struct dirent *entry = readdir(dir);
@@ -177,9 +177,9 @@ vector<DirEntry> DirEntry::dir(string path) {
 //*******************************
 // DirEntry::diru
 //*******************************
-vector<DirEntry> DirEntry::diru(string path) {
+DirEntries DirEntry::diru(string path) {
     fixPath(path);
-    vector<DirEntry> result;
+    DirEntries result;
     DIR *dir = opendir(path.c_str());
     if (dir != NULL) {
         struct dirent *entry = readdir(dir);
@@ -200,9 +200,9 @@ vector<DirEntry> DirEntry::diru(string path) {
 //*******************************
 // DirEntry::diru_DirsOnly
 //*******************************
-vector<DirEntry> DirEntry::diru_DirsOnly(string path) {
+DirEntries DirEntry::diru_DirsOnly(string path) {
     auto temp = diru(path); // get all dirs and files
-    vector<DirEntry> ret;
+    DirEntries ret;
     copy_if(begin(temp), end(temp), back_inserter(ret), [](const DirEntry & dir) { return dir.isDir; });    // copy only dirs
 
     return ret; // return only the dirs
@@ -211,9 +211,9 @@ vector<DirEntry> DirEntry::diru_DirsOnly(string path) {
 //*******************************
 // DirEntry::diru_FilesOnly
 //*******************************
-vector<DirEntry> DirEntry::diru_FilesOnly(string path) {
+DirEntries DirEntry::diru_FilesOnly(string path) {
     auto temp = diru(path); // get all dirs and files
-    vector<DirEntry> ret;
+    DirEntries ret;
     copy_if(begin(temp), end(temp), back_inserter(ret), [](const DirEntry & dir) { return !dir.isDir; });   //copy only files
 
     return ret; // return only the files
@@ -330,7 +330,7 @@ bool DirEntry::copy(const string& source, const string& dest) {
 //*******************************
 string DirEntry::findFirstFile(string ext, string path) {
     fixPath(path);
-    vector<DirEntry> entries = diru(path);
+    DirEntries entries = diru(path);
     for (DirEntry entry:entries) {
         if (matchExtension(entry.name, ext)) {
             return entry.name;
@@ -666,8 +666,8 @@ string Util::getStringWithinChar(string s, char del) {
 //*******************************
 // DirEntry::getFilesWithExtension
 //*******************************
-vector<DirEntry> DirEntry::getFilesWithExtension(const string& path, const vector<DirEntry>& entries, const vector<string>& extensions) {
-    vector<DirEntry> fileList;
+DirEntries DirEntry::getFilesWithExtension(const string& path, const DirEntries & entries, const vector<string>& extensions) {
+    DirEntries fileList;
     string fileExt;
     for (const auto & entry : entries){
         if(isDirectory(path + "/" + entry.name))

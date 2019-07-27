@@ -20,6 +20,8 @@
 //******************
 // DirEntry
 //******************
+using DirEntries = std::vector<class DirEntry>;
+
 class DirEntry {
 public:
     std::string name;
@@ -31,11 +33,10 @@ public:
     static const char *separator();
     static std::string pathWithSeparatorAtEnd(const std::string& path);  // return the path with a separator at the end
     static std::string pathWithOutSeparatorAtEnd(const std::string& path);   // return the path without a separator at the end
-    // File System operations
-    static std::vector<DirEntry> dir(std::string path);   // returns directory contents including . and ..
-    static std::vector<DirEntry> diru(std::string path);  // returns directory contents except . and ..
-    static std::vector<DirEntry> diru_DirsOnly(std::string path);  // diru but only returns directories
-    static std::vector<DirEntry> diru_FilesOnly(std::string path);  // diru but only returns files
+    static DirEntries dir(std::string path);   // returns directory contents including . and ..
+    static DirEntries diru(std::string path);  // returns directory contents except . and ..
+    static DirEntries diru_DirsOnly(std::string path);  // diru but only returns directories
+    static DirEntries diru_FilesOnly(std::string path);  // diru but only returns files
     static bool copy(const std::string& source, const std::string& dest); // copies a file
     static bool exists(const std::string &name);
     static bool createDir(const std::string name);
@@ -45,8 +46,8 @@ public:
     static std::string addDotToExtension(const std::string & ext); // if it doesn't start with a "."
     static bool matchExtension(std::string path, std::string ext);  // this does a case insensitive compare
     static bool isDirectory(const std::string& path);
-    static std::vector<DirEntry> getFilesWithExtension(const std::string& path, const std::vector<DirEntry>& entries,
-                                                       const std::vector<std::string>& extensions);    // pass file extensions in lower case
+    static DirEntries getFilesWithExtension(const std::string& path, const DirEntries & entries,
+                                            const std::vector<std::string> & extensions);    // pass file extensions in lower case
     static std::string getFileNameFromPath(const std::string& path);
     static std::string getFileExtension(const std::string & fileName);
     static std::string getFileNameWithoutExtension(const std::string& filename);

@@ -40,7 +40,7 @@ void GuiOptions::init() {
     autobleemUIThemes.clear();
     menuThemes.clear();
     menuThemes.push_back("default");
-    vector<DirEntry> folders = DirEntry::diru(DirEntry::getWorkingPath() + DirEntry::separator() + "theme");
+    DirEntries folders = DirEntry::diru(DirEntry::getWorkingPath() + DirEntry::separator() + "theme");
     for (const DirEntry & entry:folders) {
         autobleemUIThemes.push_back(entry.name);
     }

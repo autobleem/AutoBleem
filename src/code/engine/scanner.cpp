@@ -31,7 +31,7 @@ bool Scanner::isFirstRun(const string & path, Database *db) {
     ifstream prev;
     string prevName = DirEntry::getWorkingPath() + DirEntry::separator() + "autobleem.prev";
     prev.open(prevName.c_str(), ios::binary);
-    vector<DirEntry> entries = DirEntry::diru_DirsOnly(path);
+    DirEntries entries = DirEntry::diru_DirsOnly(path);
     noGamesFound = true;
     for (const DirEntry & entry:entries) {
         if (entry.name == "!SaveStates") continue;
@@ -153,7 +153,7 @@ void repairBinCommaNames(const string & path) {
 void repairMissingCue(const string & path, const string & folderName) {
     vector<string> binFiles;
     bool hasCue = false;
-    vector<DirEntry> rootDir = DirEntry::dir(path);
+    DirEntries rootDir = DirEntry::dir(path);
     for (const DirEntry & entry : rootDir) {
         if (entry.name[0] == '.') continue;
 
@@ -515,8 +515,8 @@ bool Scanner::areThereGameFilesInDir(const string & path) {
 //    extensions.push_back("iso");
 
     //Getting all files in USBGames Dir
-    vector<DirEntry> globalFileList = DirEntry::diru(path);
-    vector<DirEntry> fileList = DirEntry::getFilesWithExtension(path, globalFileList, extensions);
+    DirEntries globalFileList = DirEntry::diru(path);
+    DirEntries fileList = DirEntry::getFilesWithExtension(path, globalFileList, extensions);
 
     return fileList.size() > 0;
 }
@@ -539,8 +539,8 @@ bool Scanner::copyGameFilesInGamesDirToSubDirs(const string & path){
     extensions.push_back("cue");
 
     //Getting all files in USBGames Dir
-    vector<DirEntry> globalFileList = DirEntry::diru(path);
-    vector<DirEntry> fileList = DirEntry::getFilesWithExtension(path, globalFileList, extensions);
+    DirEntries globalFileList = DirEntry::diru(path);
+    DirEntries fileList = DirEntry::getFilesWithExtension(path, globalFileList, extensions);
 
     //On first run, we won't process bin/img files, as cue file may handle a part of them
     for (const auto &entry : fileList){
