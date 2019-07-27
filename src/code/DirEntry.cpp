@@ -8,6 +8,7 @@
 #include <string.h>
 #include "main.h"
 #include <dirent.h>
+#include <libgen.h>
 
 using namespace std;
 
