@@ -20,9 +20,9 @@ using namespace std;
 #define FILE_BUFFER 524288
 
 //*******************************
-// Util::separator
+// DirEntry::separator
 //*******************************
-const char *Util::separator() {
+const char *DirEntry::separator() {
 #ifdef _WIN32
     return "\\";
 #else
@@ -31,10 +31,10 @@ const char *Util::separator() {
 }
 
 //*******************************
-// Util::pathWithSeparatorAtEnd
+// DirEntry::pathWithSeparatorAtEnd
 //*******************************
 // return the path with a separator at the end
-string Util::pathWithSeparatorAtEnd(const string& path)
+string DirEntry::pathWithSeparatorAtEnd(const string& path)
 {
     string ret = path;
     if (ret.length() > 0)
@@ -48,10 +48,10 @@ string Util::pathWithSeparatorAtEnd(const string& path)
 }
 
 //*******************************
-// Util::pathWithOutSeparatorAtEnd
+// DirEntry::pathWithOutSeparatorAtEnd
 //*******************************
 // return the path without a separator at the end
-string Util::pathWithOutSeparatorAtEnd(const string& path)
+string DirEntry::pathWithOutSeparatorAtEnd(const string& path)
 {
     string ret = path;
     if (ret.length() > 0)
@@ -78,9 +78,9 @@ void Util::powerOff()
 }
 
 //*******************************
-// Util::getFileNameFromPath
+// DirEntry::getFileNameFromPath
 //*******************************
-string Util::getFileNameFromPath(const string& path)
+string DirEntry::getFileNameFromPath(const string& path)
 {
     string result = "";
     char *cstr = new char[path.length() + 1];
@@ -92,12 +92,12 @@ string Util::getFileNameFromPath(const string& path)
 }
 
 //*******************************
-// Util::fixPath
+// fixPath
 //*******************************
 string fixPath(string path)
 {
     trim(path);
-    if (path.back()==Util::separator()[0])
+    if (path.back() == DirEntry::separator()[0])
     {
         path = path.substr(0,path.size()-1);
     }
@@ -136,17 +136,17 @@ string Util::decode(string input) {
 }
 
 //*******************************
-// Util::getWorkingPath
+// DirEntry::getWorkingPath
 //*******************************
-string Util::getWorkingPath() {
+string DirEntry::getWorkingPath() {
     char temp[2048];
     return (getcwd(temp, sizeof(temp)) ? string(temp) : string(""));
 }
 
 //*******************************
-// Util::isDirectory
+// DirEntry::isDirectory
 //*******************************
-bool Util::isDirectory(const string& path)
+bool DirEntry::isDirectory(const string& path)
 {
     struct stat path_stat;
     stat(path.c_str(), &path_stat);
@@ -154,9 +154,9 @@ bool Util::isDirectory(const string& path)
 }
 
 //*******************************
-// Util::dir
+// DirEntry::dir
 //*******************************
-vector<DirEntry> Util::dir(string path) {
+vector<DirEntry> DirEntry::dir(string path) {
     fixPath(path);
     vector<DirEntry> result;
     DIR *dir = opendir(path.c_str());
@@ -170,14 +170,14 @@ vector<DirEntry> Util::dir(string path) {
 
         closedir(dir);
     }
-    sort(result.begin(), result.end(), DirEntry::sortByName);
+    sort(result.begin(), result.end(), DirEntry::sortDirEntryByName);
     return result;
 }
 
 //*******************************
-// Util::diru
+// DirEntry::diru
 //*******************************
-vector<DirEntry> Util::diru(string path) {
+vector<DirEntry> DirEntry::diru(string path) {
     fixPath(path);
     vector<DirEntry> result;
     DIR *dir = opendir(path.c_str());
@@ -193,14 +193,14 @@ vector<DirEntry> Util::diru(string path) {
 
         closedir(dir);
     }
-    sort(result.begin(), result.end(), DirEntry::sortByName);
+    sort(result.begin(), result.end(), DirEntry::sortDirEntryByName);
     return result;
 }
 
 //*******************************
-// Util::diru_DirsOnly
+// DirEntry::diru_DirsOnly
 //*******************************
-vector<DirEntry> Util::diru_DirsOnly(string path) {
+vector<DirEntry> DirEntry::diru_DirsOnly(string path) {
     auto temp = diru(path); // get all dirs and files
     vector<DirEntry> ret;
     copy_if(begin(temp), end(temp), back_inserter(ret), [](const DirEntry & dir) { return dir.isDir; });    // copy only dirs
@@ -209,9 +209,9 @@ vector<DirEntry> Util::diru_DirsOnly(string path) {
 }
 
 //*******************************
-// Util::diru_FilesOnly
+// DirEntry::diru_FilesOnly
 //*******************************
-vector<DirEntry> Util::diru_FilesOnly(string path) {
+vector<DirEntry> DirEntry::diru_FilesOnly(string path) {
     auto temp = diru(path); // get all dirs and files
     vector<DirEntry> ret;
     copy_if(begin(temp), end(temp), back_inserter(ret), [](const DirEntry & dir) { return !dir.isDir; });   //copy only files
@@ -220,9 +220,9 @@ vector<DirEntry> Util::diru_FilesOnly(string path) {
 }
 
 //*******************************
-// Util::exists
+// DirEntry::exists
 //*******************************
-bool Util::exists(const string &name) {
+bool DirEntry::exists(const string &name) {
     fixPath(name);
     struct stat buffer;
     return (stat(name.c_str(), &buffer) == 0);
@@ -230,18 +230,18 @@ bool Util::exists(const string &name) {
 }
 
 //*******************************
-// Util::createDir
+// DirEntry::createDir
 //*******************************
-bool Util::createDir(const string name) {
+bool DirEntry::createDir(const string name) {
     fixPath(name);
     const int dir_err = mkdir(name.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     return (-1 != dir_err);
 }
 
 //*******************************
-// Util::rmDir
+// DirEntry::rmDir
 //*******************************
-int Util::rmDir(string path) {
+int DirEntry::rmDir(string path) {
     fixPath(path);
     DIR *d = opendir(path.c_str());
     size_t path_len = path.size();
@@ -296,9 +296,9 @@ int Util::rmDir(string path) {
 }
 
 //*******************************
-// Util::copy
+// DirEntry::copy
 //*******************************
-bool Util::copy(const string& source, const string& dest) {
+bool DirEntry::copy(const string& source, const string& dest) {
     ifstream infile;
     ofstream outfile;
 
@@ -326,9 +326,9 @@ bool Util::copy(const string& source, const string& dest) {
 }
 
 //*******************************
-// Util::findFirstFile
+// DirEntry::findFirstFile
 //*******************************
-string Util::findFirstFile(string ext, string path) {
+string DirEntry::findFirstFile(string ext, string path) {
     fixPath(path);
     vector<DirEntry> entries = diru(path);
     for (DirEntry entry:entries) {
@@ -340,10 +340,10 @@ string Util::findFirstFile(string ext, string path) {
 }
 
 //*******************************
-// Util::removeDotFromExtension
+// DirEntry::removeDotFromExtension
 //*******************************
 // if it begins with a ".", remove it
-string Util::removeDotFromExtension(const std::string & ext) {
+string DirEntry::removeDotFromExtension(const std::string & ext) {
     if (ext.c_str()[0] == '.')
         return ext.c_str() + 1;
     else
@@ -351,10 +351,10 @@ string Util::removeDotFromExtension(const std::string & ext) {
 }
 
 //*******************************
-// Util::addDotToExtension
+// DirEntry::addDotToExtension
 //*******************************
 // if it doesn't start with a ".", add it to the front
-string Util::addDotToExtension(const std::string & ext) {
+string DirEntry::addDotToExtension(const std::string & ext) {
     if (ext.c_str()[0] != '.')
         return string(".") + ext;
     else
@@ -362,9 +362,9 @@ string Util::addDotToExtension(const std::string & ext) {
 }
 
 //*******************************
-// Util::matchExtension
+// DirEntry::matchExtension
 //*******************************
-bool Util::matchExtension(string path, string ext) {
+bool DirEntry::matchExtension(string path, string ext) {
     fixPath(path);
     if (path.length() >= 4) {
         string fileExt = path.substr(path.length() - 4, path.length()); // file extension includes the "."
@@ -563,10 +563,10 @@ void Util::execFork(const char *cmd,  vector<const char *> argvNew)
 }
 
 //*******************************
-// Util::getFileExtension
+// DirEntry::getFileExtension
 //*******************************
 // Return the extension of a filename without the "."
-string Util::getFileExtension(const string & fileName) {
+string DirEntry::getFileExtension(const string & fileName) {
     size_t i = fileName.rfind('.', fileName.length());
     if (i != string::npos) {
         return(fileName.substr(i+1, fileName.length() - i));
@@ -575,19 +575,19 @@ string Util::getFileExtension(const string & fileName) {
 }
 
 //*******************************
-// Util::getFileNameWithoutExtension
+// DirEntry::getFileNameWithoutExtension
 //*******************************
 // Return the name of a file without extension
-string Util::getFileNameWithoutExtension(const string& filename) {
+string DirEntry::getFileNameWithoutExtension(const string& filename) {
     size_t indexBeforeDot = filename.find_last_of(".");
     return filename.substr(0, indexBeforeDot);
 }
 
 //*******************************
-// Util::cueToBinList
+// DirEntry::cueToBinList
 //*******************************
 // Return the bin list declared in a cue file
-vector<string> Util::cueToBinList(string cueFile) {
+vector<string> DirEntry::cueToBinList(string cueFile) {
     vector<string> binList;
     FILE *fp;
     char *cline = NULL;
@@ -607,7 +607,7 @@ vector<string> Util::cueToBinList(string cueFile) {
         line = cline;
         line = trim(line);
         if(line.substr(0,4) == "FILE"){
-            binList.push_back(getStringWithinChar(line,'"').c_str());
+            binList.push_back(Util::getStringWithinChar(line,'"').c_str());
         }
     }
 
@@ -664,16 +664,16 @@ string Util::getStringWithinChar(string s, char del) {
 }
 
 //*******************************
-// Util::getFilesWithExtension
+// DirEntry::getFilesWithExtension
 //*******************************
-vector<DirEntry> Util::getFilesWithExtension(const string& path, const vector<DirEntry>& entries, const vector<string>& extensions) {
+vector<DirEntry> DirEntry::getFilesWithExtension(const string& path, const vector<DirEntry>& entries, const vector<string>& extensions) {
     vector<DirEntry> fileList;
     string fileExt;
     for (const auto & entry : entries){
-        if(Util::isDirectory(path + "/" + entry.name))
+        if(isDirectory(path + "/" + entry.name))
             continue;
         // make it case insensitive compare (find .bin and .BIN)
-        fileExt = ReturnLowerCase(Util::getFileExtension(entry.name));
+        fileExt = ReturnLowerCase(getFileExtension(entry.name));
         if(find(extensions.begin(),extensions.end(),fileExt) != extensions.end()){
             fileList.push_back(entry);
         }

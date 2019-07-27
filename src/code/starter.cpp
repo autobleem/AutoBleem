@@ -58,7 +58,7 @@ int main (int argc, char *argv[])
 
     if (memcard!="SONY")
     {
-        if (Util::exists(sourceCard+memcard))
+        if (DirEntry::exists(sourceCard+memcard))
         {
             Memcard * card = new Memcard("/media/Games/");
             if (!card->swapIn("./.pcsx",memcard))
@@ -106,7 +106,7 @@ int main (int argc, char *argv[])
             if (arguments[i]=="-cdfile")
             {
                 string image=arguments[i+1];
-                if (Util::matchExtension(image,".cue")) {
+                if (DirEntry::matchExtension(image,".cue")) {
                     image = image.substr(0, image.size() - 4);
                 }
                 arguments[i+1] = image;

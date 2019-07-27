@@ -189,7 +189,7 @@ void GuiLauncher::loadAssets() {
     }
 
     Inifile colorsFile;
-    if (Util::exists(gui->getSonyRootPath() + "/colors.ini")) {
+    if (DirEntry::exists(gui->getSonyRootPath() + "/colors.ini")) {
         colorsFile.load(gui->getSonyRootPath() + "/colors.ini");
         fgR = gui->getR(colorsFile.values["fg"]);
         fgG = gui->getG(colorsFile.values["fg"]);
@@ -223,7 +223,7 @@ void GuiLauncher::loadAssets() {
     long time = SDL_GetTicks();
 
     PsObj *background;
-    if (Util::exists(gui->getSonyImagePath() + "/GR/AB_BG.png")) {
+    if (DirEntry::exists(gui->getSonyImagePath() + "/GR/AB_BG.png")) {
         staticMeta = true;
         background = new PsObj(renderer, "background", gui->getSonyImagePath() + "/GR/AB_BG.png");
     } else {
@@ -236,7 +236,7 @@ void GuiLauncher::loadAssets() {
     background->visible = true;
     staticElements.push_back(background);
     string footerFile = "";
-    if (Util::exists(gui->getSonyImagePath() + "/GR/Footer_AB.png")) {
+    if (DirEntry::exists(gui->getSonyImagePath() + "/GR/Footer_AB.png")) {
         footerFile = "/GR/Footer_AB.png";
     } else {
         footerFile = "/GR/Footer.png";
@@ -262,7 +262,7 @@ void GuiLauncher::loadAssets() {
 
     staticElements.push_back(playText);
     string settingsFile = "";
-    if (Util::exists(gui->getSonyImagePath() + "/CB/Function_AB.png")) {
+    if (DirEntry::exists(gui->getSonyImagePath() + "/CB/Function_AB.png")) {
         settingsFile = "/CB/Function_AB.png";
     } else {
         settingsFile = "/CB/Function_BG.png";
@@ -435,7 +435,6 @@ void GuiLauncher::scrollRight(int speed) {
                 nextIndex = game.screenPointIndex + 1;
             } else {
                 game.visible = false;
-
             }
             game.destination = carouselPositions.coverPositions[nextIndex];
             game.animationDuration = speed;
@@ -1076,7 +1075,7 @@ void GuiLauncher::loop() {
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
                         gui->padMapping = gui->mapper.getMappingString(e.jbutton.which);
-                         if (Util::exists("/media/retroarch/retroarch")) {
+                         if (DirEntry::exists("/media/retroarch/retroarch")) {
 
 
                              if (state == STATE_GAMES) {
@@ -1091,7 +1090,6 @@ void GuiLauncher::loop() {
                                  menuVisible = false;
 
                                  gui->emuMode = EMU_RETROARCH;
-
                              }
                          }
                     }
@@ -1188,7 +1186,6 @@ void GuiLauncher::loop() {
                                     internalDB->refreshGameInternal(carouselGames[selGame]);
                                     internalDB->disconnect();
                                     delete internalDB;
-
                                 }
 
                                 // if the current set is favorites and the user removes the last favorite selGame will be -1
@@ -1209,10 +1206,7 @@ void GuiLauncher::loop() {
                                 }
                                 // fix to put back cover on top position
 
-
-
                             } else if (menu->selOption == 0) {
-
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 int lastSet = currentSet;
                                 int lastGame = selGame;
@@ -1233,7 +1227,6 @@ void GuiLauncher::loop() {
                                         if (currentSet == SET_INTERNAL) {
                                             currentSet = SET_ALL;
                                             resetCarouselPosition = true;
-
                                         }
                                     }
 
@@ -1274,7 +1267,6 @@ void GuiLauncher::loop() {
                                 } else {
                                     render();
                                 }
-
                             }
                         } else if (state == STATE_RESUME) {
                             auto game = carouselGames[selGame];
@@ -1313,11 +1305,10 @@ void GuiLauncher::loop() {
                                 } else {
                                     state = STATE_GAMES;
                                 }
-
                             }
                         }
-
                     };
+
                     if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE, &e)) {
                         if (state != STATE_RESUME) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
@@ -1350,7 +1341,6 @@ void GuiLauncher::loop() {
                                 }
                             }
                         }
-
                     };
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT, &e)) {

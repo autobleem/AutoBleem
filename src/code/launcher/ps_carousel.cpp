@@ -31,9 +31,9 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
         SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_BLEND);
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-        string imagePath = (*this)->folder + Util::separator() + (*this)->base + ".png";
+        string imagePath = (*this)->folder + DirEntry::separator() + (*this)->base + ".png";
         SDL_SetRenderTarget(renderer, nullptr);
-        if (Util::exists(imagePath)) {
+        if (DirEntry::exists(imagePath)) {
             coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
         } else {
             coverPng = nullptr;

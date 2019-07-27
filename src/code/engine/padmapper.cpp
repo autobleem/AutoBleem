@@ -18,9 +18,9 @@ void PadMapper::reload() {
         delete cfg;
     }
     configs.clear();
-    string path = Util::getWorkingPath() + "/gpmapping";
-    for (const DirEntry & entry:Util::diru(path)) {
-        if (Util::getFileExtension(entry.name) == "ini") {
+    string path = DirEntry::getWorkingPath() + "/gpmapping";
+    for (const DirEntry & entry:DirEntry::diru(path)) {
+        if (DirEntry::getFileExtension(entry.name) == "ini") {
 
             Inifile *mapping = new Inifile();
             mapping->load(path + "/" + entry.name);
@@ -164,8 +164,6 @@ bool PadMapper::isDirection(SDL_Event *e, int dir) {
                 case DIR_NONE:
                     return (e->jhat.value == SDL_HAT_CENTERED);
             }
-
-
         }
     }
     return false;

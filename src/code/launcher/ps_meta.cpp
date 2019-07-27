@@ -71,7 +71,7 @@ void PsMeta::render() {
     }
 
     if (internalOffTex == nullptr) {
-        string curPath = Util::getWorkingPath();
+        string curPath = DirEntry::getWorkingPath();
         internalOnTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/ps1.png").c_str());
         internalOffTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/usb.png").c_str());
         hdOnTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/hd.png").c_str());

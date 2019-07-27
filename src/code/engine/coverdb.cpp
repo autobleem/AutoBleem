@@ -19,7 +19,7 @@ Coverdb::Coverdb()
     {
         covers[i]= nullptr;
         auto filename = jDatabases[i];
-        if (Util::exists(filename)) {
+        if (DirEntry::exists(filename)) {
                 covers[i] = new Database();
                 bool success = covers[i]->connect(filename);
                 if (!success) {

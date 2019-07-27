@@ -315,7 +315,7 @@ bool Database::refreshGameInternal(PsGamePtr & psGame) {
             psGame->cds = discs;
 
             string gameIniPath = psGame->folder + "/Game.ini";
-            if (Util::exists(gameIniPath)) {
+            if (DirEntry::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
                 psGame->locked =  !(ini.values["automation"]=="1");
@@ -366,7 +366,7 @@ bool Database::refreshGame(PsGamePtr & game) {
             game->cds = discs;
 
             string gameIniPath = game->folder + "/Game.ini";
-            if (Util::exists(gameIniPath)) {
+            if (DirEntry::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
                 game->locked =  !(ini.values["automation"]=="1");
@@ -417,7 +417,7 @@ bool Database::getGames(PsGames *result) {
             //cout << "getGames: " << game->serial << ", " << game->title << endl;
 
             string gameIniPath = game->folder + "/Game.ini";
-            if (Util::exists(gameIniPath)) {
+            if (DirEntry::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
                 game->locked =  !(ini.values["automation"]=="1");

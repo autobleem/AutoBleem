@@ -36,7 +36,7 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
 
 
     gameFile += (game->folder + game->base);
-    if (!Util::matchExtension(game->base, ".pbp")) {
+    if (!DirEntry::matchExtension(game->base, ".pbp")) {
         gameFile += ".cue";
     }
     gameFile += "";
@@ -96,7 +96,7 @@ void RetroArchInterceptor::memcardIn(PsGamePtr &game) {
 
     }
     if (memcard != "SONY") {
-        if (Util::exists("/media/Games/!MemCards/" + game->memcard)) {
+        if (DirEntry::exists("/media/Games/!MemCards/" + game->memcard)) {
             Memcard *card = new Memcard("/media/Games/");
             if (!card->swapIn(game->ssFolder, game->memcard)) {
                 game->setMemCard("SONY");
@@ -107,13 +107,13 @@ void RetroArchInterceptor::memcardIn(PsGamePtr &game) {
 
     // Copy the card moved to RA
 
-    string inpath = game->ssFolder + Util::separator() + "memcards" + Util::separator() + "card1.mcd";
-    string outpath = string("") + RA_MEMCARDLOC + Util::separator() + game->base + ".srm";
+    string inpath = game->ssFolder + DirEntry::separator() + "memcards" + DirEntry::separator() + "card1.mcd";
+    string outpath = string("") + RA_MEMCARDLOC + DirEntry::separator() + game->base + ".srm";
     string backup = outpath + ".bak";
-    if (!Util::exists(backup)) {
-        Util::copy(outpath, backup);
+    if (!DirEntry::exists(backup)) {
+        DirEntry::copy(outpath, backup);
     }
-    Util::copy(inpath, outpath);
+    DirEntry::copy(inpath, outpath);
 }
 
 //*******************************
@@ -132,44 +132,39 @@ void RetroArchInterceptor::memcardOut(PsGamePtr &game) {
         delete card;
     }
 
-    string outpath = game->ssFolder + Util::separator() + "memcards" + Util::separator() + "card1.mcd";
-    string inpath = string("") + RA_MEMCARDLOC + Util::separator() + game->base + ".srm";
+    string outpath = game->ssFolder + DirEntry::separator() + "memcards" + DirEntry::separator() + "card1.mcd";
+    string inpath = string("") + RA_MEMCARDLOC + DirEntry::separator() + game->base + ".srm";
     string backup = inpath + ".bak";
-    Util::copy(inpath, outpath);
+    DirEntry::copy(inpath, outpath);
     remove(inpath.c_str());
-    if (Util::exists(backup)) {
+    if (DirEntry::exists(backup)) {
         rename(backup.c_str(), inpath.c_str());
     }
 }
 
-
 void RetroArchInterceptor::backupCoreConfig() {
-    Util::copy(RA_CORE_CONFIG, string(RA_CORE_CONFIG) + ".bak");
-    Util::copy(RA_CONFIG, string(RA_CONFIG) + ".bak");
+    DirEntry::copy(RA_CORE_CONFIG, string(RA_CORE_CONFIG) + ".bak");
+    DirEntry::copy(RA_CONFIG, string(RA_CONFIG) + ".bak");
 }
 
 void RetroArchInterceptor::restoreCoreConfig() {
-    if (Util::exists(string(RA_CORE_CONFIG) + ".bak")) {
-        Util::copy(string(RA_CORE_CONFIG) + ".bak", RA_CORE_CONFIG);
+    if (DirEntry::exists(string(RA_CORE_CONFIG) + ".bak")) {
+        DirEntry::copy(string(RA_CORE_CONFIG) + ".bak", RA_CORE_CONFIG);
         remove((string(RA_CORE_CONFIG) + ".bak").c_str());
     }
-    if (Util::exists(string(RA_CONFIG) + ".bak")) {
-        Util::copy(string(RA_CONFIG) + ".bak", RA_CONFIG);
+    if (DirEntry::exists(string(RA_CONFIG) + ".bak")) {
+        DirEntry::copy(string(RA_CONFIG) + ".bak", RA_CONFIG);
         remove((string(RA_CONFIG) + ".bak").c_str());
     }
 }
 
 void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
-
-
     shared_ptr<Gui> gui(Gui::getInstance());
-
     string path = game->folder;
     if (game->internal) {
         path = game->ssFolder;
     }
     CfgProcessor *processor = new CfgProcessor();
-
 
     int highres = atoi(processor->getValue(game->base, path, "gpu_neon.enhancement_enable", internal).c_str());
     int speedhack = atoi(processor->getValue(game->base, path, "gpu_neon.enhancement_no_main", internal).c_str());
@@ -184,45 +179,31 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
                                NULL, 16);
     int frameskip = atoi(processor->getValue(game->base, path, "frameskip3", internal).c_str());
 
-
-
-
-
     //RA_CORE_CONFIG
     if (highres != 0)
-
         processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_neon_enhancement_enable",
                                  "pcsx_rearmed_neon_enhancement_enable = \"enabled\" ");
     else
-
         processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_neon_enhancement_enable",
                                  "pcsx_rearmed_neon_enhancement_enable = \"disabled\" ");
-
     if (dither != 0)
-
         processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_dithering",
                                  "pcsx_rearmed_dithering = \"enabled\" ");
     else
-
         processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_dithering",
                                  "pcsx_rearmed_dithering = \"disabled\" ");
-
     if (speedhack != 0)
-
         processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_neon_enhancement_no_main",
                                  "pcsx_rearmed_neon_enhancement_no_main = \"enabled\" ");
     else
-
         processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_neon_enhancement_no_main",
                                  "pcsx_rearmed_neon_enhancement_no_main = \"disabled\" ");
-
     processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_psxclock",
                              "pcsx_rearmed_psxclock = \"" + to_string(clock) + "\" ");
     processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_show_bios_bootlogo",
                              "pcsx_rearmed_show_bios_bootlogo  = \"enabled\" ");
     processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_nocdaudio",
                              "pcsx_rearmed_nocdaudio  = \"disabled\" ");
-
     if (interpolation == 0) {
         processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_spu_interpolation",
                                  "pcsx_rearmed_spu_interpolation = \"off\" ");
@@ -269,12 +250,10 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
                                  "custom_viewport_y  = \"0\" ");
         processor->replaceRaConf(RA_CONFIG, "aspect_ratio_index",
                                  "aspect_ratio_index  = \"0\" ");
-
     }
 
     if (scanlines == 1)
     {
-
         float opacity = scanline_level/100.0f;
         processor->replaceRaConf(RA_CONFIG, "input_overlay",
                                  "input_overlay  = \":/overlay/scanlines.cfg\" ");
@@ -293,10 +272,5 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
         processor->replaceRaConf(RA_CONFIG, "video_smooth",
                                  "video_smooth  = \"false\" ");
     }
-
-
-
-
-
     delete processor;
 }

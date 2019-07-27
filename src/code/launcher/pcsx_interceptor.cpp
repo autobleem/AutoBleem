@@ -42,7 +42,7 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
     }
 
     trim(game->ssFolder);
-    if (game->ssFolder.back() == Util::separator()[0]) {
+    if (game->ssFolder.back() == DirEntry::separator()[0]) {
         game->ssFolder = game->ssFolder.substr(0, game->ssFolder.size() - 1);
     }
 
@@ -51,9 +51,9 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
 
     remove (lastCDpoint.c_str());
 
-    if (Util::exists(lastCDpointX))
+    if (DirEntry::exists(lastCDpointX))
     {
-        Util::copy(lastCDpointX,lastCDpoint);
+        DirEntry::copy(lastCDpointX,lastCDpoint);
         ifstream is(lastCDpointX.c_str());
         if (is.is_open()) {
             std::string line;
@@ -65,7 +65,7 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
         }
     } else {
         gameFile += (game->folder + game->base);
-        if (!Util::matchExtension(game->base, ".pbp")) {
+        if (!DirEntry::matchExtension(game->base, ".pbp")) {
             gameFile += ".cue";
         }
     }
@@ -129,7 +129,7 @@ void PcsxInterceptor::memcardIn(PsGamePtr & game) {
 
     }
     if (memcard != "SONY") {
-        if (Util::exists("/media/Games/!MemCards/" + game->memcard)) {
+        if (DirEntry::exists("/media/Games/!MemCards/" + game->memcard)) {
             Memcard *card = new Memcard("/media/Games/");
             if (!card->swapIn(game->ssFolder, game->memcard)) {
                 game->setMemCard("SONY");
@@ -165,7 +165,7 @@ void PcsxInterceptor::saveResumePoint(PsGamePtr & game, int pointId) {
     string filenamepoint = game->ssFolder + "filename."+to_string(pointId)+".txt.res";
     string lastCDpoint = game->ssFolder + "lastcdimg.txt";
     string lastCDpointX = game->ssFolder + "lastcdimg."+to_string(pointId)+".txt";
-    if (Util::exists(filenamefile)) {
+    if (DirEntry::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {
 
@@ -178,7 +178,7 @@ void PcsxInterceptor::saveResumePoint(PsGamePtr & game, int pointId) {
             string newName = game->ssFolder + "sstates/" + line + ".000";
 
             remove(ssfile.c_str());
-            Util::copy(newName.c_str(), ssfile.c_str());
+            DirEntry::copy(newName.c_str(), ssfile.c_str());
             remove(newName.c_str());
 
             // update image
@@ -188,11 +188,11 @@ void PcsxInterceptor::saveResumePoint(PsGamePtr & game, int pointId) {
         remove(filenamefileX.c_str());
         remove(filenamepoint.c_str());
         rename(filenamefile.c_str(), filenamefileX.c_str());
-        Util::copy(filenamefileX,filenamepoint);
-        if (Util::exists(lastCDpoint))
+        DirEntry::copy(filenamefileX,filenamepoint);
+        if (DirEntry::exists(lastCDpoint))
         {
             remove(lastCDpointX.c_str());
-            Util::copy(lastCDpoint, lastCDpointX);
+            DirEntry::copy(lastCDpoint, lastCDpointX);
             remove(lastCDpoint.c_str());
         }
     }
@@ -205,21 +205,21 @@ void PcsxInterceptor::prepareResumePoint(PsGamePtr & game, int pointId) {
 
     // cleanup after previous crash as pcsx doest not want to save
     string filenameTrash = game->ssFolder + "filename.txt";
-    if (Util::exists(filenameTrash)) {
+    if (DirEntry::exists(filenameTrash)) {
         remove(filenameTrash.c_str());
     }
 
     string ssfile = game->ssFolder + "sstates";
-    for (const DirEntry & sstate:Util::diru(ssfile)) {
-        if (Util::getFileExtension(sstate.name) == "000") {
+    for (const DirEntry & sstate:DirEntry::diru(ssfile)) {
+        if (DirEntry::getFileExtension(sstate.name) == "000") {
             string toDelete = ssfile + "/" + sstate.name;
             remove(toDelete.c_str());
         }
     }
 
     ssfile = game->ssFolder + "screenshots";
-    for (const DirEntry & sstate:Util::diru(ssfile)) {
-        if (Util::getFileExtension(sstate.name) == "png") {
+    for (const DirEntry & sstate:DirEntry::diru(ssfile)) {
+        if (DirEntry::getFileExtension(sstate.name) == "png") {
             string toDelete = ssfile + "/" + sstate.name;
             remove(toDelete.c_str());
         }
@@ -231,11 +231,11 @@ void PcsxInterceptor::prepareResumePoint(PsGamePtr & game, int pointId) {
     string filenamefileX = game->ssFolder + "filename.txt";
     string filenamepoint = game->ssFolder + "filename."+to_string(pointId)+".txt.res";
     remove(filenamefileX.c_str());
-    if (Util::exists(filenamepoint))
+    if (DirEntry::exists(filenamepoint))
     {
         filenamefile = filenamepoint;
     }
-    if (Util::exists(filenamefile)) {
+    if (DirEntry::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {
 
@@ -246,7 +246,7 @@ void PcsxInterceptor::prepareResumePoint(PsGamePtr & game, int pointId) {
             // fix lastcdpoint
             string lastCDpointX = game->ssFolder + "lastcdimg."+to_string(pointId)+".txt";
             remove(lastCDpointX.c_str());
-            string file = Util::getFileNameFromPath(lastImageInfo);
+            string file = DirEntry::getFileNameFromPath(lastImageInfo);
             string imageToLoad = game->folder+file;
 
             ofstream os;
@@ -259,9 +259,9 @@ void PcsxInterceptor::prepareResumePoint(PsGamePtr & game, int pointId) {
             // last line is our filename
             string ssfile = game->ssFolder + "sstates/" + line + ".00" + to_string(pointId) + ".res";
             string newName = game->ssFolder + "sstates/" + line + ".000";
-            if (Util::exists(ssfile)) {
+            if (DirEntry::exists(ssfile)) {
                 remove(newName.c_str());
-                Util::copy(ssfile.c_str(), newName.c_str());
+                DirEntry::copy(ssfile.c_str(), newName.c_str());
             }
             is.close();
         }

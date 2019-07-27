@@ -11,7 +11,7 @@
 //*******************************
 Config::Config()
 {
-    std::string path=Util::getWorkingPath()+Util::separator()+"config.ini";
+    std::string path=DirEntry::getWorkingPath()+DirEntry::separator()+"config.ini";
     inifile.load(path);
     bool aDefaultWasSet {false};
     if (inifile.values["language"]=="")
@@ -66,6 +66,6 @@ Config::Config()
 void Config::save()
 {
     inifile.values["pcsx"]="bleemsync";
-    std::string path=Util::getWorkingPath()+Util::separator()+"config.ini";
+    std::string path=DirEntry::getWorkingPath()+DirEntry::separator()+"config.ini";
     inifile.save(path);
 }

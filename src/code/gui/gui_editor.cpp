@@ -260,22 +260,22 @@ void GuiEditor::init() {
     if (!internal) {
         if (this->gameIni.values["memcard"] != "SONY") {
             string cardpath =
-                    gui->path + Util::separator() + "!MemCards" + Util::separator() + this->gameIni.values["memcard"];
-            if (!Util::exists(cardpath)) {
+                    gui->path + DirEntry::separator() + "!MemCards" + DirEntry::separator() + this->gameIni.values["memcard"];
+            if (!DirEntry::exists(cardpath)) {
                 this->gameIni.values["memcard"] = "SONY";
             }
         }
 
         bool pngLoaded = false;
-        for (const DirEntry & entry:Util::diru(gui->path + Util::separator() + gameIni.entry)) {
-            if (Util::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(renderer, (gui->path + Util::separator() + gameIni.entry + Util::separator() +
+        for (const DirEntry & entry:DirEntry::diru(gui->path + DirEntry::separator() + gameIni.entry)) {
+            if (DirEntry::matchExtension(entry.name, EXT_PNG)) {
+                cover = IMG_LoadTexture(renderer, (gui->path + DirEntry::separator() + gameIni.entry + DirEntry::separator() +
                                                    entry.name).c_str());
                 pngLoaded = true;
             }
         }
         if (!pngLoaded) {
-            cover = IMG_LoadTexture(renderer, (Util::getWorkingPath() + Util::separator() + "default.png").c_str());
+            cover = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + DirEntry::separator() + "default.png").c_str());
         }
     } else {
         // recover ini
@@ -287,22 +287,22 @@ void GuiEditor::init() {
 
         if (this->gameIni.values["memcard"] != "SONY") {
             string cardpath =
-                    gui->path + Util::separator() + "!MemCards" + Util::separator() + this->gameIni.values["memcard"];
-            if (!Util::exists(cardpath)) {
+                    gui->path + DirEntry::separator() + "!MemCards" + DirEntry::separator() + this->gameIni.values["memcard"];
+            if (!DirEntry::exists(cardpath)) {
                 this->gameIni.values["memcard"] = "SONY";
             }
         }
 
         bool pngLoaded = false;
-        for (const DirEntry & entry:Util::diru(gameData->folder)) {
-            if (Util::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(renderer, (gameData->folder + Util::separator() +
+        for (const DirEntry & entry:DirEntry::diru(gameData->folder)) {
+            if (DirEntry::matchExtension(entry.name, EXT_PNG)) {
+                cover = IMG_LoadTexture(renderer, (gameData->folder + DirEntry::separator() +
                                                    entry.name).c_str());
                 pngLoaded = true;
             }
         }
         if (!pngLoaded) {
-            cover = IMG_LoadTexture(renderer, (Util::getWorkingPath() + Util::separator() + "default.png").c_str());
+            cover = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + DirEntry::separator() + "default.png").c_str());
         }
     }
 
@@ -479,9 +479,8 @@ void GuiEditor::loop() {
                                 if (!cancelled) {
                                     Memcard *memcard = new Memcard(gui->path);
                                     string savePath =
-                                            gui->path + Util::separator() + "!SaveStates" + Util::separator() +
-                                            gameIni.entry +
-                                            Util::separator() + "memcards";
+                                            gui->path + DirEntry::separator() + "!SaveStates" + DirEntry::separator() +
+                                            gameIni.entry + DirEntry::separator() + "memcards";
                                     memcard->storeToRepo(savePath, result);
                                     gameIni.values["memcard"] = result;
                                     gameIni.save(gameIni.path);
@@ -492,7 +491,6 @@ void GuiEditor::loop() {
                     } else {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                     }
-
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
                         if (!internal) {

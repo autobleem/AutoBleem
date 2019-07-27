@@ -37,7 +37,7 @@ string Lang::translate(string input){
 // Lang::load
 //*******************************
 void Lang::load(string languageName) {
-    string path = Util::getWorkingPath() + Util::separator() + "lang" + Util::separator() + languageName + ".txt";
+    string path = DirEntry::getWorkingPath() + DirEntry::separator() + "lang" + DirEntry::separator() + languageName + ".txt";
     langData.clear();
     newData.clear();
     currentLang = languageName;
@@ -74,7 +74,7 @@ void Lang::load(string languageName) {
 //*******************************
 void Lang::dump(string fileName) {
 
-    string fileSave = Util::getWorkingPath() + Util::separator() + fileName;
+    string fileSave = DirEntry::getWorkingPath() + DirEntry::separator() + fileName;
     map<string, string>::iterator it;
 
     ofstream os(fileSave);
@@ -93,10 +93,10 @@ vector<string> Lang::getListOfLanguages()
 {
     vector<string> languages;
     languages.push_back("English");
-    for (DirEntry entry:Util::diru(Util::getWorkingPath() + Util::separator() + "lang"))
+    for (DirEntry entry:DirEntry::diru(DirEntry::getWorkingPath() + DirEntry::separator() + "lang"))
     {
         // if it's a*.txt file but not English.txt, add it to the list of languages
-        if (Util::matchExtension(entry.name,".txt") && ! Util::matchesLowercase(entry.name, "English.txt"))
+        if (DirEntry::matchExtension(entry.name,".txt") && ! Util::matchesLowercase(entry.name, "English.txt"))
         {
             languages.push_back(entry.name.substr(0,entry.name.size()-4));
         }

@@ -63,7 +63,7 @@ void VerMigration::migrate04_05(Database * db)
     cout << "Migrating 0.4.0 to 0.5.0" << endl;
     // update game ini's with correct year (by title)
     int newYear = 2000; // initial value
-    ifstream is(Util::getWorkingPath()+Util::separator()+"autobleem.list");
+    ifstream is(Util::getWorkingPath()+DirEntry::separator()+"autobleem.list");
     string line;
     while (getline(is, line)) {
         vector<string> vect;
@@ -77,10 +77,10 @@ void VerMigration::migrate04_05(Database * db)
             cout << id << endl;
             cout << folder << endl;
 
-            string gameIniLoc = folder+Util::separator()+"GameData"+Util::separator()+"Game.ini";
+            string gameIniLoc = folder+DirEntry::separator()+"GameData"+DirEntry::separator()+"Game.ini";
             if (!Util::exists(gameIniLoc))
             {
-                gameIniLoc = folder+Util::separator()+"Game.ini";
+                gameIniLoc = folder+DirEntry::separator()+"Game.ini";
             }
             if (!Util::exists(gameIniLoc))
             {

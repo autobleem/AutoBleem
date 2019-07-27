@@ -108,9 +108,8 @@ void GuiPadConfig::loop() {
                         name.erase(std::remove(name.begin(), name.end(), '/'), name.end());
                         name.erase(std::remove(name.begin(), name.end(), '\\'), name.end());
 
-                        string path = Util::getWorkingPath() + "/gpmapping/" + name + ".ini";
+                        string path = DirEntry::getWorkingPath() + "/gpmapping/" + name + ".ini";
                         newConfig.save(path);
-
                     }
 
                     if (step < 11) {
@@ -123,7 +122,6 @@ void GuiPadConfig::loop() {
                     render();
                     break;
             }
-
         }
     }
 }

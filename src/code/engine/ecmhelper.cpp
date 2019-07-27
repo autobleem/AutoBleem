@@ -23,7 +23,7 @@ int unecmify(FILE *in, FILE *out);
 //*******************************
 bool Ecmhelper::unecm(string input, string output) {
     cout << "Unpacking: " << input << " to " << output << endl;
-    if (!Util::matchExtension(output, EXT_BIN)) {
+    if (!DirEntry::matchExtension(output, EXT_BIN)) {
         output = output + ".bin";
     }
     eccedc_init();
