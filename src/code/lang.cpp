@@ -6,6 +6,8 @@
 #include "util.h"
 #include <fstream>
 #include <iostream>
+#include "DirEntry.h"
+
 using namespace std;
 
 //*******************************
@@ -22,7 +24,7 @@ string _(const string & input) {
 //*******************************
 string Lang::translate(string input){
     if (currentLang == "English") return input;
-    trim(input);
+    Util::trim(input);
     if (input.empty()) return "";
     string translated = langData[input];
     if (translated == "") {

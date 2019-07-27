@@ -5,6 +5,7 @@
 #include "ecmhelper.h"
 #include "../util.h"
 #include <iostream>
+#include "../DirEntry.h"
 
 using namespace std;
 

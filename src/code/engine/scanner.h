@@ -9,6 +9,7 @@
 #include "../gui/gui.h"
 #include "../util.h"
 #include <map>
+#include "../DirEntry.h"
 
 //******************
 // Scanner

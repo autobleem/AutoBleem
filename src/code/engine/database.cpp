@@ -4,9 +4,9 @@
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
 #include "serialscanner.h"
+#include "../DirEntry.h"
 
 using namespace std;
-
 
                                   //*******************************
                                   // DATABASE SQL

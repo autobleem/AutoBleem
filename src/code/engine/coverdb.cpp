@@ -3,9 +3,10 @@
 //
 
 #include "coverdb.h"
-
 #include "../util.h"
 #include <iostream>
+#include "../DirEntry.h"
+
 using namespace std;
 
 static const char *jDatabases[] = {"../db/coversU.db", "../db/coversP.db", "../db/coversJ.db"};

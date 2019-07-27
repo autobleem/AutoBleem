@@ -2,6 +2,7 @@
 #include <iostream>
 #include "../util.h"
 #include <assert.h>
+#include "../DirEntry.h"
 
 using namespace std;
 

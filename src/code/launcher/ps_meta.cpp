@@ -8,6 +8,8 @@
 #include <SDL2/SDL_image.h>
 #include "../lang.h"
 #include "../engine/inifile.h"
+#include "../DirEntry.h"
+
 using namespace std;
 
 //*******************************

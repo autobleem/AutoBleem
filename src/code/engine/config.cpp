@@ -5,13 +5,14 @@
 #include "config.h"
 #include "../util.h"
 #include "../launcher/gui_NotificationLine.h"
+#include "../DirEntry.h"
 
 //*******************************
 // Config::Config()
 //*******************************
 Config::Config()
 {
-    std::string path=DirEntry::getWorkingPath()+DirEntry::separator()+"config.ini";
+    std::string path=DirEntry::getWorkingPath() + DirEntry::separator() + "config.ini";
     inifile.load(path);
     bool aDefaultWasSet {false};
     if (inifile.values["language"]=="")

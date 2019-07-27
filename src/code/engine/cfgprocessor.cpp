@@ -5,6 +5,7 @@
 #include "cfgprocessor.h"
 #include "../util.h"
 #include <fstream>
+#include "../DirEntry.h"
 
 using namespace std;
 

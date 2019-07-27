@@ -34,6 +34,8 @@ add_executable(
         src/code/sqlite3.h
         src/code/util.h
         src/code/util.cpp
+		src/code/DirEntry.h
+		src/code/DirEntry.cpp
         src/code/engine/game.cpp
         src/code/engine/game.h
         src/code/engine/scanner.cpp
@@ -125,9 +127,8 @@ add_executable(
 		src/code/launcher/retboot_interceptor.h
 		src/code/launcher/emu_interceptor.cpp
 		src/code/launcher/emu_interceptor.h
-		src/code/nlohmann/json.h src/code/nlohmann/fifo_map.h)
-
-
+		src/code/nlohmann/json.h src/code/nlohmann/fifo_map.h
+		)
 
 add_executable(starter
 		src/code/starter.cpp

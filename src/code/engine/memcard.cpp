@@ -4,6 +4,8 @@
 
 #include "memcard.h"
 #include "inifile.h"
+#include "../DirEntry.h"
+
 using namespace std;
 
 //*******************************
@@ -11,7 +13,7 @@ using namespace std;
 //*******************************
 void Memcard::newCard(string name)
 {
-    string curPath = path+DirEntry::separator()+"!MemCards/"+name;
+    string curPath = path+DirEntry::separator() + "!MemCards/"+name;
     string autobleemPath = DirEntry::getWorkingPath();
     if (!DirEntry::exists(curPath))
     {
