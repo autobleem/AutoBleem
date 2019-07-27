@@ -71,6 +71,7 @@ public:
     PsZoomBtn *playText;
     PsMeta *meta;
 
+    PsObj *background;
     PsMoveBtn *arrow;
     PsObj *xButton;
     PsObj *oButton;

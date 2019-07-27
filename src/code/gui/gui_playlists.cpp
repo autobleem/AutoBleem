@@ -24,6 +24,13 @@ void GuiPlaylists::init()
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
     firstVisible = 0;
     lastVisible = firstVisible + maxVisible;
+
+    sizes.clear();
+    for (const string& playlist:playlists)
+    {
+        int size=integrator->getGamesNumber(playlist);
+        sizes.push_back(size);
+    }
 }
 
 //*******************************
@@ -32,7 +39,21 @@ void GuiPlaylists::init()
 void GuiPlaylists::render()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
-    gui->renderBackground();
+    // use evoUI background
+
+    SDL_RenderClear(renderer);
+    SDL_Rect backgroundRect;
+    int w, h; // texture width & height
+    SDL_SetTextureBlendMode(backgroundImg, SDL_BLENDMODE_BLEND);
+    SDL_QueryTexture(backgroundImg, NULL, NULL, &w, &h);
+    backgroundRect.x = 0;
+    backgroundRect.y = 0;
+    backgroundRect.w = w;
+    backgroundRect.h = h;
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, backgroundImg, nullptr, &backgroundRect);
+
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     gui->renderTextLine("-=" + _("Select RetroBoot Platform") + "=-",0,offset,true);
@@ -54,12 +75,12 @@ void GuiPlaylists::render()
         if (i >= playlists.size()) {
             break;
         }
-        gui->renderTextLine(DirEntry::getFileNameWithoutExtension(playlists[i]), pos, offset,true);
+        gui->renderTextLine(DirEntry::getFileNameWithoutExtension(playlists[i])+ " ("+to_string(sizes[i])+_(" games")+")", pos+1, offset,false);
         pos++;
     }
 
     if (!playlists.size() == 0) {
-        gui->renderSelectionBox(selected - firstVisible + 1, offset);
+        gui->renderSelectionBox(selected - firstVisible + 2, offset);
     }
 
     gui->renderStatus(_("Entry")+" " + to_string(selected + 1) + "/" + to_string(playlists.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"   |@O| "+_("Close")+" |");

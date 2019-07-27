@@ -152,6 +152,14 @@ void RAIntegrator::parse6line(PsGames *result, string path) {
     in.close();
 }
 
+int RAIntegrator::getGamesNumber(string playlist)
+{
+    PsGames gamesList;
+    getGames(&gamesList,playlist);
+    return gamesList.size();
+
+}
+
 bool RAIntegrator::getGames(PsGames *result, string playlist) {
     string path = string(RA_FOLDER) + DirEntry::separator() + "playlists" + DirEntry::separator() + playlist;
     if (isJSONPlaylist(path)) {
@@ -173,14 +181,16 @@ vector<string> RAIntegrator::getPlaylists() {
     for (const DirEntry &entry:entries) {
         if (DirEntry::getFileNameWithoutExtension(entry.name) == "AutoBleem") continue;
         if (isValidPlaylist(path + DirEntry::separator() + entry.name)) {
-            result.push_back(entry.name);
+            if (getGamesNumber(entry.name)>0) {
+                result.push_back(entry.name);
+            }
         }
     }
     return result;
 }
 
 void RAIntegrator::autoDetectCorePath(PsGamePtr game, string &core_name, string &core_path) {
-    //TODO: use extension as well to find core
+    //TODO: - better core selection (this is based on extenstions)
     string dbName = DirEntry::getFileNameWithoutExtension(game->db_name);
     map<string, CoreInfoPtr>::const_iterator pos = defaultCores.find(dbName);
     if (pos == defaultCores.end()) {
@@ -295,7 +305,6 @@ bool RAIntegrator::isGameValid(PsGamePtr game)
     {
         int pos = path.find("#");
         string check = path.substr(0,pos);
-        cout << check << endl;
         if (!DirEntry::exists(check) )
         {
             return false;

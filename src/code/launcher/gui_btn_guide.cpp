@@ -18,7 +18,21 @@ using namespace std;
 //*******************************
 void GuiBtnGuide::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
-    gui->renderBackground();
+    // use evoUI background
+
+    SDL_RenderClear(renderer);
+    SDL_Rect backgroundRect;
+    int w, h; // texture width & height
+    SDL_SetTextureBlendMode(backgroundImg, SDL_BLENDMODE_BLEND);
+    SDL_QueryTexture(backgroundImg, NULL, NULL, &w, &h);
+    backgroundRect.x = 0;
+    backgroundRect.y = 0;
+    backgroundRect.w = w;
+    backgroundRect.h = h;
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, backgroundImg, nullptr, &backgroundRect);
+
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     gui->renderTextLine("-=" + _("Button Guide") + "=-", 0, offset, true);
@@ -29,11 +43,11 @@ void GuiBtnGuide::render() {
     gui->renderTextLine("|@Select|   "+_("Games filter"), 5, offset,true);
     gui->renderTextLine("|@L2| + |@Select|   "+_("RetroBoot Systems"), 6, offset,true);
 
-    gui->renderTextLine("-=" + _("In Game") + "=-",7,offset,true);
-    gui->renderTextLine("|@Select| + |@T|   "+_("Emulator config MENU"), 8, offset,true);
-    gui->renderTextLine("RESET   "+_("Quit emulation - back to AutoBleem"), 9, offset,true);
+    gui->renderTextLine("-=" + _("In Game") + "=-",8,offset,true);
+    gui->renderTextLine("|@Select| + |@T|   "+_("Emulator config MENU"), 9, offset,true);
+    gui->renderTextLine("RESET   "+_("Quit emulation - back to AutoBleem"), 10, offset,true);
 
-    gui->renderTextLine("|@R2| + |@L2|  "+_("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 11, offset,true);
+    gui->renderTextLine("|@R2| + |@L2|  "+_("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 12, offset,true);
 
 
     gui->renderStatus("|@O| " + _("Go back") + "|");

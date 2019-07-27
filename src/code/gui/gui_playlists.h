@@ -5,6 +5,7 @@
 #pragma once
 #include "gui_screen.h"
 #include "../main.h"
+#include "../launcher/ra_integrator.h"
 #include <vector>
 
 class GuiPlaylists : public GuiScreen{
@@ -13,6 +14,7 @@ public:
     void render();
     void loop();
     std::vector<std::string> playlists;
+    std::vector<int> sizes;
 
     int selected=0;
     int maxVisible=8;
@@ -22,6 +24,9 @@ public:
     bool changes=false;
 
     bool cancelled = false;
+
+    RAIntegrator * integrator;
+    SDL_Shared<SDL_Texture> backgroundImg;
 
     using GuiScreen::GuiScreen;
 };
