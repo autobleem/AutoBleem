@@ -10,6 +10,8 @@ Are you sure?
 O volètz vertadièrament ?
 AutoBleem
 AutoBleem
+AutoBleem resume points not available in RetroArch.
+Punt de represa AutoBleem pas disponible dins RetroArch.
 AutoBleem Theme:
 Tèma AutoBleem :
 Automatic PlayStation Classic USB launcher
@@ -119,7 +121,7 @@ AL MENÚ D'AVIADA PER ATUDAR LA CONSÒLA (EXTINCION SEGURA !!!)
 In Game
 Jòcs intèrnes
 Internal
-Intèrne
+Intèrna
 Internal Games:
 Jòcs intèrnes :
 Is your dpad analogue?
@@ -202,10 +204,12 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch es pas installat
+Run using RetroBoot(if installed)
+Lançar amb RetroBoot (s’es installat)
 Scanline Level:
 Nivèl d'escansion
 Scanlines:
-Linhas de escansion :
+Linhas d'escansion :
 Scanning...
 Analisi...
 Select
