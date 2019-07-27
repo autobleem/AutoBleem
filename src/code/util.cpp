@@ -31,6 +31,20 @@ const char *DirEntry::separator() {
 }
 
 //*******************************
+// DirEntry::fixPath
+// removes leading and trailing spaces and removes any '/' from the end
+//*******************************
+string DirEntry::fixPath(string path)
+{
+    trim(path);
+    if (path.back() == DirEntry::separator()[0])
+    {
+        path = path.substr(0,path.size()-1);
+    }
+    return path;
+}
+
+//*******************************
 // DirEntry::pathWithSeparatorAtEnd
 //*******************************
 // return the path with a separator at the end
@@ -89,19 +103,6 @@ string DirEntry::getFileNameFromPath(const string& path)
     result += base;
     delete [] cstr;
     return result;
-}
-
-//*******************************
-// fixPath
-//*******************************
-string fixPath(string path)
-{
-    trim(path);
-    if (path.back() == DirEntry::separator()[0])
-    {
-        path = path.substr(0,path.size()-1);
-    }
-    return path;
 }
 
 //*******************************
@@ -686,8 +687,8 @@ DirEntries DirEntry::getFilesWithExtension(const string& path, const DirEntries 
 //*******************************// remove any trailing "." or space or " ."
 void Util::cleanPublisherString(std::string & pub)
 {
-    if (pub.size() > 0 && pub[pub.size()-1] == '.')
+    if (pub.size() > 0 && pub.back() == '.')
         pub.pop_back();
-    if (pub.size() > 0 && pub[pub.size()-1] == ' ')
+    if (pub.size() > 0 && pub.back() == ' ')
         pub.pop_back();
 }
