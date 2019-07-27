@@ -395,9 +395,9 @@ bool Util::isInteger(const char *input) {
 }
 
 //*******************************
-// Util::matchesLowercase
+// Util::compareCaseInsensitive
 //*******************************
-bool Util::matchesLowercase(string first, string second) {
+bool Util::compareCaseInsensitive(string first, string second) {
     return lcase(first) == lcase(second);
 }
 

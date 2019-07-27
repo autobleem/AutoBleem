@@ -65,7 +65,7 @@ public:
     static void replaceAll(std::string &str, const std::string &from, const std::string &to);
 
     static bool isInteger(const char *input);
-    static bool matchesLowercase(std::string first, std::string second);
+    static bool compareCaseInsensitive(std::string first, std::string second);
 
     static unsigned char readChar(std::ifstream * stream);
     static unsigned long readDword(std::ifstream * stream);

@@ -96,7 +96,7 @@ vector<string> Lang::getListOfLanguages()
     for (DirEntry entry:DirEntry::diru(DirEntry::getWorkingPath() + DirEntry::separator() + "lang"))
     {
         // if it's a*.txt file but not English.txt, add it to the list of languages
-        if (DirEntry::matchExtension(entry.name,".txt") && ! Util::matchesLowercase(entry.name, "English.txt"))
+        if (DirEntry::matchExtension(entry.name,".txt") && ! Util::compareCaseInsensitive(entry.name, "English.txt"))
         {
             languages.push_back(entry.name.substr(0,entry.name.size()-4));
         }

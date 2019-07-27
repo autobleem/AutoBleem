@@ -417,11 +417,11 @@ void Scanner::scanDirectory(const string & _path) {
 
             // for each file in the game dir
 			for (const DirEntry & file : DirEntry::diru(gameDataPath)) {
-				if (Util::matchesLowercase(file.name, GAME_INI)) {
+				if (Util::compareCaseInsensitive(file.name, GAME_INI)) {
                     game->gameIniFound = true;
 				}
 
-				if (Util::matchesLowercase(file.name, PCSX_CFG)) {
+				if (Util::compareCaseInsensitive(file.name, PCSX_CFG)) {
 					game->pcsxCfgFound = true;
 				}
 
