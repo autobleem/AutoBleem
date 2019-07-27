@@ -164,9 +164,8 @@ vector<string> RAIntegrator::getPlaylists() {
     }
 
     string path = string(RA_FOLDER) + Util::separator() + "playlists";
-    vector<DirEntry> entries = Util::diru(path);
+    vector<DirEntry> entries = Util::diru_FilesOnly(path);
     for (const DirEntry &entry:entries) {
-        if (entry.isDir) continue;
         if (Util::getFileNameWithoutExtension(entry.name) == "AutoBleem") continue;
         if (isValidPlaylist(path + Util::separator() + entry.name)) {
             result.push_back(entry.name);
@@ -196,18 +195,20 @@ void RAIntegrator::initCoreInfo() {
     cores.clear();
     databases.clear();
     defaultCores.clear();
-    string infoFolder = string(RA_FOLDER) + Util::separator() + "info";
-    cout << "Scanning" << infoFolder << endl;
-    vector<DirEntry> entries = Util::diru(infoFolder);
+    string infoFolder = string(RA_FOLDER) + Util::separator() + "info/";
+    cout << "Scanning: " << infoFolder << endl;
+    vector<DirEntry> entries = Util::diru_FilesOnly(infoFolder);
+    cout << "Found files:" << entries.size() << endl;
     for (const DirEntry &entry:entries) {
-        if (entry.isDir) continue;
-
+        cout << "Checking file: " << entry.name << endl;
         if (Util::getFileExtension(entry.name) == "info") {
-
-            string fullPath = infoFolder + Util::separator() + entry.name;
+            string fullPath = infoFolder +  entry.name;
             cout << "Reading info :" <<fullPath << endl;
             CoreInfoPtr ci = parseInfo(fullPath, entry.name);
             cores.push_back(ci);
+        } else
+        {
+            cout << "Incorrect extension" << endl;
         }
     }
 
