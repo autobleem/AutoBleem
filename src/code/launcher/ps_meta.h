@@ -42,6 +42,7 @@ public:
     SDL_Shared<SDL_Texture> lockOffTex;
     SDL_Shared<SDL_Texture> cdTex;
     SDL_Shared<SDL_Texture> favoriteTex;
+    SDL_Shared<SDL_Texture> raTex;
 
     int nextPos = 0;
     int prevPos = 0;
@@ -53,10 +54,11 @@ public:
     bool locked = false;
     bool discs = 1;
     bool favorite = false;
+    bool foreign = false;
 
     void updateTexts(const std::string & gameNameTxt, const std::string & publisherTxt,
                      const std::string & yearTxt, const std::string & serial, const std::string & region,
-                     const std::string & playersTxt, bool internal, bool hd, bool locked, int discs, bool favorite,
+                     const std::string & playersTxt, bool internal, bool hd, bool locked, int discs, bool favorite,  bool foreign,
                      int r, int g, int b);
 
     void updateTexts(PsGamePtr & game, int r, int g, int b);

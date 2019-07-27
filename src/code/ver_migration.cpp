@@ -21,7 +21,7 @@ string VerMigration::getLastRunVersion()
 {
     string version="";
 
-    if (!Util::exists(verFile))
+    if (!DirEntry::exists(verFile))
     {
         version="v0.4.0";
     } else
@@ -78,11 +78,11 @@ void VerMigration::migrate04_05(Database * db)
             cout << folder << endl;
 
             string gameIniLoc = folder+DirEntry::separator()+"GameData"+DirEntry::separator()+"Game.ini";
-            if (!Util::exists(gameIniLoc))
+            if (!DirEntry::exists(gameIniLoc))
             {
                 gameIniLoc = folder+DirEntry::separator()+"Game.ini";
             }
-            if (!Util::exists(gameIniLoc))
+            if (!DirEntry::exists(gameIniLoc))
             {
                 continue;
             }
@@ -116,7 +116,7 @@ void VerMigration::migrate(Database * db)
     string last=getLastRunVersion();
     Config cfg;
     string current=cfg.inifile.values["version"];
-    bool autobleemEverRun = Util::exists("/media/System/Logs/autobleem.log");
+    bool autobleemEverRun = DirEntry::exists("/media/System/Logs/autobleem.log");
     if ((autobleemEverRun) && (current!=last))
     {
         // we need to migrate from 0.4 to 0.5.0

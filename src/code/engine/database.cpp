@@ -110,9 +110,9 @@ static const char DELETE_DATA3[] = "DELETE FROM LANGUAGE_SPECIFIC";
 static const char INSERT_DISC[] = "INSERT INTO DISC ([GAME_ID],[DISC_NUMBER],[BASENAME]) \
                 values (?,?,?)";
 
-                                  //*******************************
-                                  // DATABASE code
-                                  //*******************************
+//*******************************
+// DATABASE code
+//*******************************
 
 //*******************************
 // Database::getNumGames
@@ -284,7 +284,7 @@ bool Database::getInternalGames(PsGames *result) {
 //*******************************
 // Database::refreshGameInternal
 //*******************************
-bool Database::refreshGameInternal(PsGamePtr & psGame) {
+bool Database::refreshGameInternal(PsGamePtr &psGame) {
 
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, GAMES_DATA_SINGLE_INTERNAL, -1, &res, nullptr);
@@ -335,7 +335,7 @@ bool Database::refreshGameInternal(PsGamePtr & psGame) {
 //*******************************
 // Database::refreshGame
 //*******************************
-bool Database::refreshGame(PsGamePtr & game) {
+bool Database::refreshGame(PsGamePtr &game) {
 
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, GAMES_DATA_SINGLE, -1, &res, nullptr);
@@ -591,13 +591,13 @@ void Database::disconnect() {
 //*******************************
 // Database::truncate
 //*******************************
-bool Database::truncate()
-{
+bool Database::truncate() {
     executeStatement((char *) DELETE_DATA, "Truncating all data", "Error truncating data");
     executeStatement((char *) DELETE_DATA2, "Truncating all data", "Error truncating data");
     executeStatement((char *) DELETE_DATA3, "Truncating all data", "Error truncating data");
     return true;
 }
+
 bool Database::createInitialDatabase() {
     if (!executeCreateStatement((char *) CREATE_GAME_SQL, "GAME")) return false;
     if (!executeCreateStatement((char *) CREATE_DISC_SQL, "DISC")) return false;
@@ -608,7 +608,6 @@ bool Database::createInitialDatabase() {
 //*******************************
 // Database::createFavColumn
 //*******************************
-void Database::createFavColumn()
-{
- //   executeCreateStatement((char*) UPDATE_GAME_DB, "FAV column" );
+void Database::createFavColumn() {
+    //   executeCreateStatement((char*) UPDATE_GAME_DB, "FAV column" );
 }

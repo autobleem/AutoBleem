@@ -36,6 +36,7 @@ public:
     int duration = 0;
     bool active = false;
 
+    bool foreign = false;
     int direction = 0;
 
     std::string path;

@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <string>
 
+#define RA_FOLDER "/media/retroarch"
+
 enum ImageType { IMAGE_NO_GAME_FOUND = -2, IMAGE_NO_GAME_BUT_HAS_SUBDIR = -1,
                  IMAGE_CUE_BIN = 0,
                  IMAGE_PBP,

@@ -28,6 +28,9 @@ showabimage()
 	kill -9 $ABPID
 }
 
+echo Launch_rom: Image $1
+echo Launch_rom: Core $2
+
 echo 0 > /sys/class/leds/red/brightness
 echo 1 > /sys/class/leds/green/brightness
 
@@ -47,13 +50,15 @@ if [ $RB_SHOWSPLASH -eq 1 ]; then
 	showrbimage &
 fi
 
-if [ $2 == "PEOPS" ]
-then
+if [ $2 == "PEOPS" ]; then
   RBCORE=/media/retroarch/cores/km_pcsx_rearmed_peops_libretro.so
-else
+elif [ $2 == "NEON" ]; then
   RBCORE=/media/retroarch/cores/km_pcsx_rearmed_neon_libretro.so
-fi;
+else
+  RBCORE=$2
+fi
 
+echo RBCORE is $RBCORE
 
 # Flash green LED while initializing
 sh /media/retroarch/retroboot/bin/init.sh &

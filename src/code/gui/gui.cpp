@@ -31,7 +31,7 @@ template<class K, class V, class dummy_compare, class A>
 using my_workaround_fifo_map = fifo_map<K, V, fifo_map_compare<K>, A>;
 using ordered_json = basic_json<my_workaround_fifo_map>;
 
-#define RA_FOLDER "/media/retroarch"
+
 #define RA_PLAYLIST "AutoBleem.lpl"
 #define RA_CORE "/media/retroarch/cores/km_pcsx_rearmed_neon_libretro.so"
 
@@ -574,7 +574,7 @@ void Gui::menuSelection() {
                         delete launcherScreen;
                     }
                 } else {
-                    if (DirEntry::exists("/media/retroarch/retroarch")) {
+                    if (DirEntry::exists(string(RA_FOLDER)+"/retroarch")) {
                         this->menuOption = MENU_OPTION_RETRO;
                         return;
                     } else {
@@ -701,6 +701,9 @@ void Gui::menuSelection() {
                                     this->menuOption = MENU_OPTION_RUN;
                                     menuVisible = false;
                                 } else {
+                                    if (lastSet < 0) {
+                                        lastSet = SET_ALL;
+                                    }
                                     Mix_PlayChannel(-1, cursor, 0);
                                     drawText(_("Starting EvolutionUI"));
                                     loadAssets();
@@ -717,7 +720,7 @@ void Gui::menuSelection() {
                             if (retroarch != "false") {
                                 if (e.jbutton.button == _cb(PCS_BTN_SQUARE, &e)) {
                                     Mix_PlayChannel(-1, cursor, 0);
-                                    if (!DirEntry::exists("/media/retroarch/retroarch")) {
+                                    if (!DirEntry::exists(string(RA_FOLDER)+"/retroarch")) {
 
                                         auto confirm = new GuiConfirm(renderer);
                                         confirm->label = _("RetroArch is not installed");
