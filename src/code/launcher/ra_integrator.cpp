@@ -77,7 +77,9 @@ void RAIntegrator::parseJSON(PsGames *result, string path) {
         if (!Util::exists(game->core_path)) {
             autoDetectCorePath(game, game->core_name, game->core_path);
         }
-        result->push_back(game);
+        if (isGameValid(game)) {
+            result->push_back(game);
+        }
     }
     in.close();
 
@@ -142,7 +144,9 @@ void RAIntegrator::parse6line(PsGames *result, string path) {
             game->core_path = core_path;
 
         }
-        result->push_back(game);
+        if (isGameValid(game)) {
+            result->push_back(game);
+        }
     }
     in.close();
 }
@@ -275,6 +279,34 @@ string RAIntegrator::escapeName(string text) {
         }
     }
     return text;
+}
+
+bool RAIntegrator::isGameValid(PsGamePtr game)
+{
+    if (!Util::exists(game->core_path) )
+    {
+        return false;
+    }
+
+    string path = game->image_path;
+
+    if (path.find("#") != string::npos)
+    {
+        int pos = path.find("#");
+        string check = path.substr(0,pos);
+        cout << check << endl;
+        if (!Util::exists(check) )
+        {
+            return false;
+        }
+    } else
+    {
+        if (!Util::exists(path) )
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 CoreInfoPtr RAIntegrator::parseInfo(string file, string entry) {

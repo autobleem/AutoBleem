@@ -41,6 +41,7 @@ public:
     static bool sortByMaxExtensions(const CoreInfoPtr &i, const CoreInfoPtr &j) { return i->extensions.size() > j->extensions.size(); };
 
 private:
+    bool isGameValid(PsGamePtr game);
     bool isValidPlaylist(string path);
     bool isJSONPlaylist(string path);
     void parseJSON(PsGames *result, string path);
