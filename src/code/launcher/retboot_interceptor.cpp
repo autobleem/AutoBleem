@@ -316,7 +316,7 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
 
 
 
-    if (filter == "true")
+    if (filter != "true")
     {
         processor->replaceRaConf(RA_CONFIG, "video_smooth",
                                  "video_smooth  = \"true\" ");

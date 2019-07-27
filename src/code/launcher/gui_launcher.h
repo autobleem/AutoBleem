@@ -96,7 +96,7 @@ public:
     std::string region;
     std::string players;
 
-    std::string retroarch_playlist_name;
+    std::string retroarch_playlist_name="";
 
     bool staticMeta=false;
     bool gameInfoVisible = true;

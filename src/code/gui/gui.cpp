@@ -720,6 +720,9 @@ void Gui::menuSelection() {
                                     this->menuOption = MENU_OPTION_RUN;
                                     menuVisible = false;
                                 } else {
+                                    if (lastSet < 0) {
+                                        lastSet = SET_ALL;
+                                    }
                                     Mix_PlayChannel(-1, cursor, 0);
                                     drawText(_("Starting EvolutionUI"));
                                     loadAssets();
