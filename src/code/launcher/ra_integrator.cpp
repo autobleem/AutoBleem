@@ -181,6 +181,7 @@ void RAIntegrator::autoDetectCorePath(PsGamePtr game, string &core_name, string 
     if (pos == defaultCores.end()) {
         core_name = "???";
         core_path = "???";
+        return;
     }
     core_name = pos->second->name;
     core_path = pos->second->core_path;
@@ -211,6 +212,7 @@ void RAIntegrator::initCoreInfo() {
             cout << "Incorrect extension" << endl;
         }
     }
+    sort(cores.begin(), cores.end(), sortByMaxExtensions); // why not
 
     for (const string &dbname:databases) {
         bool nextDb = false;

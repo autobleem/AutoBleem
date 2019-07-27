@@ -38,6 +38,8 @@ public:
     string escapeName(string input);
     void initCoreInfo();
 
+    static bool sortByMaxExtensions(const CoreInfoPtr &i, const CoreInfoPtr &j) { return i->extensions.size() > j->extensions.size(); };
+
 private:
     bool isValidPlaylist(string path);
     bool isJSONPlaylist(string path);
