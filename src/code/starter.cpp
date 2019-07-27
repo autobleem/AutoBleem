@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "util.h"
+#include "DirEntry.h"
 #include "engine/inifile.h"
 #include "engine/memcard.h"
 #include "engine/config.h"
@@ -15,7 +16,7 @@ using namespace std;
 string valueOrDefault(string name, string def, map<string,string> iniValues) {
     string value;
     if (iniValues.find(name) != iniValues.end()) {
-        value = trim(iniValues.find(name)->second);
+        value = Util::trim(iniValues.find(name)->second);
         if (value.length() == 0) {
 
             return def;
