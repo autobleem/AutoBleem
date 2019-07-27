@@ -14,10 +14,11 @@
 #include <algorithm>
 #include <iostream>
 #include "../engine/scanner.h"
+#include "../gui/gui_playlists.h"
 
 using namespace std;
 
-const SDL_Color brightWhite = { 255, 255, 255, 0 };
+const SDL_Color brightWhite = {255, 255, 255, 0};
 
 
 //*******************************
@@ -27,21 +28,22 @@ const SDL_Color brightWhite = { 255, 255, 255, 0 };
 void GuiLauncher::updateMeta() {
     if (carouselGames.empty()) {
         gameName = "";
-        meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, fgR,fgG,fgB);
+        meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, false, fgR,
+                          fgG, fgB);
         return;
     }
-    meta->updateTexts(carouselGames[selGame], fgR,fgG,fgB);
+    meta->updateTexts(carouselGames[selGame], fgR, fgG, fgB);
 }
 
 //*******************************
 // GuiLauncher::switchSet
 //*******************************
-void GuiLauncher::switchSet(int newSet) {
+void GuiLauncher::switchSet(int newSet, bool noForce) {
     shared_ptr<Gui> gui(Gui::getInstance());
 
     // clear the carousel text
     if (!carouselGames.empty()) {
-        for (auto & game : carouselGames) {
+        for (auto &game : carouselGames) {
             game.freeTex();
         }
     }
@@ -50,12 +52,14 @@ void GuiLauncher::switchSet(int newSet) {
     PsGames gamesList;
     if (currentSet == SET_ALL || currentSet == SET_EXTERNAL) {
         gui->db->getGames(&gamesList);
-    }
-    else if (currentSet == SET_FAVORITE) {
+    } else if (currentSet == SET_FAVORITE) {
         PsGames completeList;
         gui->db->getGames(&completeList);
         // put only the favorites in gamesList
-        copy_if(begin(completeList), end(completeList), back_inserter(gamesList), [] (const PsGamePtr & game) { return game->favorite; });
+        copy_if(begin(completeList), end(completeList), back_inserter(gamesList),
+                [](const PsGamePtr &game) { return game->favorite; });
+    } else if (currentSet == SET_RETROARCH) {
+        raIntegrator.getGames(&gamesList, retroarch_playlist_name);
     }
 
     if (gui->cfg.inifile.values["origames"] == "true")
@@ -70,26 +74,25 @@ void GuiLauncher::switchSet(int newSet) {
             internalDB->getInternalGames(&internal);
             internalDB->disconnect();
             delete internalDB;
-            for (const auto & internalGame : internal) {
+            for (const auto &internalGame : internal) {
                 gamesList.push_back(internalGame);
+            }
         }
-    }
 
     sort(gamesList.begin(), gamesList.end(), sortByTitle);
 
     // copy the gamesList into the carousel
     carouselGames.clear();
-    for_each(begin(gamesList), end(gamesList), [&] (PsGamePtr & game)
-        { carouselGames.emplace_back(game); });
+    for_each(begin(gamesList), end(gamesList), [&](PsGamePtr &game) { carouselGames.emplace_back(game); });
 
     // save the actual number of (non-duplicated) games for the "showing" display
-    numberOfNonDuplicatedGamesInCarousel =  carouselGames.size();
+    numberOfNonDuplicatedGamesInCarousel = carouselGames.size();
 
     if (carouselGames.size() > 0) {
         if (carouselGames.size() < 13) {    // if not enough games to fill the carousel
             // duplicate the gamesList until the carousel is full
             while (carouselGames.size() < 13) {
-                for (auto & game : gamesList)
+                for (auto &game : gamesList)
                     carouselGames.emplace_back(game);
             }
         }
@@ -101,14 +104,21 @@ void GuiLauncher::switchSet(int newSet) {
         selGame = 0;
         setInitialPositions(0);
     }
+
+    if (!noForce) {
+        if (currentSet == SET_RETROARCH) {
+            forceSettingsOnly();
+
+        }
+    }
 }
 
 //*******************************
 // GuiLauncher::showSetName
 //*******************************
 void GuiLauncher::showSetName() {
-    vector<string> setNames = { _("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
-                                _("Showing: Favorite games") };
+    vector<string> setNames = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
+                               _("Showing: Favorite games")};
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
 
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -117,18 +127,25 @@ void GuiLauncher::showSetName() {
     if (str != "")
         timeout = stoi(str.c_str()) * TicksPerSecond;
 
-    notificationLines[0].setText(setNames[currentSet] + numGames, timeout);   // line starts at 0 for top
+    if (currentSet != SET_RETROARCH) {
+        notificationLines[0].setText(setNames[currentSet] + numGames, timeout);   // line starts at 0 for top
+    } else {
+        string playlist = DirEntry::getFileNameWithoutExtension(retroarch_playlist_name);
+        notificationLines[0].setText(_("Showing:") + " " + playlist + " " + numGames,
+                                     timeout);   // line starts at 0 for top
+    }
 }
 
 //*******************************
 // GuiLauncher::renderText
 //*******************************
-void GuiLauncher::renderText(int x, int y, const std::string & text, const SDL_Color & textColor, TTF_Font_Shared font, bool center, bool background) {
+void GuiLauncher::renderText(int x, int y, const std::string &text, const SDL_Color &textColor, TTF_Font_Shared font,
+                             bool center, bool background) {
     int text_width = 0;
     int text_height = 0;
     SDL_Shared<SDL_Surface> surface;
     SDL_Shared<SDL_Texture> texture;
-    SDL_Rect rect{0,0,0,0};
+    SDL_Rect rect{0, 0, 0, 0};
 
     auto renderer = Gui::getInstance()->renderer;
 
@@ -178,18 +195,29 @@ void GuiLauncher::renderText(int x, int y, const std::string & text, const SDL_C
 // load all assets needed by the screen
 void GuiLauncher::loadAssets() {
 
+
+    raPlaylists.clear();
+    raPlaylists = raIntegrator.getPlaylists();
+
     vector<string> headers = {_("SETTINGS"), _("GAME"), _("MEMORY CARD"), _("RESUME")};
     vector<string> texts = {_("Customize AutoBleem settings"), _("Edit game parameters"),
                             _("Edit Memory Card information"), _("Resume game from saved state point")};
 
     shared_ptr<Gui> gui(Gui::getInstance());
     currentSet = gui->lastSet;
+    if (gui->lastPlaylist!= "")
+    {
+        retroarch_playlist_name = gui->lastPlaylist;
+        gui->lastPlaylist = "";
+    }
+
+
     for (int i = 0; i < 100; i++) {
         SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
     }
 
     Inifile colorsFile;
-    if (Util::exists(gui->getSonyRootPath() + "/colors.ini")) {
+    if (DirEntry::exists(gui->getSonyRootPath() + "/colors.ini")) {
         colorsFile.load(gui->getSonyRootPath() + "/colors.ini");
         fgR = gui->getR(colorsFile.values["fg"]);
         fgG = gui->getG(colorsFile.values["fg"]);
@@ -201,13 +229,14 @@ void GuiLauncher::loadAssets() {
 
     gui->fonts.openAllFonts(gui->getSonyFontPath());
 
-    notificationLines.createAndSetDefaults(2, 10, 10, FONT_24, 24, 8);    // count, x_start, y_start, FontSize, fontHeight, separationBetweenLines
+    notificationLines.createAndSetDefaults(2, 10, 10, FONT_24, 24,
+                                           8);    // count, x_start, y_start, FontSize, fontHeight, separationBetweenLines
 
     staticElements.clear();
     frontElemets.clear();
     carouselGames.clear();
     carouselPositions.initCoverPositions();
-    switchSet(currentSet);
+    switchSet(currentSet,true);
     showSetName();
 
     gameName = "";
@@ -223,7 +252,7 @@ void GuiLauncher::loadAssets() {
     long time = SDL_GetTicks();
 
     PsObj *background;
-    if (Util::exists(gui->getSonyImagePath() + "/GR/AB_BG.png")) {
+    if (DirEntry::exists(gui->getSonyImagePath() + "/GR/AB_BG.png")) {
         staticMeta = true;
         background = new PsObj(renderer, "background", gui->getSonyImagePath() + "/GR/AB_BG.png");
     } else {
@@ -236,7 +265,7 @@ void GuiLauncher::loadAssets() {
     background->visible = true;
     staticElements.push_back(background);
     string footerFile = "";
-    if (Util::exists(gui->getSonyImagePath() + "/GR/Footer_AB.png")) {
+    if (DirEntry::exists(gui->getSonyImagePath() + "/GR/Footer_AB.png")) {
         footerFile = "/GR/Footer_AB.png";
     } else {
         footerFile = "/GR/Footer.png";
@@ -262,7 +291,7 @@ void GuiLauncher::loadAssets() {
 
     staticElements.push_back(playText);
     string settingsFile = "";
-    if (Util::exists(gui->getSonyImagePath() + "/CB/Function_AB.png")) {
+    if (DirEntry::exists(gui->getSonyImagePath() + "/CB/Function_AB.png")) {
         settingsFile = "/CB/Function_AB.png";
     } else {
         settingsFile = "/CB/Function_BG.png";
@@ -280,9 +309,10 @@ void GuiLauncher::loadAssets() {
     meta->y = 285;
     meta->visible = true;
     if (selGame != -1) {
-        meta->updateTexts(carouselGames[selGame], fgR,fgG,fgB);
+        meta->updateTexts(carouselGames[selGame], fgR, fgG, fgB);
     } else {
-        meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, fgR,fgG,fgB);
+        meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, false, fgR,
+                          fgG, fgB);
     }
     staticElements.push_back(meta);
 
@@ -335,9 +365,9 @@ void GuiLauncher::loadAssets() {
     sselector->visible = false;
 
     if (gui->resumingGui) {
-        PsGamePtr & game = carouselGames[selGame];
+        PsGamePtr &game = carouselGames[selGame];
 
-        if (gui->emuMode==EMU_PCSX) {
+        if (gui->emuMode == EMU_PCSX) {
             if (game->isCleanExit()) {
                 sselector->loadSaveStateImages(game, true);
                 sselector->visible = true;
@@ -346,15 +376,21 @@ void GuiLauncher::loadAssets() {
                 notificationLines[1].setText(_("OOPS! Game crashed. Resume point not available."),
                                              DefaultShowingTimeout);
             }
-        } else
-            {
-                notificationLines[1].setText(_("AutoBleem resume points not available in RetroArch."),
-                                             DefaultShowingTimeout);
-            }
+        } else {
+            notificationLines[1].setText(_("AutoBleem resume points not available in RetroArch."),
+                                         DefaultShowingTimeout);
+        }
     }
 
     frontElemets.push_back(sselector);
 
+    //switchSet(currentSet,false);
+    if (currentSet==SET_RETROARCH)
+    {
+        forceSettingsOnly();
+    }
+
+    showSetName();
     updateMeta();
 
     if (selGame >= 0) {
@@ -378,7 +414,7 @@ void GuiLauncher::freeAssets() {
     }
     staticElements.clear();
     frontElemets.clear();
-    for (auto & game : carouselGames) {
+    for (auto &game : carouselGames) {
         game.freeTex();
     }
     carouselGames.clear();
@@ -390,6 +426,7 @@ void GuiLauncher::freeAssets() {
 //*******************************
 // run when screen is loaded
 void GuiLauncher::init() {
+    raIntegrator.initCoreInfo();
     loadAssets();
 }
 
@@ -400,7 +437,7 @@ void GuiLauncher::init() {
 void GuiLauncher::scrollLeft(int speed) {
     scrolling = true;
     long time = SDL_GetTicks();
-    for (auto & game : carouselGames) {
+    for (auto &game : carouselGames) {
 
         if (game.visible) {
             int nextIndex = game.screenPointIndex;
@@ -428,14 +465,13 @@ void GuiLauncher::scrollLeft(int speed) {
 void GuiLauncher::scrollRight(int speed) {
     scrolling = true;
     long time = SDL_GetTicks();
-    for (auto & game : carouselGames) {
+    for (auto &game : carouselGames) {
         if (game.visible) {
             int nextIndex = game.screenPointIndex;
             if (game.screenPointIndex != carouselPositions.coverPositions.size() - 1) {
                 nextIndex = game.screenPointIndex + 1;
             } else {
                 game.visible = false;
-
             }
             game.destination = carouselPositions.coverPositions[nextIndex];
             game.animationDuration = speed;
@@ -453,7 +489,7 @@ void GuiLauncher::scrollRight(int speed) {
 // update potentially visible covers to save the memory
 void GuiLauncher::updateVisibility() {
     bool allAnimationFinished = true;
-    for (const auto & game : carouselGames) {
+    for (const auto &game : carouselGames) {
         if ((game.animationStart != 0) && game.visible) {
             allAnimationFinished = false;
         }
@@ -471,7 +507,7 @@ void GuiLauncher::updateVisibility() {
 // this method runs during the loop to update positions of the covers during animation
 void GuiLauncher::updatePositions() {
     long currentTime = SDL_GetTicks();
-    for (auto & game : carouselGames) {
+    for (auto &game : carouselGames) {
         if (game.visible) {
             if (game.animationStart != 0) {
                 long position = currentTime - game.animationStart;
@@ -512,7 +548,7 @@ void GuiLauncher::render() {
     // covers render
 
     if (!carouselGames.empty()) {
-        for (const auto & game : carouselGames) {
+        for (const auto &game : carouselGames) {
             if (game.visible) {
                 SDL_Shared<SDL_Texture> currentGameTex = game.coverPng;
                 PsScreenpoint point = game.actual;
@@ -610,7 +646,7 @@ int GuiLauncher::getPreviousId(int id) {
 //*******************************
 // initialize a table with positions for covers
 void GuiLauncher::setInitialPositions(int selected) {
-    for (auto & game : carouselGames) {
+    for (auto &game : carouselGames) {
         game.visible = false;
     }
 
@@ -692,11 +728,11 @@ void GuiLauncher::setInitialPositions(int selected) {
         carouselGames[next].screenPointIndex = 12;
     }
 
-    for (auto & game : carouselGames) {
+    for (auto &game : carouselGames) {
         game.actual = game.current;
         game.destination = game.current;
         if (game.visible) {
-            game.loadTex(renderer);
+            game.loadTex(renderer, &raIntegrator);
         } else {
             game.freeTex();
         }
@@ -850,8 +886,7 @@ void GuiLauncher::loop() {
                     break;
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
                 case SDL_JOYHATMOTION:
-                    if (gui->mapper.isCenter(&e))
-                    {
+                    if (gui->mapper.isCenter(&e)) {
                         if (state == STATE_GAMES) {
                             if (carouselGames.empty()) {
                                 continue;
@@ -872,18 +907,19 @@ void GuiLauncher::loop() {
                             }
                         } else if (state == STATE_SET) {
 
-                            if (menu->selOption != 0) {
-                                if (menu->animationStarted == 0) {
-                                    Mix_PlayChannel(-1, gui->cursor, 0);
-                                    menu->transition = TR_OPTION;
-                                    menu->direction = 0;
-                                    menu->duration = 100;
-                                    menuHead->setText(headers[menu->selOption - 1], fgR, fgG, fgB);
-                                    menuText->setText(texts[menu->selOption - 1], fgR, fgG, fgB);
-                                    menu->animationStarted = time;
+                            if (!menu->foreign) {
+                                if (menu->selOption != 0) {
+                                    if (menu->animationStarted == 0) {
+                                        Mix_PlayChannel(-1, gui->cursor, 0);
+                                        menu->transition = TR_OPTION;
+                                        menu->direction = 0;
+                                        menu->duration = 100;
+                                        menuHead->setText(headers[menu->selOption - 1], fgR, fgG, fgB);
+                                        menuText->setText(texts[menu->selOption - 1], fgR, fgG, fgB);
+                                        menu->animationStarted = time;
+                                    }
                                 }
                             }
-
 
 
                         } else if (state == STATE_RESUME) {
@@ -906,17 +942,19 @@ void GuiLauncher::loop() {
                             }
                         } else if (state == STATE_SET) {
 
-                            if (menu->selOption != 3) {
-                                if (menu->animationStarted == 0) {
-                                    Mix_PlayChannel(-1, gui->cursor, 0);
-                                    menu->transition = TR_OPTION;
-                                    menu->direction = 1;
-                                    menu->duration = 100;
-                                    menuHead->setText(headers[menu->selOption + 1], fgR, fgG, fgB);
-                                    menuText->setText(texts[menu->selOption + 1], fgR, fgG, fgB);
-                                    menu->animationStarted = time;
-                                }
+                            if (!menu->foreign) {
+                                if (menu->selOption != 3) {
+                                    if (menu->animationStarted == 0) {
+                                        Mix_PlayChannel(-1, gui->cursor, 0);
+                                        menu->transition = TR_OPTION;
+                                        menu->direction = 1;
+                                        menu->duration = 100;
+                                        menuHead->setText(headers[menu->selOption + 1], fgR, fgG, fgB);
+                                        menuText->setText(texts[menu->selOption + 1], fgR, fgG, fgB);
+                                        menu->animationStarted = time;
+                                    }
 
+                                }
                             }
 
                         } else if (state == STATE_RESUME) {
@@ -975,6 +1013,53 @@ void GuiLauncher::loop() {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                             Util::powerOff();
+                        }
+
+                        if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT, &e)) {
+
+                            if (state == STATE_GAMES) {
+                                if (!DirEntry::exists(RA_FOLDER)) {
+                                    continue;
+                                }
+                                if (raPlaylists.empty()) {
+                                    continue;
+                                }
+                                powerOffShift = false;
+                                auto playlists = new GuiPlaylists(renderer);
+                                playlists->playlists = raPlaylists;
+                                int nextSel = 0;
+                                int i = 0;
+                                for (string plist:playlists->playlists) {
+                                    if (plist == retroarch_playlist_name) {
+                                        nextSel = i;
+                                        break;
+                                    }
+                                    i++;
+                                }
+                                playlists->selected = nextSel;
+                                playlists->firstVisible = nextSel;
+                                playlists->lastVisible = nextSel + playlists->maxVisible;
+
+                                playlists->show();
+                                bool cancelled = playlists->cancelled;
+                                int selected = playlists->selected;
+                                delete playlists;
+
+                                if (cancelled) continue;
+                                retroarch_playlist_name = raPlaylists[selected];
+                                currentSet = SET_RETROARCH;
+                                switchSet(currentSet,false);
+                                menuHead->setText(headers[0], fgR, fgG, fgB);
+                                menuText->setText(texts[0], fgR, fgG, fgB);
+                                showSetName();
+                                if (selGame != -1) {
+                                    updateMeta();
+                                    menu->setResumePic(carouselGames[selGame]->findResumePicture());
+                                } else {
+                                    updateMeta();
+                                }
+                            }
+
                         }
                         break;
                     }
@@ -1076,24 +1161,29 @@ void GuiLauncher::loop() {
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
                         gui->padMapping = gui->mapper.getMappingString(e.jbutton.which);
-                         if (Util::exists("/media/retroarch/retroarch")) {
+                        if (DirEntry::exists(string(RA_FOLDER)+"/retroarch")) {
 
 
-                             if (state == STATE_GAMES) {
-                                 if (carouselGames.empty()) {
-                                     continue;
-                                 }
-                                 gui->startingGame = true;
-                                 gui->runningGame = carouselGames[selGame];
-                                 gui->lastSelIndex = selGame;
-                                 gui->resumepoint = -1;
-                                 gui->lastSet = currentSet;
-                                 menuVisible = false;
 
-                                 gui->emuMode = EMU_RETROARCH;
+                            if (state == STATE_GAMES) {
+                                if (carouselGames.empty()) {
+                                    continue;
+                                }
+                                if (carouselGames[selGame]->foreign)
+                                {
+                                    continue;
+                                }
+                                gui->startingGame = true;
+                                gui->runningGame = carouselGames[selGame];
+                                gui->lastSelIndex = selGame;
+                                gui->resumepoint = -1;
+                                gui->lastSet = currentSet;
+                                menuVisible = false;
 
-                             }
-                         }
+                                gui->emuMode = EMU_RETROARCH;
+
+                            }
+                        }
                     }
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
@@ -1111,6 +1201,11 @@ void GuiLauncher::loop() {
                             menuVisible = false;
 
                             gui->emuMode = EMU_PCSX;
+                            if (gui->runningGame->foreign)
+                            {
+                                gui->emuMode = EMU_RETROARCH;
+                                gui->lastPlaylist = retroarch_playlist_name;
+                            }
 
                         } else if (state == STATE_SET) {
                             gui->resumingGui = false;
@@ -1142,7 +1237,7 @@ void GuiLauncher::loop() {
                                 }
                                 Mix_PlayChannel(-1, gui->cancel, 0);
                                 notificationLines[1].setText(_("MemCard Manager will be available soon"),
-                                        DefaultShowingTimeout, brightWhite, FONT_24);
+                                                             DefaultShowingTimeout, brightWhite, FONT_24);
                             }
                             if (menu->selOption == 1) {
                                 if (carouselGames.empty()) {
@@ -1157,7 +1252,9 @@ void GuiLauncher::loop() {
 
                                     gameIni.load(carouselGames[selGame]->folder + "Game.ini");
                                     string folderNoLast =
-                                            carouselGames[selGame]->folder.substr(0, carouselGames[selGame]->folder.size() - 1);
+                                            carouselGames[selGame]->folder.substr(0,
+                                                                                  carouselGames[selGame]->folder.size() -
+                                                                                  1);
                                     gameIni.entry = folderNoLast.substr(folderNoLast.find_last_of("//") + 1);
                                     editor->gameIni = gameIni;
                                 } else {
@@ -1188,7 +1285,6 @@ void GuiLauncher::loop() {
                                     internalDB->refreshGameInternal(carouselGames[selGame]);
                                     internalDB->disconnect();
                                     delete internalDB;
-
                                 }
 
                                 // if the current set is favorites and the user removes the last favorite selGame will be -1
@@ -1209,10 +1305,7 @@ void GuiLauncher::loop() {
                                 }
                                 // fix to put back cover on top position
 
-
-
                             } else if (menu->selOption == 0) {
-
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 int lastSet = currentSet;
                                 int lastGame = selGame;
@@ -1221,8 +1314,7 @@ void GuiLauncher::loop() {
                                 bool exitCode = option->exitCode;
                                 delete option;
 
-                                if (exitCode==0)
-                                {
+                                if (exitCode == 0) {
                                     freeAssets();
                                     loadAssets();
                                     gui->resumingGui = false;
@@ -1233,11 +1325,10 @@ void GuiLauncher::loop() {
                                         if (currentSet == SET_INTERNAL) {
                                             currentSet = SET_ALL;
                                             resetCarouselPosition = true;
-
                                         }
                                     }
 
-                                    switchSet(currentSet);
+                                    switchSet(currentSet,false);
                                     showSetName();
 
                                     if (resetCarouselPosition) {
@@ -1250,7 +1341,7 @@ void GuiLauncher::loop() {
                                             updateMeta();
                                         }
                                     } else {
-                                        if (selGame!=-1) {
+                                        if (selGame != -1) {
                                             setInitialPositions(selGame);
                                             updateMeta();
                                             menu->setResumePic(carouselGames[selGame]->findResumePicture());
@@ -1259,14 +1350,13 @@ void GuiLauncher::loop() {
 
                                     if (!carouselGames.empty()) {
                                         gui->loadAssets();
-                                        for (auto & game : carouselGames) {
+                                        for (auto &game : carouselGames) {
                                             game.freeTex();
                                         }
                                         setInitialPositions(selGame);
-                                    } else
-                                    {
+                                    } else {
                                         gui->loadAssets();
-                                        meta->gameName="";
+                                        meta->gameName = "";
                                         menu->setResumePic("");
                                     }
 
@@ -1274,7 +1364,6 @@ void GuiLauncher::loop() {
                                 } else {
                                     render();
                                 }
-
                             }
                         } else if (state == STATE_RESUME) {
                             auto game = carouselGames[selGame];
@@ -1313,11 +1402,10 @@ void GuiLauncher::loop() {
                                 } else {
                                     state = STATE_GAMES;
                                 }
-
                             }
                         }
-
                     };
+
                     if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE, &e)) {
                         if (state != STATE_RESUME) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
@@ -1350,14 +1438,19 @@ void GuiLauncher::loop() {
                                 }
                             }
                         }
-
                     };
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT, &e)) {
                         if (state == STATE_GAMES) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
 
+                            int previousSet = currentSet;
                             currentSet++;
+                            if (previousSet == SET_RETROARCH) {
+                                showAllOptions();
+                                menuHead->setText(headers[0], fgR, fgG, fgB);
+                                menuText->setText(texts[0], fgR, fgG, fgB);
+                            }
 
                             if (gui->cfg.inifile.values["origames"] != "true") {
                                 if (currentSet == SET_INTERNAL) {
@@ -1365,7 +1458,7 @@ void GuiLauncher::loop() {
                                 }
                             }
                             if (currentSet > SET_LAST) currentSet = 0;
-                            switchSet(currentSet);
+                            switchSet(currentSet,false);
                             showSetName();
                             if (selGame != -1) {
                                 updateMeta();
@@ -1380,4 +1473,34 @@ void GuiLauncher::loop() {
     }
 
     freeAssets();
+}
+
+void GuiLauncher::forceSettingsOnly() {
+    menu->foreign = true;
+    menu->selOption = 0;
+    menu->x = 640 - 118 / 2;
+    menu->ox = menu->x;
+    menu->xoff[0] = 0;
+    menu->xoff[1] = 0;
+    menu->xoff[2] = 0;
+    menu->xoff[3] = 0;
+
+    menu->direction = 0;
+    menu->duration = 100;
+    menu->animationStarted = 0;
+
+
+}
+
+void GuiLauncher::showAllOptions() {
+    menu->foreign = false;
+    menu->selOption = 0;
+    menu->x = 640 - 118 / 2;
+    menu->ox = menu->x;
+    menu->xoff[0] = 0;
+    menu->xoff[1] = 0;
+    menu->xoff[2] = 0;
+    menu->xoff[3] = 0;
+    menu->animationStarted = 0;
+
 }

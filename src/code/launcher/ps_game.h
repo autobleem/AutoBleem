@@ -32,6 +32,12 @@ public:
     bool locked = false;
     int cds = 1;
     bool favorite = false;
+    bool foreign = false; // to state it is not PS1 game (RA)
+    std::string core_path;
+    std::string image_path;
+    std::string core_name;
+    std::string db_name;
+
 
     void setMemCard(std::string name);
     std::string findResumePicture();

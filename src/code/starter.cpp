@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "util.h"
+#include "DirEntry.h"
 #include "engine/inifile.h"
 #include "engine/memcard.h"
 #include "engine/config.h"
@@ -15,7 +16,7 @@ using namespace std;
 string valueOrDefault(string name, string def, map<string,string> iniValues) {
     string value;
     if (iniValues.find(name) != iniValues.end()) {
-        value = trim(iniValues.find(name)->second);
+        value = Util::trim(iniValues.find(name)->second);
         if (value.length() == 0) {
 
             return def;
@@ -58,7 +59,7 @@ int main (int argc, char *argv[])
 
     if (memcard!="SONY")
     {
-        if (Util::exists(sourceCard+memcard))
+        if (DirEntry::exists(sourceCard+memcard))
         {
             Memcard * card = new Memcard("/media/Games/");
             if (!card->swapIn("./.pcsx",memcard))
@@ -106,7 +107,7 @@ int main (int argc, char *argv[])
             if (arguments[i]=="-cdfile")
             {
                 string image=arguments[i+1];
-                if (Util::matchExtension(image,".cue")) {
+                if (DirEntry::matchExtension(image,".cue")) {
                     image = image.substr(0, image.size() - 4);
                 }
                 arguments[i+1] = image;

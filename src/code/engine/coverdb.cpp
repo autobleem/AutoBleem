@@ -3,9 +3,10 @@
 //
 
 #include "coverdb.h"
-
 #include "../util.h"
 #include <iostream>
+#include "../DirEntry.h"
+
 using namespace std;
 
 static const char *jDatabases[] = {"../db/coversU.db", "../db/coversP.db", "../db/coversJ.db"};
@@ -19,7 +20,7 @@ Coverdb::Coverdb()
     {
         covers[i]= nullptr;
         auto filename = jDatabases[i];
-        if (Util::exists(filename)) {
+        if (DirEntry::exists(filename)) {
                 covers[i] = new Database();
                 bool success = covers[i]->connect(filename);
                 if (!success) {

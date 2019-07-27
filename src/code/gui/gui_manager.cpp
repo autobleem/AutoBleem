@@ -28,15 +28,15 @@ void GuiManager::init()
 
     shared_ptr<Gui> gui(Gui::getInstance());
     string path = gui->path;
-    for (const DirEntry &entry: Util::diru(path)) {
-        if (!Util::isDirectory(gui->path+Util::separator()+entry.name)) continue;
+    for (const DirEntry &entry: DirEntry::diru(path)) {
+        if (!DirEntry::isDirectory(gui->path+DirEntry::separator()+entry.name)) continue;
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
 
-        string gameDataPath = path + entry.name + Util::separator();
-        string saveStateDir = path + Util::separator() + "!SaveStates" + Util::separator() + entry.name;
+        string gameDataPath = path + entry.name + DirEntry::separator();
+        string saveStateDir = path + DirEntry::separator() + "!SaveStates" + DirEntry::separator() + entry.name;
         Inifile ini;
-        ini.load(path+entry.name+Util::separator()+GAME_INI);
+        ini.load(path+entry.name+DirEntry::separator()+GAME_INI);
         if (ini.section.empty())
         {
             continue;
@@ -100,7 +100,7 @@ int flushCovers(const char *file, const struct stat *sb,
 {
     int retval = 0;
 
-    if (Util::getFileExtension(file)=="png")
+    if (DirEntry::getFileExtension(file)=="png")
     {
         remove(file);
     }

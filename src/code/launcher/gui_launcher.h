@@ -17,6 +17,7 @@
 #include "../main.h"
 #include <vector>
 #include <memory>
+#include "ra_integrator.h"
 
 #define STATE_GAMES    0
 #define STATE_SET      1
@@ -29,6 +30,8 @@
 #define SET_EXTERNAL 2
 #define SET_FAVORITE 3
 #define SET_LAST 3
+
+#define SET_RETROARCH -1
 
 extern const SDL_Color brightWhite;
 
@@ -49,7 +52,7 @@ public:
     void moveMainCover(int state);
 
     int currentSet=SET_ALL;
-    void switchSet(int newSet);
+    void switchSet(int newSet, bool noForce);
     void showSetName();
     NotificationLines notificationLines; // top two lines of the screen
     int numberOfNonDuplicatedGamesInCarousel = 0;
@@ -93,6 +96,8 @@ public:
     std::string region;
     std::string players;
 
+    std::string retroarch_playlist_name="";
+
     bool staticMeta=false;
     bool gameInfoVisible = true;
     bool scrolling = false;
@@ -102,6 +107,9 @@ public:
     // Note that if there are less than 13 games in the gamesList the games are duplicated to fill out the carousel.
     // So the same PsGamePtr could be in more than one PsCarouselGame.
     std::vector<PsCarouselGame> carouselGames;
+    std::vector<std::string> raPlaylists;
+
+    RAIntegrator raIntegrator;
 
     int selGame = 0;
     int state = STATE_GAMES;
@@ -113,6 +121,8 @@ public:
     void updatePositions();
     void updateVisibility();
     void switchState(int state, int time);
+    void forceSettingsOnly();
+    void showAllOptions();
 
     static bool sortByTitle(const PsGamePtr &i, const PsGamePtr &j) { return SortByCaseInsensitive(i->title, j->title); }
 };

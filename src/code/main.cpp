@@ -32,7 +32,7 @@ const char EXT_PBP[] = ".pbp";
 const char EXT_ECM[] = ".ecm";
 const char EXT_BIN[] = ".bin";
 const char EXT_IMG[] = ".img";
-const char EXT_ISO[] = ".iso";
+//const char EXT_ISO[] = ".iso";
 const char EXT_CUE[] = ".cue";
 const char EXT_LIC[] = ".lic";
 
@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
     string path = argv[2];
 
     Memcard *memcardOperation = new Memcard(path);
-    memcardOperation->restoreAll(path + Util::separator() + "!SaveStates");
+    memcardOperation->restoreAll(path + DirEntry::separator() + "!SaveStates");
     delete memcardOperation;
 
     bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(path);
@@ -128,12 +128,15 @@ int main(int argc, char *argv[]) {
 
             // just a temp to test exec
             EmuInterceptor *interceptor;
-            if (gui->emuMode == EMU_PCSX)
-            {
-                interceptor = new PcsxInterceptor();
-            } else
+            if (gui->runningGame->foreign)
             {
                 interceptor = new RetroArchInterceptor();
+            } else {
+                if (gui->emuMode == EMU_PCSX) {
+                    interceptor = new PcsxInterceptor();
+                } else {
+                    interceptor = new RetroArchInterceptor();
+                }
             }
 
             interceptor->memcardIn(gui->runningGame);
@@ -141,6 +144,14 @@ int main(int argc, char *argv[]) {
             interceptor->execute(gui->runningGame, gui->resumepoint );
             interceptor->memcardOut(gui->runningGame);
             delete (interceptor);
+
+            SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+
+            usleep(300*1000);
+            gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
+            gui->startingGame = false;
+
+            gui->display(false, path, db, true);
 
 #else
             cout << "Starting game" << endl;
@@ -164,12 +175,15 @@ int main(int argc, char *argv[]) {
 
             gui->saveSelection();
             EmuInterceptor *interceptor;
-            if (gui->emuMode == EMU_PCSX)
-            {
-                interceptor = new PcsxInterceptor();
-            } else
+            if (gui->runningGame->foreign)
             {
                 interceptor = new RetroArchInterceptor();
+            } else {
+                if (gui->emuMode == EMU_PCSX) {
+                    interceptor = new PcsxInterceptor();
+                } else {
+                    interceptor = new RetroArchInterceptor();
+                }
             }
 
             interceptor->memcardIn(gui->runningGame);

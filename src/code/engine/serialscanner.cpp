@@ -9,6 +9,8 @@
 #include "../util.h"
 #include <fstream>
 #include <iostream>
+#include "../DirEntry.h"
+
 using namespace std;
 
 // The SerialScanner class reads the serial number in a CDROM BIN file which is an ISO 9660 image of a CDROM.
@@ -61,7 +63,7 @@ string SerialScanner::scanSerial(ImageType imageType, string path, string firstB
 string SerialScanner::scanSerialInternal(ImageType imageType, string path, string firstBinPath) {
     if (imageType == IMAGE_PBP) {
         string destinationDir = path ;
-        string pbpFileName = Util::findFirstFile(EXT_PBP, destinationDir);
+        string pbpFileName = DirEntry::findFirstFile(EXT_PBP, destinationDir);
         if (pbpFileName != "") {
             ifstream is;
             is.open(destinationDir + pbpFileName);
@@ -173,7 +175,7 @@ string SerialScanner::workarounds(ImageType imageType, string path, string first
     }
     if (imageType == IMAGE_PBP)
     {
-        fileToScan = Util::findFirstFile(EXT_PBP, path);
+        fileToScan = DirEntry::findFirstFile(EXT_PBP, path);
     }
 
     // BH2 - Resident Evil 1.5

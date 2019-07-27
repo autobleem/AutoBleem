@@ -21,7 +21,7 @@ string VerMigration::getLastRunVersion()
 {
     string version="";
 
-    if (!Util::exists(verFile))
+    if (!DirEntry::exists(verFile))
     {
         version="v0.4.0";
     } else
@@ -63,7 +63,7 @@ void VerMigration::migrate04_05(Database * db)
     cout << "Migrating 0.4.0 to 0.5.0" << endl;
     // update game ini's with correct year (by title)
     int newYear = 2000; // initial value
-    ifstream is(Util::getWorkingPath()+Util::separator()+"autobleem.list");
+    ifstream is(Util::getWorkingPath()+DirEntry::separator()+"autobleem.list");
     string line;
     while (getline(is, line)) {
         vector<string> vect;
@@ -77,12 +77,12 @@ void VerMigration::migrate04_05(Database * db)
             cout << id << endl;
             cout << folder << endl;
 
-            string gameIniLoc = folder+Util::separator()+"GameData"+Util::separator()+"Game.ini";
-            if (!Util::exists(gameIniLoc))
+            string gameIniLoc = folder+DirEntry::separator()+"GameData"+DirEntry::separator()+"Game.ini";
+            if (!DirEntry::exists(gameIniLoc))
             {
-                gameIniLoc = folder+Util::separator()+"Game.ini";
+                gameIniLoc = folder+DirEntry::separator()+"Game.ini";
             }
-            if (!Util::exists(gameIniLoc))
+            if (!DirEntry::exists(gameIniLoc))
             {
                 continue;
             }
@@ -116,7 +116,7 @@ void VerMigration::migrate(Database * db)
     string last=getLastRunVersion();
     Config cfg;
     string current=cfg.inifile.values["version"];
-    bool autobleemEverRun = Util::exists("/media/System/Logs/autobleem.log");
+    bool autobleemEverRun = DirEntry::exists("/media/System/Logs/autobleem.log");
     if ((autobleemEverRun) && (current!=last))
     {
         // we need to migrate from 0.4 to 0.5.0

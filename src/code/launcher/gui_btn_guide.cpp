@@ -27,6 +27,7 @@ void GuiBtnGuide::render() {
     gui->renderTextLine("|@S|   "+_("Run using RetroBoot(if installed)"), 3, offset,true);
     gui->renderTextLine("|@R1| / |@L1|   "+_("Quick scroll to next letter"), 4, offset,true);
     gui->renderTextLine("|@Select|   "+_("Games filter"), 5, offset,true);
+    gui->renderTextLine("|@L2| + |@Select|   "+_("RetroBoot Systems"), 6, offset,true);
 
     gui->renderTextLine("-=" + _("In Game") + "=-",7,offset,true);
     gui->renderTextLine("|@Select| + |@T|   "+_("Emulator config MENU"), 8, offset,true);

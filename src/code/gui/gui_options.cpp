@@ -37,20 +37,20 @@ string GuiOptions::getOption(const vector<string> & list, const string & current
 //*******************************
 void GuiOptions::init() {
     shared_ptr<Lang> lang(Lang::getInstance());
-    themes.clear();
-    sthemes.clear();
-    sthemes.push_back("default");
-    vector<DirEntry> folders = Util::diru(Util::getWorkingPath() + Util::separator() + "theme");
+    autobleemUIThemes.clear();
+    menuThemes.clear();
+    menuThemes.push_back("default");
+    DirEntries folders = DirEntry::diru(DirEntry::getWorkingPath() + DirEntry::separator() + "theme");
     for (const DirEntry & entry:folders) {
-        themes.push_back(entry.name);
+        autobleemUIThemes.push_back(entry.name);
     }
 #if defined(__x86_64__) || defined(_M_X64)
-    folders = Util::diru(Util::getWorkingPath() + Util::separator() + "themes");
+    folders = DirEntry::diru(DirEntry::getWorkingPath() + DirEntry::separator() + "themes");
 #else
-    folders = Util::diru("/media/themes");
+    folders = DirEntry::diru("/media/themes");
 #endif
     for (const DirEntry & entry:folders) {
-        sthemes.push_back(entry.name);
+        menuThemes.push_back(entry.name);
     }
     pcsx.clear();
     pcsx.push_back("original");
@@ -88,9 +88,9 @@ void GuiOptions::init() {
     jewels.push_back("none");
     jewels.push_back("default");
 
-    folders = Util::diru(Util::getWorkingPath() + "/evoimg/frames");
+    folders = DirEntry::diru(DirEntry::getWorkingPath() + "/evoimg/frames");
     for (const DirEntry & entry:folders) {
-        if (Util::getFileExtension(entry.name) == "png") {
+        if (DirEntry::getFileExtension(entry.name) == "png") {
             jewels.push_back(entry.name);
         }
     }
@@ -99,16 +99,15 @@ void GuiOptions::init() {
     quickmenu.push_back("RetroArch");
     music.clear();
     music.push_back("--");
-    folders = Util::diru(Util::getWorkingPath() + "/music");
+    folders = DirEntry::diru(DirEntry::getWorkingPath() + "/music");
     for (const DirEntry & entry:folders) {
-        if (Util::getFileExtension(entry.name) == "ogg") {
+        if (DirEntry::getFileExtension(entry.name) == "ogg") {
             music.push_back(entry.name);
         }
     }
     for (int i=0; i <= 20; ++i) {
         showingtimeout.push_back(to_string(i));
     }
-
 }
 
 #define CFG_LANG           0
@@ -239,15 +238,14 @@ void GuiOptions::loop() {
                 menuVisible = false;
             }
 
-
             switch (e.type) {
                 case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
-
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
-                        string cfg_path = Util::getWorkingPath() + Util::separator() + "config.ini";
+                        string cfg_path = DirEntry::getWorkingPath() + DirEntry::separator() + "config.ini";
                         gui->cfg.inifile.load(cfg_path);    // restore the original config.ini settings
                         lang->load(gui->cfg.inifile.values["language"]);    // restore the original lang
+                        gui->loadAssets();                                  // restore original themes
                         gui->overrideQuickBoot = true;
                         menuVisible = false;
                         exitCode = -1;
@@ -260,7 +258,6 @@ void GuiOptions::loop() {
                         menuVisible = false;
                         exitCode = 0;
                     };
-
                     break;
 
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
@@ -292,7 +289,6 @@ void GuiOptions::loop() {
                         render();
                     }
 
-
                     if (gui->mapper.isRight(&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         if (selOption == CFG_LANG) {
@@ -303,15 +299,17 @@ void GuiOptions::loop() {
                         }
 
                         if (selOption == CFG_THEME) {
-                            string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], true);
+                            string nextValue = getOption(autobleemUIThemes, gui->cfg.inifile.values["theme"], true);
                             gui->cfg.inifile.values["theme"] = nextValue;
                             init();
                             gui->loadAssets();
                         }
 
                         if (selOption == CFG_MENUTH) {
-                            string nextValue = getOption(sthemes, gui->cfg.inifile.values["stheme"], true);
+                            string nextValue = getOption(menuThemes, gui->cfg.inifile.values["stheme"], true);
                             gui->cfg.inifile.values["stheme"] = nextValue;
+                            init();
+                            gui->loadAssets();
                         }
 
                         if (selOption == CFG_BGM) {
@@ -396,7 +394,7 @@ void GuiOptions::loop() {
                         }
 
                         if (selOption == CFG_THEME) {
-                            string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], false);
+                            string nextValue = getOption(autobleemUIThemes, gui->cfg.inifile.values["theme"], false);
                             gui->cfg.inifile.values["theme"] = nextValue;
                             init();
                             gui->loadAssets();
@@ -410,8 +408,10 @@ void GuiOptions::loop() {
                         }
 
                         if (selOption == CFG_MENUTH) {
-                            string nextValue = getOption(sthemes, gui->cfg.inifile.values["stheme"], false);
+                            string nextValue = getOption(menuThemes, gui->cfg.inifile.values["stheme"], false);
                             gui->cfg.inifile.values["stheme"] = nextValue;
+                            init();
+                            gui->loadAssets();
                         }
 
                         if (selOption == CFG_BGM) {
@@ -478,7 +478,6 @@ void GuiOptions::loop() {
 
                         render();
                     }
-
                     break;
             }
         }

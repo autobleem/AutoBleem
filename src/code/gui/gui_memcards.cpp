@@ -182,7 +182,7 @@ void GuiMemcards::loop() {
                         }
 
                         string testResult = result;
-                        if (Util::matchesLowercase("sony", testResult)) {
+                        if (Util::compareCaseInsensitive("sony", testResult)) {
                             cancelled = true;
                         }
 
@@ -226,7 +226,7 @@ void GuiMemcards::loop() {
                         }
 
                         string testResult = result;
-                        if (Util::matchesLowercase("sony", testResult)) {
+                        if (Util::compareCaseInsensitive("sony", testResult)) {
                             cancelled = true;
                         }
 
