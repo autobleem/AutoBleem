@@ -213,7 +213,7 @@ vector<string> RAIntegrator::getPlaylists() {
 
     string path = string(RA_FOLDER) + DirEntry::separator() + "playlists";
     cout << "Checking path" << path <<  endl;
-    vector<DirEntry> entries = DirEntry::diru(path);
+    vector<DirEntry> entries = DirEntry::diru_FilesOnly(path);
     cout << "Total Playlists:" << entries.size() << endl;
     for (const DirEntry &entry:entries) {
         cout << "Checking entry" << entry.name << endl;
@@ -260,10 +260,9 @@ void RAIntegrator::initCoreInfo() {
     defaultCores.clear();
     string infoFolder = string(RA_FOLDER) + DirEntry::separator() + "info/";
     cout << "Scanning: " << infoFolder << endl;
-    vector<DirEntry> entries = DirEntry::diru(infoFolder);
+    vector<DirEntry> entries = DirEntry::diru_FilesOnly(infoFolder);
     cout << "Found files:" << entries.size() << endl;
     for (const DirEntry &entry:entries) {
-        if (entry.isDir) continue;
         cout << "Checking file: " << entry.name << endl;
         if (DirEntry::getFileExtension(entry.name) == "info") {
             string fullPath = infoFolder +  entry.name;
