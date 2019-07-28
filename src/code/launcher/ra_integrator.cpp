@@ -260,9 +260,10 @@ void RAIntegrator::initCoreInfo() {
     defaultCores.clear();
     string infoFolder = string(RA_FOLDER) + DirEntry::separator() + "info/";
     cout << "Scanning: " << infoFolder << endl;
-    vector<DirEntry> entries = DirEntry::diru_FilesOnly(infoFolder);
+    vector<DirEntry> entries = DirEntry::diru(infoFolder);
     cout << "Found files:" << entries.size() << endl;
     for (const DirEntry &entry:entries) {
+        if (entry.isDir) continue;
         cout << "Checking file: " << entry.name << endl;
         if (DirEntry::getFileExtension(entry.name) == "info") {
             string fullPath = infoFolder +  entry.name;
