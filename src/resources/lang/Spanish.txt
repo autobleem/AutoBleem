@@ -108,7 +108,7 @@ GFX Filter:
 Filtro GFX:
 Go back
 Ir atras
-Graphics by: 
+Graphics by:
 Graficos por:
 High res:
 High res:

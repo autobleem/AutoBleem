@@ -106,7 +106,7 @@ GFX Filter:
 Filtre GFX :
 Go back
 Tornar
-Graphics by: 
+Graphics by:
 Grafic per :
 High res:
 Nauta resolucion :

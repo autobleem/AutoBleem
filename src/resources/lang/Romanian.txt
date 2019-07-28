@@ -106,7 +106,7 @@ GFX Filter:
 Filtru GFX:
 Go back
 Inapoi
-Graphics by: 
+Graphics by:
 Grafica de:
 High res:
 High res (rezolutie inalta):

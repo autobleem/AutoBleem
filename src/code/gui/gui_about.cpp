@@ -24,7 +24,7 @@ void GuiAbout::render() {
     gui->renderTextLine(_("AutoBleem") + " " + gui->cfg.inifile.values["version"] +
                         " - " + _("Automatic PlayStation Classic USB launcher"), 1, offset);
     gui->renderTextLine(_("Code: AutoBleem Team") + " (screemer, mGGk, nex, ThaFridge, Axanar) ", 2, offset);
-    gui->renderTextLine(_("Graphics by: ")+"Kevzombie" , 3, offset);
+    gui->renderTextLine(_("Graphics by:") + " : " + "Kevzombie", 3, offset);
 
     gui->renderTextLine("Melancholia (Goth/Emo Type Beat) by | e s c p | & YellowTree | https://escp-music.bandcamp.com",4,offset);
 

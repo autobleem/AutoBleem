@@ -106,8 +106,8 @@ GFX Filter:
 Filtri Grafici:
 Go back
 Ritorna
-Graphics by: 
-Grafica di: 
+Graphics by:
+Grafica di:
 High res:
 Alta risoluzione:
 Hold

@@ -106,7 +106,7 @@ GFX Filter:
 Grafický filter:
 Go back
 Späť
-Graphics by: 
+Graphics by:
 Grafika:
 High res:
 Vysoké rozlíšenie:
