@@ -251,7 +251,7 @@ void GuiLauncher::loadAssets() {
 
     long time = SDL_GetTicks();
 
-    PsObj *background;
+
     if (DirEntry::exists(gui->getSonyImagePath() + "/GR/AB_BG.png")) {
         staticMeta = true;
         background = new PsObj(renderer, "background", gui->getSonyImagePath() + "/GR/AB_BG.png");
@@ -1027,6 +1027,8 @@ void GuiLauncher::loop() {
                                 powerOffShift = false;
                                 auto playlists = new GuiPlaylists(renderer);
                                 playlists->playlists = raPlaylists;
+                                playlists->backgroundImg = background->tex;
+                                playlists->integrator = &raIntegrator;
                                 int nextSel = 0;
                                 int i = 0;
                                 for (string plist:playlists->playlists) {
@@ -1410,6 +1412,7 @@ void GuiLauncher::loop() {
                         if (state != STATE_RESUME) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             GuiBtnGuide *guide = new GuiBtnGuide(renderer);
+                            guide->backgroundImg = background->tex;
                             guide->show();
                             delete guide;
                         } else {

@@ -28,15 +28,21 @@ using CoreInfos = std::vector<CoreInfoPtr>;
 
 class RAIntegrator {
 public:
+
+    ~RAIntegrator();
     CoreInfos cores;
     map<string,CoreInfoPtr> defaultCores;
+    map<string,CoreInfoPtr> overrideCores;
     set<string> databases;
+
 
     bool getGames(PsGames *result, string playlist);
     vector<string> getPlaylists();
-    void autoDetectCorePath(PsGamePtr game, string& core_name, string& core_path);
+    bool autoDetectCorePath(PsGamePtr game, string& core_name, string& core_path);
+    bool findOverrideCore(PsGamePtr game, string& core_name, string& core_path);
     string escapeName(string input);
     void initCoreInfo();
+    int getGamesNumber(string playlist);
 
     static bool sortByMaxExtensions(const CoreInfoPtr &i, const CoreInfoPtr &j) { return i->extensions.size() > j->extensions.size(); };
 
