@@ -24,11 +24,13 @@ RAIntegrator::~RAIntegrator()
 bool RAIntegrator::isValidPlaylist(string path) {
     // check file extension
     if (ReturnLowerCase(DirEntry::getFileExtension(path)) != "lpl") {
+        cout << "Extension is not .lpl" << endl;
         return false;
     }
     // check if not empty
     std::ifstream in(path, std::ifstream::ate | std::ifstream::binary);
     if (in.tellg() <= 0) {
+        cout << "Playlist looks like empty file" << endl;
         return false;
     }
 
@@ -207,14 +209,23 @@ vector<string> RAIntegrator::getPlaylists() {
         return result;
     }
 
+    cout << "Playlists: RA folder Found" << endl;
+
     string path = string(RA_FOLDER) + DirEntry::separator() + "playlists";
+    cout << "Checking path" << endl;
     vector<DirEntry> entries = DirEntry::diru_FilesOnly(path);
     for (const DirEntry &entry:entries) {
+        cout << "Checking entry" << endl;
         if (DirEntry::getFileNameWithoutExtension(entry.name) == "AutoBleem") continue;
+        cout << "Checking playlist valid" << endl;
         if (isValidPlaylist(path + DirEntry::separator() + entry.name)) {
+            cout << "Playlist valid" << endl;
             if (getGamesNumber(entry.name)>0) {
                 result.push_back(entry.name);
             }
+        } else
+        {
+            cout << "Playlist invalid" << endl;
         }
     }
     return result;
