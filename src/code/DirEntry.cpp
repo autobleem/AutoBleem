@@ -155,20 +155,10 @@ DirEntries DirEntry::diru(string path) {
 // DirEntry::diru_DirsOnly
 //*******************************
 DirEntries DirEntry::diru_DirsOnly(string path) {
-    cout << "Dirs only" << endl;
     auto temp = diru(path); // get all dirs and files
-    cout << "Dumping temp" << endl;
-    for (const DirEntry &di:temp)
-    {
-        cout << di.name << " dir" << di.isDir <<endl;
-    }
     DirEntries ret;
     copy_if(begin(temp), end(temp), back_inserter(ret), [](const DirEntry & dir) { return dir.isDir; });    // copy only dirs
-    cout << "Dumping ret" << endl;
-    for (const DirEntry &di:ret)
-    {
-        cout << di.name << " dir" << di.isDir <<endl;
-    }
+
     return ret; // return only the dirs
 }
 
@@ -176,20 +166,16 @@ DirEntries DirEntry::diru_DirsOnly(string path) {
 // DirEntry::diru_FilesOnly
 //*******************************
 DirEntries DirEntry::diru_FilesOnly(string path) {
-    cout << "Files only" << endl;
     auto temp = diru(path); // get all dirs and files
-    cout << "Dumping temp" << endl;
-    for (const DirEntry &di:temp)
-    {
-        cout << di.name << " dir" << di.isDir <<endl;
-    }
+    cout << "all:" << endl;
+    for (auto & item : temp)
+        item.print();
     DirEntries ret;
     copy_if(begin(temp), end(temp), back_inserter(ret), [](const DirEntry & dir) { return !dir.isDir; });   //copy only files
-    cout << "Dumping ret" << endl;
-    for (const DirEntry &di:ret)
-    {
-        cout << di.name << " dir" << di.isDir <<endl;
-    }
+    cout << "files only:" << endl;
+    for (auto & item : temp)
+        item.print();
+
     return ret; // return only the files
 }
 
@@ -430,4 +416,11 @@ DirEntries DirEntry::getFilesWithExtension(const string& path, const DirEntries 
         }
     }
     return fileList;
+}
+
+//*******************************
+// DirEntry::print
+//*******************************
+void DirEntry::print() {
+    cout << (isDir ? "Dir: " : "File: ") << name << std::endl;
 }
