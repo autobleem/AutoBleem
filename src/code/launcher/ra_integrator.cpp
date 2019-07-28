@@ -212,10 +212,11 @@ vector<string> RAIntegrator::getPlaylists() {
     cout << "Playlists: RA folder Found" << endl;
 
     string path = string(RA_FOLDER) + DirEntry::separator() + "playlists";
-    cout << "Checking path" << endl;
+    cout << "Checking path" << path <<  endl;
     vector<DirEntry> entries = DirEntry::diru_FilesOnly(path);
+    cout << "Total Playlists:" << entries.size() << endl;
     for (const DirEntry &entry:entries) {
-        cout << "Checking entry" << endl;
+        cout << "Checking entry" << entry.name << endl;
         if (DirEntry::getFileNameWithoutExtension(entry.name) == "AutoBleem") continue;
         cout << "Checking playlist valid" << endl;
         if (isValidPlaylist(path + DirEntry::separator() + entry.name)) {
