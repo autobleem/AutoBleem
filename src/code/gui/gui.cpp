@@ -703,6 +703,8 @@ void Gui::menuSelection() {
                                 } else {
                                     if (lastSet < 0) {
                                         lastSet = SET_ALL;
+                                        lastSelIndex=0;
+                                        resumingGui = false;
                                     }
                                     Mix_PlayChannel(-1, cursor, 0);
                                     drawText(_("Starting EvolutionUI"));
