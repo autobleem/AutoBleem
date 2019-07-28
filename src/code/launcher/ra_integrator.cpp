@@ -213,7 +213,7 @@ vector<string> RAIntegrator::getPlaylists() {
 
     string path = string(RA_FOLDER) + DirEntry::separator() + "playlists";
     cout << "Checking path" << path <<  endl;
-    vector<DirEntry> entries = DirEntry::diru_FilesOnly(path);
+    vector<DirEntry> entries = DirEntry::diru(path);
     cout << "Total Playlists:" << entries.size() << endl;
     for (const DirEntry &entry:entries) {
         cout << "Checking entry" << entry.name << endl;
