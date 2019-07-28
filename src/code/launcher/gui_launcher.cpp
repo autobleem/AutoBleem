@@ -40,14 +40,14 @@ void GuiLauncher::updateMeta() {
 //*******************************
 void GuiLauncher::switchSet(int newSet, bool noForce) {
     shared_ptr<Gui> gui(Gui::getInstance());
-
+    cout << "Switching to Set: " << currentSet << endl;
     // clear the carousel text
     if (!carouselGames.empty()) {
         for (auto &game : carouselGames) {
             game.freeTex();
         }
     }
-
+    cout << "Reloading games list" << endl;
     // get fresh list of games for this set
     PsGames gamesList;
     if (currentSet == SET_ALL || currentSet == SET_EXTERNAL) {
@@ -59,6 +59,7 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
         copy_if(begin(completeList), end(completeList), back_inserter(gamesList),
                 [](const PsGamePtr &game) { return game->favorite; });
     } else if (currentSet == SET_RETROARCH) {
+        cout << "Getting foreign games" << endl;
         raIntegrator.getGames(&gamesList, retroarch_playlist_name);
     }
 
@@ -80,7 +81,7 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
         }
 
     sort(gamesList.begin(), gamesList.end(), sortByTitle);
-
+    cout << "Games Sorted" << endl;
     // copy the gamesList into the carousel
     carouselGames.clear();
     for_each(begin(gamesList), end(gamesList), [&](PsGamePtr &game) { carouselGames.emplace_back(game); });
@@ -98,6 +99,7 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
         }
     }
 
+    cout << "Setting initial positions" << endl;
     if (carouselGames.empty()) {
         selGame = -1;
     } else {
@@ -108,7 +110,6 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
     if (!noForce) {
         if (currentSet == SET_RETROARCH) {
             forceSettingsOnly();
-
         }
     }
 }
@@ -194,11 +195,11 @@ void GuiLauncher::renderText(int x, int y, const std::string &text, const SDL_Co
 //*******************************
 // load all assets needed by the screen
 void GuiLauncher::loadAssets() {
-
-
+    cout << "Loading playlists" << endl;
     raPlaylists.clear();
-    raPlaylists = raIntegrator.getPlaylists();
-
+    if (DirEntry::exists(RA_FOLDER)) {
+        raPlaylists = raIntegrator.getPlaylists();
+    }
     vector<string> headers = {_("SETTINGS"), _("GAME"), _("MEMORY CARD"), _("RESUME")};
     vector<string> texts = {_("Customize AutoBleem settings"), _("Edit game parameters"),
                             _("Edit Memory Card information"), _("Resume game from saved state point")};
@@ -243,7 +244,7 @@ void GuiLauncher::loadAssets() {
     publisher = "";
     year = "";
     players = "";
-
+    cout << "Last Index" << gui->lastSelIndex << endl;
     if (gui->lastSelIndex != 0) {
         selGame = gui->lastSelIndex;
         setInitialPositions(selGame);
@@ -252,6 +253,7 @@ void GuiLauncher::loadAssets() {
     long time = SDL_GetTicks();
 
 
+    cout << "Loading theme and creating objects" << endl;
     if (DirEntry::exists(gui->getSonyImagePath() + "/GR/AB_BG.png")) {
         staticMeta = true;
         background = new PsObj(renderer, "background", gui->getSonyImagePath() + "/GR/AB_BG.png");
@@ -365,6 +367,7 @@ void GuiLauncher::loadAssets() {
     sselector->visible = false;
 
     if (gui->resumingGui) {
+        cout << "Restoring GUI state" << endl;
         PsGamePtr &game = carouselGames[selGame];
 
         if (gui->emuMode == EMU_PCSX) {
@@ -827,6 +830,7 @@ void GuiLauncher::switchState(int state, int time) {
 //*******************************
 // event loop
 void GuiLauncher::loop() {
+    cout << "Main Loop" << endl;
     powerOffShift = false;
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
@@ -1380,6 +1384,7 @@ void GuiLauncher::loop() {
                                     gui->resumepoint = slot;
                                     gui->lastSet = currentSet;
                                     sselector->cleanSaveStateImages();
+                                    gui->emuMode = EMU_PCSX;
                                     menuVisible = false;
                                 } else {
                                     Mix_PlayChannel(-1, gui->cancel, 0);
