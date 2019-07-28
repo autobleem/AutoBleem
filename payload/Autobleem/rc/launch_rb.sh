@@ -13,3 +13,6 @@ echo Core "$2"
 
 sh /media/retroarch/retroboot/bin/launch_rom.rfa.sh "$1" "$2"
 rm /tmp/.abload 
+# reinit retroboot
+
+[ -f /media/retroarch/retroboot/bin/init.sh ] && sh /media/retroarch/retroboot/bin/init.sh &

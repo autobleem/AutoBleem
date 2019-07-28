@@ -138,7 +138,7 @@ DirEntries DirEntry::diru(string path) {
     if (dir != NULL) {
         struct dirent *entry = readdir(dir);
         while (entry != NULL) {
-            DirEntry obj(entry->d_name, isDirectory(path + entry->d_name));
+            DirEntry obj(entry->d_name, isDirectory(path + separator() + entry->d_name));
             if (entry->d_name[0] != '.') {
                 result.push_back(obj);
             }
