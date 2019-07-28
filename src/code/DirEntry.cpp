@@ -167,15 +167,18 @@ DirEntries DirEntry::diru_DirsOnly(string path) {
 //*******************************
 DirEntries DirEntry::diru_FilesOnly(string path) {
     auto temp = diru(path); // get all dirs and files
+    /*
     cout << "all:" << endl;
     for (auto & item : temp)
         item.print();
+        */
     DirEntries ret;
     copy_if(begin(temp), end(temp), back_inserter(ret), [](const DirEntry & dir) { return !dir.isDir; });   //copy only files
+    /*
     cout << "files only:" << endl;
     for (auto & item : ret)
         item.print();
-
+*/
     return ret; // return only the files
 }
 

@@ -14,13 +14,12 @@
 
 using namespace nlohmann;
 
-RAIntegrator::~RAIntegrator()
-{
-    for (CoreInfoPtr ci: cores)
-    {
+RAIntegrator::~RAIntegrator() {
+    for (CoreInfoPtr ci: cores) {
         ci.reset();
     }
 }
+
 bool RAIntegrator::isValidPlaylist(string path) {
     // check file extension
     if (ReturnLowerCase(DirEntry::getFileExtension(path)) != "lpl") {
@@ -37,8 +36,7 @@ bool RAIntegrator::isValidPlaylist(string path) {
     return true;
 }
 
-bool RAIntegrator::findOverrideCore(PsGamePtr game, string &core_name, string &core_path)
-{
+bool RAIntegrator::findOverrideCore(PsGamePtr game, string &core_name, string &core_path) {
     string dbName = DirEntry::getFileNameWithoutExtension(game->db_name);
     map<string, CoreInfoPtr>::const_iterator pos = overrideCores.find(dbName);
     if (pos == overrideCores.end()) {
@@ -96,21 +94,16 @@ void RAIntegrator::parseJSON(PsGames *result, string path) {
 
 
         if ((game->core_path == "DETECT") || (game->core_name == "DETECT")) {
-            cout << "Detecting core path for: " << game->title << endl;
             autoDetectCorePath(game, game->core_name, game->core_path);
         }
 
         if (!DirEntry::exists(game->core_path)) {
-            cout << "Core path does not exists - autodetect forced" << endl;
             autoDetectCorePath(game, game->core_name, game->core_path);
         }
-        cout << "Checking game is valid" << endl;
         if (isGameValid(game)) {
-            cout << "Game is valid" << endl;
             result->push_back(game);
-        } else
-        {
-            cout << "Game is invalid" << endl;
+        } else {
+            cout << "Game  invalid" << game->title <<  endl;
         }
     }
     in.close();
@@ -183,16 +176,15 @@ void RAIntegrator::parse6line(PsGames *result, string path) {
     in.close();
 }
 
-int RAIntegrator::getGamesNumber(string playlist)
-{
+int RAIntegrator::getGamesNumber(string playlist) {
     PsGames gamesList;
-    getGames(&gamesList,playlist);
+    getGames(&gamesList, playlist);
     return gamesList.size();
 
 }
 
 bool RAIntegrator::getGames(PsGames *result, string playlist) {
-    cout << "Parsing Playlist:" << playlist <<endl;
+    cout << "Parsing Playlist:" << playlist << endl;
     string path = string(RA_FOLDER) + DirEntry::separator() + "playlists" + DirEntry::separator() + playlist;
     if (isJSONPlaylist(path)) {
         parseJSON(result, path);
@@ -208,33 +200,24 @@ vector<string> RAIntegrator::getPlaylists() {
     if (!DirEntry::exists(RA_FOLDER)) {
         return result;
     }
-
     cout << "Playlists: RA folder Found" << endl;
-
     string path = string(RA_FOLDER) + DirEntry::separator() + "playlists";
-    cout << "Checking path" << path <<  endl;
+    cout << "Checking path" << path << endl;
     vector<DirEntry> entries = DirEntry::diru_FilesOnly(path);
     cout << "Total Playlists:" << entries.size() << endl;
     for (const DirEntry &entry:entries) {
-        cout << "Checking entry" << entry.name << endl;
         if (DirEntry::getFileNameWithoutExtension(entry.name) == "AutoBleem") continue;
-        cout << "Checking playlist valid" << endl;
         if (isValidPlaylist(path + DirEntry::separator() + entry.name)) {
-            cout << "Playlist valid" << endl;
-            if (getGamesNumber(entry.name)>0) {
+            if (getGamesNumber(entry.name) > 0) {
                 result.push_back(entry.name);
             }
-        } else
-        {
-            cout << "Playlist invalid" << endl;
         }
     }
     return result;
 }
 
 bool RAIntegrator::autoDetectCorePath(PsGamePtr game, string &core_name, string &core_path) {
-    if (findOverrideCore(game,core_name,core_path))
-    {
+    if (findOverrideCore(game, core_name, core_path)) {
         return true;
     }
     string dbName = DirEntry::getFileNameWithoutExtension(game->db_name);
@@ -251,7 +234,7 @@ bool RAIntegrator::autoDetectCorePath(PsGamePtr game, string &core_name, string 
 
 void RAIntegrator::initCoreInfo() {
     cout << "Building core list" << endl;
-    if (!DirEntry::exists(RA_FOLDER)){
+    if (!DirEntry::exists(RA_FOLDER)) {
         cout << "Retroarch Not Found" << endl;
         return;
     }
@@ -263,15 +246,11 @@ void RAIntegrator::initCoreInfo() {
     vector<DirEntry> entries = DirEntry::diru_FilesOnly(infoFolder);
     cout << "Found files:" << entries.size() << endl;
     for (const DirEntry &entry:entries) {
-        cout << "Checking file: " << entry.name << endl;
         if (DirEntry::getFileExtension(entry.name) == "info") {
-            string fullPath = infoFolder +  entry.name;
-            cout << "Reading info :" <<fullPath << endl;
+            string fullPath = infoFolder + entry.name;
+
             CoreInfoPtr ci = parseInfo(fullPath, entry.name);
             cores.push_back(ci);
-        } else
-        {
-            cout << "Incorrect extension" << endl;
         }
     }
     sort(cores.begin(), cores.end(), sortByMaxExtensions); // why not
@@ -301,18 +280,15 @@ void RAIntegrator::initCoreInfo() {
     }
 
     overrideCores.clear();
-    ifstream in(DirEntry::getWorkingPath()+DirEntry::separator()+"coreOverride.cfg");
+    ifstream in(DirEntry::getWorkingPath() + DirEntry::separator() + "coreOverride.cfg");
     string line;
-    while (getline(in,line))
-    {
-        string db_name = line.substr(0,line.find("="));
+    while (getline(in, line)) {
+        string db_name = line.substr(0, line.find("="));
         string value = line.substr(line.find("=") + 1);
         cout << "Custom Core Override: " << db_name << "    core: " << value << endl;
 
-        for (CoreInfoPtr ciPtr:cores)
-        {
-            if (ciPtr->name.find(value)!=string::npos)
-            {
+        for (CoreInfoPtr ciPtr:cores) {
+            if (ciPtr->name.find(value) != string::npos) {
                 overrideCores.insert(std::pair<string, CoreInfoPtr>(db_name, ciPtr));
             }
         }
@@ -359,37 +335,24 @@ string RAIntegrator::escapeName(string text) {
     return text;
 }
 
-bool RAIntegrator::isGameValid(PsGamePtr game)
-{
-    cout << "Checking paths for game" << game->title << endl;
-    cout << "Checking core path exists" << endl;
-    if (!DirEntry::exists(game->core_path) )
-    {
-        cout << "Core path INVALID" << endl;
+bool RAIntegrator::isGameValid(PsGamePtr game) {
+    if (!DirEntry::exists(game->core_path)) {
         return false;
     }
-
     string path = game->image_path;
-
-    cout << "Checking game path exists" << endl;
-    if (path.find("#") != string::npos)
-    {
+    if (path.find("#") != string::npos) {
         int pos = path.find("#");
-        string check = path.substr(0,pos);
-        if (!DirEntry::exists(check) )
-        {
-            cout << "Not found" << check << endl;
+        string check = path.substr(0, pos);
+        if (!DirEntry::exists(check)) {
+
             return false;
         }
-    } else
-    {
-        if (!DirEntry::exists(path) )
-        {
-            cout << "Not found" << path << endl;
+    } else {
+        if (!DirEntry::exists(path)) {
+
             return false;
         }
     }
-    cout << "All OK" << endl;
     return true;
 }
 
