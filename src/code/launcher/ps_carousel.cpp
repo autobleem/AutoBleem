@@ -115,7 +115,6 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer, RAIntegrator* ra
                     DirEntry::getFileNameWithoutExtension((*this)->db_name) + DirEntry::separator() +
                     "Named_Boxarts" + DirEntry::separator() + raIntegrator->escapeName((*this)->title) + ".png";
 
-            cout << imagePath << endl;
 
             SDL_SetRenderTarget(renderer, nullptr);
             if (DirEntry::exists(imagePath)) {

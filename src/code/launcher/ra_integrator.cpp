@@ -14,6 +14,13 @@
 
 using namespace nlohmann;
 
+RAIntegrator::~RAIntegrator()
+{
+    for (CoreInfoPtr ci: cores)
+    {
+        ci.reset();
+    }
+}
 bool RAIntegrator::isValidPlaylist(string path) {
     // check file extension
     if (ReturnLowerCase(DirEntry::getFileExtension(path)) != "lpl") {
@@ -25,6 +32,20 @@ bool RAIntegrator::isValidPlaylist(string path) {
         return false;
     }
 
+    return true;
+}
+
+bool RAIntegrator::findOverrideCore(PsGamePtr game, string &core_name, string &core_path)
+{
+    string dbName = DirEntry::getFileNameWithoutExtension(game->db_name);
+    map<string, CoreInfoPtr>::const_iterator pos = overrideCores.find(dbName);
+    if (pos == overrideCores.end()) {
+        core_name = "DETECT";
+        core_path = "DETECT";
+        return false;
+    }
+    core_name = pos->second->name;
+    core_path = pos->second->core_path;
     return true;
 }
 
@@ -133,14 +154,14 @@ void RAIntegrator::parse6line(PsGames *result, string path) {
         game->db_name = db_name;
         game->image_path = game_path;
         if ((core_path == "DETECT") || (core_name == "DETECT")) {
-            autoDetectCorePath(game, core_name, core_path);
-
+            bool coreFound = autoDetectCorePath(game, core_name, core_path);
+            if (!coreFound) continue;
             game->core_name = core_name;
             game->core_path = core_path;
         }
         if (!DirEntry::exists(game->core_path)) {
-            autoDetectCorePath(game, core_name, core_path);
-
+            bool coreFound = autoDetectCorePath(game, core_name, core_path);
+            if (!coreFound) continue;
             game->core_name = core_name;
             game->core_path = core_path;
 
@@ -189,17 +210,21 @@ vector<string> RAIntegrator::getPlaylists() {
     return result;
 }
 
-void RAIntegrator::autoDetectCorePath(PsGamePtr game, string &core_name, string &core_path) {
-    //TODO: - better core selection (this is based on extenstions)
+bool RAIntegrator::autoDetectCorePath(PsGamePtr game, string &core_name, string &core_path) {
+    if (findOverrideCore(game,core_name,core_path))
+    {
+        return true;
+    }
     string dbName = DirEntry::getFileNameWithoutExtension(game->db_name);
     map<string, CoreInfoPtr>::const_iterator pos = defaultCores.find(dbName);
     if (pos == defaultCores.end()) {
-        core_name = "???";
-        core_path = "???";
-        return;
+        core_name = "DETECT";
+        core_path = "DETECT";
+        return false;
     }
     core_name = pos->second->name;
     core_path = pos->second->core_path;
+    return true;
 }
 
 void RAIntegrator::initCoreInfo() {
@@ -235,7 +260,6 @@ void RAIntegrator::initCoreInfo() {
         for (CoreInfoPtr ciPtr:cores) {
             for (const string &db:ciPtr->databases) {
                 if (dbname == db) {
-                    // detected core for db
                     defaultCores.insert(std::pair<string, CoreInfoPtr>(db, ciPtr));
                     nextDb = true;
                 }
@@ -253,6 +277,27 @@ void RAIntegrator::initCoreInfo() {
 
         cout << "Mapping DB: " << dbname << "  Core: " << pos->second->name << endl;
     }
+
+    overrideCores.clear();
+    ifstream in(DirEntry::getWorkingPath()+DirEntry::separator()+"coreOverride.cfg");
+    string line;
+    while (getline(in,line))
+    {
+        string db_name = line.substr(0,line.find("="));
+        string value = line.substr(line.find("=") + 1);
+        cout << "Custom Core Override: " << db_name << "    core: " << value << endl;
+
+        for (CoreInfoPtr ciPtr:cores)
+        {
+            if (ciPtr->name.find(value)!=string::npos)
+            {
+                overrideCores.insert(std::pair<string, CoreInfoPtr>(db_name, ciPtr));
+            }
+        }
+
+    }
+    in.close();
+
 }
 
 string RAIntegrator::escapeName(string text) {
