@@ -92,15 +92,23 @@ void RAIntegrator::parseJSON(PsGames *result, string path) {
         game->db_name = (*it)["db_name"];
         game->image_path = (*it)["path"];
 
+
         if ((game->core_path == "DETECT") || (game->core_name == "DETECT")) {
+            cout << "Detecting core path for: " << game->title << endl;
             autoDetectCorePath(game, game->core_name, game->core_path);
         }
 
         if (!DirEntry::exists(game->core_path)) {
+            cout << "Core path does not exists - autodetect forced" << endl;
             autoDetectCorePath(game, game->core_name, game->core_path);
         }
+        cout << "Checking game is valid" << endl;
         if (isGameValid(game)) {
+            cout << "Game is valid" << endl;
             result->push_back(game);
+        } else
+        {
+            cout << "Game is invalid" << endl;
         }
     }
     in.close();
@@ -182,12 +190,14 @@ int RAIntegrator::getGamesNumber(string playlist)
 }
 
 bool RAIntegrator::getGames(PsGames *result, string playlist) {
+    cout << "Parsing Playlist:" << playlist <<endl;
     string path = string(RA_FOLDER) + DirEntry::separator() + "playlists" + DirEntry::separator() + playlist;
     if (isJSONPlaylist(path)) {
         parseJSON(result, path);
     } else {
         parse6line(result, path);
     }
+    cout << "Games found:" << result->size() << endl;
     return true;
 }
 
@@ -339,28 +349,34 @@ string RAIntegrator::escapeName(string text) {
 
 bool RAIntegrator::isGameValid(PsGamePtr game)
 {
+    cout << "Checking core path exists" << endl;
     if (!DirEntry::exists(game->core_path) )
     {
+        cout << "Core path INVALID" << endl;
         return false;
     }
 
     string path = game->image_path;
 
+    cout << "Checking game path exists" << endl;
     if (path.find("#") != string::npos)
     {
         int pos = path.find("#");
         string check = path.substr(0,pos);
         if (!DirEntry::exists(check) )
         {
+            cout << "Not found" << check << endl;
             return false;
         }
     } else
     {
         if (!DirEntry::exists(path) )
         {
+            cout << "Not found" << path << endl;
             return false;
         }
     }
+    cout << "All OK" << endl;
     return true;
 }
 
@@ -369,7 +385,7 @@ CoreInfoPtr RAIntegrator::parseInfo(string file, string entry) {
     string line;
 
 
-    cout << endl;
+    cout << "Parsing " << endl;
     CoreInfoPtr coreInfoPtr{new CoreInfo};
     coreInfoPtr->core_path = string(RA_FOLDER) + "/cores/" + DirEntry::getFileNameWithoutExtension(entry) + ".so";
     coreInfoPtr->extensions.clear();
