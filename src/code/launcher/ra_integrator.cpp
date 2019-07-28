@@ -349,6 +349,7 @@ string RAIntegrator::escapeName(string text) {
 
 bool RAIntegrator::isGameValid(PsGamePtr game)
 {
+    cout << "Checking paths for game" << game->title << endl;
     cout << "Checking core path exists" << endl;
     if (!DirEntry::exists(game->core_path) )
     {
