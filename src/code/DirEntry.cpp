@@ -93,7 +93,7 @@ string DirEntry::getFileNameFromPath(const string& path)
 // DirEntry::getWorkingPath
 //*******************************
 string DirEntry::getWorkingPath() {
-    char temp[2048];
+    char temp[PATH_MAX];
     return (getcwd(temp, sizeof(temp)) ? string(temp) : string(""));
 }
 
@@ -167,18 +167,9 @@ DirEntries DirEntry::diru_DirsOnly(string path) {
 //*******************************
 DirEntries DirEntry::diru_FilesOnly(string path) {
     auto temp = diru(path); // get all dirs and files
-    /*
-    cout << "all:" << endl;
-    for (auto & item : temp)
-        item.print();
-        */
     DirEntries ret;
     copy_if(begin(temp), end(temp), back_inserter(ret), [](const DirEntry & dir) { return !dir.isDir; });   //copy only files
-    /*
-    cout << "files only:" << endl;
-    for (auto & item : ret)
-        item.print();
-*/
+
     return ret; // return only the files
 }
 
@@ -259,7 +250,7 @@ int DirEntry::rmDir(string path) {
 }
 
 //*******************************
-// DirEntry::copy
+// DirEntry::copy file
 //*******************************
 bool DirEntry::copy(const string& source, const string& dest) {
     ifstream infile;
@@ -278,7 +269,6 @@ bool DirEntry::copy(const string& source, const string& dest) {
         int read = infile.readsome(buffer, FILE_BUFFER_SIZE);
         if (read == 0) break;
         outfile.write(buffer, read);
-
     }
     infile.close();
     outfile.flush();
@@ -410,7 +400,7 @@ DirEntries DirEntry::getFilesWithExtension(const string& path, const DirEntries 
     DirEntries fileList;
     string fileExt;
     for (const auto & entry : entries){
-        if(isDirectory(path + "/" + entry.name))
+        if(isDirectory(path + separator() + entry.name))
             continue;
         // make it case insensitive compare (find .bin and .BIN)
         fileExt = ReturnLowerCase(getFileExtension(entry.name));
@@ -424,6 +414,14 @@ DirEntries DirEntry::getFilesWithExtension(const string& path, const DirEntries 
 //*******************************
 // DirEntry::print
 //*******************************
-void DirEntry::print() {
+void DirEntry::print() const {
     cout << (isDir ? "Dir: " : "File: ") << name << std::endl;
+}
+
+//*******************************
+// DirEntries::print(const DirEntries &entries)
+//*******************************
+static void print(const DirEntries &entries) {
+    for (auto & entry : entries)
+        entry.print();
 }

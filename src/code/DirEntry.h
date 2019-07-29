@@ -43,5 +43,6 @@ public:
     static std::string findFirstFile(std::string ext, std::string path);
     static std::vector<std::string> cueToBinList(std::string cueFile);
 
-    void print();
+    void print() const;
+    static void print(const DirEntries &entries);
 };
