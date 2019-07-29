@@ -39,7 +39,6 @@ public:
     static bool sortByTitle(const USBGamePtr i, const USBGamePtr j) { return SortByCaseInsensitive(i->title, j->title); }
 
 private:
-    ImageType getImageType(std::string path);
     bool complete;
     void moveFolderIfNeeded(const DirEntry & entry, std::string gameDataPath, std::string path);
 };

@@ -45,4 +45,6 @@ public:
 
     void print() const;
     static void print(const DirEntries &entries);
+
+    static ImageType getImageType(const std::string &path);
 };

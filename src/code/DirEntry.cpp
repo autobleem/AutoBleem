@@ -425,3 +425,32 @@ static void print(const DirEntries &entries) {
     for (auto & entry : entries)
         entry.print();
 }
+
+//*******************************
+// DirEntry::getImageType
+//*******************************
+ImageType DirEntry::getImageType(const string &path) {
+    bool hasASubDir {false};
+    for (const DirEntry & entry: DirEntry::diru(path)) {
+        if (entry.isDir)
+            hasASubDir = true;
+        else { // it's a file
+            if (DirEntry::matchExtension(entry.name, EXT_BIN)) {
+                return IMAGE_CUE_BIN;
+            }
+            if (DirEntry::matchExtension(entry.name, EXT_PBP)) {
+                return IMAGE_PBP;
+            }
+            if (DirEntry::matchExtension(entry.name, EXT_IMG)) {
+                return IMAGE_IMG;
+            }
+//            if (Util::matchExtension(entry.name, EXT_ISO)) {
+//                return IMAGE_ISO;
+//            }
+        }
+    }
+    if (hasASubDir)
+        return IMAGE_NO_GAME_BUT_HAS_SUBDIR;
+    else
+        return IMAGE_NO_GAME_FOUND;
+}

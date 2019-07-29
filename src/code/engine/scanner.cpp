@@ -315,35 +315,6 @@ void Scanner::repairBrokenCueFiles(const string & path) {
 }
 
 //*******************************
-// Scanner::getImageType
-//*******************************
-ImageType Scanner::getImageType(string path) {
-    bool hasASubDir {false};
-    for (const DirEntry & entry: DirEntry::diru(path)) {
-        if (entry.isDir)
-            hasASubDir = true;
-        else { // it's a file
-            if (DirEntry::matchExtension(entry.name, EXT_BIN)) {
-                return IMAGE_CUE_BIN;
-            }
-            if (DirEntry::matchExtension(entry.name, EXT_PBP)) {
-                return IMAGE_PBP;
-            }
-            if (DirEntry::matchExtension(entry.name, EXT_IMG)) {
-                return IMAGE_IMG;
-            }
-//            if (Util::matchExtension(entry.name, EXT_ISO)) {
-//                return IMAGE_ISO;
-//            }
-        }
-    }
-    if (hasASubDir)
-        return IMAGE_NO_GAME_BUT_HAS_SUBDIR;
-    else
-        return IMAGE_NO_GAME_FOUND;
-}
-
-//*******************************
 // Scanner::scanDirectory
 //*******************************
 void Scanner::scanDirectory(const string & _path) {
@@ -403,7 +374,7 @@ void Scanner::scanDirectory(const string & _path) {
 
         string gameIniPath = gameDataPath + GAME_INI;
 
-        ImageType gameType = getImageType(gameDataPath);
+        ImageType gameType = DirEntry::getImageType(gameDataPath);
         if (imageTypeIsAGameFile(gameType)) {
 			game->imageType = gameType;
 			game->gameDataFound = true;
