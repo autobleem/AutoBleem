@@ -50,7 +50,7 @@ public:
     bool imageFound = false;
     bool licFound = false;
     bool automationUsed = false;
-    ImageType imageType = IMAGE_CUE_BIN;
+    ImageType imageType = IMAGE_BIN;
     bool highRes = false;
     std::string firstBinPath;
 

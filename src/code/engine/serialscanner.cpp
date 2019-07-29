@@ -119,7 +119,7 @@ string SerialScanner::scanSerialInternal(ImageType imageType, string path, strin
             }
         }
     }
-    if (imageTypeIsAGameFileThatUsesACueFile(imageType)) {
+    if (DirEntry::imageTypeUsesACueFile(imageType)) {
         string prefixes[] = {
                 "CPCS", "ESPM", "HPS", "LPS", "LSP", "SCAJ", "SCED", "SCES", "SCPS", "SCUS", "SIPS", "SLES", "SLKA",
                 "SLPM", "SLPS", "SLUS"};
@@ -169,7 +169,7 @@ string SerialScanner::scanSerialInternal(ImageType imageType, string path, strin
 string SerialScanner::workarounds(ImageType imageType, string path, string firstBinPath)
 {
     string fileToScan = "";
-    if (imageTypeIsAGameFileThatUsesACueFile(imageType))
+    if (DirEntry::imageTypeUsesACueFile(imageType))
     {
         fileToScan = firstBinPath;
     }

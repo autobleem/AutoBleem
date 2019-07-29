@@ -4,6 +4,7 @@
 #include <vector>
 #include "util.h"
 #include "main.h"
+#include <tuple>
 
 //******************
 // DirEntry
@@ -46,5 +47,20 @@ public:
     void print() const;
     static void print(const DirEntries &entries);
 
-    static ImageType getImageType(const std::string &path);
+    static bool isAGameFile(const std::string &filename);
+    static ImageType getGameFileImageType(const std::string &filename);
+    static bool imageTypeUsesACueFile(ImageType imageType);
+
+    static bool thereIsAGameFile(const DirEntries &entries);
+    static bool thereIsAGameFile(const std::string &dirpath) {
+        return thereIsAGameFile(diru(dirpath)); }
+
+    static bool thereIsASubDir(const DirEntries &entries);
+    static bool thereIsASubDir(const std::string &dirpath) {
+        return thereIsASubDir(diru(dirpath)); }
+
+    // Note: you must know that the game file exists in the directory before calling these functions
+    static std::tuple<ImageType, std::string> getGameFile(const DirEntries &entries);
+    static std::tuple<ImageType, std::string> getGameFile(const std::string &dirpath) {
+        return getGameFile(diru(dirpath)); }
 };

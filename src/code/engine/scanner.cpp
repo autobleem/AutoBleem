@@ -374,12 +374,15 @@ void Scanner::scanDirectory(const string & _path) {
 
         string gameIniPath = gameDataPath + GAME_INI;
 
-        ImageType gameType = DirEntry::getImageType(gameDataPath);
-        if (imageTypeIsAGameFile(gameType)) {
-			game->imageType = gameType;
+        DirEntries fileEntries = DirEntry::diru_FilesOnly(gameDataPath);    // get the list of files once
+        if (DirEntry::thereIsAGameFile(fileEntries)) {
+            ImageType imageType;
+            string gameFile;
+            tie(imageType, gameFile) = DirEntry::getGameFile(fileEntries);
+			game->imageType = imageType;
 			game->gameDataFound = true;
 
-			if (imageTypeIsAGameFileThatUsesACueFile(game->imageType)) // only cue/bin
+			if (DirEntry::imageTypeUsesACueFile(imageType))
 			{
 				repairMissingCue(gameDataPath, entry.name);
 				repairBrokenCueFiles(gameDataPath);
@@ -387,7 +390,7 @@ void Scanner::scanDirectory(const string & _path) {
 			}
 
             // for each file in the game dir
-			for (const DirEntry & file : DirEntry::diru(gameDataPath)) {
+			for (const DirEntry & file : fileEntries) {
 				if (Util::compareCaseInsensitive(file.name, GAME_INI)) {
                     game->gameIniFound = true;
 				}

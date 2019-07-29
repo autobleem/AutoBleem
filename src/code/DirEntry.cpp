@@ -10,6 +10,7 @@
 #include <dirent.h>
 #include <libgen.h>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -427,30 +428,65 @@ static void print(const DirEntries &entries) {
 }
 
 //*******************************
-// DirEntry::getImageType
+// DirEntry::isAGameFile
 //*******************************
-ImageType DirEntry::getImageType(const string &path) {
-    bool hasASubDir {false};
-    for (const DirEntry & entry: DirEntry::diru(path)) {
-        if (entry.isDir)
-            hasASubDir = true;
-        else { // it's a file
-            if (DirEntry::matchExtension(entry.name, EXT_BIN)) {
-                return IMAGE_CUE_BIN;
-            }
-            if (DirEntry::matchExtension(entry.name, EXT_PBP)) {
-                return IMAGE_PBP;
-            }
-            if (DirEntry::matchExtension(entry.name, EXT_IMG)) {
-                return IMAGE_IMG;
-            }
-//            if (Util::matchExtension(entry.name, EXT_ISO)) {
-//                return IMAGE_ISO;
-//            }
-        }
-    }
-    if (hasASubDir)
-        return IMAGE_NO_GAME_BUT_HAS_SUBDIR;
+bool DirEntry::isAGameFile(const std::string &filename) {
+    if (matchExtension(filename, EXT_BIN))
+        return true;
+    if (matchExtension(filename, EXT_PBP))
+        return true;
+    if (matchExtension(filename, EXT_IMG))
+        return true;
+
+    return false;
+}
+
+//*******************************
+// DirEntry::getGameFileImageType
+//*******************************
+ImageType DirEntry::getGameFileImageType(const std::string &filename) {
+    if (matchExtension(filename, EXT_BIN))
+        return IMAGE_BIN;
+    if (matchExtension(filename, EXT_PBP))
+        return IMAGE_PBP;
+    if (matchExtension(filename, EXT_IMG))
+        return IMAGE_IMG;
+
+    return IMAGE_NO_GAME_FOUND;
+}
+
+//*******************************
+// DirEntry::imageTypeUsesACueFile
+//*******************************
+bool DirEntry::imageTypeUsesACueFile(ImageType imageType) {
+    if (imageType == IMAGE_BIN || imageType == IMAGE_IMG)
+        return true;
     else
-        return IMAGE_NO_GAME_FOUND;
+        return false;
+}
+
+//*******************************
+// DirEntry::thereIsAGameFile
+//*******************************
+bool DirEntry::thereIsAGameFile(const DirEntries &entries) {
+    return any_of(begin(entries), end(entries), [] (const DirEntry &entry) { return isAGameFile(entry.name); } );
+}
+
+//*******************************
+// DirEntry::thereIsASubDir
+//*******************************
+bool DirEntry::thereIsASubDir(const DirEntries &entries) {
+    return any_of(begin(entries), end(entries), [] (const DirEntry &entry) { return entry.isDir; } );
+}
+
+//*******************************
+// DirEntry::getGameFile
+// Note: you must know that the game file exists in the directory before calling this function
+//*******************************
+tuple<ImageType, string> DirEntry::getGameFile(const DirEntries &entries) {
+    auto iter = find_if(begin(entries), end(entries), [] (const DirEntry &entry) { return isAGameFile(entry.name); } );
+    if (iter != end(entries))
+        return make_tuple(getGameFileImageType(iter->name), iter->name);
+    else
+        return make_tuple(IMAGE_NO_GAME_FOUND, "");
 }
