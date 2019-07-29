@@ -132,7 +132,10 @@ add_executable(
 		src/code/launcher/ra_integrator.cpp
 		src/code/launcher/ra_integrator.h
 		src/code/gui/gui_playlists.cpp
-		src/code/gui/gui_playlists.h)
+		src/code/gui/gui_playlists.h
+        src/code/engine/cardedit.h
+		src/code/engine/cardedit.cpp
+)
 
 
 
@@ -148,6 +151,7 @@ add_executable(starter
 
 target_link_libraries(autobleem-gui
          Threads::Threads
+		 iconv
          SDL2
          SDL2_image
          SDL2_mixer
