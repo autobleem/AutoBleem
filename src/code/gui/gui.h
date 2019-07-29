@@ -18,6 +18,7 @@
 #include "gui_sdl_wrapper.h"
 //#include "gui_font_wrapper.h"
 #include "gui_font.h"
+#include "../engine/cardedit.h"
 
 #define PCS_DEADZONE     32000
 #define PCS_BTN_L2       4

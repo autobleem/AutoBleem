@@ -15,10 +15,27 @@
 
 using namespace std;
 
+class RGB
+{
+public:
+    RGB():RGB(0,0,0,0){};
+    RGB(unsigned char r, unsigned char g, unsigned char b) : RGB(r,g,b,0xFF){};
+    RGB(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+    {
+        this->r = r;
+        this->g = g;
+        this->b = b;
+        this->a = a;
+    }
+
+    unsigned char r,g,b,a;
+
+
+};
 class CardEdit
 {
 public:
-    CardEdit();
+    CardEdit(SDL_Shared<SDL_Renderer> renderer1);
 	~CardEdit();
 
 	// action commands
@@ -46,6 +63,7 @@ public:
 
 
 private:
+    SDL_Shared<SDL_Renderer> renderer;
 	char memoryCard[131072];   //a memory card can hold 128K
 	bool slot_is_used[15];
 	bool slot_is_deleted[15];  // deleted, but SC still there
