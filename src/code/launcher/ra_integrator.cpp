@@ -38,6 +38,8 @@ bool RAIntegrator::isValidPlaylist(string path) {
 
 bool RAIntegrator::findOverrideCore(PsGamePtr game, string &core_name, string &core_path) {
     string dbName = DirEntry::getFileNameWithoutExtension(game->db_name);
+
+    lcase(dbName);    trim(dbName);
     map<string, CoreInfoPtr>::const_iterator pos = overrideCores.find(dbName);
     if (pos == overrideCores.end()) {
         core_name = "DETECT";
@@ -103,7 +105,7 @@ void RAIntegrator::parseJSON(PsGames *result, string path) {
         if (isGameValid(game)) {
             result->push_back(game);
         } else {
-            cout << "Game  invalid" << game->title <<  endl;
+            cout << "Game  invalid: " << game->title <<  endl;
         }
     }
     in.close();
@@ -289,7 +291,10 @@ void RAIntegrator::initCoreInfo() {
 
         for (CoreInfoPtr ciPtr:cores) {
             if (ciPtr->name.find(value) != string::npos) {
+                lcase(db_name);
+                trim(db_name);
                 overrideCores.insert(std::pair<string, CoreInfoPtr>(db_name, ciPtr));
+                cout << "Found: " << db_name << "    core: " << ciPtr->name << " " << ciPtr->core_path << endl;
             }
         }
 
