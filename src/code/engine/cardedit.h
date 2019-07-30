@@ -51,7 +51,7 @@ public:
     string get_slot_Pcode(int slot);
     string get_slot_title(int slot);
     string get_slot_gameID(int slot);
-    SDL_Shared<SDL_Texture> get_slot_icon(int slot);
+    SDL_Shared<SDL_Texture> get_slot_icon(int slot, int frame);
 
 	// information change command
 	void set_slot_gameID(int slot, string newID);
@@ -75,7 +75,7 @@ private:
     string slot_Pcodes[15];
     string slot_gameID[15];
     string slot_titles[15];
-    SDL_Shared<SDL_Texture>  slot_icons[15];
+    SDL_Shared<SDL_Texture>  slot_icons[15][3];
 	void update();
 	void update_slot_is_used();  // also updates block_type
 	void update_slot_is_deleted();

@@ -37,6 +37,45 @@ void GuiMcManager::loadAssets() {
 
 }
 
+void GuiMcManager::pencilDown()
+{
+    if (pencilRow!=4)
+    {
+        pencilRow++;
+    }
+}
+void GuiMcManager::pencilUp()
+{
+    if (pencilRow!=0)
+    {
+        pencilRow--;
+    }
+}
+void GuiMcManager::pencilLeft()
+{
+    if (pencilColumn!=0)
+    {
+        pencilColumn--;
+    } else
+    {
+        pencilColumn = 2;
+        if (pencilMemcard==1) pencilMemcard=2; else pencilMemcard=1;
+    }
+}
+void GuiMcManager::pencilRight()
+{
+    if (pencilColumn!=2)
+    {
+        pencilColumn++;
+    } else
+    {
+        pencilColumn = 0;
+        if (pencilMemcard==1) pencilMemcard=2; else pencilMemcard=1;
+    }
+
+
+}
+
 void GuiMcManager::renderPencil(int memcard, int col, int row) {
     const int pencilShiftX = 80;
     const int pencilShiftY = 80;
@@ -102,13 +141,20 @@ void GuiMcManager::renderMemCardIcons(int memcard) {
         start = xStartMC2;
         currentCard = memcard2;
     }
+
+
     for (int i = 0; i < 15; i++) {
         int col = i % 3;
         int line = i / 3;
+        int frame = 0;
+        if ((pencilMemcard==memcard) && (pencilRow==line) && (pencilColumn==col))
+        {
+            frame = animFrame;
+        }
         output.x = start + (xShift * col) + xDecal;
         output.y = yStart + (yShift * line) + yDecal;
         if (currentCard->get_slot_is_used(i)) {
-            SDL_RenderCopy(renderer, currentCard->get_slot_icon(i), nullptr, &output);
+            SDL_RenderCopy(renderer, currentCard->get_slot_icon(i,frame), nullptr, &output);
         }
     }
 }
@@ -143,12 +189,14 @@ void GuiMcManager::render() {
     //Draw the pencil
     renderPencil(pencilMemcard, pencilColumn, pencilRow);
     SDL_RenderPresent(renderer);
+
 }
 
 void GuiMcManager::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
     while (menuVisible) {
+
         gui->watchJoystickPort();
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
@@ -169,8 +217,37 @@ void GuiMcManager::loop() {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         menuVisible = false;
                     };
+                case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
+                case SDL_JOYHATMOTION:
+                    if (gui->mapper.isCenter(&e)) {
+
+                    }
+                    if (gui->mapper.isLeft(&e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        pencilLeft();
+                    }
+                    if (gui->mapper.isRight(&e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        pencilRight();
+                    }
+                    if (gui->mapper.isUp(&e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        pencilUp();
+                    }
+                    if (gui->mapper.isDown(&e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        pencilDown();
+                    }
+
             }
         }
+        counter++;
+        if (counter>5) {
+            animFrame++;
+            if (animFrame > 2) animFrame = 0;
+            counter = 0;
+        }
+        render();
     }
 }
 
