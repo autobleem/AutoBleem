@@ -124,6 +124,7 @@ public:
     void renderTextBar();
 
     int renderTextLine(const std::string & text, int line, int offset, bool center, int xoffset);
+    int renderTextLine(const std::string & text, int line, int offset, bool center, int xoffset, TTF_Font_Shared font);
 
     int renderTextLine(const std::string & text, int line, int offset, bool center);
 

@@ -4,6 +4,7 @@
 #include <iconv.h>
 #include <string>
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 
@@ -68,6 +69,15 @@ int CardEdit::load_file(std::string filename) {
     // Now, lets fill up data
     update();
     return 0;
+
+}
+
+void CardEdit::getSlotData(int slot, unsigned char* output)
+{
+
+}
+void CardEdit::setSlotData(int slot, unsigned char* input)
+{
 
 }
 
@@ -267,6 +277,7 @@ void CardEdit::update_slot_titles() {
                 iconv(sjisToUtf8, &jis_title, &tlen, &o, &olen);
 
                 slot_titles[i] += tmpbuf;
+
                 if (slot_is_deleted[i])
                     slot_titles[i] = "(" + slot_titles[i] + ")";
 
@@ -278,6 +289,7 @@ void CardEdit::update_slot_titles() {
         } else {
             slot_titles[i] = "Free";
         }
+        cout << i << "   " << slot_titles[i] << endl;
         current_pos += 0x2000;
     }
 }

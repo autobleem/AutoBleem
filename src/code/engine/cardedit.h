@@ -61,6 +61,9 @@ public:
 	bool get_slot_is_used(int slot);
 	bool get_slot_is_free(int slot);
 
+	void getSlotData(int slot, unsigned char* output);
+	void setSlotData(int slot, unsigned char* input);
+
 
 private:
     SDL_Shared<SDL_Renderer> renderer;

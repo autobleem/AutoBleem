@@ -15,6 +15,7 @@
 #include <iostream>
 #include "../engine/scanner.h"
 #include "../gui/gui_playlists.h"
+#include "gui_mc_manager.h"
 
 using namespace std;
 
@@ -1241,9 +1242,23 @@ void GuiLauncher::loop() {
                                 if (carouselGames.empty()) {
                                     continue;
                                 }
-                                Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationLines[1].setText(_("MemCard Manager will be available soon"),
-                                                             DefaultShowingTimeout, brightWhite, FONT_24);
+                                if (carouselGames[selGame]->foreign)
+                                {
+                                    continue;
+                                }
+
+                                string cardPath1 = carouselGames[selGame]->ssFolder  +"memcards/card1.mcd";
+                                string cardPath2 = carouselGames[selGame]->ssFolder  +"memcards/card2.mcd";
+
+                                Mix_PlayChannel(-1, gui->cursor, 0);
+                                auto mcManager = new GuiMcManager(renderer);
+                                mcManager->backgroundImg=background->tex;
+                                mcManager->card1path = cardPath1;
+                                mcManager->card2path = cardPath2;
+                                mcManager->show();
+                                delete mcManager;
+
+
                             }
                             if (menu->selOption == 1) {
                                 if (carouselGames.empty()) {

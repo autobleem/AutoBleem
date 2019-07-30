@@ -1123,7 +1123,12 @@ int Gui::renderTextLine(const string &text, int line, int offset, bool center) {
     return renderTextLine(text, line, offset, center, 0);
 }
 
-int Gui::renderTextLine(const string &text, int line, int offset, bool center, int xoffset) {
+int Gui::renderTextLine(const string &text, int line, int offset, bool center, int xoffset)
+{
+    return renderTextLine(text,line,offset,center,xoffset,themeFont);
+}
+
+int Gui::renderTextLine(const string &text, int line, int offset, bool center, int xoffset, TTF_Font_Shared font) {
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
@@ -1133,9 +1138,9 @@ int Gui::renderTextLine(const string &text, int line, int offset, bool center, i
     SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
-    getTextAndRect(renderer, 0, 0, "*", themeFont, &textTex, &textRec);
+    getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
     int lineh = textRec.h;
-    getEmojiTextTexture(renderer, text, themeFont, &textTex, &textRec);
+    getEmojiTextTexture(renderer, text, font, &textTex, &textRec);
     textRec.x = rect2.x + 10 + xoffset;
     textRec.y = (lineh * line) + offset;
 

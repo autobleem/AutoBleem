@@ -19,8 +19,6 @@ using namespace std;
 void GuiBtnGuide::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
     // use evoUI background
-
-    SDL_RenderClear(renderer);
     SDL_Rect backgroundRect;
     int w, h; // texture width & height
     SDL_SetTextureBlendMode(backgroundImg, SDL_BLENDMODE_BLEND);
