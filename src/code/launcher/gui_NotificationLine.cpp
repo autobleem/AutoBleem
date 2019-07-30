@@ -37,9 +37,9 @@ void NotificationLine::tickTock() {
                 notificationTime = 0;   // turn off the display
         }
         if (notificationTime != 0)
-            GuiLauncher::renderText(x, y, text, textColor, gui->fonts[fontSize], true, true);
+            GuiLauncher::renderText(x, y, text, textColor, gui->fonts[fontSize], POS_CENTER, true);
     } else // not timed - keep display on
-        GuiLauncher::renderText(x, y, text, textColor, gui->fonts[fontSize], true, true);
+        GuiLauncher::renderText(x, y, text, textColor, gui->fonts[fontSize], POS_CENTER, true);
 }
 
 //*******************************

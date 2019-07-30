@@ -53,7 +53,7 @@ void GuiSelectMemcard::render() {
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=" + _("Select memory card") + "=-", 0, offset, true);
+    gui->renderTextLine("-=" + _("Select memory card") + "=-", 0, offset, POS_CENTER);
 
     if (selected >= cards.size()) {
         selected = cards.size() - 1;

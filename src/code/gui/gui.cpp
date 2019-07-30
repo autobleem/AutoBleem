@@ -1052,20 +1052,20 @@ void Gui::renderSelectionBox(int line, int offset, int xoffset) {
 // Gui::renderTextLine
 //*******************************
 int Gui::renderTextLine(const string &text, int line, int offset) {
-    return renderTextLine(text, line, offset, false);
+    return renderTextLine(text, line, offset, POS_LEFT);
 }
 
 //*******************************
 // Gui::renderTextLineOptions
 //*******************************
-int Gui::renderTextLineOptions(const string &text, int line, int offset, bool center) {
-    return renderTextLineOptions(text, line, offset, center, 0);
+int Gui::renderTextLineOptions(const string &text, int line, int offset, int position) {
+    return renderTextLineOptions(text, line, offset, position, 0);
 }
 
 //*******************************
 // Gui::renderTextLineOptions
 //*******************************
-int Gui::renderTextLineOptions(const string &_text, int line, int offset, bool center, int xoffset) {
+int Gui::renderTextLineOptions(const string &_text, int line, int offset, int position, int xoffset) {
     string text = _text;
     int button = -1;
     if (text.find("|@Check|") != std::string::npos) {
@@ -1078,7 +1078,7 @@ int Gui::renderTextLineOptions(const string &_text, int line, int offset, bool c
         text = text.substr(0, text.find("|"));
     }
 
-    int h = renderTextLine(text, line, offset, center, xoffset);
+    int h = renderTextLine(text, line, offset, position, xoffset);
 
     SDL_Shared<SDL_Texture> buttonTex;
     SDL_Rect rect;
@@ -1108,8 +1108,11 @@ int Gui::renderTextLineOptions(const string &_text, int line, int offset, bool c
     if (textRec.w >= (1280 - rect2.x * 4)) {
         textRec.w = (1280 - rect2.x * 4);
     }
-    if (center) {
+    if (position==POS_CENTER) {
         textRec.x = (1280 / 2) - textRec.w / 2;
+    }
+    if (position==POS_RIGHT) {
+        textRec.x = 1280 - textRec.x - textRec.w;
     }
 
     SDL_RenderCopy(renderer, buttonTex, nullptr, &textRec);
@@ -1119,16 +1122,16 @@ int Gui::renderTextLineOptions(const string &_text, int line, int offset, bool c
 //*******************************
 // Gui::renderTextLine
 //*******************************
-int Gui::renderTextLine(const string &text, int line, int offset, bool center) {
-    return renderTextLine(text, line, offset, center, 0);
+int Gui::renderTextLine(const string &text, int line, int offset, int position) {
+    return renderTextLine(text, line, offset, position, 0);
 }
 
-int Gui::renderTextLine(const string &text, int line, int offset, bool center, int xoffset)
+int Gui::renderTextLine(const string &text, int line, int offset,  int position, int xoffset)
 {
-    return renderTextLine(text,line,offset,center,xoffset,themeFont);
+    return renderTextLine(text,line,offset,position,xoffset,themeFont);
 }
 
-int Gui::renderTextLine(const string &text, int line, int offset, bool center, int xoffset, TTF_Font_Shared font) {
+int Gui::renderTextLine(const string &text, int line, int offset,  int position, int xoffset, TTF_Font_Shared font) {
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
@@ -1147,8 +1150,11 @@ int Gui::renderTextLine(const string &text, int line, int offset, bool center, i
     if (textRec.w >= (1280 - rect2.x * 4)) {
         textRec.w = (1280 - rect2.x * 4);
     }
-    if (center) {
+    if (position==POS_CENTER) {
         textRec.x = (1280 / 2) - textRec.w / 2;
+    }
+    if (position==POS_RIGHT) {
+        textRec.x = 1280 - textRec.x - textRec.w;
     }
 
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);

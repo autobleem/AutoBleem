@@ -33,19 +33,19 @@ void GuiBtnGuide::render() {
 
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=" + _("Button Guide") + "=-", 0, offset, true);
-    gui->renderTextLine(_("DPAD - Same as classic menu"), 1, offset,true);
-    gui->renderTextLine("|@X| / |@O|   "+_("Select or cancel highlighted option"), 2, offset,true);
-    gui->renderTextLine("|@S|   "+_("Run using RetroBoot(if installed)"), 3, offset,true);
-    gui->renderTextLine("|@R1| / |@L1|   "+_("Quick scroll to next letter"), 4, offset,true);
-    gui->renderTextLine("|@Select|   "+_("Games filter"), 5, offset,true);
-    gui->renderTextLine("|@L2| + |@Select|   "+_("RetroBoot Systems"), 6, offset,true);
+    gui->renderTextLine("-=" + _("Button Guide") + "=-", 0, offset, POS_CENTER);
+    gui->renderTextLine(_("DPAD - Same as classic menu"), 1, offset,POS_CENTER);
+    gui->renderTextLine("|@X| / |@O|   "+_("Select or cancel highlighted option"), 2, offset,POS_CENTER);
+    gui->renderTextLine("|@S|   "+_("Run using RetroBoot(if installed)"), 3, offset,POS_CENTER);
+    gui->renderTextLine("|@R1| / |@L1|   "+_("Quick scroll to next letter"), 4, offset,POS_CENTER);
+    gui->renderTextLine("|@Select|   "+_("Games filter"), 5, offset,POS_CENTER);
+    gui->renderTextLine("|@L2| + |@Select|   "+_("RetroBoot Systems"), 6, offset,POS_CENTER);
 
-    gui->renderTextLine("-=" + _("In Game") + "=-",8,offset,true);
-    gui->renderTextLine("|@Select| + |@T|   "+_("Emulator config MENU"), 9, offset,true);
-    gui->renderTextLine("RESET   "+_("Quit emulation - back to AutoBleem"), 10, offset,true);
+    gui->renderTextLine("-=" + _("In Game") + "=-",8,offset,POS_CENTER);
+    gui->renderTextLine("|@Select| + |@T|   "+_("Emulator config MENU"), 9, offset,POS_CENTER);
+    gui->renderTextLine("RESET   "+_("Quit emulation - back to AutoBleem"), 10, offset,POS_CENTER);
 
-    gui->renderTextLine("|@R2| + |@L2|  "+_("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 12, offset,true);
+    gui->renderTextLine("|@R2| + |@L2|  "+_("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 12, offset,POS_CENTER);
 
 
     gui->renderStatus("|@O| " + _("Go back") + "|");

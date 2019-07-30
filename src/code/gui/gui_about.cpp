@@ -20,7 +20,7 @@ void GuiAbout::render() {
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=" + _("About") + "=-", 0, offset, true);
+    gui->renderTextLine("-=" + _("About") + "=-", 0, offset, POS_CENTER);
     gui->renderTextLine(_("AutoBleem") + " " + gui->cfg.inifile.values["version"] +
                         " - " + _("Automatic PlayStation Classic USB launcher"), 1, offset);
     gui->renderTextLine(_("Code: AutoBleem Team") + " (screemer, mGGk, nex, ThaFridge, Axanar) ", 2, offset);

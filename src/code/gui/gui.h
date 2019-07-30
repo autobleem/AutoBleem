@@ -43,8 +43,9 @@
 #define EMU_PCSX          0
 #define EMU_RETROARCH     1
 
-
-
+#define POS_LEFT 0
+#define POS_CENTER 1
+#define POS_RIGHT 2
 //********************
 // GuiBase
 //********************
@@ -123,16 +124,16 @@ public:
 
     void renderTextBar();
 
-    int renderTextLine(const std::string & text, int line, int offset, bool center, int xoffset);
-    int renderTextLine(const std::string & text, int line, int offset, bool center, int xoffset, TTF_Font_Shared font);
+    int renderTextLine(const std::string & text, int line, int offset,  int position, int xoffset);
+    int renderTextLine(const std::string & text, int line, int offset, int position, int xoffset, TTF_Font_Shared font);
 
-    int renderTextLine(const std::string & text, int line, int offset, bool center);
+    int renderTextLine(const std::string & text, int line, int offset,  int position);
 
     int renderTextLine(const std::string & text, int line, int offset);
 
-    int renderTextLineOptions(const std::string & text, int line, int offset, bool center);
+    int renderTextLineOptions(const std::string & text, int line, int offset,  int position);
 
-    int renderTextLineOptions(const std::string & text, int line, int offset, bool center, int xoffset);
+    int renderTextLineOptions(const std::string & text, int line, int offset,  int position, int xoffset);
 
     void renderSelectionBox(int line, int offset);
 

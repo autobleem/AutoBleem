@@ -13,6 +13,8 @@ using namespace std;
 
 class GuiMcManager : public GuiScreen {
 public:
+    string leftCardName;
+    string rightCardName;
     SDL_Shared<SDL_Texture> backgroundImg;
     string card1path;
     string card2path;

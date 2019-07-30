@@ -105,7 +105,7 @@ void GuiMcManager::renderStatic() {
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, backgroundImg, nullptr, &backgroundRect);
     gui->renderTextBar();
-    gui->renderTextLine(_("Memory Card Manager"), 1, 1, true);
+    gui->renderTextLine(_("Memory Card Manager"), 1, 1, POS_CENTER);
     gui->renderStatus(
             "|@S| " + _("Format Memory Card") + " | " + "|@T| " + _("Delete Block") + " | " + "|@O| " + _("Go back") +
             "|");
@@ -172,9 +172,14 @@ void GuiMcManager::renderMetaInfo() {
 
     string title = card->get_slot_title(pencilColumn + pencilRow * 3);
     string gameID = card->get_slot_gameID(pencilColumn + pencilRow * 3);
+    string pCode = card->get_slot_Pcode(pencilColumn + pencilRow * 3);
 
-    gui->renderTextLine(title, 3, 1, true, true, fontJIS);
-    gui->renderTextLine(gameID, 3, 1, true, true);
+    gui->renderTextLine(title, 3, 1, POS_CENTER, true, fontJIS);
+    gui->renderTextLine(gameID, 3, 1, POS_CENTER, true);
+    gui->renderTextLine(pCode, 4, 1, POS_CENTER, true);
+
+    gui->renderTextLine(leftCardName, 17, 1, POS_LEFT, true);
+    gui->renderTextLine(rightCardName, 17, 1, POS_RIGHT, true);
 }
 
 void GuiMcManager::render() {
