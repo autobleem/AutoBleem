@@ -10,6 +10,7 @@
 #include <iostream>
 #include "../gui/gui.h"
 #include "../lang.h"
+#include "../gui/gui_confirm.h"
 
 void GuiMcManager::init() {
     loadAssets();
@@ -37,40 +38,33 @@ void GuiMcManager::loadAssets() {
 
 }
 
-void GuiMcManager::pencilDown()
-{
-    if (pencilRow!=4)
-    {
+void GuiMcManager::pencilDown() {
+    if (pencilRow != 4) {
         pencilRow++;
     }
 }
-void GuiMcManager::pencilUp()
-{
-    if (pencilRow!=0)
-    {
+
+void GuiMcManager::pencilUp() {
+    if (pencilRow != 0) {
         pencilRow--;
     }
 }
-void GuiMcManager::pencilLeft()
-{
-    if (pencilColumn!=0)
-    {
+
+void GuiMcManager::pencilLeft() {
+    if (pencilColumn != 0) {
         pencilColumn--;
-    } else
-    {
+    } else {
         pencilColumn = 2;
-        if (pencilMemcard==1) pencilMemcard=2; else pencilMemcard=1;
+        if (pencilMemcard == 1) pencilMemcard = 2; else pencilMemcard = 1;
     }
 }
-void GuiMcManager::pencilRight()
-{
-    if (pencilColumn!=2)
-    {
+
+void GuiMcManager::pencilRight() {
+    if (pencilColumn != 2) {
         pencilColumn++;
-    } else
-    {
+    } else {
         pencilColumn = 0;
-        if (pencilMemcard==1) pencilMemcard=2; else pencilMemcard=1;
+        if (pencilMemcard == 1) pencilMemcard = 2; else pencilMemcard = 1;
     }
 
 
@@ -91,23 +85,17 @@ void GuiMcManager::renderPencil(int memcard, int col, int row) {
 
 void GuiMcManager::renderStatic() {
     shared_ptr<Gui> gui(Gui::getInstance());
-    // use evoUI background
-    SDL_Rect backgroundRect;
-    int bakcw, backh;
-    SDL_RenderClear(renderer);
-    SDL_SetTextureBlendMode(backgroundImg, SDL_BLENDMODE_BLEND);
-    SDL_QueryTexture(backgroundImg, NULL, NULL, &bakcw, &backh);
-    backgroundRect.x = 0;
-    backgroundRect.y = 0;
-    backgroundRect.w = bakcw;
-    backgroundRect.h = backh;
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, backgroundImg, nullptr, &backgroundRect);
+    gui->renderBackground();
     gui->renderTextBar();
     gui->renderTextLine(_("Memory Card Manager"), 1, 1, POS_CENTER);
     gui->renderStatus(
-            "|@S| " + _("Format Memory Card") + " | " + "|@T| " + _("Delete Block") + " | " + "|@O| " + _("Go back") +
+            "|@Start| " + _("Select Right Card") +
+            " | |@S| " + _("Defragment") +
+            "   | " + "|@L2| " + _("Reload") +
+            " | " + "|@R2| " + _("Save ") +
+            "   | " + "|@T| " + _("Delete") +
+            " | " + "|@X| " + _("Copy") +
+            " | " + "|@O| " + _("Go back") +
             "|");
 
     //Draw dot matrix image
@@ -147,14 +135,13 @@ void GuiMcManager::renderMemCardIcons(int memcard) {
         int col = i % 3;
         int line = i / 3;
         int frame = 0;
-        if ((pencilMemcard==memcard) && (pencilRow==line) && (pencilColumn==col))
-        {
+        if ((pencilMemcard == memcard) && (pencilRow == line) && (pencilColumn == col)) {
             frame = animFrame;
         }
         output.x = start + (xShift * col) + xDecal;
         output.y = yStart + (yShift * line) + yDecal;
         if (currentCard->get_slot_is_used(i)) {
-            SDL_RenderCopy(renderer, currentCard->get_slot_icon(i,frame), nullptr, &output);
+            SDL_RenderCopy(renderer, currentCard->get_slot_icon(i, frame), nullptr, &output);
         }
     }
 }
@@ -222,6 +209,43 @@ void GuiMcManager::loop() {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         menuVisible = false;
                     };
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_L2, &e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        memcard1->load_file(card1path);
+                        memcard2->load_file(card2path);
+                    };
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_R2, &e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        auto confirm = new GuiConfirm(renderer);
+                        confirm->label = _("Are you sure to save memcards?");
+                        confirm->show();
+                        if (confirm->result) {
+                            memcard1->save_file(card1path);
+                            memcard2->save_file(card2path);
+                        }
+                        delete (confirm);
+                    };
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE, &e)) {
+                        CardEdit *card;
+                        if (pencilMemcard == 1) {
+                            card = memcard1;
+                        } else {
+                            card = memcard2;
+                        }
+                        int slot = pencilColumn + pencilRow * 3;
+                        if (!card->is_slot_top(slot)) {
+                            Mix_PlayChannel(-1, gui->cancel, 0);
+                            continue;
+                        }
+                        if (card->get_slot_is_free(slot)) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
+                            continue;
+                        }
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        card->delete_game(slot);
+
+
+                    };
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
                 case SDL_JOYHATMOTION:
                     if (gui->mapper.isCenter(&e)) {
@@ -247,7 +271,7 @@ void GuiMcManager::loop() {
             }
         }
         counter++;
-        if (counter>5) {
+        if (counter > 5) {
             animFrame++;
             if (animFrame > 2) animFrame = 0;
             counter = 0;

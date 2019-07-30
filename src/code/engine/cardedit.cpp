@@ -1,6 +1,7 @@
 #include <cstring>
 #include "cardedit.h"
 #include "../DirEntry.h"
+#include "../lang.h"
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -73,14 +74,7 @@ int CardEdit::load_file(std::string filename) {
 
 }
 
-void CardEdit::getSlotData(int slot, unsigned char* output)
-{
 
-}
-void CardEdit::setSlotData(int slot, unsigned char* input)
-{
-
-}
 
 int CardEdit::save_file(string filename) {
     ofstream f(filename);
@@ -94,6 +88,28 @@ void CardEdit::update_data() {
     update();
 }
 
+void CardEdit::delete_game(int startslot)
+{
+    int gameslots=1;
+    for (int i=startslot;i<15;i++)
+    {
+        if (get_slot_is_free(i))
+        {
+            break;
+        }
+        if (!is_slot_top(i))
+        {
+            gameslots++;
+        } else
+        {
+            break;
+        }
+    }
+    for (int i=startslot;i<startslot+gameslots;i++)
+    {
+        delete_slot(i);
+    }
+}
 int CardEdit::delete_slot(int slot) {
     int position;
     position = 0x80 + (slot * 0x80);
@@ -218,7 +234,7 @@ void CardEdit::update_slot_Pcodes() {
     int pcode_pos = 0;
     int char_count = 0;
     for (int i = 0; i < 15; i++) {
-        if (slot_is_used[i] || slot_is_deleted[i]) {
+        if (slot_is_used[i] ) {
             pcode_pos = current_pos + 12; // The product code is the 12th byte
             char_count = 0;
             slot_Pcodes[i] = "";
@@ -240,7 +256,7 @@ void CardEdit::update_slot_gameIDs() {
     int pcode_pos = 0;
     int char_count = 0;
     for (int i = 0; i < 15; i++) {
-        if (slot_is_used[i] || slot_is_deleted[i]) {
+        if (slot_is_used[i] ) {
             pcode_pos = current_pos + 22; // The game ID is the 22th byte
             char_count = 0;
             slot_gameID[i] = "";
@@ -257,11 +273,17 @@ void CardEdit::update_slot_gameIDs() {
     }
 }
 
+bool CardEdit::is_slot_top(int slot)
+{
+    return block_type[slot] == PSX_BLOCK_TOP;
+}
+
 void CardEdit::update_slot_titles() {
+    shared_ptr<Lang> lang(Lang::getInstance());
     int current_pos = 0x2000;  // The second block starts here
 
     for (int i = 0; i < 15; i++) {
-        if (slot_is_used[i] || slot_is_deleted[i]) {
+        if (slot_is_used[i] ) {
             if ((block_type[i] == PSX_BLOCK_TOP) || slot_is_deleted[i]) {
                 string tmpbuf;
                 char *jis_title;
@@ -281,13 +303,13 @@ void CardEdit::update_slot_titles() {
 
             }   // endif block_type
             else {
-                if (block_type[i] == PSX_BLOCK_LINK) { slot_titles[i] = "Link Block"; }
-                if (block_type[i] == PSX_BLOCK_LINK_END) { slot_titles[i] = "Link end Block"; }
+                if (block_type[i] == PSX_BLOCK_LINK) { slot_titles[i] = _("Link Block"); }
+                if (block_type[i] == PSX_BLOCK_LINK_END) { slot_titles[i] = _("Link end Block"); }
             }
         } else {
-            slot_titles[i] = "Free";
+            slot_titles[i] = _("Free");
         }
-        cout << i << "   " << slot_titles[i] << endl;
+
         current_pos += 0x2000;
     }
 }

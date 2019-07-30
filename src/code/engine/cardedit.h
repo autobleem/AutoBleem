@@ -44,12 +44,14 @@ public:
 	int clearData();
 	void update_data();
 
+	void delete_game(int startslot);
 	int delete_slot(int slot);
 	int undelete_slot(int slot);
 
 	// informaton commands
     string get_slot_Pcode(int slot);
     string get_slot_title(int slot);
+    bool is_slot_top(int slot);
     string get_slot_gameID(int slot);
     SDL_Shared<SDL_Texture> get_slot_icon(int slot, int frame);
 
@@ -61,8 +63,7 @@ public:
 	bool get_slot_is_used(int slot);
 	bool get_slot_is_free(int slot);
 
-	void getSlotData(int slot, unsigned char* output);
-	void setSlotData(int slot, unsigned char* input);
+
 
 
 private:

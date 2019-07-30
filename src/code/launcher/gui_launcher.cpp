@@ -1247,17 +1247,24 @@ void GuiLauncher::loop() {
                                     continue;
                                 }
 
-                                string leftCardName = _("INTERNAL")+" 1";
-                                string rightCardName = _("INTERNAL")+" 2";
+                                string leftCardName = _("INTERNAL")+" (1)";
+                                string rightCardName = _("INTERNAL")+" (2)";
                                 string cardPath1 = carouselGames[selGame]->ssFolder  +"memcards/card1.mcd";
                                 string cardPath2 = carouselGames[selGame]->ssFolder  +"memcards/card2.mcd";
                                 // Mapped card
-                                if (carouselGames[selGame]->memcard!="SONY")
+                                string memcard = "SONY";
+                                if (!carouselGames[selGame]->internal) {
+                                    Inifile gameini;
+                                    gameini.load(carouselGames[selGame]->folder + "/Game.ini");
+                                    memcard = gameini.values["memcard"];
+
+                                }
+                                if (memcard!="SONY")
                                 {
-                                    cardPath1 = "/media/Games/!MemCards/" + carouselGames[selGame]->memcard  +"card1.mcd";
-                                    cardPath1 = "/media/Games/!MemCards/" + carouselGames[selGame]->memcard  +"card2.mcd";
-                                    string leftCardName = carouselGames[selGame]->memcard+" 1";
-                                    string rightCardName = carouselGames[selGame]->memcard+" 2";
+                                    cardPath1 = "/media/Games/!MemCards/" + memcard  +"card1.mcd";
+                                    cardPath1 = "/media/Games/!MemCards/" + memcard  +"card2.mcd";
+                                    leftCardName = memcard+" (1)";
+                                    rightCardName = memcard+" (2)";
                                 }
 
                                 Mix_PlayChannel(-1, gui->cursor, 0);
