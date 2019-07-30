@@ -151,7 +151,6 @@ add_executable(starter
 
 target_link_libraries(autobleem-gui
          Threads::Threads
-		 iconv
          SDL2
          SDL2_image
          SDL2_mixer

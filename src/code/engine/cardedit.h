@@ -84,6 +84,7 @@ private:
 	void update_slot_gameIDs();
 	void update_slot_titles();
 	void update_slot_iconImages();
-	iconv_t sjisToUtf8;
+    string sj2utf8(const string &input);
+    uint8_t * convTable;
 };
 

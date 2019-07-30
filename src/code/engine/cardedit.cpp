@@ -1,7 +1,6 @@
 #include <cstring>
 #include "cardedit.h"
 #include "../DirEntry.h"
-#include <iconv.h>
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -18,11 +17,13 @@ using namespace std;
 
 CardEdit::CardEdit(SDL_Shared<SDL_Renderer> renderer1) {
     renderer = renderer1;
-    sjisToUtf8 = iconv_open("UTF-8", "SHIFT_JIS");
-
     // Initialise the card contents
     memset(memoryCard, 0, sizeof(memoryCard));
 
+    convTable = new uint8_t[25088];
+    ifstream is(DirEntry::getWorkingPath()+"/shiftjis.dat");
+    is.read(reinterpret_cast<char *>(convTable), 25088);
+    is.close();
 
     // Create image buffers for icons
     for (int i = 0; i < 15; i++) {
@@ -47,8 +48,7 @@ CardEdit::CardEdit(SDL_Shared<SDL_Renderer> renderer1) {
 }
 
 CardEdit::~CardEdit() {
-
-    iconv_close(sjisToUtf8);
+    delete convTable;
 }
 
 int CardEdit::load_file(std::string filename) {
@@ -263,9 +263,7 @@ void CardEdit::update_slot_titles() {
     for (int i = 0; i < 15; i++) {
         if (slot_is_used[i] || slot_is_deleted[i]) {
             if ((block_type[i] == PSX_BLOCK_TOP) || slot_is_deleted[i]) {
-                char tmpbuf[64] = {};
-                size_t olen = sizeof(tmpbuf) - 1;
-                char *o = tmpbuf;
+                string tmpbuf;
                 char *jis_title;
                 size_t tlen;
 
@@ -275,9 +273,8 @@ void CardEdit::update_slot_titles() {
                 jis_title = (char *) &memoryCard[current_pos + 4];
                 tlen = strnlen(jis_title, 64);
 
-                iconv(sjisToUtf8, &jis_title, &tlen, &o, &olen);
 
-                slot_titles[i] += tmpbuf;
+                slot_titles[i] += sj2utf8(jis_title);
 
                 if (slot_is_deleted[i])
                     slot_titles[i] = "(" + slot_titles[i] + ")";
@@ -293,6 +290,56 @@ void CardEdit::update_slot_titles() {
         cout << i << "   " << slot_titles[i] << endl;
         current_pos += 0x2000;
     }
+}
+
+std::string CardEdit::sj2utf8(const std::string &input)
+{
+    std::string output(3 * input.length(), ' '); //ShiftJis won't give 4byte UTF8, so max. 3 byte per input char are needed
+    size_t indexInput = 0, indexOutput = 0;
+
+    while(indexInput < input.length())
+    {
+        char arraySection = ((uint8_t)input[indexInput]) >> 4;
+
+        size_t arrayOffset;
+        if(arraySection == 0x8) arrayOffset = 0x100; //these are two-byte shiftjis
+        else if(arraySection == 0x9) arrayOffset = 0x1100;
+        else if(arraySection == 0xE) arrayOffset = 0x2100;
+        else arrayOffset = 0; //this is one byte shiftjis
+
+        //determining real array offset
+        if(arrayOffset)
+        {
+            arrayOffset += (((uint8_t)input[indexInput]) & 0xf) << 8;
+            indexInput++;
+            if(indexInput >= input.length()) break;
+        }
+        arrayOffset += (uint8_t)input[indexInput++];
+        arrayOffset <<= 1;
+
+        //unicode number is...
+        uint16_t unicodeValue = (convTable[arrayOffset] << 8) | convTable[arrayOffset + 1];
+
+        //converting to UTF8
+        if(unicodeValue < 0x80)
+        {
+            output[indexOutput++] = unicodeValue;
+        }
+        else if(unicodeValue < 0x800)
+        {
+            output[indexOutput++] = 0xC0 | (unicodeValue >> 6);
+            output[indexOutput++] = 0x80 | (unicodeValue & 0x3f);
+        }
+        else
+        {
+            output[indexOutput++] = 0xE0 | (unicodeValue >> 12);
+            output[indexOutput++] = 0x80 | ((unicodeValue & 0xfff) >> 6);
+            output[indexOutput++] = 0x80 | (unicodeValue & 0x3f);
+        }
+    }
+
+    output.resize(indexOutput); //remove the unnecessary bytes
+    return output;
 }
 
 void CardEdit::update_slot_iconImages() {
