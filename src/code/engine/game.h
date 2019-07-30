@@ -28,9 +28,9 @@ public:
 class USBGame {
 public:
     int folder_id = 0;
-    std::string fullPath;
+    std::string fullPath;       // "/Games/Sports/Football/NFL Blitz"
+    std::string pathName;       // "NFL Blitz"
     std::string saveStatePath;
-    std::string pathName;
 
     std::string title;
     std::string publisher;

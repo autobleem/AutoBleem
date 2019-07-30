@@ -20,11 +20,11 @@ using namespace std;
 //*******************************
 // DirEntry::separator
 //*******************************
-const char *DirEntry::separator() {
+char DirEntry::separator() {
 #ifdef _WIN32
-    return "\\";
+    return '\\';
 #else
-    return (char *) "/";
+    return '/';
 #endif
 }
 
@@ -35,10 +35,8 @@ const char *DirEntry::separator() {
 string DirEntry::fixPath(string path)
 {
     trim(path);
-    if (path.back() == DirEntry::separator()[0])
-    {
-        path = path.substr(0,path.size()-1);
-    }
+    if (path.size() > 0 && path.back() == DirEntry::separator())
+        path.pop_back();
     return path;
 }
 
@@ -49,10 +47,10 @@ string DirEntry::fixPath(string path)
 string DirEntry::pathWithSeparatorAtEnd(const string& path)
 {
     string ret = path;
-    if (ret.length() > 0)
+    if (ret.size() > 0)
     {
-        char lastChar = ret[ret.length()-1];
-        if (lastChar != separator()[0])
+        char lastChar = ret.back();
+        if (lastChar != separator())
             ret += separator(); // add slash at end
     }
 
@@ -68,9 +66,9 @@ string DirEntry::pathWithOutSeparatorAtEnd(const string& path)
     string ret = path;
     if (ret.length() > 0)
     {
-        char & lastChar = ret[ret.length()-1];
-        if (lastChar == separator()[0])
-            lastChar = 0;   // remove slash at end
+        char & lastChar = ret.back();
+        if (lastChar == separator())
+            ret.pop_back();     // remove slash at end
     }
 
     return ret;

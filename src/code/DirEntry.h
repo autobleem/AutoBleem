@@ -19,7 +19,7 @@ public:
     DirEntry(std::string _name, bool dir) : name(_name), isDir(dir) { };
     static bool sortDirEntryByName(const DirEntry & i, const DirEntry & j) { return SortByCaseInsensitive(i.name, j.name); }
 
-    static const char *separator();
+    static char separator();
     static std::string fixPath(std::string path);
     static std::string pathWithSeparatorAtEnd(const std::string& path);  // return the path with a separator at the end
     static std::string pathWithOutSeparatorAtEnd(const std::string& path);   // return the path without a separator at the end

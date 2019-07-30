@@ -42,8 +42,8 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
     }
 
     trim(game->ssFolder);
-    if (game->ssFolder.back() == DirEntry::separator()[0]) {
-        game->ssFolder = game->ssFolder.substr(0, game->ssFolder.size() - 1);
+    if (game->ssFolder.back() == DirEntry::separator()) {
+        game->ssFolder.pop_back();
     }
 
     argvNew.push_back(link.c_str());

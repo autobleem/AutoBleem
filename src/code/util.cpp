@@ -9,6 +9,7 @@
 #include <sstream>
 #include <iostream>
 #include "main.h"
+#include <stdio.h>
 
 using namespace std;
 
@@ -205,7 +206,7 @@ string Util::commaSep(const string& s, int pos) {
 /*
  * Execute a shell command and return output
  */
-string Util::execUnixCommad(const char* cmd){
+string Util::execUnixCommand(const char* cmd){
     array<char, 128> buffer;
     string result;
     cout << "Exec:" << cmd << endl;
@@ -280,11 +281,23 @@ string Util::getStringWithinChar(string s, char del) {
 
 //*******************************
 // Util::cleanPublisherString
-//*******************************// remove any trailing "." or space or " ."
+// remove any trailing "." or space or " ."
+//*******************************
 void Util::cleanPublisherString(std::string & pub)
 {
     if (pub.size() > 0 && pub.back() == '.')
         pub.pop_back();
     if (pub.size() > 0 && pub.back() == ' ')
         pub.pop_back();
+}
+
+//*******************************
+// Util::dumpMemory
+//*******************************
+void Util::dumpMemory(const  char *p, int count) {
+    for (int i=0; i < count; ++i) {
+        printf("%x, ", (unsigned int) *p++);
+        if (i %16 == 15 || i == count-1)
+            cout << endl;
+    }
 }

@@ -10,6 +10,7 @@
 #include <fstream>
 #include <iostream>
 #include <unistd.h>
+#include "GetGameDirHierarchy.h"
 
 using namespace std;
 
@@ -315,10 +316,11 @@ void Scanner::repairBrokenCueFiles(const string & path) {
 }
 
 //*******************************
-// Scanner::scanDirectory
+// Scanner::scanUSBGamesDirectory
 //*******************************
-void Scanner::scanDirectory(const string & _path) {
-    string path = DirEntry::pathWithSeparatorAtEnd(_path); // it looks like the USBGames path must have a / at the end for changing the game conig to work
+void Scanner::scanUSBGamesDirectory(const string & _path) {
+    // it looks like the USBGames path must have a / at the end for changing the game config to work
+    string path = DirEntry::pathWithSeparatorAtEnd(_path);
 
     games.clear();  // clear games list
     complete = false;
@@ -337,6 +339,13 @@ void Scanner::scanDirectory(const string & _path) {
     if (!DirEntry::exists(path + "!MemCards")) {
         DirEntry::createDir(path + "!MemCards");
     }
+
+    GameSubDirRows gameSubDirRows = GameSubDir::scanGamesHierarchy(path);
+    cout << "number of rows: " << gameSubDirRows.size() << endl;
+    for (auto & row : gameSubDirRows)
+        cout << row->displayRowIndex << ": " << row->dirName << endl;
+    if (gameSubDirRows.size() > 0)
+        gameSubDirRows[0]->print(true);
 
     // for each game dir
     for (DirEntry entry: DirEntry::diru_DirsOnly(path)) {

@@ -58,7 +58,7 @@ int scanGames(string path, string dbpath) {
         return EXIT_FAILURE;
     }
 
-    scanner->scanDirectory(path);
+    scanner->scanUSBGamesDirectory(path);
     scanner->updateDB(gui->db);
 
     gui->drawText(_("Total:") + " " + to_string(scanner->games.size()) + " " + _("games scanned") + ".");

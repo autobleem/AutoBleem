@@ -192,8 +192,8 @@ string SerialScanner::workarounds(ImageType imageType, string path, string first
 //*******************************
 string SerialScanner::serialByMd5(string scanFile)
 {
-    string head=Util::execUnixCommad(("head -c 1M \""+scanFile+"\" | md5sum | awk '{print $1}'").c_str());
-    string tail=Util::execUnixCommad(("tail -c 1M \""+scanFile+"\" | md5sum | awk '{print $1}'").c_str());
+    string head=Util::execUnixCommand(("head -c 1M \""+scanFile+"\" | md5sum | awk '{print $1}'").c_str());
+    string tail=Util::execUnixCommand(("tail -c 1M \""+scanFile+"\" | md5sum | awk '{print $1}'").c_str());
 
     return head+tail;
 }

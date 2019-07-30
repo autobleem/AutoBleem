@@ -40,6 +40,8 @@ add_executable(
         src/code/engine/game.h
         src/code/engine/scanner.cpp
         src/code/engine/scanner.h
+        src/code/engine/GetGameDirHierarchy.h
+        src/code/engine/GetGameDirHierarchy.cpp
         src/code/engine/metadata.cpp
         src/code/engine/metadata.h
         src/code/engine/ecmhelper.cpp

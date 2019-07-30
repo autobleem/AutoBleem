@@ -19,7 +19,7 @@ public:
     Scanner() {}
     USBGames games;
 
-    void scanDirectory(const std::string & path);
+    void scanUSBGamesDirectory(const std::string & path);
     void repairBrokenCueFiles(const std::string & path);
     bool isFirstRun(const std::string & path, Database * db);
     void unecm(const std::string & path); // this routine removes Error Correction files from the bin file to save space
