@@ -10,7 +10,7 @@ using GameSubDirRows = std::vector<GameSubDirPtr>;
 
 struct GameSubDir {
     std::string fullPath = "";
-    std::string dirName = "";    // last part from the path
+    std::string subDirName = "";    // last part from the path
     GameSubDirRows *displayRows;
     unsigned int displayRowIndex = 0;
     unsigned int displayIndentLevel = 0;

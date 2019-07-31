@@ -13,7 +13,7 @@ using namespace std;
 //*******************************
 GameSubDir::GameSubDir(const std::string & _fullPath, GameSubDirRows *_displayRows) {
     fullPath = DirEntry::pathWithOutSeparatorAtEnd(_fullPath);
-    dirName = DirEntry::getFileNameFromPath(fullPath);
+    subDirName = DirEntry::getFileNameFromPath(fullPath);
     displayRows = _displayRows;
 }
 
@@ -66,7 +66,7 @@ void GameSubDir::appendGames(const USBGames &src, USBGames *dest) {
 //*******************************
 void GameSubDir::print(bool plusGames) {
     string indent(displayIndentLevel, ' ');
-    cout << displayRowIndex << ": " << indent << fullPath << ", " << dirName << " (" << gamesInThisDir.size() << " games)" << endl;
+    cout << displayRowIndex << ": " << indent << fullPath << ", " << subDirName << " (" << gamesInThisDir.size() << " games)" << endl;
     if (plusGames) {
         for (auto & game : gamesInThisDir)
             cout << indent << " " << game->pathName << endl;
@@ -90,7 +90,7 @@ GameSubDirRows GameSubDir::scanGamesHierarchy(const std::string & path) {
 
 #if 1
     for (auto & row : displayRows)
-        cout << row->displayRowIndex << ": " << string(row->displayIndentLevel, ' ') << row->dirName <<
+        cout << row->displayRowIndex << ": " << string(row->displayIndentLevel, ' ') << row->subDirName <<
              " (" << row->allGames.size() << " games)" << endl;
 #endif
 

@@ -45,6 +45,8 @@ public:
     static DirEntries getFilesWithExtension(const std::string& path, const DirEntries & entries,
                                             const std::vector<std::string> & extensions);    // pass file extensions in lower case
     static std::string getFileNameFromPath(const std::string& path);
+    static std::string getDirNameFromPath(const std::string& path);
+    static std::string getDirNameFromPathWithSeparatorAtEnd(const std::string& path);
     static std::string getFileExtension(const std::string & fileName);
     static std::string getFileNameWithoutExtension(const std::string& filename);
     static std::string findFirstFile(std::string ext, std::string path);

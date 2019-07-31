@@ -89,6 +89,28 @@ string DirEntry::getFileNameFromPath(const string& path)
 }
 
 //*******************************
+// DirEntry::getDirNameFromPath
+//*******************************
+string DirEntry::getDirNameFromPath(const string& path)
+{
+    string result = "";
+    char *cstr = new char[path.length() + 1];
+    strcpy(cstr, path.c_str());
+    char * base = dirname(cstr);
+    result += base;
+    delete [] cstr;
+    return result;
+}
+
+//*******************************
+// DirEntry::getDirNameFromPathWithSeparatorAtEnd
+//*******************************
+string DirEntry::getDirNameFromPathWithSeparatorAtEnd(const string& path)
+{
+    return pathWithSeparatorAtEnd(getDirNameFromPath(path));
+}
+
+//*******************************
 // DirEntry::getWorkingPath
 //*******************************
 string DirEntry::getWorkingPath() {
