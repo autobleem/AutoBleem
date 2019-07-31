@@ -27,7 +27,9 @@ public:
 
     void loadAssets();
     using GuiScreen::GuiScreen;
+    void trySave();
 
+    bool changes = false;
 private:
     int counter = 0;
     int animFrame=0;

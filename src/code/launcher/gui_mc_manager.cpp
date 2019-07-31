@@ -86,6 +86,23 @@ void GuiMcManager::renderPencil(int memcard, int col, int row) {
     SDL_RenderCopy(renderer, mcPencil, nullptr, &pencilPos);
 }
 
+void GuiMcManager::trySave()
+{
+    if (changes)
+    {
+        auto confirm = new GuiConfirm(renderer);
+        confirm->label = _("Do you want to save memcards data ?");
+        confirm->show();
+        if (confirm->result) {
+            memcard1->save_file(card1path);
+            memcard2->save_file(card2path);
+            changes = false;
+        }
+        delete (confirm);
+        changes = false;
+    }
+}
+
 void GuiMcManager::renderStatic() {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
@@ -93,9 +110,8 @@ void GuiMcManager::renderStatic() {
     gui->renderTextLine(_("Memory Card Manager"), 1, 1, POS_CENTER);
     gui->renderStatus(
             "|@Start| " + _("Select Right Card") +
-            " | |@L1| " + _("Defragment") +
-            "   | " + "|@L2| " + _("Reload") +
-            " | " + "|@R2| " + _("Save ") +
+            " | |@Select| " + _("Defragment Card") +
+            "   | " + "|@X| " + _("Reload Cards") +
             "   | " + "|@T| " + _("Delete") +
             " | " + "|@S| " + _("Copy") +
             " | " + "|@O| " + _("Go back") +
@@ -207,17 +223,20 @@ void GuiMcManager::loop() {
                 menuVisible = false;
             }
             switch (e.type) {
-                case SDL_JOYBUTTONUP:
+                case SDL_JOYBUTTONDOWN:
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
+                        trySave();
                         menuVisible = false;
                     };
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_L2, &e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
+                        trySave();
                         memcard1->load_file(card1path);
                         memcard2->load_file(card2path);
+                        changes = false;
                     };
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         CardEdit *newCard = new CardEdit(renderer);
                         CardEdit *src;
@@ -230,12 +249,24 @@ void GuiMcManager::loop() {
                         }
                         int last = 0;
                         for (int slot = 0; slot < 15; slot++) {
-                            unsigned char buffer[0x2000];
-                            unsigned char dir[0x80];
-                            if (!src->get_slot_is_free(slot)) {
-                                src->getSlotData(slot, buffer, dir);
-                                newCard->setSlotData(last, buffer, dir);
-                                last++;
+                            if (!src->is_slot_top(slot))
+                            {
+                                continue;
+                            }
+                            int gameSize = src->getGameSlots(slot);
+                            int destSlot = newCard->findEmptySlot(gameSize);
+
+                            if (destSlot>=0)
+                            {
+                                Mix_PlayChannel(-1, gui->cursor, 0);
+                                unsigned char * buffer;
+                                int exportSize = src->getExportSize(slot);
+                                buffer = new unsigned char[exportSize];
+                                src->exportGame(slot,buffer);
+                                newCard->importGame(destSlot,buffer,exportSize);
+                                delete buffer;
+                                changes = true;
+
                             }
                         }
                         if (pencilMemcard == 1) {
@@ -247,19 +278,10 @@ void GuiMcManager::loop() {
                             delete(src);
                         };
                     }
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_R2, &e)) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        auto confirm = new GuiConfirm(renderer);
-                        confirm->label = _("Are you sure to save memcards?");
-                        confirm->show();
-                        if (confirm->result) {
-                            memcard1->save_file(card1path);
-                            memcard2->save_file(card2path);
-                        }
-                        delete (confirm);
-                    };
+
                     if (e.jbutton.button == gui->_cb(PCS_BTN_START, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
+                        trySave();
                         auto select = new GuiSelectMemcard(renderer);
                         select->listType=MC_MANAGER;
                         select->show();
@@ -281,6 +303,7 @@ void GuiMcManager::loop() {
                                 cout << "Card:" << cardPath << endl;
                                 memcard2->load_file(card2path);
                             }
+                            changes = false;
                         }
                         delete select;
                     }
@@ -302,6 +325,7 @@ void GuiMcManager::loop() {
                         }
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         card->delete_game(slot);
+                        changes=true;
 
 
                     };
@@ -337,6 +361,7 @@ void GuiMcManager::loop() {
                             src->exportGame(slot,buffer);
                             dest->importGame(destSlot,buffer,exportSize);
                             delete buffer;
+                            changes = true;
 
                         } else
                         {
