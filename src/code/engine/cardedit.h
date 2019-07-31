@@ -9,6 +9,7 @@
 #include <string>
 #include <iconv.h>
 #include <SDL2/SDL_render.h>
+#include <vector>
 #include "../gui/gui_sdl_wrapper.h"
 
 #pragma once
@@ -64,18 +65,19 @@ public:
 
 	void getSlotData(int slot, unsigned char* buffer, unsigned char *direntry);
     void setSlotData(int slot, unsigned char* buffer, unsigned char *direntry);
-    int getGameSlots(int startslot);
-    int findEmptySlot(int slotNumer);
+    vector<int> getGameSlots(int startslot);
+    vector<int>  findEmptySlot(int requested);
 
     int getExportSize(int startslot);
     void exportGame(int slot, unsigned char* buffer);
-    void importGame(int slot, unsigned char* buffer, int length);
+    void importGame(unsigned char* buffer, int length);
 
-
+    int next_slot_map[15];
 private:
     SDL_Shared<SDL_Renderer> renderer;
 	char memoryCard[131072];   //a memory card can hold 128K
 	bool slot_is_used[15];
+
 	bool slot_is_deleted[15];  // deleted, but SC still there
 	bool slot_has_icon[15];
 	unsigned char block_type[15]; // 0 not used, 1 top block, 2 link, 3 link end block
@@ -84,7 +86,7 @@ private:
     string slot_titles[15];
     SDL_Shared<SDL_Texture>  slot_icons[15][3];
 	void update();
-	void update_slot_is_used();  // also updates block_type
+	void update_slot_is_used();  // also updates block_type and next slot map
 	void update_slot_is_deleted();
 	void update_slot_has_icon();
 	void update_slot_Pcodes();

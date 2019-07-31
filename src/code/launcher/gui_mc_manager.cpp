@@ -180,9 +180,12 @@ void GuiMcManager::renderMetaInfo() {
     string gameID = card->get_slot_gameID(pencilColumn + pencilRow * 3);
     string pCode = card->get_slot_Pcode(pencilColumn + pencilRow * 3);
 
+    string nextSlot = to_string(card->next_slot_map[pencilColumn + pencilRow * 3]);
+
     gui->renderTextLine(title, 3, 1, POS_CENTER, true, fontJIS);
     gui->renderTextLine(gameID, 3, 1, POS_CENTER, true);
     gui->renderTextLine(pCode, 4, 1, POS_CENTER, true);
+    gui->renderTextLine(nextSlot, 5, 1, POS_CENTER, true);
 
     gui->renderTextLine(leftCardName, 17, 1, POS_LEFT, true);
     gui->renderTextLine(rightCardName, 17, 1, POS_RIGHT, true);
@@ -253,17 +256,17 @@ void GuiMcManager::loop() {
                             {
                                 continue;
                             }
-                            int gameSize = src->getGameSlots(slot);
-                            int destSlot = newCard->findEmptySlot(gameSize);
+                            int gameSize = src->getGameSlots(slot).size();
+                            vector<int> destSlots = newCard->findEmptySlot(gameSize);
 
-                            if (destSlot>=0)
+                            if (destSlots.size()>=0)
                             {
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 unsigned char * buffer;
                                 int exportSize = src->getExportSize(slot);
                                 buffer = new unsigned char[exportSize];
                                 src->exportGame(slot,buffer);
-                                newCard->importGame(destSlot,buffer,exportSize);
+                                newCard->importGame(buffer,exportSize);
                                 delete buffer;
                                 changes = true;
 
@@ -348,10 +351,10 @@ void GuiMcManager::loop() {
                             continue;
                         }
 
-                        int gameSize = src->getGameSlots(slot);
-                        int destSlot = dest->findEmptySlot(gameSize);
+                        int gameSize = src->getGameSlots(slot).size();
+                        vector<int> destSlots = dest->findEmptySlot(gameSize);
 
-                        if (destSlot>=0)
+                        if (destSlots.size()>=0)
                         {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             unsigned char * buffer;
@@ -359,7 +362,7 @@ void GuiMcManager::loop() {
                             buffer = new unsigned char[exportSize];
 
                             src->exportGame(slot,buffer);
-                            dest->importGame(destSlot,buffer,exportSize);
+                            dest->importGame(buffer,exportSize);
                             delete buffer;
                             changes = true;
 

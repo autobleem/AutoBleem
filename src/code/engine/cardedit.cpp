@@ -52,51 +52,42 @@ CardEdit::~CardEdit() {
     delete convTable;
 }
 
-int CardEdit::getGameSlots(int startslot)
+vector<int> CardEdit::getGameSlots(int startslot)
 {
-    int gameslots=1;
-    for (int i=startslot+1;i<15;i++)
+    vector<int> slots;
+    int currentSlot = startslot;
+    slots.push_back(currentSlot);
+    int nextSlot;
+    int iteration=0;
+    while ((nextSlot=next_slot_map[currentSlot])  != 0xFF)
     {
-        if (get_slot_is_free(i)) break;
-
-        if (!is_slot_top(i))
-        {
-            gameslots++;
-        } else
+        slots.push_back(nextSlot);
+        currentSlot = nextSlot;
+        if (iteration==15)
         {
             break;
         }
     }
-    return gameslots;
+
+    return slots;
 }
-int CardEdit::findEmptySlot(int slotNumer)
+vector<int> CardEdit::findEmptySlot(int requested)
 {
-    int currentStarting=0;
-    int slots=0;
+    vector<int> slots;
     for (int i=0;i<15;i++)
     {
         if (get_slot_is_free(i))
         {
-            slots++;
-            continue;
-        } else
-        {
-            if (slots>=slotNumer)
-            {
-                return currentStarting;
-            } else
-            {
-                currentStarting = i+1;
-            }
+            slots.push_back(i);
         }
+        if (slots.size()==requested)
+        {
+            break;
+        }
+    }
 
 
-    }
-    if (slots>=slotNumer)
-    {
-        return currentStarting;
-    }
-    return -1;
+    return slots;
 }
 
 void CardEdit::getSlotData(int slot, unsigned char* buffer, unsigned char *direntry)
@@ -156,8 +147,8 @@ void CardEdit::update_data() {
 
 void CardEdit::delete_game(int startslot)
 {
-    int gameSize=getGameSlots(startslot);
-    for (int i=startslot;i<startslot+gameSize;i++)
+    vector<int> slots=getGameSlots(startslot);
+    for (int i:slots)
     {
         delete_slot(i);
     }
@@ -246,6 +237,9 @@ void CardEdit::update_slot_is_used() {
             slot_is_used[i] = false;
             block_type[i] = PSX_BLOCK_NOT_USED;
         }
+        unsigned char nextSlot = memoryCard[current_pos+8];
+        next_slot_map[i] = nextSlot;
+        cout << i << " " << to_string(nextSlot) << endl;
         current_pos += 128;
     }
 }
@@ -418,16 +412,24 @@ std::string CardEdit::sj2utf8(const std::string &input)
 
 int CardEdit::getExportSize(int startslot)
 {
-    return 8320 + ((getGameSlots(startslot) - 1) * 8192);
+    return 8320 + ((getGameSlots(startslot).size() - 1) * 8192);
 }
 
-void CardEdit::importGame(int slot, unsigned char* buffer, int length)
+void CardEdit::importGame(unsigned char* buffer, int length)
 {
     int slotCount = (length - 128) / 8192;
     int numberOfBytes = slotCount * 8192;
+    vector<int> destSlots = findEmptySlot(slotCount);
+    for (int slot:destSlots)
+        cout << slot << "-";
+    cout << endl;
+    if (destSlots.size()!=slotCount)
+    {
+        return;
+    }
     // Place header data
 
-    int dir_position = 0x80 + (slot * 0x80);
+    int dir_position = 0x80 + (destSlots[0] * 0x80);
     for (int i = 0; i < 128; i++)
         memoryCard[dir_position+i] = buffer[i];
 
@@ -437,35 +439,41 @@ void CardEdit::importGame(int slot, unsigned char* buffer, int length)
     memoryCard[dir_position+6] = (unsigned char)((numberOfBytes & 0xFF0000) >> 16);
 
     // store all slots
-    for (int i = 0; i < slotCount; i++)
+
+    int iteration=0;
+    for (int slotNumber:destSlots)
     {
-        int  slot_position = 0x2000 + ((slot+i) * 0x2000);
+        int  slot_position = 0x2000 + (slotNumber * 0x2000);
         //Set all bytes
         for (int byteCount = 0; byteCount < 8192; byteCount++)
         {
-            memoryCard[slot_position+byteCount] = buffer[128 + (i * 8192) + byteCount];
+            memoryCard[slot_position+byteCount] = buffer[128 + (iteration * 8192) + byteCount];
         }
+        iteration++;
     }
     // Recreate headers
     // Set pointer to all slots except the last
-    for (int i = 0; i < (slotCount - 1); i++)
+    for (int i = 0; i < slotCount; i++)
     {
-        dir_position = 0x80 + ((slot+i)* 0x80);
+        int slot = destSlots[i];
+        dir_position = 0x80 + (slot * 0x80);
         memoryCard[dir_position+0] = 0x52;
-        memoryCard[dir_position+8] = (unsigned char)slot + 1;
+        memoryCard[dir_position+8] = (unsigned char) destSlots[i + 1];
         memoryCard[dir_position+9] = 0x00;
     }
-    dir_position = 0x80 + ((slot+slotCount-1) * 0x80);
+
+    dir_position = 0x80 + (destSlots[destSlots.size()-1] * 0x80);
     //Add final slot pointer to the last slot in the link
     memoryCard[dir_position+0] = 0x53;
     memoryCard[dir_position+8] = 0xFF;
     memoryCard[dir_position+9] = 0xFF;
-    dir_position = 0x80 + (slot * 0x80);
-    memoryCard[dir_position] = 0x51;
 
-    for (int i;i<slotCount;i++) {
+    dir_position = 0x80 + (destSlots[0] * 0x80);
+    memoryCard[dir_position+0] = 0x51;
+
+    for (int slotNumber:destSlots) {
         unsigned char xor_code = 0x00;
-       int  position = 0x80 + (slot+i * 0x80);  // get to the start of the frame
+       int  position = 0x80 + (slotNumber * 0x80);  // get to the start of the frame
         for (int j = 0; j < 126; j++) {
             xor_code = xor_code ^ memoryCard[j + position];
         }
@@ -476,8 +484,7 @@ void CardEdit::importGame(int slot, unsigned char* buffer, int length)
 
 void CardEdit::exportGame(int slot, unsigned char *buffer)
 {
-    int saveSlotsCount = getGameSlots(slot);
-    int totalLength = getExportSize(slot);
+    vector<int> slots = getGameSlots(slot);
     // copy save header
     for (int i=0;i<128;i++)
     {
@@ -486,11 +493,16 @@ void CardEdit::exportGame(int slot, unsigned char *buffer)
     }
     // copy data
     //Copy save data
-    for (int sNumber = 0; sNumber < saveSlotsCount; sNumber++)
+    int slotUsed = 0;
+    for (int slotNumber:slots)
     {
-        int  slot_position = 0x2000 + ((slot+sNumber) * 0x2000);
-        for (int i = 0; i < 0x2000; i++)
-            buffer[128 + (sNumber * 0x2000) + i] = memoryCard[slot_position+i];
+        int  slot_position = 0x2000 + ((slotNumber) * 0x2000);
+        for (int i = 0; i < 0x2000; i++) {
+            int address = 128 + (slotUsed * 0x2000) + i;
+            buffer[address] = memoryCard[slot_position + i];
+
+        }
+        slotUsed++;
     }
 }
 
