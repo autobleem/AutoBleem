@@ -58,7 +58,7 @@ public:
     int numberOfNonDuplicatedGamesInCarousel = 0;
 
     static void renderText(int x, int y, const std::string & text, const SDL_Color & textColor,
-                           TTF_Font_Shared font, bool center, bool background);
+                           TTF_Font_Shared font, int position, bool background);
 
     bool powerOffShift=false;
 

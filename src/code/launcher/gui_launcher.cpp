@@ -15,6 +15,7 @@
 #include <iostream>
 #include "../engine/scanner.h"
 #include "../gui/gui_playlists.h"
+#include "gui_mc_manager.h"
 
 using namespace std;
 
@@ -141,7 +142,7 @@ void GuiLauncher::showSetName() {
 // GuiLauncher::renderText
 //*******************************
 void GuiLauncher::renderText(int x, int y, const std::string &text, const SDL_Color &textColor, TTF_Font_Shared font,
-                             bool center, bool background) {
+                             int position, bool background) {
     int text_width = 0;
     int text_height = 0;
     SDL_Shared<SDL_Surface> surface;
@@ -172,7 +173,7 @@ void GuiLauncher::renderText(int x, int y, const std::string &text, const SDL_Co
     inputRect.w = rect.w;
     inputRect.h = rect.h;
 
-    if (center) {
+    if (position == POS_CENTER) {
         rect.x = 640 - (rect.w / 2);
     }
 
@@ -576,9 +577,9 @@ void GuiLauncher::render() {
     menu->render();
 
     auto font24 = gui->fonts[FONT_24];
-    renderText(638, 640, _("Enter"), {secR, secG, secB, 0}, font24, false, false);
-    renderText(760, 640, _("Cancel"), {secR, secG, secB, 0}, font24, false, false);
-    renderText(902, 640, _("Console Button Guide"), {secR, secG, secB, 0}, font24, false, false);
+    renderText(638, 640, _("Enter"), {secR, secG, secB, 0}, font24, POS_LEFT, false);
+    renderText(760, 640, _("Cancel"), {secR, secG, secB, 0}, font24, POS_LEFT, false);
+    renderText(902, 640, _("Console Button Guide"), {secR, secG, secB, 0}, font24, POS_LEFT, false);
 
     notificationLines.tickTock();
 
@@ -1241,9 +1242,42 @@ void GuiLauncher::loop() {
                                 if (carouselGames.empty()) {
                                     continue;
                                 }
-                                Mix_PlayChannel(-1, gui->cancel, 0);
-                                notificationLines[1].setText(_("MemCard Manager will be available soon"),
-                                                             DefaultShowingTimeout, brightWhite, FONT_24);
+                                if (carouselGames[selGame]->foreign)
+                                {
+                                    continue;
+                                }
+
+                                string leftCardName = "[1]"+  _("INTERNAL");
+                                string rightCardName = "[2]"+  _("INTERNAL");
+                                string cardPath1 = carouselGames[selGame]->ssFolder  +"memcards/card1.mcd";
+                                string cardPath2 = carouselGames[selGame]->ssFolder  +"memcards/card2.mcd";
+                                // Mapped card
+                                string memcard = "SONY";
+                                if (!carouselGames[selGame]->internal) {
+                                    Inifile gameini;
+                                    gameini.load(carouselGames[selGame]->folder + "/Game.ini");
+                                    memcard = gameini.values["memcard"];
+
+                                }
+                                if (memcard!="SONY")
+                                {
+                                    cardPath1 =  gui->path + DirEntry::separator() +"!MemCards/" + memcard  +"card1.mcd";
+                                    cardPath1 =  gui->path + DirEntry::separator() +"!MemCards/" + memcard  +"card2.mcd";
+                                    leftCardName = "[1]"+ memcard;
+                                    rightCardName = "[2]"+ memcard;
+                                }
+
+                                Mix_PlayChannel(-1, gui->cursor, 0);
+                                auto mcManager = new GuiMcManager(renderer);
+                                mcManager->backgroundImg=background->tex;
+                                mcManager->leftCardName = leftCardName;
+                                mcManager->rightCardName = rightCardName;
+                                mcManager->card1path = cardPath1;
+                                mcManager->card2path = cardPath2;
+                                mcManager->show();
+                                delete mcManager;
+
+
                             }
                             if (menu->selOption == 1) {
                                 if (carouselGames.empty()) {

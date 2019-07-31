@@ -134,7 +134,10 @@ add_executable(
 		src/code/launcher/ra_integrator.cpp
 		src/code/launcher/ra_integrator.h
 		src/code/gui/gui_playlists.cpp
-		src/code/gui/gui_playlists.h)
+		src/code/gui/gui_playlists.h
+        src/code/engine/cardedit.h
+		src/code/engine/cardedit.cpp
+        src/code/launcher/gui_mc_manager.h src/code/launcher/gui_mc_manager.cpp)
 
 
 

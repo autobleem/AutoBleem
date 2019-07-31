@@ -150,7 +150,7 @@ string GuiOptions::getBooleanIcon(const string & input) {
 void GuiOptions::renderOptionLine(const string & text, int pos, int offset) {
     shared_ptr<Gui> gui(Gui::getInstance());
     string fg = gui->themeData.values["text_fg"];
-    int height = gui->renderTextLineOptions(text, pos, offset, false);
+    int height = gui->renderTextLineOptions(text, pos, offset, POS_LEFT);
     totalHeight += height;
 
     if (selOption + 1 == pos) {
@@ -181,7 +181,7 @@ void GuiOptions::render() {
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     totalHeight = 0;
-    gui->renderTextLine("-=" + _("Configuration") + "=-", 0, offset, true);
+    gui->renderTextLine("-=" + _("Configuration") + "=-", 0, offset, POS_CENTER);
     renderOptionLine(_("Language:") + " " + gui->cfg.inifile.values["language"], CFG_LANG + 1, offset);
     renderOptionLine(_("AutoBleem Theme:") + " " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
     renderOptionLine(_("Menu Theme:") + " " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);

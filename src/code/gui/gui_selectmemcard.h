@@ -7,6 +7,8 @@
 #include <string>
 #include "gui_screen.h"
 
+#define MC_CUSTOM 0
+#define MC_MANAGER 1
 //********************
 // GuiSelectMemcard
 //********************
@@ -22,6 +24,7 @@ public:
     int firstVisible=0;
     int lastVisible=8;
 
+    int listType = MC_CUSTOM;
     std::string cardSelected="";
 
     using GuiScreen::GuiScreen;

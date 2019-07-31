@@ -30,8 +30,8 @@ void GuiKeyboard::render() {
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     gui->renderLabelBox(1, offset);
-    gui->renderTextLine("-= " + label + " =-", 0, offset, true);
-    gui->renderTextLine(result + "#", 1, offset, true);
+    gui->renderTextLine("-= " + label + " =-", 0, offset, POS_CENTER);
+    gui->renderTextLine(result + "#", 1, offset, POS_CENTER);
 
     SDL_Rect rect2;
     rect2.x = atoi(gui->themeData.values["opscreenx"].c_str());
