@@ -185,7 +185,11 @@ void GuiMcManager::renderMetaInfo() {
     gui->renderTextLine(title, 3, 1, POS_CENTER, true, fontJIS);
     gui->renderTextLine(gameID, 3, 1, POS_CENTER, true);
     gui->renderTextLine(pCode, 4, 1, POS_CENTER, true);
-    gui->renderTextLine(nextSlot, 5, 1, POS_CENTER, true);
+    if (card->get_slot_is_used(pencilColumn + pencilRow * 3))
+    {
+        gui->renderTextLine(_("Next")+": "+nextSlot, 5, 1, POS_CENTER, true);
+    }
+
 
     gui->renderTextLine(leftCardName, 17, 1, POS_LEFT, true);
     gui->renderTextLine(rightCardName, 17, 1, POS_RIGHT, true);

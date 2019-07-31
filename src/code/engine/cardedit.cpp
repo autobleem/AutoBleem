@@ -239,7 +239,7 @@ void CardEdit::update_slot_is_used() {
         }
         unsigned char nextSlot = memoryCard[current_pos+8];
         next_slot_map[i] = nextSlot;
-        cout << i << " " << to_string(nextSlot) << endl;
+
         current_pos += 128;
     }
 }
@@ -420,9 +420,7 @@ void CardEdit::importGame(unsigned char* buffer, int length)
     int slotCount = (length - 128) / 8192;
     int numberOfBytes = slotCount * 8192;
     vector<int> destSlots = findEmptySlot(slotCount);
-    for (int slot:destSlots)
-        cout << slot << "-";
-    cout << endl;
+
     if (destSlots.size()!=slotCount)
     {
         return;
