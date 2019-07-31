@@ -107,6 +107,26 @@ bool DirEntry::isDirectory(const string& path)
 }
 
 //*******************************
+// DirEntry::fixCommaInDirName
+//*******************************
+void DirEntry::fixCommaInDirName(const std::string &path, DirEntry *entry) {
+    // fix for comma in dirname
+    if (entry->name.find(",") != string::npos) {
+        string newName = entry->name;
+        Util::replaceAll(newName, ",", "-");
+        rename((pathWithSeparatorAtEnd(path) + entry->name).c_str(), (pathWithSeparatorAtEnd(path) + newName).c_str());
+        entry->name = newName;
+    }
+}
+
+//*******************************
+// DirEntry::fixCommaInDirNames
+//*******************************
+void DirEntry::fixCommaInDirNames(const std::string &path, DirEntries &entries) {
+    for_each(begin(entries), end(entries), [&] (DirEntry &entry) { fixCommaInDirName(path, &entry); });
+}
+
+//*******************************
 // DirEntry::dir
 //*******************************
 DirEntries DirEntry::dir(string path) {
@@ -159,6 +179,17 @@ DirEntries DirEntry::diru_DirsOnly(string path) {
     copy_if(begin(temp), end(temp), back_inserter(ret), [](const DirEntry & dir) { return dir.isDir; });    // copy only dirs
 
     return ret; // return only the dirs
+}
+
+//*******************************
+// DirEntry::diru_DirsOnly_WithFixedCommas
+// as above ut commas in dirname removed
+//*******************************
+DirEntries DirEntry::diru_DirsOnly_WithFixedCommas(std::string path) {
+    auto entries = diru_DirsOnly(path);
+    fixCommaInDirNames(path, entries);
+
+    return entries;
 }
 
 //*******************************

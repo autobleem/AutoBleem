@@ -21,7 +21,7 @@ GameSubDir::GameSubDir(const std::string & _fullPath, GameSubDirRows *_displayRo
 // GameSubDir::scanAll
 //*******************************
 void GameSubDir::scanAll() {
-    DirEntries dirs = DirEntry::diru_DirsOnly(fullPath);
+    DirEntries dirs = DirEntry::diru_DirsOnly_WithFixedCommas(fullPath);
     for (auto & dir : dirs) {
         if (dir.name == "!SaveStates")
             continue;
@@ -42,9 +42,10 @@ void GameSubDir::scanAll() {
             subdir->displayRowIndex = displayRowIndex + numChildren + 1;
             subdir->displayIndentLevel = displayIndentLevel + 1;
             subdir->scanAll();
-            if (subdir->allGames.size() > 0)
+            if (subdir->allGames.size() > 0) {
                 childrenDirs.emplace_back(subdir);
                 displayRows->emplace_back(subdir);
+            }
         }
     }
 
@@ -83,9 +84,15 @@ GameSubDirRows GameSubDir::scanGamesHierarchy(const std::string & path) {
     gamesHierarchy->scanAll();
     if (gamesHierarchy->allGames.size() > 0)
         displayRows.emplace_back(gamesHierarchy);
-    
+
     sort(begin(displayRows), end(displayRows), [] (const GameSubDirPtr &gameSubDir1, const GameSubDirPtr &gameSubDir2)
         { return gameSubDir2->displayRowIndex > gameSubDir1->displayRowIndex; });
+
+#if 1
+    for (auto & row : displayRows)
+        cout << row->displayRowIndex << ": " << string(row->displayIndentLevel, ' ') << row->dirName <<
+             " (" << row->allGames.size() << " games)" << endl;
+#endif
 
     return displayRows;
 }
