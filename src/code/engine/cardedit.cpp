@@ -416,6 +416,84 @@ std::string CardEdit::sj2utf8(const std::string &input)
     return output;
 }
 
+int CardEdit::getExportSize(int startslot)
+{
+    return 8320 + ((getGameSlots(startslot) - 1) * 8192);
+}
+
+void CardEdit::importGame(int slot, unsigned char* buffer, int length)
+{
+    int slotCount = (length - 128) / 8192;
+    int numberOfBytes = slotCount * 8192;
+    // Place header data
+
+    int dir_position = 0x80 + (slot * 0x80);
+    for (int i = 0; i < 128; i++)
+        memoryCard[dir_position+i] = buffer[i];
+
+    // update size in header
+    memoryCard[dir_position+4] = (unsigned char)(numberOfBytes & 0xFF);
+    memoryCard[dir_position+5] = (unsigned char)((numberOfBytes & 0xFF00) >> 8);
+    memoryCard[dir_position+6] = (unsigned char)((numberOfBytes & 0xFF0000) >> 16);
+
+    // store all slots
+    for (int i = 0; i < slotCount; i++)
+    {
+        int  slot_position = 0x2000 + ((slot+i) * 0x2000);
+        //Set all bytes
+        for (int byteCount = 0; byteCount < 8192; byteCount++)
+        {
+            memoryCard[slot_position+byteCount] = buffer[128 + (i * 8192) + byteCount];
+        }
+    }
+    // Recreate headers
+    // Set pointer to all slots except the last
+    for (int i = 0; i < (slotCount - 1); i++)
+    {
+        dir_position = 0x80 + ((slot+i)* 0x80);
+        memoryCard[dir_position+0] = 0x52;
+        memoryCard[dir_position+8] = (unsigned char)slot + 1;
+        memoryCard[dir_position+9] = 0x00;
+    }
+    dir_position = 0x80 + ((slot+slotCount-1) * 0x80);
+    //Add final slot pointer to the last slot in the link
+    memoryCard[dir_position+0] = 0x53;
+    memoryCard[dir_position+8] = 0xFF;
+    memoryCard[dir_position+9] = 0xFF;
+    dir_position = 0x80 + (slot * 0x80);
+    memoryCard[dir_position] = 0x51;
+
+    for (int i;i<slotCount;i++) {
+        unsigned char xor_code = 0x00;
+       int  position = 0x80 + (slot+i * 0x80);  // get to the start of the frame
+        for (int j = 0; j < 126; j++) {
+            xor_code = xor_code ^ memoryCard[j + position];
+        }
+        memoryCard[position + 127] = xor_code;
+    }
+    update();
+}
+
+void CardEdit::exportGame(int slot, unsigned char *buffer)
+{
+    int saveSlotsCount = getGameSlots(slot);
+    int totalLength = getExportSize(slot);
+    // copy save header
+    for (int i=0;i<128;i++)
+    {
+        int dir_position = 0x80 + (slot * 0x80);
+        buffer[i] = memoryCard[dir_position+i];
+    }
+    // copy data
+    //Copy save data
+    for (int sNumber = 0; sNumber < saveSlotsCount; sNumber++)
+    {
+        int  slot_position = 0x2000 + ((slot+sNumber) * 0x2000);
+        for (int i = 0; i < 0x2000; i++)
+            buffer[128 + (sNumber * 0x2000) + i] = memoryCard[slot_position+i];
+    }
+}
+
 void CardEdit::update_slot_iconImages() {
 
     int icn_pos = 0;

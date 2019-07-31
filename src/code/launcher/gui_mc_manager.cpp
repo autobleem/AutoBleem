@@ -330,12 +330,14 @@ void GuiMcManager::loop() {
                         if (destSlot>=0)
                         {
                             Mix_PlayChannel(-1, gui->cursor, 0);
-                            unsigned char buffer[0x2000];
-                            unsigned char dir[0x80];
-                            for (int i =0;i<gameSize;i++) {
-                                src->getSlotData(slot+i,buffer,dir);
-                                dest->setSlotData(destSlot+i,buffer,dir);
-                            }
+                            unsigned char * buffer;
+                            int exportSize = src->getExportSize(slot);
+                            buffer = new unsigned char[exportSize];
+
+                            src->exportGame(slot,buffer);
+                            dest->importGame(destSlot,buffer,exportSize);
+                            delete buffer;
+
                         } else
                         {
                             Mix_PlayChannel(-1, gui->cancel, 0);

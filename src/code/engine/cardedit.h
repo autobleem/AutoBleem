@@ -67,6 +67,10 @@ public:
     int getGameSlots(int startslot);
     int findEmptySlot(int slotNumer);
 
+    int getExportSize(int startslot);
+    void exportGame(int slot, unsigned char* buffer);
+    void importGame(int slot, unsigned char* buffer, int length);
+
 
 private:
     SDL_Shared<SDL_Renderer> renderer;
