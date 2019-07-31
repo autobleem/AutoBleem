@@ -52,6 +52,72 @@ CardEdit::~CardEdit() {
     delete convTable;
 }
 
+int CardEdit::getGameSlots(int startslot)
+{
+    int gameslots=1;
+    for (int i=startslot+1;i<15;i++)
+    {
+        if (get_slot_is_free(i)) break;
+
+        if (!is_slot_top(i))
+        {
+            gameslots++;
+        } else
+        {
+            break;
+        }
+    }
+    return gameslots;
+}
+int CardEdit::findEmptySlot(int slotNumer)
+{
+    int currentStarting=0;
+    int slots=0;
+    for (int i=0;i<15;i++)
+    {
+        if (get_slot_is_free(i))
+        {
+            slots++;
+            continue;
+        } else
+        {
+            if (slots>=slotNumer)
+            {
+                return currentStarting;
+            } else
+            {
+                currentStarting = i+1;
+            }
+        }
+
+
+    }
+    if (slots>=slotNumer)
+    {
+        return currentStarting;
+    }
+    return -1;
+}
+
+void CardEdit::getSlotData(int slot, unsigned char* buffer, unsigned char *direntry)
+{
+    // slot position
+    int dir_position = 0x80 + (slot * 0x80);
+    memcpy(direntry, memoryCard+dir_position, 0x80);
+    int slot_position = 0x2000 + (slot * 0x2000);
+    memcpy(buffer,memoryCard+slot_position,0x2000);
+}
+
+void CardEdit::setSlotData(int slot, unsigned char* buffer, unsigned char *direntry)
+{
+    // slot position
+    int dir_position = 0x80 + (slot * 0x80);
+    memcpy(memoryCard+dir_position, direntry, 0x80);
+    int slot_position = 0x2000 + (slot * 0x2000);
+    memcpy(memoryCard+slot_position, buffer, 0x2000);
+    update();
+}
+
 int CardEdit::load_file(std::string filename) {
     ifstream f(filename, ifstream::ate | ifstream::binary);
     // index set to end

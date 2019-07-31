@@ -90,11 +90,11 @@ void GuiMcManager::renderStatic() {
     gui->renderTextLine(_("Memory Card Manager"), 1, 1, POS_CENTER);
     gui->renderStatus(
             "|@Start| " + _("Select Right Card") +
-            " | |@S| " + _("Defragment") +
+            " | |@L1| " + _("Defragment") +
             "   | " + "|@L2| " + _("Reload") +
             " | " + "|@R2| " + _("Save ") +
             "   | " + "|@T| " + _("Delete") +
-            " | " + "|@X| " + _("Copy") +
+            " | " + "|@S| " + _("Copy") +
             " | " + "|@O| " + _("Go back") +
             "|");
 
@@ -214,6 +214,36 @@ void GuiMcManager::loop() {
                         memcard1->load_file(card1path);
                         memcard2->load_file(card2path);
                     };
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        CardEdit *newCard = new CardEdit(renderer);
+                        CardEdit *src;
+                        if (pencilMemcard == 1) {
+                            src = memcard1;
+
+                        } else {
+                            src = memcard2;
+
+                        }
+                        int last = 0;
+                        for (int slot = 0; slot < 15; slot++) {
+                            unsigned char buffer[0x2000];
+                            unsigned char dir[0x80];
+                            if (!src->get_slot_is_free(slot)) {
+                                src->getSlotData(slot, buffer, dir);
+                                newCard->setSlotData(last, buffer, dir);
+                                last++;
+                            }
+                        }
+                        if (pencilMemcard == 1) {
+                            memcard1 = newCard;
+                            delete(src);
+                        } else
+                        {
+                            memcard2 = newCard;
+                            delete(src);
+                        };
+                    }
                     if (e.jbutton.button == gui->_cb(PCS_BTN_R2, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         auto confirm = new GuiConfirm(renderer);
@@ -243,6 +273,44 @@ void GuiMcManager::loop() {
                         }
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         card->delete_game(slot);
+
+
+                    };
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
+                        CardEdit *src, *dest;
+                        if (pencilMemcard == 1) {
+                            src = memcard1;
+                            dest = memcard2;
+                        } else {
+                            src = memcard2;
+                            dest= memcard1;
+                        }
+                        int slot = pencilColumn + pencilRow * 3;
+                        if (!src->is_slot_top(slot)) {
+                            Mix_PlayChannel(-1, gui->cancel, 0);
+                            continue;
+                        }
+                        if (src->get_slot_is_free(slot)) {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
+                            continue;
+                        }
+
+                        int gameSize = src->getGameSlots(slot);
+                        int destSlot = dest->findEmptySlot(gameSize);
+
+                        if (destSlot>=0)
+                        {
+                            Mix_PlayChannel(-1, gui->cursor, 0);
+                            unsigned char buffer[0x2000];
+                            unsigned char dir[0x80];
+                            for (int i =0;i<gameSize;i++) {
+                                src->getSlotData(slot+i,buffer,dir);
+                                dest->setSlotData(destSlot+i,buffer,dir);
+                            }
+                        } else
+                        {
+                            Mix_PlayChannel(-1, gui->cancel, 0);
+                        }
 
 
                     };

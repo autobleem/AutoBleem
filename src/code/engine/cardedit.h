@@ -57,13 +57,15 @@ public:
 
 	// information change command
 	void set_slot_gameID(int slot, string newID);
-	void set_slot_title(int slot, string newTitle);
 	void set_slot_Pcode(int slot, string newPcode);
 
 	bool get_slot_is_used(int slot);
 	bool get_slot_is_free(int slot);
 
-
+	void getSlotData(int slot, unsigned char* buffer, unsigned char *direntry);
+    void setSlotData(int slot, unsigned char* buffer, unsigned char *direntry);
+    int getGameSlots(int startslot);
+    int findEmptySlot(int slotNumer);
 
 
 private:
