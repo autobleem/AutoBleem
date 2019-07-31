@@ -11,8 +11,11 @@
 #include "../gui/gui.h"
 #include "../lang.h"
 #include "../gui/gui_confirm.h"
+#include "../gui/gui_selectmemcard.h"
 
 void GuiMcManager::init() {
+    rightCardName_ori = rightCardName;
+    cardPath_ori = card2path;
     loadAssets();
 }
 
@@ -255,6 +258,32 @@ void GuiMcManager::loop() {
                         }
                         delete (confirm);
                     };
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_START, &e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        auto select = new GuiSelectMemcard(renderer);
+                        select->listType=MC_MANAGER;
+                        select->show();
+                        if (select->selected!=-1)
+                        {
+                            if (select->selected==0) {
+                                rightCardName = rightCardName_ori;
+                                card2path = cardPath_ori;
+                                memcard2->load_file(card2path);
+                            } else
+                            {
+                                // this is custom
+                                int cardNumCustom=atoi(select->cardSelected.substr(1,1).c_str());
+                                string memcard = select->cardSelected.substr(4);
+                                string cardPath =  gui->path + DirEntry::separator() +"!MemCards/" + memcard  +"/card"+to_string(cardNumCustom)+".mcd";
+
+                                rightCardName = select->cardSelected;
+                                card2path = cardPath;
+                                cout << "Card:" << cardPath << endl;
+                                memcard2->load_file(card2path);
+                            }
+                        }
+                        delete select;
+                    }
                     if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE, &e)) {
                         CardEdit *card;
                         if (pencilMemcard == 1) {

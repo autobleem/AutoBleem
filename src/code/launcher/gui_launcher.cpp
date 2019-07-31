@@ -1247,8 +1247,8 @@ void GuiLauncher::loop() {
                                     continue;
                                 }
 
-                                string leftCardName = _("INTERNAL")+" (1)";
-                                string rightCardName = _("INTERNAL")+" (2)";
+                                string leftCardName = "[1]"+  _("INTERNAL");
+                                string rightCardName = "[2]"+  _("INTERNAL");
                                 string cardPath1 = carouselGames[selGame]->ssFolder  +"memcards/card1.mcd";
                                 string cardPath2 = carouselGames[selGame]->ssFolder  +"memcards/card2.mcd";
                                 // Mapped card
@@ -1261,10 +1261,10 @@ void GuiLauncher::loop() {
                                 }
                                 if (memcard!="SONY")
                                 {
-                                    cardPath1 = "/media/Games/!MemCards/" + memcard  +"card1.mcd";
-                                    cardPath1 = "/media/Games/!MemCards/" + memcard  +"card2.mcd";
-                                    leftCardName = memcard+" (1)";
-                                    rightCardName = memcard+" (2)";
+                                    cardPath1 =  gui->path + DirEntry::separator() +"!MemCards/" + memcard  +"card1.mcd";
+                                    cardPath1 =  gui->path + DirEntry::separator() +"!MemCards/" + memcard  +"card2.mcd";
+                                    leftCardName = "[1]"+ memcard;
+                                    rightCardName = "[2]"+ memcard;
                                 }
 
                                 Mix_PlayChannel(-1, gui->cursor, 0);

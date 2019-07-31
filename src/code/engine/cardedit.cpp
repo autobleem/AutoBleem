@@ -156,22 +156,8 @@ void CardEdit::update_data() {
 
 void CardEdit::delete_game(int startslot)
 {
-    int gameslots=1;
-    for (int i=startslot;i<15;i++)
-    {
-        if (get_slot_is_free(i))
-        {
-            break;
-        }
-        if (!is_slot_top(i))
-        {
-            gameslots++;
-        } else
-        {
-            break;
-        }
-    }
-    for (int i=startslot;i<startslot+gameslots;i++)
+    int gameSize=getGameSlots(startslot);
+    for (int i=startslot;i<startslot+gameSize;i++)
     {
         delete_slot(i);
     }

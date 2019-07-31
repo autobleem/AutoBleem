@@ -18,6 +18,9 @@ public:
     SDL_Shared<SDL_Texture> backgroundImg;
     string card1path;
     string card2path;
+
+    string rightCardName_ori;
+    string cardPath_ori;
     void render();
     void loop();
     void init();
