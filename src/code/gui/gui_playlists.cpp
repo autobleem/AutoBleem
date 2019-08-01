@@ -42,17 +42,7 @@ void GuiPlaylists::render()
     // use evoUI background
 
     SDL_RenderClear(renderer);
-    SDL_Rect backgroundRect;
-    int w, h; // texture width & height
-    SDL_SetTextureBlendMode(backgroundImg, SDL_BLENDMODE_BLEND);
-    SDL_QueryTexture(backgroundImg, NULL, NULL, &w, &h);
-    backgroundRect.x = 0;
-    backgroundRect.y = 0;
-    backgroundRect.w = w;
-    backgroundRect.h = h;
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, backgroundImg, nullptr, &backgroundRect);
+   gui->renderBackground();
 
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
