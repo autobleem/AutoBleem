@@ -58,7 +58,9 @@ void GuiAbout::render() {
     rect2.h = 720;
 
     SDL_RenderFillRect(renderer, &rect2);
+
     fx.render();
+
     int offset = 150;
     SDL_Rect rect;
     rect.x = 1280/2-100;

@@ -8,7 +8,7 @@
 #include <SDL2/SDL_render.h>
 #include "gui_sdl_wrapper.h"
 
-#define STARS_PER_LAYER 20
+#define STARS_PER_LAYER 60
 #define SPEED_DIFFERENCE 1.0f
 #define SIZE_DIFFERENCE 0.34f
 

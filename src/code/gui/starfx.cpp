@@ -19,7 +19,7 @@ StarFx::StarFx()
             s.size =  i*SIZE_DIFFERENCE;
             s.x = wdistribution(generator);
             s.y = hdistribution(generator);
-            float colorval = 255.0f*(i/8.0f);
+            float colorval = 255.0f*(i/9.0f);
             s.color = RGB(colorval,colorval,colorval);
             s.speed = i*SPEED_DIFFERENCE;
             s.size=i*SIZE_DIFFERENCE;
