@@ -341,42 +341,27 @@ void Scanner::scanUSBGamesDirectory(const string & _path) {
     }
 
     GameSubDirRows gameSubDirRows = GameSubDir::scanGamesHierarchy(path);
-    cout << "number of rows: " << gameSubDirRows.size() << endl;
-    for (auto & row : gameSubDirRows)
-        cout << row->displayRowIndex << ": " << row->dirName << endl;
     if (gameSubDirRows.size() > 0)
-        gameSubDirRows[0]->print(true);
+        games = gameSubDirRows[0]->allGames;
 
-    // for each game dir
-    for (DirEntry entry: DirEntry::diru_DirsOnly(path)) {
-        if (entry.name[0] == '.') continue;
-        if (entry.name == "!SaveStates") continue;
-        if (entry.name == "!MemCards") continue;
+    for (USBGamePtr &game : games) {
+//    for (DirEntry entry: DirEntry::diru_DirsOnly(path)) {
+        repairBinCommaNames(game->fullPath + DirEntry::separator());
+        prev << game->fullPath << endl;
 
-        // fix for comma in dirname
-        if (entry.name.find(",") != string::npos) {
-            string newName = entry.name;
-            Util::replaceAll(newName, ",", "-");
-            rename((path + entry.name).c_str(), (path + newName).c_str());
-            entry.name = newName;
-        }
-
-        repairBinCommaNames(path + entry.name + DirEntry::separator());
-        prev << entry.name << endl;
-
-        string saveStateDir = path + "!SaveStates" + DirEntry::separator() + entry.name;
+        string saveStateDir = path + "!SaveStates" + DirEntry::separator() + game->pathName;
         DirEntry::createDir(saveStateDir);
 
-        USBGamePtr game{new USBGame};
+        //USBGamePtr game{new USBGame};
 
         game->folder_id = 0; // this will not be in use;
-        game->fullPath = path + entry.name + DirEntry::separator();
-        game->saveStatePath = path + "!SaveStates" + DirEntry::separator() + entry.name + DirEntry::separator();
+        //game->fullPath = path + entry.name + DirEntry::separator();
+        game->saveStatePath = path + DirEntry::separator() + "!SaveStates" + DirEntry::separator() + game->pathName + DirEntry::separator();
 
-        game->pathName = entry.name;
-        splash->logText(_("Game:") + " " + entry.name);
+        //game->pathName = entry.name;
+        splash->logText(_("Game:") + " " + game->pathName);
 
-        string gameDataPath = path + entry.name + DirEntry::separator() + GAME_DATA + DirEntry::separator();
+        string gameDataPath = game->fullPath + DirEntry::separator() + GAME_DATA + DirEntry::separator();
 
         moveFolderIfNeeded(entry, gameDataPath, path);
         gameDataPath = path + entry.name + DirEntry::separator();
