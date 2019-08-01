@@ -1151,6 +1151,12 @@ int Gui::renderTextLine(const string &text, int line, int offset,  int position,
     textRec.x = rect2.x + 10 + xoffset;
     textRec.y = (lineh * line) + offset;
 
+    if (line<0)
+    {
+        line=-line;
+        textRec.y=line;
+    }
+
     if (textRec.w >= (1280 - rect2.x * 4)) {
         textRec.w = (1280 - rect2.x * 4);
     }

@@ -590,6 +590,52 @@ void CardEdit::update_slot_iconImages() {
         }
     }
 
+    // now update link blocks to have dimmed image
+    for (int i=0;i<15;i++)
+    {
+        SDL_Shared<SDL_Texture> currentTex;
+        if (is_slot_top(i))
+        {
+            currentTex = slot_icons[i][0];
+            vector<int> allSlots = getGameSlots(i);
+            for (int slot:allSlots)
+            {
+                if (slot==i)
+                {
+                    continue; // do not touch top slot
+                } else
+                {
+                    SDL_PixelFormat *fmt = SDL_AllocFormat(SDL_PIXELFORMAT_RGBA8888);
+                    for (int icon=0;icon<3;icon++) {
+                        void *pixels;
+                        int pitch;
+                        void *destpixels;
+                        int destpitch;
+                        SDL_LockTexture(slot_icons[slot][icon], NULL, &destpixels, &destpitch);
+                        SDL_LockTexture(currentTex, NULL, &pixels, &pitch);
+                        Uint32 *pixelData = (Uint32 *) pixels;
+                        Uint32 *pixelDataDest = (Uint32 *) destpixels;
+
+                        Uint8 r,g,b,a;
+                        Uint32 transparent = SDL_MapRGBA(fmt, 0, 0, 0, 127);
+                        for (int y = 0; y < 16; y++) {
+                            for (int x = 0; x < 16; x++) {
+                                SDL_GetRGBA(pixelData[x+y*16],fmt,&r,&g,&b,&a);
+                                Uint32 processedColour = SDL_MapRGBA(fmt, r/3,g/3,b/3,255);
+                                pixelDataDest[x + y * 16] = processedColour;
+                            }
+                        }
+                        SDL_UnlockTexture(currentTex);
+                        SDL_UnlockTexture(slot_icons[slot][icon]);
+
+                    }
+                    slot_has_icon[slot] = true;
+                    SDL_FreeFormat(fmt);
+                }
+            }
+        }
+    }
+
 }
 
 string CardEdit::get_slot_Pcode(int slot) {
