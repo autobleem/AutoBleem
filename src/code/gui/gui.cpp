@@ -952,7 +952,7 @@ void Gui::getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, string text, TT
 //*******************************
 // Gui::renderStatus
 //*******************************
-void Gui::renderStatus(const string &text) {
+void Gui::renderStatus(const string &text, int posy) {
     string bg = themeData.values["text_bg"];
 
     SDL_Shared<SDL_Texture> textTex;
@@ -970,6 +970,10 @@ void Gui::renderStatus(const string &text) {
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);
     textRec.y = atoi(themeData.values["ttop"].c_str());
+    if (posy!=-1)
+    {
+        textRec.y=posy;
+    }
     if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
 }

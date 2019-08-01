@@ -119,7 +119,7 @@ public:
 
     int renderLogo(bool small);
 
-    void renderStatus(const std::string & text);
+    void renderStatus(const std::string & text, int pos=-1);
 
     void renderTextBar();
 
