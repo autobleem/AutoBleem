@@ -687,7 +687,7 @@ void Gui::menuSelection() {
 #if defined(__x86_64__) || defined(_M_X64)
                             exit(0);
 #else
-                            Util::execUnixCommad("shutdown -h now");
+                            Util::execUnixCommand("shutdown -h now");
                                     sync();
                                     exit(1);
 #endif

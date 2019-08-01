@@ -21,7 +21,7 @@ void Util::powerOff()
 #if defined(__x86_64__) || defined(_M_X64)
     exit(0);
 #else
-    Util::execUnixCommad("shutdown -h now");
+    Util::execUnixCommand("shutdown -h now");
     exit(0);
 #endif
 }
@@ -154,8 +154,8 @@ string Util::getAvailableSpace(){
     float freeSpace;
     float totalSpace;
     int freeSpacePerc;
-    freeSpace = ((float)(stoi(execUnixCommad("df | grep \"media\" | head -1 | awk '{print $4}'"))))/gb;
-    totalSpace = ((float)(stoi(execUnixCommad("df | grep \"media\" | head -1 | awk '{print $2}'"))))/gb;
+    freeSpace = ((float)(stoi(execUnixCommand("df | grep \"media\" | head -1 | awk '{print $4}'"))))/gb;
+    totalSpace = ((float)(stoi(execUnixCommand("df | grep \"media\" | head -1 | awk '{print $2}'"))))/gb;
     freeSpacePerc = (freeSpace / totalSpace) * 100;
     str = floatToString(freeSpace, 2) + " GB / " + floatToString(totalSpace,2)+ " GB (" + to_string(freeSpacePerc)+"%)";
     return str;
