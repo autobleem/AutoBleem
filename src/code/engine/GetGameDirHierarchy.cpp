@@ -11,10 +11,16 @@ using namespace std;
 //*******************************
 // GameSubDir::GameSubDir
 //*******************************
-GameSubDir::GameSubDir(const std::string & _fullPath, GameSubDirRows *_displayRows) {
+GameSubDir::GameSubDir(const std::string & _fullPath, int _displayRowIndex, int _displayIndentLevel,
+                       GameSubDirRows *_displayRows) {
     fullPath = DirEntry::pathWithOutSeparatorAtEnd(_fullPath);
     subDirName = DirEntry::getFileNameFromPath(fullPath);
+
+    displayRowIndex = _displayRowIndex;
+    displayIndentLevel = _displayIndentLevel;
+
     displayRows = _displayRows;
+    scanAll();
 }
 
 //*******************************
@@ -37,11 +43,10 @@ void GameSubDir::scanAll() {
             //cout << "added game: " << game->pathName << endl;
         } else {
             //cout << "subdir: " << path << endl;
-            GameSubDirPtr subdir(new GameSubDir(path, displayRows));
-            int numChildren = childrenDirs.size();
-            subdir->displayRowIndex = displayRowIndex + numChildren + 1;
-            subdir->displayIndentLevel = displayIndentLevel + 1;
-            subdir->scanAll();
+            GameSubDirPtr subdir(new GameSubDir(path,
+                                 displayRowIndex + childrenDirs.size() + 1, displayIndentLevel + 1,
+                    displayRows));
+
             if (subdir->allGames.size() > 0) {
                 childrenDirs.emplace_back(subdir);
                 displayRows->emplace_back(subdir);
@@ -80,8 +85,7 @@ void GameSubDir::print(bool plusGames) {
 //*******************************
 GameSubDirRows GameSubDir::scanGamesHierarchy(const std::string & path) {
     GameSubDirRows displayRows;
-    GameSubDirPtr gamesHierarchy(new GameSubDir(path, &displayRows));
-    gamesHierarchy->scanAll();
+    GameSubDirPtr gamesHierarchy(new GameSubDir(path, 0, 0, &displayRows));
     if (gamesHierarchy->allGames.size() > 0)
         displayRows.emplace_back(gamesHierarchy);
 

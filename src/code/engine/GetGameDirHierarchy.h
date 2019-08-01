@@ -19,11 +19,14 @@ struct GameSubDir {
     USBGames gamesInThisDir;
     USBGames allGames;
 
-    GameSubDir(const std::string & _path, GameSubDirRows *displayRows);
+    GameSubDir(const std::string & _path, int _displayRowIndex, int _displayIndentLevel,
+               GameSubDirRows *displayRows);
 
-    void scanAll();
     void appendGames(const USBGames &src, USBGames *dest);
     void print(bool plusGames);
 
     static GameSubDirRows scanGamesHierarchy(const std::string & _path);
+
+private:
+    void scanAll();
 };
