@@ -386,6 +386,7 @@ void Scanner::scanDirectory(const string & _path) {
 
         string saveStateDir = path + "!SaveStates" + DirEntry::separator() + entry.name;
         DirEntry::createDir(saveStateDir);
+        DirEntry::createDir(saveStateDir+DirEntry::separator()+"memcards");
 
         USBGamePtr game{new USBGame};
 
@@ -489,8 +490,23 @@ void Scanner::scanDirectory(const string & _path) {
             game->readIni(gameIniPath); // the updated iniValues are needed for updateObj
 			//game->print();
 
-			if (game->verify())
-				games.push_back(game);
+			if (game->verify()) {
+                games.push_back(game);
+
+                string memcardPath = game->saveStatePath+DirEntry::separator()+"memcards/";
+                if (!DirEntry::exists(memcardPath+"card1.mcd"))
+                {
+                    DirEntry::copy(DirEntry::getWorkingPath()+"memcard/card1.mcd",memcardPath+"card1.mcd");
+                }
+                if (!DirEntry::exists(memcardPath+"card2.mcd"))
+                {
+                    DirEntry::copy(DirEntry::getWorkingPath()+"memcard/card1.mcd",memcardPath+"card2.mcd");
+                }
+                if (!DirEntry::exists(game->saveStatePath+"/pcsx.cfg"))
+                {
+                    DirEntry::copy(DirEntry::getWorkingPath()+"pcsx.cfg",game->saveStatePath+"/pcsx.cfg");
+                }
+            }
             else
                 cout << "game: " << game->title << " did not pass verify() test" << endl;
 		}

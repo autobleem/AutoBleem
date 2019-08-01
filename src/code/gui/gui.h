@@ -94,7 +94,7 @@ public:
 
     void watchJoystickPort();
 
-    void loadAssets();
+    void loadAssets(bool reloadMusic = true);
 
     void display(bool forceScan, std::string path, Database *db, bool resume);
 
