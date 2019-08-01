@@ -127,14 +127,26 @@ void RetroArchInterceptor::memcardIn(PsGamePtr &game) {
         }
 
         // Copy the card moved to RA
+        string base;
+        if (DirEntry::isPBPFile(game->base))
+        {
+            base = game->base.substr(0,game->base.length()-4);
+        } else
+        {
+            base = game->base;
+        }
 
         string inpath = game->ssFolder + DirEntry::separator() + "memcards" + DirEntry::separator() + "card1.mcd";
-        string outpath = string("") + RA_MEMCARDLOC + DirEntry::separator() + game->base + ".srm";
+        string outpath = string("") + RA_MEMCARDLOC + DirEntry::separator() + base + ".srm";
         string backup = outpath + ".bak";
         if (!DirEntry::exists(backup)) {
-            DirEntry::copy(outpath, backup);
+            if (DirEntry::exists(outpath)) {
+                DirEntry::copy(outpath, backup);
+            }
         }
-        DirEntry::copy(inpath, outpath);
+        if (DirEntry::exists(inpath)) {
+            DirEntry::copy(inpath, outpath);
+        }
     }
 }
 
@@ -154,13 +166,25 @@ void RetroArchInterceptor::memcardOut(PsGamePtr &game) {
             card->swapOut(game->ssFolder, game->memcard);
             delete card;
         }
+        string base;
+        if (DirEntry::isPBPFile(game->base))
+        {
+            base = game->base.substr(0,game->base.length()-4);
+        } else
+        {
+            base = game->base;
+        }
 
         string outpath = game->ssFolder + DirEntry::separator() + "memcards" + DirEntry::separator() + "card1.mcd";
-        string inpath = string("") + RA_MEMCARDLOC + DirEntry::separator() + game->base + ".srm";
+        string inpath = string("") + RA_MEMCARDLOC + DirEntry::separator() + base + ".srm";
         string backup = inpath + ".bak";
-        DirEntry::copy(inpath, outpath);
-        remove(inpath.c_str());
+        if (DirEntry::exists(inpath)) {
+            DirEntry::copy(inpath, outpath);
+        }
+
+
         if (DirEntry::exists(backup)) {
+            remove(inpath.c_str());
             rename(backup.c_str(), inpath.c_str());
         }
     }

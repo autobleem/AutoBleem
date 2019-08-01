@@ -28,6 +28,14 @@ char DirEntry::separator() {
 #endif
 }
 
+bool DirEntry::isPBPFile(std::string path)
+{
+    if (path.length()<4) return false;
+    string last_four = path.substr(path.length()-4);
+    lcase(last_four);
+    return last_four==".pbp";
+}
+
 //*******************************
 // DirEntry::fixPath
 // removes leading and trailing spaces and removes any '/' from the end

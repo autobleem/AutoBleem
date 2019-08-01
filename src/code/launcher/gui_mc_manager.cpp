@@ -23,7 +23,7 @@ void GuiMcManager::loadAssets() {
     shared_ptr<Gui> gui(Gui::getInstance());
     mcGrid = IMG_LoadTexture(renderer, (gui->getSonyImagePath() + "/MC/Dot_Matrix.png").c_str());
     mcPencil = IMG_LoadTexture(renderer, (gui->getSonyImagePath() + "/MC/Pencil_Carsor.png").c_str());
-    fontJIS = Fonts::openFont(gui->getSonyFontPath() + "/SSTJapanese-Regular.ttf", 20);
+    fontJIS = Fonts::openFont(DirEntry::getWorkingPath() + "/japanese.ttf", 20);
 
     memcard1 = new CardEdit(renderer);
     memcard2 = new CardEdit(renderer);
@@ -182,17 +182,14 @@ void GuiMcManager::renderMetaInfo() {
 
     string nextSlot = to_string(card->next_slot_map[pencilColumn + pencilRow * 3]);
 
-    gui->renderTextLine(title, 3, 1, POS_CENTER, true, fontJIS);
+    gui->renderTextLine(title, -500, 1, POS_CENTER, true, fontJIS);
     gui->renderTextLine(gameID, 3, 1, POS_CENTER, true);
     gui->renderTextLine(pCode, 4, 1, POS_CENTER, true);
-    if (card->get_slot_is_used(pencilColumn + pencilRow * 3))
-    {
-        gui->renderTextLine(_("Next")+": "+nextSlot, 5, 1, POS_CENTER, true);
-    }
 
 
-    gui->renderTextLine(leftCardName, 17, 1, POS_LEFT, true);
-    gui->renderTextLine(rightCardName, 17, 1, POS_RIGHT, true);
+
+    gui->renderTextLine(leftCardName, -500, 1, POS_LEFT, true);
+    gui->renderTextLine(rightCardName, -500, 1, POS_RIGHT, true);
 }
 
 void GuiMcManager::render() {
