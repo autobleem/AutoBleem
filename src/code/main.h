@@ -12,17 +12,17 @@ enum ImageType { IMAGE_NO_GAME_FOUND = -1,
 //                 IMAGE_ISO // not supported yet
 };
 
-extern const char GAME_DATA[];
-extern const char GAME_INI[];
-extern const char PCSX_CFG[];
-extern const char EXT_PNG[];
-extern const char EXT_PBP[];
-extern const char EXT_ECM[];
-extern const char EXT_BIN[];
-extern const char EXT_IMG[];
-//extern const char EXT_ISO[];
-extern const char EXT_CUE[];
-extern const char EXT_LIC[];
+const char GAME_DATA[] = "GameData";
+const char GAME_INI[] = "Game.ini";
+const char PCSX_CFG[] = "pcsx.cfg";
+const char EXT_PNG[] = ".png";
+const char EXT_PBP[] = ".pbp";
+const char EXT_ECM[] = ".ecm";
+const char EXT_BIN[] = ".bin";
+const char EXT_IMG[] = ".img";
+//const char EXT_ISO[] = ".iso";
+const char EXT_CUE[] = ".cue";
+const char EXT_LIC[] = ".lic";
 
 //////////////////////////////
 // inline std:string functions

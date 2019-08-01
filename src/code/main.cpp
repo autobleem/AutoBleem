@@ -23,19 +23,6 @@ using namespace std;
 #include "launcher/pcsx_interceptor.h"
 #include "launcher/retboot_interceptor.h"
 
-
-const char GAME_DATA[] = "GameData";
-const char GAME_INI[] = "Game.ini";
-const char PCSX_CFG[] = "pcsx.cfg";
-const char EXT_PNG[] = ".png";
-const char EXT_PBP[] = ".pbp";
-const char EXT_ECM[] = ".ecm";
-const char EXT_BIN[] = ".bin";
-const char EXT_IMG[] = ".img";
-//const char EXT_ISO[] = ".iso";
-const char EXT_CUE[] = ".cue";
-const char EXT_LIC[] = ".lic";
-
 Database * db;
 
 //*******************************
