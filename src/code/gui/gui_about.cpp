@@ -12,29 +12,69 @@
 #include "../lang.h"
 #include "../engine/scanner.h"
 
+
+void GuiAbout::init() {
+    std::shared_ptr<Gui> gui(Gui::getInstance());
+    fx.renderer = renderer;
+    font = Fonts::openFont(DirEntry::getWorkingPath() + "/about.ttf", 17);
+    logo = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + "/ablogo.png").c_str());
+
+}
+
 //*******************************
 // GuiAbout::render
 //*******************************
 void GuiAbout::render() {
     std::shared_ptr<Gui> gui(Gui::getInstance());
+    vector<string> credits = {gui->cfg.inifile.values["version"], " ",
+                              _(".-= Code C++ and shell scripts =-."),
+                              "screemer, Axanar, mGGk, nex, genderbent",
+                              _(".-= Graphics =-."),
+                              "KaonashiFTW, GeekAndy, rubixcube6, NewbornfromHell",
+                              _(".-= Testing =-."),
+                              "MagnusRC, xboxiso, Azazel, Solidius, SupaSAIAN, Kingherb, saptis",
+                              _(".-= Database maintenance =-."),
+                              "Screemer,Kingherb",
+                              _(".-= Localization support =-."),
+                              "nex(German), Azazel(Polish), gadsby(Turkish), GeekAndy(Dutch), Pardubak(Slovak), SupaSAIAN(Spanish), Mate(Czech)",
+                              "Sasha(Italian), Jakejj(BR_Portuguese), jolny(Swedish), StepJefli(Danish), alucard73 / MagnusRC(French), Quenti(Occitan), ",
+                              _(".-= Retroboot and emulation cores =-."),
+                              "genderbent, KMFDManic"," ",
+                              _("Support via Discord:") + " https://discord.gg/AHUS3RM",
+                              _("This is free and open source software. It works AS IS and We take no responsibility for any issues or damage."),
+                              _("Download latest:") + " https://github.com/screemerpl/cbleemsync"
+    };
+
+
     gui->renderBackground();
-    gui->renderTextBar();
-    int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=" + _("About") + "=-", 0, offset, POS_CENTER);
-    gui->renderTextLine(_("AutoBleem") + " " + gui->cfg.inifile.values["version"] +
-                        " - " + _("Automatic PlayStation Classic USB launcher"), 1, offset);
-    gui->renderTextLine(_("Code: AutoBleem Team") + " (screemer, mGGk, nex, ThaFridge, Axanar) ", 2, offset);
-    gui->renderTextLine(_("Graphics by:") + " : " + "Kevzombie", 3, offset);
 
-    gui->renderTextLine("Melancholia (Goth/Emo Type Beat) by | e s c p | & YellowTree | https://escp-music.bandcamp.com",4,offset);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 235);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-    gui->renderTextLine(_("Support via Discord:") + " https://discord.gg/AHUS3RM", 5, offset);
-    gui->renderTextLine(
-            _("This is free and open source software. It works AS IS and We take no responsibility for any issues or damage."),
-            6, offset);
+    SDL_Rect rect2;
+    rect2.x = 0;
+    rect2.y = 0;
+    rect2.w = 1280;
+    rect2.h = 720;
 
-    gui->renderTextLine(_("Download latest:") + " https://github.com/screemerpl/cbleemsync", 8, offset);
-    gui->renderStatus("|@O| " + _("Go back") + "|");
+    SDL_RenderFillRect(renderer, &rect2);
+    fx.render();
+    int offset = 150;
+    SDL_Rect rect;
+    rect.x = 1280/2-100;
+    rect.y = 5;
+    rect.w = 200;
+    rect.h = 141;
+    SDL_RenderCopy(renderer, logo, nullptr, &rect);
+
+
+    int line = 1;
+    for (const string &s:credits) {
+        gui->renderTextLine(s, line, offset, POS_CENTER, 0, font);
+        line++;
+    }
+
+    gui->renderStatus("|@O| " + _("Go back") + "|",680);
     SDL_RenderPresent(renderer);
 }
 
@@ -45,6 +85,7 @@ void GuiAbout::loop() {
     std::shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
     while (menuVisible) {
+        render();
         gui->watchJoystickPort();
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
@@ -63,7 +104,7 @@ void GuiAbout::loop() {
                 case SDL_JOYBUTTONUP:
 
 
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         menuVisible = false;
 
