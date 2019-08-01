@@ -40,17 +40,27 @@ void GuiOptions::init() {
     autobleemUIThemes.clear();
     menuThemes.clear();
     menuThemes.push_back("default");
-    DirEntries folders = DirEntry::diru(DirEntry::getWorkingPath() + DirEntry::separator() + "theme");
+    string themePathAB = DirEntry::getWorkingPath() + DirEntry::separator() + "theme";
+    DirEntries folders = DirEntry::diru_DirsOnly(themePathAB);
     for (const DirEntry & entry:folders) {
-        autobleemUIThemes.push_back(entry.name);
+        if (DirEntry::exists(themePathAB+DirEntry::separator()+entry.name+DirEntry::separator()+"theme.ini")) {
+            autobleemUIThemes.push_back(entry.name);
+        }
     }
+
+    string themePathEvo;
+
 #if defined(__x86_64__) || defined(_M_X64)
-    folders = DirEntry::diru(DirEntry::getWorkingPath() + DirEntry::separator() + "themes");
+    themePathEvo = DirEntry::getWorkingPath() + DirEntry::separator() + "themes";
+    folders = DirEntry::diru(themePathEvo);
 #else
-    folders = DirEntry::diru("/media/themes");
+    themePathEvo = "/media/themes";
+    folders = DirEntry::diru(themePathEvo);
 #endif
     for (const DirEntry & entry:folders) {
-        menuThemes.push_back(entry.name);
+        if (DirEntry::exists(themePathEvo+DirEntry::separator()+entry.name+DirEntry::separator()+"images")) {
+            menuThemes.push_back(entry.name);
+        }
     }
     pcsx.clear();
     pcsx.push_back("original");
@@ -88,7 +98,7 @@ void GuiOptions::init() {
     jewels.push_back("none");
     jewels.push_back("default");
 
-    folders = DirEntry::diru(DirEntry::getWorkingPath() + "/evoimg/frames");
+    folders = DirEntry::diru_FilesOnly(DirEntry::getWorkingPath() + "/evoimg/frames");
     for (const DirEntry & entry:folders) {
         if (DirEntry::getFileExtension(entry.name) == "png") {
             jewels.push_back(entry.name);
@@ -99,7 +109,7 @@ void GuiOptions::init() {
     quickmenu.push_back("RetroArch");
     music.clear();
     music.push_back("--");
-    folders = DirEntry::diru(DirEntry::getWorkingPath() + "/music");
+    folders = DirEntry::diru_FilesOnly(DirEntry::getWorkingPath() + "/music");
     for (const DirEntry & entry:folders) {
         if (DirEntry::getFileExtension(entry.name) == "ogg") {
             music.push_back(entry.name);

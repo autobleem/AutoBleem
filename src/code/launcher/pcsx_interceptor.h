@@ -7,7 +7,6 @@
 #include "ps_game.h"
 #include "emu_interceptor.h"
 
-#define RUNPOINT "/media/AutoBleem/run/"
 
 //******************
 // PcsxInterceptor

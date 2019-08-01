@@ -263,10 +263,20 @@ Gui::loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, string themePath, strin
 // Gui::loadAssets
 //*******************************
 void Gui::loadAssets() {
+    // check theme exists - otherwise back to argb
+
     string defaultPath = DirEntry::getWorkingPath() + DirEntry::separator() + "theme" + DirEntry::separator() + "default" +
             DirEntry::separator();
     themePath = DirEntry::getWorkingPath() + DirEntry::separator() + "theme" + DirEntry::separator() + cfg.inifile.values["theme"] +
             DirEntry::separator();
+
+    cout << "Loading theme:" << themePath << endl;
+    if (!DirEntry::exists(themePath+"theme.ini"))
+    {
+        themePath=defaultPath;
+        cfg.inifile.values["theme"] = "default";
+        cfg.save();
+    }
 
     themeData.load(defaultPath + "theme.ini");
     defaultData.load(defaultPath + "theme.ini");
