@@ -40,5 +40,5 @@ public:
 
 private:
     bool complete;
-    void moveFolderIfNeeded(const DirEntry & entry, std::string gameDataPath, std::string path);
+    void moveFolderIfNeeded(const std::string &gameDirName, std::string gameDataPath, std::string path);
 };

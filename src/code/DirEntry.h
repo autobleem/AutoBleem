@@ -35,7 +35,7 @@ public:
 
     static bool copy(const std::string& source, const std::string& dest); // copies a file
     static bool exists(const std::string &name);
-    static bool createDir(const std::string name);
+    static bool createDir(const std::string &name);
     static int rmDir(std::string path);
     static std::string getWorkingPath();
     static std::string removeDotFromExtension(const std::string & ext); // if it has it

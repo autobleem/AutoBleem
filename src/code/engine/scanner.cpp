@@ -203,13 +203,13 @@ void repairMissingCue(const string & path, const string & folderName) {
 //*******************************
 // Scanner::moveFolderIfNeeded
 //*******************************
-void Scanner::moveFolderIfNeeded(const DirEntry & entry, string gameDataPath, string path) {
+void Scanner::moveFolderIfNeeded(const std::string &gameDirName, string gameDataPath, string path) {
     bool gameDataExists = DirEntry::exists(gameDataPath);
 
     if (gameDataExists) {
-        cerr << "Game: " << entry.name << " - Moving GameData to 0.5" << endl;
+        cerr << "Game: " << gameDirName << " - Moving GameData to 0.5" << endl;
         for (const DirEntry & entryGame : DirEntry::diru(gameDataPath)) {
-            string newName = path + entry.name + DirEntry::separator() + entryGame.name;
+            string newName = path + gameDirName + DirEntry::separator() + entryGame.name;
             string oldName = gameDataPath + entryGame.name;
             cerr << "Moving: " << oldName << "  to: " << newName << endl;
             rename(oldName.c_str(), newName.c_str());
@@ -250,7 +250,7 @@ void Scanner::repairBrokenCueFiles(const string & path) {
     for (const string & cue:allCues) {
         ifstream cueStream;
 
-        cueStream.open(path + DirEntry::separator() + cue);
+        cueStream.open(DirEntry::pathWithSeparatorAtEnd(path) + cue);
         string line;
         bool cueOk = true;
         int bins = 0;
@@ -320,7 +320,8 @@ void Scanner::repairBrokenCueFiles(const string & path) {
 //*******************************
 void Scanner::scanUSBGamesDirectory(const string & _path) {
     // it looks like the USBGames path must have a / at the end for changing the game config to work
-    string path = DirEntry::pathWithSeparatorAtEnd(_path);
+    string rootPathWithSeparator = DirEntry::pathWithSeparatorAtEnd(_path);
+    string rootPathWithOutSeparator = DirEntry::pathWithOutSeparatorAtEnd(_path);
 
     games.clear();  // clear games list
     complete = false;
@@ -332,39 +333,56 @@ void Scanner::scanUSBGamesDirectory(const string & _path) {
     string prevFileName = DirEntry::getWorkingPath() + DirEntry::separator() + "autobleem.prev";
     prev.open(prevFileName.c_str(), ios::binary);
 
-    if (!DirEntry::exists(path + "!SaveStates")) {
-        DirEntry::createDir(path + "!SaveStates");
+    if (!DirEntry::exists(rootPathWithSeparator + "!SaveStates")) {
+        DirEntry::createDir(rootPathWithSeparator + "!SaveStates");
     }
 
-    if (!DirEntry::exists(path + "!MemCards")) {
-        DirEntry::createDir(path + "!MemCards");
+    if (!DirEntry::exists(rootPathWithSeparator + "!MemCards")) {
+        DirEntry::createDir(rootPathWithSeparator + "!MemCards");
     }
 
-    GameSubDirRows gameSubDirRows = GameSubDir::scanGamesHierarchy(path);
-    if (gameSubDirRows.size() > 0)
-        games = gameSubDirRows[0]->allGames;
+    GameSubDirRows gameSubDirRows = GameSubDir::scanGamesHierarchy(rootPathWithSeparator);
+    auto gamesScanned = gameSubDirRows[0]->allGames;
 
-    for (USBGamePtr &game : games) {
-//    for (DirEntry entry: DirEntry::diru_DirsOnly(path)) {
+#if 0
+    int i = 0;
+    for (auto game : gamesScanned) {
+        cout << i++ << ": ";
+        if (game)
+            cout << game->pathName << ", " << game->fullPath << endl;
+        else
+            cout << "NULL" << endl;
+    }
+#endif
+
+    for (USBGamePtr game : gamesScanned) {
+        int i = 0;
+        if (game)
+            cout << i++ << ": "<< game->pathName << ", " << game->fullPath << endl;
+        else
+            cout << i++ << ": "<< "NULL" << endl;
         repairBinCommaNames(game->fullPath + DirEntry::separator());
         prev << game->fullPath << endl;
 
-        string saveStateDir = path + "!SaveStates" + DirEntry::separator() + game->pathName;
+        string saveStateDir = rootPathWithSeparator + "!SaveStates" + DirEntry::separator() + game->pathName;
         DirEntry::createDir(saveStateDir);
 
         //USBGamePtr game{new USBGame};
 
         game->folder_id = 0; // this will not be in use;
-        //game->fullPath = path + entry.name + DirEntry::separator();
-        game->saveStatePath = path + DirEntry::separator() + "!SaveStates" + DirEntry::separator() + game->pathName + DirEntry::separator();
+        game->fullPath = DirEntry::pathWithSeparatorAtEnd(game->fullPath);
+        game->saveStatePath = rootPathWithSeparator + "!SaveStates" + DirEntry::separator() + game->pathName + DirEntry::separator();
 
         //game->pathName = entry.name;
         splash->logText(_("Game:") + " " + game->pathName);
 
-        string gameDataPath = game->fullPath + DirEntry::separator() + GAME_DATA + DirEntry::separator();
+        string gamePathWithSeparator = DirEntry::pathWithSeparatorAtEnd(game->fullPath);
+        string gamePathWithOutSeparator = DirEntry::pathWithOutSeparatorAtEnd(game->fullPath);
 
-        moveFolderIfNeeded(entry, gameDataPath, path);
-        gameDataPath = path + entry.name + DirEntry::separator();
+        string gameDataPath = gamePathWithSeparator + GAME_DATA + DirEntry::separator();
+
+        moveFolderIfNeeded(game->pathName, gameDataPath, gamePathWithSeparator);
+        gameDataPath = gamePathWithSeparator;
 
         string gameIniPath = gameDataPath + GAME_INI;
 
@@ -378,7 +396,7 @@ void Scanner::scanUSBGamesDirectory(const string & _path) {
 
 			if (DirEntry::imageTypeUsesACueFile(imageType))
 			{
-				repairMissingCue(gameDataPath, entry.name);
+				repairMissingCue(gameDataPath, game->pathName);
 				repairBrokenCueFiles(gameDataPath);
 				unecm(gameDataPath);
 			}
@@ -409,7 +427,7 @@ void Scanner::scanUSBGamesDirectory(const string & _path) {
             if (game->gameIniFound)
                 game->readIni(gameIniPath); // read it in now in case we need to create or update the serial/region
 
-            game->serial = SerialScanner::scanSerial(game->imageType, game->fullPath, game->firstBinPath);
+            game->serial = SerialScanner::scanSerial(game->imageType, DirEntry::pathWithSeparatorAtEnd(game->fullPath), game->firstBinPath);
             game->region = SerialScanner::serialToRegion(game->serial);
             //cout << "serial: " << game->serial << ", region: " << game->region << ", " << game->title <<endl;
 

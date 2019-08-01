@@ -37,6 +37,7 @@ string DirEntry::fixPath(string path)
     trim(path);
     if (path.size() > 0 && path.back() == DirEntry::separator())
         path.pop_back();
+
     return path;
 }
 
@@ -152,7 +153,7 @@ void DirEntry::fixCommaInDirNames(const std::string &path, DirEntries &entries) 
 // DirEntry::dir
 //*******************************
 DirEntries DirEntry::dir(string path) {
-    fixPath(path);
+    path = fixPath(pathWithOutSeparatorAtEnd(path));
     DirEntries result;
     DIR *dir = opendir(path.c_str());
     if (dir != NULL) {
@@ -173,7 +174,7 @@ DirEntries DirEntry::dir(string path) {
 // DirEntry::diru
 //*******************************
 DirEntries DirEntry::diru(string path) {
-    fixPath(path);
+    path = fixPath(pathWithOutSeparatorAtEnd(path));
     DirEntries result;
     DIR *dir = opendir(path.c_str());
     if (dir != NULL) {
@@ -228,18 +229,18 @@ DirEntries DirEntry::diru_FilesOnly(string path) {
 //*******************************
 // DirEntry::exists
 //*******************************
-bool DirEntry::exists(const string &name) {
+bool DirEntry::exists(const string &_name) {
+    auto name = _name;
     fixPath(name);
     struct stat buffer;
     return (stat(name.c_str(), &buffer) == 0);
-
 }
 
 //*******************************
 // DirEntry::createDir
 //*******************************
-bool DirEntry::createDir(const string name) {
-    fixPath(name);
+bool DirEntry::createDir(const string &_name) {
+    auto name = fixPath(_name);
     const int dir_err = mkdir(name.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     return (-1 != dir_err);
 }
