@@ -506,6 +506,7 @@ void Scanner::scanDirectory(const string & _path) {
                 {
                     DirEntry::copy(DirEntry::getWorkingPath()+"pcsx.cfg",game->saveStatePath+"/pcsx.cfg");
                 }
+                DirEntry::generateM3UForDirectory(gameDataPath, game->discs[0].cueName);
             }
             else
                 cout << "game: " << game->title << " did not pass verify() test" << endl;

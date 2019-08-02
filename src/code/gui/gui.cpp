@@ -1286,6 +1286,17 @@ void Gui::exportDBToRetroarch() {
         }
         gameFile += "";
 
+        string base;
+        if (DirEntry::isPBPFile(game->base)) {
+            base = game->base.substr(0, game->base.length() - 4);
+        } else {
+            base = game->base;
+        }
+        if (DirEntry::exists(game->folder + DirEntry::separator() + base + ".m3u")) {
+            gameFile = game->folder + base + ".m3u";
+        }
+
+
         item["path"]=gameFile;
         item["label"]=game->title;
         item["core_path"]=RA_CORE;
