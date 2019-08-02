@@ -17,31 +17,15 @@ using namespace std;
 //*******************************
 // Scanner::isFirstRun
 //*******************************
-bool Scanner::isFirstRun(const string & path) {
-#if 0
-    bool listFileExists = DirEntry::exists(Util::getWorkingPath() + DirEntry::separator() + "autobleem.list");
-    if (!listFileExists) {
-        return true;
-    }
-#endif
-
-    bool prevFileExists = DirEntry::exists(DirEntry::getWorkingPath() + DirEntry::separator() + "autobleem.prev");
-    if (!prevFileExists) {
-        return true;
-    }
+bool Scanner::gamesDoNotMatchAutobleemprev(const USBGames &allGames, const std::string & autobleemPrevPath) {
     ifstream prev;
-    string prevName = DirEntry::getWorkingPath() + DirEntry::separator() + "autobleem.prev";
-    prev.open(prevName.c_str(), ios::binary);
-    DirEntries entries = DirEntry::diru_DirsOnly(path);
+    prev.open(autobleemPrevPath.c_str(), ios::binary);
     noGamesFound = true;
-    for (const DirEntry & entry:entries) {
-        if (entry.name == "!SaveStates") continue;
-        if (entry.name == "!MemCards") continue;
-        noGamesFound = false;
-        string nameInFile;
-        getline(prev, nameInFile);
-        if (nameInFile != entry.name) {
-            return true;
+    for (const auto game : allGames) {
+        string pathInFile;
+        getline(prev, pathInFile);
+        if (pathInFile != game->fullPath) {
+            return true;    // the autobleem.prev file does not match
         }
     }
     prev.close();
@@ -484,7 +468,7 @@ void Scanner::scanUSBGamesDirectory(const string & _path) {
 
     prev.flush();
     prev.close();
-    sort(games.begin(), games.end(), sortByTitle);
+    sortByTitle(games);
 
     complete = true;
 }

@@ -10,6 +10,7 @@
 #include "../util.h"
 #include <map>
 #include "../DirEntry.h"
+#include <algorithm>
 
 //******************
 // Scanner
@@ -21,7 +22,7 @@ public:
 
     void scanUSBGamesDirectory(const std::string & path);
     void repairBrokenCueFiles(const std::string & path);
-    bool isFirstRun(const std::string & path);
+    bool gamesDoNotMatchAutobleemprev(const USBGames &allGames, const std::string & autobleemPrevPath);
     void unecm(const std::string & path); // this routine removes Error Correction files from the bin file to save space
     void updateDB(Database *db);
     bool forceScan=false;
@@ -36,9 +37,13 @@ public:
         static std::shared_ptr<Scanner> s{new Scanner};
         return s;
     }
-    static bool sortByTitle(const USBGamePtr i, const USBGamePtr j) { return SortByCaseInsensitive(i->title, j->title); }
-    static bool sortByFullPath(const USBGamePtr i, const USBGamePtr j) { return SortByCaseInsensitive(i->fullPath, j->fullPath); }
-    static bool sortBySerial(const USBGamePtr i, const USBGamePtr j) { return SortByCaseInsensitive(i->serial, j->serial); }
+
+    static void sortByTitle(USBGames &games) { std::sort(games.begin(), games.end(),
+            [] (const USBGamePtr &g1, const USBGamePtr &g2) { return SortByCaseInsensitive(g1->title, g2->title); }); }
+    static void sortByFullPath(USBGames &games) { std::sort(begin(games), end(games),
+            [] (const USBGamePtr &g1, const USBGamePtr &g2) { return SortByCaseInsensitive(g1->fullPath, g2->fullPath); }); }
+    static void sortBySerial(USBGames &games) { std::sort(begin(games), end(games),
+            [] (const USBGamePtr &g1, const USBGamePtr &g2) { return SortByCaseInsensitive(g1->serial, g2->serial); }); }
 
 private:
     bool complete;
