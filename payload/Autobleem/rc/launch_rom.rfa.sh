@@ -76,6 +76,7 @@ if [ $RB_USEMONITOR -eq 1 ]; then
 	MONPID=$!
 fi
 
+ITERATION=0
 # Start RetroArch.  Restart it if it crashes.
 while : ; do
 	rm /tmp/retroboot/.monitor_killed_ra
@@ -85,7 +86,13 @@ while : ; do
 	if [ $LVL -eq 0 ] && [ ! -f /tmp/retroboot/.monitor_killed_ra ]; then
 		break
 	fi
-	
+
+	$(( ITERATION++ ))
+
+	if [ $ITERATION -eq 5 ]; then
+	  break
+  fi
+
 	echo 0 > /sys/class/leds/green/brightness
 	echo 1 > /sys/class/leds/red/brightness
 	
