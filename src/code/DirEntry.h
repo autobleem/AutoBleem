@@ -43,6 +43,6 @@ public:
     static std::string findFirstFile(std::string ext, std::string path);
     static std::vector<std::string> cueToBinList(std::string cueFile);
     static bool isPBPFile(std::string path);
-
+    static void generateM3UForDirectory(std::string path, std::string basename);
     void print();
 };

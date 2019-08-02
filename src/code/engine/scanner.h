@@ -29,6 +29,7 @@ public:
     static bool areThereGameFilesInDir(const std::string & path);
     static bool copyGameFilesInGamesDirToSubDirs(const std::string & path);    // returns true is any files moved into sub-dirs
 
+
     Scanner(Scanner const &) = delete;
     Scanner &operator=(Scanner const &) = delete;
 
