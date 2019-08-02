@@ -52,7 +52,7 @@ void DirEntry::generateM3UForDirectory(std::string path, std::string basename) {
     if (files.size() > 1) {
         ofstream os(m3uName);
         for (const string &file:files) {
-            os << DirEntry::fixPath(path) + DirEntry::separator() << file << endl;
+            os   << file << endl;
         }
         os.close();
     }
