@@ -21,7 +21,7 @@ public:
 
     void scanUSBGamesDirectory(const std::string & path);
     void repairBrokenCueFiles(const std::string & path);
-    bool isFirstRun(const std::string & path, Database * db);
+    bool isFirstRun(const std::string & path);
     void unecm(const std::string & path); // this routine removes Error Correction files from the bin file to save space
     void updateDB(Database *db);
     bool forceScan=false;
@@ -37,6 +37,8 @@ public:
         return s;
     }
     static bool sortByTitle(const USBGamePtr i, const USBGamePtr j) { return SortByCaseInsensitive(i->title, j->title); }
+    static bool sortByFullPath(const USBGamePtr i, const USBGamePtr j) { return SortByCaseInsensitive(i->fullPath, j->fullPath); }
+    static bool sortBySerial(const USBGamePtr i, const USBGamePtr j) { return SortByCaseInsensitive(i->serial, j->serial); }
 
 private:
     bool complete;

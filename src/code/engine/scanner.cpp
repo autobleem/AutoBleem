@@ -17,7 +17,7 @@ using namespace std;
 //*******************************
 // Scanner::isFirstRun
 //*******************************
-bool Scanner::isFirstRun(const string & path, Database *db) {
+bool Scanner::isFirstRun(const string & path) {
 #if 0
     bool listFileExists = DirEntry::exists(Util::getWorkingPath() + DirEntry::separator() + "autobleem.list");
     if (!listFileExists) {

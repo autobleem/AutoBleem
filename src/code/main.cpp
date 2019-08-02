@@ -14,6 +14,7 @@
 #include "engine/coverdb.h"
 #include "util.h"
 #include <unistd.h>
+#include "engine/GetGameDirHierarchy.h"
 
 using namespace std;
 
@@ -22,6 +23,7 @@ using namespace std;
 #include "launcher/emu_interceptor.h"
 #include "launcher/pcsx_interceptor.h"
 #include "launcher/retboot_interceptor.h"
+#include "engine/GetGameDirHierarchy.h"
 
 Database * db;
 
@@ -88,7 +90,7 @@ int main(int argc, char *argv[]) {
     delete memcardOperation;
 
     bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(path);
-    if (scanner->isFirstRun(path, db) || thereAreGameFilesInGamesDir) {
+    if (scanner->isFirstRun(path) || thereAreGameFilesInGamesDir) {
         scanner->forceScan = true;
     }
 
