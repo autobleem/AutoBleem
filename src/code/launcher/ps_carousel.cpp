@@ -149,8 +149,7 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer, RAIntegrator* ra
             outputRect.w = (226*fullRect.w)/biggerSize;
             outputRect.x = (226-outputRect.w)/2;
             outputRect.y = (226-outputRect.h)/2;
-            cout << outputRect.w << " " << outputRect.h << endl;
-            cout << outputRect.x << " " << outputRect.y << endl;
+
 
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_ADD);
             SDL_RenderCopy(renderer, coverPng, &fullRect, &outputRect);
