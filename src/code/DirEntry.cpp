@@ -22,15 +22,23 @@ using namespace std;
 //*******************************
 // to use "operator +" below, "path + sep" will append the separator only if it's not already on the end of path
 std::string operator + (const std::string &leftside, Sep) {
-    std::string ret = leftside;
-    if (ret.size() > 0)
-    {
-        char lastChar = ret.back();
-        if (lastChar != separator)
-            ret += separator; // add slash at end
-    }
+    string ret = leftside;
+    ret += sep;
 
     return ret;
+}
+
+//*******************************
+// append separator helper function
+//*******************************
+// to use "operator +" below, "path + sep" will append the separator only if it's not already on the end of path
+void operator += (std::string &leftside, Sep) {
+    if (leftside.size() > 0)
+    {
+        char lastChar = leftside.back();
+        if (lastChar != separator)
+            leftside += separator; // add slash at end
+    }
 }
 
 //*******************************

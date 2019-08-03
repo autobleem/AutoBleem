@@ -22,6 +22,8 @@ struct Sep { };
 const Sep sep;
 // to use "operator +" below, "path + sep" will append the separator only if it's not already on the end of path
 std::string operator + (const std::string &leftside, Sep);
+// to use "operator +=" "path += sep;"
+void operator += (std::string &leftside, Sep);
 
 //******************
 // DirEntry
