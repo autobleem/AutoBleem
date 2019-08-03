@@ -13,6 +13,20 @@
 #include <unistd.h>
 using namespace std;
 
+void PcsxInterceptor::cleanupConfig(PsGamePtr &game)
+{
+    // copy back config to its place
+    string newConfig = game->ssFolder+DirEntry::separator()+"autobleem.cfg";
+    if (DirEntry::exists(newConfig)) {
+        if (!game->internal) {
+            DirEntry::copy(newConfig, game->ssFolder + DirEntry::separator() + "pcsx.cfg");
+            DirEntry::copy(newConfig, game->folder + DirEntry::separator() + "pcsx.cfg");
+        } else {
+            DirEntry::copy(newConfig, game->ssFolder + DirEntry::separator() + "pcsx.cfg");
+        }
+        remove(newConfig.c_str());
+    }
+}
 //*******************************
 // PcsxInterceptor::execute
 //*******************************
@@ -112,6 +126,7 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
     }
 
     waitpid(pid, NULL, 0);
+    cleanupConfig(game);
 
     usleep(3 * 1000);
     return true;
