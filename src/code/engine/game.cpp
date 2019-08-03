@@ -93,7 +93,7 @@ bool USBGame::verify() {
         result = false;
     if (!gameIniValid)
         result = false;
-    if (!imageFound)
+    if (!coverImageFound)
         result = false;
     if (!licFound)
         result = false;
@@ -125,7 +125,7 @@ bool USBGame::print() {
     cout << "GameData found: " << gameDataFound << endl;
     cout << "Game.ini found: " << gameIniFound << endl;
     cout << "Game.ini valid: " << gameIniValid << endl;
-    cout << "PNG found:" << imageFound << endl;
+    cout << "PNG found:" << coverImageFound << endl;
     cout << "LIC found:" << licFound << endl;
     cout << "pcsx.cfg found: " << pcsxCfgFound << endl;
     cout << "TotalDiscs: " << discs.size() << endl;
@@ -208,7 +208,7 @@ void USBGame::recoverMissingFiles() {
             DirEntry::copy(source, destination);
             licFound = true;
         }
-        if (!imageFound) {
+        if (!coverImageFound) {
             automationUsed = true;
             cout << "Switching automation no image" << endl;
             string source = PathWithSeparator + "default.png";
@@ -228,12 +228,12 @@ void USBGame::recoverMissingFiles() {
                     pngFile.flush();
                     pngFile.close();
                     automationUsed = false;
-                    imageFound = true;
+                    coverImageFound = true;
                 };
                 md.clean();
 
             }
-            imageFound = true;
+            coverImageFound = true;
         }
     }
 

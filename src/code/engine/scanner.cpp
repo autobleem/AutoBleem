@@ -408,7 +408,7 @@ void Scanner::scanUSBGamesDirectory(const string & path, const GameSubDirRows &g
 				}
 
 				if (DirEntry::matchExtension(file.name, EXT_PNG)) {
-					game->imageFound = true;
+					game->coverImageFound = true;
 				}
 
 				if (DirEntry::matchExtension(file.name, EXT_LIC)) {
@@ -446,7 +446,7 @@ void Scanner::scanUSBGamesDirectory(const string & path, const GameSubDirRows &g
 
 						if (game->discs.size() > 0) {
 							// all recovered :)
-                            if (!game->imageFound) {
+                            if (!game->coverImageFound) {
                                 string newFilename = gameDataPath + game->discs[0].cueName + EXT_PNG;
                                 cout << "Updating cover" << newFilename << endl;
                                 ofstream pngFile;
@@ -455,7 +455,7 @@ void Scanner::scanUSBGamesDirectory(const string & path, const GameSubDirRows &g
                                 pngFile.flush();
                                 pngFile.close();
                                 game->automationUsed = false;
-                                game->imageFound = true;
+                                game->coverImageFound = true;
                             }
 						}
 
