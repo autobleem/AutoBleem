@@ -123,6 +123,10 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer, RAIntegrator* ra
                 coverPng = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + "/evoimg/ra-cover.png").c_str());
             }
 
+            SDL_Rect imageCoverRect;
+            int w,h;
+
+
 
             SDL_SetRenderTarget(renderer, renderSurface);
             fullRect.x = 0;
@@ -132,13 +136,21 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer, RAIntegrator* ra
             Uint32 format;
             int access;
             SDL_QueryTexture(coverPng, &format, &access, &fullRect.w, &fullRect.h);
-
+            float aspectRatio = (fullRect.w*1.0f)/(fullRect.h*1.0f);
             SDL_Rect outputRect;
+
+            // calculate output rect with aspect ratio
+            int biggerSize = fullRect.w>fullRect.h ? fullRect.w : fullRect.h;
+
 
             outputRect.x = 0;
             outputRect.y = 0;
-            outputRect.h = 226;
-            outputRect.w = 226;
+            outputRect.h = (226*fullRect.h)/biggerSize;
+            outputRect.w = (226*fullRect.w)/biggerSize;
+            outputRect.x = (226-outputRect.w)/2;
+            outputRect.y = (226-outputRect.h)/2;
+            cout << outputRect.w << " " << outputRect.h << endl;
+            cout << outputRect.x << " " << outputRect.y << endl;
 
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_ADD);
             SDL_RenderCopy(renderer, coverPng, &fullRect, &outputRect);
