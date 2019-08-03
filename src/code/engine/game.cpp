@@ -35,7 +35,7 @@ bool USBGame::validateCue(string cuePath, string path) {
         }
     }
     for (int i = 0; i < binFiles.size(); i++) {
-        string binPath = path + binFiles[i];
+        string binPath = DirEntry::pathWithSeparatorAtEnd(path) + binFiles[i];
         if (!DirEntry::exists(binPath)) {
             result = false;
         } else {
@@ -152,6 +152,8 @@ bool USBGame::print() {
 //*******************************
 void USBGame::recoverMissingFiles() {
     string path = DirEntry::getWorkingPath();
+    string PathWithSeparator = DirEntry::pathWithSeparatorAtEnd(path);
+    string FullPathWithSeparator = DirEntry::pathWithSeparatorAtEnd(fullPath);
 
     Metadata md;
     bool metadataLoaded = false;
@@ -189,7 +191,7 @@ void USBGame::recoverMissingFiles() {
                     disc.diskName = discEntry;
                     disc.cueFound = true;
                     disc.cueName = discEntry;
-                    disc.binVerified = validateCue(destination + entry.name, fullPath );
+                    disc.binVerified = validateCue(DirEntry::pathWithSeparatorAtEnd(destination) + entry.name, fullPath );
                     discs.push_back(disc);
                 }
             }
@@ -200,8 +202,8 @@ void USBGame::recoverMissingFiles() {
         if (!licFound) {
             automationUsed = true;
             cout << "Switching automation no lic" << endl;
-            string source = path + DirEntry::separator() + "default.lic";
-            string destination = fullPath  + discs[0].diskName + ".lic";
+            string source = PathWithSeparator + "default.lic";
+            string destination = FullPathWithSeparator  + discs[0].diskName + ".lic";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             DirEntry::copy(source, destination);
             licFound = true;
@@ -209,12 +211,12 @@ void USBGame::recoverMissingFiles() {
         if (!imageFound) {
             automationUsed = true;
             cout << "Switching automation no image" << endl;
-            string source = path + DirEntry::separator() + "default.png";
-            string destination = fullPath  + discs[0].diskName + ".png";
+            string source = PathWithSeparator + "default.png";
+            string destination = FullPathWithSeparator + discs[0].diskName + ".png";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             DirEntry::copy(source, destination);
             // maybe we can do better ?
-            string serial = SerialScanner::scanSerial(imageType,fullPath,firstBinPath);
+            string serial = SerialScanner::scanSerial(imageType, fullPath, firstBinPath);
             if (serial != "") {
 
                 if (md.lookupBySerial(serial)) {
@@ -232,22 +234,21 @@ void USBGame::recoverMissingFiles() {
 
             }
             imageFound = true;
-
         }
     }
 
     if (!pcsxCfgFound) {
         automationUsed = true;
         cout << "Switching automation no pcsx" << endl;
-        string source = path + DirEntry::separator() + "pcsx.cfg";
-        string destination = fullPath + "pcsx.cfg";
+        string source = PathWithSeparator + "pcsx.cfg";
+        string destination = FullPathWithSeparator + "pcsx.cfg";
         cerr << "SRC:" << source << " DST:" << destination << endl;
 
         int region = 0;
         bool japan = false;
 
         if (!metadataLoaded) {
-            string serial = SerialScanner::scanSerial(imageType,fullPath,firstBinPath);
+            string serial = SerialScanner::scanSerial(imageType, fullPath, firstBinPath);
             if (serial != "") {
                 metadataLoaded = md.lookupBySerial(serial);
             }
@@ -282,6 +283,7 @@ void USBGame::recoverMissingFiles() {
 // USBGame::updateObj
 //*******************************
 void USBGame::updateObj() {
+    string FullPathWithSeparator = DirEntry::pathWithSeparatorAtEnd(fullPath);
     string tmp;
     discs.clear();
     title = valueOrDefault("title", pathName);
@@ -313,7 +315,7 @@ void USBGame::updateObj() {
             Disc disc;
             disc.diskName = strings[i];
             if (DirEntry::imageTypeUsesACueFile(imageType)) {
-                string cueFile = fullPath  + disc.diskName + EXT_CUE;
+                string cueFile = FullPathWithSeparator + disc.diskName + EXT_CUE;
                 bool discCueExists = DirEntry::exists(cueFile);
                 if (discCueExists) {
                     disc.binVerified = validateCue(cueFile, fullPath );

@@ -2,6 +2,7 @@
 #include "../util.h"
 #include "../DirEntry.h"
 #include <iostream>
+#include "scanner.h"
 
 //#include <experimental/filesystem>
 //namespace fs = std::experimental::filesystem;
@@ -92,6 +93,9 @@ GameSubDirRows GameSubDir::scanGamesHierarchy(const std::string & path) {
     sort(begin(displayRows), end(displayRows), [] (const GameSubDirPtr &gameSubDir1, const GameSubDirPtr &gameSubDir2)
         { return gameSubDir2->displayRowIndex > gameSubDir1->displayRowIndex; });
 
+    for (auto & row : displayRows) {
+        Scanner::sortByTitle(row->allGames);
+    }
 #if 1
     for (auto & row : displayRows)
         cout << row->displayRowIndex << ": " << string(row->displayIndentLevel, ' ') << row->subDirName <<

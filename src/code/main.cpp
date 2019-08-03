@@ -30,7 +30,7 @@ Database * db;
 //*******************************
 // scanGames
 //*******************************
-int scanGames(string path, USBGames &allGames, string dbpath) {
+int scanGames(string path, const GameSubDirRows &gameSubDirRows, string dbpath) {
     shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr<Scanner> scanner(Scanner::getInstance());
 
@@ -47,12 +47,12 @@ int scanGames(string path, USBGames &allGames, string dbpath) {
         return EXIT_FAILURE;
     }
 
-    scanner->scanUSBGamesDirectory(path);
+    scanner->scanUSBGamesDirectory(path, gameSubDirRows);
     scanner->updateDB(gui->db);
 
-    gui->drawText(_("Total:") + " " + to_string(scanner->games.size()) + " " + _("games scanned") + ".");
+    gui->drawText(_("Total:") + " " + to_string(scanner->gamesToAddToDB.size()) + " " + _("games scanned") + ".");
     sleep(1);
-    scanner->games.clear();
+    scanner->gamesToAddToDB.clear();
     return (EXIT_SUCCESS);
 }
 
@@ -89,7 +89,8 @@ int main(int argc, char *argv[]) {
     memcardOperation->restoreAll(path + DirEntry::separator() + "!SaveStates");
     delete memcardOperation;
 
-    bool prevFileExists = DirEntry::exists(DirEntry::getWorkingPath() + DirEntry::separator() + "autobleem.prev");
+    string prevPath = DirEntry::getWorkingPath() + DirEntry::separator() + "autobleem.prev";
+    bool prevFileExists = DirEntry::exists(prevPath);
 
     bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(path);
     if (thereAreGameFilesInGamesDir)
@@ -101,7 +102,7 @@ int main(int argc, char *argv[]) {
         allGames = gameRows[0]->allGames;
     Scanner::sortByFullPath(allGames);
 
-    bool autobleemPrevOutOfDate = scanner->gamesDoNotMatchAutobleemprev(allGames, DirEntry::getWorkingPath() + DirEntry::separator() + "autobleem.prev");
+    bool autobleemPrevOutOfDate = scanner->gamesDoNotMatchAutobleemPrev(allGames, prevPath);
     if (!prevFileExists || thereAreGameFilesInGamesDir || autobleemPrevOutOfDate) {
         scanner->forceScan = true;
     }
@@ -113,7 +114,8 @@ int main(int argc, char *argv[]) {
         gui->menuSelection();
         gui->saveSelection();
         if (gui->menuOption == MENU_OPTION_SCAN) {
-            scanGames(path, allGames, dbpath);
+            scanGames(path, gameRows, dbpath);
+            scanner->writeAutobleemPrev(allGames, prevPath);
             if (gui->forceScan) {
                 gui->forceScan = false;
             } else {

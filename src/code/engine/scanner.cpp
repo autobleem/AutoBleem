@@ -15,22 +15,45 @@
 using namespace std;
 
 //*******************************
-// Scanner::isFirstRun
+// Scanner::gamesDoNotMatchAutobleemPrev
 //*******************************
-bool Scanner::gamesDoNotMatchAutobleemprev(const USBGames &allGames, const std::string & autobleemPrevPath) {
+bool Scanner::gamesDoNotMatchAutobleemPrev(const USBGames &_allGames, const std::string & autobleemPrevPath) {
+    auto allGames = _allGames;
+    sortByFullPath(allGames);
+cout << "gamesDoNotMatchAutobleemPrev" << endl;
+for (const auto &g : allGames) cout << g->fullPath << endl;
+
     ifstream prev;
     prev.open(autobleemPrevPath.c_str(), ios::binary);
-    noGamesFound = true;
     for (const auto game : allGames) {
         string pathInFile;
         getline(prev, pathInFile);
+cout << "compare " << pathInFile << " ======== " << game->fullPath << endl;
         if (pathInFile != game->fullPath) {
+cout << "compare failed" << endl;
             return true;    // the autobleem.prev file does not match
         }
     }
     prev.close();
 
     return false;
+}
+
+//*******************************
+// Scanner::writeAutobleemPrev
+//*******************************
+void Scanner::writeAutobleemPrev(const USBGames &_allGames, const std::string & autobleemPrevPath) {
+    auto allGames = _allGames;
+    sortByFullPath(allGames);
+    cout << "writeAutobleemPrev" << endl;
+    for (const auto &g : allGames) cout << g->fullPath << endl;
+
+    ofstream prev;
+    prev.open(autobleemPrevPath.c_str(), ios::binary);
+    for (const auto game : allGames) {
+        prev << game->fullPath << endl;
+    }
+    prev.close();
 }
 
 //*******************************
@@ -65,8 +88,8 @@ void Scanner::updateDB(Database *db) {
 //    ofstream outfile;
 //    outfile.open(path);
     if (complete)
-        for (int i = 0; i < games.size(); i++) {
-            USBGamePtr data = games[i];
+        for (int i = 0; i < gamesToAddToDB.size(); i++) {
+            USBGamePtr data = gamesToAddToDB[i];
             cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
             db->insertGame(i + 1, data->title, data->publisher, data->players, data->year, data->fullPath,
                            data->saveStatePath, data->memcard);
@@ -151,7 +174,7 @@ void repairMissingCue(const string & path, const string & folderName) {
         }
     }
     if (!hasCue) {
-        string newCueName = path + folderName + EXT_CUE;
+        string newCueName = DirEntry::pathWithSeparatorAtEnd(path) + folderName + EXT_CUE;
         ofstream os;
         os.open(newCueName);
         // let's create new one
@@ -260,7 +283,7 @@ void Scanner::repairBrokenCueFiles(const string & path) {
     int startPos = 0;
     for (int i = 0; i < allCues.size(); i++) {
         bool cueOk = validCue[i];
-        string cuePath = path + DirEntry::separator() + allCues[i];
+        string cuePath = DirEntry::pathWithSeparatorAtEnd(path) + allCues[i];
         if (!cueOk) {
             remove(cuePath.c_str());
 
@@ -302,20 +325,16 @@ void Scanner::repairBrokenCueFiles(const string & path) {
 //*******************************
 // Scanner::scanUSBGamesDirectory
 //*******************************
-void Scanner::scanUSBGamesDirectory(const string & _path) {
+void Scanner::scanUSBGamesDirectory(const string & _path, const GameSubDirRows &gameSubDirRows) {
     // it looks like the USBGames path must have a / at the end for changing the game config to work
     string rootPathWithSeparator = DirEntry::pathWithSeparatorAtEnd(_path);
     string rootPathWithOutSeparator = DirEntry::pathWithOutSeparatorAtEnd(_path);
 
-    games.clear();  // clear games list
+    gamesToAddToDB.clear();  // clear games list
     complete = false;
 
     shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText(_("Scanning..."));
-
-    ofstream prev;
-    string prevFileName = DirEntry::getWorkingPath() + DirEntry::separator() + "autobleem.prev";
-    prev.open(prevFileName.c_str(), ios::binary);
 
     if (!DirEntry::exists(rootPathWithSeparator + "!SaveStates")) {
         DirEntry::createDir(rootPathWithSeparator + "!SaveStates");
@@ -325,7 +344,6 @@ void Scanner::scanUSBGamesDirectory(const string & _path) {
         DirEntry::createDir(rootPathWithSeparator + "!MemCards");
     }
 
-    GameSubDirRows gameSubDirRows = GameSubDir::scanGamesHierarchy(rootPathWithSeparator);
     auto gamesScanned = gameSubDirRows[0]->allGames;
 
 #if 0
@@ -346,7 +364,6 @@ void Scanner::scanUSBGamesDirectory(const string & _path) {
         else
             cout << i++ << ": "<< "NULL" << endl;
         repairBinCommaNames(game->fullPath + DirEntry::separator());
-        prev << game->fullPath << endl;
 
         string saveStateDir = rootPathWithSeparator + "!SaveStates" + DirEntry::separator() + game->pathName;
         DirEntry::createDir(saveStateDir);
@@ -354,7 +371,7 @@ void Scanner::scanUSBGamesDirectory(const string & _path) {
         //USBGamePtr game{new USBGame};
 
         game->folder_id = 0; // this will not be in use;
-        game->fullPath = DirEntry::pathWithSeparatorAtEnd(game->fullPath);
+//        game->fullPath = DirEntry::pathWithSeparatorAtEnd(game->fullPath);
         game->saveStatePath = rootPathWithSeparator + "!SaveStates" + DirEntry::separator() + game->pathName + DirEntry::separator();
 
         //game->pathName = entry.name;
@@ -460,15 +477,13 @@ void Scanner::scanUSBGamesDirectory(const string & _path) {
 			//game->print();
 
 			if (game->verify())
-				games.push_back(game);
+                gamesToAddToDB.push_back(game);
             else
                 cout << "game: " << game->title << " did not pass verify() test" << endl;
 		}
 	} // end for each game dir
 
-    prev.flush();
-    prev.close();
-    sortByTitle(games);
+    sortByTitle(gamesToAddToDB);
 
     complete = true;
 }

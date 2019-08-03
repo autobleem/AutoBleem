@@ -11,6 +11,7 @@
 #include <map>
 #include "../DirEntry.h"
 #include <algorithm>
+#include "GetGameDirHierarchy.h"
 
 //******************
 // Scanner
@@ -18,15 +19,18 @@
 class Scanner {
 public:
     Scanner() {}
-    USBGames games;
-
-    void scanUSBGamesDirectory(const std::string & path);
-    void repairBrokenCueFiles(const std::string & path);
-    bool gamesDoNotMatchAutobleemprev(const USBGames &allGames, const std::string & autobleemPrevPath);
-    void unecm(const std::string & path); // this routine removes Error Correction files from the bin file to save space
-    void updateDB(Database *db);
+    USBGames gamesToAddToDB;
     bool forceScan=false;
     bool noGamesFound=false;
+
+    void scanUSBGamesDirectory(const std::string & path, const GameSubDirRows &gameSubDirRows);
+    void repairBrokenCueFiles(const std::string & path);
+    bool gamesDoNotMatchAutobleemPrev(const USBGames &allGames, const std::string & autobleemPrevPath);
+    void writeAutobleemPrev(const USBGames &allGames, const std::string & autobleemPrevPath);
+
+    void unecm(const std::string & path); // this routine removes Error Correction files from the bin file to save space
+    void updateDB(Database *db);
+
     static bool areThereGameFilesInDir(const std::string & path);
     static bool copyGameFilesInGamesDirToSubDirs(const std::string & path);    // returns true is any files moved into sub-dirs
 
