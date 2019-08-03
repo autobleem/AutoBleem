@@ -18,6 +18,22 @@ using namespace std;
 #define FILE_BUFFER_SIZE 524288
 
 //*******************************
+// append separator helper function
+//*******************************
+// to use "operator +" below, "path + sep" will append the separator only if it's not already on the end of path
+std::string operator + (const std::string &leftside, Sep) {
+    std::string ret = leftside;
+    if (ret.size() > 0)
+    {
+        char lastChar = ret.back();
+        if (lastChar != separator)
+            ret += separator; // add slash at end
+    }
+
+    return ret;
+}
+
+//*******************************
 // DirEntry::separator
 //*******************************
 char DirEntry::separator() {
@@ -28,6 +44,9 @@ char DirEntry::separator() {
 #endif
 }
 
+//*******************************
+// DirEntry::isPBPFile
+//*******************************
 bool DirEntry::isPBPFile(std::string path)
 {
     if (path.length()<4) return false;
@@ -50,27 +69,10 @@ string DirEntry::fixPath(string path)
 }
 
 //*******************************
-// DirEntry::pathWithSeparatorAtEnd
-//*******************************
-// return the path with a separator at the end
-string DirEntry::pathWithSeparatorAtEnd(const string& path)
-{
-    string ret = path;
-    if (ret.size() > 0)
-    {
-        char lastChar = ret.back();
-        if (lastChar != separator())
-            ret += separator(); // add slash at end
-    }
-
-    return ret;
-}
-
-//*******************************
-// DirEntry::pathWithOutSeparatorAtEnd
+// DirEntry::removeSeparatorFromEndOfPath
 //*******************************
 // return the path without a separator at the end
-string DirEntry::pathWithOutSeparatorAtEnd(const string& path)
+string DirEntry::removeSeparatorFromEndOfPath(const string& path)
 {
     string ret = path;
     if (ret.length() > 0)
@@ -112,14 +114,6 @@ string DirEntry::getDirNameFromPath(const string& path)
 }
 
 //*******************************
-// DirEntry::getDirNameFromPathWithSeparatorAtEnd
-//*******************************
-string DirEntry::getDirNameFromPathWithSeparatorAtEnd(const string& path)
-{
-    return pathWithSeparatorAtEnd(getDirNameFromPath(path));
-}
-
-//*******************************
 // DirEntry::getWorkingPath
 //*******************************
 string DirEntry::getWorkingPath() {
@@ -145,7 +139,7 @@ void DirEntry::fixCommaInDirName(const std::string &path, DirEntry *entry) {
     if (entry->name.find(",") != string::npos) {
         string newName = entry->name;
         Util::replaceAll(newName, ",", "-");
-        rename((pathWithSeparatorAtEnd(path) + entry->name).c_str(), (pathWithSeparatorAtEnd(path) + newName).c_str());
+        rename((path + sep + entry->name).c_str(), (path + sep + newName).c_str());
         entry->name = newName;
     }
 }
@@ -161,7 +155,7 @@ void DirEntry::fixCommaInDirNames(const std::string &path, DirEntries &entries) 
 // DirEntry::dir
 //*******************************
 DirEntries DirEntry::dir(string path) {
-    path = fixPath(pathWithOutSeparatorAtEnd(path));
+    path = fixPath(removeSeparatorFromEndOfPath(path));
     DirEntries result;
     DIR *dir = opendir(path.c_str());
     if (dir != NULL) {
@@ -182,7 +176,7 @@ DirEntries DirEntry::dir(string path) {
 // DirEntry::diru
 //*******************************
 DirEntries DirEntry::diru(string path) {
-    path = fixPath(pathWithOutSeparatorAtEnd(path));
+    path = fixPath(removeSeparatorFromEndOfPath(path));
     DirEntries result;
     DIR *dir = opendir(path.c_str());
     if (dir != NULL) {

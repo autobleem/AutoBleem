@@ -6,6 +6,23 @@
 #include "main.h"
 #include <tuple>
 
+//*******************************
+// separator
+//*******************************
+#ifdef _WIN32
+    static const char separator = '\\';
+#else
+    static const char separator = '/';
+#endif
+
+//*******************************
+// append separator helper function
+//*******************************
+struct Sep { };
+const Sep sep;
+// to use "operator +" below, "path + sep" will append the separator only if it's not already on the end of path
+std::string operator + (const std::string &leftside, Sep);
+
 //******************
 // DirEntry
 //******************
@@ -21,8 +38,7 @@ public:
 
     static char separator();
     static std::string fixPath(std::string path);
-    static std::string pathWithSeparatorAtEnd(const std::string& path);  // return the path with a separator at the end
-    static std::string pathWithOutSeparatorAtEnd(const std::string& path);   // return the path without a separator at the end
+    static std::string removeSeparatorFromEndOfPath(const std::string& path);   // return the path without a separator at the end
 
     static void fixCommaInDirName(const std::string &path, DirEntry *entry);
     static void fixCommaInDirNames(const std::string &path, DirEntries &entries);
@@ -46,7 +62,6 @@ public:
                                             const std::vector<std::string> & extensions);    // pass file extensions in lower case
     static std::string getFileNameFromPath(const std::string& path);
     static std::string getDirNameFromPath(const std::string& path);
-    static std::string getDirNameFromPathWithSeparatorAtEnd(const std::string& path);
     static std::string getFileExtension(const std::string & fileName);
     static std::string getFileNameWithoutExtension(const std::string& filename);
     static std::string findFirstFile(std::string ext, std::string path);

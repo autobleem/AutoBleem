@@ -14,7 +14,7 @@ using namespace std;
 //*******************************
 GameSubDir::GameSubDir(const std::string & _fullPath, int _displayRowIndex, int _displayIndentLevel,
                        GameSubDirRows *_displayRows) {
-    fullPath = DirEntry::pathWithOutSeparatorAtEnd(_fullPath);
+    fullPath = DirEntry::removeSeparatorFromEndOfPath(_fullPath);
     subDirName = DirEntry::getFileNameFromPath(fullPath);
 
     displayRowIndex = _displayRowIndex;

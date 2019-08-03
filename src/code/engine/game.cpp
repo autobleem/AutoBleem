@@ -35,7 +35,7 @@ bool USBGame::validateCue(string cuePath, string path) {
         }
     }
     for (int i = 0; i < binFiles.size(); i++) {
-        string binPath = DirEntry::pathWithSeparatorAtEnd(path) + binFiles[i];
+        string binPath = path + sep + binFiles[i];
         if (!DirEntry::exists(binPath)) {
             result = false;
         } else {
@@ -152,8 +152,8 @@ bool USBGame::print() {
 //*******************************
 void USBGame::recoverMissingFiles() {
     string path = DirEntry::getWorkingPath();
-    string PathWithSeparator = DirEntry::pathWithSeparatorAtEnd(path);
-    string FullPathWithSeparator = DirEntry::pathWithSeparatorAtEnd(fullPath);
+    string PathWithSeparator = path + sep;
+    string FullPathWithSeparator = fullPath + sep;
 
     Metadata md;
     bool metadataLoaded = false;
@@ -191,7 +191,7 @@ void USBGame::recoverMissingFiles() {
                     disc.diskName = discEntry;
                     disc.cueFound = true;
                     disc.cueName = discEntry;
-                    disc.binVerified = validateCue(DirEntry::pathWithSeparatorAtEnd(destination) + entry.name, fullPath );
+                    disc.binVerified = validateCue(destination + sep + entry.name, fullPath );
                     discs.push_back(disc);
                 }
             }
@@ -283,7 +283,7 @@ void USBGame::recoverMissingFiles() {
 // USBGame::updateObj
 //*******************************
 void USBGame::updateObj() {
-    string FullPathWithSeparator = DirEntry::pathWithSeparatorAtEnd(fullPath);
+    string FullPathWithSeparator = fullPath + sep;
     string tmp;
     discs.clear();
     title = valueOrDefault("title", pathName);
