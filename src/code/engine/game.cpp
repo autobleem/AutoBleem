@@ -151,9 +151,7 @@ bool USBGame::print() {
 // USBGame::recoverMissingFiles
 //*******************************
 void USBGame::recoverMissingFiles() {
-    string path = DirEntry::getWorkingPath();
-    string PathWithSeparator = path + sep;
-    string FullPathWithSeparator = fullPath + sep;
+    string workingPath = DirEntry::getWorkingPath();
 
     Metadata md;
     bool metadataLoaded = false;
@@ -202,8 +200,8 @@ void USBGame::recoverMissingFiles() {
         if (!licFound) {
             automationUsed = true;
             cout << "Switching automation no lic" << endl;
-            string source = PathWithSeparator + "default.lic";
-            string destination = FullPathWithSeparator  + discs[0].diskName + ".lic";
+            string source = workingPath + sep + "default.lic";
+            string destination = fullPath + sep  + discs[0].diskName + ".lic";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             DirEntry::copy(source, destination);
             licFound = true;
@@ -211,8 +209,8 @@ void USBGame::recoverMissingFiles() {
         if (!coverImageFound) {
             automationUsed = true;
             cout << "Switching automation no image" << endl;
-            string source = PathWithSeparator + "default.png";
-            string destination = FullPathWithSeparator + discs[0].diskName + ".png";
+            string source = workingPath + sep + "default.png";
+            string destination = fullPath + sep + discs[0].diskName + ".png";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             DirEntry::copy(source, destination);
             // maybe we can do better ?
@@ -240,8 +238,8 @@ void USBGame::recoverMissingFiles() {
     if (!pcsxCfgFound) {
         automationUsed = true;
         cout << "Switching automation no pcsx" << endl;
-        string source = PathWithSeparator + "pcsx.cfg";
-        string destination = FullPathWithSeparator + "pcsx.cfg";
+        string source = workingPath + sep + "pcsx.cfg";
+        string destination = fullPath + sep + "pcsx.cfg";
         cerr << "SRC:" << source << " DST:" << destination << endl;
 
         int region = 0;
@@ -283,7 +281,6 @@ void USBGame::recoverMissingFiles() {
 // USBGame::updateObj
 //*******************************
 void USBGame::updateObj() {
-    string FullPathWithSeparator = fullPath + sep;
     string tmp;
     discs.clear();
     title = valueOrDefault("title", pathName);
@@ -315,7 +312,7 @@ void USBGame::updateObj() {
             Disc disc;
             disc.diskName = strings[i];
             if (DirEntry::imageTypeUsesACueFile(imageType)) {
-                string cueFile = FullPathWithSeparator + disc.diskName + EXT_CUE;
+                string cueFile = fullPath + sep + disc.diskName + EXT_CUE;
                 bool discCueExists = DirEntry::exists(cueFile);
                 if (discCueExists) {
                     disc.binVerified = validateCue(cueFile, fullPath );

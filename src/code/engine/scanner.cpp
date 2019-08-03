@@ -71,8 +71,8 @@ void Scanner::unecm(const string & path) {
             Ecmhelper ecm;
             shared_ptr<Gui> splash(Gui::getInstance());
             splash->logText(_("Decompressing ecm:"));
-            if (ecm.unecm(path + entry.name, path + entry.name.substr(0, entry.name.length() - 4))) {
-                remove((path + entry.name).c_str());
+            if (ecm.unecm(path + sep + entry.name, path + sep + entry.name.substr(0, entry.name.length() - 4))) {
+                remove((path + sep + entry.name).c_str());
             }
         }
     }
@@ -161,15 +161,16 @@ void repairBinCommaNames(const string & path) {
 void repairMissingCue(const string & path, const string & folderName) {
     vector<string> binFiles;
     bool hasCue = false;
-    DirEntries rootDir = DirEntry::dir(path);
+    DirEntries rootDir = DirEntry::diru_FilesOnly(path);
     for (const DirEntry & entry : rootDir) {
-        if (entry.name[0] == '.') continue;
-
         if (DirEntry::matchExtension(entry.name, EXT_CUE)) {
             hasCue = true;
         }
 
         if (DirEntry::matchExtension(entry.name, EXT_BIN)) {
+            binFiles.push_back(entry.name);
+        }
+        if (DirEntry::matchExtension(entry.name, EXT_IMG)) {
             binFiles.push_back(entry.name);
         }
     }
@@ -325,10 +326,9 @@ void Scanner::repairBrokenCueFiles(const string & path) {
 //*******************************
 // Scanner::scanUSBGamesDirectory
 //*******************************
-void Scanner::scanUSBGamesDirectory(const string & path, const GameSubDirRows &gameSubDirRows) {
+void Scanner::scanUSBGamesDirectory(const string & rootPath, const GameSubDirRows &gameSubDirRows) {
     // it looks like the USBGames path must have a / at the end for changing the game config to work
-    //string rootPathWithSeparator = _ath + sep;
-    string rootPathWithOutSeparator = DirEntry::removeSeparatorFromEndOfPath(path);
+    //string rootPathWithOutSeparator = DirEntry::removeSeparatorFromEndOfPath(rootPath);
 
     gamesToAddToDB.clear();  // clear games list
     complete = false;
@@ -336,12 +336,12 @@ void Scanner::scanUSBGamesDirectory(const string & path, const GameSubDirRows &g
     shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText(_("Scanning..."));
 
-    if (!DirEntry::exists(path + sep + "!SaveStates")) {
-        DirEntry::createDir(path + sep + "!SaveStates");
+    if (!DirEntry::exists(rootPath + sep + "!SaveStates")) {
+        DirEntry::createDir(rootPath + sep + "!SaveStates");
     }
 
-    if (!DirEntry::exists(path + sep + "!MemCards")) {
-        DirEntry::createDir(path + sep + "!MemCards");
+    if (!DirEntry::exists(rootPath + sep + "!MemCards")) {
+        DirEntry::createDir(rootPath + sep + "!MemCards");
     }
 
     auto gamesScanned = gameSubDirRows[0]->allGames;
@@ -365,20 +365,17 @@ void Scanner::scanUSBGamesDirectory(const string & path, const GameSubDirRows &g
             cout << i++ << ": "<< "NULL" << endl;
         repairBinCommaNames(game->fullPath);
 
-        string saveStateDir = path + sep + "!SaveStates" + sep + game->pathName;
+        string saveStateDir = rootPath + sep + "!SaveStates" + sep + game->pathName;
         DirEntry::createDir(saveStateDir);
 
         game->folder_id = 0; // this will not be in use;
-        game->saveStatePath = path + sep + "!SaveStates" + sep + game->pathName + sep;
+        game->saveStatePath = rootPath + sep + "!SaveStates" + sep + game->pathName + sep;
 
-        //game->pathName = entry.name;
         splash->logText(_("Game:") + " " + game->pathName);
 
         string gamePathWithOutSeparator = DirEntry::removeSeparatorFromEndOfPath(game->fullPath);
 
-        string gameDataPath = game->fullPath + sep + GAME_DATA;
-
-        moveFolderIfNeeded(game->pathName, gameDataPath, game->fullPath + sep);
+        moveFolderIfNeeded(game->pathName, game->fullPath + sep + GAME_DATA, game->fullPath + sep);
 
         string gameIniPath = game->fullPath + sep + GAME_INI;
 
@@ -392,9 +389,9 @@ void Scanner::scanUSBGamesDirectory(const string & path, const GameSubDirRows &g
 
 			if (DirEntry::imageTypeUsesACueFile(imageType))
 			{
-				repairMissingCue(gameDataPath, game->pathName);
-				repairBrokenCueFiles(gameDataPath);
-				unecm(gameDataPath);
+				repairMissingCue(game->fullPath, game->pathName);
+				repairBrokenCueFiles(game->fullPath);
+				unecm(game->fullPath);
 			}
 
             // for each file in the game dir
@@ -447,7 +444,7 @@ void Scanner::scanUSBGamesDirectory(const string & path, const GameSubDirRows &g
 						if (game->discs.size() > 0) {
 							// all recovered :)
                             if (!game->coverImageFound) {
-                                string newFilename = gameDataPath + game->discs[0].cueName + EXT_PNG;
+                                string newFilename = game->fullPath + sep + game->discs[0].cueName + EXT_PNG;
                                 cout << "Updating cover" << newFilename << endl;
                                 ofstream pngFile;
                                 pngFile.open(newFilename);
@@ -528,25 +525,25 @@ bool Scanner::copyGameFilesInGamesDirToSubDirs(const string & path){
         fileExt = DirEntry::getFileExtension(entry.name);
         filenameWE = DirEntry::getFileNameWithoutExtension(entry.name);
         //Checking if file exists
-        if(access((path + "/" + entry.name).c_str(),F_OK) != -1){
+        if(access((path + sep + entry.name).c_str(),F_OK) != -1){
             if(fileExt == "cue"){
-                binList = DirEntry::cueToBinList(path + "/" + entry.name);
+                binList = DirEntry::cueToBinList(path + sep + entry.name);
                 if(!binList.empty()){
                     //Create directory for game
-                    DirEntry::createDir(path + "/" + filenameWE);
+                    DirEntry::createDir(path + sep + filenameWE);
                     //Move cue file
-                    rename((path + "/" + entry.name).c_str(), (path + "/" + filenameWE + "/" + entry.name).c_str());
+                    rename((path + "/" + entry.name).c_str(), (path + sep + filenameWE + "/" + entry.name).c_str());
                     //Move bin files
                     for (const auto &bin : binList){
                         splash->logText(_("Moving :") + " " + bin);
-                        rename((path + "/" + bin).c_str(), (path + "/" + filenameWE + "/" + bin).c_str());
+                        rename((path + sep + bin).c_str(), (path + sep + filenameWE + sep + bin).c_str());
                     }
                     ret = true;
                 }
             }else{
-                DirEntry::createDir(path + "/" + filenameWE);
+                DirEntry::createDir(path + sep + filenameWE);
 
-                rename((path + "/" + entry.name).c_str(),(path + "/" + filenameWE + "/" + entry.name).c_str());
+                rename((path + sep + entry.name).c_str(),(path + sep + filenameWE + sep + entry.name).c_str());
                 ret = true;
             }
         }
@@ -562,9 +559,9 @@ bool Scanner::copyGameFilesInGamesDirToSubDirs(const string & path){
         fileExt = DirEntry::getFileExtension(entry.name);
         filenameWE = DirEntry::getFileNameWithoutExtension(entry.name);
         //Checking if file exists
-        if(access((path + "/" + entry.name).c_str(),F_OK) != -1){
-            DirEntry::createDir(path + "/" + filenameWE);
-            rename((path + "/" + entry.name).c_str(), (path + "/" + filenameWE + "/" + entry.name).c_str());
+        if(access((path + sep + entry.name).c_str(),F_OK) != -1){
+            DirEntry::createDir(path + sep + filenameWE);
+            rename((path + sep + entry.name).c_str(), (path + sep + filenameWE + sep + entry.name).c_str());
             ret = true;
         }
     }

@@ -30,7 +30,7 @@ Database * db;
 //*******************************
 // scanGames
 //*******************************
-int scanGames(string path, const GameSubDirRows &gameSubDirRows, string dbpath) {
+int scanGames(string rootPath, const GameSubDirRows &gameSubDirRows, string dbpath) {
     shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr<Scanner> scanner(Scanner::getInstance());
 
@@ -47,7 +47,7 @@ int scanGames(string path, const GameSubDirRows &gameSubDirRows, string dbpath) 
         return EXIT_FAILURE;
     }
 
-    scanner->scanUSBGamesDirectory(path, gameSubDirRows);
+    scanner->scanUSBGamesDirectory(rootPath, gameSubDirRows);
     scanner->updateDB(gui->db);
 
     gui->drawText(_("Total:") + " " + to_string(scanner->gamesToAddToDB.size()) + " " + _("games scanned") + ".");
@@ -86,10 +86,10 @@ int main(int argc, char *argv[]) {
     string path = argv[2];
 
     Memcard *memcardOperation = new Memcard(path);
-    memcardOperation->restoreAll(path + DirEntry::separator() + "!SaveStates");
+    memcardOperation->restoreAll(path + sep + "!SaveStates");
     delete memcardOperation;
 
-    string prevPath = DirEntry::getWorkingPath() + DirEntry::separator() + "autobleem.prev";
+    string prevPath = DirEntry::getWorkingPath() + sep + "autobleem.prev";
     bool prevFileExists = DirEntry::exists(prevPath);
 
     bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(path);

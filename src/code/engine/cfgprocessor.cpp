@@ -104,27 +104,19 @@ void CfgProcessor::replaceRaConf(std::string filePath, std::string property, std
 void CfgProcessor::replace(string entry, string gamePath, string property, string newline, bool internal) {
 
     if (!internal) {
-        string realCfgPath = gamePath + entry + DirEntry::separator() + PCSX_CFG;
+        string realCfgPath = gamePath + sep + entry + sep + PCSX_CFG;
         replaceInternal(realCfgPath, property, newline);
 
-        for (DirEntry cfgEntry:DirEntry::diru(
-                gamePath + "!SaveStates" + DirEntry::separator() + entry + DirEntry::separator() + "cfg")) {
-            string path =
-                    gamePath + "!SaveStates" + DirEntry::separator() + entry + DirEntry::separator() + "cfg" +
-                            DirEntry::separator() +
-                    cfgEntry.name;
+        for (const DirEntry &cfgEntry : DirEntry::diru(gamePath + sep + "!SaveStates" + sep + entry + sep + "cfg")) {
+            string path = gamePath + sep + "!SaveStates" + sep + entry + sep + "cfg" + sep + cfgEntry.name;
             replaceInternal(path, property, newline);
         }
     } else {
-        string realCfgPath = gamePath + DirEntry::separator() + PCSX_CFG;
+        string realCfgPath = gamePath + sep + PCSX_CFG;
         replaceInternal(realCfgPath, property, newline);
 
-        for (DirEntry cfgEntry:DirEntry::diru(
-                gamePath + DirEntry::separator() + "cfg")) {
-            string path =
-                    gamePath + DirEntry::separator() + "cfg" +
-                            DirEntry::separator() +
-                    cfgEntry.name;
+        for (const DirEntry &cfgEntry : DirEntry::diru(gamePath + sep + "cfg")) {
+            string path = gamePath + sep + "cfg" + sep + cfgEntry.name;
             replaceInternal(path, property, newline);
         }
     }
