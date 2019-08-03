@@ -66,7 +66,7 @@ string SerialScanner::scanSerialInternal(ImageType imageType, string path, strin
         string pbpFileName = DirEntry::findFirstFile(EXT_PBP, destinationDir);
         if (pbpFileName != "") {
             ifstream is;
-            is.open(destinationDir + pbpFileName);
+            is.open(destinationDir + sep + pbpFileName);
 
             long magic = Util::readDword(&is);
             if (magic != 0x50425000) {
