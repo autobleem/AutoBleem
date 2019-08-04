@@ -66,7 +66,7 @@ GuiBase::~GuiBase() {
 string GuiBase::getSonyImagePath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path =
-            DirEntry::getWorkingPath() + DirEntry::separator() + "themes" + DirEntry::separator() + cfg.inifile.values["stheme"] +
+            DirEntry::getWorkingPath() + sep + "themes" + sep + cfg.inifile.values["stheme"] +
             "/images";
     if (!DirEntry::exists(path)) {
         path = "./sony/images";
@@ -88,7 +88,7 @@ string GuiBase::getSonyImagePath() {
 string GuiBase::getSonySoundPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path =
-            DirEntry::getWorkingPath() + DirEntry::separator() + "themes" + DirEntry::separator() + cfg.inifile.values["stheme"] +
+            DirEntry::getWorkingPath() + sep + "themes" + sep + cfg.inifile.values["stheme"] +
             "/sounds";
     if (!DirEntry::exists(path)) {
         path = "./sony/sounds";
@@ -110,7 +110,7 @@ string GuiBase::getSonySoundPath() {
 string GuiBase::getSonyFontPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path =
-            DirEntry::getWorkingPath() + DirEntry::separator() + "themes" + DirEntry::separator() + cfg.inifile.values["stheme"] +
+            DirEntry::getWorkingPath() + sep + "themes" + sep + cfg.inifile.values["stheme"] +
             "/font";
     if (!DirEntry::exists(path)) {
         path = "./sony/font";
@@ -131,7 +131,7 @@ string GuiBase::getSonyFontPath() {
 //*******************************
 string GuiBase::getSonyRootPath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    string path = DirEntry::getWorkingPath() + DirEntry::separator() + cfg.inifile.values["stheme"];
+    string path = DirEntry::getWorkingPath() + sep + cfg.inifile.values["stheme"];
     if (!DirEntry::exists(path)) {
         path = "./sony";
     }
@@ -265,10 +265,8 @@ Gui::loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, string themePath, strin
 void Gui::loadAssets(bool reloadMusic) {
     // check theme exists - otherwise back to argb
 
-    string defaultPath = DirEntry::getWorkingPath() + DirEntry::separator() + "theme" + DirEntry::separator() + "default" +
-            DirEntry::separator();
-    themePath = DirEntry::getWorkingPath() + DirEntry::separator() + "theme" + DirEntry::separator() + cfg.inifile.values["theme"] +
-            DirEntry::separator();
+    string defaultPath = DirEntry::getWorkingPath() + sep + "theme" + sep + "default" + sep;
+    themePath = DirEntry::getWorkingPath() + sep + "theme" + sep + cfg.inifile.values["theme"] + sep;
 
     cout << "Loading theme:" << themePath << endl;
     if (!DirEntry::exists(themePath+"theme.ini"))
@@ -1292,7 +1290,7 @@ void Gui::exportDBToRetroarch() {
         } else {
             base = game->base;
         }
-        if (DirEntry::exists(game->folder + DirEntry::separator() + base + ".m3u")) {
+        if (DirEntry::exists(game->folder + sep + base + ".m3u")) {
             gameFile = game->folder + base + ".m3u";
         }
 
