@@ -187,7 +187,7 @@ int RAIntegrator::getGamesNumber(string playlist) {
 
 bool RAIntegrator::getGames(PsGames *result, string playlist) {
     cout << "Parsing Playlist:" << playlist << endl;
-    string path = string(RA_FOLDER) + DirEntry::separator() + "playlists" + DirEntry::separator() + playlist;
+    string path = string(RA_FOLDER) + sep + "playlists" + sep + playlist;
     if (isJSONPlaylist(path)) {
         parseJSON(result, path);
     } else {
@@ -203,13 +203,13 @@ vector<string> RAIntegrator::getPlaylists() {
         return result;
     }
     cout << "Playlists: RA folder Found" << endl;
-    string path = string(RA_FOLDER) + DirEntry::separator() + "playlists";
+    string path = string(RA_FOLDER) + sep + "playlists";
     cout << "Checking path" << path << endl;
     vector<DirEntry> entries = DirEntry::diru_FilesOnly(path);
     cout << "Total Playlists:" << entries.size() << endl;
     for (const DirEntry &entry:entries) {
         if (DirEntry::getFileNameWithoutExtension(entry.name) == "AutoBleem") continue;
-        if (isValidPlaylist(path + DirEntry::separator() + entry.name)) {
+        if (isValidPlaylist(path + sep + entry.name)) {
             if (getGamesNumber(entry.name) > 0) {
                 result.push_back(entry.name);
             }
@@ -243,7 +243,7 @@ void RAIntegrator::initCoreInfo() {
     cores.clear();
     databases.clear();
     defaultCores.clear();
-    string infoFolder = string(RA_FOLDER) + DirEntry::separator() + "info/";
+    string infoFolder = string(RA_FOLDER) + sep + "info/";
     cout << "Scanning: " << infoFolder << endl;
     vector<DirEntry> entries = DirEntry::diru_FilesOnly(infoFolder);
     cout << "Found files:" << entries.size() << endl;
@@ -282,7 +282,7 @@ void RAIntegrator::initCoreInfo() {
     }
 
     overrideCores.clear();
-    ifstream in(DirEntry::getWorkingPath() + DirEntry::separator() + "coreOverride.cfg");
+    ifstream in(DirEntry::getWorkingPath() + sep + "coreOverride.cfg");
     string line;
     while (getline(in, line)) {
         string db_name = line.substr(0, line.find("="));

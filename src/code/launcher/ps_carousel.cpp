@@ -35,7 +35,7 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer, RAIntegrator* ra
             SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-            string imagePath = (*this)->folder + DirEntry::separator() + (*this)->base + ".png";
+            string imagePath = (*this)->folder + sep + (*this)->base + ".png";
             SDL_SetRenderTarget(renderer, nullptr);
             if (DirEntry::exists(imagePath)) {
                 coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
@@ -111,9 +111,9 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer, RAIntegrator* ra
             SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-            string imagePath = string(RA_FOLDER) + DirEntry::separator() + "thumbnails"+ DirEntry::separator() +
-                    DirEntry::getFileNameWithoutExtension((*this)->db_name) + DirEntry::separator() +
-                    "Named_Boxarts" + DirEntry::separator() + raIntegrator->escapeName((*this)->title) + ".png";
+            string imagePath = string(RA_FOLDER) + sep + "thumbnails" + sep +
+                    DirEntry::getFileNameWithoutExtension((*this)->db_name) + sep +
+                    "Named_Boxarts" + sep + raIntegrator->escapeName((*this)->title) + ".png";
 
 
             SDL_SetRenderTarget(renderer, nullptr);

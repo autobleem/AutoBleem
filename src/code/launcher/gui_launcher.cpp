@@ -1261,8 +1261,8 @@ void GuiLauncher::loop() {
                                 }
                                 if (memcard!="SONY")
                                 {
-                                    cardPath1 =  gui->path + DirEntry::separator() +"!MemCards/" + memcard  +"card1.mcd";
-                                    cardPath1 =  gui->path + DirEntry::separator() +"!MemCards/" + memcard  +"card2.mcd";
+                                    cardPath1 =  gui->path + sep +"!MemCards/" + memcard  +"card1.mcd";
+                                    cardPath1 =  gui->path + sep +"!MemCards/" + memcard  +"card2.mcd";
                                     leftCardName = "[1]"+ memcard;
                                     rightCardName = "[2]"+ memcard;
                                 }
