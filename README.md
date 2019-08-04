@@ -105,7 +105,7 @@ The files are available on release page. Look for latest release for most update
 
 We also created a tool to dump and reload all png files in one shot. The tool is available here [DOWNLOAD](https://github.com/autobleem/abcoverpacker) 
 
-There ia also a tool to edit cover databases available here [DOWNLOAD](https://github.com/autobleem/abCoverEdit)
+There is also a tool to edit cover databases available here [DOWNLOAD](https://github.com/autobleem/abCoverEdit)
 
 ## Credits and links 
 
