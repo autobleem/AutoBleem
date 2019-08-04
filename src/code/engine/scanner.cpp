@@ -91,8 +91,8 @@ void Scanner::updateDB(Database *db) {
         for (int i = 0; i < gamesToAddToDB.size(); i++) {
             USBGamePtr data = gamesToAddToDB[i];
             cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
-            db->insertGame(i + 1, data->title, data->publisher, data->players, data->year, data->fullPath,
-                           data->saveStatePath, data->memcard);
+            db->insertGame(i + 1, data->title, data->publisher, data->players, data->year, data->fullPath + sep,
+                           data->saveStatePath + sep, data->memcard);
             if (data->discs.size() == 0)
                 cout << "No discs in game: " << data->title << endl;
             for (int j = 0; j < data->discs.size(); j++) {
