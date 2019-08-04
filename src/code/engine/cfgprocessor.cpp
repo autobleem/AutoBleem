@@ -62,12 +62,12 @@ void CfgProcessor::replaceInternal(string filePath, string property, string newl
 string CfgProcessor::getValue(string entry, string gamePath, string property, bool internal) {
     string filePath;
     if (!internal) {
-        filePath = gamePath + entry + DirEntry::separator() + PCSX_CFG;
+        filePath = gamePath + entry + sep + PCSX_CFG;
         if (!DirEntry::exists(filePath)) {
             return "";
         }
     } else {
-        filePath = gamePath + DirEntry::separator() + PCSX_CFG;
+        filePath = gamePath + sep + PCSX_CFG;
     }
     fstream file(filePath, ios::in);
     vector<string> lines;

@@ -367,7 +367,7 @@ void Scanner::scanUSBGamesDirectory(const string &rootPath, const GameSubDirRows
 
         string saveStateDir = rootPath + sep + "!SaveStates" + sep + game->gameDirName;
         DirEntry::createDir(saveStateDir);
-        DirEntry::createDir(saveStateDir+DirEntry::separator()+"memcards");
+        DirEntry::createDir(saveStateDir + sep + "memcards");
 
         game->folder_id = 0; // this will not be in use;
         game->saveStatePath = rootPath + sep + "!SaveStates" + sep + game->gameDirName + sep;

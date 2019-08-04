@@ -34,7 +34,7 @@ void GameSubDir::scanAll() {
             continue;
         if (dir.name == "!MemCards")
             continue;
-        string path = fullPath + DirEntry::separator() + dir.name;
+        string path = fullPath + sep + dir.name;
         //cout << "path: " << path << endl;
         if (DirEntry::thereIsAGameFile(path)) {
             USBGamePtr game{new USBGame};
