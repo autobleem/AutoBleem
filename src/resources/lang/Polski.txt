@@ -12,8 +12,6 @@ AutoBleem
 AutoBleem
 AutoBleem Theme:
 Skórka AutoBleem:
-Automatic PlayStation Classic USB launcher
-Automatyczny loader dla Playstation Classic
 Background Music:
 Muzyka w tle:
 Button Guide
@@ -30,8 +28,6 @@ Clock:
 Zegar:
 Close
 Zamknij
-Code: AutoBleem Team
-Autorzy: AutoBleem Team
 Configuration
 Konfiguracja
 Configuration saved - Press |@X| to continue
@@ -47,7 +43,7 @@ Własna
 Customize AutoBleem settings
 Dostosuj ustawienia Autobleem
 Custom Memory Cards
-Współdzielone karty pamięci
+Współdzielone Karty Pamięci
 Decompressing ecm:
 Dekompresuję ecm:
 Delete
@@ -106,8 +102,6 @@ GFX Filter:
 Filtr grafiki:
 Go back
 Powrót
-Graphics by:
-Grafika:
 High res:
 Zwiększ Rozdzielczość:
 Hold
@@ -130,8 +124,6 @@ Loading ... Please Wait ...
 Ładuję ... Proszę czekać ...
 Lock data:
 Blokuj zmiany:
-MemCard Manager will be available soon
-Menadżer Katy Pamięci będzie dostępny wkrótce
 MEMORY CARD
 KARTA PAMIĘCI
 Memory Card:
@@ -238,10 +230,6 @@ Show RetroArch:
 Pokazuj RetroArch:
 Slot
 Slot
-Sorting :
-Sortowanie :
-Sorting...
-Sortuję...
 Space
 Spacja
 SpeedHack:
@@ -270,3 +258,59 @@ Widescreen:
 Pełny ekran:
 Year:
 Rok:
+ games
+ gry
+.-= Code C++ and shell scripts =-.
+.-= Kodowanie C++ i shell scripts =-.
+.-= Database maintenance =-.
+.-= Baza danych gier =-.
+.-= Graphics =-.
+.-= Grafika =-.
+.-= Localization support =-.
+.-= Tłumaczenie =-.
+.-= Retroboot and emulation cores =-.
+.-= Retroboot i rdzenie =-.
+.-= Testing =-.
+.-= Testerzy =-.
+AutoBleem resume points not available in RetroArch.
+RetroArch nie obsługuje punktów wznowienia Autobleem
+CONFIGURED
+WEWNĘTRZNA
+Copy
+Kopiuj
+Defragment Card
+Defragmentuj Kartę
+Do you want to save memcards data ?
+Czy chcesz zapisać zmienione dane katy ?
+Entry
+Wprowdź
+Free
+Wolne
+INTERNAL
+WEWNĘTRZNA
+Link Block
+Polaczony Blok
+Link end Block
+Blok Koncowy
+Memory Card Manager
+Menadżer Kart Pamięci
+Moving :
+Przenoszenie :
+Moving...
+Przenoszę...
+OK
+OK
+Reload Cards
+Odśwież Karty
+RetroBoot Systems
+Zmiana Systemu RetroBoot
+Run using RetroBoot(if installed)
+Uruchom przy użyciu RetroBoot(jeśli zainstalowany)
+Select RetroBoot Platform
+Wybierz Platformę Retroboot
+Select Right Card
+Wybierz Prawą Kartę
+Showing:
+Wyświetla:
+Unknown Core (AutoDetect)
+Nieznany Rdzeń (AutoDetekcja)
