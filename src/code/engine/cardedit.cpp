@@ -45,7 +45,7 @@ CardEdit::CardEdit(SDL_Shared<SDL_Renderer> renderer1) {
     }
 
     // New empty card
-    load_file(DirEntry::getWorkingPath() + DirEntry::separator() + "memcard" + DirEntry::separator() + "card1.mcd");
+    load_file(DirEntry::getWorkingPath() + sep + "memcard" + sep + "card1.mcd");
 }
 
 CardEdit::~CardEdit() {
@@ -197,7 +197,7 @@ int CardEdit::clearData() {
     for (int i = 0; i < 131072; i++) {
         memoryCard[i] = 0;
     }
-    load_file(DirEntry::getWorkingPath() + DirEntry::separator() + "memcard" + DirEntry::separator() + "card1.mcd");
+    load_file(DirEntry::getWorkingPath() + sep + "memcard" + sep + "card1.mcd");
     update();
     return 0;
 }
