@@ -360,22 +360,22 @@ void Scanner::scanUSBGamesDirectory(const string & rootPath, const GameSubDirRow
     for (USBGamePtr game : gamesScanned) {
         int i = 0;
         if (game)
-            cout << i++ << ": "<< game->pathName << ", " << game->fullPath << endl;
+            cout << i++ << ": "<< game->gameDirName << ", " << game->fullPath << endl;
         else
             cout << i++ << ": "<< "NULL" << endl;
         repairBinCommaNames(game->fullPath);
 
-        string saveStateDir = rootPath + sep + "!SaveStates" + sep + game->pathName;
+        string saveStateDir = rootPath + sep + "!SaveStates" + sep + game->gameDirName;
         DirEntry::createDir(saveStateDir);
 
         game->folder_id = 0; // this will not be in use;
-        game->saveStatePath = rootPath + sep + "!SaveStates" + sep + game->pathName + sep;
+        game->saveStatePath = rootPath + sep + "!SaveStates" + sep + game->gameDirName + sep;
 
-        splash->logText(_("Game:") + " " + game->pathName);
+        splash->logText(_("Game:") + " " + game->gameDirName);
 
         string gamePathWithOutSeparator = DirEntry::removeSeparatorFromEndOfPath(game->fullPath);
 
-        moveFolderIfNeeded(game->pathName, game->fullPath + sep + GAME_DATA, game->fullPath + sep);
+        moveFolderIfNeeded(game->gameDirName, game->fullPath + sep + GAME_DATA, game->fullPath);
 
         string gameIniPath = game->fullPath + sep + GAME_INI;
 
@@ -389,7 +389,7 @@ void Scanner::scanUSBGamesDirectory(const string & rootPath, const GameSubDirRow
 
 			if (DirEntry::imageTypeUsesACueFile(imageType))
 			{
-				repairMissingCue(game->fullPath, game->pathName);
+				repairMissingCue(game->fullPath, game->gameDirName);
 				repairBrokenCueFiles(game->fullPath);
 				unecm(game->fullPath);
 			}
@@ -460,7 +460,7 @@ void Scanner::scanUSBGamesDirectory(const string & rootPath, const GameSubDirRow
 					}
 					else {
 					    if (game->title == "")
-						    game->title = game->pathName;
+						    game->title = game->gameDirName;
 					}
 				}
 			}

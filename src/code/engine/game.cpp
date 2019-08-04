@@ -271,7 +271,7 @@ void USBGame::recoverMissingFiles() {
         DirEntry::copy(source, destination);
 
         CfgProcessor * processor=new CfgProcessor();
-        processor->replace(pathName, gui->path, "region", "region = " + to_string(region),false);
+        processor->replace(gameDirName, gui->path, "region", "region = " + to_string(region),false);
         delete(processor);
         pcsxCfgFound = true;
     }
@@ -283,7 +283,7 @@ void USBGame::recoverMissingFiles() {
 void USBGame::updateObj() {
     string tmp;
     discs.clear();
-    title = valueOrDefault("title", pathName);
+    title = valueOrDefault("title", gameDirName);
     memcard = valueOrDefault("memcard", "");
 
     publisher = valueOrDefault("publisher", "Other");

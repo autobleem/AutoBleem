@@ -39,7 +39,7 @@ void GameSubDir::scanAll() {
         if (DirEntry::thereIsAGameFile(path)) {
             USBGamePtr game{new USBGame};
             game->fullPath = path;
-            game->pathName = dir.name;
+            game->gameDirName = dir.name;
             gamesInThisDir.emplace_back(game);
             //cout << "added game: " << game->pathName << endl;
         } else {
@@ -75,7 +75,7 @@ void GameSubDir::print(bool plusGames) {
     cout << displayRowIndex << ": " << indent << fullPath << ", " << subDirName << " (" << gamesInThisDir.size() << " games)" << endl;
     if (plusGames) {
         for (auto & game : gamesInThisDir)
-            cout << indent << " " << game->pathName << endl;
+            cout << indent << " " << game->gameDirName << endl;
     }
     for (auto & child : childrenDirs)
         child->print(plusGames);
