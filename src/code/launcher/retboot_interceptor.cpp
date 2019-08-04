@@ -39,7 +39,7 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
 
 
     if (!game->foreign) {
-        gameFile += (game->folder + game->base);
+        gameFile += (game->folder + sep + game->base);
         if (!DirEntry::matchExtension(game->base, ".pbp")) {
             gameFile += ".cue";
         }
@@ -50,12 +50,11 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
         } else {
             base = game->base;
         }
-        if (DirEntry::exists(game->folder + DirEntry::separator() + base + ".m3u")) {
-            gameFile = game->folder + base + ".m3u";
+        if (DirEntry::exists(game->folder + sep + base + ".m3u")) {
+            gameFile = game->folder + sep + base + ".m3u";
         }
     } else {
         gameFile = game->image_path + "";
-
     }
     // figure out which plugin is selected
     string gpu;
@@ -117,7 +116,7 @@ void RetroArchInterceptor::memcardIn(PsGamePtr &game) {
         string memcard = "SONY";
         if (!game->internal) {
             Inifile gameini;
-            gameini.load(game->folder + "/Game.ini");
+            gameini.load(game->folder + sep + "Game.ini");
             memcard = gameini.values["memcard"];
 
         }
@@ -139,8 +138,8 @@ void RetroArchInterceptor::memcardIn(PsGamePtr &game) {
             base = game->base;
         }
 
-        string inpath = game->ssFolder + DirEntry::separator() + "memcards" + DirEntry::separator() + "card1.mcd";
-        string outpath = string("") + RA_MEMCARDLOC + DirEntry::separator() + base + ".srm";
+        string inpath = game->ssFolder + sep + "memcards" + sep + "card1.mcd";
+        string outpath = string("") + RA_MEMCARDLOC + sep + base + ".srm";
         string backup = outpath + ".bak";
         if (!DirEntry::exists(backup)) {
             if (DirEntry::exists(outpath)) {
@@ -161,7 +160,7 @@ void RetroArchInterceptor::memcardOut(PsGamePtr &game) {
         string memcard = "SONY";
         if (!game->internal) {
             Inifile gameini;
-            gameini.load(game->folder + "/Game.ini");
+            gameini.load(game->folder + sep + "Game.ini");
             memcard = gameini.values["memcard"];
         }
         if (memcard != "SONY") {
@@ -176,8 +175,8 @@ void RetroArchInterceptor::memcardOut(PsGamePtr &game) {
             base = game->base;
         }
 
-        string outpath = game->ssFolder + DirEntry::separator() + "memcards" + DirEntry::separator() + "card1.mcd";
-        string inpath = string("") + RA_MEMCARDLOC + DirEntry::separator() + base + ".srm";
+        string outpath = game->ssFolder + sep + "memcards" + sep + "card1.mcd";
+        string inpath = string("") + RA_MEMCARDLOC + sep + base + ".srm";
         string backup = inpath + ".bak";
         if (DirEntry::exists(inpath)) {
             DirEntry::copy(inpath, outpath);
