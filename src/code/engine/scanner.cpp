@@ -326,7 +326,7 @@ void Scanner::repairBrokenCueFiles(const string & path) {
 //*******************************
 // Scanner::scanUSBGamesDirectory
 //*******************************
-void Scanner::scanUSBGamesDirectory(const string & rootPath, const GameSubDirRows &gameSubDirRows) {
+void Scanner::scanUSBGamesDirectory(const string &rootPath, const GameSubDirRows &gameSubDirRows) {
     // it looks like the USBGames path must have a / at the end for changing the game config to work
     //string rootPathWithOutSeparator = DirEntry::removeSeparatorFromEndOfPath(rootPath);
 
@@ -367,6 +367,7 @@ void Scanner::scanUSBGamesDirectory(const string & rootPath, const GameSubDirRow
 
         string saveStateDir = rootPath + sep + "!SaveStates" + sep + game->gameDirName;
         DirEntry::createDir(saveStateDir);
+        DirEntry::createDir(saveStateDir+DirEntry::separator()+"memcards");
 
         game->folder_id = 0; // this will not be in use;
         game->saveStatePath = rootPath + sep + "!SaveStates" + sep + game->gameDirName + sep;
@@ -468,8 +469,24 @@ void Scanner::scanUSBGamesDirectory(const string & rootPath, const GameSubDirRow
             game->readIni(gameIniPath); // the updated iniValues are needed for updateObj
 			//game->print();
 
-			if (game->verify())
+			if (game->verify()) {
                 gamesToAddToDB.push_back(game);
+
+                string memcardPath = game->saveStatePath + sep + "memcards/";
+                if (!DirEntry::exists(memcardPath + "card1.mcd"))
+                {
+                    DirEntry::copy(DirEntry::getWorkingPath() + sep + "memcard/card1.mcd", memcardPath + "card1.mcd");
+                }
+                if (!DirEntry::exists(memcardPath + sep + "card2.mcd"))
+                {
+                    DirEntry::copy(DirEntry::getWorkingPath() + sep + "memcard/card1.mcd", memcardPath + "card2.mcd");
+                }
+                if (!DirEntry::exists(game->saveStatePath + "/pcsx.cfg"))
+                {
+                    DirEntry::copy(DirEntry::getWorkingPath() + sep + "pcsx.cfg", game->saveStatePath + "/pcsx.cfg");
+                }
+                DirEntry::generateM3UForDirectory(game->fullPath, game->discs[0].cueName);
+            }
             else
                 cout << "game: " << game->title << " did not pass verify() test" << endl;
 		}

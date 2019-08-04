@@ -8,11 +8,33 @@
 #include "../gui/gui.h"
 #include "../lang.h"
 #include "../engine/memcard.h"
+#include "../engine/cfgprocessor.h"
 #include <fstream>
 #include <iostream>
 #include <unistd.h>
 using namespace std;
 
+void PcsxInterceptor::cleanupConfig(PsGamePtr &game)
+{
+    // copy back config to its place
+    auto processor = new CfgProcessor();
+    string newConfig = game->ssFolder+DirEntry::separator()+"autobleem.cfg";
+    if (DirEntry::exists(newConfig)) {
+        // fix bios
+        processor->replaceRaConf(newConfig,"Bios","Bios = SET_BY_PCSX");
+
+
+
+        if (!game->internal) {
+            DirEntry::copy(newConfig, game->ssFolder + DirEntry::separator() + "pcsx.cfg");
+            DirEntry::copy(newConfig, game->folder + DirEntry::separator() + "pcsx.cfg");
+        } else {
+            DirEntry::copy(newConfig, game->ssFolder + DirEntry::separator() + "pcsx.cfg");
+        }
+        remove(newConfig.c_str());
+    }
+    delete processor;
+}
 //*******************************
 // PcsxInterceptor::execute
 //*******************************
@@ -112,6 +134,7 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
     }
 
     waitpid(pid, NULL, 0);
+    cleanupConfig(game);
 
     usleep(3 * 1000);
     return true;

@@ -262,11 +262,21 @@ Gui::loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, string themePath, strin
 //*******************************
 // Gui::loadAssets
 //*******************************
-void Gui::loadAssets() {
+void Gui::loadAssets(bool reloadMusic) {
+    // check theme exists - otherwise back to argb
+
     string defaultPath = DirEntry::getWorkingPath() + DirEntry::separator() + "theme" + DirEntry::separator() + "default" +
             DirEntry::separator();
     themePath = DirEntry::getWorkingPath() + DirEntry::separator() + "theme" + DirEntry::separator() + cfg.inifile.values["theme"] +
             DirEntry::separator();
+
+    cout << "Loading theme:" << themePath << endl;
+    if (!DirEntry::exists(themePath+"theme.ini"))
+    {
+        themePath=defaultPath;
+        cfg.inifile.values["theme"] = "default";
+        cfg.save();
+    }
 
     themeData.load(defaultPath + "theme.ini");
     defaultData.load(defaultPath + "theme.ini");
@@ -321,12 +331,13 @@ void Gui::loadAssets() {
         fontSize = atoi(fontSizeString.c_str());
     themeFont = Fonts::openFont(fontPath, fontSize);
 
-    if (music != nullptr) {
+    if (reloadMusic) {
+        if (music != nullptr) {
 
-        Mix_FreeMusic(music);
-        music = nullptr;
+            Mix_FreeMusic(music);
+            music = nullptr;
+        }
     }
-
     bool customMusic = false;
     int freq = 32000;
     string musicPath = themeData.values["music"];
@@ -339,24 +350,26 @@ void Gui::loadAssets() {
         freq = 44100;
     }
 
-    int numtimesopened, frequency, channels;
-    Uint16 format;
-    numtimesopened = Mix_QuerySpec(&frequency, &format, &channels);
-    for (int i = 0; i < numtimesopened; i++) {
-        Mix_CloseAudio();
-    }
-    numtimesopened = Mix_QuerySpec(&frequency, &format, &channels);
+    if (reloadMusic) {
+        int numtimesopened, frequency, channels;
+        Uint16 format;
+        numtimesopened = Mix_QuerySpec(&frequency, &format, &channels);
+        for (int i = 0; i < numtimesopened; i++) {
+            Mix_CloseAudio();
+        }
+        numtimesopened = Mix_QuerySpec(&frequency, &format, &channels);
 
-    if (Mix_OpenAudio(freq, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
-        printf("Unable to open audio: %s\n", Mix_GetError());
+        if (Mix_OpenAudio(freq, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
+            printf("Unable to open audio: %s\n", Mix_GetError());
+        }
     }
-
     cursor = Mix_LoadWAV((this->getSonySoundPath() + "/cursor.wav").c_str());
     cancel = Mix_LoadWAV((this->getSonySoundPath() + "/cancel.wav").c_str());
     home_up = Mix_LoadWAV((this->getSonySoundPath() + "/home_up.wav").c_str());
     home_down = Mix_LoadWAV((this->getSonySoundPath() + "/home_down.wav").c_str());
     resume = Mix_LoadWAV((this->getSonySoundPath() + "/resume_new.wav").c_str());
 
+    if (reloadMusic)
     if (cfg.inifile.values["nomusic"] != "true")
         if (themeData.values["loop"] != "-1") {
 
@@ -709,7 +722,7 @@ void Gui::menuSelection() {
                                     }
                                     Mix_PlayChannel(-1, cursor, 0);
                                     drawText(_("Starting EvolutionUI"));
-                                    loadAssets();
+                                    loadAssets(false);
                                     auto launcherScreen = new GuiLauncher(renderer);
                                     launcherScreen->show();
                                     delete launcherScreen;
@@ -1272,6 +1285,17 @@ void Gui::exportDBToRetroarch() {
             gameFile += ".cue";
         }
         gameFile += "";
+
+        string base;
+        if (DirEntry::isPBPFile(game->base)) {
+            base = game->base.substr(0, game->base.length() - 4);
+        } else {
+            base = game->base;
+        }
+        if (DirEntry::exists(game->folder + DirEntry::separator() + base + ".m3u")) {
+            gameFile = game->folder + base + ".m3u";
+        }
+
 
         item["path"]=gameFile;
         item["label"]=game->title;

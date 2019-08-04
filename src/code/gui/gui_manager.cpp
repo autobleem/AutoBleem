@@ -202,8 +202,8 @@ void GuiManager::loop()
 
                             int errors = 0;
                             int flags = FTW_DEPTH | FTW_PHYS | FTW_CHDIR;
-
-                            if (nftw("/media/Games", flushCovers, 1, flags) != 0) {
+                            //cout << gui->path << endl;
+                            if (nftw(DirEntry::fixPath(gui->path).c_str(), flushCovers, 1, flags) != 0) {
                                 errors++;
                             }
 

@@ -31,8 +31,7 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
 
     cout << "Starting RetroArch Emu" << endl;
 
-    if (game->foreign)
-    {
+    if (game->foreign) {
         cout << "RA FOREIGN MODE" << endl;
     }
     string link = "/media/Autobleem/rc/launch_rb.sh";
@@ -45,8 +44,16 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
             gameFile += ".cue";
         }
         gameFile += "";
-    } else
-    {
+        string base;
+        if (DirEntry::isPBPFile(game->base)) {
+            base = game->base.substr(0, game->base.length() - 4);
+        } else {
+            base = game->base;
+        }
+        if (DirEntry::exists(game->folder + DirEntry::separator() + base + ".m3u")) {
+            gameFile = game->folder + base + ".m3u";
+        }
+    } else {
         gameFile = game->image_path + "";
 
     }
@@ -65,8 +72,7 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
             gpu = PCSX_NEON;
         }
         delete (processor);
-    } else
-    {
+    } else {
         gpu = "NONE";
     }
     cout << "Using GPU plugin:" << gpu << endl;
@@ -76,8 +82,7 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
         RACore = RA_PEOPS;
     }
 
-    if (game->foreign)
-    {
+    if (game->foreign) {
         RACore = game->core_path;
     }
     argvNew.push_back(gameFile.c_str());
@@ -128,11 +133,9 @@ void RetroArchInterceptor::memcardIn(PsGamePtr &game) {
 
         // Copy the card moved to RA
         string base;
-        if (DirEntry::isPBPFile(game->base))
-        {
-            base = game->base.substr(0,game->base.length()-4);
-        } else
-        {
+        if (DirEntry::isPBPFile(game->base)) {
+            base = game->base.substr(0, game->base.length() - 4);
+        } else {
             base = game->base;
         }
 
@@ -167,11 +170,9 @@ void RetroArchInterceptor::memcardOut(PsGamePtr &game) {
             delete card;
         }
         string base;
-        if (DirEntry::isPBPFile(game->base))
-        {
-            base = game->base.substr(0,game->base.length()-4);
-        } else
-        {
+        if (DirEntry::isPBPFile(game->base)) {
+            base = game->base.substr(0, game->base.length() - 4);
+        } else {
             base = game->base;
         }
 
@@ -289,16 +290,15 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
 
         processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_frameskip",
                                  "pcsx_rearmed_frameskip  = \"" + to_string(frameskip) + "\" ");
-        if (scanlines == 1)
-        {
+        if (scanlines == 1) {
 
-            float opacity = scanline_level/100.0f;
+            float opacity = scanline_level / 100.0f;
             processor->replaceRaConf(RA_CONFIG, "input_overlay",
                                      "input_overlay  = \":/overlay/scanlines.cfg\" ");
             processor->replaceRaConf(RA_CONFIG, "input_overlay_enable",
                                      "input_overlay_enable  = \"true\" ");
             processor->replaceRaConf(RA_CONFIG, "input_overlay_opacity",
-                                     "input_overlay_opacity  = \""+to_string(opacity)+"\" ");
+                                     "input_overlay_opacity  = \"" + to_string(opacity) + "\" ");
         }
         delete processor;
     }
@@ -336,13 +336,10 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
     }
 
 
-
-    if (filter != "true")
-    {
+    if (filter != "true") {
         processor->replaceRaConf(RA_CONFIG, "video_smooth",
                                  "video_smooth  = \"true\" ");
-    } else
-    {
+    } else {
         processor->replaceRaConf(RA_CONFIG, "video_smooth",
                                  "video_smooth  = \"false\" ");
     }

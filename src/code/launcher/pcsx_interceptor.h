@@ -7,7 +7,6 @@
 #include "ps_game.h"
 #include "emu_interceptor.h"
 
-#define RUNPOINT "/media/AutoBleem/run/"
 
 //******************
 // PcsxInterceptor
@@ -19,4 +18,5 @@ public:
     void memcardOut(PsGamePtr & game);
     void prepareResumePoint(PsGamePtr & game, int pointId);
     void saveResumePoint(PsGamePtr & game, int pointId);
+    void cleanupConfig(PsGamePtr & game);
 };
