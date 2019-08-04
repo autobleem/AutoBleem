@@ -40,10 +40,10 @@ void GuiOptions::init() {
     autobleemUIThemes.clear();
     menuThemes.clear();
     menuThemes.push_back("default");
-    string themePathAB = DirEntry::getWorkingPath() + DirEntry::separator() + "theme";
+    string themePathAB = DirEntry::getWorkingPath() + sep + "theme";
     DirEntries folders = DirEntry::diru_DirsOnly(themePathAB);
     for (const DirEntry & entry:folders) {
-        if (DirEntry::exists(themePathAB+DirEntry::separator()+entry.name+DirEntry::separator()+"theme.ini")) {
+        if (DirEntry::exists(themePathAB + sep + entry.name + sep + "theme.ini")) {
             autobleemUIThemes.push_back(entry.name);
         }
     }
@@ -51,14 +51,14 @@ void GuiOptions::init() {
     string themePathEvo;
 
 #if defined(__x86_64__) || defined(_M_X64)
-    themePathEvo = DirEntry::getWorkingPath() + DirEntry::separator() + "themes";
+    themePathEvo = DirEntry::getWorkingPath() + sep + "themes";
     folders = DirEntry::diru(themePathEvo);
 #else
     themePathEvo = "/media/themes";
     folders = DirEntry::diru(themePathEvo);
 #endif
     for (const DirEntry & entry:folders) {
-        if (DirEntry::exists(themePathEvo+DirEntry::separator()+entry.name+DirEntry::separator()+"images")) {
+        if (DirEntry::exists(themePathEvo + sep + entry.name + sep + "images")) {
             menuThemes.push_back(entry.name);
         }
     }
@@ -252,7 +252,7 @@ void GuiOptions::loop() {
                 case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
-                        string cfg_path = DirEntry::getWorkingPath() + DirEntry::separator() + "config.ini";
+                        string cfg_path = DirEntry::getWorkingPath() + sep + "config.ini";
                         gui->cfg.inifile.load(cfg_path);    // restore the original config.ini settings
                         lang->load(gui->cfg.inifile.values["language"]);    // restore the original lang
                         gui->loadAssets();                                  // restore original themes

@@ -29,14 +29,14 @@ void GuiManager::init()
     shared_ptr<Gui> gui(Gui::getInstance());
     string path = gui->path;
     for (const DirEntry &entry: DirEntry::diru(path)) {
-        if (!DirEntry::isDirectory(gui->path+DirEntry::separator()+entry.name)) continue;
+        if (!DirEntry::isDirectory(gui->path + sep + entry.name)) continue;
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
 
-        string gameDataPath = path + entry.name + DirEntry::separator();
-        string saveStateDir = path + DirEntry::separator() + "!SaveStates" + DirEntry::separator() + entry.name;
+        string gameDataPath = path + entry.name + sep;
+        string saveStateDir = path + sep + "!SaveStates" + sep + entry.name;
         Inifile ini;
-        ini.load(path+entry.name+DirEntry::separator()+GAME_INI);
+        ini.load(path+entry.name + sep + GAME_INI);
         if (ini.section.empty())
         {
             continue;

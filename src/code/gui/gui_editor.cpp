@@ -260,22 +260,21 @@ void GuiEditor::init() {
     if (!internal) {
         if (this->gameIni.values["memcard"] != "SONY") {
             string cardpath =
-                    gui->path + DirEntry::separator() + "!MemCards" + DirEntry::separator() + this->gameIni.values["memcard"];
+                    gui->path + sep + "!MemCards" + sep + this->gameIni.values["memcard"];
             if (!DirEntry::exists(cardpath)) {
                 this->gameIni.values["memcard"] = "SONY";
             }
         }
 
         bool pngLoaded = false;
-        for (const DirEntry & entry:DirEntry::diru(gui->path + DirEntry::separator() + gameIni.entry)) {
+        for (const DirEntry & entry:DirEntry::diru(gui->path + sep + gameIni.entry)) {
             if (DirEntry::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(renderer, (gui->path + DirEntry::separator() + gameIni.entry + DirEntry::separator() +
-                                                   entry.name).c_str());
+                cover = IMG_LoadTexture(renderer, (gui->path + sep + gameIni.entry + sep + entry.name).c_str());
                 pngLoaded = true;
             }
         }
         if (!pngLoaded) {
-            cover = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + DirEntry::separator() + "default.png").c_str());
+            cover = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + sep + "default.png").c_str());
         }
     } else {
         // recover ini
@@ -287,7 +286,7 @@ void GuiEditor::init() {
 
         if (this->gameIni.values["memcard"] != "SONY") {
             string cardpath =
-                    gui->path + DirEntry::separator() + "!MemCards" + DirEntry::separator() + this->gameIni.values["memcard"];
+                    gui->path + sep + "!MemCards" + sep + this->gameIni.values["memcard"];
             if (!DirEntry::exists(cardpath)) {
                 this->gameIni.values["memcard"] = "SONY";
             }
@@ -296,13 +295,12 @@ void GuiEditor::init() {
         bool pngLoaded = false;
         for (const DirEntry & entry:DirEntry::diru(gameData->folder)) {
             if (DirEntry::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(renderer, (gameData->folder + DirEntry::separator() +
-                                                   entry.name).c_str());
+                cover = IMG_LoadTexture(renderer, (gameData->folder + sep + entry.name).c_str());
                 pngLoaded = true;
             }
         }
         if (!pngLoaded) {
-            cover = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + DirEntry::separator() + "default.png").c_str());
+            cover = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + sep + "default.png").c_str());
         }
     }
 
@@ -479,8 +477,7 @@ void GuiEditor::loop() {
                                 if (!cancelled) {
                                     Memcard *memcard = new Memcard(gui->path);
                                     string savePath =
-                                            gui->path + DirEntry::separator() + "!SaveStates" + DirEntry::separator() +
-                                            gameIni.entry + DirEntry::separator() + "memcards";
+                                            gui->path + sep + "!SaveStates" + sep + gameIni.entry + sep + "memcards";
                                     memcard->storeToRepo(savePath, result);
                                     gameIni.values["memcard"] = result;
                                     gameIni.save(gameIni.path);
