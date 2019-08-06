@@ -42,17 +42,6 @@ void operator += (std::string &leftside, Sep) {
 }
 
 //*******************************
-// DirEntry::separator
-//*******************************
-char DirEntry::separator() {
-#ifdef _WIN32
-    return '\\';
-#else
-    return '/';
-#endif
-}
-
-//*******************************
 // DirEntry::isPBPFile
 //*******************************
 bool DirEntry::isPBPFile(std::string path) {
@@ -92,7 +81,7 @@ void DirEntry::generateM3UForDirectory(std::string path, std::string basename) {
 string DirEntry::fixPath(string path)
 {
     trim(path);
-    if (path.size() > 0 && path.back() == DirEntry::separator())
+    if (path.size() > 0 && path.back() == separator)
         path.pop_back();
 
     return path;
@@ -107,7 +96,7 @@ string DirEntry::removeSeparatorFromEndOfPath(const string& path)
     string ret = path;
     if (ret.length() > 0) {
         char & lastChar = ret.back();
-        if (lastChar == separator())
+        if (lastChar == separator)
             ret.pop_back();     // remove slash at end
     }
 
@@ -209,7 +198,7 @@ DirEntries DirEntry::diru(string path) {
     if (dir != NULL) {
         struct dirent *entry = readdir(dir);
         while (entry != NULL) {
-            DirEntry obj(entry->d_name, isDirectory(path + separator() + entry->d_name));
+            DirEntry obj(entry->d_name, isDirectory(path + sep + entry->d_name));
             if (entry->d_name[0] != '.') {
                 result.push_back(obj);
             }
