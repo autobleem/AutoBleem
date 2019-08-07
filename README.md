@@ -142,6 +142,5 @@ AutoBleem does scan the game folder during boot and using smart algorithm it is 
 
 ## Road Map
 
-No roadmap here ... we develop based on community needs.
-AutoBleem 1.0 will be released when all our goals will be reached
+No roadmap here ... we develop based on community ideas only
 
