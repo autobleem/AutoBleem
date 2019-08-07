@@ -1,4 +1,4 @@
- games
+games
 
 .-= Code C++ and shell scripts =-.
 
@@ -72,7 +72,7 @@ Delete
 
 Delete card
 
-Do you want to save memcards data ?
+Do you want to save memcards data?
 
 Download latest:
 
@@ -152,7 +152,7 @@ Language:
 
 Link Block
 
-Link end Block
+Link and Block
 
 Loading ... Please Wait ...
 
@@ -170,7 +170,7 @@ Menu
 
 Menu Theme:
 
-Moving :
+Moving:
 
 Moving...
 
