@@ -76,7 +76,8 @@ string USBGame::valueOrDefault(string name, string def, bool setAutomationIfDefa
 bool USBGame::verify() {
     bool result = true;
 
-    if (discs.size() == 0) result = false;
+    if (discs.size() == 0)
+        result = false;
 
     for (int i = 0; i < discs.size(); i++) {
         if (discs[i].diskName.length() == 0)
@@ -108,6 +109,48 @@ bool USBGame::verify() {
 }
 
 //*******************************
+// USBGame::gamesDoNotMatchAutobleemPrev
+//*******************************
+bool USBGame::gamesDoNotMatchAutobleemPrev(const USBGames &_allGames, const std::string & autobleemPrevPath) {
+    auto allGames = _allGames;
+    sortByFullPath(allGames);
+//cout << "gamesDoNotMatchAutobleemPrev" << endl;
+    for (const auto &g : allGames) cout << g->fullPath << endl;
+
+    ifstream prev;
+    prev.open(autobleemPrevPath.c_str(), ios::binary);
+    for (const auto game : allGames) {
+        string pathInFile;
+        getline(prev, pathInFile);
+//cout << "compare " << pathInFile << " ======== " << game->fullPath << endl;
+        if (pathInFile != game->fullPath) {
+//cout << "compare failed" << endl;
+            return true;    // the autobleem.prev file does not match
+        }
+    }
+    prev.close();
+
+    return false;
+}
+
+//*******************************
+// USBGame::writeAutobleemPrev
+//*******************************
+void USBGame::writeAutobleemPrev(const USBGames &_allGames, const std::string & autobleemPrevPath) {
+    auto allGames = _allGames;
+    sortByFullPath(allGames);
+    cout << "writeAutobleemPrev" << endl;
+    for (const auto &g : allGames) cout << g->fullPath << endl;
+
+    ofstream prev;
+    prev.open(autobleemPrevPath.c_str(), ios::binary);
+    for (const auto game : allGames) {
+        prev << game->fullPath << endl;
+    }
+    prev.close();
+}
+
+//*******************************
 // USBGame::print
 //*******************************
 bool USBGame::print() {
@@ -116,6 +159,7 @@ bool USBGame::print() {
     cout << "-----------------" << endl;
     cout << "AUTOMATION: " << automationUsed << endl;
     cout << "Game folder id: " << folder_id << endl;
+	cout << "displayRowIndex: " << displayRowIndex << endl;
     cout << "Game: " << title << endl;
     cout << "Players: " << players << endl;
     cout << "Publisher: " << publisher << endl;
@@ -164,7 +208,7 @@ void USBGame::recoverMissingFiles() {
             if (discs.size() == 0) {
                 automationUsed = false;
                 Disc disc;
-                disc.diskName = pbpFileName;
+                disc.diskName = pbpFileName;    // the full filename including the .PBP
                 disc.cueFound = true;
                 disc.cueName = pbpFileName;
                 disc.binVerified = true;
@@ -184,11 +228,11 @@ void USBGame::recoverMissingFiles() {
             string destination = fullPath ;
             for (const DirEntry & entry: DirEntry::diru(destination)) {
                 if (DirEntry::matchExtension(entry.name, EXT_CUE)) {
-                    string discEntry = entry.name.substr(0, entry.name.size() - 4);
                     Disc disc;
-                    disc.diskName = discEntry;
+                    string discEntry = entry.name.substr(0, entry.name.size() - 4); // remove .CUE
+                    disc.diskName = discEntry;  // the CUE filename without the .CUE
                     disc.cueFound = true;
-                    disc.cueName = discEntry;
+                    disc.cueName = discEntry;   // the CUE filename without the .CUE
                     disc.binVerified = validateCue(destination + sep + entry.name, fullPath );
                     discs.push_back(disc);
                 }
@@ -219,7 +263,7 @@ void USBGame::recoverMissingFiles() {
 
                 if (md.lookupBySerial(serial)) {
                     metadataLoaded = true;
-                    cout << "Updating cover" << destination << endl;
+                    cout << "Updating cover in recoverMissingFiles()" << destination << endl;
                     ofstream pngFile;
                     pngFile.open(destination);
                     pngFile.write(md.bytes, md.dataSize);
@@ -342,7 +386,7 @@ void USBGame::updateObj() {
 // USBGame::saveIni
 //*******************************
 void USBGame::saveIni(string path) {
-    cout << "Overwritting ini file" << path << endl;
+    //cout << "Overwritting ini file" << path << endl;
     Inifile *ini = new Inifile();
     ini->section = "Game";
     ini->values["title"] = title;
@@ -355,12 +399,10 @@ void USBGame::saveIni(string path) {
     ini->values["imagetype"] = to_string(imageType);
     ini->values["highres"] = to_string(highRes);
     if (memcard.empty())
-    {
         ini->values["memcard"] = "SONY";
-    } else
-    {
+    else
         ini->values["memcard"] = memcard;
-    }
+
     ini->values["Favorite"] = favorite;
 
     stringstream ss;

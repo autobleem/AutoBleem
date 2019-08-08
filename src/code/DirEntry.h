@@ -41,13 +41,11 @@ public:
     static std::string fixPath(std::string path);
     static std::string removeSeparatorFromEndOfPath(const std::string& path);   // return the path without a separator at the end
 
-    static void fixCommaInDirName(const std::string &path, DirEntry *entry);
-    static void fixCommaInDirNames(const std::string &path, DirEntries &entries);
+    static bool fixCommaInDirOrFileName(const std::string &path, DirEntry *entry);
 
     static DirEntries dir(std::string path);   // returns directory contents including . and ..
     static DirEntries diru(std::string path);  // returns directory contents except . and ..
     static DirEntries diru_DirsOnly(std::string path);  // diru but only returns directories
-    static DirEntries diru_DirsOnly_WithFixedCommas(std::string path);  // as above ut commas in dirname removed
     static DirEntries diru_FilesOnly(std::string path);  // diru but only returns files
 
     static bool copy(const std::string& source, const std::string& dest); // copies a file

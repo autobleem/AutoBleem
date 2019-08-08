@@ -16,17 +16,27 @@ struct GameSubDir {
     unsigned int displayIndentLevel = 0;
 
     std::vector<GameSubDirPtr> childrenDirs;
+
     USBGames gamesInThisDir;
-    USBGames allGames;
+    USBGames gamesInChildrenDirs;
+    USBGames gamesToDisplay;
 
     GameSubDir(const std::string & _path, int _displayRowIndex, int _displayIndentLevel,
                GameSubDirRows *displayRows);
 
-    void appendGames(const USBGames &src, USBGames *dest);
+    void makeGamesToDisplayWhileRemovingChildDuplicates();
+
     void print(bool plusGames);
 
     static GameSubDirRows scanGamesHierarchy(const std::string & _path);
+    static USBGames getAllGames(const GameSubDirRows &rows);
 
 private:
     void scanAll();
+
+    // remove the games in our copy of the games in the child dir that are duplicates of games in this row
+    // so he game won't show up twice when viewing this row's carousel
+    void removeChildGamesThatAreDuplicatesOfGamesInThisRow();
 };
+
+void operator += (USBGames &dest, const USBGames &src);

@@ -22,6 +22,9 @@ public:
     bool binVerified = false;
 };
 
+using USBGamePtr = std::shared_ptr<class USBGame>;
+using USBGames = std::vector<USBGamePtr>;
+
 //******************
 // USBGame
 //******************
@@ -30,6 +33,7 @@ public:
     int folder_id = 0;
     std::string fullPath;       // "/Games/Sports/Football/NFL Blitz"
     std::string gameDirName;    // "NFL Blitz"
+	int	displayRowIndex;		// row 0 is /Games
     std::string saveStatePath;
 
     std::string title;
@@ -62,12 +66,20 @@ public:
     void updateObj();
     bool validateCue(std::string cuePath, std::string path);
 
+    static bool gamesDoNotMatchAutobleemPrev(const USBGames &allGames, const std::string & autobleemPrevPath);
+    static void writeAutobleemPrev(const USBGames &allGames, const std::string & autobleemPrevPath);
+
     std::map<std::string, std::string> iniValues;
+
+    static void sortByTitle(USBGames &games) { std::sort(games.begin(), games.end(),
+                                                         [] (const USBGamePtr &g1, const USBGamePtr &g2) { return SortByCaseInsensitive(g1->title, g2->title); }); }
+    static void sortByFullPath(USBGames &games) { std::sort(begin(games), end(games),
+                                                            [] (const USBGamePtr &g1, const USBGamePtr &g2) { return SortByCaseInsensitive(g1->fullPath, g2->fullPath); }); }
+    static void sortBySerial(USBGames &games) { std::sort(begin(games), end(games),
+                                                          [] (const USBGamePtr &g1, const USBGamePtr &g2) { return SortByCaseInsensitive(g1->serial, g2->serial); }); }
 
 private:
     void parseIni(std::string path);
     std::string valueOrDefault(std::string name, std::string def, bool setAutomationIfDefaultUsed = true);
 };
 
-using USBGamePtr = std::shared_ptr<USBGame>;
-using USBGames = std::vector<USBGamePtr>;

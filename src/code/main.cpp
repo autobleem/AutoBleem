@@ -28,6 +28,76 @@ using namespace std;
 Database * db;
 
 //*******************************
+// copyGameFilesInGamesDirToSubDirs
+//*******************************
+// Search for games with supported extension and move to sub-dir
+// returns true is any files moved into sub-dirs
+bool copyGameFilesInGamesDirToSubDirs(const string & path){
+    bool ret = false;
+    string fileExt;
+    string filenameWE;
+    vector<string> extensions;
+    vector<string> binList;
+    shared_ptr<Gui> splash(Gui::getInstance());
+    splash->logText(_("Moving..."));
+//    extensions.push_back("iso");
+    extensions.push_back("pbp");
+    extensions.push_back("cue");
+
+    //Getting all files in USBGames Dir
+    DirEntries globalFileList = DirEntry::diru(path);
+    DirEntries fileList = DirEntry::getFilesWithExtension(path, globalFileList, extensions);
+
+    //On first run, we won't process bin/img files, as cue file may handle a part of them
+    for (const auto &entry : fileList){
+        splash->logText(_("Moving :") + " " + entry.name);
+        fileExt = DirEntry::getFileExtension(entry.name);
+        filenameWE = DirEntry::getFileNameWithoutExtension(entry.name);
+        //Checking if file exists
+        if(access((path + sep + entry.name).c_str(),F_OK) != -1){
+            if(fileExt == "cue"){
+                binList = DirEntry::cueToBinList(path + sep + entry.name);
+                if(!binList.empty()){
+                    //Create directory for game
+                    DirEntry::createDir(path + sep + filenameWE);
+                    //Move cue file
+                    rename((path + "/" + entry.name).c_str(), (path + sep + filenameWE + "/" + entry.name).c_str());
+                    //Move bin files
+                    for (const auto &bin : binList){
+                        splash->logText(_("Moving :") + " " + bin);
+                        rename((path + sep + bin).c_str(), (path + sep + filenameWE + sep + bin).c_str());
+                    }
+                    ret = true;
+                }
+            }else{
+                DirEntry::createDir(path + sep + filenameWE);
+
+                rename((path + sep + entry.name).c_str(),(path + sep + filenameWE + sep + entry.name).c_str());
+                ret = true;
+            }
+        }
+    }
+
+    //Next we will read only bin and img files
+    extensions.clear();
+    extensions.push_back("img");
+    extensions.push_back("bin");
+    fileList = DirEntry::getFilesWithExtension(path, globalFileList, extensions);
+    for (const auto &entry : fileList){
+        splash->logText(_("Moving :") + " " + entry.name);
+        fileExt = DirEntry::getFileExtension(entry.name);
+        filenameWE = DirEntry::getFileNameWithoutExtension(entry.name);
+        //Checking if file exists
+        if(access((path + sep + entry.name).c_str(),F_OK) != -1){
+            DirEntry::createDir(path + sep + filenameWE);
+            rename((path + sep + entry.name).c_str(), (path + sep + filenameWE + sep + entry.name).c_str());
+            ret = true;
+        }
+    }
+    return ret; // true if any game files moved into a sub-dir
+}
+
+//*******************************
 // scanGames
 //*******************************
 int scanGames(string rootPath, const GameSubDirRows &gameSubDirRows, string dbpath) {
@@ -94,15 +164,13 @@ int main(int argc, char *argv[]) {
 
     bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(path);
     if (thereAreGameFilesInGamesDir)
-        scanner->copyGameFilesInGamesDirToSubDirs(path);
+        copyGameFilesInGamesDirToSubDirs(path);
 
     GameSubDirRows gameRows = GameSubDir::scanGamesHierarchy(path);
-    USBGames allGames;
-    if (gameRows.size() > 0)
-        allGames = gameRows[0]->allGames;
-    Scanner::sortByFullPath(allGames);
+    USBGames allGames = GameSubDir::getAllGames(gameRows);
+    USBGame::sortByFullPath(allGames);
 
-    bool autobleemPrevOutOfDate = scanner->gamesDoNotMatchAutobleemPrev(allGames, prevPath);
+    bool autobleemPrevOutOfDate = USBGame::gamesDoNotMatchAutobleemPrev(allGames, prevPath);
     if (!prevFileExists || thereAreGameFilesInGamesDir || autobleemPrevOutOfDate) {
         scanner->forceScan = true;
     }
@@ -115,7 +183,7 @@ int main(int argc, char *argv[]) {
         gui->saveSelection();
         if (gui->menuOption == MENU_OPTION_SCAN) {
             scanGames(path, gameRows, dbpath);
-            scanner->writeAutobleemPrev(allGames, prevPath);
+            USBGame::writeAutobleemPrev(allGames, prevPath);
             if (gui->forceScan) {
                 gui->forceScan = false;
             } else {
