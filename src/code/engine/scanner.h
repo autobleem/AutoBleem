@@ -23,7 +23,7 @@ public:
     bool forceScan=false;
     bool noGamesFound=false;
 
-    void scanUSBGamesDirectory(const std::string & path, const GameSubDirRows &gameSubDirRows);
+    void scanUSBGamesDirectory(const std::string & path, GamesHierarchy &gamesHierarchy);
     void repairBrokenCueFiles(const std::string & path);
 
     void unecm(const std::string & path); // this routine removes Error Correction files from the bin file to save space

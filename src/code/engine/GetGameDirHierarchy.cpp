@@ -135,37 +135,36 @@ void operator += (USBGames &dest, const USBGames &src) {
 }
 
 //*******************************
-// GameSubDir::scanGamesHierarchy
+// GamesHierarchy::GamesHierarchy(path)
 //*******************************
-GameSubDirRows GameSubDir::scanGamesHierarchy(const std::string & path) {
-    GameSubDirRows displayRows;
-    GameSubDirPtr gamesHierarchy(new GameSubDir(path, 0, 0, &displayRows));
-    if (gamesHierarchy->gamesInThisDir.size() > 0 || gamesHierarchy->gamesInChildrenDirs.size() > 0)
-        displayRows.emplace_back(gamesHierarchy);
+GamesHierarchy::GamesHierarchy(const std::string & path) {
+    GameSubDirPtr top(new GameSubDir(path, 0, 0, &gameSubDirRows));
+    if (top->gamesInThisDir.size() > 0 || top->gamesInChildrenDirs.size() > 0)
+        gameSubDirRows.emplace_back(top);
 
-    sort(begin(displayRows), end(displayRows), [] (const GameSubDirPtr &gameSubDir1, const GameSubDirPtr &gameSubDir2)
+    sort(begin(gameSubDirRows), end(gameSubDirRows), [] (const GameSubDirPtr &gameSubDir1, const GameSubDirPtr &gameSubDir2)
         { return gameSubDir2->displayRowIndex > gameSubDir1->displayRowIndex; });
 
-    for (auto & row : displayRows) {
+    for (auto & row : gameSubDirRows) {
+        USBGame::sortByTitle(row->gamesInThisDir);
+        USBGame::sortByTitle(row->gamesInChildrenDirs);
         row->makeGamesToDisplayWhileRemovingChildDuplicates();
         USBGame::sortByTitle(row->gamesToDisplay);
     }
 
 #if 1
-    for (auto & row : displayRows)
+    for (auto & row : gameSubDirRows)
         cout << row->displayRowIndex << ": " << string(row->displayIndentLevel, ' ') << row->subDirName <<
              " (" << row->gamesToDisplay.size() << " games)" << endl;
 #endif
-
-    return displayRows;
 }
 
 //*******************************
-// GameSubDir::getAllGames
+// GamesHierarchy::getAllGames
 //*******************************
-USBGames GameSubDir::getAllGames(const GameSubDirRows &rows) {
+USBGames GamesHierarchy::getAllGames() {
     USBGames allGames;
-    for (auto & row : rows)
+    for (auto & row : gameSubDirRows)
         allGames += row->gamesInThisDir;
 
     return allGames;

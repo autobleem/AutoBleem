@@ -28,9 +28,6 @@ struct GameSubDir {
 
     void print(bool plusGames);
 
-    static GameSubDirRows scanGamesHierarchy(const std::string & _path);
-    static USBGames getAllGames(const GameSubDirRows &rows);
-
 private:
     void scanAll();
 
@@ -40,3 +37,11 @@ private:
 };
 
 void operator += (USBGames &dest, const USBGames &src);
+
+struct GamesHierarchy {
+    GameSubDirRows gameSubDirRows;  // these rows are displayed in the select game dir menu
+
+    GamesHierarchy(const std::string & _path);
+
+    USBGames getAllGames();
+};

@@ -280,7 +280,7 @@ void Scanner::repairBrokenCueFiles(const string & path) {
 //*******************************
 // Scanner::scanUSBGamesDirectory
 //*******************************
-void Scanner::scanUSBGamesDirectory(const string &rootPath, const GameSubDirRows &gameSubDirRows) {
+void Scanner::scanUSBGamesDirectory(const string &rootPath, GamesHierarchy &gamesHierarchy) {
     // it looks like the USBGames path must have a / at the end for changing the game config to work
     //string rootPathWithOutSeparator = DirEntry::removeSeparatorFromEndOfPath(rootPath);
 
@@ -298,7 +298,7 @@ void Scanner::scanUSBGamesDirectory(const string &rootPath, const GameSubDirRows
         DirEntry::createDir(rootPath + sep + "!MemCards");
     }
 
-    USBGames allGames = GameSubDir::getAllGames(gameSubDirRows);
+    USBGames allGames = gamesHierarchy.getAllGames();
 
 #if 0
     int i = 0;

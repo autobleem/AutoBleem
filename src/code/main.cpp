@@ -100,7 +100,7 @@ bool copyGameFilesInGamesDirToSubDirs(const string & path){
 //*******************************
 // scanGames
 //*******************************
-int scanGames(string rootPath, const GameSubDirRows &gameSubDirRows, string dbpath) {
+int scanGames(string rootPath, GamesHierarchy &gamesHierarchy, string dbpath) {
     shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr<Scanner> scanner(Scanner::getInstance());
 
@@ -117,7 +117,7 @@ int scanGames(string rootPath, const GameSubDirRows &gameSubDirRows, string dbpa
         return EXIT_FAILURE;
     }
 
-    scanner->scanUSBGamesDirectory(rootPath, gameSubDirRows);
+    scanner->scanUSBGamesDirectory(rootPath, gamesHierarchy);
     scanner->updateDB(gui->db);
 
     gui->drawText(_("Total:") + " " + to_string(scanner->gamesToAddToDB.size()) + " " + _("games scanned") + ".");
@@ -166,8 +166,8 @@ int main(int argc, char *argv[]) {
     if (thereAreGameFilesInGamesDir)
         copyGameFilesInGamesDirToSubDirs(path);
 
-    GameSubDirRows gameRows = GameSubDir::scanGamesHierarchy(path);
-    USBGames allGames = GameSubDir::getAllGames(gameRows);
+    GamesHierarchy gamesHierarchy(path);
+    USBGames allGames = gamesHierarchy.getAllGames();
     USBGame::sortByFullPath(allGames);
 
     bool autobleemPrevOutOfDate = USBGame::gamesDoNotMatchAutobleemPrev(allGames, prevPath);
@@ -182,7 +182,7 @@ int main(int argc, char *argv[]) {
         gui->menuSelection();
         gui->saveSelection();
         if (gui->menuOption == MENU_OPTION_SCAN) {
-            scanGames(path, gameRows, dbpath);
+            scanGames(path, gamesHierarchy, dbpath);
             USBGame::writeAutobleemPrev(allGames, prevPath);
             if (gui->forceScan) {
                 gui->forceScan = false;
