@@ -170,7 +170,7 @@ int main(int argc, char *argv[]) {
     USBGames allGames = gamesHierarchy.getAllGames();
     USBGame::sortByFullPath(allGames);
 
-    bool autobleemPrevOutOfDate = USBGame::gamesDoNotMatchAutobleemPrev(allGames, prevPath);
+    bool autobleemPrevOutOfDate = gamesHierarchy.gamesDoNotMatchAutobleemPrev(prevPath);
     if (!prevFileExists || thereAreGameFilesInGamesDir || autobleemPrevOutOfDate) {
         scanner->forceScan = true;
     }
@@ -183,7 +183,7 @@ int main(int argc, char *argv[]) {
         gui->saveSelection();
         if (gui->menuOption == MENU_OPTION_SCAN) {
             scanGames(path, gamesHierarchy, dbpath);
-            USBGame::writeAutobleemPrev(allGames, prevPath);
+            gamesHierarchy.writeAutobleemPrev(prevPath);
             if (gui->forceScan) {
                 gui->forceScan = false;
             } else {

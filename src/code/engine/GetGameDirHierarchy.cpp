@@ -4,6 +4,7 @@
 #include <iostream>
 #include "scanner.h"
 #include "serialscanner.h"
+#include <fstream>
 
 //#include <experimental/filesystem>
 //namespace fs = std::experimental::filesystem;
@@ -45,15 +46,6 @@ void GameSubDir::scanAll() {
             game->fullPath = path;
             game->gameDirName = dirEntry.name;
             game->displayRowIndex = displayRowIndex;
-#if 0
-            ImageType imageType;
-            string gameFile;
-            tie(imageType, gameFile) = DirEntry::getGameFile(DirEntry::diru_FilesOnly(path));
-            game->imageType = imageType;
-            game->firstBinPath = path + sep + gameFile;
-            game->serial = SerialScanner::scanSerial(game->imageType, game->fullPath + sep, game->firstBinPath);
-            game->region = SerialScanner::serialToRegion(game->serial);
-#endif
             gamesInThisDir.emplace_back(game);
             //cout << "added game: " << game->pathName << endl;
         } else {
@@ -61,6 +53,8 @@ void GameSubDir::scanAll() {
             GameSubDirPtr subdir(new GameSubDir(path,
                                  displayRowIndex + childrenDirs.size() + 1, displayIndentLevel + 1, displayRows));
             if (subdir->gamesInThisDir.size() > 0 || subdir->gamesInChildrenDirs.size() > 0) {
+                gamesInChildrenDirs += subdir->gamesInThisDir;
+                gamesInChildrenDirs += subdir->gamesInChildrenDirs;
                 childrenDirs.emplace_back(subdir);
                 displayRows->emplace_back(subdir);
             }
@@ -73,17 +67,11 @@ void GameSubDir::scanAll() {
 // we delay running this until after the serial is in the USBGame
 //*******************************
 void GameSubDir::makeGamesToDisplayWhileRemovingChildDuplicates() {
-    // gather the children
-    for (auto & childDir : childrenDirs) {
-        gamesInChildrenDirs += childDir->gamesInThisDir;
-        gamesInChildrenDirs += childDir->gamesInChildrenDirs;
-    }
-
     // remove the games in our copy of the games in the child dir that are duplicates of games in this row
     // so he game won't show up twice when viewing this row's carousel
     removeChildGamesThatAreDuplicatesOfGamesInThisRow();
 
-    // allGames is all the games in this dir and the child dirs
+    // allGames to display for this row are all the games in this dir and the child dirs
     gamesToDisplay += gamesInThisDir;
     gamesToDisplay += gamesInChildrenDirs;
 }
@@ -148,15 +136,21 @@ GamesHierarchy::GamesHierarchy(const std::string & path) {
     for (auto & row : gameSubDirRows) {
         USBGame::sortByTitle(row->gamesInThisDir);
         USBGame::sortByTitle(row->gamesInChildrenDirs);
+    }
+    printGamesInEachRow();
+}
+
+//*******************************
+// GamesHierarchy::makeGamesToDisplayWhileRemovingChildDuplicates
+// run this after Scanner has filled in the serial so we can correctly match duplicate games
+//*******************************
+void GamesHierarchy::makeGamesToDisplayWhileRemovingChildDuplicates() {
+    for (auto & row : gameSubDirRows) {
+        USBGame::sortByTitle(row->gamesInThisDir);
+        USBGame::sortByTitle(row->gamesInChildrenDirs);
         row->makeGamesToDisplayWhileRemovingChildDuplicates();
         USBGame::sortByTitle(row->gamesToDisplay);
     }
-
-#if 1
-    for (auto & row : gameSubDirRows)
-        cout << row->displayRowIndex << ": " << string(row->displayIndentLevel, ' ') << row->subDirName <<
-             " (" << row->gamesToDisplay.size() << " games)" << endl;
-#endif
 }
 
 //*******************************
@@ -168,4 +162,83 @@ USBGames GamesHierarchy::getAllGames() {
         allGames += row->gamesInThisDir;
 
     return allGames;
+}
+
+//*******************************
+// GamesHierarchy::gamesDoNotMatchAutobleemPrev
+//*******************************
+bool GamesHierarchy::gamesDoNotMatchAutobleemPrev(const std::string & autobleemPrevPath) {
+    auto allGames = getAllGames();
+    USBGame::sortByFullPath(allGames);
+//cout << "gamesDoNotMatchAutobleemPrev" << endl;
+    for (const auto &g : allGames) cout << g->fullPath << endl;
+
+    ifstream prev;
+    prev.open(autobleemPrevPath.c_str(), ios::binary);
+    for (const auto game : allGames) {
+        string pathInFile;
+        getline(prev, pathInFile);
+//cout << "compare " << pathInFile << " ======== " << game->fullPath << endl;
+        if (pathInFile != game->fullPath) {
+//cout << "compare failed" << endl;
+            return true;    // the autobleem.prev file does not match
+        }
+    }
+    prev.close();
+
+    return false;
+}
+
+//*******************************
+// GamesHierarchy::writeAutobleemPrev
+//*******************************
+void GamesHierarchy::writeAutobleemPrev(const std::string & autobleemPrevPath) {
+    auto allGames = getAllGames();
+
+    USBGame::sortByFullPath(allGames);
+    cout << "writeAutobleemPrev" << endl;
+    for (const auto &g : allGames) cout << g->fullPath << endl;
+
+    ofstream prev;
+    prev.open(autobleemPrevPath.c_str(), ios::binary);
+    for (const auto game : allGames) {
+        prev << game->fullPath << endl;
+    }
+    prev.close();
+}
+
+//*******************************
+// GamesHierarchy::printGamesInEachRow
+//*******************************
+void GamesHierarchy::printGamesInEachRow() {
+    cout << "Games in each row" << endl;
+    // display the row name
+    for (auto & row : gameSubDirRows) {
+        cout << row->displayRowIndex << ": " << string(row->displayIndentLevel, ' ') << row->subDirName <<
+             " (" << row->gamesInThisDir.size() << " games)" << endl;
+        // display the game name
+        for (auto & game : row->gamesInThisDir) {
+            int indexStringSize = string(to_string(row->displayRowIndex)).size();
+            int numSpaces = indexStringSize + sizeof(": ") + row->displayIndentLevel + 1;
+            cout << string(numSpaces, ' ') + game->gameDirName << endl;
+        }
+    }
+}
+
+//*******************************
+// GamesHierarchy::printGamesToDisplayInEachRow
+//*******************************
+void GamesHierarchy::printGamesToDisplayInEachRow() {
+    cout << "Games to display in each row" << endl;
+    // display the row name
+    for (auto & row : gameSubDirRows) {
+        cout << row->displayRowIndex << ": " << string(row->displayIndentLevel, ' ') << row->subDirName <<
+             " (" << row->gamesToDisplay.size() << " games)" << endl;
+        // display the game name
+        for (auto & game : row->gamesToDisplay) {
+            int indexStringSize = string(to_string(row->displayRowIndex)).size();
+            int numSpaces = indexStringSize + sizeof(": ") + row->displayIndentLevel + 1;
+            cout << string(numSpaces, ' ') + game->gameDirName << endl;
+        }
+    }
 }

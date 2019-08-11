@@ -109,48 +109,6 @@ bool USBGame::verify() {
 }
 
 //*******************************
-// USBGame::gamesDoNotMatchAutobleemPrev
-//*******************************
-bool USBGame::gamesDoNotMatchAutobleemPrev(const USBGames &_allGames, const std::string & autobleemPrevPath) {
-    auto allGames = _allGames;
-    sortByFullPath(allGames);
-//cout << "gamesDoNotMatchAutobleemPrev" << endl;
-    for (const auto &g : allGames) cout << g->fullPath << endl;
-
-    ifstream prev;
-    prev.open(autobleemPrevPath.c_str(), ios::binary);
-    for (const auto game : allGames) {
-        string pathInFile;
-        getline(prev, pathInFile);
-//cout << "compare " << pathInFile << " ======== " << game->fullPath << endl;
-        if (pathInFile != game->fullPath) {
-//cout << "compare failed" << endl;
-            return true;    // the autobleem.prev file does not match
-        }
-    }
-    prev.close();
-
-    return false;
-}
-
-//*******************************
-// USBGame::writeAutobleemPrev
-//*******************************
-void USBGame::writeAutobleemPrev(const USBGames &_allGames, const std::string & autobleemPrevPath) {
-    auto allGames = _allGames;
-    sortByFullPath(allGames);
-    cout << "writeAutobleemPrev" << endl;
-    for (const auto &g : allGames) cout << g->fullPath << endl;
-
-    ofstream prev;
-    prev.open(autobleemPrevPath.c_str(), ios::binary);
-    for (const auto game : allGames) {
-        prev << game->fullPath << endl;
-    }
-    prev.close();
-}
-
-//*******************************
 // USBGame::print
 //*******************************
 bool USBGame::print() {

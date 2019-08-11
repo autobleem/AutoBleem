@@ -447,6 +447,8 @@ void Scanner::scanUSBGamesDirectory(const string &rootPath, GamesHierarchy &game
 	} // end for each game dir
 
     USBGame::sortByTitle(gamesToAddToDB);
+    gamesHierarchy.makeGamesToDisplayWhileRemovingChildDuplicates();
+    gamesHierarchy.printGamesToDisplayInEachRow();
 
     complete = true;
 }

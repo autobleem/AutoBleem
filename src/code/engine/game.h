@@ -66,9 +66,6 @@ public:
     void updateObj();
     bool validateCue(std::string cuePath, std::string path);
 
-    static bool gamesDoNotMatchAutobleemPrev(const USBGames &allGames, const std::string & autobleemPrevPath);
-    static void writeAutobleemPrev(const USBGames &allGames, const std::string & autobleemPrevPath);
-
     std::map<std::string, std::string> iniValues;
 
     static void sortByTitle(USBGames &games) { std::sort(games.begin(), games.end(),
