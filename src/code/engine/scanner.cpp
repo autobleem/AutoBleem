@@ -76,9 +76,9 @@ void Scanner::unecm(const string & path) {
 void Scanner::updateDB(Database *db) {
     shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText(_("Updating regional.db..."));
-//    string path = Util::getWorkingPath() + DirEntry::separator() + "autobleem.list";
-//    ofstream outfile;
-//    outfile.open(path);
+    string path = DirEntry::getWorkingPath() + DirEntry::separator() + "autobleem.list";
+    ofstream outfile;
+    outfile.open(path);
     if (complete)
         for (int i = 0; i < games.size(); i++) {
             USBGamePtr data = games[i];
@@ -90,11 +90,11 @@ void Scanner::updateDB(Database *db) {
             for (int j = 0; j < data->discs.size(); j++) {
                 db->insertDisc(i + 1, j + 1, data->discs[j].diskName);
             }
-//            outfile << i + 1 << "," << Util::escape(data->fullPath.substr(0, data->fullPath.size() - 1)) << ","
-//                    << Util::escape(data->saveStatePath.substr(0, data->saveStatePath.size() - 1)) << '\n';
+            outfile << i + 1 << "," << Util::escape(data->fullPath.substr(0, data->fullPath.size() - 1)) << ","
+                   << Util::escape(data->saveStatePath.substr(0, data->saveStatePath.size() - 1)) << '\n';
         }
-//    outfile.flush();
-//    outfile.close();
+    outfile.flush();
+    outfile.close();
 }
 
 static const char cue1[] = "FILE \"{binName}\" BINARY\n"
