@@ -56,6 +56,9 @@ struct GamesHierarchy {
     // run this after Scanner has filled in the serial so we can correctly match duplicate games
     void makeGamesToDisplayWhileRemovingChildDuplicates();
 
+    // if a game failed to verify in Scanner it needs to be removed
+    void removeGameFromEntireHierarchy(USBGamePtr &game);
+
     void printGamesInEachRow();
     void printGamesToDisplayInEachRow();
 };

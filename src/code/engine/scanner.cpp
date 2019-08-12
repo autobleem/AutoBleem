@@ -37,9 +37,9 @@ void Scanner::unecm(const string & path) {
 }
 
 //*******************************
-// Scanner::updateDB
+// Scanner::updateRegionalDB
 //*******************************
-void Scanner::updateDB(Database *db) {
+void Scanner::updateRegionalDB(Database *db) {
     shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText(_("Updating regional.db..."));
 //    string path = Util::getWorkingPath() + sep + "autobleem.list";
@@ -441,8 +441,11 @@ void Scanner::scanUSBGamesDirectory(const string &rootPath, GamesHierarchy &game
                 }
                 DirEntry::generateM3UForDirectory(game->fullPath, game->discs[0].cueName);
             }
-            else
-                cout << "game: " << game->title << " did not pass verify() test" << endl;
+            else {
+                // the game did not pass the verify step and was not added to the DB.
+                // remove the game everywhere in the gamesHierarchy
+                gamesHierarchy.removeGameFromEntireHierarchy(game);
+            }
 		}
 	} // end for each game dir
 

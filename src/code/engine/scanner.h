@@ -27,7 +27,7 @@ public:
     void repairBrokenCueFiles(const std::string & path);
 
     void unecm(const std::string & path); // this routine removes Error Correction files from the bin file to save space
-    void updateDB(Database *db);
+    void updateRegionalDB(Database *db);
 
     static bool areThereGameFilesInDir(const std::string & path);
 

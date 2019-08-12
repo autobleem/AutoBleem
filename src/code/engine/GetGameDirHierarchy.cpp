@@ -208,6 +208,30 @@ void GamesHierarchy::writeAutobleemPrev(const std::string & autobleemPrevPath) {
 }
 
 //*******************************
+// GamesHierarchy::removeGameFromEntireHierarchy
+// if a game failed to verify in Scanner it needs to be removed
+//*******************************
+void GamesHierarchy::removeGameFromEntireHierarchy(USBGamePtr &game) {
+    // the game did not pass the verify step and was not added to the DB.
+    // remove the game everywhere in the gamesHierarchy
+    cout << "game: " << game->title << " did not pass verify() test" << endl;
+    // remove the game everywhere in the gamesHierarchy
+    for (auto &row : gameSubDirRows) {
+        auto it = remove_if(begin(row->gamesInThisDir), end(row->gamesInThisDir),
+                            [&](USBGamePtr &g) { return g->fullPath == game->fullPath; });
+        row->gamesInThisDir.erase(it, end(row->gamesInThisDir));
+
+        it = remove_if(begin(row->gamesInChildrenDirs), end(row->gamesInChildrenDirs),
+                       [&](USBGamePtr &g) { return g->fullPath == game->fullPath; });
+        row->gamesInChildrenDirs.erase(it, end(row->gamesInChildrenDirs));
+
+        it = remove_if(begin(row->gamesToDisplay), end(row->gamesToDisplay),
+                       [&](USBGamePtr &g) { return g->fullPath == game->fullPath; });
+        row->gamesToDisplay.erase(it, end(row->gamesToDisplay));
+    }
+}
+
+//*******************************
 // GamesHierarchy::printGamesInEachRow
 //*******************************
 void GamesHierarchy::printGamesInEachRow() {
