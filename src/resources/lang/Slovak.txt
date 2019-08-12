@@ -270,3 +270,58 @@ Widescreen:
 Širokouhlý obraz:
 Year:
 Rok:
+ games
+ hry
+.-= Code C++ and shell scripts =-.
+Prokgramovanie v C++ a skriptách shellu
+.-= Database maintenance =-.
+Údržba databáze
+.-= Graphics =-.
+Grafika
+.-= Localization support =-.
+Prekladateľská podpora
+.-= Retroboot and emulation cores =-.
+Retroboot a emulačné jadrá
+.-= Testing =-.
+Testujem
+AutoBleem resume points not available in RetroArch.
+Obnovovacie body z AutoBleemu nie sú pre RetroArch dostupné.
+CONFIGURED
+KONFIGUROVANÉ
+Copy
+Kopírovať
+Defragment Card
+Defragmentovať kartu
+Do you want to save memcards data ?
+Chcete uložiť dáta z pamäťových kariet ?
+Entry
+Zápis
+Free
+Voľné
+INTERNAL
+ORIGINÁLNE
+Link Block
+Spojiť blok
+Link end Block
+Spojiť koniec bloku
+Memory Card Manager
+Správca Pamäťovej karty
+Moving :
+Presunuté :
+Moving...
+Presúvam...
+OK
+OK
+Reload Cards
+Znovu načítať karty
+RetroBoot Systems
+RetroBoot Systémy
+Run using RetroBoot(if installed)
+Spustiť s použitím RetroBootu (pokiaľ je nainštalovaný)
+Select RetroBoot Platform
+Vybrať platformu pre RetroBoot
+Select Right Card
+Vybrať kartu v pravo
+Showing:
+Unknown Core (AutoDetect)
+Neznáme jadro (Autodetekcia)
