@@ -5,7 +5,7 @@ The non RetroBoot enabled packages (full, ntscU, palE, ntscJ) contain a startup 
 
 Replace the file in /Autobleem/rc with the version downloaded from this link
 
-### Current version 0.7.0 Ultimate please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
+### Current version 0.7.1 Ultimate please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
 #### Please read this page before downloading AutoBleem [USB compatibility FAQ](https://github.com/screemerpl/cbleemsync/wiki/USB-compatibility-FAQ)
 
