@@ -5,6 +5,8 @@
 
 #include "../main.h"
 #include <vector>
+#include <memory>
+#include <vector>
 #include <map>
 
 //******************
@@ -21,9 +23,9 @@ public:
 };
 
 //******************
-// Game
+// USBGame
 //******************
-class Game {
+class USBGame {
 public:
     int folder_id = 0;
     std::string fullPath;
@@ -48,7 +50,7 @@ public:
     bool imageFound = false;
     bool licFound = false;
     bool automationUsed = false;
-    int imageType=IMAGE_CUE_BIN;
+    ImageType imageType = IMAGE_CUE_BIN;
     bool highRes = false;
     std::string firstBinPath;
 
@@ -66,3 +68,6 @@ private:
     void parseIni(std::string path);
     std::string valueOrDefault(std::string name, std::string def, bool setAutomationIfDefaultUsed = true);
 };
+
+using USBGamePtr = std::shared_ptr<USBGame>;
+using USBGames = std::vector<USBGamePtr>;

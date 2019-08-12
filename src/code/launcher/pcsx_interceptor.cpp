@@ -8,11 +8,33 @@
 #include "../gui/gui.h"
 #include "../lang.h"
 #include "../engine/memcard.h"
+#include "../engine/cfgprocessor.h"
 #include <fstream>
 #include <iostream>
 #include <unistd.h>
 using namespace std;
 
+void PcsxInterceptor::cleanupConfig(PsGamePtr &game)
+{
+    // copy back config to its place
+    auto processor = new CfgProcessor();
+    string newConfig = game->ssFolder+DirEntry::separator()+"autobleem.cfg";
+    if (DirEntry::exists(newConfig)) {
+        // fix bios
+        processor->replaceRaConf(newConfig,"Bios","Bios = SET_BY_PCSX");
+
+
+
+        if (!game->internal) {
+            DirEntry::copy(newConfig, game->ssFolder + DirEntry::separator() + "pcsx.cfg");
+            DirEntry::copy(newConfig, game->folder + DirEntry::separator() + "pcsx.cfg");
+        } else {
+            DirEntry::copy(newConfig, game->ssFolder + DirEntry::separator() + "pcsx.cfg");
+        }
+        remove(newConfig.c_str());
+    }
+    delete processor;
+}
 //*******************************
 // PcsxInterceptor::execute
 //*******************************
@@ -25,7 +47,7 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
     string lastCDpointX = game->ssFolder + "lastcdimg."+to_string(resumepoint)+".txt";
     gui->saveSelection();
     std::vector<const char *> argvNew;
-    string gameIso = "";
+    string gameFile = "";
 
     string region = "2"; // need to find out if console is jap to switch to 2 - later on
     string link = "/media/Autobleem/rc/launch.sh";
@@ -42,7 +64,7 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
     }
 
     trim(game->ssFolder);
-    if (game->ssFolder.back() == Util::separator()[0]) {
+    if (game->ssFolder.back() == DirEntry::separator()[0]) {
         game->ssFolder = game->ssFolder.substr(0, game->ssFolder.size() - 1);
     }
 
@@ -51,28 +73,28 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
 
     remove (lastCDpoint.c_str());
 
-    if (Util::exists(lastCDpointX))
+    if (DirEntry::exists(lastCDpointX))
     {
-        Util::copy(lastCDpointX,lastCDpoint);
+        DirEntry::copy(lastCDpointX,lastCDpoint);
         ifstream is(lastCDpointX.c_str());
         if (is.is_open()) {
             std::string line;
             std::getline(is, line);
 
             // last line is our filename
-            gameIso = line;
+            gameFile = line;
             is.close();
         }
     } else {
-        gameIso += (game->folder + game->base);
-        if (!Util::matchExtension(game->base, ".pbp")) {
-            gameIso += ".cue";
+        gameFile += (game->folder + game->base);
+        if (!DirEntry::matchExtension(game->base, ".pbp")) {
+            gameFile += ".cue";
         }
     }
 
-    gameIso += "";
+    gameFile += "";
 
-    argvNew.push_back(gameIso.c_str());
+    argvNew.push_back(gameFile.c_str());
     // hack to get language from lang file
     string langStr = _("|@lang|");
     if (langStr == "|@lang|") {
@@ -101,7 +123,7 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
 
     for (const char *s:argvNew) {
         if (s != nullptr) {
-            cout << s << " ";
+            cout << "'" << s << "' ";
         }
     }
     cout << endl;
@@ -112,6 +134,7 @@ bool PcsxInterceptor::execute(PsGamePtr & game, int resumepoint) {
     }
 
     waitpid(pid, NULL, 0);
+    cleanupConfig(game);
 
     usleep(3 * 1000);
     return true;
@@ -129,7 +152,7 @@ void PcsxInterceptor::memcardIn(PsGamePtr & game) {
 
     }
     if (memcard != "SONY") {
-        if (Util::exists("/media/Games/!MemCards/" + game->memcard)) {
+        if (DirEntry::exists("/media/Games/!MemCards/" + game->memcard)) {
             Memcard *card = new Memcard("/media/Games/");
             if (!card->swapIn(game->ssFolder, game->memcard)) {
                 game->setMemCard("SONY");
@@ -165,7 +188,7 @@ void PcsxInterceptor::saveResumePoint(PsGamePtr & game, int pointId) {
     string filenamepoint = game->ssFolder + "filename."+to_string(pointId)+".txt.res";
     string lastCDpoint = game->ssFolder + "lastcdimg.txt";
     string lastCDpointX = game->ssFolder + "lastcdimg."+to_string(pointId)+".txt";
-    if (Util::exists(filenamefile)) {
+    if (DirEntry::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {
 
@@ -178,7 +201,7 @@ void PcsxInterceptor::saveResumePoint(PsGamePtr & game, int pointId) {
             string newName = game->ssFolder + "sstates/" + line + ".000";
 
             remove(ssfile.c_str());
-            Util::copy(newName.c_str(), ssfile.c_str());
+            DirEntry::copy(newName.c_str(), ssfile.c_str());
             remove(newName.c_str());
 
             // update image
@@ -188,11 +211,11 @@ void PcsxInterceptor::saveResumePoint(PsGamePtr & game, int pointId) {
         remove(filenamefileX.c_str());
         remove(filenamepoint.c_str());
         rename(filenamefile.c_str(), filenamefileX.c_str());
-        Util::copy(filenamefileX,filenamepoint);
-        if (Util::exists(lastCDpoint))
+        DirEntry::copy(filenamefileX,filenamepoint);
+        if (DirEntry::exists(lastCDpoint))
         {
             remove(lastCDpointX.c_str());
-            Util::copy(lastCDpoint, lastCDpointX);
+            DirEntry::copy(lastCDpoint, lastCDpointX);
             remove(lastCDpoint.c_str());
         }
     }
@@ -205,21 +228,21 @@ void PcsxInterceptor::prepareResumePoint(PsGamePtr & game, int pointId) {
 
     // cleanup after previous crash as pcsx doest not want to save
     string filenameTrash = game->ssFolder + "filename.txt";
-    if (Util::exists(filenameTrash)) {
+    if (DirEntry::exists(filenameTrash)) {
         remove(filenameTrash.c_str());
     }
 
     string ssfile = game->ssFolder + "sstates";
-    for (const DirEntry & sstate:Util::diru(ssfile)) {
-        if (Util::getFileExtension(sstate.name) == "000") {
+    for (const DirEntry & sstate:DirEntry::diru(ssfile)) {
+        if (DirEntry::getFileExtension(sstate.name) == "000") {
             string toDelete = ssfile + "/" + sstate.name;
             remove(toDelete.c_str());
         }
     }
 
     ssfile = game->ssFolder + "screenshots";
-    for (const DirEntry & sstate:Util::diru(ssfile)) {
-        if (Util::getFileExtension(sstate.name) == "png") {
+    for (const DirEntry & sstate:DirEntry::diru(ssfile)) {
+        if (DirEntry::getFileExtension(sstate.name) == "png") {
             string toDelete = ssfile + "/" + sstate.name;
             remove(toDelete.c_str());
         }
@@ -231,11 +254,11 @@ void PcsxInterceptor::prepareResumePoint(PsGamePtr & game, int pointId) {
     string filenamefileX = game->ssFolder + "filename.txt";
     string filenamepoint = game->ssFolder + "filename."+to_string(pointId)+".txt.res";
     remove(filenamefileX.c_str());
-    if (Util::exists(filenamepoint))
+    if (DirEntry::exists(filenamepoint))
     {
         filenamefile = filenamepoint;
     }
-    if (Util::exists(filenamefile)) {
+    if (DirEntry::exists(filenamefile)) {
         ifstream is(filenamefile.c_str());
         if (is.is_open()) {
 
@@ -246,7 +269,7 @@ void PcsxInterceptor::prepareResumePoint(PsGamePtr & game, int pointId) {
             // fix lastcdpoint
             string lastCDpointX = game->ssFolder + "lastcdimg."+to_string(pointId)+".txt";
             remove(lastCDpointX.c_str());
-            string file = Util::getFileNameFromPath(lastImageInfo);
+            string file = DirEntry::getFileNameFromPath(lastImageInfo);
             string imageToLoad = game->folder+file;
 
             ofstream os;
@@ -259,9 +282,9 @@ void PcsxInterceptor::prepareResumePoint(PsGamePtr & game, int pointId) {
             // last line is our filename
             string ssfile = game->ssFolder + "sstates/" + line + ".00" + to_string(pointId) + ".res";
             string newName = game->ssFolder + "sstates/" + line + ".000";
-            if (Util::exists(ssfile)) {
+            if (DirEntry::exists(ssfile)) {
                 remove(newName.c_str());
-                Util::copy(ssfile.c_str(), newName.c_str());
+                DirEntry::copy(ssfile.c_str(), newName.c_str());
             }
             is.close();
         }

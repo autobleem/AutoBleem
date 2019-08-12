@@ -37,20 +37,30 @@ string GuiOptions::getOption(const vector<string> & list, const string & current
 //*******************************
 void GuiOptions::init() {
     shared_ptr<Lang> lang(Lang::getInstance());
-    themes.clear();
-    sthemes.clear();
-    sthemes.push_back("default");
-    vector<DirEntry> folders = Util::diru(Util::getWorkingPath() + Util::separator() + "theme");
+    autobleemUIThemes.clear();
+    menuThemes.clear();
+    menuThemes.push_back("default");
+    string themePathAB = DirEntry::getWorkingPath() + DirEntry::separator() + "theme";
+    DirEntries folders = DirEntry::diru_DirsOnly(themePathAB);
     for (const DirEntry & entry:folders) {
-        themes.push_back(entry.name);
+        if (DirEntry::exists(themePathAB+DirEntry::separator()+entry.name+DirEntry::separator()+"theme.ini")) {
+            autobleemUIThemes.push_back(entry.name);
+        }
     }
+
+    string themePathEvo;
+
 #if defined(__x86_64__) || defined(_M_X64)
-    folders = Util::diru(Util::getWorkingPath() + Util::separator() + "themes");
+    themePathEvo = DirEntry::getWorkingPath() + DirEntry::separator() + "themes";
+    folders = DirEntry::diru(themePathEvo);
 #else
-    folders = Util::diru("/media/themes");
+    themePathEvo = "/media/themes";
+    folders = DirEntry::diru(themePathEvo);
 #endif
     for (const DirEntry & entry:folders) {
-        sthemes.push_back(entry.name);
+        if (DirEntry::exists(themePathEvo+DirEntry::separator()+entry.name+DirEntry::separator()+"images")) {
+            menuThemes.push_back(entry.name);
+        }
     }
     pcsx.clear();
     pcsx.push_back("original");
@@ -74,7 +84,7 @@ void GuiOptions::init() {
     quickboot.push_back("false");
     quickboot.push_back("true");
     languages.clear();
-    languages = lang->listLanguages();
+    languages = lang->getListOfLanguages();
     ui.clear();
     ui.push_back("classic");
     ui.push_back("EvolutionUI");
@@ -88,9 +98,9 @@ void GuiOptions::init() {
     jewels.push_back("none");
     jewels.push_back("default");
 
-    folders = Util::diru(Util::getWorkingPath() + "/evoimg/frames");
+    folders = DirEntry::diru_FilesOnly(DirEntry::getWorkingPath() + "/evoimg/frames");
     for (const DirEntry & entry:folders) {
-        if (Util::getFileExtension(entry.name) == "png") {
+        if (DirEntry::getFileExtension(entry.name) == "png") {
             jewels.push_back(entry.name);
         }
     }
@@ -99,16 +109,15 @@ void GuiOptions::init() {
     quickmenu.push_back("RetroArch");
     music.clear();
     music.push_back("--");
-    folders = Util::diru(Util::getWorkingPath() + "/music");
+    folders = DirEntry::diru_FilesOnly(DirEntry::getWorkingPath() + "/music");
     for (const DirEntry & entry:folders) {
-        if (Util::getFileExtension(entry.name) == "ogg") {
+        if (DirEntry::getFileExtension(entry.name) == "ogg") {
             music.push_back(entry.name);
         }
     }
     for (int i=0; i <= 20; ++i) {
         showingtimeout.push_back(to_string(i));
     }
-
 }
 
 #define CFG_LANG           0
@@ -151,7 +160,7 @@ string GuiOptions::getBooleanIcon(const string & input) {
 void GuiOptions::renderOptionLine(const string & text, int pos, int offset) {
     shared_ptr<Gui> gui(Gui::getInstance());
     string fg = gui->themeData.values["text_fg"];
-    int height = gui->renderTextLineOptions(text, pos, offset, false);
+    int height = gui->renderTextLineOptions(text, pos, offset, POS_LEFT);
     totalHeight += height;
 
     if (selOption + 1 == pos) {
@@ -182,7 +191,7 @@ void GuiOptions::render() {
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     totalHeight = 0;
-    gui->renderTextLine("-=" + _("Configuration") + "=-", 0, offset, true);
+    gui->renderTextLine("-=" + _("Configuration") + "=-", 0, offset, POS_CENTER);
     renderOptionLine(_("Language:") + " " + gui->cfg.inifile.values["language"], CFG_LANG + 1, offset);
     renderOptionLine(_("AutoBleem Theme:") + " " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
     renderOptionLine(_("Menu Theme:") + " " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);
@@ -199,7 +208,7 @@ void GuiOptions::render() {
     renderOptionLine(_("Show RetroArch:") + " " + getBooleanIcon("retroarch"), CFG_RA + 1, offset);
     renderOptionLine(_("Advanced:") + " " + getBooleanIcon("adv"), CFG_ADV + 1, offset);
     renderOptionLine(_("Showing Timeout (0 = no timeout):") + " " + gui->cfg.inifile.values["showingtimeout"], CFG_SHOWINGTIMEOUT + 1, offset);
-    gui->renderStatus("|@O| " + _("Go back") + "|");
+    gui->renderStatus("|@X| " + _("OK") + "     " + "|@O| " + _("Cancel") + "|");
 
     //   gui->renderSelectionBox(selOption+1,offset);
     SDL_RenderPresent(renderer);
@@ -214,10 +223,19 @@ void GuiOptions::loop() {
 
     render();
 
+    bool waitForButtonToBeReleased = true;
     bool menuVisible = true;
     while (menuVisible) {
         gui->watchJoystickPort();
         SDL_Event e;
+
+        if (waitForButtonToBeReleased) {
+            if (SDL_PollEvent(&e) && e.type == SDL_KEYDOWN)
+                continue;   // wait until the button that was pressed is released
+            else
+                waitForButtonToBeReleased = false;
+        }
+
         if (SDL_PollEvent(&e)) {
             if (e.type == SDL_KEYDOWN) {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
@@ -230,17 +248,28 @@ void GuiOptions::loop() {
                 menuVisible = false;
             }
 
-
             switch (e.type) {
-                case SDL_JOYBUTTONUP:  /* Handle Joystick Button Presses */
-
+                case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
+                        Mix_PlayChannel(-1, gui->cancel, 0);
+                        string cfg_path = DirEntry::getWorkingPath() + DirEntry::separator() + "config.ini";
+                        gui->cfg.inifile.load(cfg_path);    // restore the original config.ini settings
+                        lang->load(gui->cfg.inifile.values["language"]);    // restore the original lang
+                        gui->loadAssets();                                  // restore original themes
+                        gui->overrideQuickBoot = true;
+                        menuVisible = false;
+                        exitCode = -1;
+                    };
+
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         gui->cfg.save();
                         gui->overrideQuickBoot = true;
                         menuVisible = false;
+                        exitCode = 0;
                     };
                     break;
+
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
                 case SDL_JOYHATMOTION:
 
@@ -270,7 +299,6 @@ void GuiOptions::loop() {
                         render();
                     }
 
-
                     if (gui->mapper.isRight(&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         if (selOption == CFG_LANG) {
@@ -281,15 +309,17 @@ void GuiOptions::loop() {
                         }
 
                         if (selOption == CFG_THEME) {
-                            string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], true);
+                            string nextValue = getOption(autobleemUIThemes, gui->cfg.inifile.values["theme"], true);
                             gui->cfg.inifile.values["theme"] = nextValue;
                             init();
                             gui->loadAssets();
                         }
 
                         if (selOption == CFG_MENUTH) {
-                            string nextValue = getOption(sthemes, gui->cfg.inifile.values["stheme"], true);
+                            string nextValue = getOption(menuThemes, gui->cfg.inifile.values["stheme"], true);
                             gui->cfg.inifile.values["stheme"] = nextValue;
+                            init();
+                            gui->loadAssets();
                         }
 
                         if (selOption == CFG_BGM) {
@@ -374,7 +404,7 @@ void GuiOptions::loop() {
                         }
 
                         if (selOption == CFG_THEME) {
-                            string nextValue = getOption(themes, gui->cfg.inifile.values["theme"], false);
+                            string nextValue = getOption(autobleemUIThemes, gui->cfg.inifile.values["theme"], false);
                             gui->cfg.inifile.values["theme"] = nextValue;
                             init();
                             gui->loadAssets();
@@ -388,8 +418,10 @@ void GuiOptions::loop() {
                         }
 
                         if (selOption == CFG_MENUTH) {
-                            string nextValue = getOption(sthemes, gui->cfg.inifile.values["stheme"], false);
+                            string nextValue = getOption(menuThemes, gui->cfg.inifile.values["stheme"], false);
                             gui->cfg.inifile.values["stheme"] = nextValue;
+                            init();
+                            gui->loadAssets();
                         }
 
                         if (selOption == CFG_BGM) {
@@ -456,7 +488,6 @@ void GuiOptions::loop() {
 
                         render();
                     }
-
                     break;
             }
         }

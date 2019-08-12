@@ -1,0 +1,12 @@
+clrmamepro (
+	name "AutoBleem USB Games"
+	description "AutoBleem USB Games"
+	version 1
+	comment "https://github.com/screemerpl/cbleemsync"
+)
+
+game (
+	name "Generic Game"
+	description "Generic Game"
+	rom ( name "Generic Game" size 0 crc 00000000  )
+)

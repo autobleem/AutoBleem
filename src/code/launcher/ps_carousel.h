@@ -7,6 +7,8 @@
 #include "ps_game.h"
 #include <vector>
 #include <SDL2/SDL_ttf.h>
+#include "../gui/gui_sdl_wrapper.h"
+#include "ra_integrator.h"
 
 //******************
 // PsScreenpoint
@@ -36,9 +38,9 @@ struct PsCarouselGame : public PsGamePtr {
     long animationStart = 0;
     long animationDuration = 0;
     bool visible = false;
-    SDL_Texture *coverPng = nullptr;
+    SDL_Shared<SDL_Texture> coverPng;
 
-    void loadTex(SDL_Renderer *renderer);
+    void loadTex(SDL_Shared<SDL_Renderer> renderer, RAIntegrator* raIntegrator);
     void freeTex();
 };
 

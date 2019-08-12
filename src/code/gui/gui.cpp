@@ -18,10 +18,23 @@
 #include <unistd.h>
 #include "../util.h"
 #include <iostream>
+#include <iomanip>
 #include "../engine/scanner.h"
-#include <assert.h>
+#include "../nlohmann/json.h"
+#include "../nlohmann/fifo_map.h"
+
 
 using namespace std;
+using namespace nlohmann;
+
+// A workaround to give to use fifo_map as map, we are just ignoring the 'less' compare
+template<class K, class V, class dummy_compare, class A>
+using my_workaround_fifo_map = fifo_map<K, V, fifo_map_compare<K>, A>;
+using ordered_json = basic_json<my_workaround_fifo_map>;
+
+
+#define RA_PLAYLIST "AutoBleem.lpl"
+#define RA_CORE "/media/retroarch/cores/km_pcsx_rearmed_neon_libretro.so"
 
 //********************
 // GuiBase::GuiBase
@@ -35,81 +48,16 @@ GuiBase::GuiBase() {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     TTF_Init();
-    openBaseFonts();
+    fonts[FONT_30] = TTF_OpenFont((getSonyFontPath() + "/SST-Bold.ttf").c_str(), 28);
+    fonts[FONT_15] = TTF_OpenFont((getSonyFontPath() + "/SST-Bold.ttf").c_str(), 15);
+    fonts[FONT_24] = TTF_OpenFont((getSonyFontPath() + "/SST-Medium.ttf").c_str(), 22);
 }
 
 //********************
 // GuiBase::~GuiBase
 //********************
 GuiBase::~GuiBase() {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-
     SDL_Quit();
-}
-
-//********************
-// GuiBase::getFont
-//********************
-TTF_Font* GuiBase::getFont(FontSize fontSize) {
-    TTF_Font* font = nullptr;
-    if (fontSize == FONT_15)
-        font = font15;
-    else if (fontSize == FONT_24)
-        font = font24;
-    else if (fontSize == FONT_30)
-        font = font30;
-    else
-        { assert(false); }
-
-    return font;
-}
-
-//********************
-// GuiBase::openFont
-//********************
-TTF_Font* GuiBase::openFont(const std::string &filename, int fontSize) {
-    TTF_Font* font = TTF_OpenFont(filename.c_str(), fontSize);
-    if (font) {
-        cout << "Success opening font " << filename << " of size " << fontSize << endl;
-    } else {
-        cout << "FAILURE opening font " << filename << " of size " << fontSize << endl;
-        font = nullptr;
-    }
-
-    return font;
-}
-
-//********************
-// GuiBase::closeFont
-//********************
-void GuiBase::closeFont(TTF_Font* &font) {
-    TTF_CloseFont(font);
-    font = nullptr;
-}
-
-//********************
-// GuiBase::openBaseFonts
-//********************
-void GuiBase::openBaseFonts(const std::string &fontDirPath) {
-    if (font30)
-        closeFont(font30);
-    font30 = openFont(fontDirPath + "/SST-Bold.ttf", 28);
-    if (font15)
-        closeFont(font15);
-    font15 = openFont(fontDirPath + "/SST-Bold.ttf", 15);
-    if (font24)
-        closeFont(font24);
-    font24 = openFont(fontDirPath + "/SST-Medium.ttf", 22);
-}
-
-//********************
-// GuiBase::closeBaseFonts
-//********************
-void GuiBase::closeBaseFonts() {
-    closeFont(font30);
-    closeFont(font24);
-    closeFont(font15);
 }
 
 //*******************************
@@ -117,15 +65,16 @@ void GuiBase::closeBaseFonts() {
 //*******************************
 string GuiBase::getSonyImagePath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    string path =  Util::getWorkingPath() + Util::separator() + "themes" + Util::separator() + cfg.inifile.values["stheme"] + "/images";
-    if (!Util::exists(path))
-    {
+    string path =
+            DirEntry::getWorkingPath() + DirEntry::separator() + "themes" + DirEntry::separator() + cfg.inifile.values["stheme"] +
+            "/images";
+    if (!DirEntry::exists(path)) {
         path = "./sony/images";
     }
     return path;
 #else
     string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/images";
-    if (!Util::exists(path))
+    if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/images";
     }
@@ -138,15 +87,16 @@ string GuiBase::getSonyImagePath() {
 //*******************************
 string GuiBase::getSonySoundPath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    string path =  Util::getWorkingPath() + Util::separator() + "themes" + Util::separator() + cfg.inifile.values["stheme"] + "/sounds";
-    if (!Util::exists(path))
-    {
+    string path =
+            DirEntry::getWorkingPath() + DirEntry::separator() + "themes" + DirEntry::separator() + cfg.inifile.values["stheme"] +
+            "/sounds";
+    if (!DirEntry::exists(path)) {
         path = "./sony/sounds";
     }
     return path;
 #else
     string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/sounds";
-    if (!Util::exists(path))
+    if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/sounds";
     }
@@ -159,15 +109,16 @@ string GuiBase::getSonySoundPath() {
 //*******************************
 string GuiBase::getSonyFontPath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    string path =  Util::getWorkingPath() + Util::separator() + "themes" + Util::separator() + cfg.inifile.values["stheme"] + "/font";
-    if (!Util::exists(path))
-    {
+    string path =
+            DirEntry::getWorkingPath() + DirEntry::separator() + "themes" + DirEntry::separator() + cfg.inifile.values["stheme"] +
+            "/font";
+    if (!DirEntry::exists(path)) {
         path = "./sony/font";
     }
     return path;
 #else
     string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/font";
-    if (!Util::exists(path))
+    if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/font";
     }
@@ -180,15 +131,14 @@ string GuiBase::getSonyFontPath() {
 //*******************************
 string GuiBase::getSonyRootPath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    string path =  Util::getWorkingPath() + Util::separator() + cfg.inifile.values["stheme"];
-    if (!Util::exists(path))
-    {
+    string path = DirEntry::getWorkingPath() + DirEntry::separator() + cfg.inifile.values["stheme"];
+    if (!DirEntry::exists(path)) {
         path = "./sony";
     }
     return path;
 #else
     string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"";
-    if (!Util::exists(path))
+    if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data";
     }
@@ -200,7 +150,7 @@ string GuiBase::getSonyRootPath() {
 //*******************************
 // Gui::logText
 //*******************************
-void Gui::logText(const string & message) {
+void Gui::logText(const string &message) {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->drawText(message);
 }
@@ -220,32 +170,32 @@ void logText(char *message) {
 //*******************************
 // Gui::getR
 //*******************************
-Uint8 Gui::getR(const string & val) {
+Uint8 Gui::getR(const string &val) {
     return atoi(Util::commaSep(val, 0).c_str());
 }
 
 //*******************************
 // Gui::getG
 //*******************************
-Uint8 Gui::getG(const string & val) {
+Uint8 Gui::getG(const string &val) {
     return atoi(Util::commaSep(val, 1).c_str());
 }
 
 //*******************************
 // Gui::getB
 //*******************************
-Uint8 Gui::getB(const string & val) {
+Uint8 Gui::getB(const string &val) {
     return atoi(Util::commaSep(val, 2).c_str());
 }
 
 //*******************************
 // Gui::getTextAndRect
 //*******************************
-void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text, TTF_Font *font,
-                         SDL_Texture **texture, SDL_Rect *rect) {
+void Gui::getTextAndRect(SDL_Shared<SDL_Renderer> renderer, int x, int y, const char *text, TTF_Font_Shared font,
+                         SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect) {
     int text_width;
     int text_height;
-    SDL_Surface *surface;
+    SDL_Shared<SDL_Surface> surface;
     string fg = themeData.values["text_fg"];
     SDL_Color textColor = {getR(fg), getG(fg), getB(fg), 0};
 
@@ -262,7 +212,6 @@ void Gui::getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
     *texture = SDL_CreateTextureFromSurface(renderer, surface);
     text_width = surface->w;
     text_height = surface->h;
-    SDL_FreeSurface(surface);
     rect->x = x;
     rect->y = y;
     rect->w = text_width;
@@ -299,9 +248,10 @@ int Gui::renderLogo(bool small) {
 //*******************************
 // Gui::loadThemeTexture
 //*******************************
-SDL_Texture *Gui::loadThemeTexture(SDL_Renderer *renderer, string themePath, string defaultPath, string texname) {
-    SDL_Texture *tex;
-    if (Util::exists(themePath + themeData.values[texname])) {
+SDL_Shared<SDL_Texture>
+Gui::loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, string themePath, string defaultPath, string texname) {
+    SDL_Shared<SDL_Texture> tex = nullptr;
+    if (DirEntry::exists(themePath + themeData.values[texname])) {
         tex = IMG_LoadTexture(renderer, (themePath + themeData.values[texname]).c_str());
     } else {
         tex = IMG_LoadTexture(renderer, (defaultPath + defaultData.values[texname]).c_str());
@@ -312,11 +262,21 @@ SDL_Texture *Gui::loadThemeTexture(SDL_Renderer *renderer, string themePath, str
 //*******************************
 // Gui::loadAssets
 //*******************************
-void Gui::loadAssets() {
-    string defaultPath = Util::getWorkingPath() + Util::separator() + "theme" + Util::separator() + "default" +
-                         Util::separator();
-    themePath = Util::getWorkingPath() + Util::separator() + "theme" + Util::separator() + cfg.inifile.values["theme"] +
-                Util::separator();
+void Gui::loadAssets(bool reloadMusic) {
+    // check theme exists - otherwise back to argb
+
+    string defaultPath = DirEntry::getWorkingPath() + DirEntry::separator() + "theme" + DirEntry::separator() + "default" +
+            DirEntry::separator();
+    themePath = DirEntry::getWorkingPath() + DirEntry::separator() + "theme" + DirEntry::separator() + cfg.inifile.values["theme"] +
+            DirEntry::separator();
+
+    cout << "Loading theme:" << themePath << endl;
+    if (!DirEntry::exists(themePath+"theme.ini"))
+    {
+        themePath=defaultPath;
+        cfg.inifile.values["theme"] = "default";
+        cfg.save();
+    }
 
     themeData.load(defaultPath + "theme.ini");
     defaultData.load(defaultPath + "theme.ini");
@@ -325,22 +285,6 @@ void Gui::loadAssets() {
     bool reloading = false;
 
     if (backgroundImg != nullptr) {
-        SDL_DestroyTexture(backgroundImg);
-        SDL_DestroyTexture(logo);
-        SDL_DestroyTexture(buttonT);
-        SDL_DestroyTexture(buttonO);
-        SDL_DestroyTexture(buttonX);
-        SDL_DestroyTexture(buttonS);
-        SDL_DestroyTexture(buttonStart);
-        SDL_DestroyTexture(buttonSelect);
-        SDL_DestroyTexture(buttonL1);
-        SDL_DestroyTexture(buttonR1);
-        SDL_DestroyTexture(buttonL2);
-        SDL_DestroyTexture(buttonR2);
-        SDL_DestroyTexture(buttonCheck);
-        SDL_DestroyTexture(buttonUncheck);
-        SDL_DestroyTexture(cdJewel);
-        closeFont(themeFont);
         Mix_FreeChunk(cursor);
         Mix_FreeChunk(cancel);
         Mix_FreeChunk(home_down);
@@ -348,7 +292,6 @@ void Gui::loadAssets() {
         reloading = true;
         backgroundImg = nullptr;
     }
-
 
     logoRect.x = atoi(themeData.values["lpositionx"].c_str());
     logoRect.y = atoi(themeData.values["lpositiony"].c_str());
@@ -372,59 +315,61 @@ void Gui::loadAssets() {
     buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
     if (cfg.inifile.values["jewel"] != "none") {
         if (cfg.inifile.values["jewel"] == "default") {
-            cdJewel = IMG_LoadTexture(renderer, (Util::getWorkingPath() + "/evoimg/nofilter.png").c_str());
+            cdJewel = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + "/evoimg/nofilter.png").c_str());
         } else {
             cdJewel = IMG_LoadTexture(renderer,
-                                      (Util::getWorkingPath() + "/evoimg/frames/" +
+                                      (DirEntry::getWorkingPath() + "/evoimg/frames/" +
                                        cfg.inifile.values["jewel"]).c_str());
         }
-    } else
-    {
+    } else {
         cdJewel = nullptr;
     }
-
     string fontPath = (themePath + themeData.values["font"]);
-    int fontSize = atoi(themeData.values["fsize"].c_str());
-    themeFont = Gui::getInstance()->openFont(fontPath, fontSize);
+    int fontSize = 0;
+    string fontSizeString = themeData.values["fsize"];
+    if (fontSizeString != "")
+        fontSize = atoi(fontSizeString.c_str());
+    themeFont = Fonts::openFont(fontPath, fontSize);
 
-    if (music != nullptr) {
-        Mix_FreeMusic(music);
-        music = nullptr;
+    if (reloadMusic) {
+        if (music != nullptr) {
+
+            Mix_FreeMusic(music);
+            music = nullptr;
+        }
     }
-
     bool customMusic = false;
     int freq = 32000;
     string musicPath = themeData.values["music"];
-    if (cfg.inifile.values["music"] != "--")
-    {
+    if (cfg.inifile.values["music"] != "--") {
         customMusic = true;
         musicPath = cfg.inifile.values["music"];
     }
 
-    if (Util::getFileExtension(musicPath)=="ogg")
-    {
+    if (DirEntry::getFileExtension(musicPath) == "ogg") {
         freq = 44100;
     }
 
-    int numtimesopened, frequency, channels;
-    Uint16 format;
-    numtimesopened=Mix_QuerySpec(&frequency, &format, &channels);
-    for (int i=0;i<numtimesopened;i++)
-    {
-        Mix_CloseAudio();
-    }
-    numtimesopened=Mix_QuerySpec(&frequency, &format, &channels);
+    if (reloadMusic) {
+        int numtimesopened, frequency, channels;
+        Uint16 format;
+        numtimesopened = Mix_QuerySpec(&frequency, &format, &channels);
+        for (int i = 0; i < numtimesopened; i++) {
+            Mix_CloseAudio();
+        }
+        numtimesopened = Mix_QuerySpec(&frequency, &format, &channels);
 
-    if (Mix_OpenAudio(freq, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
-        printf("Unable to open audio: %s\n", Mix_GetError());
+        if (Mix_OpenAudio(freq, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
+            printf("Unable to open audio: %s\n", Mix_GetError());
+        }
     }
-
     cursor = Mix_LoadWAV((this->getSonySoundPath() + "/cursor.wav").c_str());
     cancel = Mix_LoadWAV((this->getSonySoundPath() + "/cancel.wav").c_str());
     home_up = Mix_LoadWAV((this->getSonySoundPath() + "/home_up.wav").c_str());
     home_down = Mix_LoadWAV((this->getSonySoundPath() + "/home_down.wav").c_str());
     resume = Mix_LoadWAV((this->getSonySoundPath() + "/resume_new.wav").c_str());
 
+    if (reloadMusic)
     if (cfg.inifile.values["nomusic"] != "true")
         if (themeData.values["loop"] != "-1") {
 
@@ -436,15 +381,14 @@ void Gui::loadAssets() {
                     printf("Unable to play music file: %s\n", Mix_GetError());
                 }
             } else {
-                music = Mix_LoadMUS((Util::getWorkingPath() +"/music/"+ musicPath).c_str());
+                music = Mix_LoadMUS((DirEntry::getWorkingPath() + "/music/" + musicPath).c_str());
                 if (music == nullptr) { printf("Unable to load Music file: %s\n", Mix_GetError()); }
-                if (Mix_PlayMusic(music,  -1 ) == -1) {
+                if (Mix_PlayMusic(music, -1) == -1) {
                     printf("Unable to play music file: %s\n", Mix_GetError());
                 }
             }
 
         }
-
 }
 
 //*******************************
@@ -458,16 +402,12 @@ void Gui::waitForGamepad() {
         SDL_InitSubSystem(SDL_INIT_JOYSTICK);
         joysticksFound = SDL_NumJoysticks();
     }
-
-
-
-
 }
 
 //*******************************
 // Gui::criticalException
 //*******************************
-void Gui::criticalException(const string & text) {
+void Gui::criticalException(const string &text) {
     drawText(text);
     while (true) {
         SDL_Event e;
@@ -517,7 +457,6 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
 
     loadAssets();
 
-
     if (!resume) {
         auto *splashScreen = new GuiSplash(renderer);
         splashScreen->show();
@@ -526,21 +465,16 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
         drawText(_("Importing internal games"));
         Util::execUnixCommad("/media/Autobleem/rc/backup_internal.sh");
 
-
-
-            for (int i = 0; i < SDL_NumJoysticks(); i++) {
-                SDL_Joystick* joystick = SDL_JoystickOpen(i);
-                if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick)))
-                {
-                    cout << "New pad type" <<endl;
-                    auto cfgPad = new GuiPadConfig(renderer);
-                    cfgPad->joyid = SDL_JoystickInstanceID(joystick);
-                    cfgPad->show();
-                    delete cfgPad;
-                }
-
+        for (int i = 0; i < SDL_NumJoysticks(); i++) {
+            SDL_Joystick *joystick = SDL_JoystickOpen(i);
+            if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick))) {
+                cout << "New pad type" << endl;
+                auto cfgPad = new GuiPadConfig(renderer);
+                cfgPad->joyid = SDL_JoystickInstanceID(joystick);
+                cfgPad->show();
+                delete cfgPad;
             }
-
+        }
 
         if (cfg.inifile.values["quick"] != "true")
             waitForGamepad();
@@ -548,8 +482,6 @@ void Gui::display(bool forceScan, string path, Database *db, bool resume) {
         resumingGui = true;
         overrideQuickBoot = true;
     }
-
-
 }
 
 //*******************************
@@ -569,7 +501,6 @@ void Gui::saveSelection() {
     os.close();
 }
 
-
 bool otherMenuShift = false;
 bool powerOffShift = false;
 
@@ -577,7 +508,6 @@ bool powerOffShift = false;
 // Gui::quickBoot
 //*******************************
 bool Gui::quickBoot() {
-
     int currentTime = SDL_GetTicks();
     string splashText = _("AutoBleem") + " " + cfg.inifile.values["version"];
     if (cfg.inifile.values["quick"] == "true") {
@@ -591,14 +521,12 @@ bool Gui::quickBoot() {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
             if (e.type == SDL_QUIT)
                 return false;
             else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
                 return false;
-
 
             if (e.type == SDL_JOYBUTTONDOWN) {
                 overrideQuickBoot = true;
@@ -620,11 +548,9 @@ bool Gui::quickBoot() {
     }
 }
 
-int Gui::_cb(int button, SDL_Event *e)
-{
-    return mapper.translateButton(button,e);
+int Gui::_cb(int button, SDL_Event *e) {
+    return mapper.translateButton(button, e);
 }
-
 
 //*******************************
 // Gui::menuSelection
@@ -661,20 +587,17 @@ void Gui::menuSelection() {
                         launcherScreen->show();
                         delete launcherScreen;
                     }
-                } else
-                {
-                    if (Util::exists("/media/retroarch/retroarch")) {
+                } else {
+                    if (DirEntry::exists(string(RA_FOLDER)+"/retroarch")) {
                         this->menuOption = MENU_OPTION_RETRO;
                         return;
-                    } else
-                    {
+                    } else {
                         auto launcherScreen = new GuiLauncher(renderer);
                         launcherScreen->show();
                         delete launcherScreen;
                     }
                 }
             };
-
         }
     }
     otherMenuShift = false;
@@ -698,13 +621,11 @@ void Gui::menuSelection() {
     string otherMenu = "|@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager");
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
 
-
     if (!forceScan) {
         drawText(mainMenu);
 
     } else {
         drawText(forceScanMenu);
-
     }
     bool menuVisible = true;
     while (menuVisible) {
@@ -725,7 +646,6 @@ void Gui::menuSelection() {
             resumingGui = false;
             menuSelection();
             menuVisible = false;
-
         }
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
@@ -734,27 +654,23 @@ void Gui::menuSelection() {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
 
-
-
             // this is for pc Only
             if (e.type == SDL_QUIT) {
-
                 menuVisible = false;
             }
             switch (e.type) {
                 case SDL_JOYBUTTONUP:
                     if (adv != "false") {
                         if (!forceScan) {
-                            if (e.jbutton.button == _cb(PCS_BTN_L1,&e)) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L1, &e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
                                 drawText(mainMenu);
                                 otherMenuShift = false;
                             }
-                            if (e.jbutton.button == _cb(PCS_BTN_L2,&e)) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L2, &e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
                                 powerOffShift = false;
                             }
@@ -762,15 +678,14 @@ void Gui::menuSelection() {
                     }
                     break;
                 case SDL_JOYBUTTONDOWN:
-
                     if (adv != "false") {
                         if (!forceScan) {
-                            if (e.jbutton.button == _cb(PCS_BTN_L1,&e)) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L1, &e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
                                 drawText(otherMenu);
                                 otherMenuShift = true;
                             }
-                            if (e.jbutton.button == _cb(PCS_BTN_L2,&e)) {
+                            if (e.jbutton.button == _cb(PCS_BTN_L2, &e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
 
                                 powerOffShift = true;
@@ -778,9 +693,8 @@ void Gui::menuSelection() {
                         }
                     }
 
-
                     if (powerOffShift) {
-                        if (e.jbutton.button == _cb(PCS_BTN_R2,&e)) {
+                        if (e.jbutton.button == _cb(PCS_BTN_R2, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             drawText(_("POWERING OFF... PLEASE WAIT"));
 #if defined(__x86_64__) || defined(_M_X64)
@@ -795,15 +709,20 @@ void Gui::menuSelection() {
 
                     if (!otherMenuShift) {
                         if (!forceScan)
-                            if (e.jbutton.button == _cb(PCS_BTN_START,&e)) {
+                            if (e.jbutton.button == _cb(PCS_BTN_START, &e)) {
                                 if (cfg.inifile.values["ui"] == "classic") {
                                     Mix_PlayChannel(-1, cursor, 0);
                                     this->menuOption = MENU_OPTION_RUN;
                                     menuVisible = false;
                                 } else {
+                                    if (lastSet < 0) {
+                                        lastSet = SET_ALL;
+                                        lastSelIndex=0;
+                                        resumingGui = false;
+                                    }
                                     Mix_PlayChannel(-1, cursor, 0);
                                     drawText(_("Starting EvolutionUI"));
-                                    loadAssets();
+                                    loadAssets(false);
                                     auto launcherScreen = new GuiLauncher(renderer);
                                     launcherScreen->show();
                                     delete launcherScreen;
@@ -815,9 +734,10 @@ void Gui::menuSelection() {
 
                         if (!forceScan)
                             if (retroarch != "false") {
-                                if (e.jbutton.button == _cb(PCS_BTN_SQUARE,&e)) {
+                                if (e.jbutton.button == _cb(PCS_BTN_SQUARE, &e)) {
                                     Mix_PlayChannel(-1, cursor, 0);
-                                    if (!Util::exists("/media/retroarch/retroarch")) {
+                                    if (!DirEntry::exists(string(RA_FOLDER)+"/retroarch")) {
+
                                         auto confirm = new GuiConfirm(renderer);
                                         confirm->label = _("RetroArch is not installed");
                                         confirm->show();
@@ -830,22 +750,21 @@ void Gui::menuSelection() {
                                             menuSelection();
                                             menuVisible = false;
                                         }
-
-
                                     } else {
+                                        exportDBToRetroarch();
                                         this->menuOption = MENU_OPTION_RETRO;
                                         menuVisible = false;
                                     }
                                 };
                             }
 
-                        if (e.jbutton.button == _cb(PCS_BTN_CROSS,&e)) {
+                        if (e.jbutton.button == _cb(PCS_BTN_CROSS, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             this->menuOption = MENU_OPTION_SCAN;
 
                             menuVisible = false;
                         };
-                        if (e.jbutton.button == _cb(PCS_BTN_TRIANGLE,&e)) {
+                        if (e.jbutton.button == _cb(PCS_BTN_TRIANGLE, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto *aboutScreen = new GuiAbout(renderer);
                             aboutScreen->show();
@@ -854,7 +773,7 @@ void Gui::menuSelection() {
                             menuSelection();
                             menuVisible = false;
                         };
-                        if (e.jbutton.button == _cb(PCS_BTN_SELECT,&e)) {
+                        if (e.jbutton.button == _cb(PCS_BTN_SELECT, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto options = new GuiOptions(renderer);
                             options->show();
@@ -864,16 +783,14 @@ void Gui::menuSelection() {
                         };
                         if (!forceScan)
                             if (cfg.inifile.values["ui"] == "classic")
-                                if (e.jbutton.button == _cb(PCS_BTN_CIRCLE,&e)) {
+                                if (e.jbutton.button == _cb(PCS_BTN_CIRCLE, &e)) {
                                     Mix_PlayChannel(-1, cancel, 0);
                                     this->menuOption = MENU_OPTION_SONY;
                                     menuVisible = false;
-
-
                                 };
                         break;
                     } else {
-                        if (e.jbutton.button == _cb(PCS_BTN_CROSS,&e)) {
+                        if (e.jbutton.button == _cb(PCS_BTN_CROSS, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto memcardsScreen = new GuiMemcards(renderer);
                             memcardsScreen->show();
@@ -883,7 +800,7 @@ void Gui::menuSelection() {
                             menuVisible = false;
                         };
 
-                        if (e.jbutton.button == _cb(PCS_BTN_CIRCLE,&e)) {
+                        if (e.jbutton.button == _cb(PCS_BTN_CIRCLE, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto managerScreen = new GuiManager(renderer);
                             managerScreen->show();
@@ -892,16 +809,10 @@ void Gui::menuSelection() {
                             menuSelection();
                             menuVisible = false;
                         };
-
-
                     }
-
-
             }
-
         }
     }
-
 }
 
 //*******************************
@@ -912,28 +823,11 @@ void Gui::finish() {
     if (Mix_PlayingMusic()) {
         Mix_FadeOutMusic(300);
         while (Mix_PlayingMusic()) {
-
         }
     } else {
         usleep(300 * TicksPerSecond);
     }
 
-    SDL_DestroyTexture(backgroundImg);
-    SDL_DestroyTexture(logo);
-    SDL_DestroyTexture(buttonT);
-    SDL_DestroyTexture(buttonO);
-    SDL_DestroyTexture(buttonX);
-    SDL_DestroyTexture(buttonS);
-    SDL_DestroyTexture(buttonStart);
-    SDL_DestroyTexture(buttonSelect);
-    SDL_DestroyTexture(buttonL1);
-    SDL_DestroyTexture(buttonR1);
-    SDL_DestroyTexture(buttonL2);
-    SDL_DestroyTexture(buttonR2);
-    SDL_DestroyTexture(buttonCheck);
-    SDL_DestroyTexture(buttonUncheck);
-    SDL_DestroyTexture(cdJewel);
-    Gui::getInstance()->closeFont(themeFont);
     Mix_HaltMusic();
     Mix_FreeMusic(music);
     Mix_FreeChunk(cursor);
@@ -948,14 +842,15 @@ void Gui::finish() {
 //*******************************
 // Gui::getEmojiTextTexture
 //*******************************
-void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *font, SDL_Texture **texture,
+void Gui::getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, string text, TTF_Font_Shared font,
+                              SDL_Shared<SDL_Texture> *texture,
                               SDL_Rect *rect) {
     if (text.empty()) text = " ";
     if (text.back() != '|') {
         text = text + "|";
     }
 
-    vector<SDL_Texture *> textTexures;
+    vector<SDL_Shared<SDL_Texture>> textTexures;
     vector<string> textParts;
     std::string delimiter = "|";
 
@@ -968,7 +863,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
         text.erase(0, pos + delimiter.length());
     }
 
-    for (const string & str:textParts) {
+    for (const string &str:textParts) {
         if (str.empty()) continue;
         if (str[0] == '@') {
             string icon = str.substr(1);
@@ -1009,7 +904,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
                 textTexures.push_back(buttonUncheck);
             }
         } else {
-            SDL_Texture *textTex;
+            SDL_Shared<SDL_Texture> textTex = nullptr;
             SDL_Rect textRec;
             getTextAndRect(renderer, 0, atoi(themeData.values["ttop"].c_str()), str.c_str(), font, &textTex,
                            &textRec);
@@ -1020,8 +915,7 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     int w = 0;
     int h = 0;
 
-    for (SDL_Texture *tex:textTexures) {
-
+    for (SDL_Shared<SDL_Texture> tex:textTexures) {
         Uint32 format;
         int access;
         int tw, th;
@@ -1030,7 +924,6 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
         w += tw;
         if (th > h) h = th;
     }
-
 
     *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
     SDL_SetTextureBlendMode(*texture, SDL_BLENDMODE_NONE);
@@ -1041,12 +934,11 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     SDL_RenderClear(renderer);
 
     int xpos = 0;
-    for (SDL_Texture *tex:textTexures) {
+    for (SDL_Shared<SDL_Texture> tex:textTexures) {
         Uint32 format;
         int access;
         int tw, th;
         SDL_QueryTexture(tex, &format, &access, &tw, &th);
-
 
         SDL_Rect posRect;
         posRect.x = xpos;
@@ -1067,33 +959,16 @@ void Gui::getEmojiTextTexture(SDL_Renderer *renderer, string text, TTF_Font *fon
     rect->y = 0;
     SDL_SetRenderTarget(renderer, nullptr);
 
-    for (SDL_Texture *tex:textTexures) {
-        if ((tex != buttonSelect) &&
-            (tex != buttonS) &&
-            (tex != buttonStart) &&
-            (tex != buttonO) &&
-            (tex != buttonT) &&
-            (tex != buttonL1) &&
-            (tex != buttonR1) &&
-            (tex != buttonL2) &&
-            (tex != buttonR2) &&
-            (tex != buttonCheck) &&
-            (tex != buttonUncheck) &&
-            (tex != buttonX))
-
-            SDL_DestroyTexture(tex);
-    }
     textTexures.clear();
 }
 
 //*******************************
 // Gui::renderStatus
 //*******************************
-void Gui::renderStatus(const string & text) {
-
+void Gui::renderStatus(const string &text, int posy) {
     string bg = themeData.values["text_bg"];
 
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
     SDL_SetRenderDrawColor(renderer, getR(bg), getG(bg), getB(bg), atoi(themeData.values["textalpha"].c_str()));
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
@@ -1108,15 +983,18 @@ void Gui::renderStatus(const string & text) {
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);
     textRec.y = atoi(themeData.values["ttop"].c_str());
+    if (posy!=-1)
+    {
+        textRec.y=posy;
+    }
     if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
-    SDL_DestroyTexture(textTex);
 }
 
 //*******************************
 // Gui::drawText
 //*******************************
-void Gui::drawText(const string & text) {
+void Gui::drawText(const string &text) {
     renderBackground();
     renderLogo(false);
     renderStatus(text);
@@ -1127,7 +1005,7 @@ void Gui::drawText(const string & text) {
 // Gui::renderLabelBox
 //*******************************
 void Gui::renderLabelBox(int line, int offset) {
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
     string bg = themeData.values["label_bg"];
@@ -1139,7 +1017,6 @@ void Gui::renderLabelBox(int line, int offset) {
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
     rect2.w = atoi(themeData.values["opscreenw"].c_str());
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
-
 
     SDL_Rect rectSelection;
     rectSelection.x = rect2.x + 5;
@@ -1156,16 +1033,15 @@ void Gui::renderLabelBox(int line, int offset) {
 //*******************************
 // Gui::renderSelectionBox
 //*******************************
-void Gui::renderSelectionBox(int line, int offset)
-{
-    renderSelectionBox(line,offset,0);
+void Gui::renderSelectionBox(int line, int offset) {
+    renderSelectionBox(line, offset, 0);
 }
 
 //*******************************
 // Gui::renderSelectionBox
 //*******************************
 void Gui::renderSelectionBox(int line, int offset, int xoffset) {
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
     string fg = themeData.values["text_fg"];
@@ -1177,7 +1053,6 @@ void Gui::renderSelectionBox(int line, int offset, int xoffset) {
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
     rect2.w = atoi(themeData.values["opscreenw"].c_str());
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
-
 
     SDL_Rect rectSelection;
     rectSelection.x = rect2.x + 5 + xoffset;
@@ -1193,21 +1068,21 @@ void Gui::renderSelectionBox(int line, int offset, int xoffset) {
 //*******************************
 // Gui::renderTextLine
 //*******************************
-int Gui::renderTextLine(const string & text, int line, int offset) {
-    return renderTextLine(text, line, offset, false);
+int Gui::renderTextLine(const string &text, int line, int offset) {
+    return renderTextLine(text, line, offset, POS_LEFT);
 }
 
 //*******************************
 // Gui::renderTextLineOptions
 //*******************************
-int Gui::renderTextLineOptions(const string & text, int line, int offset, bool center) {
-    return renderTextLineOptions(text,line,offset,center,0);
+int Gui::renderTextLineOptions(const string &text, int line, int offset, int position) {
+    return renderTextLineOptions(text, line, offset, position, 0);
 }
 
 //*******************************
 // Gui::renderTextLineOptions
 //*******************************
-int Gui::renderTextLineOptions(const string & _text, int line, int offset, bool center, int xoffset) {
+int Gui::renderTextLineOptions(const string &_text, int line, int offset, int position, int xoffset) {
     string text = _text;
     int button = -1;
     if (text.find("|@Check|") != std::string::npos) {
@@ -1220,11 +1095,10 @@ int Gui::renderTextLineOptions(const string & _text, int line, int offset, bool 
         text = text.substr(0, text.find("|"));
     }
 
-    int h = renderTextLine(text, line, offset, center, xoffset);
+    int h = renderTextLine(text, line, offset, position, xoffset);
 
-    SDL_Texture *buttonTex = nullptr;
+    SDL_Shared<SDL_Texture> buttonTex;
     SDL_Rect rect;
-
 
     if (button == -1) {
         return h;
@@ -1239,7 +1113,6 @@ int Gui::renderTextLineOptions(const string & _text, int line, int offset, bool 
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
     getTextAndRect(renderer, 0, 0, "*", themeFont, &buttonTex, &textRec);
     int lineh = textRec.h;
-    SDL_DestroyTexture(buttonTex);
     if (button == 1) {
         getEmojiTextTexture(renderer, "|@Check|", themeFont, &buttonTex, &textRec);
     } else if (button == 0) {
@@ -1252,52 +1125,62 @@ int Gui::renderTextLineOptions(const string & _text, int line, int offset, bool 
     if (textRec.w >= (1280 - rect2.x * 4)) {
         textRec.w = (1280 - rect2.x * 4);
     }
-    if (center) {
+    if (position==POS_CENTER) {
         textRec.x = (1280 / 2) - textRec.w / 2;
+    }
+    if (position==POS_RIGHT) {
+        textRec.x = 1280 - textRec.x - textRec.w;
     }
 
     SDL_RenderCopy(renderer, buttonTex, nullptr, &textRec);
-    SDL_DestroyTexture(buttonTex);
     return h;
 }
 
 //*******************************
 // Gui::renderTextLine
 //*******************************
-int Gui::renderTextLine(const string & text, int line, int offset, bool center)
-{
-    return renderTextLine(text,line,offset,center,0);
+int Gui::renderTextLine(const string &text, int line, int offset, int position) {
+    return renderTextLine(text, line, offset, position, 0);
 }
-int Gui::renderTextLine(const string & text, int line, int offset, bool center, int xoffset) {
 
+int Gui::renderTextLine(const string &text, int line, int offset,  int position, int xoffset)
+{
+    return renderTextLine(text,line,offset,position,xoffset,themeFont);
+}
 
+int Gui::renderTextLine(const string &text, int line, int offset,  int position, int xoffset, TTF_Font_Shared font) {
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
     rect2.w = atoi(themeData.values["opscreenw"].c_str());
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
 
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
-    getTextAndRect(renderer, 0, 0, "*", themeFont, &textTex, &textRec);
-    SDL_DestroyTexture(textTex);
+    getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
     int lineh = textRec.h;
-    getEmojiTextTexture(renderer, text, themeFont, &textTex, &textRec);
+    getEmojiTextTexture(renderer, text, font, &textTex, &textRec);
     textRec.x = rect2.x + 10 + xoffset;
     textRec.y = (lineh * line) + offset;
+
+    if (line<0)
+    {
+        line=-line;
+        textRec.y=line;
+    }
 
     if (textRec.w >= (1280 - rect2.x * 4)) {
         textRec.w = (1280 - rect2.x * 4);
     }
-    if (center) {
+    if (position==POS_CENTER) {
         textRec.x = (1280 / 2) - textRec.w / 2;
     }
-
+    if (position==POS_RIGHT) {
+        textRec.x = 1280 - textRec.x - textRec.w;
+    }
 
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
-    SDL_DestroyTexture(textTex);
-
 
     return textRec.h;
 }
@@ -1305,14 +1188,14 @@ int Gui::renderTextLine(const string & text, int line, int offset, bool center, 
 //*******************************
 // Gui::renderTextChar
 //*******************************
-void Gui::renderTextChar(const string & text, int line, int offset, int posx) {
+void Gui::renderTextChar(const string &text, int line, int offset, int posx) {
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
     rect2.w = atoi(themeData.values["opscreenw"].c_str());
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
 
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
     getTextAndRect(renderer, 0, 0, "*", themeFont, &textTex, &textRec);
@@ -1320,7 +1203,6 @@ void Gui::renderTextChar(const string & text, int line, int offset, int posx) {
                    text.c_str(), themeFont, &textTex, &textRec);
 
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
-    SDL_DestroyTexture(textTex);
 }
 
 //*******************************
@@ -1338,14 +1220,13 @@ void Gui::renderTextBar() {
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
 
     SDL_RenderFillRect(renderer, &rect2);
-
 }
 
 //*******************************
 // Gui::renderFreeSpace
 //*******************************
 void Gui::renderFreeSpace() {
-    SDL_Texture *textTex;
+    SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
     SDL_Rect rect;
 
@@ -1381,8 +1262,56 @@ void Gui::watchJoystickPort() {
             joynames.push_back(SDL_JoystickName(joystick));
             cout << "Pad connected" << endl;
             cout << "--" << SDL_JoystickName(joystick) << endl;
+        }
+    }
+}
 
+void Gui::exportDBToRetroarch() {
+    ordered_json j;
+    j["version"]="1.0";
+
+    PsGames gamesList;
+    db->getGames(&gamesList);
+    sort(gamesList.begin(), gamesList.end(), sortByTitle);
+
+    ordered_json items = ordered_json::array();
+    // copy the gamesList into json object
+    for_each(begin(gamesList), end(gamesList), [&](PsGamePtr &game)
+    {
+        ordered_json item = ordered_json::object();
+
+        string gameFile = (game->folder + game->base);
+        if (!DirEntry::matchExtension(game->base, ".pbp")) {
+            gameFile += ".cue";
+        }
+        gameFile += "";
+
+        string base;
+        if (DirEntry::isPBPFile(game->base)) {
+            base = game->base.substr(0, game->base.length() - 4);
+        } else {
+            base = game->base;
+        }
+        if (DirEntry::exists(game->folder + DirEntry::separator() + base + ".m3u")) {
+            gameFile = game->folder + base + ".m3u";
         }
 
-    }
+
+        item["path"]=gameFile;
+        item["label"]=game->title;
+        item["core_path"]=RA_CORE;
+        item["core_name"]="DETECT";
+        item["crc32"]="00000000|crc";
+        item["db_name"]=RA_PLAYLIST;
+
+        items.push_back(item);
+    });
+
+    j["items"] = items;
+
+    cout << j.dump() << endl;
+    std::ofstream o(string(RA_FOLDER)+"/playlists/"+RA_PLAYLIST);
+    o << std::setw(2) << j << std::endl;
+    o.flush();
+    o.close();
 }

@@ -1,0 +1,272 @@
+About
+Sobre
+Advanced
+Avançado
+Advanced:
+Avançado:
+Are you sure you want to flush all covers?
+Você tem certeza que deseja atualizar todas as capas?
+Are you sure?
+Você tem certeza?
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+Tema AutoBleem:
+Automatic PlayStation Classic USB launcher
+Launcher Automático PlayStation Classic USB
+Background Music:
+Música de Fundo:
+Button Guide
+Guia de Botões
+Cancel
+Cancelar
+Caps
+Caps
+Card
+Card
+Change MC
+Mudar MC
+Clock:
+Relógio:
+Close
+Fechar
+Code: AutoBleem Team
+Código: Time AutoBleem
+Configuration
+Configuração
+Configuration saved - Press |@X| to continue
+Configuração salva - Pressione |@X| para continuar
+Confirm
+Confirmar
+Console Button Guide
+Guia de Botões do Console
+Cover Style:
+Estilo da Capa:
+Custom
+Person.
+Custom Memory Cards
+Personalizar Memory Cards
+Customize AutoBleem settings
+Personalizar Configurações AutoBleem
+Decompressing ecm:
+Descomprimindo ecm:
+Delete
+Deletar
+Delete card
+Deletar card
+Download latest:
+Baixar Última Versão:
+DPAD - Same as classic menu
+DPAD - Igual ao menu clássico
+Edit game parameters
+Editar parâmetros do jogo
+Edit Memory Card information
+Editar informação Memory Card
+Emulator config MENU
+MENU Configs. Emulador
+Enter
+Confirmar
+Enter new card name
+Inserir nome do novo card
+Enter new game name
+Inserir nome do novo jogo
+Enter new name for card
+Inserir novo nome do card
+Enter new name for memory card
+Inserir novo nome do MemoryCard
+Favorite:
+Favorito:
+Flush covers
+Atualizar capas
+Folder:
+Pasta:
+Frameskip:
+Pular frame:
+Free space
+Espaço livre
+Game
+Jogo
+GAME
+JOGO
+Game Manager
+Gerenciador de Jogos
+Game manager - Select game
+Gerenciador de Jogos - Selecionar jogo
+Game:
+Jogo:
+games
+jogos
+Games changed. Press
+Jogos alterados. Pressione
+Games filter
+Filtrar jogos
+games scanned
+jogos escaneados
+GFX Filter:
+Filtro GFX:
+Go back
+Voltar
+Graphics by:
+Graficos por:
+High res:
+Alta resol.:
+Hold
+Segurar
+Importing internal games
+Importando jogos internos
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+DESLIGUE O CONSOLE PELO MENU PRINCIPAL (DESLIGAMENTO SEGURO !!!)
+In Game
+Em Jogo
+Internal
+Internos
+Internal Games:
+Jogos Internos:
+Is your dpad analogue?
+O seu direcional é analógico?
+Language:
+Linguagem:
+Loading ... Please Wait ...
+Carregando ... Aguarde ...
+Lock data:
+Travar dados:
+MemCard Manager will be available soon
+Gerenciador de MemCard em breve
+MEMORY CARD
+MEMORY CARD
+Memory Card:
+Memory Card:
+Memory Cards
+Memory Cards
+Menu
+Menu
+Menu Theme:
+Tema do Menu:
+Music:
+Música:
+New Card
+Novo Card
+New GamePad found
+Novo Controle Encontrado
+OOPS! Game crashed. Resume point not available.
+OOPS! O jogo travou. Não é possível retomar.
+Options
+Opções
+Original
+Original
+Page
+Página
+Player
+Jogador
+Players
+Jogadores
+Please confirm
+Confirmar
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+CONECTE O CONTROLE NO CONSOLE
+Please wait ... deleting covers...
+Aguarde ... apagando capas...
+Plugin:
+Plugin:
+Power Off
+Desligar
+POWERING OFF... PLEASE WAIT
+DESLIGANDO... AGUARDE
+Press a key for
+Pressione um botão para
+Published by:
+Publicado por:
+Quick boot
+Boot rápido
+Quick scroll to next letter
+Descer para próxima letra
+QuickBoot Init:
+BootRapido Init:
+QuickBoot:
+BootRapido:
+Quit emulation - back to AutoBleem
+Emulação rápida - voltar ao AutoBleem
+Re/Scan
+Re/Escanear
+Region:
+Região:
+Rename
+Renomear
+RESUME
+CONTINUAR
+Resume game from saved state point
+Continuar jogo salvo
+Resume point saved to slot
+Jogo salvo no slot
+RetroArch
+RetroArch
+RetroArch is not installed
+RetroArch não instalado
+Scanline Level:
+Nível Scanline:
+Scanlines:
+Scanlines:
+Scanning...
+Escaneando...
+Select
+Selecionar
+Select memory card
+Selecionar memory card
+Select or cancel highlighted option
+Selecionar ou cancelar opção destacada
+SELECT RESUME SLOT TO LOAD
+SELECIONE O SAVE PARA CARREGAR
+SELECT SLOT TO SAVE STATE
+SELECIONE SLOT PARA SALVAR
+Serial:
+Serial:
+SETTINGS
+CONFIGURAÇÕES
+Share MC
+Compartilhar MC
+Show RetroArch:
+Mostrar RetroArch:
+Showing Timeout (0 = no timeout):
+Tempo Limite (0 = sem limite):
+Showing: All games
+Mostrando: Todos os Jogos
+Showing: Favorite games
+Mostrando: Jogos Favoritos
+Showing: Internal games
+Mostrando: Jogos Internos
+Showing: USB games
+Mostrando: Jogos no USB
+Slot
+Slot
+Sorting :
+Organizando :
+Sorting...
+Organizando...
+Space
+Espaço
+SpeedHack:
+SpeedHack:
+Spu Interpolation:
+Interpolação Spu:
+Starting EvolutionUI
+Iniciando EvolutionUI
+Support via Discord:
+Suporte via Discord:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+Esse software é grátis e open source. Funciona COMO ESTÁ e não assumimos responsabilidade por nenhum tipo de dano.
+to scan
+para escanear
+Total:
+Total:
+UI:
+UI:
+Updating regional.db...
+Atualizando regional.db...
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+AVISO: DB DE CAPAS NÃO ENCONTRADA. PRESSIONE QUALQUER BOTÃO.
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+AVISO: NENHUM JOGO ENCONTRADO. PRESSIONE QUALQUER BOTÃO.
+Widescreen:
+Widescreen:
+Year:
+Ano:

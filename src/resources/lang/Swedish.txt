@@ -1,0 +1,158 @@
+'Tenchu' theme by Kevzombie
+'Tenchu' Theme av Kevzombie
+About
+Om
+About
+Om
+Advanced
+Avancerat
+Advanced:
+Avancerat:
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+AutoBleem-tema:
+Background Music:
+Bakgrundsmusik:
+Cancel
+Avbryt
+Caps
+Caps
+Card
+Kort
+Change MC
+Byt minneskort
+Close
+Stäng
+Code: AutoBleem Team
+Kod: AutoBleem Team
+Configuration
+Konfiguration
+Confirm
+Bekräfta
+Custom
+Anpassad
+Custom Memory Cards
+Anpassade minneskort
+Delete
+Radera
+Delete card
+Radera kort
+Download latest:
+Hämta senaste version:
+Enter new card name
+Ange namn på nytt kort
+Enter new game name
+Ange namn på nytt spel
+Enter new name for card
+Ange nytt namn för kort
+Enter new name for memory card
+Ange nytt namn för minneskort
+Folder:
+Mapp:
+Free space
+Ledigt utrymme
+Game
+Spel
+Game Manager
+Spelbibliotek
+Game manager - Select game
+Spelbibliotek - Välj spel
+Game:
+Spel:
+Games changed. Press
+Spelen förändrade. Tryck
+games scanned
+spel scannade
+GFX Filter:
+Grafikfilter:
+Go back
+Tillbaka
+Hi/Lo Res
+Hög/Låg upplösning
+High res:
+Hög upplösning:
+Hold
+Vänta
+Internal
+Intern
+Internal
+Intern
+Language:
+Språk:
+Loading ... Please Wait ...
+Laddar ... Vänligen vänta ...
+Lock
+Lås
+Lock data:
+Lås data:
+Memory Card:
+Minneskort:
+Memory Cards
+Minneskort
+Menu
+Meny
+Menu Theme:
+Meny-tema:
+New Card
+Nytt kort
+Options
+Alternativ
+Original
+Original
+Page
+Sida
+PCSX Version:
+PCSX-version:
+Players
+Spelare
+Please confirm
+Vänligen bekräfta
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+VÄNLIGEN ANSLUT HANDKONTROLL TILL PLAYSTATION CLASSIC
+Published by:
+Utgivet av:
+Quick boot
+Snabbstart
+QuickBoot:
+Snabbstart:
+Re/Scan
+Re/Scan
+Rename
+Byt namn
+RetroArch
+RetroArch
+RetroArch is not installed
+RetroArch är inte installerat
+Scanning...
+Scannar...
+Select
+Välj
+Select memory card
+Välj minneskort
+Share MC
+Dela minneskort
+Show RetroArch:
+Visa RetroArch:
+Space
+Mellanslag
+Support via Discord:
+Support via Discord:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+Detta är gratis Open Source-mjukvara. Den tillhandahålls i befintligt skick och vi tar inget ansvar för eventuella problem eller skada som kan uppstå.
+to scan
+till scanning
+Total:
+Total:
+Updating regional.db...
+Uppdaterar regional.db...
+Upgrading AutoBleem - Please wait...
+Uppgraderar AutoBleem - Vänligen vänta...
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+VARNING: INGEN COVER DB HITTADES. TRYCK PÅ VALFRI KNAPP.
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+VARNING: INGA SPEL HITTADES. TRYCK PÅ VALFRI KNAPP.
+Year:
+År:
+Automatic PlayStation Classic USB launcher
+Automatisk PlayStation Classic USB-launcher

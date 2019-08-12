@@ -19,7 +19,22 @@ using namespace std;
 
 #include "engine/memcard.h"
 #include "lang.h"
+#include "launcher/emu_interceptor.h"
 #include "launcher/pcsx_interceptor.h"
+#include "launcher/retboot_interceptor.h"
+
+
+const char GAME_DATA[] = "GameData";
+const char GAME_INI[] = "Game.ini";
+const char PCSX_CFG[] = "pcsx.cfg";
+const char EXT_PNG[] = ".png";
+const char EXT_PBP[] = ".pbp";
+const char EXT_ECM[] = ".ecm";
+const char EXT_BIN[] = ".bin";
+const char EXT_IMG[] = ".img";
+//const char EXT_ISO[] = ".iso";
+const char EXT_CUE[] = ".cue";
+const char EXT_LIC[] = ".lic";
 
 Database * db;
 
@@ -43,7 +58,6 @@ int scanGames(string path, string dbpath) {
         return EXIT_FAILURE;
     }
 
-    scanner->detectAndSortGamefiles(path);
     scanner->scanDirectory(path);
     scanner->updateDB(gui->db);
 
@@ -83,10 +97,11 @@ int main(int argc, char *argv[]) {
     string path = argv[2];
 
     Memcard *memcardOperation = new Memcard(path);
-    memcardOperation->restoreAll(path + Util::separator() + "!SaveStates");
+    memcardOperation->restoreAll(path + DirEntry::separator() + "!SaveStates");
     delete memcardOperation;
 
-    if (scanner->isFirstRun(path, db)) {
+    bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(path);
+    if (scanner->isFirstRun(path, db) || thereAreGameFilesInGamesDir) {
         scanner->forceScan = true;
     }
 
@@ -97,6 +112,8 @@ int main(int argc, char *argv[]) {
         gui->menuSelection();
         gui->saveSelection();
         if (gui->menuOption == MENU_OPTION_SCAN) {
+            if (thereAreGameFilesInGamesDir)
+                scanner->copyGameFilesInGamesDirToSubDirs(path);
             scanGames(path, dbpath);
             if (gui->forceScan) {
                 gui->forceScan = false;
@@ -106,6 +123,37 @@ int main(int argc, char *argv[]) {
         }
 
         if (gui->menuOption == MENU_OPTION_START) {
+#if defined(__x86_64__) || defined(_M_X64)
+            cout << "I'm sorry Dave I'm afraid I can't do that on this system." << endl;
+
+            // just a temp to test exec
+            EmuInterceptor *interceptor;
+            if (gui->runningGame->foreign)
+            {
+                interceptor = new RetroArchInterceptor();
+            } else {
+                if (gui->emuMode == EMU_PCSX) {
+                    interceptor = new PcsxInterceptor();
+                } else {
+                    interceptor = new RetroArchInterceptor();
+                }
+            }
+
+            interceptor->memcardIn(gui->runningGame);
+            interceptor->prepareResumePoint(gui->runningGame, gui->resumepoint);
+            interceptor->execute(gui->runningGame, gui->resumepoint );
+            interceptor->memcardOut(gui->runningGame);
+            delete (interceptor);
+
+            SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+
+            usleep(300*1000);
+            gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
+            gui->startingGame = false;
+
+            gui->display(false, path, db, true);
+
+#else
             cout << "Starting game" << endl;
             gui->finish();
 
@@ -126,7 +174,18 @@ int main(int argc, char *argv[]) {
             SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
 
             gui->saveSelection();
-            PcsxInterceptor *interceptor = new PcsxInterceptor();
+            EmuInterceptor *interceptor;
+            if (gui->runningGame->foreign)
+            {
+                interceptor = new RetroArchInterceptor();
+            } else {
+                if (gui->emuMode == EMU_PCSX) {
+                    interceptor = new PcsxInterceptor();
+                } else {
+                    interceptor = new RetroArchInterceptor();
+                }
+            }
+
             interceptor->memcardIn(gui->runningGame);
             interceptor->prepareResumePoint(gui->runningGame, gui->resumepoint);
             interceptor->execute(gui->runningGame, gui->resumepoint );
@@ -140,6 +199,7 @@ int main(int argc, char *argv[]) {
             gui->startingGame = false;
 
             gui->display(false, path, db, true);
+#endif
         }
     }
     db->disconnect();

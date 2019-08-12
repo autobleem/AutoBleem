@@ -15,7 +15,9 @@
 #include "../engine/coverdb.h"
 #include "../engine/scanner.h"
 #include "../engine/padmapper.h"
-
+#include "gui_sdl_wrapper.h"
+//#include "gui_font_wrapper.h"
+#include "gui_font.h"
 
 #define PCS_DEADZONE     32000
 #define PCS_BTN_L2       4
@@ -36,37 +38,35 @@
 #define MENU_OPTION_START 5
 #define MENU_OPTION_POWER 6
 
-enum FontSize { FONT_15=15, FONT_24=22, FONT_30=28 };
 
+#define EMU_PCSX          0
+#define EMU_RETROARCH     1
+
+#define POS_LEFT 0
+#define POS_CENTER 1
+#define POS_RIGHT 2
 //********************
 // GuiBase
 //********************
 class GuiBase {
 public:
-    SDL_Window *window = nullptr;
-    SDL_Renderer *renderer = nullptr;
+    SDL_Shared<SDL_Window> window;
+    SDL_Shared<SDL_Renderer> renderer;
 
-    TTF_Font *font15 = nullptr;
-    TTF_Font *font24 = nullptr;
-    TTF_Font *font30 = nullptr;
-    TTF_Font* getFont(FontSize fontSize);
+    Fonts fonts;
 
     Config cfg;
 
     GuiBase();
     ~GuiBase();
 
-    TTF_Font* openFont(const std::string &filename, int fontSize);
-    void closeFont(TTF_Font* &font);
-    void openBaseFonts(const std::string &fontDirPath);
-    void openBaseFonts() { getSonyFontPath(); }
-    void closeBaseFonts();
-
     std::string getSonyImagePath();
-    std::string getSonyFontPath();
-    std::string getSonySoundPath();
-    std::string getSonyRootPath();
 
+    std::string getSonyFontPath();
+
+    std::string getSonySoundPath();
+
+    std::string getSonyRootPath();
 };
 
 //********************
@@ -87,14 +87,14 @@ public:
     vector<string> joynames;
     PadMapper mapper;
 
-    Coverdb *coverdb;
-    Database *db;
+    Coverdb *coverdb = nullptr;
+    Database *db = nullptr;
     Inifile themeData;
     Inifile defaultData;
 
     void watchJoystickPort();
 
-    void loadAssets();
+    void loadAssets(bool reloadMusic = true);
 
     void display(bool forceScan, std::string path, Database *db, bool resume);
 
@@ -104,8 +104,8 @@ public:
 
     void drawText(const std::string & text);
 
-    void getEmojiTextTexture(SDL_Renderer *renderer, std::string text,
-                             TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
+    void getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, std::string text,
+                             TTF_Font_Shared font, SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect);
 
     void logText(const std::string & message);
 
@@ -119,19 +119,20 @@ public:
 
     int renderLogo(bool small);
 
-    void renderStatus(const std::string & text);
+    void renderStatus(const std::string & text, int pos=-1);
 
     void renderTextBar();
 
-    int renderTextLine(const std::string & text, int line, int offset, bool center, int xoffset);
+    int renderTextLine(const std::string & text, int line, int offset,  int position, int xoffset);
+    int renderTextLine(const std::string & text, int line, int offset, int position, int xoffset, TTF_Font_Shared font);
 
-    int renderTextLine(const std::string & text, int line, int offset, bool center);
+    int renderTextLine(const std::string & text, int line, int offset,  int position);
 
     int renderTextLine(const std::string & text, int line, int offset);
 
-    int renderTextLineOptions(const std::string & text, int line, int offset, bool center);
+    int renderTextLineOptions(const std::string & text, int line, int offset,  int position);
 
-    int renderTextLineOptions(const std::string & text, int line, int offset, bool center, int xoffset);
+    int renderTextLineOptions(const std::string & text, int line, int offset,  int position, int xoffset);
 
     void renderSelectionBox(int line, int offset);
 
@@ -143,8 +144,8 @@ public:
 
     void renderFreeSpace();
 
-    void getTextAndRect(SDL_Renderer *renderer, int x, int y, const char *text,
-                        TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
+    void getTextAndRect(SDL_Shared<SDL_Renderer> renderer, int x, int y, const char *text,
+                        TTF_Font_Shared font, SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect);
 
     Uint8 getR(const std::string & val);
 
@@ -154,8 +155,10 @@ public:
 
     void criticalException(const std::string & text);
 
-    SDL_Texture *
-    loadThemeTexture(SDL_Renderer *renderer, std::string themePath, std::string defaultPath, std::string texname);
+    SDL_Shared<SDL_Texture>
+    loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, std::string themePath, std::string defaultPath, std::string texname);
+
+    void exportDBToRetroarch();
 
     int menuOption = MENU_OPTION_SCAN;
     int lastSet = 0;
@@ -163,41 +166,43 @@ public:
     SDL_Rect backgroundRect;
     SDL_Rect logoRect;
 
-    SDL_Texture *backgroundImg = NULL;
-    SDL_Texture *logo = NULL;
-    SDL_Texture *buttonX = NULL;
-    SDL_Texture *buttonO = NULL;
-    SDL_Texture *buttonT = NULL;
-    SDL_Texture *buttonS = NULL;
-    SDL_Texture *buttonStart = NULL;
-    SDL_Texture *buttonSelect = NULL;
-    SDL_Texture *buttonL1 = NULL;
-    SDL_Texture *buttonR1 = NULL;
-    SDL_Texture *buttonL2 = NULL;
-    SDL_Texture *buttonR2 = NULL;
-    SDL_Texture *buttonCheck = NULL;
-    SDL_Texture *buttonUncheck = NULL;
-    SDL_Texture *cdJewel = NULL;
+    SDL_Shared<SDL_Texture> backgroundImg;
+    SDL_Shared<SDL_Texture> logo;
+    SDL_Shared<SDL_Texture> buttonX;
+    SDL_Shared<SDL_Texture> buttonO;
+    SDL_Shared<SDL_Texture> buttonT;
+    SDL_Shared<SDL_Texture> buttonS;
+    SDL_Shared<SDL_Texture> buttonStart;
+    SDL_Shared<SDL_Texture> buttonSelect;
+    SDL_Shared<SDL_Texture> buttonL1;
+    SDL_Shared<SDL_Texture> buttonR1;
+    SDL_Shared<SDL_Texture> buttonL2;
+    SDL_Shared<SDL_Texture> buttonR2;
+    SDL_Shared<SDL_Texture> buttonCheck;
+    SDL_Shared<SDL_Texture> buttonUncheck;
+    SDL_Shared<SDL_Texture> cdJewel;
 
 
     bool overrideQuickBoot = false;
 
     std::string path;
 
-    Mix_Music *music = NULL;
-    TTF_Font *themeFont = NULL;
+    Mix_Music *music = nullptr;
+    TTF_Font_Shared themeFont;
     bool forceScan = false;
 
-    Mix_Chunk *cancel = NULL;
-    Mix_Chunk *cursor = NULL;
-    Mix_Chunk *home_down = NULL;
-    Mix_Chunk *home_up = NULL;
-    Mix_Chunk *resume = NULL;
+    Mix_Chunk *cancel = nullptr;
+    Mix_Chunk *cursor = nullptr;
+    Mix_Chunk *home_down = nullptr;
+    Mix_Chunk *home_up = nullptr;
+    Mix_Chunk *resume = nullptr;
 
     bool startingGame = false;
     bool resumingGui = false;
     int lastSelIndex = 0;
+    string lastPlaylist = "";
     PsGamePtr runningGame;
+    int emuMode = EMU_PCSX;
     int resumepoint = -1;
     string padMapping;
 
@@ -211,4 +216,6 @@ public:
         static std::shared_ptr<Gui> s{new Gui};
         return s;
     }
+
+    static bool sortByTitle(const PsGamePtr &i, const PsGamePtr &j) { return SortByCaseInsensitive(i->title, j->title); }
 };

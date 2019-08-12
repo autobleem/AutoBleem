@@ -4,9 +4,9 @@
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
 #include "serialscanner.h"
+#include "../DirEntry.h"
 
 using namespace std;
-
 
                                   //*******************************
                                   // DATABASE SQL
@@ -110,9 +110,9 @@ static const char DELETE_DATA3[] = "DELETE FROM LANGUAGE_SPECIFIC";
 static const char INSERT_DISC[] = "INSERT INTO DISC ([GAME_ID],[DISC_NUMBER],[BASENAME]) \
                 values (?,?,?)";
 
-                                  //*******************************
-                                  // DATABASE code
-                                  //*******************************
+//*******************************
+// DATABASE code
+//*******************************
 
 //*******************************
 // Database::getNumGames
@@ -222,6 +222,7 @@ bool Database::queryTitle(string title, Metadata *md) {
             }
             md->title = string(reinterpret_cast<const char *>(title));
             md->publisher = string(reinterpret_cast<const char *>(publisher));
+            Util::cleanPublisherString(md->publisher);
             md->year = year;
             md->players = players;
             md->valid = true;
@@ -258,6 +259,7 @@ bool Database::getInternalGames(PsGames *result) {
             psGame->gameId = id;
             psGame->title = string(reinterpret_cast<const char *>(title));
             psGame->publisher = string(reinterpret_cast<const char *>(publisher));
+            Util::cleanPublisherString(psGame->publisher);
             psGame->year = year;
             psGame->players = players;
             psGame->folder = "/gaadata/" + to_string(id) + "/";
@@ -282,7 +284,7 @@ bool Database::getInternalGames(PsGames *result) {
 //*******************************
 // Database::refreshGameInternal
 //*******************************
-bool Database::refreshGameInternal(PsGamePtr & psGame) {
+bool Database::refreshGameInternal(PsGamePtr &psGame) {
 
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, GAMES_DATA_SINGLE_INTERNAL, -1, &res, nullptr);
@@ -300,6 +302,7 @@ bool Database::refreshGameInternal(PsGamePtr & psGame) {
             psGame->gameId = id;
             psGame->title = string(reinterpret_cast<const char *>(title));
             psGame->publisher = string(reinterpret_cast<const char *>(publisher));
+            Util::cleanPublisherString(psGame->publisher);
             psGame->year = year;
             psGame->players = players;
             psGame->folder = "/gaadata/" + to_string(id) + "/";
@@ -312,7 +315,7 @@ bool Database::refreshGameInternal(PsGamePtr & psGame) {
             psGame->cds = discs;
 
             string gameIniPath = psGame->folder + "/Game.ini";
-            if (Util::exists(gameIniPath)) {
+            if (DirEntry::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
                 psGame->locked =  !(ini.values["automation"]=="1");
@@ -332,7 +335,7 @@ bool Database::refreshGameInternal(PsGamePtr & psGame) {
 //*******************************
 // Database::refreshGame
 //*******************************
-bool Database::refreshGame(PsGamePtr & game) {
+bool Database::refreshGame(PsGamePtr &game) {
 
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, GAMES_DATA_SINGLE, -1, &res, nullptr);
@@ -353,6 +356,7 @@ bool Database::refreshGame(PsGamePtr & game) {
             game->gameId = id;
             game->title = string(reinterpret_cast<const char *>(title));
             game->publisher = string(reinterpret_cast<const char *>(publisher));
+            Util::cleanPublisherString(game->publisher);
             game->year = year;
             game->players = players;
             game->folder = string(reinterpret_cast<const char *>(path));
@@ -362,7 +366,7 @@ bool Database::refreshGame(PsGamePtr & game) {
             game->cds = discs;
 
             string gameIniPath = game->folder + "/Game.ini";
-            if (Util::exists(gameIniPath)) {
+            if (DirEntry::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
                 game->locked =  !(ini.values["automation"]=="1");
@@ -402,6 +406,7 @@ bool Database::getGames(PsGames *result) {
             game->gameId = id;
             game->title = string(reinterpret_cast<const char *>(title));
             game->publisher = string(reinterpret_cast<const char *>(publisher));
+            Util::cleanPublisherString(game->publisher);
             game->year = year;
             game->players = players;
             game->folder = string(reinterpret_cast<const char *>(path));
@@ -412,7 +417,7 @@ bool Database::getGames(PsGames *result) {
             //cout << "getGames: " << game->serial << ", " << game->title << endl;
 
             string gameIniPath = game->folder + "/Game.ini";
-            if (Util::exists(gameIniPath)) {
+            if (DirEntry::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
                 game->locked =  !(ini.values["automation"]=="1");
@@ -457,6 +462,7 @@ bool Database::querySerial(string serial, Metadata *md) {
             const unsigned char *path = sqlite3_column_text(res, 6);
             md->title = string(reinterpret_cast<const char *>(title));
             md->publisher = string(reinterpret_cast<const char *>(publisher));
+            Util::cleanPublisherString(md->publisher);
             md->year = year;
             md->serial = serial;
             md->region = SerialScanner::serialToRegion(md->serial);
@@ -502,6 +508,7 @@ bool Database::insertDisc(int id, int discNum, string discName) {
 bool Database::insertGame(int id, string title, string publisher, int players, int year, string path, string sspath,
                           string memcard) {
     sqlite3_stmt *res = nullptr;
+    Util::cleanPublisherString(publisher);
     int rc = sqlite3_prepare_v2(db, INSERT_GAME, -1, &res, nullptr);
     if (rc == SQLITE_OK) {
         sqlite3_bind_int(res, 1, id);
@@ -584,13 +591,13 @@ void Database::disconnect() {
 //*******************************
 // Database::truncate
 //*******************************
-bool Database::truncate()
-{
+bool Database::truncate() {
     executeStatement((char *) DELETE_DATA, "Truncating all data", "Error truncating data");
     executeStatement((char *) DELETE_DATA2, "Truncating all data", "Error truncating data");
     executeStatement((char *) DELETE_DATA3, "Truncating all data", "Error truncating data");
     return true;
 }
+
 bool Database::createInitialDatabase() {
     if (!executeCreateStatement((char *) CREATE_GAME_SQL, "GAME")) return false;
     if (!executeCreateStatement((char *) CREATE_DISC_SQL, "DISC")) return false;
@@ -601,7 +608,6 @@ bool Database::createInitialDatabase() {
 //*******************************
 // Database::createFavColumn
 //*******************************
-void Database::createFavColumn()
-{
- //   executeCreateStatement((char*) UPDATE_GAME_DB, "FAV column" );
+void Database::createFavColumn() {
+    //   executeCreateStatement((char*) UPDATE_GAME_DB, "FAV column" );
 }

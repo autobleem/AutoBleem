@@ -1,4 +1,18 @@
-﻿About
+﻿ games
+ juegos
+.-= Code C++ and shell scripts =-.
+.-= Codigo C++ y shell scripts =-.
+.-= Database maintenance =-.
+.-= Mantenimiento base de datos =-.
+.-= Graphics =-.
+.-= Graficos =-.
+.-= Localization support =-.
+.-= Soporte de localizacion =-.
+.-= Retroboot and emulation cores =-.
+.-= Retroboot y cores de emulacion =-.
+.-= Testing =-.
+.-= Testers =-.
+About
 Sobre
 Advanced
 Avanzado
@@ -10,10 +24,10 @@ Are you sure?
 ¿Estas seguro?
 AutoBleem
 AutoBleem
+AutoBleem resume points not available in RetroArch.
+Los puntos de reanudacion de AutoBleem no estan disponibles en Retroarch.
 AutoBleem Theme:
 Tema AutoBleem:
-Automatic PlayStation Classic USB launcher
-PlayStation Classic lanzador USB Automatico
 Background Music:
 Musica de Fondo:
 Button Guide
@@ -30,16 +44,18 @@ Clock:
 Clock:
 Close
 Cerrar
-Code: AutoBleem Team
-Codigo: Equipo AutoBleem
 Configuration
 Configuracion
 Configuration saved - Press |@X| to continue
 Configuracion guardada - Pulsa |@X| para continuar
+CONFIGURED
+CONFIGURADO
 Confirm
 Confirmar
 Console Button Guide
 Guia de Botones de la Consola
+Copy
+Copiar
 Cover Style:
 Estilo de Caratulas:
 Custom
@@ -50,10 +66,14 @@ Customize AutoBleem settings
 Personalizar Ajustes de AutoBleem
 Decompressing ecm:
 Descomprimiendo ecm:
+Defragment Card
+Desfragmentar Tarjeta
 Delete
 Borrar
 Delete card
 Borrar tarjeta
+Do you want to save memcards data ?
+Quieres salvar los datos de las memorycards ?
 Download latest:
 Descargar ultimo:
 DPAD - Same as classic menu
@@ -65,7 +85,7 @@ Editar informacion de Memory Card
 Emulator config MENU
 MENU de configuracion del Emulador
 Enter
-Entrar
+Iniciar
 Enter new card name
 Entra nuevo nombre de tarjeta
 Enter new game name
@@ -74,6 +94,8 @@ Enter new name for card
 Entra nuevo monbre para tarjeta
 Enter new name for memory card
 Entra nuevo nombre para memory card
+Entry
+Entrada
 Favorite:
 Favorito:
 Flush covers
@@ -82,6 +104,8 @@ Folder:
 Carpeta:
 Frameskip:
 Frameskip:
+Free
+Libre
 Free space
 Espacio libre
 Game
@@ -106,8 +130,6 @@ GFX Filter:
 Filtro GFX:
 Go back
 Ir atras
-Graphics by: 
-Graficos por:
 High res:
 High res:
 Hold
@@ -120,20 +142,26 @@ In Game
 En Juego
 Internal
 Interno
+INTERNAL
+INTERNO
 Internal Games:
 Juegos Internos:
 Is your dpad analogue?
 ¿Es tu dpad analogico?
 Language:
 Idioma:
+Link Block
+Primer Bloque
+Link end Block
+Ultimo Bloque
 Loading ... Please Wait ...
 Cargando ... Por favor espera ...
 Lock data:
 Bloquear datos:
-MemCard Manager will be available soon
-Administrador de MemCard estara disponible pronto
 MEMORY CARD
 MEMORY CARD
+Memory Card Manager
+Gestor de Memory Card
 Memory Card:
 Memory Card:
 Memory Cards
@@ -142,12 +170,18 @@ Menu
 Menu
 Menu Theme:
 Tema Menu:
+Moving :
+Moviendo :
+Moving...
+Moviendo...
 Music:
 Musica:
 New Card
 Nueva Tarjeta
 New GamePad found
 Nuevo GamePad encontrado
+OK
+Aceptar
 OOPS! Game crashed. Resume point not available.
 OOPS! Juego dañado. Punto de resumen no disponible.
 Options
@@ -190,6 +224,8 @@ Re/Scan
 Re/Escanear
 Region:
 Region:
+Reload Cards
+Recargar Tarjetas
 Rename
 Renombrar
 RESUME
@@ -202,6 +238,10 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch no esta instalado
+RetroBoot Systems
+Sistemas RetroBoot
+Run using RetroBoot(if installed)
+Ejecutar con RetroBoot(si esta instalado)
 Scanline Level:
 Nivel de Scanline:
 Scanlines:
@@ -216,6 +256,10 @@ Select or cancel highlighted option
 Elige o cancela la opcion resaltada
 SELECT RESUME SLOT TO LOAD
 ELIGE RANURA PARA CARGAR
+Select RetroBoot Platform
+Selecciona la Plataforma de RetroBoot
+Select Right Card
+Selecciona Tarjeta Derecha
 SELECT SLOT TO SAVE STATE
 ELIGE RANURA PARA GUARDAR
 Serial:
@@ -228,6 +272,8 @@ Show RetroArch:
 Mostrar RetroArch:
 Showing Timeout (0 = no timeout):
 Tiempo de Muestra (0 = sin tiempo):
+Showing:
+Mostrando:
 Showing: All games
 Mostrando: Todos los Juegos
 Showing: Favorite games
@@ -238,10 +284,6 @@ Showing: USB games
 Mostrando: Juegos en USB
 Slot
 Ranura
-Sorting :
-Orden:
-Sorting...
-Ordenando...
 Space
 Espacio
 SpeedHack:
@@ -260,6 +302,8 @@ Total:
 Total:
 UI:
 UI:
+Unknown Core (AutoDetect)
+Core Desconocido (AutoDetectar)
 Updating regional.db...
 Actualizando regional.db...
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.

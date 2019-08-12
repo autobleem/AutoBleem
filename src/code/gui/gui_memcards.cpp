@@ -36,7 +36,7 @@ void GuiMemcards::render() {
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=" + _("Custom Memory Cards") + "=-", 0, offset, true);
+    gui->renderTextLine("-=" + _("Custom Memory Cards") + "=-", 0, offset, POS_CENTER);
 
     if (selected >= cards.size()) {
         selected = cards.size() - 1;
@@ -182,7 +182,7 @@ void GuiMemcards::loop() {
                         }
 
                         string testResult = result;
-                        if (Util::matchesLowercase("sony", testResult)) {
+                        if (Util::compareCaseInsensitive("sony", testResult)) {
                             cancelled = true;
                         }
 
@@ -226,7 +226,7 @@ void GuiMemcards::loop() {
                         }
 
                         string testResult = result;
-                        if (Util::matchesLowercase("sony", testResult)) {
+                        if (Util::compareCaseInsensitive("sony", testResult)) {
                             cancelled = true;
                         }
 

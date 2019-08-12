@@ -1,3 +1,17 @@
+ games
+
+.-= Code C++ and shell scripts =-.
+
+.-= Database maintenance =-.
+
+.-= Graphics =-.
+
+.-= Localization support =-.
+
+.-= Retroboot and emulation cores =-.
+
+.-= Testing =-.
+
 About
 
 Advanced
@@ -10,9 +24,9 @@ Are you sure?
 
 AutoBleem
 
-AutoBleem Theme:
+AutoBleem resume points not available in RetroArch.
 
-Automatic PlayStation Classic USB launcher
+AutoBleem Theme:
 
 Background Music:
 
@@ -30,15 +44,17 @@ Clock:
 
 Close
 
-Code: AutoBleem Team
-
 Configuration
 
 Configuration saved - Press |@X| to continue
 
+CONFIGURED
+
 Confirm
 
 Console Button Guide
+
+Copy
 
 Cover Style:
 
@@ -50,9 +66,13 @@ Customize AutoBleem settings
 
 Decompressing ecm:
 
+Defragment Card
+
 Delete
 
 Delete card
+
+Do you want to save memcards data ?
 
 Download latest:
 
@@ -74,6 +94,8 @@ Enter new name for card
 
 Enter new name for memory card
 
+Entry
+
 Favorite:
 
 Flush covers
@@ -81,6 +103,8 @@ Flush covers
 Folder:
 
 Frameskip:
+
+Free
 
 Free space
 
@@ -106,8 +130,6 @@ GFX Filter:
 
 Go back
 
-Graphics by: 
-
 High res:
 
 Hold
@@ -120,19 +142,25 @@ In Game
 
 Internal
 
+INTERNAL
+
 Internal Games:
 
 Is your dpad analogue?
 
 Language:
 
+Link Block
+
+Link end Block
+
 Loading ... Please Wait ...
 
 Lock data:
 
-MemCard Manager will be available soon
-
 MEMORY CARD
+
+Memory Card Manager
 
 Memory Card:
 
@@ -142,11 +170,17 @@ Menu
 
 Menu Theme:
 
+Moving :
+
+Moving...
+
 Music:
 
 New Card
 
 New GamePad found
+
+OK
 
 OOPS! Game crashed. Resume point not available.
 
@@ -190,6 +224,8 @@ Re/Scan
 
 Region:
 
+Reload Cards
+
 Rename
 
 RESUME
@@ -201,6 +237,10 @@ Resume point saved to slot
 RetroArch
 
 RetroArch is not installed
+
+RetroBoot Systems
+
+Run using RetroBoot(if installed)
 
 Scanline Level:
 
@@ -216,6 +256,10 @@ Select or cancel highlighted option
 
 SELECT RESUME SLOT TO LOAD
 
+Select RetroBoot Platform
+
+Select Right Card
+
 SELECT SLOT TO SAVE STATE
 
 Serial:
@@ -228,6 +272,8 @@ Show RetroArch:
 
 Showing Timeout (0 = no timeout):
 
+Showing:
+
 Showing: All games
 
 Showing: Favorite games
@@ -237,10 +283,6 @@ Showing: Internal games
 Showing: USB games
 
 Slot
-
-Sorting :
-
-Sorting...
 
 Space
 
@@ -259,6 +301,8 @@ to scan
 Total:
 
 UI:
+
+Unknown Core (AutoDetect)
 
 Updating regional.db...
 

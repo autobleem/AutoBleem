@@ -260,22 +260,22 @@ void GuiEditor::init() {
     if (!internal) {
         if (this->gameIni.values["memcard"] != "SONY") {
             string cardpath =
-                    gui->path + Util::separator() + "!MemCards" + Util::separator() + this->gameIni.values["memcard"];
-            if (!Util::exists(cardpath)) {
+                    gui->path + DirEntry::separator() + "!MemCards" + DirEntry::separator() + this->gameIni.values["memcard"];
+            if (!DirEntry::exists(cardpath)) {
                 this->gameIni.values["memcard"] = "SONY";
             }
         }
 
         bool pngLoaded = false;
-        for (const DirEntry & entry:Util::diru(gui->path + Util::separator() + gameIni.entry)) {
-            if (Util::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(renderer, (gui->path + Util::separator() + gameIni.entry + Util::separator() +
+        for (const DirEntry & entry:DirEntry::diru(gui->path + DirEntry::separator() + gameIni.entry)) {
+            if (DirEntry::matchExtension(entry.name, EXT_PNG)) {
+                cover = IMG_LoadTexture(renderer, (gui->path + DirEntry::separator() + gameIni.entry + DirEntry::separator() +
                                                    entry.name).c_str());
                 pngLoaded = true;
             }
         }
         if (!pngLoaded) {
-            cover = IMG_LoadTexture(renderer, (Util::getWorkingPath() + Util::separator() + "default.png").c_str());
+            cover = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + DirEntry::separator() + "default.png").c_str());
         }
     } else {
         // recover ini
@@ -287,22 +287,22 @@ void GuiEditor::init() {
 
         if (this->gameIni.values["memcard"] != "SONY") {
             string cardpath =
-                    gui->path + Util::separator() + "!MemCards" + Util::separator() + this->gameIni.values["memcard"];
-            if (!Util::exists(cardpath)) {
+                    gui->path + DirEntry::separator() + "!MemCards" + DirEntry::separator() + this->gameIni.values["memcard"];
+            if (!DirEntry::exists(cardpath)) {
                 this->gameIni.values["memcard"] = "SONY";
             }
         }
 
         bool pngLoaded = false;
-        for (const DirEntry & entry:Util::diru(gameData->folder)) {
-            if (Util::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(renderer, (gameData->folder + Util::separator() +
+        for (const DirEntry & entry:DirEntry::diru(gameData->folder)) {
+            if (DirEntry::matchExtension(entry.name, EXT_PNG)) {
+                cover = IMG_LoadTexture(renderer, (gameData->folder + DirEntry::separator() +
                                                    entry.name).c_str());
                 pngLoaded = true;
             }
         }
         if (!pngLoaded) {
-            cover = IMG_LoadTexture(renderer, (Util::getWorkingPath() + Util::separator() + "default.png").c_str());
+            cover = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + DirEntry::separator() + "default.png").c_str());
         }
     }
 
@@ -322,58 +322,58 @@ void GuiEditor::render() {
 
     // Game.ini
 
-    gui->renderTextLine("-=" + gameIni.values["title"] + "=-", line++, offset, true);
+    gui->renderTextLine("-=" + gameIni.values["title"] + "=-", line++, offset, POS_CENTER);
 
     if (!internal) {
-        gui->renderTextLine(_("Folder:") + " " + gameIni.entry + "", line++, offset, true);
+        gui->renderTextLine(_("Folder:") + " " + gameIni.entry + "", line++, offset, POS_CENTER);
     } else {
-        gui->renderTextLine(_("Folder:") + " " + gameData->folder + "", line++, offset, true);
+        gui->renderTextLine(_("Folder:") + " " + gameData->folder + "", line++, offset, POS_CENTER);
     }
 
-    gui->renderTextLine(_("Published by:") + " " + gameIni.values["publisher"], line++, offset, true);
+    gui->renderTextLine(_("Published by:") + " " + gameIni.values["publisher"], line++, offset, POS_CENTER);
 
     gui->renderTextLine(_("Year:") +" "+ gameIni.values["year"] + "   " + _("Players") + ":" + " " +
-                        gameIni.values["players"], line++, offset, true);
+                        gameIni.values["players"], line++, offset, POS_CENTER);
 
     gui->renderTextLine(_("Memory Card:") + " " +
                         (gameIni.values["memcard"] == "SONY" ? string(_("Internal")) : gameIni.values["memcard"] + " " +
                                                                                     "(" + _("Custom") + ")"),
-                        line++, offset, true);
+                        line++, offset, POS_CENTER);
 
     gui->renderTextLineOptions(
             _("Favorite:") + (gameIni.values["favorite"] == "1" ? string("|@Check|") : string("|@Uncheck|")),
-            OPT_FAVORITE, offset, false, 300);
+            OPT_FAVORITE, offset, POS_LEFT, 300);
 
     // pcsx.cfg
 
     gui->renderTextLineOptions(
             _("Lock data:") + (gameIni.values["automation"] == "0" ? string("|@Check|") : string("|@Uncheck|")),
-            OPT_LOCK, offset, false, 300);
+            OPT_LOCK, offset, POS_LEFT, 300);
 
     gui->renderTextLineOptions(_("High res:") + (highres == 1 ? string("|@Check|") : string("|@Uncheck|")),
-            OPT_HIGHRES, offset, false, 300);
+            OPT_HIGHRES, offset, POS_LEFT, 300);
 
     gui->renderTextLineOptions(_("SpeedHack:") + (speedhack == 1 ? string("|@Check|") : string("|@Uncheck|")),
-            OPT_SPEEDHACK, offset, false, 300);
+            OPT_SPEEDHACK, offset, POS_LEFT, 300);
 
     gui->renderTextLineOptions(_("Scanlines:") + (scanlines == 1 ? string("|@Check|") : string("|@Uncheck|")),
-            OPT_SCANLINES, offset, false, 300);
+            OPT_SCANLINES, offset, POS_LEFT, 300);
 
     gui->renderTextLineOptions(_("Scanline Level:") + " " + to_string(scanlineLevel),
-            OPT_SCANLINELV, offset, false, 300);
+            OPT_SCANLINELV, offset, POS_LEFT, 300);
 
     gui->renderTextLineOptions(_("Clock:") + " " + to_string(clock),
-            OPT_CLOCK_PSX, offset, false, 300);
+            OPT_CLOCK_PSX, offset, POS_LEFT, 300);
 
     gui->renderTextLineOptions(_("Frameskip:") + " " + to_string(frameskip),
-            OPT_FRAMESKIP, offset, false, 300);
+            OPT_FRAMESKIP, offset, POS_LEFT, 300);
 
     if (!internal) {
-        gui->renderTextLineOptions(_("Plugin:") + gpu, OPT_PLUGIN, offset, false, 300);
+        gui->renderTextLineOptions(_("Plugin:") + gpu, OPT_PLUGIN, offset, POS_LEFT, 300);
     }
 
     gui->renderTextLineOptions(_("Spu Interpolation:") + " " + to_string(interpolation),
-            OPT_INTERPOLATION, offset, false, 300);
+            OPT_INTERPOLATION, offset, POS_LEFT, 300);
 
     gui->renderSelectionBox(selOption, offset, 300);
 
@@ -479,9 +479,8 @@ void GuiEditor::loop() {
                                 if (!cancelled) {
                                     Memcard *memcard = new Memcard(gui->path);
                                     string savePath =
-                                            gui->path + Util::separator() + "!SaveStates" + Util::separator() +
-                                            gameIni.entry +
-                                            Util::separator() + "memcards";
+                                            gui->path + DirEntry::separator() + "!SaveStates" + DirEntry::separator() +
+                                            gameIni.entry + DirEntry::separator() + "memcards";
                                     memcard->storeToRepo(savePath, result);
                                     gameIni.values["memcard"] = result;
                                     gameIni.save(gameIni.path);
@@ -492,7 +491,6 @@ void GuiEditor::loop() {
                     } else {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                     }
-
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
                         if (!internal) {
@@ -518,7 +516,6 @@ void GuiEditor::loop() {
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
-                        SDL_DestroyTexture(cover);
                         cover = nullptr;
                         menuVisible = false;
 

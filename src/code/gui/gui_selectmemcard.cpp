@@ -24,8 +24,21 @@ void GuiSelectMemcard::init() {
 
     shared_ptr<Gui> gui(Gui::getInstance());
     Memcard *memcardOps = new Memcard(gui->path);
-    cards = memcardOps->list();
+    if (listType==MC_CUSTOM) {
+        cards = memcardOps->list();
+    } else
+    {
+        cards.push_back(_("CONFIGURED"));
+        // build memcards list
+        vector<string> customList = memcardOps->list();
+        for (const string& mc:customList)
+        {
+            cards.push_back("[1] "+mc);
+            cards.push_back("[2] "+mc);
+        }
 
+
+    }
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
     firstVisible = 0;
     lastVisible = firstVisible + maxVisible;
@@ -38,10 +51,11 @@ void GuiSelectMemcard::init() {
         }
     }
 
-    vector<string>::iterator it;
-    it = cards.begin();
-    cards.insert(it, string("(" + _("Internal") + ")"));
-
+    if (listType==MC_CUSTOM) {
+        vector<string>::iterator it;
+        it = cards.begin();
+        cards.insert(it, string("(" + _("Internal") + ")"));
+    }
     delete memcardOps;
 }
 
@@ -53,7 +67,7 @@ void GuiSelectMemcard::render() {
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=" + _("Select memory card") + "=-", 0, offset, true);
+    gui->renderTextLine("-=" + _("Select memory card") + "=-", 0, offset, POS_CENTER);
 
     if (selected >= cards.size()) {
         selected = cards.size() - 1;
@@ -82,7 +96,7 @@ void GuiSelectMemcard::render() {
     }
 
     gui->renderStatus(_("Card") + " " + to_string(selected + 1) + "/" + to_string(cards.size()) +
-                      "   |@L1|/|@R1| " + _("Page") + "     |@X| " + _("Select") + "  |@O| " + ("Cancel") + "|");
+                      "   |@L1|/|@R1| " + _("Page") + "     |@X| " + _("Select") + "  |@O| " + _("Cancel") + "|");
     SDL_RenderPresent(renderer);
 }
 
@@ -164,7 +178,7 @@ void GuiSelectMemcard::loop() {
 
                     };
                     if (e.jbutton.button ==  gui->_cb(PCS_BTN_CROSS,&e)) {
-
+                        cardSelected = cards[selected];
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         menuVisible = false;
                     };

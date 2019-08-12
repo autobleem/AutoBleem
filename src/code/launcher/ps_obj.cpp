@@ -9,7 +9,7 @@ using namespace std;
 //*******************************
 // PsObj::PsObj
 //*******************************
-PsObj::PsObj(SDL_Renderer *renderer1, string name1, string texPath) : renderer(renderer1), name(name1) {
+PsObj::PsObj(SDL_Shared<SDL_Renderer> renderer1, string name1, string texPath) : renderer(renderer1), name(name1) {
     if (texPath != "") {
         load(texPath);
     }
@@ -33,7 +33,6 @@ void PsObj::load(const string & imagePath) {
 // PsObj::destroy
 //*******************************
 void PsObj::destroy() {
-    SDL_DestroyTexture(tex);
 }
 
 //*******************************

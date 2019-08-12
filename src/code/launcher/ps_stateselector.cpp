@@ -17,12 +17,7 @@ using namespace std;
 void PsStateSelector::cleanSaveStateImages()
 {
     for (int i=0;i<4;i++)
-    {
-        if (slotImg[i]!= nullptr)
-        {
-            SDL_DestroyTexture(slotImg[i]);
-        }
-    }
+        slotImg[i] = nullptr;
 }
 
 //*******************************
@@ -92,10 +87,10 @@ void PsStateSelector::render()
             text = _("SELECT SLOT TO SAVE STATE");
         }
 
-        GuiLauncher::renderText(0, 110, _(text), brightWhite, font30, true, false);   // center=true, background=false
+        GuiLauncher::renderText(0, 110, _(text), brightWhite, font30, POS_CENTER, false);   // center=true, background=false
 
         shared_ptr<Gui> gui(Gui::getInstance());
-        SDL_Texture *infoText;
+        SDL_Shared<SDL_Texture> infoText;
         SDL_Rect infoRect, infoDest;
 
         if (operation==OP_LOAD) {
@@ -114,7 +109,6 @@ void PsStateSelector::render()
         infoDest.h=infoRect.h;
 
         SDL_RenderCopy(renderer,infoText,&infoRect, &infoDest);
-        SDL_DestroyTexture(infoText);
 
         for (int i=0;i<4;i++)
         {
@@ -148,7 +142,7 @@ void PsStateSelector::render()
                 SDL_RenderCopy(renderer, slotImg[i], &input, &imgOut);
             }
 
-            GuiLauncher::renderText(output.x+60, 270, _("Slot")+" "+to_string(i+1), brightWhite, font24, false, false); // center=false, background=false
+            GuiLauncher::renderText(output.x+60, 270, _("Slot")+" "+to_string(i+1), brightWhite, font24, POS_LEFT, false); // center=false, background=false
         }
     }
 }

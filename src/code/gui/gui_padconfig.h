@@ -1,9 +1,4 @@
-//
-// Created by screemer on 2019-04-15.
-//
-
-#ifndef AUTOBLEEM_GUI_GUI_PADCONFIG_H
-#define AUTOBLEEM_GUI_GUI_PADCONFIG_H
+#pragma once
 
 #include <SDL2/SDL_joystick.h>
 #include "gui_screen.h"
@@ -23,6 +18,3 @@ public:
 
     using GuiScreen::GuiScreen;
 };
-
-
-#endif //AUTOBLEEM_GUI_GUI_PADCONFIG_H

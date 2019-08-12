@@ -14,6 +14,12 @@ mkdir -p /media/System/Region
 mkdir -p /media/System/Logs
 mkdir -p /media/System/UI
 
+
+cp -r /media/Autobleem/rc/launch_rom.rfa.sh /media/retroarch/retroboot/bin/
+cp -r /media/Autobleem/bin/autobleem/AutoBleem.rdb /media/retroarch/database/rdb/
+chmod 777 /media/retroarch/retroboot/bin/*
+
+
 # Copy the BIOS files to USB
 [ ! -f /media/System/Bios/romw.bin ] && cp -r /gaadata/system/bios/romw.bin /media/System/Bios/romw.bin
 [ ! -f /media/System/Bios/romJP.bin ] && cp -r /media/System/Bios/romw.bin /media/System/Bios/romJP.bin

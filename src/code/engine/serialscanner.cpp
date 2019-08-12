@@ -9,6 +9,8 @@
 #include "../util.h"
 #include <fstream>
 #include <iostream>
+#include "../DirEntry.h"
+
 using namespace std;
 
 // The SerialScanner class reads the serial number in a CDROM BIN file which is an ISO 9660 image of a CDROM.
@@ -44,7 +46,7 @@ string SerialScanner::fixSerial(string serial) {
 //*******************************
 // SerialScanner::scanSerial
 //*******************************
-string SerialScanner::scanSerial(int imageType, string path, string firstBinPath)
+string SerialScanner::scanSerial(ImageType imageType, string path, string firstBinPath)
 {
     string serial = scanSerialInternal(imageType,path,firstBinPath);
     cout <<serial<<endl;
@@ -58,10 +60,10 @@ string SerialScanner::scanSerial(int imageType, string path, string firstBinPath
 //*******************************
 // SerialScanner::scanSerialInternal
 //*******************************
-string SerialScanner::scanSerialInternal(int imageType, string path, string firstBinPath) {
+string SerialScanner::scanSerialInternal(ImageType imageType, string path, string firstBinPath) {
     if (imageType == IMAGE_PBP) {
         string destinationDir = path ;
-        string pbpFileName = Util::findFirstFile(EXT_PBP, destinationDir);
+        string pbpFileName = DirEntry::findFirstFile(EXT_PBP, destinationDir);
         if (pbpFileName != "") {
             ifstream is;
             is.open(destinationDir + pbpFileName);
@@ -117,7 +119,7 @@ string SerialScanner::scanSerialInternal(int imageType, string path, string firs
             }
         }
     }
-    if (imageType == IMAGE_CUE_BIN || imageType == IMAGE_IMG || imageType == IMAGE_ISO) {
+    if (imageTypeIsAGameFileThatUsesACueFile(imageType)) {
         string prefixes[] = {
                 "CPCS", "ESPM", "HPS", "LPS", "LSP", "SCAJ", "SCED", "SCES", "SCPS", "SCUS", "SIPS", "SLES", "SLKA",
                 "SLPM", "SLPS", "SLUS"};
@@ -164,16 +166,16 @@ string SerialScanner::scanSerialInternal(int imageType, string path, string firs
 //*******************************
 // SerialScanner::workarounds
 //*******************************
-string SerialScanner::workarounds(int imageType, string path, string firstBinPath)
+string SerialScanner::workarounds(ImageType imageType, string path, string firstBinPath)
 {
     string fileToScan = "";
-    if (imageType == IMAGE_CUE_BIN || imageType == IMAGE_IMG || imageType == IMAGE_ISO)
+    if (imageTypeIsAGameFileThatUsesACueFile(imageType))
     {
         fileToScan = firstBinPath;
     }
     if (imageType == IMAGE_PBP)
     {
-        fileToScan = Util::findFirstFile(EXT_PBP, path);
+        fileToScan = DirEntry::findFirstFile(EXT_PBP, path);
     }
 
     // BH2 - Resident Evil 1.5

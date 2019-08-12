@@ -21,9 +21,10 @@ public:
 
     int selOption=0;
     int totalHeight=0;
+    int exitCode=0;
 
-    std::vector<std::string> themes;
-    std::vector<std::string> sthemes;
+    std::vector<std::string> autobleemUIThemes;
+    std::vector<std::string> menuThemes;
     std::vector<std::string> pcsx;
     std::vector<std::string> mip;
     std::vector<std::string> nomusic;

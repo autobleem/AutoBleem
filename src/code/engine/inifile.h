@@ -12,7 +12,7 @@
 //
 // Example USB game inifile.  stored in map<string, string> values:
 //
-// [Game]
+// [USBGame]
 // Automation=0
 // Discs=Twisted Metal 2.pbp
 // Highres=0
@@ -32,4 +32,5 @@ public:
 
     void load(const std::string & path);
     void save(const std::string & path);
+    void print();
 };

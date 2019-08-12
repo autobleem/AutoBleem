@@ -5,7 +5,7 @@ Avanzate
 Advanced:
 Avanzate:
 Are you sure you want to flush all covers?
-Sei sicuro di voler svuotare le cover?
+Sei sicuro di voler cancellare tutte le cover?
 Are you sure?
 Sei sicuro?
 AutoBleem
@@ -13,7 +13,7 @@ AutoBleem
 AutoBleem Theme:
 Tema di AutoBleem:
 Automatic PlayStation Classic USB launcher
-Launcher Automatico PlayStation Classic USB
+Launcher Automatico USB per PlayStation Classic
 Background Music:
 Musica di Sottofondo:
 Button Guide
@@ -31,7 +31,7 @@ Frequenza:
 Close
 Chiudi
 Code: AutoBleem Team
-Codice: AutoBleem Team
+Codice: Team AutoBleem
 Configuration
 Configurazione
 Configuration saved - Press |@X| to continue
@@ -77,7 +77,7 @@ Inserisci il nuovo nome della memory card
 Favorite:
 Preferiti:
 Flush covers
-Svuota le cover
+Cancella le cover
 Folder:
 Cartella:
 Frameskip:
@@ -89,15 +89,15 @@ Gioco
 GAME
 GIOCO
 Game Manager
-Gestione del gioco
+Gestore del gioco
 Game manager - Select game
-Gestione del gioco - Seleziona un gioco
+Gestore del gioco - Seleziona un gioco
 Game:
 Gioco:
 games
 giochi
 Games changed. Press
-I giochi sono cambiati. Premi
+Giochi cambiati. Premi
 Games filter
 Filtra i giochi
 games scanned
@@ -106,8 +106,8 @@ GFX Filter:
 Filtri Grafici:
 Go back
 Ritorna
-Graphics by: 
-Grafica di: 
+Graphics by:
+Grafica di:
 High res:
 Alta risoluzione:
 Hold
@@ -127,7 +127,7 @@ Il tuo dpad e' analogico?
 Language:
 Lingua:
 Loading ... Please Wait ...
-Caricamento ... Attendere ...
+Caricamento ... Attendere Prego ...
 Lock data:
 Blocca dati:
 MemCard Manager will be available soon
@@ -142,14 +142,20 @@ Menu
 Menu
 Menu Theme:
 Tema del Menu:
+Moving :
+Spostando :
+Moving...
+Spostando...
 Music:
 Musica:
 New Card
 Nuova Card
 New GamePad found
 Trovato nuovo GamePad
+OK
+OK
 OOPS! Game crashed. Resume point not available.
-OOPS! Il gioco ha crashato. Punto di salvataggio non disponibile.
+Oh-Oh! Il gioco e' crashato. Punto di salvataggio non disponibile.
 Options
 Opzioni
 Original
@@ -165,13 +171,13 @@ Prego confermare
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 COLLEGA UN GAMEPAD A PLAYSTATION CLASSIC
 Please wait ... deleting covers...
-Attendere ... cancellazione cover...
+Attendere prego ... cancello le cover...
 Plugin:
 Plugin:
 Power Off
 Spegni
 POWERING OFF... PLEASE WAIT
-SPEGNIMENTO IN CORSO... ATTENDERE
+SPEGNIMENTO IN CORSO... ATTENDERE PREGO
 Press a key for
 Premi un tasto per
 Published by:
@@ -207,7 +213,7 @@ Livello Scanline:
 Scanlines:
 Scanline:
 Scanning...
-Scansione...
+Cercando...
 Select
 Seleziona
 Select memory card
@@ -238,10 +244,6 @@ Showing: USB games
 Visualizza: Giochi su USB
 Slot
 Slot
-Sorting :
-Ordinamento :
-Sorting...
-Ordinando...
 Space
 Spazio
 SpeedHack:
@@ -255,7 +257,7 @@ Supporto via Discord:
 This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 Questo e' un programma gratuito e open source. Funziona COSI' COME E' e Noi non ci assumiamo alcuna responsabilita' per eventuali problemi o danni.
 to scan
-per scansionare
+per cercare
 Total:
 Totale:
 UI:

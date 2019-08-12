@@ -30,8 +30,8 @@ void GuiKeyboard::render() {
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     gui->renderLabelBox(1, offset);
-    gui->renderTextLine("-= " + label + " =-", 0, offset, true);
-    gui->renderTextLine(result + "#", 1, offset, true);
+    gui->renderTextLine("-= " + label + " =-", 0, offset, POS_CENTER);
+    gui->renderTextLine(result + "#", 1, offset, POS_CENTER);
 
     SDL_Rect rect2;
     rect2.x = atoi(gui->themeData.values["opscreenx"].c_str());
@@ -39,10 +39,9 @@ void GuiKeyboard::render() {
     rect2.w = atoi(gui->themeData.values["opscreenw"].c_str());
     rect2.h = atoi(gui->themeData.values["opscreenh"].c_str());
 
-    SDL_Texture *tex;
+    SDL_Shared<SDL_Texture> tex;
     SDL_Rect rect;
     gui->getTextAndRect(renderer, 0, 0, "*", gui->themeFont, &tex, &rect);
-    SDL_DestroyTexture(tex);
 
     for (int x = 0; x < 10; x++) {
         for (int y = 0; y < 4; y++) {

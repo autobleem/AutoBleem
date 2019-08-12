@@ -5,7 +5,7 @@ The non RetroBoot enabled packages (full, ntscU, palE, ntscJ) contain a startup 
 
 Replace the file in /Autobleem/rc with the version downloaded from this link
 
-### Current version 0.6.0b3 please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
+### Current version 0.7.0 Ultimate please update your installations [HERE](https://github.com/screemerpl/cbleemsync/releases)
 
 #### Please read this page before downloading AutoBleem [USB compatibility FAQ](https://github.com/screemerpl/cbleemsync/wiki/USB-compatibility-FAQ)
 
@@ -28,7 +28,7 @@ This is my personal project not related to BleemSync. I started it at the day wh
 If you want some new feature, or you find a bug please raise the issue here, or contact us on Discord.
 
 ## Is it stable and is it safe to use ?
-Version 0.6.0 is "pretty" stable, but it is beta and... will be beta until we reach all of our goals. Do not be afraid ... its fully safe to use and will not brick your PSC as it does not write anything to internal storage in the console. The beta status only states that some functionalities we would want to have are still under development.  Also its well tested by multiple users and testers. 
+Version 0.7.0 is stable enough :) We do not call it beta, as some people are really scared about it... Do not be afraid ... its fully safe to use and will not brick your PSC as it does not write anything to internal storage in the console. 
 
 If you found an issue - report it using "Issues" section on this website or better contact us directly on Discord.
 
@@ -51,23 +51,24 @@ If you found an issue - report it using "Issues" section on this website or bett
 1. **Runs on boot of the PlayStation Classic** as it was designed to do so from the beginning
 1. Speaks your language
 1. Makes your PlayStation Classic a great device
-1. Starting with v0.6.0b3 includes prebuild distribution of RetroBoot by genderbent - RetroBoot is a PSC tailored distribution of RetroArch - an open source emulator that can emulate other consoles and makes you able to play more and more games. The package is provided by RetroBoot developers.  
+1. Starting with v0.6.0b3+ includes prebuild distribution of RetroBoot by genderbent - RetroBoot is a PSC tailored distribution of RetroArch - an open source emulator that can emulate other consoles and makes you able to play more and more games. The package is provided by RetroBoot developers.  
+1. Integrates RetroBoot to run PS1 and other console games directly from EvoUI
+1. Integrated Memory Card Manager/Editor 
 
 ## Installation
 
 1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases) - you can select one of the packages 
   
-  - autobleem-0.6.0-full - contains all covers for any region
-  - autobleem-0.6.0-ntscU/palE/ntscJ - contains only covers for selected region
-  - autobleem-0.6.0-clean - no cover databases (have to be installed manually) 
-  - autobleem-0.6.0-RetroBoot - a version based on full package but including RetroBoot distribution of RetroArch preinstalled
+  - autobleem-0.7.0-full - contains all covers for any region
+  - autobleem-0.7.0-ntscU/palE/ntscJ - contains only covers for selected region
+  - autobleem-0.7.0-clean - no cover databases (have to be installed manually) 
+  - autobleem-0.7.0-RetroBoot - a version based on full package but also including RetroBoot preinstalled (Only this version can use full RetroArch integration)
   
 1. Extract the contents to the root of your FAT32(recommended) or ext4 formatted USB flash drive
 1. Name your flash drive SONY. This is a requirement.
 1. If you decided to use clean installer - download Cover Repository databases (three separate files for NTSC-U, PAL and NTSC-J)
 1. Copy Cover Repository databases into /{Your USB}/Autobleem/bin/db not needed if you downloaded full or region packages
-1. You may want to install RetroArch (the folder is empty) - find it on ModMyClassic website - I do not distribute this software.
-1. You may want to install additional themes ... find them on reddit and copy to themes folder (follow folder structure)
+1. You may want to install additional themes ... find them on reddit/autobleem.tk and copy to themes folder (follow folder structure)
 
 ## Automatic Game scanning
 
@@ -105,13 +106,13 @@ The files are available on release page. Look for latest release for most update
 
 We also created a tool to dump and reload all png files in one shot. The tool is available here [DOWNLOAD](https://github.com/autobleem/abcoverpacker) 
 
-There ia also a tool to edit cover databases available here [DOWNLOAD](https://github.com/autobleem/abCoverEdit)
+There is also a tool to edit cover databases available here [DOWNLOAD](https://github.com/autobleem/abCoverEdit)
 
 ## Credits and links 
 
 This software uses some parts of code based on open licences:
 
-[BleemSync](https://github.com/pathartl/BleemSync) - some parts of bash scripts were reused from early BleemSync code. The credits go to ModMyClassic team (DoctorDalek/pathartl, compscom, Swingflip, cyanic and others).
+[BleemSync](https://github.com/pathartl/BleemSync) - some parts of bash scripts were reused from early BleemSync code. The credits go to ModMyClassic team (DoctorDalek/pathartl, compscom, Swingflip, cyanic and others). 
 
 [SQLite](https://www.sqlite.org/index.html) (sqlite.c / sqlite.h) Public domain - no license
 
@@ -131,17 +132,15 @@ Get to our Discord for support.
 Of course ... it is fully open source using GPL3.0, also if you know any C++, SQL, Java or even how to make youtube videos talk to us on our Discord and join our team.
 
 ### I can not see my game
-AutoBleem does scan the game folder during boot and using smart algorithm it is trying to generate all files needed to run the game, but sometimes it fails. In this case AutoBleem WILL NOT ADD THE GAME to the MENU, so if you do not see your game ... something is broken in it.
+AutoBleem does scan the game folder during boot and using smart algorithm it is trying to generate all files needed to run the game, but sometimes it fails. In this case AutoBleem WILL NOT ADD THE GAME to the MENU, so if you do not see your game ... something is broken in it. The same rule is valid for other emulator cores in EvoUI 
 
 ### Known Issues/Limitations
 - Encrypted PBP files are not loaded by PCSX ... you can only use files created using Popstation/PSX2PSP software
 - Some games may not be properly discovered or have missing covers
 - To enable usage of shared Memory cards you need to run a game at least once before switching cards
-- Shared cards can not be edited using SonyUI manager... The game selector shows content of Internal card all the time
 
 
 ## Road Map
-This is just rough ideas of milestone ideas
 
-no milestones set at the moment as we decided just look on what people use the most and implement it :)
+No roadmap here ... we develop based on community ideas only
 
