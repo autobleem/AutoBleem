@@ -151,9 +151,9 @@ Is your dpad analogue?
 Language:
 Idioma:
 Link Block
-Primer Bloque
+Link Block
 Link end Block
-Ultimo Bloque
+Link end Block
 Loading ... Please Wait ...
 Cargando ... Por favor espera ...
 Lock data:
@@ -257,9 +257,9 @@ Elige o cancela la opcion resaltada
 SELECT RESUME SLOT TO LOAD
 ELIGE RANURA PARA CARGAR
 Select RetroBoot Platform
-Selecciona la Plataforma de RetroBoot
+Seleccionar la Plataforma de RetroBoot
 Select Right Card
-Selecciona Tarjeta Derecha
+Seleccionar Tarjeta Derecha
 SELECT SLOT TO SAVE STATE
 ELIGE RANURA PARA GUARDAR
 Serial:
