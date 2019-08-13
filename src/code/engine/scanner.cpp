@@ -39,7 +39,7 @@ void Scanner::unecm(const string & path) {
 //*******************************
 // Scanner::updateRegionalDB
 //*******************************
-void Scanner::updateRegionalDB(Database *db) {
+void Scanner::updateRegionalDB(GamesHierarchy &gamesHierarchy, Database *db) {
     shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText(_("Updating regional.db..."));
     string path = DirEntry::getWorkingPath() + sep + "autobleem.list";
@@ -49,7 +49,8 @@ void Scanner::updateRegionalDB(Database *db) {
         for (int i = 0; i < gamesToAddToDB.size(); i++) {
             USBGamePtr data = gamesToAddToDB[i];
             cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
-            db->insertGame(i + 1, data->title, data->publisher, data->players, data->year, data->fullPath + sep,
+            data->gameId = i + 1;
+            db->insertGame(data->gameId, data->title, data->publisher, data->players, data->year, data->fullPath + sep,
                            data->saveStatePath + sep, data->memcard);
             if (data->discs.size() == 0)
                 cout << "No discs in game: " << data->title << endl;
@@ -61,6 +62,19 @@ void Scanner::updateRegionalDB(Database *db) {
         }
     outfile.flush();
     outfile.close();
+
+    //cout << "about to write hierarchy to DB" << endl;
+    gamesHierarchy.printGamesToDisplayInEachRow();
+
+    for (auto &row : gamesHierarchy.gameSubDirRows) {
+        //cout << " write row: " << row->displayRowIndex << ", " << row->subDirName << ", " << row->displayIndentLevel << ", " << row->gamesToDisplay.size() << endl;
+        db->insertSubDirRow(row->displayRowIndex, row->subDirName, row->displayIndentLevel, row->gamesToDisplay.size());
+
+        for (auto &game : row->gamesToDisplay) {
+            //cout << " write game: " << game->gameDirName << ", " << row->displayRowIndex << ", " << game->gameId << endl;
+            db->insertSubDirGames(row->displayRowIndex, game->gameId);
+        }
+    }
 }
 
 static const char cue1[] = "FILE \"{binName}\" BINARY\n"

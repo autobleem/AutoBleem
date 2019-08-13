@@ -67,11 +67,29 @@ static const char CREATE_GAME_SQL[] = " CREATE TABLE IF NOT EXISTS GAME  \
        SSPATH  text null,   \
        MEMCARD text null,   \
          PRIMARY KEY ( GAME_ID ) )";
+
 static const char CREATE_DISC_SQL[] = " CREATE TABLE IF NOT EXISTS DISC \
      ( [GAME_ID] integer, \
        [DISC_NUMBER] integer, \
        [BASENAME] text, \
           UNIQUE ([GAME_ID], [DISC_NUMBER]) )";
+
+static const char CREATE_SUBDIR_ROW_SQL[] = " CREATE TABLE IF NOT EXISTS SUBDIR_ROWS  \
+     ( SUBDIR_ROW_INDEX integer NOT NULL UNIQUE, \
+       SUBDIR_ROW_NAME text, \
+       INDENT_LEVEL integer,    \
+       NUM_GAMES integer,    \
+       PRIMARY KEY ( SUBDIR_ROW_INDEX ) )";
+
+static const char INSERT_SUBDIR_ROW[] = "INSERT INTO SUBDIR_ROWS \
+        ([SUBDIR_ROW_INDEX],[SUBDIR_ROW_NAME],[INDENT_LEVEL],[NUM_GAMES]) \
+        values (?,?,?,?)";
+
+static const char CREATE_SUBDIR_GAMES_TO_DISPLAY_ON_ROW_SQL[] = " CREATE TABLE IF NOT EXISTS SUBDIR_GAMES_TO_DISPLAY_ON_ROW  \
+     ( SUBDIR_ROW_INDEX integer, GAME_ID integer )";
+
+static const char INSERT_SUBDIR_GAME[] = "INSERT INTO SUBDIR_GAMES_TO_DISPLAY_ON_ROW \
+        ([SUBDIR_ROW_INDEX],[GAME_ID]) values (?,?)";
 
 //*******************************
 // internal.db
@@ -103,9 +121,11 @@ static const char CREATE_LANGUAGE_SPECIFIC_SQL[] = "CREATE TABLE IF NOT EXISTS L
         [LANGUAGE_ID] integer, \
         [VALUE] text, \
            UNIQUE ([DEFAULT_VALUE], [LANGUAGE_ID]) )";
-static const char DELETE_DATA[] = "DELETE FROM GAME";
-static const char DELETE_DATA2[] = "DELETE FROM DISC";
-static const char DELETE_DATA3[] = "DELETE FROM LANGUAGE_SPECIFIC";
+static const char DELETE_GAME_DATA[] = "DELETE FROM GAME";
+static const char DELETE_DISC_DATA[] = "DELETE FROM DISC";
+static const char DELETE_LANGUAGE_DATA[] = "DELETE FROM LANGUAGE_SPECIFIC";
+static const char DELETE_SUBDIR_ROW_DATA[] = "DELETE FROM SUBDIR_ROWS";
+static const char DELETE_SUBDIR_GAME_DATA[] = "DELETE FROM SUBDIR_GAMES_TO_DISPLAY_ON_ROW";
 
 static const char INSERT_DISC[] = "INSERT INTO DISC ([GAME_ID],[DISC_NUMBER],[BASENAME]) \
                 values (?,?,?)";
@@ -530,6 +550,48 @@ bool Database::insertGame(int id, string title, string publisher, int players, i
 }
 
 //*******************************
+// Database::insertSubDirRow
+//*******************************
+bool Database::insertSubDirRow(int rowIndex, string rowName, int indentLevel, int numGames) {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, INSERT_SUBDIR_ROW, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        sqlite3_bind_int(res, 1, rowIndex);
+        sqlite3_bind_text(res, 2, rowName.c_str(), -1, nullptr);
+        sqlite3_bind_int(res, 3, indentLevel);
+        sqlite3_bind_int(res, 4, numGames);
+        sqlite3_step(res);
+    } else {
+        cerr << "Failed to execute statement: " << sqlite3_errmsg(db) << endl;
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+
+    return true;
+}
+
+//*******************************
+// Database::insertSubDirGames
+//*******************************
+bool Database::insertSubDirGames(int rowIndex, int gameId) {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, INSERT_SUBDIR_GAME, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        sqlite3_bind_int(res, 1, rowIndex);
+        sqlite3_bind_int(res, 2, gameId);
+        sqlite3_step(res);
+    } else {
+        cerr << "Failed to execute statement: " << sqlite3_errmsg(db) << endl;
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+
+    return true;
+}
+
+//*******************************
 // Database::executeCreateStatement
 //*******************************
 bool Database::executeCreateStatement(char *sql, string tableName) {
@@ -592,9 +654,11 @@ void Database::disconnect() {
 // Database::truncate
 //*******************************
 bool Database::truncate() {
-    executeStatement((char *) DELETE_DATA, "Truncating all data", "Error truncating data");
-    executeStatement((char *) DELETE_DATA2, "Truncating all data", "Error truncating data");
-    executeStatement((char *) DELETE_DATA3, "Truncating all data", "Error truncating data");
+    executeStatement((char *) DELETE_GAME_DATA, "Truncating all data", "Error truncating data");
+    executeStatement((char *) DELETE_DISC_DATA, "Truncating all data", "Error truncating data");
+    executeStatement((char *) DELETE_LANGUAGE_DATA, "Truncating all data", "Error truncating data");
+    executeStatement((char *) DELETE_SUBDIR_ROW_DATA, "Truncating all data", "Error truncating data");
+    executeStatement((char *) DELETE_SUBDIR_GAME_DATA, "Truncating all data", "Error truncating data");
     return true;
 }
 
@@ -602,6 +666,9 @@ bool Database::createInitialDatabase() {
     if (!executeCreateStatement((char *) CREATE_GAME_SQL, "GAME")) return false;
     if (!executeCreateStatement((char *) CREATE_DISC_SQL, "DISC")) return false;
     if (!executeCreateStatement((char *) CREATE_LANGUAGE_SPECIFIC_SQL, "LANGUAGE_SPECIFIC")) return false;
+    if (!executeCreateStatement((char *) CREATE_SUBDIR_ROW_SQL, "SUBDIR_ROWS")) return false;
+    if (!executeCreateStatement((char *) CREATE_SUBDIR_GAMES_TO_DISPLAY_ON_ROW_SQL, "SUBDIR_GAMES_TO_DISPLAY_ON_ROW")) return false;
+
     return true;
 }
 

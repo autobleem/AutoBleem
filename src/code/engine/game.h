@@ -33,8 +33,8 @@ public:
     int folder_id = 0;
     std::string fullPath;       // "/Games/Sports/Football/NFL Blitz"
     std::string gameDirName;    // "NFL Blitz"
-	int	displayRowIndex;		// row 0 is /Games
     std::string saveStatePath;
+    int gameId = 0;
 
     std::string title;
     std::string publisher;

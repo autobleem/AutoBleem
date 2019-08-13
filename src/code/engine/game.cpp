@@ -117,7 +117,6 @@ bool USBGame::print() {
     cout << "-----------------" << endl;
     cout << "AUTOMATION: " << automationUsed << endl;
     cout << "Game folder id: " << folder_id << endl;
-	cout << "displayRowIndex: " << displayRowIndex << endl;
     cout << "Game: " << title << endl;
     cout << "Players: " << players << endl;
     cout << "Publisher: " << publisher << endl;

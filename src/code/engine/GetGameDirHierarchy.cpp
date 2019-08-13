@@ -45,7 +45,6 @@ void GameSubDir::scanAll() {
             USBGamePtr game{new USBGame};
             game->fullPath = path;
             game->gameDirName = dirEntry.name;
-            game->displayRowIndex = displayRowIndex;
             gamesInThisDir.emplace_back(game);
             //cout << "added game: " << game->pathName << endl;
         } else {
@@ -67,6 +66,7 @@ void GameSubDir::scanAll() {
 // we delay running this until after the serial is in the USBGame
 //*******************************
 void GameSubDir::makeGamesToDisplayWhileRemovingChildDuplicates(ofstream &dupFile) {
+    gamesToDisplay.clear();
     // remove the games in our copy of the games in the child dir that are duplicates of games in this row
     // so he game won't show up twice when viewing this row's carousel
     removeChildGamesThatAreDuplicatesOfGamesInThisRow(dupFile);

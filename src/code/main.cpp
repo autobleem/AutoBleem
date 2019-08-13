@@ -118,7 +118,7 @@ int scanGames(string rootPath, GamesHierarchy &gamesHierarchy, string dbpath) {
     }
 
     scanner->scanUSBGamesDirectory(rootPath, gamesHierarchy);
-    scanner->updateRegionalDB(gui->db);
+    scanner->updateRegionalDB(gamesHierarchy, gui->db);
 
     gui->drawText(_("Total:") + " " + to_string(scanner->gamesToAddToDB.size()) + " " + _("games scanned") + ".");
     sleep(1);
