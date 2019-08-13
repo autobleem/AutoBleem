@@ -66,10 +66,10 @@ void GameSubDir::scanAll() {
 // GameSubDir::makeGamesToDisplayWhileRemovingChildDuplicates
 // we delay running this until after the serial is in the USBGame
 //*******************************
-void GameSubDir::makeGamesToDisplayWhileRemovingChildDuplicates() {
+void GameSubDir::makeGamesToDisplayWhileRemovingChildDuplicates(ofstream &dupFile) {
     // remove the games in our copy of the games in the child dir that are duplicates of games in this row
     // so he game won't show up twice when viewing this row's carousel
-    removeChildGamesThatAreDuplicatesOfGamesInThisRow();
+    removeChildGamesThatAreDuplicatesOfGamesInThisRow(dupFile);
 
     // allGames to display for this row are all the games in this dir and the child dirs
     gamesToDisplay += gamesInThisDir;
@@ -81,9 +81,9 @@ void GameSubDir::makeGamesToDisplayWhileRemovingChildDuplicates() {
 // remove the games in our copy of the games in the child dir that are duplicates of games in this row
 // so he game won't show up twice when viewing this row's carousel
 //*******************************
-void GameSubDir::removeChildGamesThatAreDuplicatesOfGamesInThisRow() {
+void GameSubDir::removeChildGamesThatAreDuplicatesOfGamesInThisRow(ofstream &dupFile) {
     for (auto &game : gamesInThisDir) {
-        auto it = remove_if(begin(gamesInChildrenDirs), end(gamesInChildrenDirs), [&game, this] (USBGamePtr &childGame) {
+        auto it = remove_if(begin(gamesInChildrenDirs), end(gamesInChildrenDirs), [&game, &dupFile, this] (USBGamePtr &childGame) {
             bool removeMe = false;
             if (game->serial != "" && childGame->serial != "") {
                 removeMe = (game->serial == childGame->serial);
@@ -92,8 +92,14 @@ void GameSubDir::removeChildGamesThatAreDuplicatesOfGamesInThisRow() {
                 removeMe = (game->gameDirName == childGame->gameDirName);
             }
 
-            if (removeMe)
-                cout << "removed duplicate: serial: " << childGame->serial << ", " << childGame->fullPath << ", from: " << this->subDirName << endl;
+            if (removeMe) {
+                cout << "removed duplicate: serial: " << childGame->serial << ", " << childGame->fullPath << ", from: "
+                     << this->subDirName << endl;
+
+                dupFile << game->fullPath << endl;
+                dupFile << childGame->fullPath << endl;
+                dupFile << endl;
+            }
 
             return removeMe;
         });
@@ -145,12 +151,18 @@ GamesHierarchy::GamesHierarchy(const std::string & path) {
 // run this after Scanner has filled in the serial so we can correctly match duplicate games
 //*******************************
 void GamesHierarchy::makeGamesToDisplayWhileRemovingChildDuplicates() {
+    string dupFilePath = DirEntry::getWorkingPath() + sep + "duplicateGames.txt";
+    ofstream dupFile;
+    dupFile.open(dupFilePath.c_str(), ios::binary);
+    dupFile << "Duplicate games list.  The child directory game will not be duplicated in the parent directory carousel." << endl << endl;
+
     for (auto & row : gameSubDirRows) {
         USBGame::sortByTitle(row->gamesInThisDir);
         USBGame::sortByTitle(row->gamesInChildrenDirs);
-        row->makeGamesToDisplayWhileRemovingChildDuplicates();
+        row->makeGamesToDisplayWhileRemovingChildDuplicates(dupFile);
         USBGame::sortByTitle(row->gamesToDisplay);
     }
+    dupFile.close();
 }
 
 //*******************************

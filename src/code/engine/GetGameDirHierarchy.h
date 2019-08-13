@@ -27,7 +27,7 @@ struct GameSubDir {
     GameSubDir(const std::string & _path, int _displayRowIndex, int _displayIndentLevel,
                GameSubDirRows *displayRows);
 
-    void makeGamesToDisplayWhileRemovingChildDuplicates();
+    void makeGamesToDisplayWhileRemovingChildDuplicates(std::ofstream &dupFile);
 
     void print(bool plusGames);
 
@@ -36,7 +36,7 @@ private:
 
     // remove the games in our copy of the games in the child dir that are duplicates of games in this row
     // so he game won't show up twice when viewing this row's carousel
-    void removeChildGamesThatAreDuplicatesOfGamesInThisRow();
+    void removeChildGamesThatAreDuplicatesOfGamesInThisRow(std::ofstream &dupFile);
 };
 
 void operator += (USBGames &dest, const USBGames &src);
