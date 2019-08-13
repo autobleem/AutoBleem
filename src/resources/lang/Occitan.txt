@@ -1,3 +1,17 @@
+ games
+ jòcs
+.-= Code C++ and shell scripts =-.
+.-= Còdi C++ e scripts shell =-.
+.-= Database maintenance =-.
+.-= Mantenença de la basa de donadas =-.
+.-= Graphics =-.
+.-= Grafics =-.
+.-= Localization support =-.
+.-= Assisténcia localizacion =-.
+.-= Retroboot and emulation cores =-.
+.-= Retroboot e còrs d'emulacion =-.
+.-= Testing =-.
+.-= Ensag =-.
 About
 A prepaus
 Advanced
@@ -14,8 +28,6 @@ AutoBleem resume points not available in RetroArch.
 Punt de represa AutoBleem pas disponible dins RetroArch.
 AutoBleem Theme:
 Tèma AutoBleem :
-Automatic PlayStation Classic USB launcher
-Aviaire USB automatic PlayStation Classic
 Background Music:
 Musica de fons :
 Button Guide
@@ -32,30 +44,36 @@ Clock:
 Frequéncia :
 Close
 Barrar
-Code: AutoBleem Team
-Còdi : AutoBleem Team
 Configuration
 Configuracion
 Configuration saved - Press |@X| to continue
 Configuracion salvagarda - Quichatz |@X| per contunhar
+CONFIGURED
+CONFIGURAT
 Confirm
 Confirmar
 Console Button Guide
 Guida botons consòla
+Copy
+Copiar
 Cover Style:
 Estil cobèrtura :
 Custom
 Personalizada
 Custom Memory Cards
-Cartas memòria personalizada
+Cartas memòria personalizadas
 Customize AutoBleem settings
 Personalizar los paramètres AutoBleem
 Decompressing ecm:
 Descompression de l'ecm :
+Defragment Card
+Desfragmentar la carta
 Delete
 Suprimir
 Delete card
 Suprimir la carta
+Do you want to save memcards data ?
+Volètz salvagarda las donadas memcards ?
 Download latest:
 Darrièra version :
 DPAD - Same as classic menu
@@ -76,6 +94,8 @@ Enter new name for card
 Picatz un nòu nom per la carta
 Enter new name for memory card
 Picatz un nòu nom per la carta memòria
+Entry
+Entrada
 Favorite:
 Favorits :
 Flush covers
@@ -84,6 +104,8 @@ Folder:
 Dorsièr :
 Frameskip:
 Frameskip :
+Free
+Liure
 Free space
 Espaci liure
 Game
@@ -108,8 +130,6 @@ GFX Filter:
 Filtre GFX :
 Go back
 Tornar
-Graphics by:
-Grafic per :
 High res:
 Nauta resolucion :
 Hold
@@ -122,20 +142,26 @@ In Game
 Jòcs intèrnes
 Internal
 Intèrna
+INTERNAL
+INTÈRNA
 Internal Games:
 Jòcs intèrnes :
 Is your dpad analogue?
 Es vòstre dpad analòg ?
 Language:
 Lenga :
+Link Block
+
+Link end Block
+
 Loading ... Please Wait ...
 Cargament ... Esperatz ...
 Lock data:
 Verrolhar las donadas :
-MemCard Manager will be available soon
-MemCard Manager serà lèu disponible
 MEMORY CARD
 CARTA MEMÒRIA
+Memory Card Manager
+Gestionari de carta memòria
 Memory Card:
 Carta memòria :
 Memory Cards
@@ -144,12 +170,18 @@ Menu
 Menú
 Menu Theme:
 Tèma del menú :
+Moving :
+Desplaçament :
+Moving...
+Desplaçament...
 Music:
 Musica :
 New Card
 Nòva carta
 New GamePad found
 Nòva maneta trobada
+OK
+OK
 OOPS! Game crashed. Resume point not available.
 Ops ! Lo jòc a agut un problèma. Lo punt de represa es pas disponible.
 Options
@@ -192,6 +224,8 @@ Re/Scan
 Re/Scan
 Region:
 Region :
+Reload Cards
+Recargar las cartas
 Rename
 Renomenar
 RESUME
@@ -204,6 +238,8 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch es pas installat
+RetroBoot Systems
+Sistèmas RetroBoot
 Run using RetroBoot(if installed)
 Lançar amb RetroBoot (s’es installat)
 Scanline Level:
@@ -220,6 +256,10 @@ Select or cancel highlighted option
 Activar o desactivar las opcions subrelinhadas
 SELECT RESUME SLOT TO LOAD
 CAUSISSÈTZ UN PUNT DE REPRESA A CARGAR
+Select RetroBoot Platform
+Causissètz la plataforma RetroBoot
+Select Right Card
+Causissètz la carta que cal
 SELECT SLOT TO SAVE STATE
 CAUSISSÈTZ UN LÒC PER SALVAGARDAR L'ESTAT
 Serial:
@@ -232,6 +272,8 @@ Show RetroArch:
 Mostrar RetroArch :
 Showing Timeout (0 = no timeout):
 Afichatge Timeout (0 = cap de timeout) :
+Showing:
+Afichatge :
 Showing: All games
 Afichatge : totes los jòcs
 Showing: Favorite games
@@ -242,28 +284,26 @@ Showing: USB games
 Afichatge : jòcs USB
 Slot
 Lòc
-Sorting :
-Tria :
-Sorting...
-Triada...
 Space
 Espaci
 SpeedHack:
-Hack velocitat
+Hack velocitat :
 Spu Interpolation:
-Interpolacion Spu
+Interpolacion Spu :
 Starting EvolutionUI
 Aviada d'EvolutionUI
 Support via Discord:
 Sosten via Discord :
 This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
-Aqueste logicial es gratuit e open source. Es provesit coma aquò e pas cap de responsabilitat es nòstra.
+Aqueste logicial es gratuit e open source. Es provesit coma aquò e cap de responsabilitat es pas nòstra.
 to scan
 per analizar
 Total:
 Total :
 UI:
 UI :
+Unknown Core (AutoDetect)
+Còr desconegut (AutoDetect)
 Updating regional.db...
 Actualizacion de regional.db...
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
