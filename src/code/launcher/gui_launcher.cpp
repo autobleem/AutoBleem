@@ -59,6 +59,35 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
         // put only the favorites in gamesList
         copy_if(begin(completeList), end(completeList), back_inserter(gamesList),
                 [](const PsGamePtr &game) { return game->favorite; });
+    } else if (currentSet == SET_SUBDIR) {
+        GameRowInfos gameRowInfos;
+        gui->db->getGameRowInfos(&gameRowInfos);
+#if 0
+        for (auto &gameRowInfo : gameRowInfos)
+            cout << "game row: " << gameRowInfo.subDirRowIndex << ", " << gameRowInfo.rowName << ", " <<
+                 gameRowInfo.indentLevel << ", " << gameRowInfo.numGames << endl;
+#endif
+        PsGames completeList;
+        gui->db->getGames(&completeList);
+
+        int selectedRowIndex = 0;
+        vector<int> gameIdsInRow;
+        gui->db->getGameIdsInRow(&gameIdsInRow, selectedRowIndex);
+#if 0
+        for (auto &id : gameIdsInRow) {
+            cout << "game row: " << selectedRowIndex << ", id: " << id << endl;
+        }
+#endif
+
+        if (selectedRowIndex < gameRowInfos.size()) {
+            for (auto &psgame : completeList) {
+                if (find(begin(gameIdsInRow), end(gameIdsInRow), psgame->gameId) != end(gameIdsInRow)){
+                    cout << "game in row: " << psgame->title << endl;
+                    gamesList.emplace_back(psgame);
+                }
+            }
+        }
+
     } else if (currentSet == SET_RETROARCH) {
         cout << "Getting foreign games" << endl;
         raIntegrator.getGames(&gamesList, retroarch_playlist_name);
@@ -119,8 +148,8 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
 // GuiLauncher::showSetName
 //*******************************
 void GuiLauncher::showSetName() {
-    vector<string> setNames = {_("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
-                               _("Showing: Favorite games")};
+    vector<string> setNames = { _("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
+                                _("Showing: Favorite games"), _("Showing: Game Directory") };
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
 
     shared_ptr<Gui> gui(Gui::getInstance());

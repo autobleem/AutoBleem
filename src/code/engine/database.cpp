@@ -85,11 +85,20 @@ static const char INSERT_SUBDIR_ROW[] = "INSERT INTO SUBDIR_ROWS \
         ([SUBDIR_ROW_INDEX],[SUBDIR_ROW_NAME],[INDENT_LEVEL],[NUM_GAMES]) \
         values (?,?,?,?)";
 
+static const char GET_SUBDIR_ROW[] = "SELECT SUBDIR_ROW_INDEX, SUBDIR_ROW_NAME, INDENT_LEVEL, NUM_GAMES FROM \
+        SUBDIR_ROWS ORDER BY SUBDIR_ROW_INDEX";
+
 static const char CREATE_SUBDIR_GAMES_TO_DISPLAY_ON_ROW_SQL[] = " CREATE TABLE IF NOT EXISTS SUBDIR_GAMES_TO_DISPLAY_ON_ROW  \
      ( SUBDIR_ROW_INDEX integer, GAME_ID integer )";
 
 static const char INSERT_SUBDIR_GAME[] = "INSERT INTO SUBDIR_GAMES_TO_DISPLAY_ON_ROW \
         ([SUBDIR_ROW_INDEX],[GAME_ID]) values (?,?)";
+
+static const char GET_SUBDIR_GAME[] = "SELECT SUBDIR_ROW_INDEX, GAME_ID FROM \
+        SUBDIR_GAMES_TO_DISPLAY_ON_ROW ORDER BY SUBDIR_ROW_INDEX";
+
+static const char GET_SUBDIR_GAME_ON_ROW[] = "SELECT GAME_ID FROM \
+        SUBDIR_GAMES_TO_DISPLAY_ON_ROW WHERE SUBDIR_ROW_INDEX =?";
 
 //*******************************
 // internal.db
@@ -445,6 +454,79 @@ bool Database::getGames(PsGames *result) {
                 game->favorite = (ini.values["favorite"] == "1");
             }
             result->push_back(game);
+        }
+    } else {
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+    return true;
+}
+
+//*******************************
+// Database::getGameRowInfos
+//*******************************
+bool Database::getGameRowInfos(GameRowInfos *gameRowInfos) {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, GET_SUBDIR_ROW, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        while (sqlite3_step(res) == SQLITE_ROW) {
+            SubDirRowInfo subDirRowInfo;
+            subDirRowInfo.subDirRowIndex = sqlite3_column_int(res, 0);
+            const unsigned char *name = sqlite3_column_text(res, 1);
+            subDirRowInfo.rowName = (const char*) name;
+            subDirRowInfo.indentLevel = sqlite3_column_int(res, 2);
+            subDirRowInfo.numGames = sqlite3_column_int(res, 3);
+
+            cout << "SubDirRowInfo: " << subDirRowInfo.subDirRowIndex << ", " << subDirRowInfo.rowName <<
+                    ", " << subDirRowInfo.indentLevel << ", " << subDirRowInfo.numGames << endl;
+
+            gameRowInfos->emplace_back(subDirRowInfo);
+        }
+    } else {
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+    return true;
+}
+
+//*******************************
+// Database::getSubDirGames
+//*******************************
+bool Database::getGameRowGameInfos(GameRowGames *gameRowGames) {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, GET_SUBDIR_GAME, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        while (sqlite3_step(res) == SQLITE_ROW) {
+            GameRowGame gameRowGame;
+            gameRowGame.rowIndex = sqlite3_column_int(res, 0);
+            gameRowGame.gameId = sqlite3_column_int(res, 1);
+
+            cout << "GameRowGame: " << gameRowGame.rowIndex << ", " << gameRowGame.gameId << endl;
+
+            gameRowGames->emplace_back(gameRowGame);
+        }
+    } else {
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+    return true;
+}
+
+//*******************************
+// Database::getSubDirGames
+//*******************************
+bool Database::getGameIdsInRow(vector<int> *gameIdsInRow, int row) {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, GET_SUBDIR_GAME_ON_ROW, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        sqlite3_bind_int(res, 1, row);
+        while (sqlite3_step(res) == SQLITE_ROW) {
+            int gameId = sqlite3_column_int(res, 0);
+            //cout << "GameId in Row: " << row << ", " << gameId << endl;
+            gameIdsInRow->emplace_back(gameId);
         }
     } else {
         sqlite3_finalize(res);

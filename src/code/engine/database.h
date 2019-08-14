@@ -11,6 +11,34 @@
 #include "../launcher/ps_game.h"
 
 //******************
+// GameRowInfo
+//******************
+struct SubDirRowInfo {
+    int subDirRowIndex = 0;
+    std::string rowName = "";
+    int indentLevel = 0;
+    int numGames = 0;
+};
+
+//******************
+// GameRowInfos
+//******************
+using GameRowInfos = std::vector<SubDirRowInfo>;
+
+//******************
+// GameRowGame
+//******************
+struct GameRowGame {
+    int rowIndex = 0;
+    int gameId = 0;
+};
+
+//******************
+// GameRowGames
+//******************
+using GameRowGames = std::vector<GameRowGame>;
+
+//******************
 // Database
 //******************
 class Database {
@@ -36,6 +64,10 @@ public:
 
     bool getGames(PsGames *result);
     bool getInternalGames(PsGames *result);
+    bool getGameRowInfos(GameRowInfos *gameRowInfos);
+    bool getGameRowGameInfos(GameRowGames *gameRowGames);
+    bool getGameIdsInRow(std::vector<int> *gameIdsInRow, int row);
+
     bool updateTitle(int id, std::string title);
     bool refreshGame(PsGamePtr & game);
     bool refreshGameInternal(PsGamePtr & game);
