@@ -171,7 +171,8 @@ int main(int argc, char *argv[]) {
     USBGame::sortByFullPath(allGames);
 
     bool autobleemPrevOutOfDate = gamesHierarchy.gamesDoNotMatchAutobleemPrev(prevPath);
-    if (!prevFileExists || thereAreGameFilesInGamesDir || autobleemPrevOutOfDate) {
+    if (!prevFileExists || thereAreGameFilesInGamesDir || autobleemPrevOutOfDate ||
+        db->subDirRowsTableIsEmpty() || db->getNumGames() == 0) {
         scanner->forceScan = true;
     }
 

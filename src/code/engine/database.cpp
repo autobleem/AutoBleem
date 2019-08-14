@@ -81,6 +81,8 @@ static const char CREATE_SUBDIR_ROW_SQL[] = " CREATE TABLE IF NOT EXISTS SUBDIR_
        NUM_GAMES integer,    \
        PRIMARY KEY ( SUBDIR_ROW_INDEX ) )";
 
+static const char IS_SUBDIR_ROWS_TABLE_EMPTY[] = "SELECT count(*) FROM SUBDIR_ROWS";
+
 static const char INSERT_SUBDIR_ROW[] = "INSERT INTO SUBDIR_ROWS \
         ([SUBDIR_ROW_INDEX],[SUBDIR_ROW_NAME],[INDENT_LEVEL],[NUM_GAMES]) \
         values (?,?,?,?)";
@@ -626,6 +628,29 @@ bool Database::insertGame(int id, string title, string publisher, int players, i
         cerr << "Failed to execute statement: " << sqlite3_errmsg(db) << endl;
         sqlite3_finalize(res);
         return false;
+    }
+    sqlite3_finalize(res);
+    return true;
+}
+
+//*******************************
+// Database::subDirRowsTableIsEmpty
+// returns true if no rows in table or failure
+// *******************************
+bool Database::subDirRowsTableIsEmpty() {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, IS_SUBDIR_ROWS_TABLE_EMPTY, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        int result = sqlite3_step(res);
+        if (result == SQLITE_ROW) {
+            const int number = sqlite3_column_int(res, 0);
+            sqlite3_finalize(res);
+            return (number == 0);   // true if no rows in table
+        }
+    } else {
+        cerr << "Failed to execute statement: " << sqlite3_errmsg(db) << endl;
+        sqlite3_finalize(res);
+        return true;
     }
     sqlite3_finalize(res);
     return true;

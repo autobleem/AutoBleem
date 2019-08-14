@@ -53,6 +53,8 @@ public:
     bool insertGame(int id, std::string title, std::string publisher, int players, int year, std::string path, std::string sspath,
                     std::string memcard);
     bool insertDisc(int id, int discNum, std::string discName);
+
+    bool subDirRowsTableIsEmpty();
     bool insertSubDirRow(int rowIndex, std::string rowName, int indentLevel, int numGames);
     bool insertSubDirGames(int rowIndex, int gameId);
 
