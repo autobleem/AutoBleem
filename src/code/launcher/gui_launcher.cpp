@@ -62,6 +62,7 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
     } else if (currentSet == SET_SUBDIR) {
         GameRowInfos gameRowInfos;
         gui->db->getGameRowInfos(&gameRowInfos);
+        currentGameDirName = gameRowInfos[currentGameDirIndex].rowName;
 #if 0
         for (auto &gameRowInfo : gameRowInfos)
             cout << "game row: " << gameRowInfo.subDirRowIndex << ", " << gameRowInfo.rowName << ", " <<
@@ -70,16 +71,15 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
         PsGames completeList;
         gui->db->getGames(&completeList);
 
-        int selectedRowIndex = 0;
         vector<int> gameIdsInRow;
-        gui->db->getGameIdsInRow(&gameIdsInRow, selectedRowIndex);
+        gui->db->getGameIdsInRow(&gameIdsInRow, currentGameDirIndex);
 #if 0
         for (auto &id : gameIdsInRow) {
             cout << "game row: " << selectedRowIndex << ", id: " << id << endl;
         }
 #endif
 
-        if (selectedRowIndex < gameRowInfos.size()) {
+        if (currentGameDirIndex < gameRowInfos.size()) {
             for (auto &psgame : completeList) {
                 if (find(begin(gameIdsInRow), end(gameIdsInRow), psgame->gameId) != end(gameIdsInRow)){
                     //cout << "game in row: " << psgame->title << endl;
@@ -149,7 +149,7 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
 //*******************************
 void GuiLauncher::showSetName() {
     vector<string> setNames = { _("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
-                                _("Showing: Favorite games"), _("Showing: Game Directory") };
+                                _("Showing: Favorite games"), _("Showing: Directory: ") };
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
 
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -158,12 +158,15 @@ void GuiLauncher::showSetName() {
     if (str != "")
         timeout = stoi(str.c_str()) * TicksPerSecond;
 
-    if (currentSet != SET_RETROARCH) {
-        notificationLines[0].setText(setNames[currentSet] + numGames, timeout);   // line starts at 0 for top
-    } else {
+    if (currentSet == SET_RETROARCH) {
         string playlist = DirEntry::getFileNameWithoutExtension(retroarch_playlist_name);
         notificationLines[0].setText(_("Showing:") + " " + playlist + " " + numGames,
                                      timeout);   // line starts at 0 for top
+    }
+    else if (currentSet == SET_SUBDIR) {
+        notificationLines[0].setText(setNames[currentSet] + currentGameDirName + numGames, timeout);   // line starts at 0 for top
+    } else {
+        notificationLines[0].setText(setNames[currentSet] + numGames, timeout);   // line starts at 0 for top
     }
 }
 

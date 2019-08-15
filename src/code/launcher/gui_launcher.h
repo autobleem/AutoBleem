@@ -55,6 +55,10 @@ public:
     int currentSet=SET_ALL;
     void switchSet(int newSet, bool noForce);
     void showSetName();
+
+    int currentGameDirIndex = 0;
+    std::string currentGameDirName = "";
+
     NotificationLines notificationLines; // top two lines of the screen
     int numberOfNonDuplicatedGamesInCarousel = 0;
 
