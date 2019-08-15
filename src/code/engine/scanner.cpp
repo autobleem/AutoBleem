@@ -314,6 +314,10 @@ void Scanner::scanUSBGamesDirectory(const string &rootPath, GamesHierarchy &game
 
     USBGames allGames = gamesHierarchy.getAllGames();
 
+    string badGameFilePath = DirEntry::getWorkingPath() + sep + "gamesThatFailedVerifyCheck.txt";
+    ofstream badGameFile;
+    badGameFile.open(badGameFilePath.c_str(), ios::binary);
+
 #if 0
     int i = 0;
     for (auto game : gamesScanned) {
@@ -456,12 +460,16 @@ void Scanner::scanUSBGamesDirectory(const string &rootPath, GamesHierarchy &game
                 DirEntry::generateM3UForDirectory(game->fullPath, game->discs[0].cueName);
             }
             else {
+                badGameFile << "Game failed to verify: " << game->fullPath << endl;
+
                 // the game did not pass the verify step and was not added to the DB.
                 // remove the game everywhere in the gamesHierarchy
                 gamesHierarchy.removeGameFromEntireHierarchy(game);
             }
 		}
 	} // end for each game dir
+
+    badGameFile.close();
 
     USBGame::sortByTitle(gamesToAddToDB);
     gamesHierarchy.makeGamesToDisplayWhileRemovingChildDuplicates();
