@@ -27,6 +27,7 @@ struct GameSubDir {
     GameSubDir(const std::string & _path, int _displayRowIndex, int _displayIndentLevel,
                GameSubDirRows *displayRows);
 
+    static bool sameGame(const USBGamePtr &game1, const USBGamePtr &game2);
     void makeGamesToDisplayWhileRemovingChildDuplicates(std::ofstream &dupFile);
 
     void print(bool plusGames);
@@ -34,9 +35,12 @@ struct GameSubDir {
 private:
     void scanAll();
 
-    // remove the games in our copy of the games in the child dir that are duplicates of games in this row
-    // so he game won't show up twice when viewing this row's carousel
+    // remove the games in the child dir that are duplicates of games in this row.
+    // so the game won't show up twice when viewing this row's carousel.
+    // the game in the parent dir has precedence.
     void removeChildGamesThatAreDuplicatesOfGamesInThisRow(std::ofstream &dupFile);
+
+    void removeDuplicateGamesAmongTheChildren(std::ofstream &dupFile);
 };
 
 void operator += (USBGames &dest, const USBGames &src);
@@ -59,6 +63,6 @@ struct GamesHierarchy {
     // if a game failed to verify in Scanner it needs to be removed
     void removeGameFromEntireHierarchy(USBGamePtr &game);
 
-    void printGamesInEachRow();
-    void printGamesToDisplayInEachRow();
+    void printRowGameInfo(bool alsoPrintGames);
+    void printRowDisplayGameInfo(bool alsoPrintGames);
 };

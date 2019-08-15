@@ -64,7 +64,7 @@ void Scanner::updateRegionalDB(GamesHierarchy &gamesHierarchy, Database *db) {
     outfile.close();
 
     //cout << "about to write hierarchy to DB" << endl;
-    gamesHierarchy.printGamesToDisplayInEachRow();
+    gamesHierarchy.printRowDisplayGameInfo(false);
 
     for (auto &row : gamesHierarchy.gameSubDirRows) {
         //cout << " write row: " << row->displayRowIndex << ", " << row->subDirName << ", " << row->displayIndentLevel << ", " << row->gamesToDisplay.size() << endl;
@@ -465,7 +465,7 @@ void Scanner::scanUSBGamesDirectory(const string &rootPath, GamesHierarchy &game
 
     USBGame::sortByTitle(gamesToAddToDB);
     gamesHierarchy.makeGamesToDisplayWhileRemovingChildDuplicates();
-    gamesHierarchy.printGamesToDisplayInEachRow();
+    gamesHierarchy.printRowDisplayGameInfo(false);
 
     complete = true;
 }

@@ -72,6 +72,8 @@ public:
                                                          [] (const USBGamePtr &g1, const USBGamePtr &g2) { return SortByCaseInsensitive(g1->title, g2->title); }); }
     static void sortByFullPath(USBGames &games) { std::sort(begin(games), end(games),
                                                             [] (const USBGamePtr &g1, const USBGamePtr &g2) { return SortByCaseInsensitive(g1->fullPath, g2->fullPath); }); }
+    static void sortByGameDirName(USBGames &games) { std::sort(begin(games), end(games),
+                                                            [] (const USBGamePtr &g1, const USBGamePtr &g2) { return SortByCaseInsensitive(g1->gameDirName, g2->gameDirName); }); }
     static void sortBySerial(USBGames &games) { std::sort(begin(games), end(games),
                                                           [] (const USBGamePtr &g1, const USBGamePtr &g2) { return SortByCaseInsensitive(g1->serial, g2->serial); }); }
 

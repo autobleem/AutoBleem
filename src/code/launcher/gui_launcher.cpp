@@ -82,7 +82,7 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
         if (selectedRowIndex < gameRowInfos.size()) {
             for (auto &psgame : completeList) {
                 if (find(begin(gameIdsInRow), end(gameIdsInRow), psgame->gameId) != end(gameIdsInRow)){
-                    cout << "game in row: " << psgame->title << endl;
+                    //cout << "game in row: " << psgame->title << endl;
                     gamesList.emplace_back(psgame);
                 }
             }
