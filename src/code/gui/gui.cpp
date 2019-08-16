@@ -353,11 +353,7 @@ void Gui::loadAssets(bool reloadMusic) {
         Uint16 format;
         numtimesopened = Mix_QuerySpec(&frequency, &format, &channels);
         for (int i = 0; i < numtimesopened; i++) {
-#if defined(__x86_64__) || defined(_M_X64)
-            //Mix_CloseAudio(); // for Ubuntu it hangs here if you call it
-#else
             Mix_CloseAudio();
-#endif
         }
         numtimesopened = Mix_QuerySpec(&frequency, &format, &channels);
 
