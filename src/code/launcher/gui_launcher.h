@@ -56,6 +56,10 @@ public:
     void switchSet(int newSet, bool noForce);
     void showSetName();
 
+    void getGames_SET_FAVORITE(PsGames &gamesList);
+    void getGames_SET_SUBDIR(int rowIndex, PsGames &gamesList);
+    void appendGames_SET_INTERNAL(PsGames &gamesList);
+
     int currentGameDirIndex = 0;
     std::string currentGameDirName = "";
 

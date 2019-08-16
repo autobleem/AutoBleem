@@ -37,6 +37,73 @@ void GuiLauncher::updateMeta() {
 }
 
 //*******************************
+// GuiLauncher::getGames_SET_FAVORITE
+//*******************************
+void GuiLauncher::getGames_SET_FAVORITE(PsGames &gamesList) {
+    shared_ptr<Gui> gui(Gui::getInstance());
+    PsGames completeList;
+    gui->db->getGames(&completeList);
+    // put only the favorites in gamesList
+    copy_if(begin(completeList), end(completeList), back_inserter(gamesList),
+            [](const PsGamePtr &game) { return game->favorite; });
+}
+
+//*******************************
+// GuiLauncher::getGames_SET_SUBDIR
+//*******************************
+void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames &gamesList) {
+    shared_ptr<Gui> gui(Gui::getInstance());
+
+    GameRowInfos gameRowInfos;
+    gui->db->getGameRowInfos(&gameRowInfos);
+    currentGameDirName = gameRowInfos[rowIndex].rowName;
+#if 0
+    for (auto &gameRowInfo : gameRowInfos)
+            cout << "game row: " << gameRowInfo.subDirRowIndex << ", " << gameRowInfo.rowName << ", " <<
+                 gameRowInfo.indentLevel << ", " << gameRowInfo.numGames << endl;
+#endif
+    PsGames completeList;
+    gui->db->getGames(&completeList);
+
+    vector<int> gameIdsInRow;
+    gui->db->getGameIdsInRow(&gameIdsInRow, rowIndex);
+#if 0
+    for (auto &id : gameIdsInRow) {
+            cout << "game row: " << selectedRowIndex << ", id: " << id << endl;
+        }
+#endif
+
+    if (rowIndex < gameRowInfos.size()) {
+        for (auto &psgame : completeList) {
+            if (find(begin(gameIdsInRow), end(gameIdsInRow), psgame->gameId) != end(gameIdsInRow)) {
+                //cout << "game in row: " << psgame->title << endl;
+                gamesList.emplace_back(psgame);
+            }
+        }
+
+    }
+}
+
+//*******************************
+// GuiLauncher::appendGames_SET_INTERNAL
+//*******************************
+void GuiLauncher::appendGames_SET_INTERNAL(PsGames &gamesList) {
+    PsGames internal;
+    Database *internalDB = new Database();
+#if defined(__x86_64__) || defined(_M_X64)
+    internalDB->connect("internal.db");
+#else
+    internalDB->connect("/media/System/Databases/internal.db");
+#endif
+    internalDB->getInternalGames(&internal);
+    internalDB->disconnect();
+    delete internalDB;
+    for (const auto &internalGame : internal) {
+        gamesList.push_back(internalGame);
+    }
+}
+
+//*******************************
 // GuiLauncher::switchSet
 //*******************************
 void GuiLauncher::switchSet(int newSet, bool noForce) {
@@ -51,42 +118,15 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
     cout << "Reloading games list" << endl;
     // get fresh list of games for this set
     PsGames gamesList;
+
     if (currentSet == SET_ALL || currentSet == SET_EXTERNAL) {
-        gui->db->getGames(&gamesList);
+        getGames_SET_SUBDIR(0, gamesList);   // get the games in row 0 = /Games and on down
+
     } else if (currentSet == SET_FAVORITE) {
-        PsGames completeList;
-        gui->db->getGames(&completeList);
-        // put only the favorites in gamesList
-        copy_if(begin(completeList), end(completeList), back_inserter(gamesList),
-                [](const PsGamePtr &game) { return game->favorite; });
+        getGames_SET_FAVORITE(gamesList);
+
     } else if (currentSet == SET_SUBDIR) {
-        GameRowInfos gameRowInfos;
-        gui->db->getGameRowInfos(&gameRowInfos);
-        currentGameDirName = gameRowInfos[currentGameDirIndex].rowName;
-#if 0
-        for (auto &gameRowInfo : gameRowInfos)
-            cout << "game row: " << gameRowInfo.subDirRowIndex << ", " << gameRowInfo.rowName << ", " <<
-                 gameRowInfo.indentLevel << ", " << gameRowInfo.numGames << endl;
-#endif
-        PsGames completeList;
-        gui->db->getGames(&completeList);
-
-        vector<int> gameIdsInRow;
-        gui->db->getGameIdsInRow(&gameIdsInRow, currentGameDirIndex);
-#if 0
-        for (auto &id : gameIdsInRow) {
-            cout << "game row: " << selectedRowIndex << ", id: " << id << endl;
-        }
-#endif
-
-        if (currentGameDirIndex < gameRowInfos.size()) {
-            for (auto &psgame : completeList) {
-                if (find(begin(gameIdsInRow), end(gameIdsInRow), psgame->gameId) != end(gameIdsInRow)){
-                    //cout << "game in row: " << psgame->title << endl;
-                    gamesList.emplace_back(psgame);
-                }
-            }
-        }
+        getGames_SET_SUBDIR(currentGameDirIndex, gamesList);
 
     } else if (currentSet == SET_RETROARCH) {
         cout << "Getting foreign games" << endl;
@@ -95,19 +135,7 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
 
     if (gui->cfg.inifile.values["origames"] == "true")
         if (currentSet == SET_ALL || currentSet == SET_INTERNAL) {
-            PsGames internal;
-            Database *internalDB = new Database();
-#if defined(__x86_64__) || defined(_M_X64)
-            internalDB->connect("internal.db");
-#else
-            internalDB->connect("/media/System/Databases/internal.db");
-#endif
-            internalDB->getInternalGames(&internal);
-            internalDB->disconnect();
-            delete internalDB;
-            for (const auto &internalGame : internal) {
-                gamesList.push_back(internalGame);
-            }
+            appendGames_SET_INTERNAL(gamesList);
         }
 
     sort(gamesList.begin(), gamesList.end(), sortByTitle);
@@ -119,6 +147,7 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
     // save the actual number of (non-duplicated) games for the "showing" display
     numberOfNonDuplicatedGamesInCarousel = carouselGames.size();
 
+    // if there are games in the carousel but not enough to fill it, duplicate the games until it is full
     if (carouselGames.size() > 0) {
         if (carouselGames.size() < 13) {    // if not enough games to fill the carousel
             // duplicate the gamesList until the carousel is full
