@@ -18,6 +18,7 @@
 #include <vector>
 #include <memory>
 #include "ra_integrator.h"
+#include "../gui/gui.h"
 
 #define STATE_GAMES    0
 #define STATE_SET      1
@@ -51,6 +52,8 @@ public:
     void loadAssets();
     void freeAssets();
     void moveMainCover(int state);
+
+    shared_ptr<Gui> gui;
 
     int currentSet=SET_ALL;
     void switchSet(int newSet, bool noForce);

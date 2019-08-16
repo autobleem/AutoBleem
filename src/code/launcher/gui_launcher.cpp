@@ -40,7 +40,6 @@ void GuiLauncher::updateMeta() {
 // GuiLauncher::getGames_SET_FAVORITE
 //*******************************
 void GuiLauncher::getGames_SET_FAVORITE(PsGames &gamesList) {
-    shared_ptr<Gui> gui(Gui::getInstance());
     PsGames completeList;
     gui->db->getGames(&completeList);
     // put only the favorites in gamesList
@@ -52,8 +51,6 @@ void GuiLauncher::getGames_SET_FAVORITE(PsGames &gamesList) {
 // GuiLauncher::getGames_SET_SUBDIR
 //*******************************
 void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames &gamesList) {
-    shared_ptr<Gui> gui(Gui::getInstance());
-
     GameRowInfos gameRowInfos;
     gui->db->getGameRowInfos(&gameRowInfos);
     currentGameDirName = gameRowInfos[rowIndex].rowName;
@@ -107,7 +104,6 @@ void GuiLauncher::appendGames_SET_INTERNAL(PsGames &gamesList) {
 // GuiLauncher::switchSet
 //*******************************
 void GuiLauncher::switchSet(int newSet, bool noForce) {
-    shared_ptr<Gui> gui(Gui::getInstance());
     cout << "Switching to Set: " << currentSet << endl;
     // clear the carousel text
     if (!carouselGames.empty()) {
@@ -181,7 +177,6 @@ void GuiLauncher::showSetName() {
                                 _("Showing: Favorite games"), _("Showing: Directory: ") };
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
 
-    shared_ptr<Gui> gui(Gui::getInstance());
     auto str = gui->cfg.inifile.values["showingtimeout"];
     long timeout{0};
     if (str != "")
@@ -266,7 +261,6 @@ void GuiLauncher::loadAssets() {
     vector<string> texts = {_("Customize AutoBleem settings"), _("Edit game parameters"),
                             _("Edit Memory Card information"), _("Resume game from saved state point")};
 
-    shared_ptr<Gui> gui(Gui::getInstance());
     currentSet = gui->lastSet;
     if (gui->lastPlaylist!= "")
     {
@@ -491,6 +485,8 @@ void GuiLauncher::freeAssets() {
 //*******************************
 // run when screen is loaded
 void GuiLauncher::init() {
+    gui = Gui::getInstance();
+
     raIntegrator.initCoreInfo();
     loadAssets();
 }
@@ -602,7 +598,6 @@ void GuiLauncher::render() {
         sselector->frame = menu->savestate;
     }
 
-    shared_ptr<Gui> gui(Gui::getInstance());
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderClear(renderer);
 
@@ -647,7 +642,7 @@ void GuiLauncher::render() {
     for (auto obj:frontElemets)
         obj->render();
 
-    SDL_RenderPresent(Gui::getInstance()->renderer);
+    SDL_RenderPresent(gui->renderer);
 }
 
 //*******************************
@@ -655,7 +650,6 @@ void GuiLauncher::render() {
 //*******************************
 // handler of next game
 void GuiLauncher::nextGame(int speed) {
-    shared_ptr<Gui> gui(Gui::getInstance());
     Mix_PlayChannel(-1, gui->cursor, 0);
     scrollLeft(speed);
     selGame++;
@@ -671,7 +665,6 @@ void GuiLauncher::nextGame(int speed) {
 //*******************************
 // handler of prev game
 void GuiLauncher::prevGame(int speed) {
-    shared_ptr<Gui> gui(Gui::getInstance());
     Mix_PlayChannel(-1, gui->cursor, 0);
     scrollRight(speed);
     selGame--;
@@ -840,7 +833,6 @@ void GuiLauncher::moveMainCover(int state) {
 // GuiLauncher::switchState
 //*******************************
 void GuiLauncher::switchState(int state, int time) {
-    shared_ptr<Gui> gui(Gui::getInstance());
     if (state == STATE_GAMES) {
         Mix_PlayChannel(-1, gui->home_up, 0);
         settingsBack->animEndTime = time + 100;
@@ -894,7 +886,6 @@ void GuiLauncher::switchState(int state, int time) {
 void GuiLauncher::loop() {
     cout << "Main Loop" << endl;
     powerOffShift = false;
-    shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
     long motionStart = 0;
     long timespeed = 0;
