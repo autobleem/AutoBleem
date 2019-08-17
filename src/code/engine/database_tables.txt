@@ -63,10 +63,12 @@
 // select * from LANGUAGE_SPECIFIC;
 //
 //*******************************
-// output.db
+// regional.db
 //*******************************
 // .tables
-//         DISC               GAME               LANGUAGE_SPECIFIC
+// DISC                            SUBDIR_GAMES_TO_DISPLAY_ON_ROW
+// GAME                            SUBDIR_ROWS                   
+// LANGUAGE_SPECIFIC             
 //
 // PRAGMA table_info(DISC);
 // 0|GAME_ID|integer|0||0
@@ -75,8 +77,14 @@
 //
 // example data:
 // select * from DISC;
-// 1|1|Blasto (USA).PBP
-// 2|1|Centipede (USA).PBP
+// 1|1|007 Racing (USA).PBP
+// 2|1|Driver 2 (USA) (v1.1) (Disc 1)
+// 2|2|Driver 2 (USA) (v1.1) (Disc 2)
+// 3|1|Knockout Kings (USA).PBP
+// 4|1|Twisted Metal (USA)
+// 5|1|Twisted Metal (USA)
+// 6|1|Wipeout.PBP
+// 7|1|Wipeout.PBP
 //
 // PRAGMA table_info(GAME);
 // 0|GAME_ID|integer|1||1
@@ -93,8 +101,13 @@
 //
 // example data:
 // select * from GAME;
-// 1|Blasto (USA)|Sony.|1998|1|CERO_A|QR_Code_GM||/media/sf_Games/Blasto (USA)/|/media/sf_Games/!SaveStates/Blasto (USA)/|SONY
-// 2|Centipede (USA)|Hasbro Interactive.|1999|2|CERO_A|QR_Code_GM||/media/sf_Games/Centipede (USA)/|/media/sf_Games/!SaveStates/Centipede (USA)/|SONY
+// 1|007 - Racing|Electronic Arts|2000|2|CERO_A|QR_Code_GM||/media/sf_Games/Racing/007 Racing (USA)/|/media/sf_Games/!SaveStates/007 Racing (USA)/|SONY
+// 2|Driver 2 - The wheelman is back|Infogrames|2000|2|CERO_A|QR_Code_GM||/media/sf_Games/Racing/Driver 2/|/media/sf_Games/!SaveStates/Driver 2/|SONY
+// 3|Knockout Kings|Electronic Arts|1998|2|CERO_A|QR_Code_GM||/media/sf_Games/Sports/Boxing/Knockout Kings (USA)/|/media/sf_Games/!SaveStates/Knockout Kings (USA)/|SONY
+// 4|Twisted Metal|Sony Computer Entertainment|1995|2|CERO_A|QR_Code_GM||/media/sf_Games/Twisted Metal (USA)/|/media/sf_Games/!SaveStates/Twisted Metal (USA)/|SONY
+// 5|Twisted Metal|Sony Computer Entertainment|1995|2|CERO_A|QR_Code_GM||/media/sf_Games/Dup/Twisted Metal (USA)/|/media/sf_Games/!SaveStates/Twisted Metal (USA)/|SONY
+// 6|Wipeout|Psygnosis|1995|2|CERO_A|QR_Code_GM||/media/sf_Games/Copy 1/Wipeout/|/media/sf_Games/!SaveStates/Wipeout/|SONY
+// 7|Wipeout|Psygnosis|1995|2|CERO_A|QR_Code_GM||/media/sf_Games/Copy 2/Wipeout/|/media/sf_Games/!SaveStates/Wipeout/|SONY
 //
 // PRAGMA table_info(LANGUAGE_SPECIFIC);
 // 0|DEFAULT_VALUE|text|0||0
@@ -104,6 +117,41 @@
 // example data:
 // select * from LANGUAGE_SPECIFIC;
 //
+// PRAGMA table_info(SUBDIR_ROWS);
+// 0|SUBDIR_ROW_INDEX|integer|1||1
+// 1|SUBDIR_ROW_NAME|text|0||0
+// 2|INDENT_LEVEL|integer|0||0
+// 3|NUM_GAMES|integer|0||0
+// 
+// example data:
+// select * from SUBDIR_ROWS;
+// 0|sf_Games|0|5
+// 1|Copy 1|1|1
+// 2|Copy 2|1|1
+// 3|Dup|1|1
+// 4|Racing|1|2
+// 5|Sports|1|1
+// 6|Boxing|2|1
+// 
+// PRAGMA table_info(SUBDIR_GAMES_TO_DISPLAY_ON_ROW);
+// 0|SUBDIR_ROW_INDEX|integer|0||0
+// 1|GAME_ID|integer|0||0
+// 
+// example data:
+// select * from SUBDIR_GAMES_TO_DISPLAY_ON_ROW;
+// 0|1
+// 0|2
+// 0|3
+// 0|4
+// 0|6
+// 1|6
+// 2|7
+// 3|5
+// 4|1
+// 4|2
+// 5|3
+// 6|3
+// 
 //*******************************
 // covers?.db
 //*******************************
