@@ -399,3 +399,10 @@ void USBGame::readIni(string path) {
     parseIni(path);
     updateObj();
 }
+
+//*******************************
+// USBGames += USBGames
+//*******************************
+void operator += (USBGames &dest, const USBGames &src) {
+    copy(begin(src), end(src), back_inserter(dest));
+}

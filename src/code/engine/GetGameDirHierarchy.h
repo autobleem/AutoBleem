@@ -43,8 +43,6 @@ private:
     void removeDuplicateGamesAmongTheChildren(std::ofstream &dupFile);
 };
 
-void operator += (USBGames &dest, const USBGames &src);
-
 //******************
 // GamesHierarchy
 //******************

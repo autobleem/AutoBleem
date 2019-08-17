@@ -153,13 +153,6 @@ void GameSubDir::print(bool plusGames) {
 }
 
 //*******************************
-// GameSubDir::USBGames += USBGames
-//*******************************
-void operator += (USBGames &dest, const USBGames &src) {
-    copy(begin(src), end(src), back_inserter(dest));
-}
-
-//*******************************
 // GamesHierarchy::GamesHierarchy(path)
 //*******************************
 GamesHierarchy::GamesHierarchy(const std::string & path) {

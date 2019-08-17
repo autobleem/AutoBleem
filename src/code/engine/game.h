@@ -82,3 +82,4 @@ private:
     std::string valueOrDefault(std::string name, std::string def, bool setAutomationIfDefaultUsed = true);
 };
 
+void operator += (USBGames &dest, const USBGames &src);
