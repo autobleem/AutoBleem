@@ -527,7 +527,7 @@ bool DirEntry::imageTypeUsesACueFile(ImageType imageType) {
 // DirEntry::thereIsAGameFile
 //*******************************
 bool DirEntry::thereIsAGameFile(const DirEntries &entries) {
-    return any_of(begin(entries), end(entries), [] (const DirEntry &entry) { return isAGameFile(entry.name); } );
+    return any_of(begin(entries), end(entries), [] (const DirEntry &entry) { return !entry.isDir && isAGameFile(entry.name); } );
 }
 
 //*******************************
