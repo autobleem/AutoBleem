@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include "game.h"
+#include <fstream>
 
 using GameSubDirPtr = std::shared_ptr<class GameSubDir>;
 using GameSubDirRows = std::vector<GameSubDirPtr>;
@@ -25,22 +26,18 @@ struct GameSubDir {
     USBGames gamesToDisplay;
 
     GameSubDir(const std::string & _path, int _displayRowIndex, int _displayIndentLevel,
-               GameSubDirRows *displayRows);
+               GameSubDirRows *displayRows, std::ofstream &dupFile);
 
     static bool sameGame(const USBGamePtr &game1, const USBGamePtr &game2);
-    void makeGamesToDisplayWhileRemovingChildDuplicates(std::ofstream &dupFile);
+    void makeGamesToDisplayWhileRemovingChildDuplicates(std::ofstream &dupFile);    // recursive
 
     void print(bool plusGames);
 
 private:
-    void scanAll();
+    void scanAll(std::ofstream &dupFile);   // recursive scan of the sub directories
 
-    // remove the games in the child dir that are duplicates of games in this row.
-    // so the game won't show up twice when viewing this row's carousel.
-    // the game in the parent dir has precedence.
-    void removeChildGamesThatAreDuplicatesOfGamesInThisRow(std::ofstream &dupFile);
-
-    void removeDuplicateGamesAmongTheChildren(std::ofstream &dupFile);
+    static void removeGamesInSecondListThatMatchAGameInFirstList(USBGames &games1, USBGames &games2, std::ofstream &dupFile);
+    static void removeDuplicateGamesLeavingOne(USBGames &games, std::ofstream &dupFile);
 };
 
 //******************
@@ -48,6 +45,7 @@ private:
 //******************
 struct GamesHierarchy {
     GameSubDirRows gameSubDirRows;  // these rows are displayed in the select game dir menu
+    std::ofstream dupFile;
 
     GamesHierarchy(const std::string & _path);
     USBGames getAllGames();
