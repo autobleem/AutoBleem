@@ -484,7 +484,7 @@ bool Database::getGameRowInfos(GameRowInfos *gameRowInfos) {
             subDirRowInfo.indentLevel = sqlite3_column_int(res, 2);
             subDirRowInfo.numGames = sqlite3_column_int(res, 3);
 
-            cout << "SubDirRowInfo: " << string(subDirRowInfo.indentLevel, ' ') << subDirRowInfo.rowName
+            cout << "SubDirRowInfo: " << string(subDirRowInfo.indentLevel * 2, ' ') << subDirRowInfo.rowName
                     << ", index: " << subDirRowInfo.subDirRowIndex
                     << ", indent: " << subDirRowInfo.indentLevel
                     << ", numGames: " << subDirRowInfo.numGames << endl;

@@ -479,7 +479,16 @@ void Scanner::scanUSBGamesDirectory(const string &rootPath, GamesHierarchy &game
 
     USBGame::sortByTitle(gamesToAddToDB);
     gamesHierarchy.makeGamesToDisplayWhileRemovingChildDuplicates();
+
     gamesHierarchy.printRowDisplayGameInfo(false);
+
+    string path = DirEntry::getWorkingPath() + sep + "gameHierarchy_afterScan.txt";
+    ofstream outfile;
+    outfile.open(path);
+    gamesHierarchy.dumpRowGameInfo(outfile, true);
+    outfile << endl << endl;
+    gamesHierarchy.dumpRowDisplayGameInfo(outfile, false);
+    outfile.close();
 
     complete = true;
 }

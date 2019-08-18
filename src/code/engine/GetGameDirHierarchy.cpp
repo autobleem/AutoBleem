@@ -63,6 +63,7 @@ void GameSubDir::scanAll(ofstream &dupFile) {
                 // if scanner calls makeGamesToDisplayWhileRemovingChildDuplicates it will be rebuilt without duplicates
                 gamesInChildrenDirs += subdir->gamesToDisplay;
 
+                subdir->displayRowIndex = displayRows->size();
                 childrenDirs.emplace_back(subdir);
                 displayRows->emplace_back(subdir);
             }
@@ -156,7 +157,7 @@ void GameSubDir::makeGamesToDisplayWhileRemovingChildDuplicates(ofstream &dupFil
 // GameSubDir::print
 //*******************************
 void GameSubDir::print(bool plusGames) {
-    string indent(displayIndentLevel, ' ');
+    string indent(displayIndentLevel * 2, ' ');
     cout << displayRowIndex << ": " << indent << fullPath << ", " << subDirName << " (" << gamesInThisDir.size() << " games)" << endl;
     if (plusGames) {
         for (auto & game : gamesInThisDir)
@@ -186,6 +187,14 @@ GamesHierarchy::GamesHierarchy(const std::string & path) {
         USBGame::sortByTitle(row->gamesInChildrenDirs);
     }
     printRowGameInfo(false);
+
+    string opath = DirEntry::getWorkingPath() + sep + "gameHierarchy_beforeScan.txt";
+    ofstream outfile;
+    outfile.open(opath);
+    dumpRowGameInfo(outfile, true);
+    outfile << endl << endl;
+    dumpRowDisplayGameInfo(outfile, false);
+    outfile.close();
 }
 
 //*******************************
@@ -281,41 +290,87 @@ void GamesHierarchy::removeGameFromEntireHierarchy(USBGamePtr &game) {
 }
 
 //*******************************
-// GamesHierarchy::printRowGameInfo
+// GamesHierarchy::dumpRowGameInfo
 //*******************************
-void GamesHierarchy::printRowGameInfo(bool alsoPrintGames) {
-    cout << "Games in each row" << endl;
+void GamesHierarchy::dumpRowGameInfo(ostream &o, bool alsoPrintGames) {
+    o << "Games in each row" << endl;
     // display the row name
     for (auto & row : gameSubDirRows) {
-        cout << string(row->displayIndentLevel, ' ') << row->subDirName <<
-                " (" << row->gamesInThisDir.size() << " games)" << endl;
+        o << to_string(row->displayRowIndex) + ": " + string(row->displayIndentLevel * 2, ' ') << row->subDirName <<
+             " (" << row->gamesInThisDir.size() << " games)" << endl;
         if (alsoPrintGames) {
             // display the game name
             for (auto & game : row->gamesInThisDir) {
                 int indexStringSize = string(to_string(row->displayRowIndex)).size();
-                int numSpaces = indexStringSize + sizeof(": ") + row->displayIndentLevel + 1;
-                cout << string(numSpaces, ' ') + game->gameDirName << endl;
+                int numSpaces = indexStringSize + sizeof(": ") + row->displayIndentLevel + 2;
+                o << string(numSpaces, ' ') + game->gameDirName << endl;
             }
         }
     }
 }
 
 //*******************************
-// GamesHierarchy::printRowDisplayGameInfo
+// GamesHierarchy::dumpRowDisplayGameInfo
 //*******************************
-void GamesHierarchy::printRowDisplayGameInfo(bool alsoPrintGames) {
-    cout << "Games to display in each row" << endl;
+void GamesHierarchy::dumpRowDisplayGameInfo(ostream &o, bool alsoPrintGames) {
+    o << "Games to display in each row" << endl;
     // display the row name
     for (auto & row : gameSubDirRows) {
-        cout << string(row->displayIndentLevel, ' ') << row->subDirName <<
-             " (" << row->gamesToDisplay.size() << " games)" << endl;
+        o << to_string(row->displayRowIndex) + ": " + string(row->displayIndentLevel * 2, ' ') << row->subDirName <<
+          " (" << row->gamesToDisplay.size() << " games)" << endl;
         if (alsoPrintGames) {
             // display the game name
             for (auto &game : row->gamesToDisplay) {
                 int indexStringSize = string(to_string(row->displayRowIndex)).size();
-                int numSpaces = indexStringSize + sizeof(": ") + row->displayIndentLevel + 1;
+                int numSpaces = indexStringSize + sizeof(": ") + row->displayIndentLevel + 2;
+                o << string(numSpaces, ' ') + game->gameDirName << endl;
+            }
+        }
+    }
+}
+
+//*******************************
+// GamesHierarchy::printRowGameInfo
+//*******************************
+void GamesHierarchy::printRowGameInfo(bool alsoPrintGames) {
+    dumpRowGameInfo(cout, alsoPrintGames);
+#if 0
+    cout << "Games in each row" << endl;
+    // display the row name
+    for (auto & row : gameSubDirRows) {
+        cout << tostring(row->displayRowIndex) + ": " + string(row->displayIndentLevel * 2, ' ') << row->subDirName <<
+                " (" << row->gamesInThisDir.size() << " games)" << endl;
+        if (alsoPrintGames) {
+            // display the game name
+            for (auto & game : row->gamesInThisDir) {
+                int indexStringSize = string(to_string(row->displayRowIndex)).size();
+                int numSpaces = indexStringSize + sizeof(": ") + row->displayIndentLevel + 2;
                 cout << string(numSpaces, ' ') + game->gameDirName << endl;
             }
         }
     }
+#endif
+}
+
+//*******************************
+// GamesHierarchy::printRowDisplayGameInfo
+//*******************************
+void GamesHierarchy::printRowDisplayGameInfo(bool alsoPrintGames) {
+    dumpRowDisplayGameInfo(cout, alsoPrintGames);
+#if 0
+    cout << "Games to display in each row" << endl;
+    // display the row name
+    for (auto & row : gameSubDirRows) {
+        cout << tostring(row->displayRowIndex) + ": " + string(row->displayIndentLevel * 2, ' ') << row->subDirName <<
+                " (" << row->gamesToDisplay.size() << " games)" << endl;
+        if (alsoPrintGames) {
+            // display the game name
+            for (auto &game : row->gamesToDisplay) {
+                int indexStringSize = string(to_string(row->displayRowIndex)).size();
+                int numSpaces = indexStringSize + sizeof(": ") + row->displayIndentLevel + 2;
+                cout << string(numSpaces, ' ') + game->gameDirName << endl;
+            }
+        }
+    }
+#endif
 }

@@ -59,6 +59,8 @@ struct GamesHierarchy {
     // if a game failed to verify in Scanner it needs to be removed
     void removeGameFromEntireHierarchy(USBGamePtr &game);
 
+    void dumpRowGameInfo(std::ostream &o, bool alsoPrintGames);
+    void dumpRowDisplayGameInfo(std::ostream &o, bool alsoPrintGames);
     void printRowGameInfo(bool alsoPrintGames);
     void printRowDisplayGameInfo(bool alsoPrintGames);
 };
