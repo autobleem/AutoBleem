@@ -50,6 +50,9 @@ public:
     void createFavColumn();
     bool truncate();
 
+    bool beginTransaction();
+    bool commit();
+
     bool insertGame(int id, std::string title, std::string publisher, int players, int year, std::string path, std::string sspath,
                     std::string memcard);
     bool insertDisc(int id, int discNum, std::string discName);

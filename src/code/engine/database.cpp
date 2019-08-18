@@ -132,6 +132,10 @@ static const char CREATE_LANGUAGE_SPECIFIC_SQL[] = "CREATE TABLE IF NOT EXISTS L
         [LANGUAGE_ID] integer, \
         [VALUE] text, \
            UNIQUE ([DEFAULT_VALUE], [LANGUAGE_ID]) )";
+
+static const char BEGIN_TRANSACTION[] = "BEGIN TRANSACTION";
+static const char COMMIT[] = "COMMIT";
+
 static const char DELETE_GAME_DATA[] = "DELETE FROM GAME";
 static const char DELETE_DISC_DATA[] = "DELETE FROM DISC";
 static const char DELETE_LANGUAGE_DATA[] = "DELETE FROM LANGUAGE_SPECIFIC";
@@ -757,6 +761,22 @@ void Database::disconnect() {
         sqlite3_close(db);
         db = nullptr;
     }
+}
+
+//*******************************
+// Database::beginTransaction
+//*******************************
+bool Database::beginTransaction() {
+    executeStatement((char *) BEGIN_TRANSACTION, "Begin Transaction", "Error beginning  transaction");
+    return true;
+}
+
+//*******************************
+// Database::commit
+//*******************************
+bool Database::commit() {
+    executeStatement((char *) COMMIT, "Commit", "Error on commit");
+    return true;
 }
 
 //*******************************

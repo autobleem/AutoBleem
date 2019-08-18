@@ -45,7 +45,8 @@ void Scanner::updateRegionalDB(GamesHierarchy &gamesHierarchy, Database *db) {
     string path = DirEntry::getWorkingPath() + sep + "autobleem.list";
     ofstream outfile;
     outfile.open(path);
-    if (complete)
+    if (complete) {
+        db->beginTransaction();
         for (int i = 0; i < gamesToAddToDB.size(); i++) {
             USBGamePtr data = gamesToAddToDB[i];
             cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
@@ -60,12 +61,15 @@ void Scanner::updateRegionalDB(GamesHierarchy &gamesHierarchy, Database *db) {
             outfile << i + 1 << "," << Util::escape(data->fullPath.substr(0, data->fullPath.size() - 1)) << ","
                     << Util::escape(data->saveStatePath.substr(0, data->saveStatePath.size() - 1)) << '\n';
         }
+        db->commit();
+    }
     outfile.flush();
     outfile.close();
 
     //cout << "about to write hierarchy to DB" << endl;
     gamesHierarchy.printRowDisplayGameInfo(false);
 
+    db->beginTransaction();
     for (auto &row : gamesHierarchy.gameSubDirRows) {
         //cout << " write row: " << row->displayRowIndex << ", " << row->subDirName << ", " << row->displayIndentLevel << ", " << row->gamesToDisplay.size() << endl;
         db->insertSubDirRow(row->displayRowIndex, row->subDirName, row->displayIndentLevel, row->gamesToDisplay.size());
@@ -75,7 +79,9 @@ void Scanner::updateRegionalDB(GamesHierarchy &gamesHierarchy, Database *db) {
             db->insertSubDirGames(row->displayRowIndex, game->gameId);
         }
     }
+    db->commit();
 }
+
 
 static const char cue1[] = "FILE \"{binName}\" BINARY\n"
                            "  TRACK 01 MODE2/2352\n"
