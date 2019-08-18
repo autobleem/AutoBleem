@@ -182,7 +182,6 @@ public:
     SDL_Shared<SDL_Texture> buttonUncheck;
     SDL_Shared<SDL_Texture> cdJewel;
 
-
     bool overrideQuickBoot = false;
 
     std::string path;
@@ -205,8 +204,6 @@ public:
     int emuMode = EMU_PCSX;
     int resumepoint = -1;
     string padMapping;
-
-
 
     Gui(Gui const &) = delete;
 

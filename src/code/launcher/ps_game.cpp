@@ -220,3 +220,10 @@ string PsGame::findResumePicture() {
     }
     return "";
 }
+
+//*******************************
+// PsGames += PsGames
+//*******************************
+void operator += (PsGames &dest, const PsGames &src) {
+    copy(begin(src), end(src), back_inserter(dest));
+}

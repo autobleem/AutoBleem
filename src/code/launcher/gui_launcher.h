@@ -45,6 +45,8 @@ public:
     void init();
     void render();
     void loop();
+    void loop_prevGame();
+    void loop_nextGame();
 
     void nextGame(int speed);
     void prevGame(int speed);
@@ -73,6 +75,7 @@ public:
                            TTF_Font_Shared font, int position, bool background);
 
     bool powerOffShift=false;
+    bool L1_shift = false;
 
     PsCarousel carouselPositions;
 

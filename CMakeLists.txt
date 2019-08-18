@@ -83,6 +83,8 @@ add_executable(
         src/code/gui/gui_font.h
         src/code/gui/gui_font.cpp
         src/code/gui/gui_font_wrapper.h
+		src/code/gui/gui_gameDirMenu.h
+		src/code/gui/gui_gameDirMenu.cpp
 		src/code/ver_migration.cpp
 		src/code/ver_migration.h
         src/code/engine/coverdb.cpp
@@ -121,6 +123,7 @@ add_executable(
         src/code/launcher/ps_stateselector.h
         src/code/launcher/gui_btn_guide.cpp
         src/code/launcher/gui_btn_guide.h
+		src/code/launcher/gui_launcher_loop.cpp
         src/code/engine/padmapper.cpp
         src/code/engine/padmapper.h
         src/code/gui/gui_padconfig.cpp
@@ -137,8 +140,11 @@ add_executable(
 		src/code/gui/gui_playlists.h
         src/code/engine/cardedit.h
 		src/code/engine/cardedit.cpp
-        src/code/launcher/gui_mc_manager.h src/code/launcher/gui_mc_manager.cpp src/code/gui/starfx.cpp src/code/gui/starfx.h)
-
+        src/code/launcher/gui_mc_manager.h
+		src/code/launcher/gui_mc_manager.cpp
+		src/code/gui/starfx.cpp
+		src/code/gui/starfx.h
+		)
 
 
 add_executable(starter
