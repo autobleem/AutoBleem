@@ -25,8 +25,8 @@ struct GameSubDir {
     USBGames gamesInChildrenDirs;
     USBGames gamesToDisplay;
 
-    GameSubDir(const std::string & _path, int _displayRowIndex, int _displayIndentLevel,
-               GameSubDirRows *displayRows, std::ofstream &dupFile);
+    GameSubDir(const std::string & _path, int _displayIndentLevel, GameSubDirRows *displayRows);
+    void scanAll();   // recursive scan of the sub directories
 
     static bool sameGame(const USBGamePtr &game1, const USBGamePtr &game2);
     void makeGamesToDisplayWhileRemovingChildDuplicates(std::ofstream &dupFile);    // recursive
@@ -34,7 +34,6 @@ struct GameSubDir {
     void print(bool plusGames);
 
 private:
-    void scanAll(std::ofstream &dupFile);   // recursive scan of the sub directories
 
     static void removeGamesInSecondListThatMatchAGameInFirstList(USBGames &games1, USBGames &games2, std::ofstream &dupFile);
     static void removeDuplicateGamesLeavingOne(USBGames &games, std::ofstream &dupFile);

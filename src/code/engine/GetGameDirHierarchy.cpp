@@ -18,23 +18,18 @@ using namespace std;
 //*******************************
 // GameSubDir::GameSubDir
 //*******************************
-GameSubDir::GameSubDir(const std::string & _fullPath, int _displayRowIndex, int _displayIndentLevel,
-                       GameSubDirRows *_displayRows, ofstream &dupFile) {
+GameSubDir::GameSubDir(const std::string & _fullPath, int _displayIndentLevel, GameSubDirRows *_displayRows) {
     fullPath = DirEntry::removeSeparatorFromEndOfPath(_fullPath);
     subDirName = DirEntry::getFileNameFromPath(fullPath);
-
-    displayRowIndex = _displayRowIndex;
     displayIndentLevel = _displayIndentLevel;
-
     displayRows = _displayRows;
-    scanAll(dupFile);
 }
 
 //*******************************
 // GameSubDir::scanAll
 // recursive scan of the sub directories
 //*******************************
-void GameSubDir::scanAll(ofstream &dupFile) {
+void GameSubDir::scanAll() {
     DirEntries dirs = DirEntry::diru_DirsOnly(fullPath);
     for (auto & dirEntry : dirs) {
         if (dirEntry.name == "!SaveStates")
@@ -54,18 +49,15 @@ void GameSubDir::scanAll(ofstream &dupFile) {
             //cout << "added game: " << game->pathName << endl;
         } else {
             //cout << "subdir: " << path << endl;
-            GameSubDirPtr subdir(new GameSubDir(path,
-                                 displayRowIndex + childrenDirs.size() + 1,
-                                 displayIndentLevel + 1,
-                                 displayRows, dupFile));
+            GameSubDirPtr subdir(new GameSubDir(path, displayIndentLevel + 1, displayRows));
+            displayRows->emplace_back(subdir);
+            subdir->scanAll();
+
             if (subdir->gamesInThisDir.size() > 0 || subdir->gamesInChildrenDirs.size() > 0) {
                 // we need these so we will add subdirs that have no games but subdirs that do
                 // if scanner calls makeGamesToDisplayWhileRemovingChildDuplicates it will be rebuilt without duplicates
                 gamesInChildrenDirs += subdir->gamesToDisplay;
-
-                subdir->displayRowIndex = displayRows->size();
                 childrenDirs.emplace_back(subdir);
-                displayRows->emplace_back(subdir);
             }
             else {
                 cout << subdir->subDirName << " FAILED TO ADD" << endl;
@@ -175,14 +167,19 @@ void GameSubDir::print(bool plusGames) {
 // GamesHierarchy::GamesHierarchy(path)
 //*******************************
 GamesHierarchy::GamesHierarchy(const std::string & path) {
-    GameSubDirPtr top(new GameSubDir(path, 0, 0, &gameSubDirRows, dupFile));
-    if (top->gamesInThisDir.size() > 0 || top->gamesInChildrenDirs.size() > 0)
-        gameSubDirRows.emplace_back(top);
+    GameSubDirPtr top(new GameSubDir(path, 0, &gameSubDirRows));
+    gameSubDirRows.emplace_back(top);
+    top->scanAll();
 
-    sort(begin(gameSubDirRows), end(gameSubDirRows), [] (const GameSubDirPtr &gameSubDir1, const GameSubDirPtr &gameSubDir2)
-        { return gameSubDir2->displayRowIndex > gameSubDir1->displayRowIndex; });
+    // remove and any thaat have nothing to display
+    auto it = remove_if(begin(gameSubDirRows), end(gameSubDirRows), [&] (GameSubDirPtr &subdir) { return subdir->gamesToDisplay.size() == 0; });
+    gameSubDirRows.erase(it, end(gameSubDirRows));
 
+    int rowIndex = 0;
     for (auto & row : gameSubDirRows) {
+        row->displayRowIndex = rowIndex++;  // put the row index into the row for print and debugging convenience.
+
+        USBGame::sortByTitle(row->gamesToDisplay);
         USBGame::sortByTitle(row->gamesInThisDir);
         USBGame::sortByTitle(row->gamesInChildrenDirs);
     }
@@ -334,22 +331,6 @@ void GamesHierarchy::dumpRowDisplayGameInfo(ostream &o, bool alsoPrintGames) {
 //*******************************
 void GamesHierarchy::printRowGameInfo(bool alsoPrintGames) {
     dumpRowGameInfo(cout, alsoPrintGames);
-#if 0
-    cout << "Games in each row" << endl;
-    // display the row name
-    for (auto & row : gameSubDirRows) {
-        cout << tostring(row->displayRowIndex) + ": " + string(row->displayIndentLevel * 2, ' ') << row->subDirName <<
-                " (" << row->gamesInThisDir.size() << " games)" << endl;
-        if (alsoPrintGames) {
-            // display the game name
-            for (auto & game : row->gamesInThisDir) {
-                int indexStringSize = string(to_string(row->displayRowIndex)).size();
-                int numSpaces = indexStringSize + sizeof(": ") + row->displayIndentLevel + 2;
-                cout << string(numSpaces, ' ') + game->gameDirName << endl;
-            }
-        }
-    }
-#endif
 }
 
 //*******************************
@@ -357,20 +338,4 @@ void GamesHierarchy::printRowGameInfo(bool alsoPrintGames) {
 //*******************************
 void GamesHierarchy::printRowDisplayGameInfo(bool alsoPrintGames) {
     dumpRowDisplayGameInfo(cout, alsoPrintGames);
-#if 0
-    cout << "Games to display in each row" << endl;
-    // display the row name
-    for (auto & row : gameSubDirRows) {
-        cout << tostring(row->displayRowIndex) + ": " + string(row->displayIndentLevel * 2, ' ') << row->subDirName <<
-                " (" << row->gamesToDisplay.size() << " games)" << endl;
-        if (alsoPrintGames) {
-            // display the game name
-            for (auto &game : row->gamesToDisplay) {
-                int indexStringSize = string(to_string(row->displayRowIndex)).size();
-                int numSpaces = indexStringSize + sizeof(": ") + row->displayIndentLevel + 2;
-                cout << string(numSpaces, ' ') + game->gameDirName << endl;
-            }
-        }
-    }
-#endif
 }
