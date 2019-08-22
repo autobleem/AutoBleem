@@ -190,7 +190,7 @@ GamesHierarchy::GamesHierarchy(const std::string & path) {
     outfile.open(opath);
     dumpRowGameInfo(outfile, true);
     outfile << endl << endl;
-    dumpRowDisplayGameInfo(outfile, false);
+    dumpRowDisplayGameInfo(outfile, true);
     outfile.close();
 }
 

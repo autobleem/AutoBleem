@@ -21,13 +21,6 @@ void GuiGameDirMenu::init()
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
     firstVisible = 0;
     lastVisible = firstVisible + maxVisible;
-
-    //sizes.clear();
-    for (const string& rowText : textsToDisplay)
-    {
-//        int size=integrator->getGamesNumber(playlist);
-//        sizes.push_back(size);
-    }
 }
 
 //*******************************

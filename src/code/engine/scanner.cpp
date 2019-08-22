@@ -482,12 +482,12 @@ void Scanner::scanUSBGamesDirectory(const string &rootPath, GamesHierarchy &game
 
     gamesHierarchy.printRowDisplayGameInfo(false);
 
-    string path = DirEntry::getWorkingPath() + sep + "gameHierarchy_afterScan.txt";
+    string path = DirEntry::getWorkingPath() + sep + "gameHierarchy_afterScanAndRemovingDuplicates.txt";
     ofstream outfile;
     outfile.open(path);
     gamesHierarchy.dumpRowGameInfo(outfile, true);
     outfile << endl << endl;
-    gamesHierarchy.dumpRowDisplayGameInfo(outfile, false);
+    gamesHierarchy.dumpRowDisplayGameInfo(outfile, true);
     outfile.close();
 
     complete = true;

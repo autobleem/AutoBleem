@@ -304,7 +304,7 @@ void GuiLauncher::loop_nextGame() {
                                 }
                                 auto guiGameDirMenu = new GuiGameDirMenu(renderer);
                                 for (auto &rowInfo : gameRowInfos) {
-                                    string text = string(rowInfo.indentLevel, ' ') +
+                                    string text = string(rowInfo.indentLevel * 2, ' ') +
                                             rowInfo.rowName + " (" + to_string(rowInfo.numGames) + " " + _("Games") + ")";
                                     guiGameDirMenu->textsToDisplay.emplace_back(text);
                                 }
