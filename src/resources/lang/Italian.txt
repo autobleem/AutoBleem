@@ -1,3 +1,17 @@
+ games
+ giochi
+.-= Code C++ and shell scripts =-.
+.-= Codice C++ e shell scripts =-.
+.-= Database maintenance =-.
+.-= Manutenzione database =-.
+.-= Graphics =-.
+.-= Grafica =-.
+.-= Localization support =-.
+.-= Supporto alla localizzazione =-.
+.-= Retroboot and emulation cores =-.
+.-= Retroboot e core emulatori =-.
+.-= Testing =-.
+.-= Testing =-.
 About
 Informazioni su
 Advanced
@@ -10,10 +24,10 @@ Are you sure?
 Sei sicuro?
 AutoBleem
 AutoBleem
+AutoBleem resume points not available in RetroArch.
+I punti di ripristino di AutoBleem non sono disponibili in RetroArch.
 AutoBleem Theme:
 Tema di AutoBleem:
-Automatic PlayStation Classic USB launcher
-Launcher Automatico USB per PlayStation Classic
 Background Music:
 Musica di Sottofondo:
 Button Guide
@@ -30,16 +44,18 @@ Clock:
 Frequenza:
 Close
 Chiudi
-Code: AutoBleem Team
-Codice: Team AutoBleem
 Configuration
 Configurazione
 Configuration saved - Press |@X| to continue
 Configurazione salvata - Premi |@X| per continuare
+CONFIGURED
+CONFIGURATO
 Confirm
 Conferma
 Console Button Guide
 Guida ai Pulsanti
+Copy
+Copia
 Cover Style:
 Stile delle Cover:
 Custom
@@ -50,10 +66,14 @@ Customize AutoBleem settings
 Personalizza le impostazioni di AutoBleem
 Decompressing ecm:
 Decompressione ecm:
+Defragment Card
+Deframmenta Card
 Delete
 Cancella
 Delete card
 Cancella memory
+Do you want to save memcards data ?
+Vuoi salvare i dati delle memcards ?
 Download latest:
 Scarica la versione piu' recente:
 DPAD - Same as classic menu
@@ -74,6 +94,8 @@ Enter new name for card
 Inserisci il nuovo nome della scheda
 Enter new name for memory card
 Inserisci il nuovo nome della memory card
+Entry
+Valore
 Favorite:
 Preferiti:
 Flush covers
@@ -82,6 +104,8 @@ Folder:
 Cartella:
 Frameskip:
 Frameskip:
+Free
+Libero
 Free space
 Spazio libero
 Game
@@ -106,8 +130,6 @@ GFX Filter:
 Filtri Grafici:
 Go back
 Ritorna
-Graphics by:
-Grafica di:
 High res:
 Alta risoluzione:
 Hold
@@ -120,20 +142,26 @@ In Game
 In Gioco
 Internal
 Interno
+INTERNAL
+INTERNO
 Internal Games:
 Giochi Interni:
 Is your dpad analogue?
 Il tuo dpad e' analogico?
 Language:
 Lingua:
+Link Block
+BLocco di Link
+Link end Block
+Blocco di Fine Link
 Loading ... Please Wait ...
 Caricamento ... Attendere Prego ...
 Lock data:
 Blocca dati:
-MemCard Manager will be available soon
-Il Gestore MemCard sara' presto disponibile
 MEMORY CARD
 MEMORY CARD
+Memory Card Manager
+Gestore Memory Card
 Memory Card:
 Memory Card:
 Memory Cards
@@ -196,6 +224,8 @@ Re/Scan
 Ri/Cerca
 Region:
 Regione:
+Reload Cards
+Ricarica Cards
 Rename
 Rinomina
 RESUME
@@ -208,6 +238,10 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch non e' installato
+RetroBoot Systems
+Sistemi RetroBoot
+Run using RetroBoot(if installed)
+Esegui con RetroBoot (se installato)
 Scanline Level:
 Livello Scanline:
 Scanlines:
@@ -222,6 +256,10 @@ Select or cancel highlighted option
 Seleziona o annulla l'opzione evidenziata
 SELECT RESUME SLOT TO LOAD
 SELEZIONA UNO SLOT DA CARICARE
+Select RetroBoot Platform
+Seleziona la Piattaforma RetroBoot
+Select Right Card
+Seleziona la Card Giusta
 SELECT SLOT TO SAVE STATE
 SELEZIONA UNO SLOT DOVE SALVARE
 Serial:
@@ -234,6 +272,8 @@ Show RetroArch:
 Mostra RetroArch:
 Showing Timeout (0 = no timeout):
 Timeout Visualizzazione (0 = nessun timeout):
+Showing:
+Visualizza:
 Showing: All games
 Visualizza: Tutti i giochi
 Showing: Favorite games
@@ -262,6 +302,8 @@ Total:
 Totale:
 UI:
 UI:
+Unknown Core (AutoDetect)
+Core Sconosciuto (AutoDetect)
 Updating regional.db...
 Aggiornando regional.db...
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
