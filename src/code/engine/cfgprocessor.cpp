@@ -104,7 +104,7 @@ void CfgProcessor::replaceRaConf(std::string filePath, std::string property, std
 void CfgProcessor::replace(string entry, string gamePath, string property, string newline, bool internal) {
 
     if (!internal) {
-        string realCfgPath = gamePath + sep + entry + sep + PCSX_CFG;
+        string realCfgPath = gamePath + sep + PCSX_CFG;
         replaceInternal(realCfgPath, property, newline);
 
         for (const DirEntry &cfgEntry : DirEntry::diru(gamePath + sep + "!SaveStates" + sep + entry + sep + "cfg")) {

@@ -11,7 +11,6 @@
 //******************
 class CfgProcessor {
 public:
-    Config config;
     void replace(std::string entry, std::string gamePath,  std::string property, std::string newline, bool internal);
     void replaceRaConf(std::string filePath, std::string property, std::string newline);
     void patchHLEbios(std::string entry, std::string gamePath);
