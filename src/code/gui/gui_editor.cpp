@@ -34,7 +34,7 @@ void GuiEditor::processOptionChange(bool direction) {
     shared_ptr<Gui> gui(Gui::getInstance());
     CfgProcessor *processor = new CfgProcessor();
 
-    string path = gui->path;
+    string path = gameFolder;  //gui->path;
     if (internal) {
         path = gameData->ssFolder;
     }
@@ -234,7 +234,7 @@ void GuiEditor::processOptionChange(bool direction) {
 void GuiEditor::refreshData() {
     shared_ptr<Gui> gui(Gui::getInstance());
     CfgProcessor *processor = new CfgProcessor();
-    string path = gui->path;
+    string path = gameFolder; //gui->path;
     if (internal) {
         path = gameData->ssFolder;
     }

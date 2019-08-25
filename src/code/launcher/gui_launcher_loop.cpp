@@ -539,6 +539,7 @@ void GuiLauncher::loop_nextGame() {
                                 editor->internal = carouselGames[selGame]->internal;
                                 Inifile gameIni;
                                 if (!editor->internal) {
+                                    editor->gameFolder = carouselGames[selGame]->folder;
 
                                     gameIni.load(carouselGames[selGame]->folder + "Game.ini");
                                     string folderNoLast =
