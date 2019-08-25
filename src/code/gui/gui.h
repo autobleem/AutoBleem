@@ -66,7 +66,7 @@ public:
 
     std::string getSonySoundPath();
 
-    std::string getSonyRootPath();
+    std::string getSonyThemesRootPath();
 };
 
 //********************

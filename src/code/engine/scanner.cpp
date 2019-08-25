@@ -459,9 +459,9 @@ void Scanner::scanUSBGamesDirectory(const string &rootPath, GamesHierarchy &game
                 {
                     DirEntry::copy(DirEntry::getWorkingPath() + sep + "memcard/card1.mcd", memcardPath + "card2.mcd");
                 }
-                if (!DirEntry::exists(game->saveStatePath + "/pcsx.cfg"))
+                if (!DirEntry::exists(game->saveStatePath + sep + PCSX_CFG))
                 {
-                    DirEntry::copy(DirEntry::getWorkingPath() + sep + "pcsx.cfg", game->saveStatePath + "/pcsx.cfg");
+                    DirEntry::copy(DirEntry::getWorkingPath() + sep + PCSX_CFG, game->saveStatePath + sep + PCSX_CFG);
                 }
                 DirEntry::generateM3UForDirectory(game->fullPath, game->discs[0].cueName);
             }

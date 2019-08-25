@@ -239,8 +239,8 @@ void USBGame::recoverMissingFiles() {
     if (!pcsxCfgFound) {
         automationUsed = true;
         cout << "Switching automation no pcsx" << endl;
-        string source = workingPath + sep + "pcsx.cfg";
-        string destination = fullPath + sep + "pcsx.cfg";
+        string source = workingPath + sep + PCSX_CFG;
+        string destination = fullPath + sep + PCSX_CFG;
         cerr << "SRC:" << source << " DST:" << destination << endl;
 
         int region = 0;

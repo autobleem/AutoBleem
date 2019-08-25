@@ -127,9 +127,9 @@ string GuiBase::getSonyFontPath() {
 }
 
 //*******************************
-// GuiBase::getSonyRootPath
+// GuiBase::getSonyThemesRootPath
 //*******************************
-string GuiBase::getSonyRootPath() {
+string GuiBase::getSonyThemesRootPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path = DirEntry::getWorkingPath() + sep + cfg.inifile.values["stheme"];
     if (!DirEntry::exists(path)) {

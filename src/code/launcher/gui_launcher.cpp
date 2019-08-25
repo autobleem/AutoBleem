@@ -275,8 +275,8 @@ void GuiLauncher::loadAssets() {
     }
 
     Inifile colorsFile;
-    if (DirEntry::exists(gui->getSonyRootPath() + "/colors.ini")) {
-        colorsFile.load(gui->getSonyRootPath() + "/colors.ini");
+    if (DirEntry::exists(gui->getSonyThemesRootPath() + sep + "colors.ini")) {
+        colorsFile.load(gui->getSonyThemesRootPath() + sep + "colors.ini");
         fgR = gui->getR(colorsFile.values["fg"]);
         fgG = gui->getG(colorsFile.values["fg"]);
         fgB = gui->getB(colorsFile.values["fg"]);

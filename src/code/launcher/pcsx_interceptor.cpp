@@ -26,10 +26,10 @@ void PcsxInterceptor::cleanupConfig(PsGamePtr &game)
 
 
         if (!game->internal) {
-            DirEntry::copy(newConfig, game->ssFolder + sep + "pcsx.cfg");
-            DirEntry::copy(newConfig, game->folder + sep + "pcsx.cfg");
+            DirEntry::copy(newConfig, game->ssFolder + sep + PCSX_CFG);
+            DirEntry::copy(newConfig, game->folder + sep + PCSX_CFG);
         } else {
-            DirEntry::copy(newConfig, game->ssFolder + sep + "pcsx.cfg");
+            DirEntry::copy(newConfig, game->ssFolder + sep + PCSX_CFG);
         }
         remove(newConfig.c_str());
     }
