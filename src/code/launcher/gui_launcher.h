@@ -30,8 +30,7 @@
 #define SET_INTERNAL 1
 #define SET_EXTERNAL 2
 #define SET_FAVORITE 3
-#define SET_SUBDIR 4
-#define SET_LAST 4
+#define SET_LAST 3
 
 #define SET_RETROARCH -1
 

@@ -116,13 +116,11 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
     PsGames gamesList;
 
     if (currentSet == SET_ALL || currentSet == SET_EXTERNAL) {
-        getGames_SET_SUBDIR(0, gamesList);   // get the games in row 0 = /Games and on down
+        //getGames_SET_SUBDIR(0, gamesList);   // get the games in row 0 = /Games and on down
+        getGames_SET_SUBDIR(currentGameDirIndex, gamesList);    // get the games in the current subdir of /Games and on down
 
     } else if (currentSet == SET_FAVORITE) {
         getGames_SET_FAVORITE(gamesList);
-
-    } else if (currentSet == SET_SUBDIR) {
-        getGames_SET_SUBDIR(currentGameDirIndex, gamesList);
 
     } else if (currentSet == SET_RETROARCH) {
         cout << "Getting foreign games" << endl;
@@ -173,8 +171,10 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
 // GuiLauncher::showSetName
 //*******************************
 void GuiLauncher::showSetName() {
-    vector<string> setNames = { _("Showing: All games"), _("Showing: Internal games"), _("Showing: USB games"),
-                                _("Showing: Favorite games"), _("Showing: Directory: ") };
+    vector<string> setNames = { _("Showing: All games"),
+                                _("Showing: Internal games"),
+                                _("Showing: USB Games Directory: "),
+                                _("Showing: Favorite games") };
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
 
     auto str = gui->cfg.inifile.values["showingtimeout"];
@@ -187,7 +187,7 @@ void GuiLauncher::showSetName() {
         notificationLines[0].setText(_("Showing:") + " " + playlist + " " + numGames,
                                      timeout);   // line starts at 0 for top
     }
-    else if (currentSet == SET_SUBDIR) {
+    else if (currentSet == SET_EXTERNAL) {
         // currentGameDirIndex starts at 0 for top row = /Games
         notificationLines[0].setText(setNames[currentSet] + currentGameDirName + numGames, timeout);
     } else {

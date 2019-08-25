@@ -294,7 +294,7 @@ void GuiLauncher::loop_nextGame() {
                     if (L1_shift) {
                         if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT, &e)) {
                             L1_shift = false;
-                            if (state == STATE_GAMES && currentSet == SET_SUBDIR) {
+                            if (state == STATE_GAMES && currentSet == SET_EXTERNAL) {
                                 // pop game dir menu
                                 powerOffShift = false;
                                 GameRowInfos gameRowInfos;
