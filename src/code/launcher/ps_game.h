@@ -23,7 +23,7 @@ public:
 
     std::string memcard;
     std::string folder;
-    std::string ssFolder;  // screen shot folder
+    std::string ssFolder;  // !SaveStates folder.  ex: "/Games/!SaveStates/8"
 
     std::string base;
 
