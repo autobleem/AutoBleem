@@ -431,11 +431,11 @@ void Gui::criticalException(const string &text) {
 //*******************************
 // Gui::display
 //*******************************
-void Gui::display(bool forceScan, string path, Database *db, bool resume) {
+void Gui::display(bool forceScan, const string &_pathToGamesDir, Database *db, bool resume) {
     joysticks.clear();
     joynames.clear();
     this->db = db;
-    this->path = path;
+    this->pathToGamesDir = _pathToGamesDir;
     this->forceScan = forceScan;
     if (forceScan) overrideQuickBoot = true;
 

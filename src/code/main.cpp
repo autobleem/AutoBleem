@@ -153,20 +153,20 @@ int main(int argc, char *argv[]) {
     db->createFavColumn();
 
     string dbpath = argv[1];
-    string path = argv[2];
+    string pathToGamesDir = argv[2];
 
-    Memcard *memcardOperation = new Memcard(path);
-    memcardOperation->restoreAll(path + sep + "!SaveStates");
+    Memcard *memcardOperation = new Memcard(pathToGamesDir);
+    memcardOperation->restoreAll(pathToGamesDir + sep + "!SaveStates");
     delete memcardOperation;
 
     string prevPath = DirEntry::getWorkingPath() + sep + "autobleem.prev";
     bool prevFileExists = DirEntry::exists(prevPath);
 
-    bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(path);
+    bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(pathToGamesDir);
     if (thereAreGameFilesInGamesDir)
-        copyGameFilesInGamesDirToSubDirs(path);
+        copyGameFilesInGamesDirToSubDirs(pathToGamesDir);
 
-    GamesHierarchy gamesHierarchy(path);
+    GamesHierarchy gamesHierarchy(pathToGamesDir);
     USBGames allGames = gamesHierarchy.getAllGames();
     USBGame::sortByFullPath(allGames);
 
@@ -176,14 +176,14 @@ int main(int argc, char *argv[]) {
         scanner->forceScan = true;
     }
 
-    gui->display(scanner->forceScan, path, db, false);
+    gui->display(scanner->forceScan, pathToGamesDir, db, false);
 
     while (gui->menuOption == MENU_OPTION_SCAN || gui->menuOption == MENU_OPTION_START) {
 
         gui->menuSelection();
         gui->saveSelection();
         if (gui->menuOption == MENU_OPTION_SCAN) {
-            scanGames(path, gamesHierarchy, dbpath);
+            scanGames(pathToGamesDir, gamesHierarchy, dbpath);
             gamesHierarchy.writeAutobleemPrev(prevPath);
             if (gui->forceScan) {
                 gui->forceScan = false;
@@ -221,7 +221,7 @@ int main(int argc, char *argv[]) {
             gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
             gui->startingGame = false;
 
-            gui->display(false, path, db, true);
+            gui->display(false, pathToGamesDir, db, true);
 
 #else
             cout << "Starting game" << endl;

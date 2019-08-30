@@ -20,7 +20,7 @@ using namespace std;
 //*******************************
 void GuiMemcards::init() {
     shared_ptr<Gui> gui(Gui::getInstance());
-    Memcard *memcardOps = new Memcard(gui->path);
+    Memcard *memcardOps = new Memcard(gui->pathToGamesDir);
     cards = memcardOps->list();
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
     firstVisible = 0;
@@ -154,7 +154,7 @@ void GuiMemcards::loop() {
                             delete (guiConfirm);
 
                             if (result) {
-                                Memcard *memcardOps = new Memcard(gui->path);
+                                Memcard *memcardOps = new Memcard(gui->pathToGamesDir);
                                 memcardOps->deleteCard(cards[selected]);
                                 cards = memcardOps->list();
                                 delete memcardOps;
@@ -194,7 +194,7 @@ void GuiMemcards::loop() {
                         }
 
                         if (!cancelled) {
-                            Memcard *memcardOps = new Memcard(gui->path);
+                            Memcard *memcardOps = new Memcard(gui->pathToGamesDir);
                             memcardOps->rename(cards[selected], result);
                             delete memcardOps;
                             init();
@@ -231,7 +231,7 @@ void GuiMemcards::loop() {
                         }
 
                         if (!cancelled) {
-                            Memcard *memcardOps = new Memcard(gui->path);
+                            Memcard *memcardOps = new Memcard(gui->pathToGamesDir);
                             memcardOps->newCard(result);
                             cards = memcardOps->list();
                             int i = 0;

@@ -300,7 +300,7 @@ void GuiMcManager::loop() {
                                 // this is custom
                                 int cardNumCustom=atoi(select->cardSelected.substr(1,1).c_str());
                                 string memcard = select->cardSelected.substr(4);
-                                string cardPath =  gui->path + sep +"!MemCards/" + memcard  +"/card"+to_string(cardNumCustom)+".mcd";
+                                string cardPath =  gui->pathToGamesDir + sep +"!MemCards/" + memcard  +"/card"+to_string(cardNumCustom)+".mcd";
 
                                 rightCardName = select->cardSelected;
                                 card2path = cardPath;

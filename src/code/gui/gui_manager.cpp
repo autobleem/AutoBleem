@@ -27,9 +27,9 @@ void GuiManager::init()
     // Create list of games
 
     shared_ptr<Gui> gui(Gui::getInstance());
-    string path = gui->path;
+    string path = gui->pathToGamesDir;
     for (const DirEntry &entry: DirEntry::diru(path)) {
-        if (!DirEntry::isDirectory(gui->path + sep + entry.name)) continue;
+        if (!DirEntry::isDirectory(gui->pathToGamesDir + sep + entry.name)) continue;
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
 
@@ -202,8 +202,8 @@ void GuiManager::loop()
 
                             int errors = 0;
                             int flags = FTW_DEPTH | FTW_PHYS | FTW_CHDIR;
-                            //cout << gui->path << endl;
-                            if (nftw(DirEntry::fixPath(gui->path).c_str(), flushCovers, 1, flags) != 0) {
+                            //cout << gui->pathToGamesDir << endl;
+                            if (nftw(DirEntry::fixPath(gui->pathToGamesDir).c_str(), flushCovers, 1, flags) != 0) {
                                 errors++;
                             }
 

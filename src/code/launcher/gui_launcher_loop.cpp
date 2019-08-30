@@ -513,8 +513,8 @@ void GuiLauncher::loop_nextGame() {
                                 }
                                 if (memcard!="SONY")
                                 {
-                                    cardPath1 =  gui->path + sep +"!MemCards/" + memcard  +"card1.mcd";
-                                    cardPath1 =  gui->path + sep +"!MemCards/" + memcard  +"card2.mcd";
+                                    cardPath1 =  gui->pathToGamesDir + sep +"!MemCards/" + memcard  +"card1.mcd";
+                                    cardPath1 =  gui->pathToGamesDir + sep +"!MemCards/" + memcard  +"card2.mcd";
                                     leftCardName = "[1]"+ memcard;
                                     rightCardName = "[2]"+ memcard;
                                 }

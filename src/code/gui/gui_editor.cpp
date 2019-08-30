@@ -34,7 +34,7 @@ void GuiEditor::processOptionChange(bool direction) {
     shared_ptr<Gui> gui(Gui::getInstance());
     CfgProcessor *processor = new CfgProcessor();
 
-    string path = gameFolder;  //gui->path;
+    string path = gameFolder;
     if (internal) {
         path = gameData->ssFolder;
     }
@@ -234,7 +234,7 @@ void GuiEditor::processOptionChange(bool direction) {
 void GuiEditor::refreshData() {
     shared_ptr<Gui> gui(Gui::getInstance());
     CfgProcessor *processor = new CfgProcessor();
-    string path = gameFolder; //gui->path;
+    string path = gameFolder;
     if (internal) {
         path = gameData->ssFolder;
     }
@@ -259,16 +259,16 @@ void GuiEditor::init() {
     if (!internal) {
         if (this->gameIni.values["memcard"] != "SONY") {
             string cardpath =
-                    gui->path + sep + "!MemCards" + sep + this->gameIni.values["memcard"];
+                    gui->pathToGamesDir + sep + "!MemCards" + sep + this->gameIni.values["memcard"];
             if (!DirEntry::exists(cardpath)) {
                 this->gameIni.values["memcard"] = "SONY";
             }
         }
 
         bool pngLoaded = false;
-        for (const DirEntry & entry:DirEntry::diru(gui->path + sep + gameIni.entry)) {
+        for (const DirEntry & entry:DirEntry::diru(gui->pathToGamesDir + sep + gameIni.entry)) {
             if (DirEntry::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(renderer, (gui->path + sep + gameIni.entry + sep + entry.name).c_str());
+                cover = IMG_LoadTexture(renderer, (gui->pathToGamesDir + sep + gameIni.entry + sep + entry.name).c_str());
                 pngLoaded = true;
             }
         }
@@ -285,7 +285,7 @@ void GuiEditor::init() {
 
         if (this->gameIni.values["memcard"] != "SONY") {
             string cardpath =
-                    gui->path + sep + "!MemCards" + sep + this->gameIni.values["memcard"];
+                    gui->pathToGamesDir + sep + "!MemCards" + sep + this->gameIni.values["memcard"];
             if (!DirEntry::exists(cardpath)) {
                 this->gameIni.values["memcard"] = "SONY";
             }
@@ -474,9 +474,9 @@ void GuiEditor::loop() {
                                 }
 
                                 if (!cancelled) {
-                                    Memcard *memcard = new Memcard(gui->path);
+                                    Memcard *memcard = new Memcard(gui->pathToGamesDir);
                                     string savePath =
-                                            gui->path + sep + "!SaveStates" + sep + gameIni.entry + sep + "memcards";
+                                            gui->pathToGamesDir + sep + "!SaveStates" + sep + gameIni.entry + sep + "memcards";
                                     memcard->storeToRepo(savePath, result);
                                     gameIni.values["memcard"] = result;
                                     gameIni.save(gameIni.path);

@@ -96,7 +96,7 @@ public:
 
     void loadAssets(bool reloadMusic = true);
 
-    void display(bool forceScan, std::string path, Database *db, bool resume);
+    void display(bool forceScan, const std::string &_pathToGamesDir, Database *db, bool resume);
 
     void waitForGamepad();
 
@@ -184,7 +184,9 @@ public:
 
     bool overrideQuickBoot = false;
 
-    std::string path;
+    std::string pathToGamesDir; // path to /Games.  "/media/Games" or "/debugSystemPath/Games".
+                                // note that originally it had a / at the end.  will need to find any code
+                                // that still depends on that and add "+ sep"
 
     Mix_Music *music = nullptr;
     TTF_Font_Shared themeFont;
