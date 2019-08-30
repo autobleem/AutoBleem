@@ -451,7 +451,7 @@ bool Database::getGames(PsGames *result) {
             game->cds = discs;
             //cout << "getGames: " << game->serial << ", " << game->title << endl;
 
-            string gameIniPath = game->folder + "/Game.ini";
+            string gameIniPath = game->folder + sep + "Game.ini";
             if (DirEntry::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);

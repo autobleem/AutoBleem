@@ -6,20 +6,22 @@
 #include "../util.h"
 #include <fstream>
 #include "../DirEntry.h"
+#include <iostream>
 
 using namespace std;
 
 //*******************************
-// CfgProcessor::replaceInternal
+// CfgProcessor::replaceProperty
 //*******************************
-void CfgProcessor::replaceInternal(string filePath, string property, string newline) {
-    if (!DirEntry::exists(filePath)) {
+void CfgProcessor::replaceProperty(string fullCfgFilePath, string property, string newline) {
+    cout << "cfg replace, '" << fullCfgFilePath << "', '" << property << "'" << endl;
+    if (!DirEntry::exists(fullCfgFilePath)) {
         return;
     }
     // do not store if file not updated (one less iocall on filesystem)
     bool fileUpdated = false;
 
-    fstream file(filePath, ios::in);
+    fstream file(fullCfgFilePath, ios::in);
     vector<string> lines;
     lines.clear();
 
@@ -45,7 +47,7 @@ void CfgProcessor::replaceInternal(string filePath, string property, string newl
         }
         file.close();
         if (fileUpdated) {
-            file.open(filePath, ios::out | ios::trunc);
+            file.open(fullCfgFilePath, ios::out | ios::trunc);
 
             for (const auto &i : lines) {
                 file << i << endl;
@@ -57,19 +59,11 @@ void CfgProcessor::replaceInternal(string filePath, string property, string newl
 }
 
 //*******************************
-// CfgProcessor::getValue
+// CfgProcessor::getValueFromCfgFile
 //*******************************
-string CfgProcessor::getValue(string entry, string gamePath, string property, bool internal) {
-    string filePath;
-    if (!internal) {
-        filePath = gamePath + entry + sep + PCSX_CFG;
-        if (!DirEntry::exists(filePath)) {
-            return "";
-        }
-    } else {
-        filePath = gamePath + sep + PCSX_CFG;
-    }
-    fstream file(filePath, ios::in);
+string CfgProcessor::getValueFromCfgFile(string fullCfgFilePath, string property) {
+    cout << "cfg getValue, '" << fullCfgFilePath << "', '" << property << "'" << endl;
+    fstream file(fullCfgFilePath, ios::in);
     vector<string> lines;
     lines.clear();
 
@@ -92,32 +86,81 @@ string CfgProcessor::getValue(string entry, string gamePath, string property, bo
 }
 
 //*******************************
-// CfgProcessor::replaceRaConf
+// CfgProcessor::getValue
+// example gamePath = "/media/Games/!SaveStates/7"
+// example gamePath = "/media/Games/!SaveStates/Driver 2" or
+// example gamePath = "/media/Games/Racing/Driver 2"
 //*******************************
-void CfgProcessor::replaceRaConf(std::string filePath, std::string property, std::string newline)
-{
-    replaceInternal(filePath, property, newline);
+string CfgProcessor::getValue(string gamePath, string property) {
+    string fullCfgFilePath = gamePath + sep + PCSX_CFG;
+    if (!DirEntry::exists(fullCfgFilePath)) {
+        return "";
+    }
+
+    return getValueFromCfgFile(fullCfgFilePath, property);
 }
+
 //*******************************
-// CfgProcessor::replace
+// CfgProcessor::replacePropertyInAllCfgsInDir
+// example pathToCfgDir = "/media/Games/!SaveStates/12/cfg"
+// example pathToCfgDir = "/media/Games/!SaveStates/Driver 2/cfg"
 //*******************************
-void CfgProcessor::replace(string entry, string gamePath, string property, string newline, bool internal) {
-
-    if (!internal) {
-        string realCfgPath = gamePath + sep + PCSX_CFG;
-        replaceInternal(realCfgPath, property, newline);
-
-        for (const DirEntry &cfgEntry : DirEntry::diru(gamePath + sep + "!SaveStates" + sep + entry + sep + "cfg")) {
-            string path = gamePath + sep + "!SaveStates" + sep + entry + sep + "cfg" + sep + cfgEntry.name;
-            replaceInternal(path, property, newline);
-        }
-    } else {
-        string realCfgPath = gamePath + sep + PCSX_CFG;
-        replaceInternal(realCfgPath, property, newline);
-
-        for (const DirEntry &cfgEntry : DirEntry::diru(gamePath + sep + "cfg")) {
-            string path = gamePath + sep + "cfg" + sep + cfgEntry.name;
-            replaceInternal(path, property, newline);
+void CfgProcessor::replacePropertyInAllCfgsInDir(string pathToCfgDir, string property, string newline) {
+    cout << "cfg replaceInAllCfg, '" << pathToCfgDir << "', '" << property << "'" << endl;
+    for (const DirEntry &cfgEntry : DirEntry::diru_FilesOnly(pathToCfgDir)) {
+        if (DirEntry::matchExtension(cfgEntry.name, ".cfg")) {
+            string fullCfgFilePath = pathToCfgDir + sep + cfgEntry.name;
+            replaceProperty(fullCfgFilePath, property, newline);
         }
     }
+}
+
+//*******************************
+// CfgProcessor::replaceInternal
+// example gamePathInSaveStates = "/media/Games/!SaveStates/12"
+//*******************************
+void CfgProcessor::replaceInternal(string gamePathInSaveStates, string property, string newline) {
+    string realCfgPath = gamePathInSaveStates + sep + PCSX_CFG;
+    replaceProperty(realCfgPath, property, newline);
+
+    replacePropertyInAllCfgsInDir(gamePathInSaveStates + sep + "cfg", property, newline);
+}
+
+//*******************************
+// CfgProcessor::replaceUSB
+// example entry = "Driver 2"
+// example gamePath = "/media/Games/Racing"
+//*******************************
+void CfgProcessor::replaceUSB(string entry, string gamePath, string property, string newline) {
+    string realCfgPath = gamePath + sep + entry + sep + PCSX_CFG;
+    replaceProperty(realCfgPath, property, newline);    // replace in the game dir pcsx.cfg
+
+    realCfgPath = "/Games/!SaveStates" + sep + entry + sep + PCSX_CFG;
+    replaceProperty(realCfgPath, property, newline);    // replace in the !SaveStates/game/pcsx.cfg
+
+    // replace in the !SaveStates/game/cfg/*.cfg
+    replacePropertyInAllCfgsInDir("/Games/!SaveStates" + sep + entry + sep + "cfg", property, newline);
+}
+
+//*******************************
+// CfgProcessor::replace
+// example entry = "Driver 2"
+// example gamePath = "/media/Games/Racing", internal = false
+// example gamePath = "/media/Games/!SaveStates/12", internal = true
+//*******************************
+void CfgProcessor::replace(string entry, string gamePath, string property, string newline, bool internal) {
+    if (internal)
+        replaceInternal(gamePath, property, newline);
+    else
+        replaceUSB(entry, gamePath, property, newline);
+}
+
+
+//*******************************
+// CfgProcessor::replaceRaConf
+//*******************************
+void CfgProcessor::replaceRaConf(std::string fullCfgFilePath, std::string property, std::string newline)
+{
+    cout << "cfg replaceRaConf, '" << fullCfgFilePath << "', '" << property << "'" << endl;
+    replaceProperty(fullCfgFilePath, property, newline);
 }

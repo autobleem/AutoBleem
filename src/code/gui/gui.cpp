@@ -1278,7 +1278,7 @@ void Gui::exportDBToRetroarch() {
     {
         ordered_json item = ordered_json::object();
 
-        string gameFile = (game->folder + game->base);
+        string gameFile = (game->folder + sep + game->base);
         if (!DirEntry::matchExtension(game->base, ".pbp")) {
             gameFile += ".cue";
         }

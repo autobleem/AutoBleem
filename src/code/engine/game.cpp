@@ -272,7 +272,7 @@ void USBGame::recoverMissingFiles() {
         DirEntry::copy(source, destination);
 
         CfgProcessor * processor=new CfgProcessor();
-        processor->replace(gameDirName, gui->path, "region", "region = " + to_string(region),false);
+        processor->replaceUSB(gameDirName, fullPath, "region", "region = " + to_string(region));
         delete(processor);
         pcsxCfgFound = true;
     }

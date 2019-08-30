@@ -238,16 +238,15 @@ void GuiEditor::refreshData() {
     if (internal) {
         path = gameData->ssFolder;
     }
-    highres = atoi(processor->getValue(gameIni.entry, path, "gpu_neon.enhancement_enable", internal).c_str());
-    speedhack = atoi(processor->getValue(gameIni.entry, path, "gpu_neon.enhancement_no_main", internal).c_str());
-    clock = strtol(processor->getValue(gameIni.entry, path, "psx_clock", internal).c_str(), NULL, 16);
-    gpu = processor->getValue(gameIni.entry, path, "gpu3", internal);
-    frameskip = atoi(processor->getValue(gameIni.entry, path, "frameskip3", internal).c_str());
-    dither = atoi(processor->getValue(gameIni.entry, path, "gpu_peops.iUseDither", internal).c_str());
-    scanlines = atoi(processor->getValue(gameIni.entry, path, "scanlines", internal).c_str());
-    scanlineLevel = strtol(processor->getValue(gameIni.entry, path, "scanline_level", internal).c_str(), NULL, 16);
-    interpolation = strtol(processor->getValue(gameIni.entry, path, "spu_config.iUseInterpolation", internal).c_str(),
-                           NULL, 16);
+    highres       = atoi  (processor->getValue(path, "gpu_neon.enhancement_enable").c_str());
+    speedhack     = atoi  (processor->getValue(path, "gpu_neon.enhancement_no_main").c_str());
+    clock         = strtol(processor->getValue(path, "psx_clock").c_str(), NULL, 16);
+    gpu           =        processor->getValue(path, "gpu3");
+    frameskip     = atoi  (processor->getValue(path, "frameskip3").c_str());
+    dither        = atoi  (processor->getValue(path, "gpu_peops.iUseDither").c_str());
+    scanlines     = atoi  (processor->getValue(path, "scanlines").c_str());
+    scanlineLevel = strtol(processor->getValue(path, "scanline_level").c_str(), NULL, 16);
+    interpolation = strtol(processor->getValue(path, "spu_config.iUseInterpolation").c_str(), NULL, 16);
 
     delete processor;
 }

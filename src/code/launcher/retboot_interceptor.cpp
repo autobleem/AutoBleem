@@ -65,7 +65,7 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
             path = game->ssFolder;
         }
 
-        gpu = processor->getValue(game->base, path, "gpu3", internal);
+        gpu = processor->getValue(path, "gpu3");
         gpu = Util::trim(gpu);
         if (gpu.empty()) {
             gpu = PCSX_NEON;
@@ -218,21 +218,16 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
         }
         CfgProcessor *processor = new CfgProcessor();
 
-        int highres = atoi(processor->getValue(game->base, path, "gpu_neon.enhancement_enable", internal).c_str());
-        int speedhack = atoi(processor->getValue(game->base, path, "gpu_neon.enhancement_no_main", internal).c_str());
-        int clock = strtol(processor->getValue(game->base, path, "psx_clock", internal).c_str(), NULL, 16);
-        int dither = atoi(processor->getValue(game->base, path, "gpu_peops.iUseDither", internal).c_str());
+        int highres = atoi(processor->getValue(path, "gpu_neon.enhancement_enable").c_str());
+        int speedhack = atoi(processor->getValue(path, "gpu_neon.enhancement_no_main").c_str());
+        int clock = strtol(processor->getValue(path, "psx_clock").c_str(), NULL, 16);
+        int dither = atoi(processor->getValue(path, "gpu_peops.iUseDither").c_str());
         int interpolation = strtol(
-                processor->getValue(game->base, path, "spu_config.iUseInterpolation", internal).c_str(),
-                NULL, 16);
+                processor->getValue(path, "spu_config.iUseInterpolation").c_str(), NULL, 16);
 
-        int scanlines = atoi(processor->getValue(game->base, path, "scanlines", internal).c_str());
-        int scanline_level = strtol(processor->getValue(game->base, path, "scanline_level", internal).c_str(),
-                                    NULL, 16);
-        int frameskip = atoi(processor->getValue(game->base, path, "frameskip3", internal).c_str());
-
-
-
+        int scanlines = atoi(processor->getValue(path, "scanlines").c_str());
+        int scanline_level = strtol(processor->getValue(path, "scanline_level").c_str(), NULL, 16);
+        int frameskip = atoi(processor->getValue(path, "frameskip3").c_str());
 
 
         //RA_CORE_CONFIG
