@@ -15,8 +15,9 @@ using namespace std;
 // CfgProcessor::replaceProperty
 //*******************************
 void CfgProcessor::replaceProperty(string fullCfgFilePath, string property, string newline) {
-    cout << "cfg replace, '" << fullCfgFilePath << "', '" << property << "'" << endl;
+    cout << "cfg replace, '" << fullCfgFilePath << "', '" << property << "' with: '" << newline << "'" << endl;
     if (!DirEntry::exists(fullCfgFilePath)) {
+        cout << "  cfg file doesn't exist" << endl;
         return;
     }
     // do not store if file not updated (one less iocall on filesystem)
@@ -41,6 +42,7 @@ void CfgProcessor::replaceProperty(string fullCfgFilePath, string property, stri
 
             if (lcaseline.rfind(lcasepattern, 0) == 0) {
                 fileUpdated = true;
+                cout << "  new line: '" << newline << "'" << endl;
                 lines.push_back(newline);
             } else {
                 lines.push_back(line);
@@ -78,8 +80,10 @@ string CfgProcessor::getValueFromCfgFile(string fullCfgFilePath, string property
 
             if (lcaseline.rfind(lcasepattern, 0) == 0) {
                 string value = line.substr(lcaseline.find("=") + 1);
-                if (!value.empty() && value.back() == '\r')
+                if (!value.empty() && value.back() == '\r') {
                     value.pop_back();   // remove the trailing /r
+                }
+                trim(value);    // remove leading and trailing spaces
                 cout << "  return: '" << value << "'" << endl;
                 return value;
             }
@@ -99,6 +103,8 @@ string CfgProcessor::getValueFromCfgFile(string fullCfgFilePath, string property
 string CfgProcessor::getValue(string gamePath, string property) {
     string fullCfgFilePath = gamePath + sep + PCSX_CFG;
     if (!DirEntry::exists(fullCfgFilePath)) {
+        cout << "  cfg file doesn't exist" << endl;
+        cout << "  return: ''" << endl;
         return "";
     }
 
@@ -150,14 +156,14 @@ void CfgProcessor::replaceUSB(string entry, string gamePath, string property, st
 //*******************************
 // CfgProcessor::replace
 // example entry = "Driver 2"
-// example gamePath = "/media/Games/Racing", internal = false
+// example gamePath = "/media/Games/Racing/Driver 2", internal = false
 // example gamePath = "/media/Games/!SaveStates/12", internal = true
 //*******************************
 void CfgProcessor::replace(string entry, string gamePath, string property, string newline, bool internal) {
     if (internal)
         replaceInternal(gamePath, property, newline);
     else
-        replaceUSB(entry, gamePath, property, newline);
+        replaceUSB(entry, DirEntry::getDirNameFromPath(gamePath), property, newline);
 }
 
 

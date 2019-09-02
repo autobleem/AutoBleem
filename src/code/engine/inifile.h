@@ -12,7 +12,7 @@
 //
 // Example USB game inifile.  stored in map<string, string> values:
 //
-// [USBGame]
+// [Game]
 // Automation=0
 // Discs=Twisted Metal 2.pbp
 // Highres=0
@@ -25,10 +25,10 @@
 //
 class Inifile {
 public:
-    std::string section="";			// example: "Game" inside [Game] above
-    std::string path="";
-    std::string entry="";			// directory entry name
-    std::map<std::string, std::string> values;	// see example data above
+    std::string section="";                     // example: "Game" (from [Game] above)
+    std::string path="";                        // example: "/media/Games/Racing/007 Racing (USA)/Game.ini"
+    std::string entry="";                       // example: "007 Racing (USA)"
+    std::map<std::string, std::string> values;  // see example data above
 
     void load(const std::string & path);
     void save(const std::string & path);

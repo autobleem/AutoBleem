@@ -288,7 +288,7 @@ int main(int argc, char *argv[]) {
             gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
             gui->startingGame = false;
 
-            gui->display(false, path, db, true);
+            gui->display(false, pathToGamesDir, db, true);
 #endif
         }
     }

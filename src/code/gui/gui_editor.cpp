@@ -267,9 +267,9 @@ void GuiEditor::init() {
         }
 
         bool pngLoaded = false;
-        for (const DirEntry & entry:DirEntry::diru(gui->pathToGamesDir + sep + gameIni.entry)) {
+        for (const DirEntry & entry:DirEntry::diru(gameFolder)) {
             if (DirEntry::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(renderer, (gui->pathToGamesDir + sep + gameIni.entry + sep + entry.name).c_str());
+                cover = IMG_LoadTexture(renderer, (gameFolder + sep + entry.name).c_str());
                 pngLoaded = true;
             }
         }
@@ -323,9 +323,9 @@ void GuiEditor::render() {
     gui->renderTextLine("-=" + gameIni.values["title"] + "=-", line++, offset, POS_CENTER);
 
     if (!internal) {
-        gui->renderTextLine(_("Folder:") + " " + gameIni.entry + "", line++, offset, POS_CENTER);
+        gui->renderTextLine(_("Folder:") + " " + gameIni.entry, line++, offset, POS_CENTER);
     } else {
-        gui->renderTextLine(_("Folder:") + " " + gameData->folder + "", line++, offset, POS_CENTER);
+        gui->renderTextLine(_("Folder:") + " " + gameData->folder, line++, offset, POS_CENTER);
     }
 
     gui->renderTextLine(_("Published by:") + " " + gameIni.values["publisher"], line++, offset, POS_CENTER);
