@@ -78,11 +78,15 @@ string CfgProcessor::getValueFromCfgFile(string fullCfgFilePath, string property
 
             if (lcaseline.rfind(lcasepattern, 0) == 0) {
                 string value = line.substr(lcaseline.find("=") + 1);
+                if (!value.empty() && value.back() == '\r')
+                    value.pop_back();   // remove the trailing /r
+                cout << "  return: '" << value << "'" << endl;
                 return value;
             }
         }
         file.close();
     }
+    cout << "  return: ''" << endl;
     return "";
 }
 
