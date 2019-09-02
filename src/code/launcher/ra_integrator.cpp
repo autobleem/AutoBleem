@@ -256,7 +256,7 @@ void RAIntegrator::initCoreInfo() {
     cout << "Found files:" << entries.size() << endl;
     for (const DirEntry &entry:entries) {
         if (DirEntry::getFileExtension(entry.name) == "info") {
-            string fullPath = infoFolder + entry.name;
+            string fullPath = infoFolder + sep + entry.name;
 
             CoreInfoPtr ci = parseInfo(fullPath, entry.name);
             cores.push_back(ci);

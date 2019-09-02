@@ -147,7 +147,7 @@ void PcsxInterceptor::memcardIn(PsGamePtr & game) {
     string memcard = "SONY";
     if (!game->internal) {
         Inifile gameini;
-        gameini.load(game->folder + sep + "Game.ini");
+        gameini.load(game->folder + sep + GAME_INI);
         memcard = gameini.values["memcard"];
     }
     if (memcard != "SONY") {
@@ -168,7 +168,7 @@ void PcsxInterceptor::memcardOut(PsGamePtr & game) {
     string memcard = "SONY";
     if (!game->internal) {
         Inifile gameini;
-        gameini.load(game->folder + sep + "Game.ini");
+        gameini.load(game->folder + sep + GAME_INI);
         memcard = gameini.values["memcard"];
     }
     if (memcard != "SONY") {
@@ -231,7 +231,7 @@ void PcsxInterceptor::prepareResumePoint(PsGamePtr & game, int pointId) {
         remove(filenameTrash.c_str());
     }
 
-    string ssfile = game->ssFolder + "sstates";
+    string ssfile = game->ssFolder + sep + "sstates";
     for (const DirEntry & sstate:DirEntry::diru(ssfile)) {
         if (DirEntry::getFileExtension(sstate.name) == "000") {
             string toDelete = ssfile + sep + sstate.name;
@@ -239,7 +239,7 @@ void PcsxInterceptor::prepareResumePoint(PsGamePtr & game, int pointId) {
         }
     }
 
-    ssfile = game->ssFolder + "screenshots";
+    ssfile = game->ssFolder + sep + "screenshots";
     for (const DirEntry & sstate:DirEntry::diru(ssfile)) {
         if (DirEntry::getFileExtension(sstate.name) == "png") {
             string toDelete = ssfile + sep + sstate.name;

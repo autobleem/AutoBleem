@@ -350,7 +350,7 @@ bool Database::refreshGameInternal(PsGamePtr &psGame) {
             psGame->internal = true;
             psGame->cds = discs;
 
-            string gameIniPath = psGame->folder + "/Game.ini";
+            string gameIniPath = psGame->folder + sep + GAME_INI;
             if (DirEntry::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
@@ -401,7 +401,7 @@ bool Database::refreshGame(PsGamePtr &game) {
             game->memcard = string(reinterpret_cast<const char *>(memcard));
             game->cds = discs;
 
-            string gameIniPath = game->folder + "/Game.ini";
+            string gameIniPath = game->folder + sep + GAME_INI;
             if (DirEntry::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
@@ -452,7 +452,7 @@ bool Database::getGames(PsGames *result) {
             game->cds = discs;
             //cout << "getGames: " << game->serial << ", " << game->title << endl;
 
-            string gameIniPath = game->folder + sep + "Game.ini";
+            string gameIniPath = game->folder + sep + GAME_INI;
             if (DirEntry::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);

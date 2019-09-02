@@ -117,7 +117,7 @@ void RetroArchInterceptor::memcardIn(PsGamePtr &game) {
         string memcard = "SONY";
         if (!game->internal) {
             Inifile gameini;
-            gameini.load(game->folder + sep + "Game.ini");
+            gameini.load(game->folder + sep + GAME_INI);
             memcard = gameini.values["memcard"];
 
         }
@@ -161,7 +161,7 @@ void RetroArchInterceptor::memcardOut(PsGamePtr &game) {
         string memcard = "SONY";
         if (!game->internal) {
             Inifile gameini;
-            gameini.load(game->folder + sep + "Game.ini");
+            gameini.load(game->folder + sep + GAME_INI);
             memcard = gameini.values["memcard"];
         }
         if (memcard != "SONY") {

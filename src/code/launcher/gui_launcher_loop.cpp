@@ -508,7 +508,7 @@ void GuiLauncher::loop_nextGame() {
                                 string memcard = "SONY";
                                 if (!carouselGames[selGame]->internal) {
                                     Inifile gameini;
-                                    gameini.load(carouselGames[selGame]->folder + "/Game.ini");
+                                    gameini.load(carouselGames[selGame]->folder + sep + GAME_INI);
                                     memcard = gameini.values["memcard"];
 
                                 }
@@ -542,12 +542,11 @@ void GuiLauncher::loop_nextGame() {
                                 if (!editor->internal) {
                                     editor->gameFolder = carouselGames[selGame]->folder;
 
-                                    gameIni.load(carouselGames[selGame]->folder + "Game.ini");
+                                    gameIni.load(carouselGames[selGame]->folder + sep + GAME_INI);
                                     string folderNoLast =
-                                            carouselGames[selGame]->folder.substr(0,
-                                                                                  carouselGames[selGame]->folder.size() -
-                                                                                  1);
-                                    gameIni.entry = folderNoLast.substr(folderNoLast.find_last_of("//") + 1);
+                                        carouselGames[selGame]->folder.substr(0,
+                                                carouselGames[selGame]->folder.size() - 1);
+                                    gameIni.entry = folderNoLast.substr(folderNoLast.find_last_of('/') + 1);
                                     editor->gameIni = gameIni;
                                 } else {
                                     editor->gameData = carouselGames[selGame];
@@ -556,7 +555,7 @@ void GuiLauncher::loop_nextGame() {
                                 editor->show();
                                 if (!editor->internal) {
                                     if (editor->changes) {
-                                        gameIni.load(carouselGames[selGame]->folder + "Game.ini");
+                                        gameIni.load(carouselGames[selGame]->folder + sep + GAME_INI);
                                         gui->db->updateTitle(carouselGames[selGame]->gameId, gameIni.values["title"]);
                                     }
                                     gui->db->refreshGame(carouselGames[selGame]);

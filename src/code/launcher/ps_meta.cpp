@@ -64,7 +64,7 @@ void PsMeta::updateTexts(PsGamePtr & psGame, int r,int g, int b) {
     if (!psGame->foreign) {
         if (psGame->serial == "") {
             Inifile iniFile;
-            iniFile.load(psGame->folder + "/" + "Game.ini");
+            iniFile.load(psGame->folder + sep + "Game.ini");
             psGame->serial = iniFile.values["serial"];
             psGame->region = iniFile.values["region"];
         }

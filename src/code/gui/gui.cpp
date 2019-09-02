@@ -1297,7 +1297,7 @@ void Gui::exportDBToRetroarch() {
             base = game->base;
         }
         if (DirEntry::exists(game->folder + sep + base + ".m3u")) {
-            gameFile = game->folder + base + ".m3u";
+            gameFile = game->folder + sep + base + ".m3u";
         }
 
 

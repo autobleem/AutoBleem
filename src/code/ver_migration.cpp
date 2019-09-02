@@ -80,7 +80,7 @@ void VerMigration::migrate04_05(Database * db)
             string gameIniLoc = folder + sep + "GameData" + sep + "Game.ini";
             if (!DirEntry::exists(gameIniLoc))
             {
-                gameIniLoc = folder + sep + "Game.ini";
+                gameIniLoc = folder + sep + GAME_INI;
             }
             if (!DirEntry::exists(gameIniLoc))
             {
