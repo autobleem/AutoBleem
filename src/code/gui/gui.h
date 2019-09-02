@@ -57,16 +57,13 @@ public:
 
     Config cfg;
 
+    std::string getSonyImagePath();
+    std::string getSonyFontPath();
+    std::string getSonySoundPath();
+    std::string getSonyThemesRootPath();
+
     GuiBase();
     ~GuiBase();
-
-    std::string getSonyImagePath();
-
-    std::string getSonyFontPath();
-
-    std::string getSonySoundPath();
-
-    std::string getSonyThemesRootPath();
 };
 
 //********************

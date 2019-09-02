@@ -131,14 +131,6 @@ string DirEntry::getDirNameFromPath(const string& path)
 }
 
 //*******************************
-// DirEntry::getWorkingPath
-//*******************************
-string DirEntry::getWorkingPath() {
-    char temp[PATH_MAX];
-    return (getcwd(temp, sizeof(temp)) ? string(temp) : string(""));
-}
-
-//*******************************
 // DirEntry::isDirectory
 //*******************************
 bool DirEntry::isDirectory(const string &path) {

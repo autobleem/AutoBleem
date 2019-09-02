@@ -5,6 +5,7 @@
 #include "scanner.h"
 #include "serialscanner.h"
 #include <fstream>
+#include "../environment.h"
 
 //#include <experimental/filesystem>
 //namespace fs = std::experimental::filesystem;
@@ -185,7 +186,7 @@ GamesHierarchy::GamesHierarchy(const std::string & path) {
     }
     printRowGameInfo(false);
 
-    string opath = DirEntry::getWorkingPath() + sep + "gameHierarchy_beforeScan.txt";
+    string opath = Env::getWorkingPath() + sep + "gameHierarchy_beforeScan.txt";
     ofstream outfile;
     outfile.open(opath);
     dumpRowGameInfo(outfile, true);
@@ -199,7 +200,7 @@ GamesHierarchy::GamesHierarchy(const std::string & path) {
 // run this after Scanner has filled in the serial so we can correctly match duplicate games
 //*******************************
 void GamesHierarchy::makeGamesToDisplayWhileRemovingChildDuplicates() {
-    string dupFilePath = DirEntry::getWorkingPath() + sep + "duplicateGames.txt";
+    string dupFilePath = Env::getWorkingPath() + sep + "duplicateGames.txt";
     dupFile.open(dupFilePath.c_str(), ios::binary);
 
     if (gameSubDirRows.size() > 0)

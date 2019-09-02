@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include "DirEntry.h"
+#include "environment.h"
 
 using namespace std;
 
@@ -39,7 +40,7 @@ string Lang::translate(string input){
 // Lang::load
 //*******************************
 void Lang::load(string languageName) {
-    string path = DirEntry::getWorkingPath() + sep + "lang" + sep + languageName + ".txt";
+    string path = Env::getWorkingPath() + sep + "lang" + sep + languageName + ".txt";
     langData.clear();
     newData.clear();
     currentLang = languageName;
@@ -76,7 +77,7 @@ void Lang::load(string languageName) {
 //*******************************
 void Lang::dump(string fileName) {
 
-    string fileSave = DirEntry::getWorkingPath() + sep + fileName;
+    string fileSave = Env::getWorkingPath() + sep + fileName;
     map<string, string>::iterator it;
 
     ofstream os(fileSave);
@@ -95,7 +96,7 @@ vector<string> Lang::getListOfLanguages()
 {
     vector<string> languages;
     languages.push_back("English");
-    for (DirEntry entry:DirEntry::diru(DirEntry::getWorkingPath() + sep + "lang"))
+    for (DirEntry entry:DirEntry::diru(Env::getWorkingPath() + sep + "lang"))
     {
         // if it's a*.txt file but not English.txt, add it to the list of languages
         if (DirEntry::matchExtension(entry.name,".txt") && ! Util::compareCaseInsensitive(entry.name, "English.txt"))

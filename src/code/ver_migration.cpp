@@ -63,7 +63,7 @@ void VerMigration::migrate04_05(Database * db)
     cout << "Migrating 0.4.0 to 0.5.0" << endl;
     // update game ini's with correct year (by title)
     int newYear = 2000; // initial value
-    ifstream is(Util::getWorkingPath() + sep + "autobleem.list");
+    ifstream is(Env::getWorkingPath() + sep + "autobleem.list");
     string line;
     while (getline(is, line)) {
         vector<string> vect;

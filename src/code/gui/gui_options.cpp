@@ -6,6 +6,8 @@
 #include "../util.h"
 #include "gui.h"
 #include "../lang.h"
+#include "../environment.h"
+
 using namespace std;
 
 //*******************************
@@ -40,7 +42,7 @@ void GuiOptions::init() {
     autobleemUIThemes.clear();
     menuThemes.clear();
     menuThemes.push_back("default");
-    string themePathAB = DirEntry::getWorkingPath() + sep + "theme";
+    string themePathAB = Env::getWorkingPath() + sep + "theme";
     DirEntries folders = DirEntry::diru_DirsOnly(themePathAB);
     for (const DirEntry & entry:folders) {
         if (DirEntry::exists(themePathAB + sep + entry.name + sep + "theme.ini")) {
@@ -48,17 +50,8 @@ void GuiOptions::init() {
         }
     }
 
-    string themePathEvo;
-
-#if defined(__x86_64__) || defined(_M_X64)
-    themePathEvo = DirEntry::getWorkingPath() + sep + "themes";
-    folders = DirEntry::diru(themePathEvo);
-#else
-    themePathEvo = "/media/themes";
-    folders = DirEntry::diru(themePathEvo);
-#endif
-    for (const DirEntry & entry:folders) {
-        if (DirEntry::exists(themePathEvo + sep + entry.name + sep + "images")) {
+    for (const DirEntry & entry : folders) {
+        if (DirEntry::exists(Env::getPathToMenuThemesDir() + sep + entry.name + sep + "images")) {
             menuThemes.push_back(entry.name);
         }
     }
@@ -98,8 +91,8 @@ void GuiOptions::init() {
     jewels.push_back("none");
     jewels.push_back("default");
 
-    folders = DirEntry::diru_FilesOnly(DirEntry::getWorkingPath() + "/evoimg/frames");
-    for (const DirEntry & entry:folders) {
+    folders = DirEntry::diru_FilesOnly(Env::getWorkingPath() + sep + "evoimg/frames");
+    for (const DirEntry & entry : folders) {
         if (DirEntry::getFileExtension(entry.name) == "png") {
             jewels.push_back(entry.name);
         }
@@ -109,7 +102,7 @@ void GuiOptions::init() {
     quickmenu.push_back("RetroArch");
     music.clear();
     music.push_back("--");
-    folders = DirEntry::diru_FilesOnly(DirEntry::getWorkingPath() + "/music");
+    folders = DirEntry::diru_FilesOnly(Env::getWorkingPath() + sep + "music");
     for (const DirEntry & entry:folders) {
         if (DirEntry::getFileExtension(entry.name) == "ogg") {
             music.push_back(entry.name);
@@ -289,7 +282,7 @@ void GuiOptions::loop() {
                 case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
-                        string cfg_path = DirEntry::getWorkingPath() + sep + "config.ini";
+                        string cfg_path = Env::getWorkingPath() + sep + "config.ini";
                         gui->cfg.inifile.load(cfg_path);    // restore the original config.ini settings
                         lang->load(gui->cfg.inifile.values["language"]);    // restore the original lang
                         gui->loadAssets();                                  // restore original themes

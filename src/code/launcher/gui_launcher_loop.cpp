@@ -12,6 +12,7 @@
 #include "../gui/gui_playlists.h"
 #include "gui_mc_manager.h"
 #include "../gui/gui_gameDirMenu.h"
+#include "../Environment.h"
 
 using namespace std;
 
@@ -349,7 +350,7 @@ void GuiLauncher::loop_nextGame() {
                         if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT, &e)) {
 
                             if (state == STATE_GAMES) {
-                                if (!DirEntry::exists(RA_FOLDER)) {
+                                if (!DirEntry::exists(Env::getPathToRetroarchDir())) {
                                     continue;
                                 }
                                 if (raPlaylists.empty()) {
@@ -423,7 +424,7 @@ void GuiLauncher::loop_nextGame() {
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
                         gui->padMapping = gui->mapper.getMappingString(e.jbutton.which);
-                        if (DirEntry::exists(string(RA_FOLDER)+"/retroarch")) {
+                        if (DirEntry::exists(Env::getPathToRetroarchDir() + sep + "retroarch")) { // retroarch is a file
 
                             if (state == STATE_GAMES) {
                                 if (carouselGames.empty()) {
@@ -513,8 +514,8 @@ void GuiLauncher::loop_nextGame() {
                                 }
                                 if (memcard!="SONY")
                                 {
-                                    cardPath1 =  gui->pathToGamesDir + sep +"!MemCards/" + memcard  +"card1.mcd";
-                                    cardPath1 =  gui->pathToGamesDir + sep +"!MemCards/" + memcard  +"card2.mcd";
+                                    cardPath1 =  Env::getPathToMemCardsDir() + sep + memcard  +"card1.mcd";
+                                    cardPath1 =  Env::getPathToMemCardsDir() + sep + memcard  +"card2.mcd";
                                     leftCardName = "[1]"+ memcard;
                                     rightCardName = "[2]"+ memcard;
                                 }

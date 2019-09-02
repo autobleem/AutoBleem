@@ -52,7 +52,6 @@ public:
     static bool exists(const std::string &name);
     static bool createDir(const std::string &name);
     static int rmDir(std::string path);
-    static std::string getWorkingPath();
     static std::string removeDotFromExtension(const std::string & ext); // if it has it
     static std::string addDotToExtension(const std::string & ext); // if it doesn't start with a "."
     static bool matchExtension(std::string path, std::string ext);  // this does a case insensitive compare

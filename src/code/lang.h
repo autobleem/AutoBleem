@@ -16,7 +16,6 @@ std::string _(const std::string & input);
 //******************
 class Lang {
 public:
-
     std::string currentLang;
     std::string translate(std::string input);
     void dump(std::string fileName);

@@ -16,6 +16,8 @@
 #include "../lang.h"
 #include <ftw.h>
 #include "../engine/scanner.h"
+#include "../Environment.h"
+
 using namespace std;
 
 //*******************************
@@ -27,16 +29,16 @@ void GuiManager::init()
     // Create list of games
 
     shared_ptr<Gui> gui(Gui::getInstance());
-    string path = gui->pathToGamesDir;
-    for (const DirEntry &entry: DirEntry::diru(path)) {
-        if (!DirEntry::isDirectory(gui->pathToGamesDir + sep + entry.name)) continue;
+    string pathToGamesDir = Env::getPathToGamesDir();
+    for (const DirEntry &entry : DirEntry::diru(pathToGamesDir)) {
+        if (!DirEntry::isDirectory(pathToGamesDir + sep + entry.name)) continue;
         if (entry.name == "!SaveStates") continue;
         if (entry.name == "!MemCards") continue;
 
-        string gameDataPath = path + entry.name + sep;
-        string saveStateDir = path + sep + "!SaveStates" + sep + entry.name;
+        string gameDataPath = pathToGamesDir + sep + entry.name + sep;
+        string saveStateDir = Env::getPathToSaveStatesDir() + sep + entry.name;
         Inifile ini;
-        ini.load(path+entry.name + sep + GAME_INI);
+        ini.load(Env::getPathToGamesDir() + sep + entry.name + sep + GAME_INI);
         if (ini.section.empty())
         {
             continue;

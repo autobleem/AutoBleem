@@ -6,20 +6,23 @@
 #include "../util.h"
 #include <iostream>
 #include "../DirEntry.h"
+#include "../environment.h"
 
 using namespace std;
-
-static const char *jDatabases[] = {"../db/coversU.db", "../db/coversP.db", "../db/coversJ.db"};
 
 //*******************************
 // Coverdb::Coverdb()
 //*******************************
 Coverdb::Coverdb()
 {
+    regionStr[0] = "U";
+    regionStr[1] = "P";
+    regionStr[2] = "J";
+
     for (int i=0;i<3;i++)
     {
         covers[i]= nullptr;
-        auto filename = jDatabases[i];
+        auto filename = Env::getPathToCoversDBDir() + sep + "covers" + regionStr[i] + ".db";
         if (DirEntry::exists(filename)) {
                 covers[i] = new Database();
                 bool success = covers[i]->connect(filename);
@@ -31,10 +34,6 @@ Coverdb::Coverdb()
             cout << "database file " << filename << " not found" << endl;
         }
     }
-
-    regionStr[0] = "U";
-    regionStr[1] = "P";
-    regionStr[2] = "J";
 }
 
 //*******************************

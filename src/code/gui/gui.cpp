@@ -22,7 +22,7 @@
 #include "../engine/scanner.h"
 #include "../nlohmann/json.h"
 #include "../nlohmann/fifo_map.h"
-
+#include "../environment.h"
 
 using namespace std;
 using namespace nlohmann;
@@ -34,7 +34,10 @@ using ordered_json = basic_json<my_workaround_fifo_map>;
 
 
 #define RA_PLAYLIST "AutoBleem.lpl"
-#define RA_CORE "/media/retroarch/cores/km_pcsx_rearmed_neon_libretro.so"
+
+                                    //*******************************
+                                    // GuiBase
+                                    //*******************************
 
 //********************
 // GuiBase::GuiBase
@@ -66,7 +69,7 @@ GuiBase::~GuiBase() {
 string GuiBase::getSonyImagePath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path =
-            DirEntry::getWorkingPath() + sep + "themes" + sep + cfg.inifile.values["stheme"] +
+            Env::getWorkingPath() + sep + "themes" + sep + cfg.inifile.values["stheme"] +
             "/images";
     if (!DirEntry::exists(path)) {
         path = "./sony/images";
@@ -88,7 +91,7 @@ string GuiBase::getSonyImagePath() {
 string GuiBase::getSonySoundPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path =
-            DirEntry::getWorkingPath() + sep + "themes" + sep + cfg.inifile.values["stheme"] +
+            Env::getWorkingPath() + sep + "themes" + sep + cfg.inifile.values["stheme"] +
             "/sounds";
     if (!DirEntry::exists(path)) {
         path = "./sony/sounds";
@@ -110,7 +113,7 @@ string GuiBase::getSonySoundPath() {
 string GuiBase::getSonyFontPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path =
-            DirEntry::getWorkingPath() + sep + "themes" + sep + cfg.inifile.values["stheme"] +
+            Env::getWorkingPath() + sep + "themes" + sep + cfg.inifile.values["stheme"] +
             "/font";
     if (!DirEntry::exists(path)) {
         path = "./sony/font";
@@ -131,7 +134,7 @@ string GuiBase::getSonyFontPath() {
 //*******************************
 string GuiBase::getSonyThemesRootPath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    string path = DirEntry::getWorkingPath() + sep + cfg.inifile.values["stheme"];
+    string path = Env::getWorkingPath() + sep + cfg.inifile.values["stheme"];
     if (!DirEntry::exists(path)) {
         path = "./sony";
     }
@@ -146,6 +149,9 @@ string GuiBase::getSonyThemesRootPath() {
 #endif
 }
 
+                                    //*******************************
+                                    // Gui
+                                    //*******************************
 
 //*******************************
 // Gui::logText
@@ -265,8 +271,8 @@ Gui::loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, string themePath, strin
 void Gui::loadAssets(bool reloadMusic) {
     // check theme exists - otherwise back to argb
 
-    string defaultPath = DirEntry::getWorkingPath() + sep + "theme" + sep + "default" + sep;
-    themePath = DirEntry::getWorkingPath() + sep + "theme" + sep + cfg.inifile.values["theme"] + sep;
+    string defaultPath = Env::getWorkingPath() + sep + "theme" + sep + "default" + sep;
+    themePath = Env::getWorkingPath() + sep + "theme" + sep + cfg.inifile.values["theme"] + sep;
 
     cout << "Loading theme:" << themePath << endl;
     if (!DirEntry::exists(themePath+"theme.ini"))
@@ -313,10 +319,10 @@ void Gui::loadAssets(bool reloadMusic) {
     buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
     if (cfg.inifile.values["jewel"] != "none") {
         if (cfg.inifile.values["jewel"] == "default") {
-            cdJewel = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + "/evoimg/nofilter.png").c_str());
+            cdJewel = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "evoimg/nofilter.png").c_str());
         } else {
             cdJewel = IMG_LoadTexture(renderer,
-                                      (DirEntry::getWorkingPath() + "/evoimg/frames/" +
+                                      (Env::getWorkingPath() + sep + "evoimg/frames/" +
                                        cfg.inifile.values["jewel"]).c_str());
         }
     } else {
@@ -379,7 +385,7 @@ void Gui::loadAssets(bool reloadMusic) {
                     printf("Unable to play music file: %s\n", Mix_GetError());
                 }
             } else {
-                music = Mix_LoadMUS((DirEntry::getWorkingPath() + "/music/" + musicPath).c_str());
+                music = Mix_LoadMUS((Env::getWorkingPath() + sep + "music/" + musicPath).c_str());
                 if (music == nullptr) { printf("Unable to load Music file: %s\n", Mix_GetError()); }
                 if (Mix_PlayMusic(music, -1) == -1) {
                     printf("Unable to play music file: %s\n", Mix_GetError());
@@ -586,7 +592,7 @@ void Gui::menuSelection() {
                         delete launcherScreen;
                     }
                 } else {
-                    if (DirEntry::exists(string(RA_FOLDER)+"/retroarch")) {
+                    if (DirEntry::exists(Env::getPathToRetroarchDir() + sep + "retroarch")) {
                         this->menuOption = MENU_OPTION_RETRO;
                         return;
                     } else {
@@ -734,7 +740,7 @@ void Gui::menuSelection() {
                             if (retroarch != "false") {
                                 if (e.jbutton.button == _cb(PCS_BTN_SQUARE, &e)) {
                                     Mix_PlayChannel(-1, cursor, 0);
-                                    if (!DirEntry::exists(string(RA_FOLDER)+"/retroarch")) {
+                                    if (!DirEntry::exists(Env::getPathToRetroarchDir() + sep + "retroarch")) {
 
                                         auto confirm = new GuiConfirm(renderer);
                                         confirm->label = _("RetroArch is not installed");
@@ -1297,7 +1303,7 @@ void Gui::exportDBToRetroarch() {
 
         item["path"]=gameFile;
         item["label"]=game->title;
-        item["core_path"]=RA_CORE;
+        item["core_path"]=Env::getPathToRetroarchCoreFile();
         item["core_name"]="DETECT";
         item["crc32"]="00000000|crc";
         item["db_name"]=RA_PLAYLIST;
@@ -1308,7 +1314,7 @@ void Gui::exportDBToRetroarch() {
     j["items"] = items;
 
     cout << j.dump() << endl;
-    std::ofstream o(string(RA_FOLDER)+"/playlists/"+RA_PLAYLIST);
+    std::ofstream o(Env::getPathToRetroarchDir() + sep + "playlists/" + RA_PLAYLIST);
     o << std::setw(2) << j << std::endl;
     o.flush();
     o.close();

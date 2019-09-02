@@ -12,6 +12,8 @@
 #include <fstream>
 #include <iostream>
 #include <unistd.h>
+#include "../Environment.h"
+
 using namespace std;
 
 void PcsxInterceptor::cleanupConfig(PsGamePtr &game)
@@ -147,11 +149,10 @@ void PcsxInterceptor::memcardIn(PsGamePtr & game) {
         Inifile gameini;
         gameini.load(game->folder + sep + "Game.ini");
         memcard = gameini.values["memcard"];
-
     }
     if (memcard != "SONY") {
-        if (DirEntry::exists("/media/Games/!MemCards/" + game->memcard)) {
-            Memcard *card = new Memcard("/media/Games/");
+        if (DirEntry::exists(Env::getPathToMemCardsDir() + sep + game->memcard)) {
+            Memcard *card = new Memcard(Env::getPathToGamesDir() + sep);
             if (!card->swapIn(game->ssFolder, game->memcard)) {
                 game->setMemCard("SONY");
             };
@@ -171,7 +172,7 @@ void PcsxInterceptor::memcardOut(PsGamePtr & game) {
         memcard = gameini.values["memcard"];
     }
     if (memcard != "SONY") {
-        Memcard *card = new Memcard("/media/Games/");
+        Memcard *card = new Memcard(Env::getPathToGamesDir() + sep);
         card->swapOut(game->ssFolder, game->memcard);
         delete card;
     }

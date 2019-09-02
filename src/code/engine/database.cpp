@@ -5,6 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "serialscanner.h"
 #include "../DirEntry.h"
+#include "../Environment.h"
 
 using namespace std;
 
@@ -298,7 +299,7 @@ bool Database::getInternalGames(PsGames *result) {
             psGame->year = year;
             psGame->players = players;
             psGame->folder = "/gaadata/" + to_string(id) + "/";
-            psGame->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
+            psGame->ssFolder = Env::getPathToSaveStatesDir() + sep + to_string(id) + "/";
             psGame->base = string(reinterpret_cast<const char *>(base));
             psGame->serial = psGame->base;
             psGame->region = SerialScanner::serialToRegion(psGame->serial);
@@ -341,7 +342,7 @@ bool Database::refreshGameInternal(PsGamePtr &psGame) {
             psGame->year = year;
             psGame->players = players;
             psGame->folder = "/gaadata/" + to_string(id) + "/";
-            psGame->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
+            psGame->ssFolder = Env::getPathToSaveStatesDir() + sep + to_string(id) + "/";
             psGame->base = string(reinterpret_cast<const char *>(base));
             psGame->serial = psGame->base;
             psGame->region = SerialScanner::serialToRegion(psGame->serial);

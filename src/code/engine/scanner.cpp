@@ -11,6 +11,7 @@
 #include <iostream>
 #include <unistd.h>
 #include "GetGameDirHierarchy.h"
+#include "../Environment.h"
 
 using namespace std;
 
@@ -42,7 +43,7 @@ void Scanner::unecm(const string & path) {
 void Scanner::updateRegionalDB(GamesHierarchy &gamesHierarchy, Database *db) {
     shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText(_("Updating regional.db..."));
-    string path = DirEntry::getWorkingPath() + sep + "autobleem.list";
+    string path = Env::getWorkingPath() + sep + "autobleem.list";
     ofstream outfile;
     outfile.open(path);
     if (complete) {
@@ -300,27 +301,24 @@ void Scanner::repairBrokenCueFiles(const string & path) {
 //*******************************
 // Scanner::scanUSBGamesDirectory
 //*******************************
-void Scanner::scanUSBGamesDirectory(const string &rootPath, GamesHierarchy &gamesHierarchy) {
-    // it looks like the USBGames path must have a / at the end for changing the game config to work
-    //string rootPathWithOutSeparator = DirEntry::removeSeparatorFromEndOfPath(rootPath);
-
+void Scanner::scanUSBGamesDirectory(GamesHierarchy &gamesHierarchy) {
     gamesToAddToDB.clear();  // clear games list
     complete = false;
 
     shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText(_("Scanning..."));
 
-    if (!DirEntry::exists(rootPath + sep + "!SaveStates")) {
-        DirEntry::createDir(rootPath + sep + "!SaveStates");
+    if (!DirEntry::exists(Env::getPathToSaveStatesDir())) {
+        DirEntry::createDir(Env::getPathToSaveStatesDir());
     }
 
-    if (!DirEntry::exists(rootPath + sep + "!MemCards")) {
-        DirEntry::createDir(rootPath + sep + "!MemCards");
+    if (!DirEntry::exists(Env::getPathToMemCardsDir())) {
+        DirEntry::createDir(Env::getPathToMemCardsDir());
     }
 
     USBGames allGames = gamesHierarchy.getAllGames();
 
-    string badGameFilePath = DirEntry::getWorkingPath() + sep + "gamesThatFailedVerifyCheck.txt";
+    string badGameFilePath = Env::getWorkingPath() + sep + "gamesThatFailedVerifyCheck.txt";
     ofstream badGameFile;
     badGameFile.open(badGameFilePath.c_str(), ios::binary);
 
@@ -343,12 +341,12 @@ void Scanner::scanUSBGamesDirectory(const string &rootPath, GamesHierarchy &game
             cout << i++ << ": "<< "NULL" << endl;
         repairBinCommaNames(game->fullPath);
 
-        string saveStateDir = rootPath + sep + "!SaveStates" + sep + game->gameDirName;
+        string saveStateDir = Env::getPathToSaveStatesDir() + sep + game->gameDirName;
         DirEntry::createDir(saveStateDir);
         DirEntry::createDir(saveStateDir + sep + "memcards");
 
         game->folder_id = 0; // this will not be in use;
-        game->saveStatePath = rootPath + sep + "!SaveStates" + sep + game->gameDirName + sep;
+        game->saveStatePath = Env::getPathToSaveStatesDir() + sep + game->gameDirName + sep;
 
         splash->logText(_("Game:") + " " + game->gameDirName);
 
@@ -453,15 +451,15 @@ void Scanner::scanUSBGamesDirectory(const string &rootPath, GamesHierarchy &game
                 string memcardPath = game->saveStatePath + sep + "memcards/";
                 if (!DirEntry::exists(memcardPath + "card1.mcd"))
                 {
-                    DirEntry::copy(DirEntry::getWorkingPath() + sep + "memcard/card1.mcd", memcardPath + "card1.mcd");
+                    DirEntry::copy(Env::getWorkingPath() + sep + "memcard/card1.mcd", memcardPath + "card1.mcd");
                 }
                 if (!DirEntry::exists(memcardPath + sep + "card2.mcd"))
                 {
-                    DirEntry::copy(DirEntry::getWorkingPath() + sep + "memcard/card1.mcd", memcardPath + "card2.mcd");
+                    DirEntry::copy(Env::getWorkingPath() + sep + "memcard/card1.mcd", memcardPath + "card2.mcd");
                 }
                 if (!DirEntry::exists(game->saveStatePath + sep + PCSX_CFG))
                 {
-                    DirEntry::copy(DirEntry::getWorkingPath() + sep + PCSX_CFG, game->saveStatePath + sep + PCSX_CFG);
+                    DirEntry::copy(Env::getWorkingPath() + sep + PCSX_CFG, game->saveStatePath + sep + PCSX_CFG);
                 }
                 DirEntry::generateM3UForDirectory(game->fullPath, game->discs[0].cueName);
             }
@@ -482,7 +480,7 @@ void Scanner::scanUSBGamesDirectory(const string &rootPath, GamesHierarchy &game
 
     gamesHierarchy.printRowDisplayGameInfo(false);
 
-    string path = DirEntry::getWorkingPath() + sep + "gameHierarchy_afterScanAndRemovingDuplicates.txt";
+    string path = Env::getWorkingPath() + sep + "gameHierarchy_afterScanAndRemovingDuplicates.txt";
     ofstream outfile;
     outfile.open(path);
     gamesHierarchy.dumpRowGameInfo(outfile, true);

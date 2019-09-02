@@ -11,6 +11,7 @@
 #include "../nlohmann/json.h"
 #include "../engine/cfgprocessor.h"
 #include "../DirEntry.h"
+#include "../environment.h"
 
 using namespace nlohmann;
 
@@ -93,7 +94,13 @@ void RAIntegrator::parseJSON(PsGames *result, string path) {
         game->core_path = (*it)["core_path"];
         game->db_name = (*it)["db_name"];
         game->image_path = (*it)["path"];
-
+#if defined(__x86_64__) || defined(_M_X64)
+        // if you are running in the debugging environment then /media might be shared drive /media/sf_G_DRIVE etc
+        if (game->image_path.substr(0, 6) == "/media")
+            game->image_path.replace(0, 6, Env::getPathToUSBRoot());
+        if (game->core_path.substr(0, 6) == "/media")
+            game->core_path.replace(0, 6, Env::getPathToUSBRoot());
+#endif
 
         if ((game->core_path == "DETECT") || (game->core_name == "DETECT")) {
             autoDetectCorePath(game, game->core_name, game->core_path);
@@ -187,7 +194,7 @@ int RAIntegrator::getGamesNumber(string playlist) {
 
 bool RAIntegrator::getGames(PsGames *result, string playlist) {
     cout << "Parsing Playlist:" << playlist << endl;
-    string path = string(RA_FOLDER) + sep + "playlists" + sep + playlist;
+    string path = Env::getPathToRetroarchDir() + sep + "playlists" + sep + playlist;
     if (isJSONPlaylist(path)) {
         parseJSON(result, path);
     } else {
@@ -199,11 +206,11 @@ bool RAIntegrator::getGames(PsGames *result, string playlist) {
 
 vector<string> RAIntegrator::getPlaylists() {
     vector<string> result;
-    if (!DirEntry::exists(RA_FOLDER)) {
+    if (!DirEntry::exists(Env::getPathToRetroarchDir())) {
         return result;
     }
     cout << "Playlists: RA folder Found" << endl;
-    string path = string(RA_FOLDER) + sep + "playlists";
+    string path = Env::getPathToRetroarchDir() + sep + "playlists";
     cout << "Checking path" << path << endl;
     vector<DirEntry> entries = DirEntry::diru_FilesOnly(path);
     cout << "Total Playlists:" << entries.size() << endl;
@@ -236,14 +243,14 @@ bool RAIntegrator::autoDetectCorePath(PsGamePtr game, string &core_name, string 
 
 void RAIntegrator::initCoreInfo() {
     cout << "Building core list" << endl;
-    if (!DirEntry::exists(RA_FOLDER)) {
+    if (!DirEntry::exists(Env::getPathToRetroarchDir())) {
         cout << "Retroarch Not Found" << endl;
         return;
     }
     cores.clear();
     databases.clear();
     defaultCores.clear();
-    string infoFolder = string(RA_FOLDER) + sep + "info/";
+    string infoFolder = Env::getPathToRetroarchDir() + sep + "info/";
     cout << "Scanning: " << infoFolder << endl;
     vector<DirEntry> entries = DirEntry::diru_FilesOnly(infoFolder);
     cout << "Found files:" << entries.size() << endl;
@@ -282,7 +289,7 @@ void RAIntegrator::initCoreInfo() {
     }
 
     overrideCores.clear();
-    ifstream in(DirEntry::getWorkingPath() + sep + "coreOverride.cfg");
+    ifstream in(Env::getWorkingPath() + sep + "coreOverride.cfg");
     string line;
     while (getline(in, line)) {
         string db_name = line.substr(0, line.find("="));
@@ -368,7 +375,7 @@ CoreInfoPtr RAIntegrator::parseInfo(string file, string entry) {
 
     cout << "Parsing " << endl;
     CoreInfoPtr coreInfoPtr{new CoreInfo};
-    coreInfoPtr->core_path = string(RA_FOLDER) + "/cores/" + DirEntry::getFileNameWithoutExtension(entry) + ".so";
+    coreInfoPtr->core_path = Env::getPathToRetroarchDir() + sep + "cores/" + DirEntry::getFileNameWithoutExtension(entry) + ".so";
     coreInfoPtr->extensions.clear();
     cout << "CorePath: " << coreInfoPtr->core_path << endl;
     while (getline(in, line)) {

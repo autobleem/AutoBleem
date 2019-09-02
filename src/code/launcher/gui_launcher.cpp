@@ -16,6 +16,7 @@
 #include "../engine/scanner.h"
 #include "../gui/gui_playlists.h"
 #include "gui_mc_manager.h"
+#include "../environment.h"
 
 using namespace std;
 
@@ -255,7 +256,7 @@ void GuiLauncher::renderText(int x, int y, const std::string &text, const SDL_Co
 void GuiLauncher::loadAssets() {
     cout << "Loading playlists" << endl;
     raPlaylists.clear();
-    if (DirEntry::exists(RA_FOLDER)) {
+    if (DirEntry::exists(Env::getPathToRetroarchDir())) {
         raPlaylists = raIntegrator.getPlaylists();
     }
     vector<string> headers = {_("SETTINGS"), _("GAME"), _("MEMORY CARD"), _("RESUME")};

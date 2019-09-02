@@ -7,6 +7,7 @@
 #include <fstream>
 #include "../DirEntry.h"
 #include <iostream>
+#include "../Environment.h"
 
 using namespace std;
 
@@ -135,11 +136,11 @@ void CfgProcessor::replaceUSB(string entry, string gamePath, string property, st
     string realCfgPath = gamePath + sep + entry + sep + PCSX_CFG;
     replaceProperty(realCfgPath, property, newline);    // replace in the game dir pcsx.cfg
 
-    realCfgPath = "/Games/!SaveStates" + sep + entry + sep + PCSX_CFG;
+    realCfgPath = Env::getPathToSaveStatesDir() + sep + entry + sep + PCSX_CFG;
     replaceProperty(realCfgPath, property, newline);    // replace in the !SaveStates/game/pcsx.cfg
 
     // replace in the !SaveStates/game/cfg/*.cfg
-    replacePropertyInAllCfgsInDir("/Games/!SaveStates" + sep + entry + sep + "cfg", property, newline);
+    replacePropertyInAllCfgsInDir(Env::getPathToSaveStatesDir() + sep + entry + sep + "cfg", property, newline);
 }
 
 //*******************************

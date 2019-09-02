@@ -15,17 +15,23 @@
 #include "util.h"
 #include <unistd.h>
 #include "engine/GetGameDirHierarchy.h"
-
-using namespace std;
-
 #include "engine/memcard.h"
 #include "lang.h"
 #include "launcher/emu_interceptor.h"
 #include "launcher/pcsx_interceptor.h"
 #include "launcher/retboot_interceptor.h"
 #include "engine/GetGameDirHierarchy.h"
+#include "environment.h"
+
+using namespace std;
 
 Database * db;
+
+// these are defined in environment.h and are meant to not be modified once they are initialized here.
+extern bool private_singleArgPassed;
+extern string private_pathToUSBDrive;
+extern string private_pathToGamesDir;
+extern string private_pathToRegionalDBFile;
 
 //*******************************
 // copyGameFilesInGamesDirToSubDirs
@@ -100,7 +106,7 @@ bool copyGameFilesInGamesDirToSubDirs(const string & path){
 //*******************************
 // scanGames
 //*******************************
-int scanGames(string rootPath, GamesHierarchy &gamesHierarchy, string dbpath) {
+int scanGames(GamesHierarchy &gamesHierarchy) {
     shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr<Scanner> scanner(Scanner::getInstance());
 
@@ -117,7 +123,7 @@ int scanGames(string rootPath, GamesHierarchy &gamesHierarchy, string dbpath) {
         return EXIT_FAILURE;
     }
 
-    scanner->scanUSBGamesDirectory(rootPath, gamesHierarchy);
+    scanner->scanUSBGamesDirectory(gamesHierarchy);
     scanner->updateRegionalDB(gamesHierarchy, gui->db);
 
     gui->drawText(_("Total:") + " " + to_string(scanner->gamesToAddToDB.size()) + " " + _("games scanned") + ".");
@@ -131,10 +137,24 @@ int scanGames(string rootPath, GamesHierarchy &gamesHierarchy, string dbpath) {
 //*******************************
 int main(int argc, char *argv[]) {
     shared_ptr<Lang> lang(Lang::getInstance());
-    if (argc < 3) {
+    if (argc == 1 + 1) {
+        // the single arg is the path to the usb drive
+        private_singleArgPassed = true;
+        private_pathToUSBDrive = argv[1];
+        private_pathToRegionalDBFile = private_pathToUSBDrive + sep + "System/Databases/regional.db";
+        private_pathToGamesDir = private_pathToUSBDrive + sep + "Games";
+    } else if (argc == 1 + 2) {
+        // the two args are the path to the regional.db file and the path to the /Games dir on the usb drive
+        private_singleArgPassed = false;
+        private_pathToRegionalDBFile = argv[1];
+        private_pathToGamesDir = argv[2];
+        private_pathToUSBDrive = DirEntry::getDirNameFromPath(private_pathToGamesDir);
+    }
+    else {
         cout << "USAGE: autobleem-gui /path/dbfilename.db /path/to/games" << endl;
         return EXIT_FAILURE;
     }
+
     shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr<Scanner> scanner(Scanner::getInstance());
 
@@ -144,22 +164,22 @@ int main(int argc, char *argv[]) {
     gui->coverdb = coverdb;
 
     db = new Database();
-    if (!db->connect(argv[1])) {
+    if (!db->connect(Env::getPathToRegionalDBFile())) {
         delete db;
         return EXIT_FAILURE;
     }
-    gui->db=db;
+    gui->db = db;
     db->createInitialDatabase();
     db->createFavColumn();
 
-    string dbpath = argv[1];
-    string pathToGamesDir = argv[2];
+    string dbpath = Env::getPathToRegionalDBFile();
+    string pathToGamesDir = Env::getPathToGamesDir();
 
     Memcard *memcardOperation = new Memcard(pathToGamesDir);
-    memcardOperation->restoreAll(pathToGamesDir + sep + "!SaveStates");
+    memcardOperation->restoreAll(Env::getPathToSaveStatesDir());
     delete memcardOperation;
 
-    string prevPath = DirEntry::getWorkingPath() + sep + "autobleem.prev";
+    string prevPath = Env::getWorkingPath() + sep + "autobleem.prev";
     bool prevFileExists = DirEntry::exists(prevPath);
 
     bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(pathToGamesDir);
@@ -183,7 +203,7 @@ int main(int argc, char *argv[]) {
         gui->menuSelection();
         gui->saveSelection();
         if (gui->menuOption == MENU_OPTION_SCAN) {
-            scanGames(pathToGamesDir, gamesHierarchy, dbpath);
+            scanGames(gamesHierarchy);
             gamesHierarchy.writeAutobleemPrev(prevPath);
             if (gui->forceScan) {
                 gui->forceScan = false;

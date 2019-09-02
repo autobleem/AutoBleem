@@ -11,14 +11,13 @@
 #include "gui.h"
 #include "../lang.h"
 #include "../engine/scanner.h"
-
+#include "../environment.h"
 
 void GuiAbout::init() {
     std::shared_ptr<Gui> gui(Gui::getInstance());
     fx.renderer = renderer;
-    font = Fonts::openFont(DirEntry::getWorkingPath() + "/about.ttf", 17);
-    logo = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + "/ablogo.png").c_str());
-
+    font = Fonts::openFont(Env::getWorkingPath() + sep + "about.ttf", 17);
+    logo = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "ablogo.png").c_str());
 }
 
 //*******************************

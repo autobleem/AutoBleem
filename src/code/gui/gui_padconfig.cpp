@@ -11,6 +11,7 @@
 #include <string>
 #include "gui.h"
 #include "../lang.h"
+#include "../environment.h"
 
 void GuiPadConfig::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -108,7 +109,7 @@ void GuiPadConfig::loop() {
                         name.erase(std::remove(name.begin(), name.end(), '/'), name.end());
                         name.erase(std::remove(name.begin(), name.end(), '\\'), name.end());
 
-                        string path = DirEntry::getWorkingPath() + "/gpmapping/" + name + ".ini";
+                        string path = Env::getWorkingPath() + sep + "gpmapping/" + name + ".ini";
                         newConfig.save(path);
                     }
 

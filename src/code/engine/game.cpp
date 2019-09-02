@@ -12,6 +12,7 @@
 #include <fstream>
 #include <iostream>
 #include "../engine/scanner.h"
+#include "../Environment.h"
 
 using namespace std;
 
@@ -152,7 +153,7 @@ bool USBGame::print() {
 // USBGame::recoverMissingFiles
 //*******************************
 void USBGame::recoverMissingFiles() {
-    string workingPath = DirEntry::getWorkingPath();
+    string workingPath = Env::getWorkingPath();
 
     Metadata md;
     bool metadataLoaded = false;

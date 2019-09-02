@@ -5,6 +5,7 @@
 #include "memcard.h"
 #include "inifile.h"
 #include "../DirEntry.h"
+#include "../environment.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ using namespace std;
 void Memcard::newCard(string name)
 {
     string curPath = path + sep + "!MemCards/"+name;
-    string autobleemPath = DirEntry::getWorkingPath();
+    string autobleemPath = Env::getWorkingPath();
     if (!DirEntry::exists(curPath))
     {
         DirEntry::createDir(curPath);
@@ -30,8 +31,8 @@ void Memcard::newCard(string name)
 //*******************************
 void Memcard::deleteCard(string name)
 {
-    string curPath = path + sep + "!MemCards/"+name;
-    string autobleemPath = DirEntry::getWorkingPath();
+    string curPath = path + sep + "!MemCards/" + name;
+    string autobleemPath = Env::getWorkingPath();
     if (DirEntry::exists(curPath))
     {
         DirEntry::rmDir(curPath);
@@ -44,7 +45,7 @@ void Memcard::deleteCard(string name)
 bool Memcard::swapIn(string path, string name)
 {
     backup(path);
-    string customPath = this->path + sep + "!MemCards/"+name;
+    string customPath = this->path + sep + "!MemCards/" + name;
     if (!DirEntry::exists(customPath))
     {
         restore(path);

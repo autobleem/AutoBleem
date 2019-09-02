@@ -6,6 +6,7 @@
 #include "../util.h"
 #include <iostream>
 #include "../DirEntry.h"
+#include "../environment.h"
 
 #define DIR_UP    1
 #define DIR_DOWN  2
@@ -19,7 +20,7 @@ void PadMapper::reload() {
         delete cfg;
     }
     configs.clear();
-    string path = DirEntry::getWorkingPath() + "/gpmapping";
+    string path = Env::getWorkingPath() + sep + "gpmapping";
     for (const DirEntry & entry:DirEntry::diru(path)) {
         if (DirEntry::getFileExtension(entry.name) == "ini") {
 

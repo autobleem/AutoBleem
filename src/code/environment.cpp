@@ -21,6 +21,10 @@ string private_pathToUSBDrive;
 string private_pathToGamesDir;
 string private_pathToRegionalDBFile;
 
+//*******************************
+// Environment:: One Liners
+//*******************************
+
 string Environment::getPathToUSBRoot() {
   return private_pathToUSBDrive;
 }
@@ -150,5 +154,4 @@ string Environment::getPathToCoversDBDir() {
     string path =  "../db";
     return path;
 #endif
-
 }

@@ -11,6 +11,7 @@
 #include <SDL2/SDL_image.h>
 #include "../lang.h"
 #include <sstream>
+#include "../environment.h"
 
 using namespace std;
 
@@ -259,7 +260,7 @@ void GuiEditor::init() {
     if (!internal) {
         if (this->gameIni.values["memcard"] != "SONY") {
             string cardpath =
-                    gui->pathToGamesDir + sep + "!MemCards" + sep + this->gameIni.values["memcard"];
+                    Env::getPathToMemCardsDir() + sep + this->gameIni.values["memcard"];
             if (!DirEntry::exists(cardpath)) {
                 this->gameIni.values["memcard"] = "SONY";
             }
@@ -273,7 +274,7 @@ void GuiEditor::init() {
             }
         }
         if (!pngLoaded) {
-            cover = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + sep + "default.png").c_str());
+            cover = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "default.png").c_str());
         }
     } else {
         // recover ini
@@ -285,7 +286,7 @@ void GuiEditor::init() {
 
         if (this->gameIni.values["memcard"] != "SONY") {
             string cardpath =
-                    gui->pathToGamesDir + sep + "!MemCards" + sep + this->gameIni.values["memcard"];
+                    Env::getPathToMemCardsDir() + sep + this->gameIni.values["memcard"];
             if (!DirEntry::exists(cardpath)) {
                 this->gameIni.values["memcard"] = "SONY";
             }
@@ -299,7 +300,7 @@ void GuiEditor::init() {
             }
         }
         if (!pngLoaded) {
-            cover = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + sep + "default.png").c_str());
+            cover = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "default.png").c_str());
         }
     }
 
@@ -476,7 +477,7 @@ void GuiEditor::loop() {
                                 if (!cancelled) {
                                     Memcard *memcard = new Memcard(gui->pathToGamesDir);
                                     string savePath =
-                                            gui->pathToGamesDir + sep + "!SaveStates" + sep + gameIni.entry + sep + "memcards";
+                                            Env::getPathToSaveStatesDir() + sep + gameIni.entry + sep + "memcards";
                                     memcard->storeToRepo(savePath, result);
                                     gameIni.values["memcard"] = result;
                                     gameIni.save(gameIni.path);

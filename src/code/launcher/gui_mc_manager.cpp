@@ -12,6 +12,7 @@
 #include "../lang.h"
 #include "../gui/gui_confirm.h"
 #include "../gui/gui_selectmemcard.h"
+#include "../environment.h"
 
 void GuiMcManager::init() {
     rightCardName_ori = rightCardName;
@@ -21,9 +22,9 @@ void GuiMcManager::init() {
 
 void GuiMcManager::loadAssets() {
     shared_ptr<Gui> gui(Gui::getInstance());
-    mcGrid = IMG_LoadTexture(renderer, (gui->getSonyImagePath() + "/MC/Dot_Matrix.png").c_str());
-    mcPencil = IMG_LoadTexture(renderer, (gui->getSonyImagePath() + "/MC/Pencil_Carsor.png").c_str());
-    fontJIS = Fonts::openFont(DirEntry::getWorkingPath() + "/japanese.ttf", 20);
+    mcGrid = IMG_LoadTexture(renderer, (gui->getSonyImagePath() + sep + "MC/Dot_Matrix.png").c_str());
+    mcPencil = IMG_LoadTexture(renderer, (gui->getSonyImagePath() + sep + "MC/Pencil_Carsor.png").c_str());
+    fontJIS = Fonts::openFont(Env::getWorkingPath() + sep + "japanese.ttf", 20);
 
     memcard1 = new CardEdit(renderer);
     memcard2 = new CardEdit(renderer);
@@ -300,7 +301,7 @@ void GuiMcManager::loop() {
                                 // this is custom
                                 int cardNumCustom=atoi(select->cardSelected.substr(1,1).c_str());
                                 string memcard = select->cardSelected.substr(4);
-                                string cardPath =  gui->pathToGamesDir + sep +"!MemCards/" + memcard  +"/card"+to_string(cardNumCustom)+".mcd";
+                                string cardPath =  Env::getPathToMemCardsDir() + sep + memcard  + "/card" + to_string(cardNumCustom) + ".mcd";
 
                                 rightCardName = select->cardSelected;
                                 card2path = cardPath;

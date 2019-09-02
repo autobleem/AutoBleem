@@ -6,13 +6,14 @@
 #include "../util.h"
 #include "../launcher/gui_NotificationLine.h"
 #include "../DirEntry.h"
+#include "../environment.h"
 
 //*******************************
 // Config::Config()
 //*******************************
 Config::Config()
 {
-    std::string path=DirEntry::getWorkingPath() + sep + "config.ini";
+    std::string path=Env::getWorkingPath() + sep + "config.ini";
     inifile.load(path);
     bool aDefaultWasSet {false};
     if (inifile.values["language"]=="")
@@ -67,6 +68,6 @@ Config::Config()
 void Config::save()
 {
     inifile.values["pcsx"]="bleemsync";
-    std::string path=DirEntry::getWorkingPath() + sep + "config.ini";
+    std::string path=Env::getWorkingPath() + sep + "config.ini";
     inifile.save(path);
 }
