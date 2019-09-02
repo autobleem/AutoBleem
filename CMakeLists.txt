@@ -144,6 +144,8 @@ add_executable(
 		src/code/launcher/gui_mc_manager.cpp
 		src/code/gui/starfx.cpp
 		src/code/gui/starfx.h
+        src/code/environment.h
+		src/code/environment.cpp
 		)
 
 
