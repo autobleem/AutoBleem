@@ -116,8 +116,9 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
     // get fresh list of games for this set
     PsGames gamesList;
 
-    if (currentSet == SET_ALL || currentSet == SET_EXTERNAL) {
-        //getGames_SET_SUBDIR(0, gamesList);   // get the games in row 0 = /Games and on down
+    if (currentSet == SET_ALL) {
+        getGames_SET_SUBDIR(0, gamesList);   // get the games in row 0 = /Games and on down
+    } else if (currentSet == SET_EXTERNAL) {
         getGames_SET_SUBDIR(currentGameDirIndex, gamesList);    // get the games in the current subdir of /Games and on down
 
     } else if (currentSet == SET_FAVORITE) {
@@ -264,6 +265,7 @@ void GuiLauncher::loadAssets() {
                             _("Edit Memory Card information"), _("Resume game from saved state point")};
 
     currentSet = gui->lastSet;
+    currentGameDirIndex = gui->lastGameDirIndex;
     if (gui->lastPlaylist!= "")
     {
         retroarch_playlist_name = gui->lastPlaylist;

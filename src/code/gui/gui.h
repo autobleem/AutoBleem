@@ -159,6 +159,7 @@ public:
 
     int menuOption = MENU_OPTION_SCAN;
     int lastSet = 0;
+    int lastGameDirIndex = 0;
 
     SDL_Rect backgroundRect;
     SDL_Rect logoRect;

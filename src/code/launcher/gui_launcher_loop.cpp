@@ -439,6 +439,7 @@ void GuiLauncher::loop_nextGame() {
                                 gui->lastSelIndex = selGame;
                                 gui->resumepoint = -1;
                                 gui->lastSet = currentSet;
+                                gui->lastGameDirIndex = currentGameDirIndex;
                                 menuVisible = false;
 
                                 gui->emuMode = EMU_RETROARCH;
@@ -458,6 +459,7 @@ void GuiLauncher::loop_nextGame() {
                             gui->lastSelIndex = selGame;
                             gui->resumepoint = -1;
                             gui->lastSet = currentSet;
+                            gui->lastGameDirIndex = currentGameDirIndex;
                             menuVisible = false;
 
                             gui->emuMode = EMU_PCSX;
@@ -599,6 +601,7 @@ void GuiLauncher::loop_nextGame() {
                             } else if (menu->selOption == 0) {
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 int lastSet = currentSet;
+                                int lastGameDirIndex = currentGameDirIndex;
                                 int lastGame = selGame;
                                 GuiOptions *option = new GuiOptions(renderer);
                                 option->show();
@@ -610,6 +613,7 @@ void GuiLauncher::loop_nextGame() {
                                     loadAssets();
                                     gui->resumingGui = false;
                                     currentSet = lastSet;
+                                    currentGameDirIndex = lastGameDirIndex;
                                     selGame = lastGame;
                                     bool resetCarouselPosition = false;
                                     if (gui->cfg.inifile.values["origames"] != "true") {
@@ -668,6 +672,7 @@ void GuiLauncher::loop_nextGame() {
                                     gui->lastSelIndex = selGame;
                                     gui->resumepoint = slot;
                                     gui->lastSet = currentSet;
+                                    gui->lastGameDirIndex = currentGameDirIndex;
                                     sselector->cleanSaveStateImages();
                                     gui->emuMode = EMU_PCSX;
                                     menuVisible = false;
