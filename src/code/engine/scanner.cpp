@@ -59,8 +59,9 @@ void Scanner::updateRegionalDB(GamesHierarchy &gamesHierarchy, Database *db) {
             for (int j = 0; j < data->discs.size(); j++) {
                 db->insertDisc(i + 1, j + 1, data->discs[j].diskName);
             }
-            outfile << i + 1 << "," << Util::escape(data->fullPath.substr(0, data->fullPath.size() - 1)) << ","
-                    << Util::escape(data->saveStatePath.substr(0, data->saveStatePath.size() - 1)) << '\n';
+            string gamePath = DirEntry::removeSeparatorFromEndOfPath(data->fullPath);
+            string ssPath = DirEntry::removeSeparatorFromEndOfPath(data->saveStatePath);
+            outfile << i + 1 << "," << Util::escape(gamePath) << "," << Util::escape(ssPath) << '\n';
         }
         db->commit();
     }
