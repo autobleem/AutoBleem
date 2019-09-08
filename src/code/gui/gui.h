@@ -31,13 +31,7 @@
 #define PCS_BTN_CIRCLE   1
 #define PCS_BTN_SELECT   8
 
-#define MENU_OPTION_SCAN  1
-#define MENU_OPTION_RUN   2
-#define MENU_OPTION_SONY  3
-#define MENU_OPTION_RETRO 4
-#define MENU_OPTION_START 5
-#define MENU_OPTION_POWER 6
-
+enum MenuOption { MENU_OPTION_SCAN = 1, MENU_OPTION_RUN, MENU_OPTION_SONY, MENU_OPTION_RETRO, MENU_OPTION_START };
 
 #define EMU_PCSX          0
 #define EMU_RETROARCH     1
@@ -157,7 +151,7 @@ public:
 
     void exportDBToRetroarch();
 
-    int menuOption = MENU_OPTION_SCAN;
+    MenuOption menuOption = MENU_OPTION_SCAN;
     int lastSet = 0;
     int lastGameDirIndex = 0;
 

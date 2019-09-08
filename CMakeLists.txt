@@ -157,6 +157,8 @@ add_executable(starter
 		src/code/DirEntry.cpp
         src/code/engine/inifile.cpp
         src/code/engine/memcard.cpp src/code/engine/memcard.h
+		src/code/environment.h
+		src/code/environment.cpp
 		)
 
 target_link_libraries(autobleem-gui
