@@ -104,6 +104,18 @@ string DirEntry::removeSeparatorFromEndOfPath(const string& path)
 }
 
 //*******************************
+// DirEntry::removeGamesPathFromFrontOfPath
+//*******************************
+string DirEntry::removeGamesPathFromFrontOfPath(const std::string& path) {
+    string gamesDir = Env::getPathToGamesDir() + sep;
+    int len = gamesDir.size();
+    if (path.compare(0, len, gamesDir) == 0)
+        return string(path).erase(0, len);
+    else
+        return path;
+}
+
+//*******************************
 // DirEntry::getFileNameFromPath
 //*******************************
 string DirEntry::getFileNameFromPath(const string &path) {

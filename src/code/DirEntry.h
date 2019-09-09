@@ -5,6 +5,7 @@
 #include "util.h"
 #include "main.h"
 #include <tuple>
+#include "environment.h"
 
 //*******************************
 // separator
@@ -40,6 +41,8 @@ public:
 
     static std::string fixPath(std::string path);
     static std::string removeSeparatorFromEndOfPath(const std::string& path);   // return the path without a separator at the end
+
+    static std::string removeGamesPathFromFrontOfPath(const std::string& path);
 
     static bool fixCommaInDirOrFileName(const std::string &path, DirEntry *entry);
 
