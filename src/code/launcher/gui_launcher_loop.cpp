@@ -545,10 +545,8 @@ void GuiLauncher::loop_nextGame() {
                                     editor->gameFolder = carouselGames[selGame]->folder;
 
                                     gameIni.load(carouselGames[selGame]->folder + sep + GAME_INI);
-                                    string folderNoLast =
-                                        carouselGames[selGame]->folder.substr(0,
-                                                carouselGames[selGame]->folder.size() - 1);
-                                    gameIni.entry = folderNoLast.substr(folderNoLast.find_last_of('/') + 1);
+                                    string folderNoLast = DirEntry::removeSeparatorFromEndOfPath(carouselGames[selGame]->folder);
+                                    gameIni.entry = DirEntry::removeGamesPathFromFrontOfPath(folderNoLast);
                                     editor->gameIni = gameIni;
                                 } else {
                                     editor->gameData = carouselGames[selGame];
