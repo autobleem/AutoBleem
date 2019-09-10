@@ -278,8 +278,8 @@ void GuiLauncher::loadAssets() {
     }
 
     Inifile colorsFile;
-    if (DirEntry::exists(gui->getSonyThemesRootPath() + sep + "colors.ini")) {
-        colorsFile.load(gui->getSonyThemesRootPath() + sep + "colors.ini");
+    if (DirEntry::exists(gui->getCurrentMenuThemesPath() + sep + "colors.ini")) {
+        colorsFile.load(gui->getCurrentMenuThemesPath() + sep + "colors.ini");
         fgR = gui->getR(colorsFile.values["fg"]);
         fgG = gui->getG(colorsFile.values["fg"]);
         fgB = gui->getB(colorsFile.values["fg"]);
@@ -288,7 +288,7 @@ void GuiLauncher::loadAssets() {
         secB = gui->getB(colorsFile.values["sec"]);
     }
 
-    gui->fonts.openAllFonts(gui->getSonyFontPath());
+    gui->fonts.openAllFonts(gui->getCurrentMenuThemesFontPath());
 
     notificationLines.createAndSetDefaults(2, 10, 10, FONT_24, 24,
                                            8);    // count, x_start, y_start, FontSize, fontHeight, separationBetweenLines
@@ -313,12 +313,12 @@ void GuiLauncher::loadAssets() {
     long time = SDL_GetTicks();
 
     cout << "Loading theme and creating objects" << endl;
-    if (DirEntry::exists(gui->getSonyImagePath() + "/GR/AB_BG.png")) {
+    if (DirEntry::exists(gui->getCurrentMenuThemesImagePath() + sep + "GR/AB_BG.png")) {
         staticMeta = true;
-        background = new PsObj(renderer, "background", gui->getSonyImagePath() + "/GR/AB_BG.png");
+        background = new PsObj(renderer, "background", gui->getCurrentMenuThemesImagePath() + sep + "GR/AB_BG.png");
     } else {
         staticMeta = false;
-        background = new PsObj(renderer, "background", gui->getSonyImagePath() + "/GR/JP_US_BG.png");
+        background = new PsObj(renderer, "background", gui->getCurrentMenuThemesImagePath() + sep + "GR/JP_US_BG.png");
     }
 
     background->x = 0;
@@ -326,23 +326,23 @@ void GuiLauncher::loadAssets() {
     background->visible = true;
     staticElements.push_back(background);
     string footerFile = "";
-    if (DirEntry::exists(gui->getSonyImagePath() + "/GR/Footer_AB.png")) {
-        footerFile = "/GR/Footer_AB.png";
+    if (DirEntry::exists(gui->getCurrentMenuThemesImagePath() + sep + "GR/Footer_AB.png")) {
+        footerFile = "GR/Footer_AB.png";
     } else {
-        footerFile = "/GR/Footer.png";
+        footerFile = "GR/Footer.png";
     }
-    auto footer = new PsObj(renderer, "footer", gui->getSonyImagePath() + footerFile);
+    auto footer = new PsObj(renderer, "footer", gui->getCurrentMenuThemesImagePath() + sep + footerFile);
     footer->y = 720 - footer->h;
     footer->visible = true;
     staticElements.push_back(footer);
 
-    playButton = new PsObj(renderer, "playButton", gui->getSonyImagePath() + "/GR/Acid_C_Btn.png");
+    playButton = new PsObj(renderer, "playButton", gui->getCurrentMenuThemesImagePath() + sep + "GR/Acid_C_Btn.png");
     playButton->y = 428;
     playButton->x = 540;
     playButton->visible = selGame != -1;
     staticElements.push_back(playButton);
 
-    playText = new PsZoomBtn(renderer, "playText", gui->getSonyImagePath() + "/BMP_Text/Play_Text.png");
+    playText = new PsZoomBtn(renderer, "playText", gui->getCurrentMenuThemesImagePath() + sep + "BMP_Text/Play_Text.png");
     playText->y = 428;
     playText->x = 640 - 262 / 2;
     playText->visible = selGame != -1;
@@ -352,17 +352,17 @@ void GuiLauncher::loadAssets() {
 
     staticElements.push_back(playText);
     string settingsFile = "";
-    if (DirEntry::exists(gui->getSonyImagePath() + "/CB/Function_AB.png")) {
+    if (DirEntry::exists(gui->getCurrentMenuThemesImagePath() + sep + "CB/Function_AB.png")) {
         settingsFile = "/CB/Function_AB.png";
     } else {
         settingsFile = "/CB/Function_BG.png";
     }
-    settingsBack = new PsSettingsBack(renderer, "playButton", gui->getSonyImagePath() + settingsFile);
+    settingsBack = new PsSettingsBack(renderer, "playButton", gui->getCurrentMenuThemesImagePath() + settingsFile);
     settingsBack->setCurLen(100);
     settingsBack->visible = true;
     staticElements.push_back(settingsBack);
 
-    meta = new PsMeta(renderer, "meta", gui->getSonyImagePath() + "/CB/PlayerOne.png");
+    meta = new PsMeta(renderer, "meta", gui->getCurrentMenuThemesImagePath() + sep + "CB/PlayerOne.png");
     meta->font15 = gui->fonts[FONT_15];
     meta->font24 = gui->fonts[FONT_24];
     meta->font30 = gui->fonts[FONT_30];
@@ -377,32 +377,32 @@ void GuiLauncher::loadAssets() {
     }
     staticElements.push_back(meta);
 
-    arrow = new PsMoveBtn(renderer, "arrow", gui->getSonyImagePath() + "/GR/arrow.png");
+    arrow = new PsMoveBtn(renderer, "arrow", gui->getCurrentMenuThemesImagePath() + sep + "GR/arrow.png");
     arrow->x = 640 - 12;
     arrow->y = 360;
     arrow->originaly = arrow->y;
     arrow->visible = false;
     staticElements.push_back(arrow);
 
-    xButton = new PsObj(renderer, "xbtn", gui->getSonyImagePath() + "/GR/X_Btn_ICN.png");
+    xButton = new PsObj(renderer, "xbtn", gui->getCurrentMenuThemesImagePath() + sep + "GR/X_Btn_ICN.png");
     xButton->x = 605;
     xButton->y = 640;
     xButton->visible = true;
     staticElements.push_back(xButton);
 
-    oButton = new PsObj(renderer, "obtn", gui->getSonyImagePath() + "/GR/Circle_Btn_ICN.png");
+    oButton = new PsObj(renderer, "obtn", gui->getCurrentMenuThemesImagePath() + sep + "GR/Circle_Btn_ICN.png");
     oButton->x = 725;
     oButton->y = 640;
     oButton->visible = true;
     staticElements.push_back(oButton);
 
-    tButton = new PsObj(renderer, "tbtn", gui->getSonyImagePath() + "/GR/Tri_Btn_ICN.png");
+    tButton = new PsObj(renderer, "tbtn", gui->getCurrentMenuThemesImagePath() + sep + "GR/Tri_Btn_ICN.png");
     tButton->x = 870;
     tButton->y = 640;
     tButton->visible = true;
     staticElements.push_back(tButton);
 
-    menu = new PsMenu(renderer, "menu", gui->getSonyImagePath());
+    menu = new PsMenu(renderer, "menu", gui->getCurrentMenuThemesImagePath());
     menu->loadAssets();
 
     menuHead = new PsCenterLabel(renderer, "header");

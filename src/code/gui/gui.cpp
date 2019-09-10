@@ -51,9 +51,9 @@ GuiBase::GuiBase() {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     TTF_Init();
-    fonts[FONT_30] = TTF_OpenFont((getSonyFontPath() + "/SST-Bold.ttf").c_str(), 28);
-    fonts[FONT_15] = TTF_OpenFont((getSonyFontPath() + "/SST-Bold.ttf").c_str(), 15);
-    fonts[FONT_24] = TTF_OpenFont((getSonyFontPath() + "/SST-Medium.ttf").c_str(), 22);
+    fonts[FONT_30] = TTF_OpenFont((getCurrentMenuThemesFontPath() + sep + "SST-Bold.ttf").c_str(), 28);
+    fonts[FONT_15] = TTF_OpenFont((getCurrentMenuThemesFontPath() + sep + "SST-Bold.ttf").c_str(), 15);
+    fonts[FONT_24] = TTF_OpenFont((getCurrentMenuThemesFontPath() + sep + "SST-Medium.ttf").c_str(), 22);
 }
 
 //********************
@@ -64,19 +64,37 @@ GuiBase::~GuiBase() {
 }
 
 //*******************************
-// GuiBase::getSonyImagePath
+// GuiBase::getCurrentMenuThemesPath
 //*******************************
-string GuiBase::getSonyImagePath() {
+string GuiBase::getCurrentMenuThemesPath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    string path =
-            Env::getWorkingPath() + sep + "themes" + sep + cfg.inifile.values["stheme"] +
-            "/images";
+    string path = Env::getPathToMenuThemesDir() + sep + cfg.inifile.values["stheme"];
+    if (!DirEntry::exists(path)) {
+        path = "./sony";
+    }
+    return path;
+#else
+    string path =  "/media/themes/" + cfg.inifile.values["stheme"] + "";
+    if (!DirEntry::exists(path))
+    {
+        path = "/usr/sony/share/data";
+    }
+    return path;
+#endif
+}
+
+//*******************************
+// GuiBase::getCurrentMenuThemesImagePath
+//*******************************
+string GuiBase::getCurrentMenuThemesImagePath() {
+#if defined(__x86_64__) || defined(_M_X64)
+    string path = getCurrentMenuThemesPath() + sep + "images";
     if (!DirEntry::exists(path)) {
         path = "./sony/images";
     }
     return path;
 #else
-    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/images";
+    string path =  "/media/themes/" + cfg.inifile.values["stheme"] + "/images";
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/images";
@@ -86,19 +104,17 @@ string GuiBase::getSonyImagePath() {
 }
 
 //*******************************
-// GuiBase::getSonySoundPath
+// GuiBase::getCurrentMenuThemesSoundPath
 //*******************************
-string GuiBase::getSonySoundPath() {
+string GuiBase::getCurrentMenuThemesSoundPath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    string path =
-            Env::getWorkingPath() + sep + "themes" + sep + cfg.inifile.values["stheme"] +
-            "/sounds";
+    string path = getCurrentMenuThemesPath() + sep + "sounds";
     if (!DirEntry::exists(path)) {
         path = "./sony/sounds";
     }
     return path;
 #else
-    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/sounds";
+    string path =  "/media/themes/" + cfg.inifile.values["stheme"] + "/sounds";
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/sounds";
@@ -108,19 +124,17 @@ string GuiBase::getSonySoundPath() {
 }
 
 //*******************************
-// GuiBase::getSonyFontPath
+// GuiBase::getCurrentMenuThemesFontPath
 //*******************************
-string GuiBase::getSonyFontPath() {
+string GuiBase::getCurrentMenuThemesFontPath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    string path =
-            Env::getWorkingPath() + sep + "themes" + sep + cfg.inifile.values["stheme"] +
-            "/font";
+    string path = getCurrentMenuThemesPath() + sep + "font";
     if (!DirEntry::exists(path)) {
         path = "./sony/font";
     }
     return path;
 #else
-    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"/font";
+    string path =  "/media/themes/" + cfg.inifile.values["stheme"] + "/font";
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/font";
@@ -130,17 +144,17 @@ string GuiBase::getSonyFontPath() {
 }
 
 //*******************************
-// GuiBase::getSonyThemesRootPath
+// GuiBase::getCurrentUIThemePath
 //*******************************
-string GuiBase::getSonyThemesRootPath() {
+string GuiBase::getCurrentUIThemePath() {
 #if defined(__x86_64__) || defined(_M_X64)
-    string path = Env::getWorkingPath() + sep + cfg.inifile.values["stheme"];
+    string path = Env::getPathToUIThemeDir() + sep + cfg.inifile.values["theme"];
     if (!DirEntry::exists(path)) {
         path = "./sony";
     }
     return path;
 #else
-    string path =  "/media/themes/"+cfg.inifile.values["stheme"]+"";
+    string path =  "/media/themes/" + cfg.inifile.values["stheme"] + "";
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data";
@@ -271,11 +285,11 @@ Gui::loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, string themePath, strin
 void Gui::loadAssets(bool reloadMusic) {
     // check theme exists - otherwise back to argb
 
-    string defaultPath = Env::getWorkingPath() + sep + "theme" + sep + "default" + sep;
-    themePath = Env::getWorkingPath() + sep + "theme" + sep + cfg.inifile.values["theme"] + sep;
+    string defaultPath = Env::getPathToUIThemeDir() + sep + "default" + sep;
+    themePath = getCurrentUIThemePath() + sep;
 
     cout << "Loading theme:" << themePath << endl;
-    if (!DirEntry::exists(themePath+"theme.ini"))
+    if (!DirEntry::exists(themePath + "theme.ini"))
     {
         themePath=defaultPath;
         cfg.inifile.values["theme"] = "default";
@@ -367,11 +381,11 @@ void Gui::loadAssets(bool reloadMusic) {
             printf("Unable to open audio: %s\n", Mix_GetError());
         }
     }
-    cursor = Mix_LoadWAV((this->getSonySoundPath() + "/cursor.wav").c_str());
-    cancel = Mix_LoadWAV((this->getSonySoundPath() + "/cancel.wav").c_str());
-    home_up = Mix_LoadWAV((this->getSonySoundPath() + "/home_up.wav").c_str());
-    home_down = Mix_LoadWAV((this->getSonySoundPath() + "/home_down.wav").c_str());
-    resume = Mix_LoadWAV((this->getSonySoundPath() + "/resume_new.wav").c_str());
+    cursor = Mix_LoadWAV((this->getCurrentMenuThemesSoundPath() + sep + "cursor.wav").c_str());
+    cancel = Mix_LoadWAV((this->getCurrentMenuThemesSoundPath() + sep + "cancel.wav").c_str());
+    home_up = Mix_LoadWAV((this->getCurrentMenuThemesSoundPath() + sep + "home_up.wav").c_str());
+    home_down = Mix_LoadWAV((this->getCurrentMenuThemesSoundPath() + sep + "home_down.wav").c_str());
+    resume = Mix_LoadWAV((this->getCurrentMenuThemesSoundPath() + sep + "resume_new.wav").c_str());
 
     if (reloadMusic)
     if (cfg.inifile.values["nomusic"] != "true")

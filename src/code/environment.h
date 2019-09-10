@@ -17,7 +17,7 @@ struct Environment {
 //    static std::string getPathToWorkingPathFile(const std::string &filename);   // return path to file in working path
 
     static std::string getPathToMenuThemesDir();        // "usb:/themes" or "./themes"
-    static std::string getPathToBackgroundThemeDir();   // "usb:/Autobleem/bin/autobleem/theme" or "./theme"
+    static std::string getPathToUIThemeDir();   // "usb:/Autobleem/bin/autobleem/theme" or "./theme"
     static std::string getPathToCoversDBDir();   // "usb:/Autobleem/bin/db" or "../db"
 };
 

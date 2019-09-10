@@ -51,10 +51,12 @@ public:
 
     Config cfg;
 
-    std::string getSonyImagePath();
-    std::string getSonyFontPath();
-    std::string getSonySoundPath();
-    std::string getSonyThemesRootPath();
+    std::string getCurrentMenuThemesPath();
+    std::string getCurrentMenuThemesImagePath();
+    std::string getCurrentMenuThemesFontPath();
+    std::string getCurrentMenuThemesSoundPath();
+
+    std::string getCurrentUIThemePath();
 
     GuiBase();
     ~GuiBase();

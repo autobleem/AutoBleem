@@ -117,11 +117,11 @@ string Environment::getPathToMenuThemesDir() {
 }
 
 //*******************************
-// Environment::getPathToBackgroundThemeDir
+// Environment::getPathToUIThemeDir
 // 1 arg: "usb:/Autobleem/bin/autobleem/theme", 2 arg: "./theme"
 // PSC: "/media/Autobleem/bin/autobleem/theme"
 //*******************************
-string Environment::getPathToBackgroundThemeDir() {
+string Environment::getPathToUIThemeDir() {
 #if defined(__x86_64__) || defined(_M_X64)
     if (private_singleArgPassed) {
         string path = private_pathToUSBDrive + sep + "Autobleem/bin/autobleem/theme";
