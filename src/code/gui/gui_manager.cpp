@@ -86,7 +86,7 @@ void GuiManager::render()
 }
 
 //*******************************
-// GuiManager::flushCovers
+// flushCovers
 //*******************************
 int flushCovers(const char *file, const struct stat *sb,
             int flag, struct FTW *s)

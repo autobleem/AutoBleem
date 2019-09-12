@@ -39,7 +39,7 @@ public:
     DirEntry(std::string _name, bool dir) : name(_name), isDir(dir) { };
     static bool sortDirEntryByName(const DirEntry & i, const DirEntry & j) { return SortByCaseInsensitive(i.name, j.name); }
 
-    static std::string fixPath(std::string path);
+    static std::string fixPath(std::string path);   // removes leading and trailing spaces and removes any trailing '/'
     static std::string removeSeparatorFromEndOfPath(const std::string& path);   // return the path without a separator at the end
 
     static std::string removeGamesPathFromFrontOfPath(const std::string& path);

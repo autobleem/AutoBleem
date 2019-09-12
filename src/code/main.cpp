@@ -186,7 +186,9 @@ int main(int argc, char *argv[]) {
     if (thereAreGameFilesInGamesDir)
         copyGameFilesInGamesDirToSubDirs(pathToGamesDir);
 
-    GamesHierarchy gamesHierarchy(pathToGamesDir);
+    GamesHierarchy gamesHierarchy;
+    gamesHierarchy.getHierarchy(pathToGamesDir);
+
     USBGames allGames = gamesHierarchy.getAllGames();
     USBGame::sortByFullPath(allGames);
 
@@ -203,6 +205,7 @@ int main(int argc, char *argv[]) {
         gui->menuSelection();
         gui->saveSelection();
         if (gui->menuOption == MENU_OPTION_SCAN) {
+            gamesHierarchy.getHierarchy(pathToGamesDir);
             scanGames(gamesHierarchy);
             gamesHierarchy.writeAutobleemPrev(prevPath);
             if (gui->forceScan) {

@@ -46,7 +46,8 @@ struct GamesHierarchy {
     GameSubDirRows gameSubDirRows;  // these rows are displayed in the select game dir menu
     std::ofstream dupFile;
 
-    GamesHierarchy(const std::string & _path);
+    GamesHierarchy() { }
+    void getHierarchy(const std::string & _path);
     USBGames getAllGames();
 
     bool gamesDoNotMatchAutobleemPrev(const std::string & autobleemPrevPath);

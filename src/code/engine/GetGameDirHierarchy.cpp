@@ -165,9 +165,11 @@ void GameSubDir::print(bool plusGames) {
                                 //*******************************
 
 //*******************************
-// GamesHierarchy::GamesHierarchy(path)
+// GamesHierarchy::getHierarchy(path)
 //*******************************
-GamesHierarchy::GamesHierarchy(const std::string & path) {
+void GamesHierarchy::getHierarchy(const std::string & path) {
+    gameSubDirRows.clear(); // clear any previous scan
+
     GameSubDirPtr top(new GameSubDir(path, 0, &gameSubDirRows));
     gameSubDirRows.emplace_back(top);
     top->scanAll();
