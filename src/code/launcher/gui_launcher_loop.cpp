@@ -16,6 +16,13 @@
 
 using namespace std;
 
+// for PsMenu->selOption
+#define SEL_OPTION_AB_SETTINGS 0
+#define SEL_OPTION_EDIT_GAME_SETTINGS 1
+#define SEL_OPTION_EDIT_MEMCARD_INFO 2
+#define SEL_OPTION_RESUME_FROM_SAVESTATE 3
+
+
 //*******************************
 // GuiLauncher::loop_prevGame
 //*******************************
@@ -181,7 +188,7 @@ void GuiLauncher::loop_nextGame() {
                         } else if (state == STATE_SET) {
 
                             if (!menu->foreign) {
-                                if (menu->selOption != 0) {
+                                if (menu->selOption != SEL_OPTION_AB_SETTINGS) {
                                     if (menu->animationStarted == 0) {
                                         Mix_PlayChannel(-1, gui->cursor, 0);
                                         menu->transition = TR_OPTION;
@@ -215,7 +222,7 @@ void GuiLauncher::loop_nextGame() {
                         } else if (state == STATE_SET) {
 
                             if (!menu->foreign) {
-                                if (menu->selOption != 3) {
+                                if (menu->selOption != SEL_OPTION_RESUME_FROM_SAVESTATE) {
                                     if (menu->animationStarted == 0) {
                                         Mix_PlayChannel(-1, gui->cursor, 0);
                                         menu->transition = TR_OPTION;
@@ -471,7 +478,7 @@ void GuiLauncher::loop_nextGame() {
 
                         } else if (state == STATE_SET) {
                             gui->resumingGui = false;
-                            if (menu->selOption == 3) {
+                            if (menu->selOption == SEL_OPTION_RESUME_FROM_SAVESTATE) {
                                 if (carouselGames.empty()) {
                                     continue;
                                 }
@@ -493,7 +500,7 @@ void GuiLauncher::loop_nextGame() {
                                     Mix_PlayChannel(-1, gui->cancel, 0);
                                 }
                             }
-                            if (menu->selOption == 2) {
+                            if (menu->selOption == SEL_OPTION_EDIT_MEMCARD_INFO) {
                                 if (carouselGames.empty()) {
                                     continue;
                                 }
@@ -532,7 +539,7 @@ void GuiLauncher::loop_nextGame() {
                                 mcManager->show();
                                 delete mcManager;
                             }
-                            if (menu->selOption == 1) {
+                            if (menu->selOption == SEL_OPTION_EDIT_GAME_SETTINGS) {
                                 if (carouselGames.empty()) {
                                     continue;
                                 }
@@ -596,7 +603,7 @@ void GuiLauncher::loop_nextGame() {
                                 }
                                 // fix to put back cover on top position
 
-                            } else if (menu->selOption == 0) {
+                            } else if (menu->selOption == SEL_OPTION_AB_SETTINGS) {
                                 Mix_PlayChannel(-1, gui->cursor, 0);
                                 int lastSet = currentSet;
                                 int lastGameDirIndex = currentGameDirIndex;
