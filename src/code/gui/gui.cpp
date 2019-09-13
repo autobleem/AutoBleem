@@ -154,11 +154,7 @@ string GuiBase::getCurrentUIThemePath() {
     }
     return path;
 #else
-    string path =  "/media/themes/" + cfg.inifile.values["stheme"] + "";
-    if (!DirEntry::exists(path))
-    {
-        path = "/usr/sony/share/data";
-    }
+    string path =  "/media/Autobleem/bin/autobleem/theme/" + cfg.inifile.values["theme"] + "";
     return path;
 #endif
 }
@@ -288,7 +284,7 @@ void Gui::loadAssets(bool reloadMusic) {
     string defaultPath = Env::getPathToUIThemeDir() + sep + "default" + sep;
     themePath = getCurrentUIThemePath() + sep;
 
-    cout << "Loading theme:" << themePath << endl;
+    cout << "Loading UI theme:" << themePath << endl;
     if (!DirEntry::exists(themePath + "theme.ini"))
     {
         themePath=defaultPath;

@@ -39,19 +39,23 @@ string GuiOptions::getOption(const vector<string> & list, const string & current
 //*******************************
 void GuiOptions::init() {
     shared_ptr<Lang> lang(Lang::getInstance());
+
     autobleemUIThemes.clear();
     menuThemes.clear();
     menuThemes.push_back("default");
-    string themePathAB = Env::getWorkingPath() + sep + "theme";
-    DirEntries folders = DirEntry::diru_DirsOnly(themePathAB);
-    for (const DirEntry & entry:folders) {
-        if (DirEntry::exists(themePathAB + sep + entry.name + sep + "theme.ini")) {
+
+    string uiThemePath = Env::getPathToUIThemeDir();
+    DirEntries uiThemeFolders = DirEntry::diru_DirsOnly(uiThemePath);
+    for (const DirEntry & entry : uiThemeFolders) {
+        if (DirEntry::exists(uiThemePath + sep + entry.name + sep + "theme.ini")) {
             autobleemUIThemes.push_back(entry.name);
         }
     }
 
-    for (const DirEntry & entry : folders) {
-        if (DirEntry::exists(Env::getPathToMenuThemesDir() + sep + entry.name + sep + "images")) {
+    string menuThemePath = Env::getPathToMenuThemesDir();
+    DirEntries menuThemeFolders = DirEntry::diru_DirsOnly(menuThemePath);
+    for (const DirEntry & entry : menuThemeFolders) {
+        if (DirEntry::exists(menuThemePath + sep + entry.name + sep + "images")) {
             menuThemes.push_back(entry.name);
         }
     }
@@ -91,7 +95,7 @@ void GuiOptions::init() {
     jewels.push_back("none");
     jewels.push_back("default");
 
-    folders = DirEntry::diru_FilesOnly(Env::getWorkingPath() + sep + "evoimg/frames");
+    DirEntries folders = DirEntry::diru_FilesOnly(Env::getWorkingPath() + sep + "evoimg/frames");
     for (const DirEntry & entry : folders) {
         if (DirEntry::getFileExtension(entry.name) == "png") {
             jewels.push_back(entry.name);
@@ -454,16 +458,16 @@ void GuiOptions::loop() {
                             gui->loadAssets();
                         }
 
-                        if (selOption == CFG_MUSIC) {
-                            string nextValue = getOption(music, gui->cfg.inifile.values["music"], false);
-                            gui->cfg.inifile.values["music"] = nextValue;
+                        if (selOption == CFG_MENUTH) {
+                            string nextValue = getOption(menuThemes, gui->cfg.inifile.values["stheme"], false);
+                            gui->cfg.inifile.values["stheme"] = nextValue;
                             init();
                             gui->loadAssets();
                         }
 
-                        if (selOption == CFG_MENUTH) {
-                            string nextValue = getOption(menuThemes, gui->cfg.inifile.values["stheme"], false);
-                            gui->cfg.inifile.values["stheme"] = nextValue;
+                        if (selOption == CFG_MUSIC) {
+                            string nextValue = getOption(music, gui->cfg.inifile.values["music"], false);
+                            gui->cfg.inifile.values["music"] = nextValue;
                             init();
                             gui->loadAssets();
                         }
