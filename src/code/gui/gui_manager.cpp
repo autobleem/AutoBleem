@@ -218,7 +218,8 @@ void GuiManager::loop()
                             editor->gameFolder = selectedGameFolder;
                             editor->gameIni.load(selectedGameFolder + sep + GAME_INI);
                             string folderNoLast = DirEntry::removeSeparatorFromEndOfPath(selectedGameFolder);
-                            editor->gameIni.entry = DirEntry::removeGamesPathFromFrontOfPath(folderNoLast);
+                            // change "/media/Games/Racing/Driver 2" to "Driver 2"
+                            editor->gameIni.entry = DirEntry::getFileNameFromPath(folderNoLast);
                             editor->show();
                             if (editor->changes)
                             {

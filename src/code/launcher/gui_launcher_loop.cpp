@@ -553,7 +553,8 @@ void GuiLauncher::loop_nextGame() {
                                     editor->gameData = carouselGames[selGame];
                                     gameIni.load(carouselGames[selGame]->folder + sep + GAME_INI);
                                     string folderNoLast = DirEntry::removeSeparatorFromEndOfPath(carouselGames[selGame]->folder);
-                                    gameIni.entry = DirEntry::removeGamesPathFromFrontOfPath(folderNoLast);
+                                    // change "/media/Games/Racing/Driver 2" to "Driver 2"
+                                    gameIni.entry = DirEntry::getFileNameFromPath(folderNoLast);
                                     editor->gameIni = gameIni;
                                 } else {
                                     editor->gameData = carouselGames[selGame];
