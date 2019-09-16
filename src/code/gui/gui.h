@@ -51,12 +51,10 @@ public:
 
     Config cfg;
 
-    std::string getCurrentMenuThemesPath();
-    std::string getCurrentMenuThemesImagePath();
-    std::string getCurrentMenuThemesFontPath();
-    std::string getCurrentMenuThemesSoundPath();
-
-    std::string getCurrentUIThemePath();
+    std::string getCurrentThemePath();
+    std::string getCurrentThemeImagePath();
+    std::string getCurrentThemeFontPath();
+    std::string getCurrentThemeSoundPath();
 
     GuiBase();
     ~GuiBase();

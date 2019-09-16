@@ -89,7 +89,7 @@ string Environment::getWorkingPath() {
 // return path to file in working path
 // 1 arg: "usb:/Autobleem/bin/autobleem/filename"
 // 2 arg: autobleem-gui executable dir/filename
-// PSC: autobleem-gui executable dir/fromsilename
+// PSC: autobleem-gui executable dir/filename
 //*******************************
 string Environment::getPathToWorkingPathFile(const std::string &filename) {
     return getWorkingPath() + sep + filename;
@@ -97,11 +97,11 @@ string Environment::getPathToWorkingPathFile(const std::string &filename) {
 #endif
 
 //*******************************
-// Environment::getPathToMenuThemesDir
+// Environment::getPathToThemesDir
 // 1 arg: "usb:/themes", 2 arg: "./themes"
 // PSC: "/media/themes"
 //*******************************
-string Environment::getPathToMenuThemesDir() {
+string Environment::getPathToThemesDir() {
 #if defined(__x86_64__) || defined(_M_X64)
     if (private_singleArgPassed) {
         string path = private_pathToUSBDrive + sep + "themes";
@@ -112,26 +112,6 @@ string Environment::getPathToMenuThemesDir() {
     }
 #else
     string path =  "/media/themes";
-    return path;
-#endif
-}
-
-//*******************************
-// Environment::getPathToUIThemeDir
-// 1 arg: "usb:/Autobleem/bin/autobleem/theme", 2 arg: "./theme"
-// PSC: "/media/Autobleem/bin/autobleem/theme"
-//*******************************
-string Environment::getPathToUIThemeDir() {
-#if defined(__x86_64__) || defined(_M_X64)
-    if (private_singleArgPassed) {
-        string path = private_pathToUSBDrive + sep + "Autobleem/bin/autobleem/theme";
-        return path;
-    } else {
-        string path = getWorkingPath() + sep + "theme";
-        return path;
-    }
-#else
-    string path = "/media/Autobleem/bin/autobleem/theme";
     return path;
 #endif
 }

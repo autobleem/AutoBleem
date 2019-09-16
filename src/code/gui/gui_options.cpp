@@ -42,9 +42,8 @@ void GuiOptions::init() {
 
     autobleemUIThemes.clear();
     menuThemes.clear();
-    menuThemes.push_back("default");
 
-    string uiThemePath = Env::getPathToUIThemeDir();
+    string uiThemePath = Env::getPathToThemesDir();
     DirEntries uiThemeFolders = DirEntry::diru_DirsOnly(uiThemePath);
     for (const DirEntry & entry : uiThemeFolders) {
         if (DirEntry::exists(uiThemePath + sep + entry.name + sep + "theme.ini")) {
@@ -52,7 +51,7 @@ void GuiOptions::init() {
         }
     }
 
-    string menuThemePath = Env::getPathToMenuThemesDir();
+    string menuThemePath = Env::getPathToThemesDir();
     DirEntries menuThemeFolders = DirEntry::diru_DirsOnly(menuThemePath);
     for (const DirEntry & entry : menuThemeFolders) {
         if (DirEntry::exists(menuThemePath + sep + entry.name + sep + "images")) {
@@ -119,20 +118,19 @@ void GuiOptions::init() {
 
 #define CFG_LANG           0
 #define CFG_THEME          1
-#define CFG_MENUTH         2
-#define CFG_UI             3
-#define CFG_JEWEL          4
-#define CFG_MUSIC          5
-#define CFG_ORIGAMES       6
-#define CFG_ASPECT         7
-#define CFG_QUICK          8
-#define CFG_QUICKMENU      9
-#define CFG_BGM            10
-#define CFG_MIP            11
-#define CFG_RA             12
-#define CFG_ADV            13
-#define CFG_SHOWINGTIMEOUT 14
-#define CFG_LAST           14
+#define CFG_UI             2
+#define CFG_JEWEL          3
+#define CFG_MUSIC          4
+#define CFG_ORIGAMES       5
+#define CFG_ASPECT         6
+#define CFG_QUICK          7
+#define CFG_QUICKMENU      8
+#define CFG_BGM            9
+#define CFG_MIP            10
+#define CFG_RA             11
+#define CFG_ADV            12
+#define CFG_SHOWINGTIMEOUT 13
+#define CFG_LAST           13
 
 //*******************************
 // GuiOptions::getBooleanIcon
@@ -191,7 +189,6 @@ void GuiOptions::render() {
     gui->renderTextLine("-=" + _("Configuration") + "=-", 0, offset, POS_CENTER);
     renderOptionLine(_("Language:") + " " + gui->cfg.inifile.values["language"], CFG_LANG + 1, offset);
     renderOptionLine(_("AutoBleem Theme:") + " " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
-    renderOptionLine(_("Menu Theme:") + " " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);
     renderOptionLine(_("UI:") + " " + gui->cfg.inifile.values["ui"], CFG_UI + 1, offset);
     renderOptionLine(_("Cover Style:") + " " + gui->cfg.inifile.values["jewel"], CFG_JEWEL + 1, offset);
     renderOptionLine(_("Music:") + " " + gui->cfg.inifile.values["music"], CFG_MUSIC + 1, offset);
@@ -209,43 +206,6 @@ void GuiOptions::render() {
 
     //   gui->renderSelectionBox(selOption+1,offset);
     SDL_RenderPresent(renderer);
-}
-
-// local routine
-//*******************************
-// findNumberOfMatchingCharsFromBeginning
-//*******************************
-static int findNumberOfMatchingCharsFromBeginning(const string &_s1, const string &_s2) {
-    string s1 = ReturnLowerCase(_s1);
-    string s2 = ReturnLowerCase(_s2);
-    int minLength = s1.size();
-    if (s2.size() < minLength)
-        minLength = s2.size();
-    int matchingLength = 0;
-    for (int i = 0; i < minLength; ++i) {
-        if (s1[i] == s2[i])
-            ++matchingLength;
-        else
-            break;  // chars don't match
-    }
-    return matchingLength;
-};
-
-// local routine
-//*******************************
-// bestMenuThemeMatch
-//*******************************
-static tuple<int, string> bestMenuThemeMatch(const string UITheme, const vector<string> &menuThemes) {
-    int bestMatchingSize = 0;
-    string bestMatchingString = "";
-    for (auto menuTheme : menuThemes) {
-        int matchSize = findNumberOfMatchingCharsFromBeginning(UITheme, menuTheme);
-        if (matchSize > bestMatchingSize) {
-            bestMatchingSize = matchSize;
-            bestMatchingString = menuTheme;
-        }
-    }
-    return make_tuple(bestMatchingSize, bestMatchingString);
 }
 
 //*******************************
@@ -345,20 +305,6 @@ void GuiOptions::loop() {
                         if (selOption == CFG_THEME) {
                             string nextValue = getOption(autobleemUIThemes, gui->cfg.inifile.values["theme"], true);
                             gui->cfg.inifile.values["theme"] = nextValue;
-
-                            int bestMatchingSize = 0;
-                            string bestMatchingString;
-                            tie(bestMatchingSize, bestMatchingString) = bestMenuThemeMatch(nextValue, menuThemes);
-                            if (bestMatchingSize >= 3)
-                                gui->cfg.inifile.values["stheme"] = bestMatchingString;
-
-                            init();
-                            gui->loadAssets();
-                        }
-
-                        if (selOption == CFG_MENUTH) {
-                            string nextValue = getOption(menuThemes, gui->cfg.inifile.values["stheme"], true);
-                            gui->cfg.inifile.values["stheme"] = nextValue;
                             init();
                             gui->loadAssets();
                         }
@@ -447,20 +393,6 @@ void GuiOptions::loop() {
                         if (selOption == CFG_THEME) {
                             string nextValue = getOption(autobleemUIThemes, gui->cfg.inifile.values["theme"], false);
                             gui->cfg.inifile.values["theme"] = nextValue;
-
-                            int bestMatchingSize = 0;
-                            string bestMatchingString;
-                            tie(bestMatchingSize, bestMatchingString) = bestMenuThemeMatch(nextValue, menuThemes);
-                            if (bestMatchingSize >= 3)
-                                gui->cfg.inifile.values["stheme"] = bestMatchingString;
-
-                            init();
-                            gui->loadAssets();
-                        }
-
-                        if (selOption == CFG_MENUTH) {
-                            string nextValue = getOption(menuThemes, gui->cfg.inifile.values["stheme"], false);
-                            gui->cfg.inifile.values["stheme"] = nextValue;
                             init();
                             gui->loadAssets();
                         }

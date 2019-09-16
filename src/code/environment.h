@@ -16,8 +16,7 @@ struct Environment {
     static std::string getWorkingPath();  // 1 arg: "usb:/Autobleem/bin/autobleem", 2 arg: autobleem-gui executable dir
 //    static std::string getPathToWorkingPathFile(const std::string &filename);   // return path to file in working path
 
-    static std::string getPathToMenuThemesDir();        // "usb:/themes" or "./themes"
-    static std::string getPathToUIThemeDir();   // "usb:/Autobleem/bin/autobleem/theme" or "./theme"
+    static std::string getPathToThemesDir();        // "usb:/themes" or "./themes"
     static std::string getPathToCoversDBDir();   // "usb:/Autobleem/bin/db" or "../db"
 };
 
