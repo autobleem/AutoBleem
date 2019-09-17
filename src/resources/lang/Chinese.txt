@@ -1,0 +1,316 @@
+games
+遊戲
+.-= Code C++ and shell scripts =-.
+
+.-= Database maintenance =-.
+
+.-= Graphics =-.
+
+.-= Localization support =-.
+
+.-= Retroboot and emulation cores =-.
+
+.-= Testing =-.
+
+About
+關於
+Advanced
+進階
+Advanced:
+進階:
+Are you sure you want to flush all covers?
+你確定要更新所有封面嗎?
+Are you sure?
+你確定嗎?
+AutoBleem
+
+AutoBleem resume points not available in RetroArch.
+AutoBleem的RetroArch無法直接使用即時存檔恢復功能
+AutoBleem Theme:
+AutoBleem系統佈景:
+Background Music:
+背景音樂:
+Button Guide
+按鍵說明
+Cancel
+取消
+Caps
+蓋
+Card
+卡
+Change MC
+更換MC
+Clock:
+時間:
+Close
+關閉
+Configuration
+設定
+Configuration saved - Press |@X| to continue
+設定己儲存 - 請按 |@X| 鍵繼續
+CONFIGURED
+已設定
+Confirm
+同意
+Console Button Guide
+裝置按鍵說明
+Copy
+複製
+Cover Style:
+封面樣示:
+Custom
+自訂
+Custom Memory Cards
+自訂記憶卡
+Customize AutoBleem settings
+自訂 AutoBleem 設定值
+Decompressing ecm:
+ecm解碼:
+Defragment Card
+重整記憶卡
+Delete
+刪除
+Delete card
+刪除記憶卡
+Do you want to save memcards data ?
+你確定要儲存記憶卡資料?
+Download latest:
+下載最新:
+DPAD - Same as classic menu
+DPAD - 與經典選單相同
+Edit game parameters
+編輯遊戲資料
+Edit Memory Card information
+編輯記憶卡資料
+Emulator config MENU
+模擬器設定選單
+Enter
+確定
+Enter new card name
+輸入新的記憶卡名稱
+Enter new game name
+輸入新的遊戲名稱
+Enter new name for card
+輸入新的記憶卡名稱
+Enter new name for memory card
+輸入新的記憶卡名稱
+Entry
+項目
+Favorite:
+最愛:
+Flush covers
+更新封面
+Folder:
+資料夾:
+Frameskip:
+跳幀:
+Free
+剩餘
+Free space
+剩餘空間
+Game
+遊戲
+GAME
+遊戲
+Game Manager
+遊戲管理
+Game manager - Select game
+遊戲管理 - 選擇遊戲
+Game:
+遊戲:
+games
+遊戲
+Games changed. Press
+遊戲已變動，請按
+Games filter
+遊戲篩選
+games scanned
+遊戲己掃描
+GFX Filter:
+GFX濾鏡
+Go back
+返回
+High res:
+高解析度:
+Hold
+暫停
+Importing internal games
+正在匯入內建遊戲
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+在主選單關閉電源 (一定要安全斷電!!!)
+In Game
+遊戲中
+Internal
+內建
+INTERNAL
+內建
+Internal Games:
+內建遊戲:
+Is your dpad analogue?
+模擬DAPD
+Language:
+語言:
+Link Block
+連結區塊
+Link end Block
+連結最後區塊
+Loading ... Please Wait ...
+讀取中...請稍候...
+Lock data:
+鎖定資料:
+MEMORY CARD
+記憶卡
+Memory Card Manager
+記憶卡管理
+Memory Card:
+記憶卡:
+Memory Cards
+記憶卡
+Menu
+選單
+Menu Theme:
+遊戲選單樣式:
+Moving :
+移動中:
+Moving...
+移動中...
+Music:
+背景音樂:
+New Card
+新卡
+New GamePad found
+找到新的遊戲手把
+OK
+確定
+OOPS! Game crashed. Resume point not available.
+糟了! 遊戲己當掉, 無法恢復即時存檔
+Options
+設定
+Original
+原版
+Page
+頁
+Player
+玩家
+Players
+玩家
+Please confirm
+請同意
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+請插入遊戲手把到您的主機上
+Please wait ... deleting covers...
+請稍候... 刪除封面中...
+Plugin:
+外掛:
+Power Off
+關機
+POWERING OFF... PLEASE WAIT
+關機中... 請稍候
+Press a key for
+請按下按鍵
+Published by:
+發佈自:
+Quick boot
+快速啟動
+Quick scroll to next letter
+快速跳往下一頁
+QuickBoot Init:
+快速啟動初始:
+QuickBoot:
+快速啟動:
+Quit emulation - back to AutoBleem
+離開模擬器 - 回到AutoBleem系統主選單
+Re/Scan
+重新掃描
+Region:
+區域:
+Reload Cards
+重讀記憶卡
+Rename
+更名
+RESUME
+恢復
+Resume game from saved state point
+恢復遊戲即時存檔點
+Resume point saved to slot
+恢復卡槽中的存檔點
+RetroArch
+
+RetroArch is not installed
+未安裝 RetroArch
+RetroBoot Systems
+RetroArch系統
+Run using RetroBoot(if installed)
+執行RetroBoot (若已安裝)
+Scanline Level:
+掃描線級別:
+Scanlines:
+掃描線:
+Scanning...
+掃描中...
+Select
+選擇
+Select memory card
+選擇記憶卡
+Select or cancel highlighted option
+選擇或取消標示的設定
+SELECT RESUME SLOT TO LOAD
+選擇要恢復的卡槽
+Select RetroBoot Platform
+選擇 RetroBoot 平台
+Select Right Card
+選擇正確的記憶卡
+SELECT SLOT TO SAVE STATE
+選擇卡槽進行存檔
+Serial:
+序號:
+SETTINGS
+設定
+Share MC
+分享MC
+Show RetroArch:
+顯示 RetroArch:
+Showing Timeout (0 = no timeout):
+顯示 Timeout 時間 (0 = 不會 timeout):
+Showing:
+顯示:
+Showing: All games
+顯示: 所有遊戲
+Showing: Favorite games
+顯示: 最愛遊戲
+Showing: Internal games
+顯示: 內建遊戲
+Showing: USB games
+顯示: USB遊戲
+Slot
+卡槽
+Space
+空間
+SpeedHack:
+加速器:
+Spu Interpolation:
+SPU 插值:
+Starting EvolutionUI
+正在啟動 EvolutionUI
+Support via Discord:
+支援Discord:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+這是免費及開源的軟體, 我們對任何問題及損壞不負任何責任. 如有問題請洽九五二七宅在家.
+to scan
+掃描
+Total:
+總共:
+UI:
+界面:
+Unknown Core (AutoDetect)
+未知的核心 (自動檢測)
+Updating regional.db...
+正在更新 regional.db...
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+注意: 找不到資料庫, 請按任意鍵繼續.
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+注意: 找不到遊戲, 請按任意鍵繼續.
+Widescreen:
+寬螢幕:
+Year:
+年份:
