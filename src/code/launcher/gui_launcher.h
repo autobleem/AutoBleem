@@ -55,28 +55,33 @@ public:
     SDL_Event e;
 
     void loop();
-    void loop_prevGame();
-    void loop_nextGame();
+
+    void loop_joyMoveLeft();
+    void loop_joyMoveRight();
+    void loop_joyMoveUp();
+    void loop_joyMoveDown();
+
+    // a button is pressed
+    void loop_joyButtonDown();
     void loop_chooseGameDir();
     void loop_chooseRAGameSystem();
-    void loop_circleButtonDown();
-    void loop_squareButtonDown();
-    void loop_triangleButtonDown();
     void loop_selectButtonDown();
+    void loop_circleButtonDown();
+    void loop_triangleButtonDown();
+    void loop_squareButtonDown();
     void loop_crossButtonDown();
     void loop_crossButtonDown_STATE_GAMES();
     void loop_crossButtonDown_STATE_SET();
-    void loop_crossButtonDown_STATE_SET__RESUME_FROM_SAVESTATE();
-    void loop_crossButtonDown_STATE_SET__EDIT_MEMCARD();
-    void loop_crossButtonDown_STATE_SET__EDIT_GAME_SETTINGS();
-    void loop_crossButtonDown_STATE_SET__AB_SETTINGS();
+    void loop_crossButtonDown_STATE_SET__OPT_AB_SETTINGS();
+    void loop_crossButtonDown_STATE_SET__OPT_EDIT_GAME_SETTINGS();
+    void loop_crossButtonDown_STATE_SET__OPT_EDIT_MEMCARD();
+    void loop_crossButtonDown_STATE_SET__OPT_RESUME_FROM_SAVESTATE();
     void loop_crossButtonDown_STATE_RESUME();
-    void loop_joyMoveLeft();
-    void loop_joyMoveRight();
-    void loop_joyMoveDown();
-    void loop_joyMoveUp();
+
+    // a button is released
     void loop_joyButtonUp();
-    void loop_joyButtonDown();
+    void loop_prevGameFirstLetter();
+    void loop_nextGameFirstLetter();
 
     void nextGame(int speed);
     void prevGame(int speed);
