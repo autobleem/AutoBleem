@@ -12,7 +12,7 @@
 #include <fstream>
 #include <iostream>
 #include "../engine/scanner.h"
-#include "../Environment.h"
+#include "../environment.h"
 
 using namespace std;
 

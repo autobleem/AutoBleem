@@ -16,7 +16,7 @@
 #include "../lang.h"
 #include <ftw.h>
 #include "../engine/scanner.h"
-#include "../Environment.h"
+#include "../environment.h"
 #include "../engine/database.h"
 
 using namespace std;

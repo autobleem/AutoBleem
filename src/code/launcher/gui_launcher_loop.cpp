@@ -12,7 +12,7 @@
 #include "../gui/gui_playlists.h"
 #include "gui_mc_manager.h"
 #include "../gui/gui_gameDirMenu.h"
-#include "../Environment.h"
+#include "../environment.h"
 
 using namespace std;
 
