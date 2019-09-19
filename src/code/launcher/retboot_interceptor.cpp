@@ -12,7 +12,7 @@
 #include <fstream>
 #include <iostream>
 #include <unistd.h>
-#include "../Environment.h"
+#include "../environment.h"
 
 #define RA_MEMCARDLOC "/media/retroarch/saves/"
 #define RA_CORE_CONFIG "/media/retroarch/config/retroarch-core-options.cfg"

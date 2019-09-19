@@ -7,7 +7,7 @@
 #include <fstream>
 #include "../DirEntry.h"
 #include <iostream>
-#include "../Environment.h"
+#include "../environment.h"
 
 using namespace std;
 

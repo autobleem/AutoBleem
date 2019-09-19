@@ -12,7 +12,7 @@
 #include <fstream>
 #include <iostream>
 #include <unistd.h>
-#include "../Environment.h"
+#include "../environment.h"
 
 using namespace std;
 
