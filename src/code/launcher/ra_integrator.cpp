@@ -193,15 +193,19 @@ int RAIntegrator::getGamesNumber(string playlist) {
 }
 
 bool RAIntegrator::getGames(PsGames *result, string playlist) {
-    cout << "Parsing Playlist:" << playlist << endl;
-    string path = Env::getPathToRetroarchDir() + sep + "playlists" + sep + playlist;
-    if (isJSONPlaylist(path)) {
-        parseJSON(result, path);
+    if (playlist != "") {
+        cout << "Parsing Playlist:" << playlist << endl;
+        string path = Env::getPathToRetroarchDir() + sep + "playlists" + sep + playlist;
+        if (isJSONPlaylist(path)) {
+            parseJSON(result, path);
+        } else {
+            parse6line(result, path);
+        }
+        cout << "Games found:" << result->size() << endl;
+        return true;
     } else {
-        parse6line(result, path);
+        return false;
     }
-    cout << "Games found:" << result->size() << endl;
-    return true;
 }
 
 vector<string> RAIntegrator::getPlaylists() {
