@@ -43,9 +43,45 @@ class GuiLauncher : public GuiScreen {
 public:
     void init();
     void render();
+
+    // these variables are used by the loop routines
+    bool menuVisible = true;
+    long motionStart = 0;
+    long timespeed = 0;
+    int motionDir = 0;
+    vector<string> headers;
+    vector<string> texts;
+    long time = 0;
+    SDL_Event e;
+
     void loop();
-    void loop_prevGame();
-    void loop_nextGame();
+
+    void loop_joyMoveLeft();
+    void loop_joyMoveRight();
+    void loop_joyMoveUp();
+    void loop_joyMoveDown();
+
+    // a button is pressed
+    void loop_joyButtonDown();
+    void loop_chooseGameDir();
+    void loop_chooseRAGameSystem();
+    void loop_selectButtonDown();
+    void loop_circleButtonDown();
+    void loop_triangleButtonDown();
+    void loop_squareButtonDown();
+    void loop_crossButtonDown();
+    void loop_crossButtonDown_STATE_GAMES();
+    void loop_crossButtonDown_STATE_SET();
+    void loop_crossButtonDown_STATE_SET__OPT_AB_SETTINGS();
+    void loop_crossButtonDown_STATE_SET__OPT_EDIT_GAME_SETTINGS();
+    void loop_crossButtonDown_STATE_SET__OPT_EDIT_MEMCARD();
+    void loop_crossButtonDown_STATE_SET__OPT_RESUME_FROM_SAVESTATE();
+    void loop_crossButtonDown_STATE_RESUME();
+
+    // a button is released
+    void loop_joyButtonUp();
+    void loop_prevGameFirstLetter();
+    void loop_nextGameFirstLetter();
 
     void nextGame(int speed);
     void prevGame(int speed);
