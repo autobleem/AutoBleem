@@ -30,6 +30,7 @@ void GuiBtnGuide::render() {
     gui->renderTextLine("|@R1| / |@L1|   " + _("Quick scroll to next letter"), 4, offset, POS_CENTER);
     gui->renderTextLine("|@Select|   " + _("Games filter"), 5, offset, POS_CENTER);
     gui->renderTextLine("|@L2| + |@Select|   " + _("RetroBoot Systems"), 6, offset, POS_CENTER);
+    gui->renderTextLine("|@L1| + |@Select|   " + _("Change USB Games Sub-Directory"), 7, offset, POS_CENTER);
 
     gui->renderTextLine("-=" + _("In Game") + "=-", 8, offset, POS_CENTER);
     gui->renderTextLine("|@Select| + |@T|   " + _("Emulator config MENU"), 9, offset, POS_CENTER);
