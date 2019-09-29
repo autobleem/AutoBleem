@@ -14,34 +14,99 @@
 #include "engine/coverdb.h"
 #include "util.h"
 #include <unistd.h>
-
-using namespace std;
-
+#include "engine/GetGameDirHierarchy.h"
 #include "engine/memcard.h"
 #include "lang.h"
 #include "launcher/emu_interceptor.h"
 #include "launcher/pcsx_interceptor.h"
 #include "launcher/retboot_interceptor.h"
+#include "engine/GetGameDirHierarchy.h"
+#include "environment.h"
 
-
-const char GAME_DATA[] = "GameData";
-const char GAME_INI[] = "Game.ini";
-const char PCSX_CFG[] = "pcsx.cfg";
-const char EXT_PNG[] = ".png";
-const char EXT_PBP[] = ".pbp";
-const char EXT_ECM[] = ".ecm";
-const char EXT_BIN[] = ".bin";
-const char EXT_IMG[] = ".img";
-//const char EXT_ISO[] = ".iso";
-const char EXT_CUE[] = ".cue";
-const char EXT_LIC[] = ".lic";
+using namespace std;
 
 Database * db;
+
+// these are defined in environment.h and are meant to not be modified once they are initialized here.
+extern bool private_singleArgPassed;
+extern string private_pathToUSBDrive;
+extern string private_pathToGamesDir;
+extern string private_pathToRegionalDBFile;
+
+//*******************************
+// copyGameFilesInGamesDirToSubDirs
+//*******************************
+// Search for games with supported extension and move to sub-dir
+// returns true is any files moved into sub-dirs
+bool copyGameFilesInGamesDirToSubDirs(const string & path){
+    bool ret = false;
+    string fileExt;
+    string filenameWE;
+    vector<string> extensions;
+    vector<string> binList;
+    shared_ptr<Gui> splash(Gui::getInstance());
+    splash->logText(_("Moving..."));
+//    extensions.push_back("iso");
+    extensions.push_back("pbp");
+    extensions.push_back("cue");
+
+    //Getting all files in USBGames Dir
+    DirEntries globalFileList = DirEntry::diru(path);
+    DirEntries fileList = DirEntry::getFilesWithExtension(path, globalFileList, extensions);
+
+    //On first run, we won't process bin/img files, as cue file may handle a part of them
+    for (const auto &entry : fileList){
+        splash->logText(_("Moving :") + " " + entry.name);
+        fileExt = DirEntry::getFileExtension(entry.name);
+        filenameWE = DirEntry::getFileNameWithoutExtension(entry.name);
+        //Checking if file exists
+        if(access((path + sep + entry.name).c_str(),F_OK) != -1){
+            if(fileExt == "cue"){
+                binList = DirEntry::cueToBinList(path + sep + entry.name);
+                if(!binList.empty()){
+                    //Create directory for game
+                    DirEntry::createDir(path + sep + filenameWE);
+                    //Move cue file
+                    rename((path + "/" + entry.name).c_str(), (path + sep + filenameWE + "/" + entry.name).c_str());
+                    //Move bin files
+                    for (const auto &bin : binList){
+                        splash->logText(_("Moving :") + " " + bin);
+                        rename((path + sep + bin).c_str(), (path + sep + filenameWE + sep + bin).c_str());
+                    }
+                    ret = true;
+                }
+            }else{
+                DirEntry::createDir(path + sep + filenameWE);
+
+                rename((path + sep + entry.name).c_str(),(path + sep + filenameWE + sep + entry.name).c_str());
+                ret = true;
+            }
+        }
+    }
+
+    //Next we will read only bin and img files
+    extensions.clear();
+    extensions.push_back("img");
+    extensions.push_back("bin");
+    fileList = DirEntry::getFilesWithExtension(path, globalFileList, extensions);
+    for (const auto &entry : fileList){
+        splash->logText(_("Moving :") + " " + entry.name);
+        fileExt = DirEntry::getFileExtension(entry.name);
+        filenameWE = DirEntry::getFileNameWithoutExtension(entry.name);
+        //Checking if file exists
+        if(access((path + sep + entry.name).c_str(),F_OK) != -1){
+            DirEntry::createDir(path + sep + filenameWE);
+            rename((path + sep + entry.name).c_str(), (path + sep + filenameWE + sep + entry.name).c_str());
+            ret = true;
+        }
+    }
+    return ret; // true if any game files moved into a sub-dir
+}
 
 //*******************************
 // scanGames
 //*******************************
-int scanGames(string path, string dbpath) {
+int scanGames(GamesHierarchy &gamesHierarchy) {
     shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr<Scanner> scanner(Scanner::getInstance());
 
@@ -58,12 +123,12 @@ int scanGames(string path, string dbpath) {
         return EXIT_FAILURE;
     }
 
-    scanner->scanDirectory(path);
-    scanner->updateDB(gui->db);
+    scanner->scanUSBGamesDirectory(gamesHierarchy);
+    scanner->updateRegionalDB(gamesHierarchy, gui->db);
 
-    gui->drawText(_("Total:") + " " + to_string(scanner->games.size()) + " " + _("games scanned") + ".");
+    gui->drawText(_("Total:") + " " + to_string(scanner->gamesToAddToDB.size()) + " " + _("games scanned") + ".");
     sleep(1);
-    scanner->games.clear();
+    scanner->gamesToAddToDB.clear();
     return (EXIT_SUCCESS);
 }
 
@@ -72,10 +137,24 @@ int scanGames(string path, string dbpath) {
 //*******************************
 int main(int argc, char *argv[]) {
     shared_ptr<Lang> lang(Lang::getInstance());
-    if (argc < 3) {
+    if (argc == 1 + 1) {
+        // the single arg is the path to the usb drive
+        private_singleArgPassed = true;
+        private_pathToUSBDrive = argv[1];
+        private_pathToRegionalDBFile = private_pathToUSBDrive + sep + "System/Databases/regional.db";
+        private_pathToGamesDir = private_pathToUSBDrive + sep + "Games";
+    } else if (argc == 1 + 2) {
+        // the two args are the path to the regional.db file and the path to the /Games dir on the usb drive
+        private_singleArgPassed = false;
+        private_pathToRegionalDBFile = argv[1];
+        private_pathToGamesDir = argv[2];
+        private_pathToUSBDrive = DirEntry::getDirNameFromPath(private_pathToGamesDir);
+    }
+    else {
         cout << "USAGE: autobleem-gui /path/dbfilename.db /path/to/games" << endl;
         return EXIT_FAILURE;
     }
+
     shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr<Scanner> scanner(Scanner::getInstance());
 
@@ -85,36 +164,50 @@ int main(int argc, char *argv[]) {
     gui->coverdb = coverdb;
 
     db = new Database();
-    if (!db->connect(argv[1])) {
+    if (!db->connect(Env::getPathToRegionalDBFile())) {
         delete db;
         return EXIT_FAILURE;
     }
-    gui->db=db;
+    gui->db = db;
     db->createInitialDatabase();
     db->createFavColumn();
 
-    string dbpath = argv[1];
-    string path = argv[2];
+    string dbpath = Env::getPathToRegionalDBFile();
+    string pathToGamesDir = Env::getPathToGamesDir();
 
-    Memcard *memcardOperation = new Memcard(path);
-    memcardOperation->restoreAll(path + DirEntry::separator() + "!SaveStates");
+    Memcard *memcardOperation = new Memcard(pathToGamesDir);
+    memcardOperation->restoreAll(Env::getPathToSaveStatesDir());
     delete memcardOperation;
 
-    bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(path);
-    if (scanner->isFirstRun(path, db) || thereAreGameFilesInGamesDir) {
+    string prevPath = Env::getWorkingPath() + sep + "autobleem.prev";
+    bool prevFileExists = DirEntry::exists(prevPath);
+
+    bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(pathToGamesDir);
+    if (thereAreGameFilesInGamesDir)
+        copyGameFilesInGamesDirToSubDirs(pathToGamesDir);
+
+    GamesHierarchy gamesHierarchy;
+    gamesHierarchy.getHierarchy(pathToGamesDir);
+
+    USBGames allGames = gamesHierarchy.getAllGames();
+    USBGame::sortByFullPath(allGames);
+
+    bool autobleemPrevOutOfDate = gamesHierarchy.gamesDoNotMatchAutobleemPrev(prevPath);
+    if (!prevFileExists || thereAreGameFilesInGamesDir || autobleemPrevOutOfDate ||
+        db->subDirRowsTableIsEmpty() || db->getNumGames() == 0) {
         scanner->forceScan = true;
     }
 
-    gui->display(scanner->forceScan, path, db, false);
+    gui->display(scanner->forceScan, pathToGamesDir, db, false);
 
     while (gui->menuOption == MENU_OPTION_SCAN || gui->menuOption == MENU_OPTION_START) {
 
         gui->menuSelection();
         gui->saveSelection();
         if (gui->menuOption == MENU_OPTION_SCAN) {
-            if (thereAreGameFilesInGamesDir)
-                scanner->copyGameFilesInGamesDirToSubDirs(path);
-            scanGames(path, dbpath);
+            gamesHierarchy.getHierarchy(pathToGamesDir);
+            scanGames(gamesHierarchy);
+            gamesHierarchy.writeAutobleemPrev(prevPath);
             if (gui->forceScan) {
                 gui->forceScan = false;
             } else {
@@ -151,7 +244,7 @@ int main(int argc, char *argv[]) {
             gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
             gui->startingGame = false;
 
-            gui->display(false, path, db, true);
+            gui->display(false, pathToGamesDir, db, true);
 
 #else
             cout << "Starting game" << endl;
@@ -198,7 +291,7 @@ int main(int argc, char *argv[]) {
             gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
             gui->startingGame = false;
 
-            gui->display(false, path, db, true);
+            gui->display(false, pathToGamesDir, db, true);
 #endif
         }
     }

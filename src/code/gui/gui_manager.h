@@ -4,9 +4,9 @@
 #pragma once
 
 #include "gui_screen.h"
-#include "../engine/inifile.h"
 #include "../main.h"
 #include <vector>
+#include "../launcher/ps_game.h"
 
 //********************
 // GuiManager
@@ -16,7 +16,7 @@ public:
     void init();
     void render();
     void loop();
-    std::vector<Inifile> gameInis;
+    PsGames psGames;
 
     int selected=0;
     int maxVisible=8;
@@ -25,7 +25,7 @@ public:
 
     bool changes=false;
 
-    static bool sortByTitle(Inifile i, Inifile j) { return SortByCaseInsensitive(i.values["title"], j.values["title"]); }
+    static bool sortByTitle(PsGamePtr i, PsGamePtr j) { return SortByCaseInsensitive(i->title, j->title); }
 
     using GuiScreen::GuiScreen;
 };

@@ -42,5 +42,5 @@ TTF_Font_Shared Fonts::openFont(const string &filename, int fontSize) {
 //********************
 void Fonts::openAllFonts(const std::string &dirname) {
     for (auto size : allFontSizes)
-        fonts[size] = openFont(dirname + DirEntry::separator() + TTF_FileNameToUseForFontSize[size], size);
+        fonts[size] = openFont(dirname + sep + TTF_FileNameToUseForFontSize[size], size);
 }

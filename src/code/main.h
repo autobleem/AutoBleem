@@ -3,34 +3,24 @@
 #include <algorithm>
 #include <string>
 
-#define RA_FOLDER "/media/retroarch"
-
-enum ImageType { IMAGE_NO_GAME_FOUND = -2, IMAGE_NO_GAME_BUT_HAS_SUBDIR = -1,
-                 IMAGE_CUE_BIN = 0,
-                 IMAGE_PBP,
+enum ImageType { IMAGE_NO_GAME_FOUND = -1,
+                 IMAGE_BIN = 0, // must be 0 to match existing game.ini
+                 IMAGE_PBP = 1, // must be 1 to match existing game.ini
                  IMAGE_IMG
 //                 IMAGE_ISO // not supported yet
 };
 
-inline bool imageTypeIsAGameFile(ImageType type) {
-    return type >= IMAGE_CUE_BIN;
-}
-
-inline bool imageTypeIsAGameFileThatUsesACueFile(ImageType type) {
-    return imageTypeIsAGameFile(type) && (type != IMAGE_PBP);
-}
-
-extern const char GAME_DATA[];
-extern const char GAME_INI[];
-extern const char PCSX_CFG[];
-extern const char EXT_PNG[];
-extern const char EXT_PBP[];
-extern const char EXT_ECM[];
-extern const char EXT_BIN[];
-extern const char EXT_IMG[];
-//extern const char EXT_ISO[];
-extern const char EXT_CUE[];
-extern const char EXT_LIC[];
+const char GAME_DATA[] = "GameData";
+const char GAME_INI[] = "Game.ini";
+const char PCSX_CFG[] = "pcsx.cfg";
+const char EXT_PNG[] = ".png";
+const char EXT_PBP[] = ".pbp";
+const char EXT_ECM[] = ".ecm";
+const char EXT_BIN[] = ".bin";
+const char EXT_IMG[] = ".img";
+//const char EXT_ISO[] = ".iso";
+const char EXT_CUE[] = ".cue";
+const char EXT_LIC[] = ".lic";
 
 //////////////////////////////
 // inline std:string functions

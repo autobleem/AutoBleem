@@ -31,13 +31,7 @@
 #define PCS_BTN_CIRCLE   1
 #define PCS_BTN_SELECT   8
 
-#define MENU_OPTION_SCAN  1
-#define MENU_OPTION_RUN   2
-#define MENU_OPTION_SONY  3
-#define MENU_OPTION_RETRO 4
-#define MENU_OPTION_START 5
-#define MENU_OPTION_POWER 6
-
+enum MenuOption { MENU_OPTION_SCAN = 1, MENU_OPTION_RUN, MENU_OPTION_SONY, MENU_OPTION_RETRO, MENU_OPTION_START };
 
 #define EMU_PCSX          0
 #define EMU_RETROARCH     1
@@ -57,16 +51,13 @@ public:
 
     Config cfg;
 
+    std::string getCurrentThemePath();
+    std::string getCurrentThemeImagePath();
+    std::string getCurrentThemeFontPath();
+    std::string getCurrentThemeSoundPath();
+
     GuiBase();
     ~GuiBase();
-
-    std::string getSonyImagePath();
-
-    std::string getSonyFontPath();
-
-    std::string getSonySoundPath();
-
-    std::string getSonyRootPath();
 };
 
 //********************
@@ -96,7 +87,7 @@ public:
 
     void loadAssets(bool reloadMusic = true);
 
-    void display(bool forceScan, std::string path, Database *db, bool resume);
+    void display(bool forceScan, const std::string &_pathToGamesDir, Database *db, bool resume);
 
     void waitForGamepad();
 
@@ -160,8 +151,9 @@ public:
 
     void exportDBToRetroarch();
 
-    int menuOption = MENU_OPTION_SCAN;
+    MenuOption menuOption = MENU_OPTION_SCAN;
     int lastSet = 0;
+    int lastGameDirIndex = 0;
 
     SDL_Rect backgroundRect;
     SDL_Rect logoRect;
@@ -182,10 +174,11 @@ public:
     SDL_Shared<SDL_Texture> buttonUncheck;
     SDL_Shared<SDL_Texture> cdJewel;
 
-
     bool overrideQuickBoot = false;
 
-    std::string path;
+    std::string pathToGamesDir; // path to /Games.  "/media/Games" or "/debugSystemPath/Games".
+                                // note that originally it had a / at the end.  will need to find any code
+                                // that still depends on that and add "+ sep"
 
     Mix_Music *music = nullptr;
     TTF_Font_Shared themeFont;
@@ -205,8 +198,6 @@ public:
     int emuMode = EMU_PCSX;
     int resumepoint = -1;
     string padMapping;
-
-
 
     Gui(Gui const &) = delete;
 

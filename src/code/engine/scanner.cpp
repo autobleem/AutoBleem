@@ -10,43 +10,10 @@
 #include <fstream>
 #include <iostream>
 #include <unistd.h>
+#include "GetGameDirHierarchy.h"
+#include "../environment.h"
 
 using namespace std;
-
-//*******************************
-// Scanner::isFirstRun
-//*******************************
-bool Scanner::isFirstRun(const string & path, Database *db) {
-#if 0
-    bool listFileExists = DirEntry::exists(Util::getWorkingPath() + DirEntry::separator() + "autobleem.list");
-    if (!listFileExists) {
-        return true;
-    }
-#endif
-
-    bool prevFileExists = DirEntry::exists(DirEntry::getWorkingPath() + DirEntry::separator() + "autobleem.prev");
-    if (!prevFileExists) {
-        return true;
-    }
-    ifstream prev;
-    string prevName = DirEntry::getWorkingPath() + DirEntry::separator() + "autobleem.prev";
-    prev.open(prevName.c_str(), ios::binary);
-    DirEntries entries = DirEntry::diru_DirsOnly(path);
-    noGamesFound = true;
-    for (const DirEntry & entry:entries) {
-        if (entry.name == "!SaveStates") continue;
-        if (entry.name == "!MemCards") continue;
-        noGamesFound = false;
-        string nameInFile;
-        getline(prev, nameInFile);
-        if (nameInFile != entry.name) {
-            return true;
-        }
-    }
-    prev.close();
-
-    return false;
-}
 
 //*******************************
 // Scanner::unecm
@@ -63,39 +30,60 @@ void Scanner::unecm(const string & path) {
             Ecmhelper ecm;
             shared_ptr<Gui> splash(Gui::getInstance());
             splash->logText(_("Decompressing ecm:"));
-            if (ecm.unecm(path + entry.name, path + entry.name.substr(0, entry.name.length() - 4))) {
-                remove((path + entry.name).c_str());
+            if (ecm.unecm(path + sep + entry.name, path + sep + entry.name.substr(0, entry.name.length() - 4))) {
+                remove((path + sep + entry.name).c_str());
             }
         }
     }
 }
 
 //*******************************
-// Scanner::updateDB
+// Scanner::updateRegionalDB
 //*******************************
-void Scanner::updateDB(Database *db) {
+void Scanner::updateRegionalDB(GamesHierarchy &gamesHierarchy, Database *db) {
     shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText(_("Updating regional.db..."));
-    string path = DirEntry::getWorkingPath() + DirEntry::separator() + "autobleem.list";
+    string path = Env::getWorkingPath() + sep + "autobleem.list";
     ofstream outfile;
     outfile.open(path);
-    if (complete)
-        for (int i = 0; i < games.size(); i++) {
-            USBGamePtr data = games[i];
+    if (complete) {
+        db->beginTransaction();
+        for (int i = 0; i < gamesToAddToDB.size(); i++) {
+            USBGamePtr data = gamesToAddToDB[i];
             cout << "Inserting game ID: " << i + 1 << " - " << data->title << endl;
-            db->insertGame(i + 1, data->title, data->publisher, data->players, data->year, data->fullPath,
-                           data->saveStatePath, data->memcard);
+            data->gameId = i + 1;
+            db->insertGame(data->gameId, data->title, data->publisher, data->players, data->year, data->fullPath + sep,
+                           data->saveStatePath + sep, data->memcard);
             if (data->discs.size() == 0)
                 cout << "No discs in game: " << data->title << endl;
             for (int j = 0; j < data->discs.size(); j++) {
                 db->insertDisc(i + 1, j + 1, data->discs[j].diskName);
             }
-            outfile << i + 1 << "," << Util::escape(data->fullPath.substr(0, data->fullPath.size() - 1)) << ","
-                   << Util::escape(data->saveStatePath.substr(0, data->saveStatePath.size() - 1)) << '\n';
+            string gamePath = DirEntry::removeSeparatorFromEndOfPath(data->fullPath);
+            string ssPath = DirEntry::removeSeparatorFromEndOfPath(data->saveStatePath);
+            outfile << i + 1 << "," << Util::escape(gamePath) << "," << Util::escape(ssPath) << '\n';
         }
+        db->commit();
+    }
     outfile.flush();
     outfile.close();
+
+    //cout << "about to write hierarchy to DB" << endl;
+    gamesHierarchy.printRowDisplayGameInfo(false);
+
+    db->beginTransaction();
+    for (auto &row : gamesHierarchy.gameSubDirRows) {
+        //cout << " write row: " << row->displayRowIndex << ", " << row->subDirName << ", " << row->displayIndentLevel << ", " << row->gamesToDisplay.size() << endl;
+        db->insertSubDirRow(row->displayRowIndex, row->subDirName, row->displayIndentLevel, row->gamesToDisplay.size());
+
+        for (auto &game : row->gamesToDisplay) {
+            //cout << " write game: " << game->gameDirName << ", " << row->displayRowIndex << ", " << game->gameId << endl;
+            db->insertSubDirGames(row->displayRowIndex, game->gameId);
+        }
+    }
+    db->commit();
 }
+
 
 static const char cue1[] = "FILE \"{binName}\" BINARY\n"
                            "  TRACK 01 MODE2/2352\n"
@@ -114,16 +102,12 @@ static const char cue2[] = "FILE \"{binName}\" BINARY\n"
 //*******************************
 void repairBinCommaNames(const string & path) {
     // TODO: Add support for German diactrics for nex here
-    for (DirEntry entry : DirEntry::diru(path)) {
-        if (entry.name.find(",") != string::npos) {
-            string newName = entry.name;
-            Util::replaceAll(newName, ",", "-");
-            rename((path + entry.name).c_str(), (path + newName).c_str());
-            entry.name = newName;
+    for (DirEntry entry : DirEntry::diru_FilesOnly(path)) {
+        if (DirEntry::fixCommaInDirOrFileName(path, &entry)) {
             if (DirEntry::matchExtension(entry.name, EXT_CUE)) {
                 // process cue inside
-                ifstream is(path + DirEntry::separator() + entry.name);
-                ofstream os(path + DirEntry::separator() + entry.name + ".new");
+                ifstream is(path + sep + entry.name);
+                ofstream os(path + sep + entry.name + ".new");
                 string line;
                 while (getline(is, line)) {
                     trim(line);
@@ -139,9 +123,9 @@ void repairBinCommaNames(const string & path) {
                 os.close();
                 is.close();
 
-                remove((path + DirEntry::separator() + entry.name).c_str());
-                rename((path + DirEntry::separator() + entry.name + ".new").c_str(),
-                       (path + DirEntry::separator() + entry.name).c_str());
+                remove((path + sep + entry.name).c_str());
+                rename((path + sep + entry.name + ".new").c_str(),
+                       (path + sep + entry.name).c_str());
             }
         }
     }
@@ -153,10 +137,8 @@ void repairBinCommaNames(const string & path) {
 void repairMissingCue(const string & path, const string & folderName) {
     vector<string> binFiles;
     bool hasCue = false;
-    DirEntries rootDir = DirEntry::dir(path);
+    DirEntries rootDir = DirEntry::diru_FilesOnly(path);
     for (const DirEntry & entry : rootDir) {
-        if (entry.name[0] == '.') continue;
-
         if (DirEntry::matchExtension(entry.name, EXT_CUE)) {
             hasCue = true;
         }
@@ -164,9 +146,12 @@ void repairMissingCue(const string & path, const string & folderName) {
         if (DirEntry::matchExtension(entry.name, EXT_BIN)) {
             binFiles.push_back(entry.name);
         }
+        if (DirEntry::matchExtension(entry.name, EXT_IMG)) {
+            binFiles.push_back(entry.name);
+        }
     }
     if (!hasCue) {
-        string newCueName = path + folderName + EXT_CUE;
+        string newCueName = path + sep + folderName + EXT_CUE;
         ofstream os;
         os.open(newCueName);
         // let's create new one
@@ -202,14 +187,14 @@ void repairMissingCue(const string & path, const string & folderName) {
 //*******************************
 // Scanner::moveFolderIfNeeded
 //*******************************
-void Scanner::moveFolderIfNeeded(const DirEntry & entry, string gameDataPath, string path) {
+void Scanner::moveFolderIfNeeded(const std::string &gameDirName, string gameDataPath, string path) {
     bool gameDataExists = DirEntry::exists(gameDataPath);
 
     if (gameDataExists) {
-        cerr << "Game: " << entry.name << " - Moving GameData to 0.5" << endl;
+        cerr << "Game: " << gameDirName << " - Moving GameData to 0.5" << endl;
         for (const DirEntry & entryGame : DirEntry::diru(gameDataPath)) {
-            string newName = path + entry.name + DirEntry::separator() + entryGame.name;
-            string oldName = gameDataPath + entryGame.name;
+            string newName = path + sep + gameDirName + sep + entryGame.name;
+            string oldName = gameDataPath + sep + entryGame.name;
             cerr << "Moving: " << oldName << "  to: " << newName << endl;
             rename(oldName.c_str(), newName.c_str());
         }
@@ -249,7 +234,7 @@ void Scanner::repairBrokenCueFiles(const string & path) {
     for (const string & cue:allCues) {
         ifstream cueStream;
 
-        cueStream.open(path + DirEntry::separator() + cue);
+        cueStream.open(path + sep + cue);
         string line;
         bool cueOk = true;
         int bins = 0;
@@ -275,7 +260,7 @@ void Scanner::repairBrokenCueFiles(const string & path) {
     int startPos = 0;
     for (int i = 0; i < allCues.size(); i++) {
         bool cueOk = validCue[i];
-        string cuePath = path + DirEntry::separator() + allCues[i];
+        string cuePath = path + sep + allCues[i];
         if (!cueOk) {
             remove(cuePath.c_str());
 
@@ -315,109 +300,80 @@ void Scanner::repairBrokenCueFiles(const string & path) {
 }
 
 //*******************************
-// Scanner::getImageType
+// Scanner::scanUSBGamesDirectory
 //*******************************
-ImageType Scanner::getImageType(string path) {
-    bool hasASubDir {false};
-    for (const DirEntry & entry: DirEntry::diru(path)) {
-        if (entry.isDir)
-            hasASubDir = true;
-        else { // it's a file
-            if (DirEntry::matchExtension(entry.name, EXT_BIN)) {
-                return IMAGE_CUE_BIN;
-            }
-            if (DirEntry::matchExtension(entry.name, EXT_PBP)) {
-                return IMAGE_PBP;
-            }
-            if (DirEntry::matchExtension(entry.name, EXT_IMG)) {
-                return IMAGE_IMG;
-            }
-//            if (Util::matchExtension(entry.name, EXT_ISO)) {
-//                return IMAGE_ISO;
-//            }
-        }
-    }
-    if (hasASubDir)
-        return IMAGE_NO_GAME_BUT_HAS_SUBDIR;
-    else
-        return IMAGE_NO_GAME_FOUND;
-}
-
-//*******************************
-// Scanner::scanDirectory
-//*******************************
-void Scanner::scanDirectory(const string & _path) {
-    string path = DirEntry::pathWithSeparatorAtEnd(_path); // it looks like the USBGames path must have a / at the end for changing the game conig to work
-
-    games.clear();  // clear games list
+void Scanner::scanUSBGamesDirectory(GamesHierarchy &gamesHierarchy) {
+    gamesToAddToDB.clear();  // clear games list
     complete = false;
 
     shared_ptr<Gui> splash(Gui::getInstance());
     splash->logText(_("Scanning..."));
 
-    ofstream prev;
-    string prevFileName = DirEntry::getWorkingPath() + DirEntry::separator() + "autobleem.prev";
-    prev.open(prevFileName.c_str(), ios::binary);
-
-    if (!DirEntry::exists(path + "!SaveStates")) {
-        DirEntry::createDir(path + "!SaveStates");
+    if (!DirEntry::exists(Env::getPathToSaveStatesDir())) {
+        DirEntry::createDir(Env::getPathToSaveStatesDir());
     }
 
-    if (!DirEntry::exists(path + "!MemCards")) {
-        DirEntry::createDir(path + "!MemCards");
+    if (!DirEntry::exists(Env::getPathToMemCardsDir())) {
+        DirEntry::createDir(Env::getPathToMemCardsDir());
     }
 
-    // for each game dir
-    for (DirEntry entry: DirEntry::diru_DirsOnly(path)) {
-        if (entry.name[0] == '.') continue;
-        if (entry.name == "!SaveStates") continue;
-        if (entry.name == "!MemCards") continue;
+    USBGames allGames = gamesHierarchy.getAllGames();
 
-        // fix for comma in dirname
-        if (entry.name.find(",") != string::npos) {
-            string newName = entry.name;
-            Util::replaceAll(newName, ",", "-");
-            rename((path + entry.name).c_str(), (path + newName).c_str());
-            entry.name = newName;
-        }
+    string badGameFilePath = Env::getWorkingPath() + sep + "gamesThatFailedVerifyCheck.txt";
+    ofstream badGameFile;
+    badGameFile.open(badGameFilePath.c_str(), ios::binary);
 
-        repairBinCommaNames(path + entry.name + DirEntry::separator());
-        prev << entry.name << endl;
+#if 0
+    int i = 0;
+    for (auto game : gamesScanned) {
+        cout << i++ << ": ";
+        if (game)
+            cout << game->pathName << ", " << game->fullPath << endl;
+        else
+            cout << "NULL" << endl;
+    }
+#endif
 
-        string saveStateDir = path + "!SaveStates" + DirEntry::separator() + entry.name;
+    for (USBGamePtr game : allGames) {
+        int i = 0;
+        if (game)
+            cout << i++ << ": "<< game->gameDirName << ", " << game->fullPath << endl;
+        else
+            cout << i++ << ": "<< "NULL" << endl;
+        repairBinCommaNames(game->fullPath);
+
+        string saveStateDir = Env::getPathToSaveStatesDir() + sep + game->gameDirName;
         DirEntry::createDir(saveStateDir);
-        DirEntry::createDir(saveStateDir+DirEntry::separator()+"memcards");
-
-        USBGamePtr game{new USBGame};
+        DirEntry::createDir(saveStateDir + sep + "memcards");
 
         game->folder_id = 0; // this will not be in use;
-        game->fullPath = path + entry.name + DirEntry::separator();
-        game->saveStatePath = path + "!SaveStates" + DirEntry::separator() + entry.name + DirEntry::separator();
+        game->saveStatePath = Env::getPathToSaveStatesDir() + sep + game->gameDirName + sep;
 
-        game->pathName = entry.name;
-        splash->logText(_("Game:") + " " + entry.name);
+        splash->logText(_("Game:") + " " + game->gameDirName);
 
-        string gameDataPath = path + entry.name + DirEntry::separator() + GAME_DATA + DirEntry::separator();
+        string gamePathWithOutSeparator = DirEntry::removeSeparatorFromEndOfPath(game->fullPath);
 
-        moveFolderIfNeeded(entry, gameDataPath, path);
-        gameDataPath = path + entry.name + DirEntry::separator();
+        moveFolderIfNeeded(game->gameDirName, game->fullPath + sep + GAME_DATA, game->fullPath);
 
-        string gameIniPath = gameDataPath + GAME_INI;
+        string gameIniPath = game->fullPath + sep + GAME_INI;
 
-        ImageType gameType = getImageType(gameDataPath);
-        if (imageTypeIsAGameFile(gameType)) {
-			game->imageType = gameType;
+        DirEntries fileEntries = DirEntry::diru_FilesOnly(game->fullPath);    // get the list of files once
+        if (DirEntry::thereIsAGameFile(fileEntries)) {
+            ImageType imageType;
+            string gameFile;
+            tie(imageType, gameFile) = DirEntry::getGameFile(fileEntries);
+			game->imageType = imageType;
 			game->gameDataFound = true;
 
-			if (imageTypeIsAGameFileThatUsesACueFile(game->imageType)) // only cue/bin
+			if (DirEntry::imageTypeUsesACueFile(imageType))
 			{
-				repairMissingCue(gameDataPath, entry.name);
-				repairBrokenCueFiles(gameDataPath);
-				unecm(gameDataPath);
+				repairMissingCue(game->fullPath, game->gameDirName);
+				repairBrokenCueFiles(game->fullPath);
+				unecm(game->fullPath);
 			}
 
             // for each file in the game dir
-			for (const DirEntry & file : DirEntry::diru(gameDataPath)) {
+			for (const DirEntry & file : fileEntries) {
 				if (Util::compareCaseInsensitive(file.name, GAME_INI)) {
                     game->gameIniFound = true;
 				}
@@ -427,7 +383,7 @@ void Scanner::scanDirectory(const string & _path) {
 				}
 
 				if (DirEntry::matchExtension(file.name, EXT_PNG)) {
-					game->imageFound = true;
+					game->coverImageFound = true;
 				}
 
 				if (DirEntry::matchExtension(file.name, EXT_LIC)) {
@@ -442,7 +398,7 @@ void Scanner::scanDirectory(const string & _path) {
             if (game->gameIniFound)
                 game->readIni(gameIniPath); // read it in now in case we need to create or update the serial/region
 
-            game->serial = SerialScanner::scanSerial(game->imageType, game->fullPath, game->firstBinPath);
+            game->serial = SerialScanner::scanSerial(game->imageType, game->fullPath + sep, game->firstBinPath);
             game->region = SerialScanner::serialToRegion(game->serial);
             //cout << "serial: " << game->serial << ", region: " << game->region << ", " << game->title <<endl;
 
@@ -465,16 +421,16 @@ void Scanner::scanDirectory(const string & _path) {
 
 						if (game->discs.size() > 0) {
 							// all recovered :)
-                            if (!game->imageFound) {
-                                string newFilename = gameDataPath + game->discs[0].cueName + EXT_PNG;
-                                cout << "Updating cover" << newFilename << endl;
+                            if (!game->coverImageFound) {
+                                string newFilename = game->fullPath + sep + game->discs[0].cueName + EXT_PNG;
+                                cout << "Updating cover in scanUSBGamesDirectory()" << newFilename << endl;
                                 ofstream pngFile;
                                 pngFile.open(newFilename);
                                 pngFile.write(md.bytes, md.dataSize);
                                 pngFile.flush();
                                 pngFile.close();
                                 game->automationUsed = false;
-                                game->imageFound = true;
+                                game->coverImageFound = true;
                             }
 						}
 
@@ -482,7 +438,7 @@ void Scanner::scanDirectory(const string & _path) {
 					}
 					else {
 					    if (game->title == "")
-						    game->title = game->pathName;
+						    game->title = game->gameDirName;
 					}
 				}
 			}
@@ -491,31 +447,47 @@ void Scanner::scanDirectory(const string & _path) {
 			//game->print();
 
 			if (game->verify()) {
-                games.push_back(game);
+                gamesToAddToDB.push_back(game);
 
-                string memcardPath = game->saveStatePath+DirEntry::separator()+"memcards/";
-                if (!DirEntry::exists(memcardPath+"card1.mcd"))
+                string memcardPath = game->saveStatePath + sep + "memcards/";
+                if (!DirEntry::exists(memcardPath + "card1.mcd"))
                 {
-                    DirEntry::copy(DirEntry::getWorkingPath()+"memcard/card1.mcd",memcardPath+"card1.mcd");
+                    DirEntry::copy(Env::getWorkingPath() + sep + "memcard/card1.mcd", memcardPath + "card1.mcd");
                 }
-                if (!DirEntry::exists(memcardPath+"card2.mcd"))
+                if (!DirEntry::exists(memcardPath + sep + "card2.mcd"))
                 {
-                    DirEntry::copy(DirEntry::getWorkingPath()+"memcard/card1.mcd",memcardPath+"card2.mcd");
+                    DirEntry::copy(Env::getWorkingPath() + sep + "memcard/card1.mcd", memcardPath + "card2.mcd");
                 }
-                if (!DirEntry::exists(game->saveStatePath+"/pcsx.cfg"))
+                if (!DirEntry::exists(game->saveStatePath + sep + PCSX_CFG))
                 {
-                    DirEntry::copy(DirEntry::getWorkingPath()+"pcsx.cfg",game->saveStatePath+"/pcsx.cfg");
+                    DirEntry::copy(Env::getWorkingPath() + sep + PCSX_CFG, game->saveStatePath + sep + PCSX_CFG);
                 }
-                DirEntry::generateM3UForDirectory(gameDataPath, game->discs[0].cueName);
+                DirEntry::generateM3UForDirectory(game->fullPath, game->discs[0].cueName);
             }
-            else
-                cout << "game: " << game->title << " did not pass verify() test" << endl;
+            else {
+                badGameFile << "Game failed to verify: " << game->fullPath << endl;
+
+                // the game did not pass the verify step and was not added to the DB.
+                // remove the game everywhere in the gamesHierarchy
+                gamesHierarchy.removeGameFromEntireHierarchy(game);
+            }
 		}
 	} // end for each game dir
 
-    prev.flush();
-    prev.close();
-    sort(games.begin(), games.end(), sortByTitle);
+    badGameFile.close();
+
+    USBGame::sortByTitle(gamesToAddToDB);
+    gamesHierarchy.makeGamesToDisplayWhileRemovingChildDuplicates();
+
+    gamesHierarchy.printRowDisplayGameInfo(false);
+
+    string path = Env::getWorkingPath() + sep + "gameHierarchy_afterScanAndRemovingDuplicates.txt";
+    ofstream outfile;
+    outfile.open(path);
+    gamesHierarchy.dumpRowGameInfo(outfile, true);
+    outfile << endl << endl;
+    gamesHierarchy.dumpRowDisplayGameInfo(outfile, true);
+    outfile.close();
 
     complete = true;
 }
@@ -536,74 +508,4 @@ bool Scanner::areThereGameFilesInDir(const string & path) {
     DirEntries fileList = DirEntry::getFilesWithExtension(path, globalFileList, extensions);
 
     return fileList.size() > 0;
-}
-
-//*******************************
-// Scanner::copyGameFilesInGamesDirToSubDirs
-//*******************************
-// Search for games with supported extension and move to sub-dir
-// returns true is any files moved into sub-dirs
-bool Scanner::copyGameFilesInGamesDirToSubDirs(const string & path){
-    bool ret = false;
-    string fileExt;
-    string filenameWE;
-    vector<string> extensions;
-    vector<string> binList;
-    shared_ptr<Gui> splash(Gui::getInstance());
-    splash->logText(_("Moving..."));
-//    extensions.push_back("iso");
-    extensions.push_back("pbp");
-    extensions.push_back("cue");
-
-    //Getting all files in USBGames Dir
-    DirEntries globalFileList = DirEntry::diru(path);
-    DirEntries fileList = DirEntry::getFilesWithExtension(path, globalFileList, extensions);
-
-    //On first run, we won't process bin/img files, as cue file may handle a part of them
-    for (const auto &entry : fileList){
-        splash->logText(_("Moving :") + " " + entry.name);
-        fileExt = DirEntry::getFileExtension(entry.name);
-        filenameWE = DirEntry::getFileNameWithoutExtension(entry.name);
-        //Checking if file exists
-        if(access((path + "/" + entry.name).c_str(),F_OK) != -1){
-            if(fileExt == "cue"){
-                binList = DirEntry::cueToBinList(path + "/" + entry.name);
-                if(!binList.empty()){
-                    //Create directory for game
-                    DirEntry::createDir(path + "/" + filenameWE);
-                    //Move cue file
-                    rename((path + "/" + entry.name).c_str(), (path + "/" + filenameWE + "/" + entry.name).c_str());
-                    //Move bin files
-                    for (const auto &bin : binList){
-                        splash->logText(_("Moving :") + " " + bin);
-                        rename((path + "/" + bin).c_str(), (path + "/" + filenameWE + "/" + bin).c_str());
-                    }
-                    ret = true;
-                }
-            }else{
-                DirEntry::createDir(path + "/" + filenameWE);
-
-                rename((path + "/" + entry.name).c_str(),(path + "/" + filenameWE + "/" + entry.name).c_str());
-                ret = true;
-            }
-        }
-    }
-
-    //Next we will read only bin and img files
-    extensions.clear();
-    extensions.push_back("img");
-    extensions.push_back("bin");
-    fileList = DirEntry::getFilesWithExtension(path, globalFileList, extensions);
-    for (const auto &entry : fileList){
-        splash->logText(_("Moving :") + " " + entry.name);
-        fileExt = DirEntry::getFileExtension(entry.name);
-        filenameWE = DirEntry::getFileNameWithoutExtension(entry.name);
-        //Checking if file exists
-        if(access((path + "/" + entry.name).c_str(),F_OK) != -1){
-            DirEntry::createDir(path + "/" + filenameWE);
-            rename((path + "/" + entry.name).c_str(), (path + "/" + filenameWE + "/" + entry.name).c_str());
-            ret = true;
-        }
-    }
-    return ret; // true if any game files moved into a sub-dir
 }

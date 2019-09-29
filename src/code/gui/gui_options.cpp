@@ -6,6 +6,8 @@
 #include "../util.h"
 #include "gui.h"
 #include "../lang.h"
+#include "../environment.h"
+
 using namespace std;
 
 //*******************************
@@ -37,28 +39,22 @@ string GuiOptions::getOption(const vector<string> & list, const string & current
 //*******************************
 void GuiOptions::init() {
     shared_ptr<Lang> lang(Lang::getInstance());
+
     autobleemUIThemes.clear();
     menuThemes.clear();
-    menuThemes.push_back("default");
-    string themePathAB = DirEntry::getWorkingPath() + DirEntry::separator() + "theme";
-    DirEntries folders = DirEntry::diru_DirsOnly(themePathAB);
-    for (const DirEntry & entry:folders) {
-        if (DirEntry::exists(themePathAB+DirEntry::separator()+entry.name+DirEntry::separator()+"theme.ini")) {
+
+    string uiThemePath = Env::getPathToThemesDir();
+    DirEntries uiThemeFolders = DirEntry::diru_DirsOnly(uiThemePath);
+    for (const DirEntry & entry : uiThemeFolders) {
+        if (DirEntry::exists(uiThemePath + sep + entry.name + sep + "theme.ini")) {
             autobleemUIThemes.push_back(entry.name);
         }
     }
 
-    string themePathEvo;
-
-#if defined(__x86_64__) || defined(_M_X64)
-    themePathEvo = DirEntry::getWorkingPath() + DirEntry::separator() + "themes";
-    folders = DirEntry::diru(themePathEvo);
-#else
-    themePathEvo = "/media/themes";
-    folders = DirEntry::diru(themePathEvo);
-#endif
-    for (const DirEntry & entry:folders) {
-        if (DirEntry::exists(themePathEvo+DirEntry::separator()+entry.name+DirEntry::separator()+"images")) {
+    string menuThemePath = Env::getPathToThemesDir();
+    DirEntries menuThemeFolders = DirEntry::diru_DirsOnly(menuThemePath);
+    for (const DirEntry & entry : menuThemeFolders) {
+        if (DirEntry::exists(menuThemePath + sep + entry.name + sep + "images")) {
             menuThemes.push_back(entry.name);
         }
     }
@@ -98,8 +94,8 @@ void GuiOptions::init() {
     jewels.push_back("none");
     jewels.push_back("default");
 
-    folders = DirEntry::diru_FilesOnly(DirEntry::getWorkingPath() + "/evoimg/frames");
-    for (const DirEntry & entry:folders) {
+    DirEntries folders = DirEntry::diru_FilesOnly(Env::getWorkingPath() + sep + "evoimg/frames");
+    for (const DirEntry & entry : folders) {
         if (DirEntry::getFileExtension(entry.name) == "png") {
             jewels.push_back(entry.name);
         }
@@ -109,7 +105,7 @@ void GuiOptions::init() {
     quickmenu.push_back("RetroArch");
     music.clear();
     music.push_back("--");
-    folders = DirEntry::diru_FilesOnly(DirEntry::getWorkingPath() + "/music");
+    folders = DirEntry::diru_FilesOnly(Env::getWorkingPath() + sep + "music");
     for (const DirEntry & entry:folders) {
         if (DirEntry::getFileExtension(entry.name) == "ogg") {
             music.push_back(entry.name);
@@ -122,20 +118,19 @@ void GuiOptions::init() {
 
 #define CFG_LANG           0
 #define CFG_THEME          1
-#define CFG_MENUTH         2
-#define CFG_UI             3
-#define CFG_JEWEL          4
-#define CFG_MUSIC          5
-#define CFG_ORIGAMES       6
-#define CFG_ASPECT         7
-#define CFG_QUICK          8
-#define CFG_QUICKMENU      9
-#define CFG_BGM            10
-#define CFG_MIP            11
-#define CFG_RA             12
-#define CFG_ADV            13
-#define CFG_SHOWINGTIMEOUT 14
-#define CFG_LAST           14
+#define CFG_UI             2
+#define CFG_JEWEL          3
+#define CFG_MUSIC          4
+#define CFG_ORIGAMES       5
+#define CFG_ASPECT         6
+#define CFG_QUICK          7
+#define CFG_QUICKMENU      8
+#define CFG_BGM            9
+#define CFG_MIP            10
+#define CFG_RA             11
+#define CFG_ADV            12
+#define CFG_SHOWINGTIMEOUT 13
+#define CFG_LAST           13
 
 //*******************************
 // GuiOptions::getBooleanIcon
@@ -194,7 +189,6 @@ void GuiOptions::render() {
     gui->renderTextLine("-=" + _("Configuration") + "=-", 0, offset, POS_CENTER);
     renderOptionLine(_("Language:") + " " + gui->cfg.inifile.values["language"], CFG_LANG + 1, offset);
     renderOptionLine(_("AutoBleem Theme:") + " " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
-    renderOptionLine(_("Menu Theme:") + " " + gui->cfg.inifile.values["stheme"], CFG_MENUTH + 1, offset);
     renderOptionLine(_("UI:") + " " + gui->cfg.inifile.values["ui"], CFG_UI + 1, offset);
     renderOptionLine(_("Cover Style:") + " " + gui->cfg.inifile.values["jewel"], CFG_JEWEL + 1, offset);
     renderOptionLine(_("Music:") + " " + gui->cfg.inifile.values["music"], CFG_MUSIC + 1, offset);
@@ -252,7 +246,7 @@ void GuiOptions::loop() {
                 case SDL_JOYBUTTONDOWN:  /* Handle Joystick Button Presses */
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
-                        string cfg_path = DirEntry::getWorkingPath() + DirEntry::separator() + "config.ini";
+                        string cfg_path = Env::getWorkingPath() + sep + "config.ini";
                         gui->cfg.inifile.load(cfg_path);    // restore the original config.ini settings
                         lang->load(gui->cfg.inifile.values["language"]);    // restore the original lang
                         gui->loadAssets();                                  // restore original themes
@@ -311,13 +305,6 @@ void GuiOptions::loop() {
                         if (selOption == CFG_THEME) {
                             string nextValue = getOption(autobleemUIThemes, gui->cfg.inifile.values["theme"], true);
                             gui->cfg.inifile.values["theme"] = nextValue;
-                            init();
-                            gui->loadAssets();
-                        }
-
-                        if (selOption == CFG_MENUTH) {
-                            string nextValue = getOption(menuThemes, gui->cfg.inifile.values["stheme"], true);
-                            gui->cfg.inifile.values["stheme"] = nextValue;
                             init();
                             gui->loadAssets();
                         }
@@ -413,13 +400,6 @@ void GuiOptions::loop() {
                         if (selOption == CFG_MUSIC) {
                             string nextValue = getOption(music, gui->cfg.inifile.values["music"], false);
                             gui->cfg.inifile.values["music"] = nextValue;
-                            init();
-                            gui->loadAssets();
-                        }
-
-                        if (selOption == CFG_MENUTH) {
-                            string nextValue = getOption(menuThemes, gui->cfg.inifile.values["stheme"], false);
-                            gui->cfg.inifile.values["stheme"] = nextValue;
                             init();
                             gui->loadAssets();
                         }

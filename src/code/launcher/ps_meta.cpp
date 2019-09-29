@@ -9,6 +9,7 @@
 #include "../lang.h"
 #include "../engine/inifile.h"
 #include "../DirEntry.h"
+#include "../environment.h"
 
 using namespace std;
 
@@ -63,7 +64,7 @@ void PsMeta::updateTexts(PsGamePtr & psGame, int r,int g, int b) {
     if (!psGame->foreign) {
         if (psGame->serial == "") {
             Inifile iniFile;
-            iniFile.load(psGame->folder + "/" + "Game.ini");
+            iniFile.load(psGame->folder + sep + "Game.ini");
             psGame->serial = iniFile.values["serial"];
             psGame->region = iniFile.values["region"];
         }
@@ -99,16 +100,16 @@ void PsMeta::render() {
     }
 
     if (internalOffTex == nullptr) {
-        string curPath = DirEntry::getWorkingPath();
-        internalOnTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/ps1.png").c_str());
-        internalOffTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/usb.png").c_str());
-        hdOnTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/hd.png").c_str());
-        hdOffTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/sd.png").c_str());
-        lockOnTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/lock.png").c_str());
-        lockOffTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/unlock.png").c_str());
-        cdTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/cd.png").c_str());
-        favoriteTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/favorite.png").c_str());
-        raTex = IMG_LoadTexture(renderer, (curPath + "/evoimg/ra.png").c_str());
+        string curPath = Env::getWorkingPath() + sep;
+        internalOnTex =  IMG_LoadTexture(renderer, (curPath + "evoimg/ps1.png").c_str());
+        internalOffTex = IMG_LoadTexture(renderer, (curPath + "evoimg/usb.png").c_str());
+        hdOnTex =        IMG_LoadTexture(renderer, (curPath + "evoimg/hd.png").c_str());
+        hdOffTex =       IMG_LoadTexture(renderer, (curPath + "evoimg/sd.png").c_str());
+        lockOnTex =      IMG_LoadTexture(renderer, (curPath + "evoimg/lock.png").c_str());
+        lockOffTex =     IMG_LoadTexture(renderer, (curPath + "evoimg/unlock.png").c_str());
+        cdTex =          IMG_LoadTexture(renderer, (curPath + "evoimg/cd.png").c_str());
+        favoriteTex =    IMG_LoadTexture(renderer, (curPath + "evoimg/favorite.png").c_str());
+        raTex =          IMG_LoadTexture(renderer, (curPath + "evoimg/ra.png").c_str());
     }
 
     if (visible) {

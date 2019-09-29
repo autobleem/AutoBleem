@@ -18,6 +18,7 @@
 #include <vector>
 #include <memory>
 #include "ra_integrator.h"
+#include "../gui/gui.h"
 
 #define STATE_GAMES    0
 #define STATE_SET      1
@@ -42,7 +43,45 @@ class GuiLauncher : public GuiScreen {
 public:
     void init();
     void render();
+
+    // these variables are used by the loop routines
+    bool menuVisible = true;
+    long motionStart = 0;
+    long timespeed = 0;
+    int motionDir = 0;
+    vector<string> headers;
+    vector<string> texts;
+    long time = 0;
+    SDL_Event e;
+
     void loop();
+
+    void loop_joyMoveLeft();
+    void loop_joyMoveRight();
+    void loop_joyMoveUp();
+    void loop_joyMoveDown();
+
+    // a button is pressed
+    void loop_joyButtonDown();
+    void loop_chooseGameDir();
+    void loop_chooseRAGameSystem();
+    void loop_selectButtonDown();
+    void loop_circleButtonDown();
+    void loop_triangleButtonDown();
+    void loop_squareButtonDown();
+    void loop_crossButtonDown();
+    void loop_crossButtonDown_STATE_GAMES();
+    void loop_crossButtonDown_STATE_SET();
+    void loop_crossButtonDown_STATE_SET__OPT_AB_SETTINGS();
+    void loop_crossButtonDown_STATE_SET__OPT_EDIT_GAME_SETTINGS();
+    void loop_crossButtonDown_STATE_SET__OPT_EDIT_MEMCARD();
+    void loop_crossButtonDown_STATE_SET__OPT_RESUME_FROM_SAVESTATE();
+    void loop_crossButtonDown_STATE_RESUME();
+
+    // a button is released
+    void loop_joyButtonUp();
+    void loop_prevGameFirstLetter();
+    void loop_nextGameFirstLetter();
 
     void nextGame(int speed);
     void prevGame(int speed);
@@ -51,9 +90,19 @@ public:
     void freeAssets();
     void moveMainCover(int state);
 
+    shared_ptr<Gui> gui;
+
     int currentSet=SET_ALL;
     void switchSet(int newSet, bool noForce);
     void showSetName();
+
+    void getGames_SET_FAVORITE(PsGames &gamesList);
+    void getGames_SET_SUBDIR(int rowIndex, PsGames &gamesList);
+    void appendGames_SET_INTERNAL(PsGames &gamesList);
+
+    int currentGameDirIndex = 0;
+    std::string currentGameDirName = "";
+
     NotificationLines notificationLines; // top two lines of the screen
     int numberOfNonDuplicatedGamesInCarousel = 0;
 
@@ -61,6 +110,7 @@ public:
                            TTF_Font_Shared font, int position, bool background);
 
     bool powerOffShift=false;
+    bool L1_shift = false;
 
     PsCarousel carouselPositions;
 

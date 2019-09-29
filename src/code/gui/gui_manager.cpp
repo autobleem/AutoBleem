@@ -16,6 +16,9 @@
 #include "../lang.h"
 #include <ftw.h>
 #include "../engine/scanner.h"
+#include "../environment.h"
+#include "../engine/database.h"
+
 using namespace std;
 
 //*******************************
@@ -23,29 +26,15 @@ using namespace std;
 //*******************************
 void GuiManager::init()
 {
-    gameInis.clear();
+    psGames.clear();
     // Create list of games
 
     shared_ptr<Gui> gui(Gui::getInstance());
-    string path = gui->path;
-    for (const DirEntry &entry: DirEntry::diru(path)) {
-        if (!DirEntry::isDirectory(gui->path+DirEntry::separator()+entry.name)) continue;
-        if (entry.name == "!SaveStates") continue;
-        if (entry.name == "!MemCards") continue;
+    gui->db->getGames(&psGames);
 
-        string gameDataPath = path + entry.name + DirEntry::separator();
-        string saveStateDir = path + DirEntry::separator() + "!SaveStates" + DirEntry::separator() + entry.name;
-        Inifile ini;
-        ini.load(path+entry.name+DirEntry::separator()+GAME_INI);
-        if (ini.section.empty())
-        {
-            continue;
-        }
-        ini.entry=entry.name;
-        gameInis.push_back(ini);
-    }
-    // sort them
-    sort(gameInis.begin(), gameInis.end(), sortByTitle);
+    // sort them by title
+    sort(psGames.begin(), psGames.end(), sortByTitle);
+
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
     firstVisible = 0;
     lastVisible = firstVisible + maxVisible;
@@ -62,8 +51,8 @@ void GuiManager::render()
     int offset = gui->renderLogo(true);
     gui->renderFreeSpace();
     gui->renderTextLine("-=" + _("Game manager - Select game") + "=-",0,offset,POS_CENTER);
-    if (selected >= gameInis.size()) {
-        selected = gameInis.size() - 1;
+    if (selected >= psGames.size()) {
+        selected = psGames.size() - 1;
     }
 
     if (selected < firstVisible) {
@@ -77,23 +66,27 @@ void GuiManager::render()
 
     int pos = 1;
     for (int i = firstVisible; i < lastVisible; i++) {
-        if (i >= gameInis.size()) {
+        if (i >= psGames.size()) {
             break;
         }
-        gui->renderTextLine(gameInis[i].values["title"], pos, offset);
+        string path = DirEntry::removeSeparatorFromEndOfPath(psGames[i]->folder);
+        path = DirEntry::removeGamesPathFromFrontOfPath(path);
+        gui->renderTextLine(psGames[i]->title + "  -  " + path, pos, offset);
         pos++;
     }
 
-    if (!gameInis.size() == 0) {
+    if (!psGames.size() == 0) {
         gui->renderSelectionBox(selected - firstVisible + 1, offset);
     }
 
-    gui->renderStatus(_("Game")+" " + to_string(selected + 1) + "/" + to_string(gameInis.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"  |@T| "+_("Flush covers")+" |@O| "+_("Close")+" |");
+    gui->renderStatus(_("Game") + " " + to_string(selected + 1) + "/" + to_string(psGames.size()) +
+                      "    |@L1|/|@R1| " + _("Page") + "   |@X| " + _("Select") + "  |@T| " + _("Flush covers") +
+                      " |@O| " + _("Close") + " |");
     SDL_RenderPresent(renderer);
 }
 
 //*******************************
-// GuiManager::flushCovers
+// flushCovers
 //*******************************
 int flushCovers(const char *file, const struct stat *sb,
             int flag, struct FTW *s)
@@ -136,7 +129,7 @@ void GuiManager::loop()
                     if (gui->mapper.isDown(&e)) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             selected++;
-                            if (selected >= gameInis.size()) {
+                            if (selected >= psGames.size()) {
                                 selected = 0;
                                 firstVisible = selected;
                                 lastVisible = firstVisible+maxVisible;
@@ -147,7 +140,7 @@ void GuiManager::loop()
                             Mix_PlayChannel(-1, gui->cursor, 0);
                             selected--;
                             if (selected < 0) {
-                                selected = gameInis.size()-1;
+                                selected = psGames.size()-1;
                                 firstVisible = selected;
                                 lastVisible = firstVisible+maxVisible;
                             }
@@ -159,8 +152,8 @@ void GuiManager::loop()
                     if (e.jbutton.button == gui->_cb(PCS_BTN_R1,&e)) {
                         Mix_PlayChannel(-1, gui->home_up, 0);
                         selected+=maxVisible;
-                        if (selected >= gameInis.size()) {
-                            selected = gameInis.size() - 1;
+                        if (selected >= psGames.size()) {
+                            selected = psGames.size() - 1;
                         }
                         firstVisible = selected;
                         lastVisible = firstVisible+maxVisible;
@@ -202,8 +195,8 @@ void GuiManager::loop()
 
                             int errors = 0;
                             int flags = FTW_DEPTH | FTW_PHYS | FTW_CHDIR;
-                            //cout << gui->path << endl;
-                            if (nftw(DirEntry::fixPath(gui->path).c_str(), flushCovers, 1, flags) != 0) {
+                            //cout << gui->pathToGamesDir << endl;
+                            if (nftw(DirEntry::fixPath(gui->pathToGamesDir).c_str(), flushCovers, 1, flags) != 0) {
                                 errors++;
                             }
 
@@ -217,11 +210,16 @@ void GuiManager::loop()
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
-                        if (!gameInis.empty())
+                        if (!psGames.empty())
                         {
-                            string selectedEntry = gameInis[selected].entry;
+                            string selectedGameFolder = psGames[selected]->folder;
                             GuiEditor *editor = new GuiEditor(renderer);
-                            editor->gameIni = gameInis[selected];
+                            editor->gameData = psGames[selected];
+                            editor->gameFolder = selectedGameFolder;
+                            editor->gameIni.load(selectedGameFolder + sep + GAME_INI);
+                            string folderNoLast = DirEntry::removeSeparatorFromEndOfPath(selectedGameFolder);
+                            // change "/media/Games/Racing/Driver 2" to "Driver 2"
+                            editor->gameIni.entry = DirEntry::getFileNameFromPath(folderNoLast);
                             editor->show();
                             if (editor->changes)
                             {
@@ -229,13 +227,13 @@ void GuiManager::loop()
                             }
                             selected=0;
                             firstVisible=0;
-                            lastVisible=firstVisible+maxVisible;
+                            lastVisible = firstVisible + maxVisible;
 
                             init();
                             int pos=0;
-                            for (const Inifile & gameIni:gameInis)
+                            for (const auto & psGame : psGames)
                             {
-                                if (gameIni.entry==selectedEntry)
+                                if (psGame->folder == selectedGameFolder)
                                 {
                                     selected=pos;
                                     firstVisible=pos;

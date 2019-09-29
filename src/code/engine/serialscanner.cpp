@@ -66,7 +66,7 @@ string SerialScanner::scanSerialInternal(ImageType imageType, string path, strin
         string pbpFileName = DirEntry::findFirstFile(EXT_PBP, destinationDir);
         if (pbpFileName != "") {
             ifstream is;
-            is.open(destinationDir + pbpFileName);
+            is.open(destinationDir + sep + pbpFileName);
 
             long magic = Util::readDword(&is);
             if (magic != 0x50425000) {
@@ -119,7 +119,7 @@ string SerialScanner::scanSerialInternal(ImageType imageType, string path, strin
             }
         }
     }
-    if (imageTypeIsAGameFileThatUsesACueFile(imageType)) {
+    if (DirEntry::imageTypeUsesACueFile(imageType)) {
         string prefixes[] = {
                 "CPCS", "ESPM", "HPS", "LPS", "LSP", "SCAJ", "SCED", "SCES", "SCPS", "SCUS", "SIPS", "SLES", "SLKA",
                 "SLPM", "SLPS", "SLUS"};
@@ -169,7 +169,7 @@ string SerialScanner::scanSerialInternal(ImageType imageType, string path, strin
 string SerialScanner::workarounds(ImageType imageType, string path, string firstBinPath)
 {
     string fileToScan = "";
-    if (imageTypeIsAGameFileThatUsesACueFile(imageType))
+    if (DirEntry::imageTypeUsesACueFile(imageType))
     {
         fileToScan = firstBinPath;
     }
@@ -192,8 +192,8 @@ string SerialScanner::workarounds(ImageType imageType, string path, string first
 //*******************************
 string SerialScanner::serialByMd5(string scanFile)
 {
-    string head=Util::execUnixCommad(("head -c 1M \""+scanFile+"\" | md5sum | awk '{print $1}'").c_str());
-    string tail=Util::execUnixCommad(("tail -c 1M \""+scanFile+"\" | md5sum | awk '{print $1}'").c_str());
+    string head=Util::execUnixCommand(("head -c 1M \""+scanFile+"\" | md5sum | awk '{print $1}'").c_str());
+    string tail=Util::execUnixCommand(("tail -c 1M \""+scanFile+"\" | md5sum | awk '{print $1}'").c_str());
 
     return head+tail;
 }

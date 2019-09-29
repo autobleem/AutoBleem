@@ -18,6 +18,7 @@ public:
 
     void refreshData();
     Inifile gameIni;
+    std::string gameFolder; // ex: /Games/Racing/007 Racing
 
     int highres = 0;
     int speedhack = 0;

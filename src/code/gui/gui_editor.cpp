@@ -11,6 +11,7 @@
 #include <SDL2/SDL_image.h>
 #include "../lang.h"
 #include <sstream>
+#include "../environment.h"
 
 using namespace std;
 
@@ -34,7 +35,7 @@ void GuiEditor::processOptionChange(bool direction) {
     shared_ptr<Gui> gui(Gui::getInstance());
     CfgProcessor *processor = new CfgProcessor();
 
-    string path = gui->path;
+    string path = gameFolder;
     if (internal) {
         path = gameData->ssFolder;
     }
@@ -234,20 +235,19 @@ void GuiEditor::processOptionChange(bool direction) {
 void GuiEditor::refreshData() {
     shared_ptr<Gui> gui(Gui::getInstance());
     CfgProcessor *processor = new CfgProcessor();
-    string path = gui->path;
+    string path = gameFolder;
     if (internal) {
         path = gameData->ssFolder;
     }
-    highres = atoi(processor->getValue(gameIni.entry, path, "gpu_neon.enhancement_enable", internal).c_str());
-    speedhack = atoi(processor->getValue(gameIni.entry, path, "gpu_neon.enhancement_no_main", internal).c_str());
-    clock = strtol(processor->getValue(gameIni.entry, path, "psx_clock", internal).c_str(), NULL, 16);
-    gpu = processor->getValue(gameIni.entry, path, "gpu3", internal);
-    frameskip = atoi(processor->getValue(gameIni.entry, path, "frameskip3", internal).c_str());
-    dither = atoi(processor->getValue(gameIni.entry, path, "gpu_peops.iUseDither", internal).c_str());
-    scanlines = atoi(processor->getValue(gameIni.entry, path, "scanlines", internal).c_str());
-    scanlineLevel = strtol(processor->getValue(gameIni.entry, path, "scanline_level", internal).c_str(), NULL, 16);
-    interpolation = strtol(processor->getValue(gameIni.entry, path, "spu_config.iUseInterpolation", internal).c_str(),
-                           NULL, 16);
+    highres       = atoi  (processor->getValue(path, "gpu_neon.enhancement_enable").c_str());
+    speedhack     = atoi  (processor->getValue(path, "gpu_neon.enhancement_no_main").c_str());
+    clock         = strtol(processor->getValue(path, "psx_clock").c_str(), NULL, 16);
+    gpu           =        processor->getValue(path, "gpu3");
+    frameskip     = atoi  (processor->getValue(path, "frameskip3").c_str());
+    dither        = atoi  (processor->getValue(path, "gpu_peops.iUseDither").c_str());
+    scanlines     = atoi  (processor->getValue(path, "scanlines").c_str());
+    scanlineLevel = strtol(processor->getValue(path, "scanline_level").c_str(), NULL, 16);
+    interpolation = strtol(processor->getValue(path, "spu_config.iUseInterpolation").c_str(), NULL, 16);
 
     delete processor;
 }
@@ -260,22 +260,21 @@ void GuiEditor::init() {
     if (!internal) {
         if (this->gameIni.values["memcard"] != "SONY") {
             string cardpath =
-                    gui->path + DirEntry::separator() + "!MemCards" + DirEntry::separator() + this->gameIni.values["memcard"];
+                    Env::getPathToMemCardsDir() + sep + this->gameIni.values["memcard"];
             if (!DirEntry::exists(cardpath)) {
                 this->gameIni.values["memcard"] = "SONY";
             }
         }
 
         bool pngLoaded = false;
-        for (const DirEntry & entry:DirEntry::diru(gui->path + DirEntry::separator() + gameIni.entry)) {
+        for (const DirEntry & entry:DirEntry::diru(gameFolder)) {
             if (DirEntry::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(renderer, (gui->path + DirEntry::separator() + gameIni.entry + DirEntry::separator() +
-                                                   entry.name).c_str());
+                cover = IMG_LoadTexture(renderer, (gameFolder + sep + entry.name).c_str());
                 pngLoaded = true;
             }
         }
         if (!pngLoaded) {
-            cover = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + DirEntry::separator() + "default.png").c_str());
+            cover = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "default.png").c_str());
         }
     } else {
         // recover ini
@@ -287,7 +286,7 @@ void GuiEditor::init() {
 
         if (this->gameIni.values["memcard"] != "SONY") {
             string cardpath =
-                    gui->path + DirEntry::separator() + "!MemCards" + DirEntry::separator() + this->gameIni.values["memcard"];
+                    Env::getPathToMemCardsDir() + sep + this->gameIni.values["memcard"];
             if (!DirEntry::exists(cardpath)) {
                 this->gameIni.values["memcard"] = "SONY";
             }
@@ -296,13 +295,12 @@ void GuiEditor::init() {
         bool pngLoaded = false;
         for (const DirEntry & entry:DirEntry::diru(gameData->folder)) {
             if (DirEntry::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(renderer, (gameData->folder + DirEntry::separator() +
-                                                   entry.name).c_str());
+                cover = IMG_LoadTexture(renderer, (gameData->folder + sep + entry.name).c_str());
                 pngLoaded = true;
             }
         }
         if (!pngLoaded) {
-            cover = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + DirEntry::separator() + "default.png").c_str());
+            cover = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "default.png").c_str());
         }
     }
 
@@ -325,9 +323,9 @@ void GuiEditor::render() {
     gui->renderTextLine("-=" + gameIni.values["title"] + "=-", line++, offset, POS_CENTER);
 
     if (!internal) {
-        gui->renderTextLine(_("Folder:") + " " + gameIni.entry + "", line++, offset, POS_CENTER);
+        gui->renderTextLine(_("Folder:") + " " + gameIni.entry, line++, offset, POS_CENTER);
     } else {
-        gui->renderTextLine(_("Folder:") + " " + gameData->folder + "", line++, offset, POS_CENTER);
+        gui->renderTextLine(_("Folder:") + " " + gameData->folder, line++, offset, POS_CENTER);
     }
 
     gui->renderTextLine(_("Published by:") + " " + gameIni.values["publisher"], line++, offset, POS_CENTER);
@@ -477,10 +475,9 @@ void GuiEditor::loop() {
                                 }
 
                                 if (!cancelled) {
-                                    Memcard *memcard = new Memcard(gui->path);
+                                    Memcard *memcard = new Memcard(gui->pathToGamesDir);
                                     string savePath =
-                                            gui->path + DirEntry::separator() + "!SaveStates" + DirEntry::separator() +
-                                            gameIni.entry + DirEntry::separator() + "memcards";
+                                            Env::getPathToSaveStatesDir() + sep + gameIni.entry + sep + "memcards";
                                     memcard->storeToRepo(savePath, result);
                                     gameIni.values["memcard"] = result;
                                     gameIni.save(gameIni.path);
