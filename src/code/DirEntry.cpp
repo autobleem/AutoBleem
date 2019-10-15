@@ -152,6 +152,21 @@ bool DirEntry::isDirectory(const string &path) {
 }
 
 //*******************************
+// DirEntry::replaceTheseCharsWithThisChar
+// replaces all the chars of a selection of chars with a single replacement char
+// returns a string with those chars replaced
+//*******************************
+string DirEntry::replaceTheseCharsWithThisChar(string str, const string& charsToReplace, char replacementChar) {
+    auto isBadChar = [&](char c) {
+        return charsToReplace.find(c) != string::npos; // return if the char is a bad char
+    };
+
+    replace_if(begin(str), end(str), isBadChar, replacementChar);
+
+    return str;
+}
+
+//*******************************
 // DirEntry::fixCommaInDirName
 // returns true if dir entry modified
 //*******************************

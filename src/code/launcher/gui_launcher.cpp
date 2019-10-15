@@ -809,7 +809,7 @@ void GuiLauncher::setInitialPositions(int selected) {
         game.actual = game.current;
         game.destination = game.current;
         if (game.visible) {
-            game.loadTex(renderer, &raIntegrator);
+            game.loadTex(renderer);
         } else {
             game.freeTex();
         }

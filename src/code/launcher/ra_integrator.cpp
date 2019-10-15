@@ -314,43 +314,16 @@ void RAIntegrator::initCoreInfo() {
 
 }
 
+//********************
+// RAIntegrator::escapeName
+//********************
 string RAIntegrator::escapeName(string text) {
-    // &*/:`<>?\|
-    for (std::string::iterator it = text.begin(); it != text.end(); ++it) {
-        if (*it == '&') {
-            *it = '_';
-        }
-        if (*it == '*') {
-            *it = '_';
-        }
-        if (*it == '/') {
-            *it = '_';
-        }
-        if (*it == ':') {
-            *it = '_';
-        }
-        if (*it == '`') {
-            *it = '_';
-        }
-        if (*it == '<') {
-            *it = '_';
-        }
-        if (*it == '>') {
-            *it = '_';
-        }
-        if (*it == '?') {
-            *it = '_';
-        }
-        if (*it == '\\') {
-            *it = '_';
-        }
-        if (*it == '|') {
-            *it = '_';
-        }
-    }
-    return text;
+    return DirEntry::replaceTheseCharsWithThisChar(text, "&*/:`<>?\\|", '_');
 }
 
+//********************
+// RAIntegrator::isGameValid
+//********************
 bool RAIntegrator::isGameValid(PsGamePtr game) {
     if (!DirEntry::exists(game->core_path)) {
         return false;

@@ -40,7 +40,7 @@ struct PsCarouselGame : public PsGamePtr {
     bool visible = false;
     SDL_Shared<SDL_Texture> coverPng;
 
-    void loadTex(SDL_Shared<SDL_Renderer> renderer, RAIntegrator* raIntegrator);
+    void loadTex(SDL_Shared<SDL_Renderer> renderer);
     void freeTex();
 };
 
