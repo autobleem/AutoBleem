@@ -29,7 +29,7 @@ using namespace std;
 //*******************************
 void GuiLauncher::loop() {
     cout << "Main Loop" << endl;
-    powerOffShift = false;
+    powerOffShift = false;  // L2 shift used for power off and selecting game sub dir or RA playlist
 
     menuVisible = true;
     motionStart = 0;
@@ -88,6 +88,8 @@ void GuiLauncher::loop() {
                     break;
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
                 case SDL_JOYHATMOTION:
+                    if (powerOffShift)
+                        continue;
                     if (gui->mapper.isCenter(&e)) {
                         if (state == STATE_GAMES) {
                             if (carouselGames.empty()) {
@@ -254,6 +256,14 @@ void GuiLauncher::loop_joyButtonPressed() {
         }
     }
 
+
+    if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT, &e)) {
+        loop_selectButtonPressed();
+    };
+
+    if (powerOffShift)
+        return; // none of the following buttons should work if L2 is pressed
+
     if (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)) {
         Mix_PlayChannel(-1, gui->cursor, 0);
         loop_prevGameFirstLetter();
@@ -262,11 +272,6 @@ void GuiLauncher::loop_joyButtonPressed() {
         Mix_PlayChannel(-1, gui->cursor, 0);
         loop_nextGameFirstLetter();
     }
-
-    if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT, &e)) {
-        loop_selectButtonPressed();
-    };
-
     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
         loop_circleButtonPressed();
     };
@@ -388,6 +393,8 @@ void GuiLauncher::loop_selectButtonPressed() {
                 loop_chooseGameDir();
             else if (currentSet == SET_RETROARCH)
                 loop_chooseRAPlaylist();
+            else
+                return; // if L2 is pressed then Select should only work if current_set is SET_EXTERNAL or SET_RETROARCH
         }
         else {
             // switch to next Select Mode
