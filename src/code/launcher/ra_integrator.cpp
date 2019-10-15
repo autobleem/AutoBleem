@@ -74,10 +74,10 @@ void RAIntegrator::parseJSON(PsGames *result, string path) {
 
     json array = j["items"];
 
-    for (json::iterator it = array.begin(); it != array.end(); ++it) {
+    for (const auto & item : array) {
         PsGamePtr game{new PsGame};
         game->gameId = id++;
-        game->title = (*it)["label"];
+        game->title = item["label"];
         game->publisher = "";
         game->year = 0;
         game->players = 0;
@@ -90,10 +90,11 @@ void RAIntegrator::parseJSON(PsGames *result, string path) {
         game->hd = false;
         game->favorite = false;
         game->foreign = true;
-        game->core_name = (*it)["core_name"];
-        game->core_path = (*it)["core_path"];
-        game->db_name = (*it)["db_name"];
-        game->image_path = (*it)["path"];
+        game->core_name = item["core_name"];
+        game->core_path = item["core_path"];
+        game->db_name = item["db_name"];
+        game->image_path = item["path"];
+
 #if defined(__x86_64__) || defined(_M_X64)
         // if you are running in the debugging environment then /media might be shared drive /media/sf_G_DRIVE etc
         if (game->image_path.substr(0, 6) == "/media")
