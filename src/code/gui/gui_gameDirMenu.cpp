@@ -20,7 +20,7 @@ void GuiGameDirMenu::init()
     shared_ptr<Gui> gui(Gui::getInstance());
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
     firstVisible = 0;
-    lastVisible = firstVisible + maxVisible;
+    lastVisible = firstVisible + maxVisible - 1;
 }
 
 //*******************************
@@ -42,16 +42,18 @@ void GuiGameDirMenu::render()
     }
 
     if (selected < firstVisible) {
-        firstVisible--;
-        lastVisible--;
+        int moveBy = firstVisible - selected;
+        firstVisible -= moveBy;
+        lastVisible -= moveBy;
     }
     if (selected >= lastVisible) {
-        firstVisible++;
-        lastVisible++;
+        int moveBy = selected - lastVisible;
+        firstVisible += moveBy;
+        lastVisible += moveBy;
     }
 
     int pos = 1;
-    for (int i = firstVisible; i < lastVisible; i++) {
+    for (int i = firstVisible; i <= lastVisible; i++) {
         if (i >= textsToDisplay.size()) {
             break;
         }
