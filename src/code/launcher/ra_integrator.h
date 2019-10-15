@@ -12,6 +12,9 @@
 
 using namespace std;
 
+//********************
+// CoreInfo
+//********************
 class CoreInfo
 {
 public:
@@ -26,6 +29,9 @@ public:
 using CoreInfoPtr = std::shared_ptr<CoreInfo>;
 using CoreInfos = std::vector<CoreInfoPtr>;
 
+//********************
+// RAIntegrator
+//********************
 class RAIntegrator {
 public:
 
