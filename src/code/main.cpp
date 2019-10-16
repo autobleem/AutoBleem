@@ -217,35 +217,14 @@ int main(int argc, char *argv[]) {
 
         if (gui->menuOption == MENU_OPTION_START) {
 #if defined(__x86_64__) || defined(_M_X64)
-            cout << "I'm sorry Dave I'm afraid I can't do that on this system." << endl;
-
-            // just a temp to test exec
-            EmuInterceptor *interceptor;
-            if (gui->runningGame->foreign)
-            {
-                interceptor = new RetroArchInterceptor();
-            } else {
-                if (gui->emuMode == EMU_PCSX) {
-                    interceptor = new PcsxInterceptor();
-                } else {
-                    interceptor = new RetroArchInterceptor();
-                }
-            }
-
-            interceptor->memcardIn(gui->runningGame);
-            interceptor->prepareResumePoint(gui->runningGame, gui->resumepoint);
-            interceptor->execute(gui->runningGame, gui->resumepoint );
-            interceptor->memcardOut(gui->runningGame);
-            delete (interceptor);
-
-            SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+            cout << "I'm sorry Dave I'm afraid I can't do that." << endl;
+            gui->finish();
 
             usleep(300*1000);
             gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
             gui->startingGame = false;
 
             gui->display(false, pathToGamesDir, db, true);
-
 #else
             cout << "Starting game" << endl;
             gui->finish();

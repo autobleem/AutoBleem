@@ -34,7 +34,7 @@ void GuiLauncher::updateMeta() {
                           fgG, fgB);
         return;
     }
-    meta->updateTexts(carouselGames[selGame], fgR, fgG, fgB);
+    meta->updateTexts(carouselGames[selGameIndex], fgR, fgG, fgB);
 }
 
 //*******************************
@@ -54,7 +54,7 @@ void GuiLauncher::getGames_SET_FAVORITE(PsGames &gamesList) {
 void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames &gamesList) {
     GameRowInfos gameRowInfos;
     gui->db->getGameRowInfos(&gameRowInfos);
-    currentGameDirName = gameRowInfos[rowIndex].rowName;
+    currentUSBGameDirName = gameRowInfos[rowIndex].rowName;
 #if 0
     for (auto &gameRowInfo : gameRowInfos)
             cout << "game row: " << gameRowInfo.subDirRowIndex << ", " << gameRowInfo.rowName << ", " <<
@@ -80,6 +80,15 @@ void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames &gamesList) {
         }
 
     }
+}
+
+//*******************************
+// GuiLauncher::getGames_SET_RETROARCH
+//*******************************
+void GuiLauncher::getGames_SET_RETROARCH(PsGames *gamesList, const std::string& playlistName) {
+    cout << "Getting RA games for playlist: " << playlistName << endl;
+    if (playlistName != "")
+        raIntegrator.getGames(gamesList, playlistName);
 }
 
 //*******************************
@@ -118,15 +127,16 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
 
     if (currentSet == SET_ALL) {
         getGames_SET_SUBDIR(0, gamesList);   // get the games in row 0 = /Games and on down
+
     } else if (currentSet == SET_EXTERNAL) {
-        getGames_SET_SUBDIR(currentGameDirIndex, gamesList);    // get the games in the current subdir of /Games and on down
+        getGames_SET_SUBDIR(currentUSBGameDirIndex, gamesList);    // get the games in the current subdir of /Games and on down
+
+    } else if (currentSet == SET_RETROARCH) {
+        getGames_SET_RETROARCH(&gamesList, currentRAPlaylistName);
 
     } else if (currentSet == SET_FAVORITE) {
         getGames_SET_FAVORITE(gamesList);
 
-    } else if (currentSet == SET_RETROARCH) {
-        cout << "Getting foreign games" << endl;
-        raIntegrator.getGames(&gamesList, retroarch_playlist_name);
     }
 
     if (gui->cfg.inifile.values["origames"] == "true")
@@ -156,9 +166,9 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
 
     cout << "Setting initial positions" << endl;
     if (carouselGames.empty()) {
-        selGame = -1;
+        selGameIndex = -1;
     } else {
-        selGame = 0;
+        selGameIndex = 0;
         setInitialPositions(0);
     }
 
@@ -176,7 +186,8 @@ void GuiLauncher::showSetName() {
     vector<string> setNames = { _("Showing: All games"),
                                 _("Showing: Internal games"),
                                 _("Showing: USB Games Directory: "),
-                                _("Showing: Favorite games") };
+                                _("Showing: Favorite games"),
+                                _("Showing: Retroarch ")};
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
 
     auto str = gui->cfg.inifile.values["showingtimeout"];
@@ -185,15 +196,14 @@ void GuiLauncher::showSetName() {
         timeout = stoi(str.c_str()) * TicksPerSecond;
 
     if (currentSet == SET_RETROARCH) {
-        string playlist = DirEntry::getFileNameWithoutExtension(retroarch_playlist_name);
-        notificationLines[0].setText(_("Showing:") + " " + playlist + " " + numGames,
-                                     timeout);   // line starts at 0 for top
+        string playlist = DirEntry::getFileNameWithoutExtension(currentRAPlaylistName);
+        notificationLines[0].setText(setNames[currentSet] + playlist + " " + numGames, timeout);
     }
     else if (currentSet == SET_EXTERNAL) {
-        // currentGameDirIndex starts at 0 for top row = /Games
-        notificationLines[0].setText(setNames[currentSet] + currentGameDirName + numGames, timeout);
+        // currentUSBGameDirIndex starts at 0 for top row = /Games
+        notificationLines[0].setText(setNames[currentSet] + currentUSBGameDirName + numGames, timeout);
     } else {
-        notificationLines[0].setText(setNames[currentSet] + numGames, timeout);   // 0 = top row = /Games
+        notificationLines[0].setText(setNames[currentSet] + numGames, timeout);
     }
 }
 
@@ -253,7 +263,7 @@ void GuiLauncher::renderText(int x, int y, const std::string &text, const SDL_Co
 //*******************************
 // GuiLauncher::loadAssets
 //*******************************
-// load all assets needed by the screen
+// load all assets needed by the screengame i
 void GuiLauncher::loadAssets() {
     cout << "Loading playlists" << endl;
     raPlaylists.clear();
@@ -265,13 +275,19 @@ void GuiLauncher::loadAssets() {
                             _("Edit Memory Card information"), _("Resume game from saved state point")};
 
     currentSet = gui->lastSet;
-    currentGameDirIndex = gui->lastGameDirIndex;
-    if (gui->lastPlaylist!= "")
+    currentUSBGameDirIndex = gui->lastUSBGameDirIndex;
+    currentRAPlaylistIndex = gui->lastRAPlaylistIndex;
+    if (currentRAPlaylistIndex < raPlaylists.size())
+        currentRAPlaylistName = raPlaylists[gui->lastRAPlaylistIndex];
+    if (gui->lastRAPlaylistIndex < raPlaylists.size())
+        gui->lastRAPlaylistName = raPlaylists[gui->lastRAPlaylistIndex];
+#if 0
+    if (gui->lastRAPlaylistName != "")
     {
-        retroarch_playlist_name = gui->lastPlaylist;
-        gui->lastPlaylist = "";
+        currentRAPlaylistName = gui->lastRAPlaylistName;
+        //gui->lastRAPlaylistName = "";
     }
-
+#endif
 
     for (int i = 0; i < 100; i++) {
         SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
@@ -306,8 +322,8 @@ void GuiLauncher::loadAssets() {
     players = "";
     cout << "Last Index" << gui->lastSelIndex << endl;
     if (gui->lastSelIndex != 0) {
-        selGame = gui->lastSelIndex;
-        setInitialPositions(selGame);
+        selGameIndex = gui->lastSelIndex;
+        setInitialPositions(selGameIndex);
     }
 
     long time = SDL_GetTicks();
@@ -339,13 +355,13 @@ void GuiLauncher::loadAssets() {
     playButton = new PsObj(renderer, "playButton", gui->getCurrentThemeImagePath() + sep + "GR/Acid_C_Btn.png");
     playButton->y = 428;
     playButton->x = 540;
-    playButton->visible = selGame != -1;
+    playButton->visible = selGameIndex != -1;
     staticElements.push_back(playButton);
 
     playText = new PsZoomBtn(renderer, "playText", gui->getCurrentThemeImagePath() + sep + "BMP_Text/Play_Text.png");
     playText->y = 428;
     playText->x = 640 - 262 / 2;
-    playText->visible = selGame != -1;
+    playText->visible = selGameIndex != -1;
     playText->ox = playText->x;
     playText->oy = playText->y;
     playText->lastTime = time;
@@ -369,8 +385,8 @@ void GuiLauncher::loadAssets() {
     meta->x = 785;
     meta->y = 285;
     meta->visible = true;
-    if (selGame != -1) {
-        meta->updateTexts(carouselGames[selGame], fgR, fgG, fgB);
+    if (selGameIndex != -1) {
+        meta->updateTexts(carouselGames[selGameIndex], fgR, fgG, fgB);
     } else {
         meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, false, fgR,
                           fgG, fgB);
@@ -427,7 +443,7 @@ void GuiLauncher::loadAssets() {
 
     if (gui->resumingGui) {
         cout << "Restoring GUI state" << endl;
-        PsGamePtr &game = carouselGames[selGame];
+        PsGamePtr &game = carouselGames[selGameIndex];
 
         if (gui->emuMode == EMU_PCSX) {
             if (game->isCleanExit()) {
@@ -455,8 +471,8 @@ void GuiLauncher::loadAssets() {
     showSetName();
     updateMeta();
 
-    if (selGame >= 0) {
-        menu->setResumePic(carouselGames[selGame]->findResumePicture());
+    if (selGameIndex >= 0) {
+        menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
     }
 }
 
@@ -560,7 +576,7 @@ void GuiLauncher::updateVisibility() {
     }
 
     if (allAnimationFinished && scrolling) {
-        setInitialPositions(selGame);
+        setInitialPositions(selGameIndex);
         scrolling = false;
     }
 }
@@ -649,33 +665,33 @@ void GuiLauncher::render() {
 }
 
 //*******************************
-// GuiLauncher::nextGame
+// GuiLauncher::nextCarouselGame
 //*******************************
 // handler of next game
-void GuiLauncher::nextGame(int speed) {
+void GuiLauncher::nextCarouselGame(int speed) {
     Mix_PlayChannel(-1, gui->cursor, 0);
     scrollLeft(speed);
-    selGame++;
-    if (selGame >= carouselGames.size()) {
-        selGame = 0;
+    selGameIndex++;
+    if (selGameIndex >= carouselGames.size()) {
+        selGameIndex = 0;
     }
     updateMeta();
-    menu->setResumePic(carouselGames[selGame]->findResumePicture());
+    menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
 }
 
 //*******************************
-// GuiLauncher::prevGame
+// GuiLauncher::prevCarouselGame
 //*******************************
 // handler of prev game
-void GuiLauncher::prevGame(int speed) {
+void GuiLauncher::prevCarouselGame(int speed) {
     Mix_PlayChannel(-1, gui->cursor, 0);
     scrollRight(speed);
-    selGame--;
-    if (selGame < 0) {
-        selGame = carouselGames.size() - 1;
+    selGameIndex--;
+    if (selGameIndex < 0) {
+        selGameIndex = carouselGames.size() - 1;
     }
     updateMeta();
-    menu->setResumePic(carouselGames[selGame]->findResumePicture());
+    menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
 }
 
 //*******************************
@@ -793,7 +809,7 @@ void GuiLauncher::setInitialPositions(int selected) {
         game.actual = game.current;
         game.destination = game.current;
         if (game.visible) {
-            game.loadTex(renderer, &raIntegrator);
+            game.loadTex(renderer);
         } else {
             game.freeTex();
         }
@@ -804,7 +820,7 @@ void GuiLauncher::setInitialPositions(int selected) {
 // GuiLauncher::moveMainCover
 //*******************************
 void GuiLauncher::moveMainCover(int state) {
-    if (selGame == -1) {
+    if (selGameIndex == -1) {
         return;
     }
     PsScreenpoint point1;
@@ -822,13 +838,13 @@ void GuiLauncher::moveMainCover(int state) {
     long time = SDL_GetTicks();
 
     if (state == STATE_GAMES) {
-        carouselGames[selGame].destination = point1;
-        carouselGames[selGame].animationStart = time;
-        carouselGames[selGame].animationDuration = 200;
+        carouselGames[selGameIndex].destination = point1;
+        carouselGames[selGameIndex].animationStart = time;
+        carouselGames[selGameIndex].animationDuration = 200;
     } else {
-        carouselGames[selGame].destination = point2;
-        carouselGames[selGame].animationStart = time;
-        carouselGames[selGame].animationDuration = 200;
+        carouselGames[selGameIndex].destination = point2;
+        carouselGames[selGameIndex].animationStart = time;
+        carouselGames[selGameIndex].animationDuration = 200;
     }
 }
 

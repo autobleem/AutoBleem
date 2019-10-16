@@ -18,7 +18,7 @@ using namespace std;
 //*******************************
 // PsCarouselGame::loadTex
 //*******************************
-void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer, RAIntegrator* raIntegrator) {
+void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
     shared_ptr<Gui> gui(Gui::getInstance());
 
     if (!(*this)->foreign) {
@@ -114,7 +114,7 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer, RAIntegrator* ra
 
             string imagePath = Env::getPathToRetroarchDir() + sep + "thumbnails" + sep +
                     DirEntry::getFileNameWithoutExtension((*this)->db_name) + sep +
-                    "Named_Boxarts" + sep + raIntegrator->escapeName((*this)->title) + ".png";
+                    "Named_Boxarts" + sep + RAIntegrator::escapeName((*this)->title) + ".png";
 
 
             SDL_SetRenderTarget(renderer, nullptr);

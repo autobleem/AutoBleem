@@ -25,15 +25,6 @@
 #define STATE_RESUME   2
 #define STATE_INFO     3
 
-// if you add a new set also update setNames in gui_launcher.cpp
-#define SET_ALL      0
-#define SET_INTERNAL 1
-#define SET_EXTERNAL 2
-#define SET_FAVORITE 3
-#define SET_LAST 3
-
-#define SET_RETROARCH -1
-
 extern const SDL_Color brightWhite;
 
 //******************
@@ -62,29 +53,29 @@ public:
     void loop_joyMoveDown();
 
     // a button is pressed
-    void loop_joyButtonDown();
+    void loop_joyButtonPressed();
     void loop_chooseGameDir();
-    void loop_chooseRAGameSystem();
-    void loop_selectButtonDown();
-    void loop_circleButtonDown();
-    void loop_triangleButtonDown();
-    void loop_squareButtonDown();
-    void loop_crossButtonDown();
-    void loop_crossButtonDown_STATE_GAMES();
-    void loop_crossButtonDown_STATE_SET();
-    void loop_crossButtonDown_STATE_SET__OPT_AB_SETTINGS();
-    void loop_crossButtonDown_STATE_SET__OPT_EDIT_GAME_SETTINGS();
-    void loop_crossButtonDown_STATE_SET__OPT_EDIT_MEMCARD();
-    void loop_crossButtonDown_STATE_SET__OPT_RESUME_FROM_SAVESTATE();
-    void loop_crossButtonDown_STATE_RESUME();
+    void loop_chooseRAPlaylist();
+    void loop_selectButtonPressed();
+    void loop_circleButtonPressed();
+    void loop_triangleButtonPressed();
+    void loop_squareButtonPressed();
+    void loop_crossButtonPressed();
+    void loop_crossButtonPressed_STATE_GAMES();
+    void loop_crossButtonPressed_STATE_SET();
+    void loop_crossButtonPressed_STATE_SET__OPT_AB_SETTINGS();
+    void loop_crossButtonPressed_STATE_SET__OPT_EDIT_GAME_SETTINGS();
+    void loop_crossButtonPressed_STATE_SET__OPT_EDIT_MEMCARD();
+    void loop_crossButtonPressed_STATE_SET__OPT_RESUME_FROM_SAVESTATE();
+    void loop_crossButtonPressed_STATE_RESUME();
 
     // a button is released
-    void loop_joyButtonUp();
+    void loop_joyButtonReleased();
     void loop_prevGameFirstLetter();
     void loop_nextGameFirstLetter();
 
-    void nextGame(int speed);
-    void prevGame(int speed);
+    void nextCarouselGame(int speed);
+    void prevCarouselGame(int speed);
     void updateMeta();
     void loadAssets();
     void freeAssets();
@@ -92,16 +83,22 @@ public:
 
     shared_ptr<Gui> gui;
 
-    int currentSet=SET_ALL;
+    int currentSet = SET_ALL;
     void switchSet(int newSet, bool noForce);
     void showSetName();
 
     void getGames_SET_FAVORITE(PsGames &gamesList);
     void getGames_SET_SUBDIR(int rowIndex, PsGames &gamesList);
+    void getGames_SET_RETROARCH(PsGames *gamesList, const std::string& playlistName);
     void appendGames_SET_INTERNAL(PsGames &gamesList);
 
-    int currentGameDirIndex = 0;
-    std::string currentGameDirName = "";
+    // current USB Game Dir
+    int currentUSBGameDirIndex = 0;
+    std::string currentUSBGameDirName = "";
+    
+    // current RetroArch Playlist
+    int currentRAPlaylistIndex = 0;
+    std::string currentRAPlaylistName = "";
 
     NotificationLines notificationLines; // top two lines of the screen
     int numberOfNonDuplicatedGamesInCarousel = 0;
@@ -110,7 +107,6 @@ public:
                            TTF_Font_Shared font, int position, bool background);
 
     bool powerOffShift=false;
-    bool L1_shift = false;
 
     PsCarousel carouselPositions;
 
@@ -147,8 +143,6 @@ public:
     std::string region;
     std::string players;
 
-    std::string retroarch_playlist_name="";
-
     bool staticMeta=false;
     bool gameInfoVisible = true;
     bool scrolling = false;
@@ -162,7 +156,7 @@ public:
 
     RAIntegrator raIntegrator;
 
-    int selGame = 0;
+    int selGameIndex = 0;
     int state = STATE_GAMES;
     void setInitialPositions(int selected);
     int getPreviousId(int id);

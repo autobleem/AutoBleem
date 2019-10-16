@@ -12,6 +12,9 @@
 
 using namespace std;
 
+//********************
+// CoreInfo
+//********************
 class CoreInfo
 {
 public:
@@ -26,6 +29,9 @@ public:
 using CoreInfoPtr = std::shared_ptr<CoreInfo>;
 using CoreInfos = std::vector<CoreInfoPtr>;
 
+//********************
+// RAIntegrator
+//********************
 class RAIntegrator {
 public:
 
@@ -40,7 +46,7 @@ public:
     vector<string> getPlaylists();
     bool autoDetectCorePath(PsGamePtr game, string& core_name, string& core_path);
     bool findOverrideCore(PsGamePtr game, string& core_name, string& core_path);
-    string escapeName(string input);
+    static string escapeName(string input);
     void initCoreInfo();
     int getGamesNumber(string playlist);
 

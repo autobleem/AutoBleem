@@ -44,6 +44,7 @@ public:
 
     static std::string removeGamesPathFromFrontOfPath(const std::string& path);
 
+    static std::string replaceTheseCharsWithThisChar(std::string str, const std::string& charsToReplace, char replacementChar);
     static bool fixCommaInDirOrFileName(const std::string &path, DirEntry *entry);
 
     static DirEntries dir(std::string path);   // returns directory contents including . and ..
