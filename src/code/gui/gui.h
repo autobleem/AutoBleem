@@ -39,6 +39,16 @@ enum MenuOption { MENU_OPTION_SCAN = 1, MENU_OPTION_RUN, MENU_OPTION_SONY, MENU_
 #define POS_LEFT 0
 #define POS_CENTER 1
 #define POS_RIGHT 2
+
+// if you add a new set also update setNames in gui_launcher.cpp
+#define SET_ALL      0
+#define SET_INTERNAL 1
+#define SET_EXTERNAL 2
+#define SET_FAVORITE 3
+#define SET_RETROARCH 4
+#define SET_LAST 4
+
+
 //********************
 // GuiBase
 //********************
@@ -152,8 +162,13 @@ public:
     void exportDBToRetroarch();
 
     MenuOption menuOption = MENU_OPTION_SCAN;
-    int lastSet = 0;
-    int lastGameDirIndex = 0;
+
+    // these are saved in gui so the next time Start brings up the carousel it can restore to last state
+    int lastSet = SET_ALL;          // all games, internal, usb game dir, favorites, RA playlist
+    int lastSelIndex = 0;           // index into carouselGames
+    int lastUSBGameDirIndex = 0;    // top row in menu = /Games
+    int lastRAPlaylistIndex = 0;    // top row in menu = first playlist name
+    string lastRAPlaylistName = "";
 
     SDL_Rect backgroundRect;
     SDL_Rect logoRect;
@@ -177,8 +192,6 @@ public:
     bool overrideQuickBoot = false;
 
     std::string pathToGamesDir; // path to /Games.  "/media/Games" or "/debugSystemPath/Games".
-                                // note that originally it had a / at the end.  will need to find any code
-                                // that still depends on that and add "+ sep"
 
     Mix_Music *music = nullptr;
     TTF_Font_Shared themeFont;
@@ -192,8 +205,6 @@ public:
 
     bool startingGame = false;
     bool resumingGui = false;
-    int lastSelIndex = 0;
-    string lastPlaylist = "";
     PsGamePtr runningGame;
     int emuMode = EMU_PCSX;
     int resumepoint = -1;

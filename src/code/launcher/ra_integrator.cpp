@@ -15,12 +15,18 @@
 
 using namespace nlohmann;
 
+//********************
+// RAIntegrator::~RAIntegrator()
+//********************
 RAIntegrator::~RAIntegrator() {
     for (CoreInfoPtr ci: cores) {
         ci.reset();
     }
 }
 
+//********************
+// RAIntegrator::isValidPlaylist
+//********************
 bool RAIntegrator::isValidPlaylist(string path) {
     // check file extension
     if (ReturnLowerCase(DirEntry::getFileExtension(path)) != "lpl") {
@@ -37,6 +43,9 @@ bool RAIntegrator::isValidPlaylist(string path) {
     return true;
 }
 
+//********************
+// RAIntegrator::findOverrideCore
+//********************
 bool RAIntegrator::findOverrideCore(PsGamePtr game, string &core_name, string &core_path) {
     string dbName = DirEntry::getFileNameWithoutExtension(game->db_name);
 
@@ -52,6 +61,9 @@ bool RAIntegrator::findOverrideCore(PsGamePtr game, string &core_name, string &c
     return true;
 }
 
+//********************
+// RAIntegrator::isJSONPlaylist
+//********************
 bool RAIntegrator::isJSONPlaylist(string path) {
     std::ifstream in(path, std::ifstream::binary);
     string line;
@@ -65,6 +77,9 @@ bool RAIntegrator::isJSONPlaylist(string path) {
     return false;
 }
 
+//********************
+// RAIntegrator::parseJSON
+//********************
 void RAIntegrator::parseJSON(PsGames *result, string path) {
     std::ifstream in(path, std::ifstream::binary);
     json j;
@@ -74,10 +89,10 @@ void RAIntegrator::parseJSON(PsGames *result, string path) {
 
     json array = j["items"];
 
-    for (json::iterator it = array.begin(); it != array.end(); ++it) {
+    for (const auto & item : array) {
         PsGamePtr game{new PsGame};
         game->gameId = id++;
-        game->title = (*it)["label"];
+        game->title = item["label"];
         game->publisher = "";
         game->year = 0;
         game->players = 0;
@@ -90,10 +105,11 @@ void RAIntegrator::parseJSON(PsGames *result, string path) {
         game->hd = false;
         game->favorite = false;
         game->foreign = true;
-        game->core_name = (*it)["core_name"];
-        game->core_path = (*it)["core_path"];
-        game->db_name = (*it)["db_name"];
-        game->image_path = (*it)["path"];
+        game->core_name = item["core_name"];
+        game->core_path = item["core_path"];
+        game->db_name = item["db_name"];
+        game->image_path = item["path"];
+
 #if defined(__x86_64__) || defined(_M_X64)
         // if you are running in the debugging environment then /media might be shared drive /media/sf_G_DRIVE etc
         if (game->image_path.substr(0, 6) == "/media")
@@ -120,6 +136,10 @@ void RAIntegrator::parseJSON(PsGames *result, string path) {
 
 }
 
+//********************
+// RAIntegrator::parse6line
+// this routine is called when the playlist file is NOT a json file
+//********************
 void RAIntegrator::parse6line(PsGames *result, string path) {
     std::ifstream in(path, ifstream::binary);
 
@@ -144,7 +164,6 @@ void RAIntegrator::parse6line(PsGames *result, string path) {
         getline(in, crc);
         if (in.eof()) return;
         getline(in, db_name);
-
 
         PsGamePtr game{new PsGame};
         game->gameId = id++;
@@ -185,6 +204,9 @@ void RAIntegrator::parse6line(PsGames *result, string path) {
     in.close();
 }
 
+//********************
+// RAIntegrator::getGamesNumber
+//********************
 int RAIntegrator::getGamesNumber(string playlist) {
     PsGames gamesList;
     getGames(&gamesList, playlist);
@@ -192,18 +214,28 @@ int RAIntegrator::getGamesNumber(string playlist) {
 
 }
 
+//********************
+// RAIntegrator::getGames
+//********************
 bool RAIntegrator::getGames(PsGames *result, string playlist) {
-    cout << "Parsing Playlist:" << playlist << endl;
-    string path = Env::getPathToRetroarchDir() + sep + "playlists" + sep + playlist;
-    if (isJSONPlaylist(path)) {
-        parseJSON(result, path);
+    if (playlist != "") {
+        cout << "Parsing Playlist:" << playlist << endl;
+        string path = Env::getPathToRetroarchDir() + sep + "playlists" + sep + playlist;
+        if (isJSONPlaylist(path)) {
+            parseJSON(result, path);
+        } else {
+            parse6line(result, path);
+        }
+        cout << "Games found:" << result->size() << endl;
+        return true;
     } else {
-        parse6line(result, path);
+        return false;
     }
-    cout << "Games found:" << result->size() << endl;
-    return true;
 }
 
+//********************
+// RAIntegrator::getPlaylists
+//********************
 vector<string> RAIntegrator::getPlaylists() {
     vector<string> result;
     if (!DirEntry::exists(Env::getPathToRetroarchDir())) {
@@ -225,6 +257,9 @@ vector<string> RAIntegrator::getPlaylists() {
     return result;
 }
 
+//********************
+// RAIntegrator::autoDetectCorePath
+//********************
 bool RAIntegrator::autoDetectCorePath(PsGamePtr game, string &core_name, string &core_path) {
     if (findOverrideCore(game, core_name, core_path)) {
         return true;
@@ -241,6 +276,9 @@ bool RAIntegrator::autoDetectCorePath(PsGamePtr game, string &core_name, string 
     return true;
 }
 
+//********************
+// RAIntegrator::initCoreInfo
+//********************
 void RAIntegrator::initCoreInfo() {
     cout << "Building core list" << endl;
     if (!DirEntry::exists(Env::getPathToRetroarchDir())) {
@@ -310,43 +348,16 @@ void RAIntegrator::initCoreInfo() {
 
 }
 
+//********************
+// RAIntegrator::escapeName
+//********************
 string RAIntegrator::escapeName(string text) {
-    // &*/:`<>?\|
-    for (std::string::iterator it = text.begin(); it != text.end(); ++it) {
-        if (*it == '&') {
-            *it = '_';
-        }
-        if (*it == '*') {
-            *it = '_';
-        }
-        if (*it == '/') {
-            *it = '_';
-        }
-        if (*it == ':') {
-            *it = '_';
-        }
-        if (*it == '`') {
-            *it = '_';
-        }
-        if (*it == '<') {
-            *it = '_';
-        }
-        if (*it == '>') {
-            *it = '_';
-        }
-        if (*it == '?') {
-            *it = '_';
-        }
-        if (*it == '\\') {
-            *it = '_';
-        }
-        if (*it == '|') {
-            *it = '_';
-        }
-    }
-    return text;
+    return DirEntry::replaceTheseCharsWithThisChar(text, "&*/:`<>?\\|", '_');
 }
 
+//********************
+// RAIntegrator::isGameValid
+//********************
 bool RAIntegrator::isGameValid(PsGamePtr game) {
     if (!DirEntry::exists(game->core_path)) {
         return false;
@@ -368,10 +379,12 @@ bool RAIntegrator::isGameValid(PsGamePtr game) {
     return true;
 }
 
+//********************
+// RAIntegrator::parseInfo
+//********************
 CoreInfoPtr RAIntegrator::parseInfo(string file, string entry) {
     ifstream in(file);
     string line;
-
 
     cout << "Parsing " << endl;
     CoreInfoPtr coreInfoPtr{new CoreInfo};
