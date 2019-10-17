@@ -154,7 +154,7 @@ public:
     std::vector<PsCarouselGame> carouselGames;
     std::vector<std::string> raPlaylists;
 
-    RAIntegrator raIntegrator;
+    std::shared_ptr<RAIntegrator> raIntegrator;
 
     int selGameIndex = 0;
     int state = STATE_GAMES;

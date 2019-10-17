@@ -346,7 +346,7 @@ void GuiLauncher::loop_chooseRAPlaylist() {
     auto playlists = new GuiPlaylists(renderer);
     playlists->playlists = raPlaylists;
     playlists->backgroundImg = background->tex;
-    playlists->integrator = &raIntegrator;
+    playlists->integrator = raIntegrator;
     int nextSel = 0;
     int i = 0;
     for (string plist:playlists->playlists) {

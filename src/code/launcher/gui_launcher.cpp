@@ -88,7 +88,7 @@ void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames &gamesList) {
 void GuiLauncher::getGames_SET_RETROARCH(PsGames *gamesList, const std::string& playlistName) {
     cout << "Getting RA games for playlist: " << playlistName << endl;
     if (playlistName != "")
-        raIntegrator.getGames(gamesList, playlistName);
+        raIntegrator->getGames(gamesList, playlistName);
 }
 
 //*******************************
@@ -268,7 +268,7 @@ void GuiLauncher::loadAssets() {
     cout << "Loading playlists" << endl;
     raPlaylists.clear();
     if (DirEntry::exists(Env::getPathToRetroarchDir())) {
-        raPlaylists = raIntegrator.getPlaylists();
+        raPlaylists = raIntegrator->getPlaylists();
     }
     vector<string> headers = {_("SETTINGS"), _("GAME"), _("MEMORY CARD"), _("RESUME")};
     vector<string> texts = {_("Customize AutoBleem settings"), _("Edit game parameters"),
@@ -505,8 +505,8 @@ void GuiLauncher::freeAssets() {
 // run when screen is loaded
 void GuiLauncher::init() {
     gui = Gui::getInstance();
+    raIntegrator = RAIntegrator::getInstance();
 
-    raIntegrator.initCoreInfo();
     loadAssets();
 }
 

@@ -25,7 +25,7 @@ public:
 
     bool cancelled = false;
 
-    RAIntegrator * integrator;
+    shared_ptr<RAIntegrator> integrator;
     SDL_Shared<SDL_Texture> backgroundImg;
 
     using GuiScreen::GuiScreen;

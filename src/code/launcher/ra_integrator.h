@@ -33,8 +33,8 @@ using CoreInfos = std::vector<CoreInfoPtr>;
 // RAIntegrator
 //********************
 class RAIntegrator {
+    RAIntegrator() { }  // only getInstance can call
 public:
-
     ~RAIntegrator();
     CoreInfos cores;
     map<string,CoreInfoPtr> defaultCores;
@@ -51,6 +51,16 @@ public:
     int getGamesNumber(string playlist);
 
     static bool sortByMaxExtensions(const CoreInfoPtr &i, const CoreInfoPtr &j) { return i->extensions.size() > j->extensions.size(); };
+
+    static std::shared_ptr<RAIntegrator> getInstance() {
+        static std::shared_ptr<RAIntegrator> singleInstance{new RAIntegrator};
+        static bool firstTime {true};
+        if (firstTime) {
+            singleInstance->initCoreInfo();
+            firstTime = false;
+        }
+        return singleInstance;
+    }
 
 private:
     bool isGameValid(PsGamePtr game);
