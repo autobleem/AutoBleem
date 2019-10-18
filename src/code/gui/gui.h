@@ -58,8 +58,8 @@ public:
     SDL_Shared<SDL_Renderer> renderer;
 
     Fonts fonts;
-
     Config cfg;
+    bool inGuiLauncher = false;
 
     std::string getCurrentThemePath();
     std::string getCurrentThemeImagePath();

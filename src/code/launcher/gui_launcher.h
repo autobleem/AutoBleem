@@ -33,6 +33,7 @@ extern const SDL_Color brightWhite;
 class GuiLauncher : public GuiScreen {
 public:
     void init();
+    ~GuiLauncher();
     void render();
 
     // these variables are used by the loop routines

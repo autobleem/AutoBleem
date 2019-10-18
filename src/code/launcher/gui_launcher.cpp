@@ -500,14 +500,23 @@ void GuiLauncher::freeAssets() {
 }
 
 //*******************************
-// GuiLauncher::init
+// GuiLauncher::init()
 //*******************************
 // run when screen is loaded
 void GuiLauncher::init() {
     gui = Gui::getInstance();
-    raIntegrator = RAIntegrator::getInstance();
+    gui->inGuiLauncher = true;
 
+    raIntegrator = RAIntegrator::getInstance();
     loadAssets();
+}
+
+//*******************************
+// GuiLauncher::~GuiLauncher()
+//*******************************
+// run when screen is loaded
+GuiLauncher::~GuiLauncher() {
+    gui->inGuiLauncher = false;
 }
 
 //*******************************

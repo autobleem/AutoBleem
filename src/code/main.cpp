@@ -155,6 +155,7 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    // now that Environment is setup, routines that need the paths can be called
     shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr<Scanner> scanner(Scanner::getInstance());
 

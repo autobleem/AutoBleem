@@ -41,19 +41,22 @@ public:
     map<string,CoreInfoPtr> overrideCores;
     set<string> databases;
 
-
     bool getGames(PsGames *result, string playlist);
     vector<string> getPlaylists();
+    int getGamesNumber(string playlist);
+
     bool autoDetectCorePath(PsGamePtr game, string& core_name, string& core_path);
     bool findOverrideCore(PsGamePtr game, string& core_name, string& core_path);
     static string escapeName(string input);
     void initCoreInfo();
-    int getGamesNumber(string playlist);
 
     static bool sortByMaxExtensions(const CoreInfoPtr &i, const CoreInfoPtr &j) { return i->extensions.size() > j->extensions.size(); };
 
     static std::shared_ptr<RAIntegrator> getInstance() {
         static std::shared_ptr<RAIntegrator> singleInstance{new RAIntegrator};
+        // we need the environment paths to be inited before the singleton starts reading data
+        // so don't read data until getInstance is called the first time
+        // the environment paths are inited in main.cpp
         static bool firstTime {true};
         if (firstTime) {
             singleInstance->initCoreInfo();
