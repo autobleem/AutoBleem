@@ -25,9 +25,19 @@ public:
     string core_path;
 };
 
-
 using CoreInfoPtr = std::shared_ptr<CoreInfo>;
 using CoreInfos = std::vector<CoreInfoPtr>;
+
+//********************
+// RAPlaylistInfo
+//********************
+struct RAPlaylistInfo {
+    std::string name;
+    PsGames psGames;
+
+    RAPlaylistInfo(const std::string& _name, const PsGames& games) : name(_name), psGames(games) { }
+};
+//using RAPlaylistInfos = std::vector<RAPlaylistInfo>;
 
 //********************
 // RAIntegrator
@@ -36,14 +46,44 @@ class RAIntegrator {
     RAIntegrator() { }  // only getInstance can call
 public:
     ~RAIntegrator();
+
     CoreInfos cores;
     map<string,CoreInfoPtr> defaultCores;
     map<string,CoreInfoPtr> overrideCores;
     set<string> databases;
 
-    bool getGames(PsGames *result, string playlist);
-    vector<string> getPlaylists();
-    int getGamesNumber(string playlist);
+    std::vector<RAPlaylistInfo> playlistInfos;
+    std::tuple<bool,int> playlistNameToIndex(const std::string& name);     // returns true for success, and the index if successful
+    void readInAllData();    // reads all the playlist info into RAPlaylistInfos
+
+
+    vector<string> getPlaylists() {
+        vector<string> temp;
+        for (auto& info : playlistInfos)
+            temp.emplace_back(info.name);
+
+        return temp;
+    }
+
+    PsGames getGames(string playlist) {
+        PsGames games;
+        auto [success, index] = playlistNameToIndex(playlist);
+        if (success)
+            games = playlistInfos[index].psGames;
+        return games;
+    }
+
+    int getGamesNumber(string playlist) {
+        auto [success, index] = playlistNameToIndex(playlist);
+        if (success)
+            return playlistInfos[index].psGames.size();
+        else
+            return 0;
+    }
+
+//    vector<string> getPlaylists();
+//    bool getGames(PsGames *result, string playlist);
+//    int getGamesNumber(string playlist);
 
     bool autoDetectCorePath(PsGamePtr game, string& core_name, string& core_path);
     bool findOverrideCore(PsGamePtr game, string& core_name, string& core_path);
@@ -60,6 +100,7 @@ public:
         static bool firstTime {true};
         if (firstTime) {
             singleInstance->initCoreInfo();
+            singleInstance->readInAllData();
             firstTime = false;
         }
         return singleInstance;
@@ -69,9 +110,9 @@ private:
     bool isGameValid(PsGamePtr game);
     bool isValidPlaylist(string path);
     bool isJSONPlaylist(string path);
-    void parseJSON(PsGames *result, string path);
-    void parse6line(PsGames *result, string path);
-    CoreInfoPtr parseInfo(string file, string entry);
+    PsGames parseJSON(string path);
+    PsGames parse6line(string path);
+    CoreInfoPtr parseCoreInfo(string file, string entry);
 };
 
 

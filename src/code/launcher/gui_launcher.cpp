@@ -88,7 +88,7 @@ void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames &gamesList) {
 void GuiLauncher::getGames_SET_RETROARCH(PsGames *gamesList, const std::string& playlistName) {
     cout << "Getting RA games for playlist: " << playlistName << endl;
     if (playlistName != "")
-        raIntegrator->getGames(gamesList, playlistName);
+        *gamesList = raIntegrator->getGames(playlistName);
 }
 
 //*******************************
