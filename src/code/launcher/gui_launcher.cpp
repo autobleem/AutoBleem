@@ -40,18 +40,18 @@ void GuiLauncher::updateMeta() {
 //*******************************
 // GuiLauncher::getGames_SET_FAVORITE
 //*******************************
-void GuiLauncher::getGames_SET_FAVORITE(PsGames &gamesList) {
+void GuiLauncher::getGames_SET_FAVORITE(PsGames* gamesList) {
     PsGames completeList;
     gui->db->getGames(&completeList);
     // put only the favorites in gamesList
-    copy_if(begin(completeList), end(completeList), back_inserter(gamesList),
+    copy_if(begin(completeList), end(completeList), back_inserter(*gamesList),
             [](const PsGamePtr &game) { return game->favorite; });
 }
 
 //*******************************
 // GuiLauncher::getGames_SET_SUBDIR
 //*******************************
-void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames &gamesList) {
+void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames* gamesList) {
     GameRowInfos gameRowInfos;
     gui->db->getGameRowInfos(&gameRowInfos);
     currentUSBGameDirName = gameRowInfos[rowIndex].rowName;
@@ -75,7 +75,7 @@ void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames &gamesList) {
         for (auto &psgame : completeList) {
             if (find(begin(gameIdsInRow), end(gameIdsInRow), psgame->gameId) != end(gameIdsInRow)) {
                 //cout << "game in row: " << psgame->title << endl;
-                gamesList.emplace_back(psgame);
+                gamesList->emplace_back(psgame);
             }
         }
 
@@ -85,7 +85,7 @@ void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames &gamesList) {
 //*******************************
 // GuiLauncher::getGames_SET_RETROARCH
 //*******************************
-void GuiLauncher::getGames_SET_RETROARCH(PsGames *gamesList, const std::string& playlistName) {
+void GuiLauncher::getGames_SET_RETROARCH(const std::string& playlistName, PsGames* gamesList) {
     cout << "Getting RA games for playlist: " << playlistName << endl;
     if (playlistName != "")
         *gamesList = raIntegrator->getGames(playlistName);
@@ -94,7 +94,7 @@ void GuiLauncher::getGames_SET_RETROARCH(PsGames *gamesList, const std::string& 
 //*******************************
 // GuiLauncher::appendGames_SET_INTERNAL
 //*******************************
-void GuiLauncher::appendGames_SET_INTERNAL(PsGames &gamesList) {
+void GuiLauncher::appendGames_SET_INTERNAL(PsGames* gamesList) {
     PsGames internal;
     Database *internalDB = new Database();
 #if defined(__x86_64__) || defined(_M_X64)
@@ -106,7 +106,7 @@ void GuiLauncher::appendGames_SET_INTERNAL(PsGames &gamesList) {
     internalDB->disconnect();
     delete internalDB;
     for (const auto &internalGame : internal) {
-        gamesList.push_back(internalGame);
+        gamesList->push_back(internalGame);
     }
 }
 
@@ -126,22 +126,22 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
     PsGames gamesList;
 
     if (currentSet == SET_ALL) {
-        getGames_SET_SUBDIR(0, gamesList);   // get the games in row 0 = /Games and on down
+        getGames_SET_SUBDIR(0, &gamesList);   // get the games in row 0 = /Games and on down
 
     } else if (currentSet == SET_EXTERNAL) {
-        getGames_SET_SUBDIR(currentUSBGameDirIndex, gamesList);    // get the games in the current subdir of /Games and on down
+        getGames_SET_SUBDIR(currentUSBGameDirIndex, &gamesList);    // get the games in the current subdir of /Games and on down
 
     } else if (currentSet == SET_RETROARCH) {
-        getGames_SET_RETROARCH(&gamesList, currentRAPlaylistName);
+        getGames_SET_RETROARCH(currentRAPlaylistName, &gamesList);
 
     } else if (currentSet == SET_FAVORITE) {
-        getGames_SET_FAVORITE(gamesList);
+        getGames_SET_FAVORITE(&gamesList);
 
     }
 
     if (gui->cfg.inifile.values["origames"] == "true")
         if (currentSet == SET_ALL || currentSet == SET_INTERNAL) {
-            appendGames_SET_INTERNAL(gamesList);
+            appendGames_SET_INTERNAL(&gamesList);
         }
 
     sort(gamesList.begin(), gamesList.end(), sortByTitle);

@@ -9,6 +9,7 @@ struct Environment {
     static std::string getPathToSaveStatesDir();
     static std::string getPathToSystemDir();
     static std::string getPathToRetroarchDir();
+    static std::string getPathToRetroarchPlaylistsDir();
     static std::string getPathToRetroarchCoreFile();
     static std::string getPathToRomsDir();
     static std::string getPathToRegionalDBFile();   // includes the "regional.db" filename

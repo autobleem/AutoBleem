@@ -22,6 +22,7 @@
 #include "launcher/retboot_interceptor.h"
 #include "engine/GetGameDirHierarchy.h"
 #include "environment.h"
+#include "launcher/ra_integrator.h"
 
 using namespace std;
 
@@ -264,6 +265,17 @@ int main(int argc, char *argv[]) {
             interceptor->execute(gui->runningGame, gui->resumepoint );
             interceptor->memcardOut(gui->runningGame);
             delete (interceptor);
+
+            bool reloadFav {false};
+            if (gui->runningGame->foreign)
+                reloadFav = true;
+            else if (gui->emuMode != EMU_PCSX)
+                reloadFav = true;
+
+            if (reloadFav) {
+                auto ra = RAIntegrator::getInstance();
+                ra->reloadFavorites();  // they could have changed
+            }
 
             SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 

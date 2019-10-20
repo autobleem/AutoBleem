@@ -49,6 +49,10 @@ string Environment::getPathToRetroarchDir() {
     return private_pathToUSBDrive + sep + "retroarch";
 }
 
+string Environment::getPathToRetroarchPlaylistsDir() {
+    return getPathToRetroarchDir() + sep + "playlists";
+}
+
 string Environment::getPathToRetroarchCoreFile() {
     return getPathToRetroarchDir() + sep + "cores/km_pcsx_rearmed_neon_libretro.so";
 }

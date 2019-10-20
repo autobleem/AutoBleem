@@ -32,12 +32,17 @@ using CoreInfos = std::vector<CoreInfoPtr>;
 // RAPlaylistInfo
 //********************
 struct RAPlaylistInfo {
-    std::string name;
+    std::string displayName;
+    std::string path;
     PsGames psGames;
 
-    RAPlaylistInfo(const std::string& _name, const PsGames& games) : name(_name), psGames(games) { }
+    RAPlaylistInfo(const std::string& _displayName, const std::string& _path)
+        : displayName(_displayName), path(_path) { }
+
+    RAPlaylistInfo(const std::string& _displayName, const std::string& _path, const PsGames& games)
+        : RAPlaylistInfo(_displayName, _path)
+        { psGames = games; }
 };
-//using RAPlaylistInfos = std::vector<RAPlaylistInfo>;
 
 //********************
 // RAIntegrator
@@ -45,6 +50,8 @@ struct RAPlaylistInfo {
 class RAIntegrator {
     RAIntegrator() { }  // only getInstance can call
 public:
+    // don't call the read playlist routine until the evironment paths are setup in main.cpp
+    static std::shared_ptr<RAIntegrator> getInstance(); // shared singleton
     ~RAIntegrator();
 
     CoreInfos cores;
@@ -53,37 +60,19 @@ public:
     set<string> databases;
 
     std::vector<RAPlaylistInfo> playlistInfos;
-    std::tuple<bool,int> playlistNameToIndex(const std::string& name);     // returns true for success, and the index if successful
-    void readInAllData();    // reads all the playlist info into RAPlaylistInfos
+    //std::string favoritesFileName;
+    std::string favoritesDisplayName { "Favorites" };
+    std::tuple<bool,int> playlistNameToIndex(const std::string& name);  // returns true if name found, and the index
 
+    PsGames readGamesFromPlaylistFile(const std::string& path);         // read one lpl file
+    void readGamesFromAllPlaylists();                                   // reads all the playlist info into playlistInfos
 
-    vector<string> getPlaylists() {
-        vector<string> temp;
-        for (auto& info : playlistInfos)
-            temp.emplace_back(info.name);
+    std::string findFavoritesPlaylistPath();                            // returns "" if not found
+    void reloadFavorites(); // after running RA, favorites may have been added or removed
 
-        return temp;
-    }
-
-    PsGames getGames(string playlist) {
-        PsGames games;
-        auto [success, index] = playlistNameToIndex(playlist);
-        if (success)
-            games = playlistInfos[index].psGames;
-        return games;
-    }
-
-    int getGamesNumber(string playlist) {
-        auto [success, index] = playlistNameToIndex(playlist);
-        if (success)
-            return playlistInfos[index].psGames.size();
-        else
-            return 0;
-    }
-
-//    vector<string> getPlaylists();
-//    bool getGames(PsGames *result, string playlist);
-//    int getGamesNumber(string playlist);
+    vector<string> getPlaylists();
+    PsGames getGames(string playlist);
+    int getGamesNumber(string playlist);
 
     bool autoDetectCorePath(PsGamePtr game, string& core_name, string& core_path);
     bool findOverrideCore(PsGamePtr game, string& core_name, string& core_path);
@@ -91,20 +80,6 @@ public:
     void initCoreInfo();
 
     static bool sortByMaxExtensions(const CoreInfoPtr &i, const CoreInfoPtr &j) { return i->extensions.size() > j->extensions.size(); };
-
-    static std::shared_ptr<RAIntegrator> getInstance() {
-        static std::shared_ptr<RAIntegrator> singleInstance{new RAIntegrator};
-        // we need the environment paths to be inited before the singleton starts reading data
-        // so don't read data until getInstance is called the first time
-        // the environment paths are inited in main.cpp
-        static bool firstTime {true};
-        if (firstTime) {
-            singleInstance->initCoreInfo();
-            singleInstance->readInAllData();
-            firstTime = false;
-        }
-        return singleInstance;
-    }
 
 private:
     bool isGameValid(PsGamePtr game);
