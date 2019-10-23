@@ -20,6 +20,7 @@ bool private_singleArgPassed = false;
 string private_pathToUSBDrive;
 string private_pathToGamesDir;
 string private_pathToRegionalDBFile;
+string private_pathToInternalDBFile;
 
 //*******************************
 // Environment:: One Liners
@@ -64,6 +65,11 @@ string Environment::getPathToRomsDir() {
 // includes the "regional.db" filename
 string Environment::getPathToRegionalDBFile() {
     return private_pathToRegionalDBFile;
+}
+
+// includes the "internal.db" filename
+string Environment::getPathToInternalDBFile() {
+    return private_pathToInternalDBFile;
 }
 
 //*******************************

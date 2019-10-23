@@ -690,11 +690,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_EDIT_GAME_SETTINGS() {
         }
     } else {
         Database *internalDB = new Database();
-#if defined(__x86_64__) || defined(_M_X64)
-        internalDB->connect("internal.db");
-#else
-        internalDB->connect("/media/System/Databases/internal.db");
-#endif
+        internalDB->connect(Env::getPathToInternalDBFile());
         if (editor->changes) {
             internalDB->updateTitle(carouselGames[selGameIndex]->gameId, editor->lastName);
         }

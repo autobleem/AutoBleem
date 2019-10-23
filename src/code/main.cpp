@@ -33,6 +33,7 @@ extern bool private_singleArgPassed;
 extern string private_pathToUSBDrive;
 extern string private_pathToGamesDir;
 extern string private_pathToRegionalDBFile;
+extern string private_pathToInternalDBFile;
 
 //*******************************
 // copyGameFilesInGamesDirToSubDirs
@@ -143,11 +144,17 @@ int main(int argc, char *argv[]) {
         private_singleArgPassed = true;
         private_pathToUSBDrive = argv[1];
         private_pathToRegionalDBFile = private_pathToUSBDrive + sep + "System/Databases/regional.db";
+        private_pathToInternalDBFile = private_pathToUSBDrive + sep + "System/Databases/internal.db";
         private_pathToGamesDir = private_pathToUSBDrive + sep + "Games";
     } else if (argc == 1 + 2) {
         // the two args are the path to the regional.db file and the path to the /Games dir on the usb drive
         private_singleArgPassed = false;
         private_pathToRegionalDBFile = argv[1];
+#if defined(__x86_64__) || defined(_M_X64)
+        private_pathToInternalDBFile = "internal.db";   // it's in the same dir as the autobleem-gui app you are debugging
+#else
+        private_pathToInternalDBFile = "/media/System/Databases/internal.db";
+#endif
         private_pathToGamesDir = argv[2];
         private_pathToUSBDrive = DirEntry::getDirNameFromPath(private_pathToGamesDir);
     }

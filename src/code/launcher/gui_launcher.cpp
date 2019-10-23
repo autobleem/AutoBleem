@@ -97,11 +97,7 @@ void GuiLauncher::getGames_SET_RETROARCH(const std::string& playlistName, PsGame
 void GuiLauncher::appendGames_SET_INTERNAL(PsGames* gamesList) {
     PsGames internal;
     Database *internalDB = new Database();
-#if defined(__x86_64__) || defined(_M_X64)
-    internalDB->connect("internal.db");
-#else
-    internalDB->connect("/media/System/Databases/internal.db");
-#endif
+    internalDB->connect(Env::getPathToInternalDBFile());
     internalDB->getInternalGames(&internal);
     internalDB->disconnect();
     delete internalDB;
