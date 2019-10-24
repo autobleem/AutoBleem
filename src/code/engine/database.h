@@ -47,7 +47,7 @@ public:
     bool connect(std::string fileName);
     void disconnect();
     bool createInitialDatabase();
-    void createFavColumn();
+    void createFavoriteColumn();
     bool truncate();
 
     bool beginTransaction();
@@ -74,10 +74,11 @@ public:
     bool getGameIdsInRow(std::vector<int> *gameIdsInRow, int row);
 
     bool updateTitle(int id, std::string title);
+    bool updateFavorite(int id, int fav);
     bool refreshGame(PsGamePtr & game);
     bool refreshGameInternal(PsGamePtr & game);
 private:
     sqlite3 *db;
-    bool executeCreateStatement(char *sql, std::string tableName);
+    bool executeCreateStatement(char *sql, std::string name);
     bool executeStatement(char *sql, std::string outMsg, std::string errorMsg);
 };

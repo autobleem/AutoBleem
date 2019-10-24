@@ -179,7 +179,15 @@ int main(int argc, char *argv[]) {
     }
     gui->db = db;
     db->createInitialDatabase();
-    db->createFavColumn();
+
+    // add favorites column to internal.db if the column doesn't exist
+    Database *internalDB = new Database();
+    if (!internalDB->connect(Env::getPathToInternalDBFile())) {
+        delete internalDB;
+        return EXIT_FAILURE;
+    }
+    gui->internalDB = internalDB;
+    gui->internalDB->createFavoriteColumn(); // add the favorites column if it doesn't exist
 
     string dbpath = Env::getPathToRegionalDBFile();
     string pathToGamesDir = Env::getPathToGamesDir();
@@ -296,6 +304,11 @@ int main(int argc, char *argv[]) {
     }
     db->disconnect();
     delete db;
+	db = nullptr;
+
+    internalDB->disconnect();
+    delete internalDB;
+	internalDB = nullptr;
 
     gui->logText(_("Loading ... Please Wait ..."));
     gui->finish();

@@ -689,14 +689,14 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_EDIT_GAME_SETTINGS() {
             loadAssets();
         }
     } else {
-        Database *internalDB = new Database();
-        internalDB->connect(Env::getPathToInternalDBFile());
         if (editor->changes) {
-            internalDB->updateTitle(carouselGames[selGameIndex]->gameId, editor->lastName);
+            gui->internalDB->updateTitle(carouselGames[selGameIndex]->gameId, editor->lastName);
         }
-        internalDB->refreshGameInternal(carouselGames[selGameIndex]);
-        internalDB->disconnect();
-        delete internalDB;
+        gui->internalDB->refreshGameInternal(carouselGames[selGameIndex]);
+        if (currentSet == SET_FAVORITE && editor->gameData->favorite == false) {
+            gui->lastSet = SET_FAVORITE;
+            loadAssets();
+        }
     }
 
     // if the current set is favorites and the user removes the last favorite selGameIndex will be -1

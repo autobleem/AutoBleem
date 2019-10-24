@@ -43,6 +43,11 @@ void GuiLauncher::updateMeta() {
 void GuiLauncher::getGames_SET_FAVORITE(PsGames* gamesList) {
     PsGames completeList;
     gui->db->getGames(&completeList);
+
+    PsGames internalList;
+    gui->internalDB->getInternalGames(&internalList);
+    completeList.insert(end(completeList), begin(internalList), end(internalList));
+
     // put only the favorites in gamesList
     copy_if(begin(completeList), end(completeList), back_inserter(*gamesList),
             [](const PsGamePtr &game) { return game->favorite; });
@@ -96,11 +101,7 @@ void GuiLauncher::getGames_SET_RETROARCH(const std::string& playlistName, PsGame
 //*******************************
 void GuiLauncher::appendGames_SET_INTERNAL(PsGames* gamesList) {
     PsGames internal;
-    Database *internalDB = new Database();
-    internalDB->connect(Env::getPathToInternalDBFile());
-    internalDB->getInternalGames(&internal);
-    internalDB->disconnect();
-    delete internalDB;
+    gui->internalDB->getInternalGames(&internal);
     for (const auto &internalGame : internal) {
         gamesList->push_back(internalGame);
     }
