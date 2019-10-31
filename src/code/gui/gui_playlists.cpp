@@ -67,7 +67,7 @@ void GuiPlaylists::render()
         if (i >= playlists.size()) {
             break;
         }
-        gui->renderTextLine(playlists[i]+ " ("+to_string(sizes[i])+_(" games")+")", pos+1, offset,false);
+        gui->renderTextLine(playlists[i] + " (" + to_string(sizes[i]) + " " + _("games") + ")", pos+1, offset, false);
         pos++;
     }
 

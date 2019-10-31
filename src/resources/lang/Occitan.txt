@@ -1,5 +1,3 @@
- games
- jòcs
 .-= Code C++ and shell scripts =-.
 .-= Còdi C++ e scripts shell =-.
 .-= Database maintenance =-.
