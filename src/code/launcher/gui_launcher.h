@@ -33,6 +33,7 @@ extern const SDL_Color brightWhite;
 class GuiLauncher : public GuiScreen {
 public:
     void init();
+    ~GuiLauncher();
     void render();
 
     // these variables are used by the loop routines
@@ -87,10 +88,10 @@ public:
     void switchSet(int newSet, bool noForce);
     void showSetName();
 
-    void getGames_SET_FAVORITE(PsGames &gamesList);
-    void getGames_SET_SUBDIR(int rowIndex, PsGames &gamesList);
-    void getGames_SET_RETROARCH(PsGames *gamesList, const std::string& playlistName);
-    void appendGames_SET_INTERNAL(PsGames &gamesList);
+    void getGames_SET_FAVORITE(PsGames* gamesList);
+    void getGames_SET_SUBDIR(int rowIndex, PsGames* gamesList);
+    void getGames_SET_RETROARCH(const std::string& playlistName, PsGames *gamesList);
+    void appendGames_SET_INTERNAL(PsGames* gamesList);
 
     // current USB Game Dir
     int currentUSBGameDirIndex = 0;
@@ -154,7 +155,7 @@ public:
     std::vector<PsCarouselGame> carouselGames;
     std::vector<std::string> raPlaylists;
 
-    RAIntegrator raIntegrator;
+    std::shared_ptr<RAIntegrator> raIntegrator;
 
     int selGameIndex = 0;
     int state = STATE_GAMES;

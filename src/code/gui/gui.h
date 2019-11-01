@@ -58,8 +58,8 @@ public:
     SDL_Shared<SDL_Renderer> renderer;
 
     Fonts fonts;
-
     Config cfg;
+    bool inGuiLauncher = false;
 
     std::string getCurrentThemePath();
     std::string getCurrentThemeImagePath();
@@ -87,11 +87,13 @@ public:
 
     vector<string> joynames;
     PadMapper mapper;
-
-    Coverdb *coverdb = nullptr;
-    Database *db = nullptr;
     Inifile themeData;
     Inifile defaultData;
+
+    Coverdb *coverdb = nullptr;
+    // db and internalDB are set in main.cpp and remain alive until exit
+    Database *db = nullptr;
+    Database *internalDB = nullptr;
 
     void watchJoystickPort();
 

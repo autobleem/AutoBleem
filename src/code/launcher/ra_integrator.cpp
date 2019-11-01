@@ -7,6 +7,7 @@
 #include <cstdio>
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 #include "../util.h"
 #include "../nlohmann/json.h"
 #include "../engine/cfgprocessor.h"
@@ -14,6 +15,23 @@
 #include "../environment.h"
 
 using namespace nlohmann;
+
+//********************
+// RAIntegrator::getInstance()
+//********************
+std::shared_ptr<RAIntegrator> RAIntegrator::getInstance() {
+    static std::shared_ptr<RAIntegrator> singleInstance{new RAIntegrator};
+    // we need the environment paths to be inited before the singleton starts reading data
+    // so don't read data until getInstance is called the first time
+    // the environment paths are inited in main.cpp
+    static bool firstTime {true};
+    if (firstTime) {
+        singleInstance->initCoreInfo();
+        singleInstance->readGamesFromAllPlaylists();
+        firstTime = false;
+    }
+    return singleInstance;
+}
 
 //********************
 // RAIntegrator::~RAIntegrator()
@@ -41,6 +59,161 @@ bool RAIntegrator::isValidPlaylist(string path) {
     }
 
     return true;
+}
+
+//********************
+// RAIntegrator::playlistNameToIndex
+//********************
+// returns true for success, and the index if successful
+std::tuple<bool,int> RAIntegrator::playlistNameToIndex(const string& name) {
+    auto it = find_if(begin(playlistInfos), end(playlistInfos),
+                      [&] (RAPlaylistInfo& info) { return name == info.displayName; } );
+    if (it != end(playlistInfos)) {
+        return make_tuple(true, it - begin(playlistInfos));
+    } else
+        return make_tuple(false, -1);
+}
+
+//********************
+// RAIntegrator::readGamesFromPlaylistFile()
+//********************
+PsGames RAIntegrator::readGamesFromPlaylistFile(const std::string& path) {
+    cout << "Parsing Playlist: " << path << endl;
+    PsGames psGames;
+    if (isJSONPlaylist(path)) {
+        psGames = parseJSON(path);
+    } else {
+        psGames = parse6line(path);
+    }
+    cout << "Games found: " << psGames.size() << endl;
+    return psGames;
+}
+
+//********************
+// RAIntegrator::findFavoritesPlaylistPath
+//********************
+// returns "" if not found
+string RAIntegrator::findFavoritesPlaylistPath() {
+    string defaultPath {Env::getPathToRetroarchDir() + sep + "content_favorites.lpl"};
+    if (DirEntry::exists(defaultPath))
+        return defaultPath;
+    else
+        return "";
+}
+
+//********************
+// RAIntegrator::reloadFavorites
+//********************
+// after running RA favorites may have been added or removed
+void RAIntegrator::reloadFavorites() {
+    string favPath = findFavoritesPlaylistPath();
+    if (favPath != "") {
+        auto favGames = readGamesFromPlaylistFile(favPath);
+
+        // when RA adds a game to favorites for some reason the crc32 and db_name fields are empty.
+        // we need the db_path to compute the path to the boxart.
+        // find the original game in the playlists and copy the db_name to the favorite entry for the same game
+        for (auto & favGame : favGames) {
+            for (auto const & info : playlistInfos) {
+                if (info.displayName != favoritesDisplayName) {
+                    auto it = find_if(begin(info.psGames), end(info.psGames), [&] (PsGamePtr game) { return (game->image_path == favGame->image_path); } );
+                    if (it != end(info.psGames)) {
+                        favGame->db_name = (*it)->db_name;
+                        break;
+                    }
+                }
+            }
+        }
+
+        auto [found, index] = playlistNameToIndex(favoritesDisplayName);
+        if (found) {
+            // the prior favorites is in the list.  modify the existing entry
+            RAPlaylistInfo & fav = playlistInfos[index];
+            fav.path = favPath;
+            fav.psGames = favGames;
+        } else {
+            // the favorites list didn't exist before and isn't in the list.  add a new entry.
+            playlistInfos.emplace_back(favoritesDisplayName, favPath, favGames);
+        }
+    }
+}
+
+//********************
+// RAIntegrator::readGamesFromAllPlaylists
+//********************
+// reads all the playlist info into RAPlaylistInfos
+void RAIntegrator::readGamesFromAllPlaylists() {
+    assert(playlistInfos.size() == 0);
+    if (playlistInfos.size() != 0) {
+        reloadFavorites();  // playlists already read.  only need to update favorites in case changed in RA.
+        return;
+    }
+
+    string path = Env::getPathToRetroarchPlaylistsDir();
+    cout << "Checking playlists path" << path << endl;
+
+    if (DirEntry::exists(path)) {
+        vector<DirEntry> entries = DirEntry::diru_FilesOnly(path);
+        cout << "Total Playlists:" << entries.size() << endl;
+        vector<string> playlistNames;
+        for (const DirEntry &entry:entries) {
+            if (DirEntry::getFileNameWithoutExtension(entry.name) == "AutoBleem")
+                continue;
+            playlistNames.emplace_back(entry.name);
+        }
+
+        // sort the playlist names and if any favorites add favorites at the end
+        sort(begin(playlistNames), end(playlistNames));
+
+        for (auto & playlistName : playlistNames) {
+            cout << "Playlist: " << playlistName << endl;
+            string path = Env::getPathToRetroarchPlaylistsDir() + sep + playlistName;
+            if (isValidPlaylist(path)) {
+                PsGames games = readGamesFromPlaylistFile(path);
+                string nameOnly = DirEntry::getFileNameWithoutExtension(playlistName);
+                if (games.size() > 0)
+                    playlistInfos.emplace_back(nameOnly, path, games);
+                else
+                    cout << "Playlist has no games: " << playlistName << endl;
+            }
+            else
+                cout << "Invalid Playlist: " << playlistName << endl;
+        }
+        reloadFavorites();  // since it isn't already in the list, reloadFavorites() will add favorites at the end
+    }
+}
+
+//********************
+// RAIntegrator::getPlaylists
+//********************
+vector<string> RAIntegrator::getPlaylists() {
+    vector<string> temp;
+    for (auto& info : playlistInfos)
+        temp.emplace_back(info.displayName);
+
+    return temp;
+}
+
+//********************
+// RAIntegrator::getGames
+//********************
+PsGames RAIntegrator::getGames(string playlist) {
+    PsGames games;
+    auto [found, index] = playlistNameToIndex(playlist);
+    if (found)
+        games = playlistInfos[index].psGames;
+    return games;
+}
+
+//********************
+// RAIntegrator::getGamesNumber
+//********************
+int RAIntegrator::getGamesNumber(string playlist) {
+    auto [found, index] = playlistNameToIndex(playlist);
+    if (found)
+        return playlistInfos[index].psGames.size();
+    else
+        return 0;
 }
 
 //********************
@@ -80,12 +253,13 @@ bool RAIntegrator::isJSONPlaylist(string path) {
 //********************
 // RAIntegrator::parseJSON
 //********************
-void RAIntegrator::parseJSON(PsGames *result, string path) {
+PsGames RAIntegrator::parseJSON(string path) {
     std::ifstream in(path, std::ifstream::binary);
     json j;
     in >> j;
 
     int id = 0;
+    PsGames psGames;
 
     json array = j["items"];
 
@@ -126,21 +300,21 @@ void RAIntegrator::parseJSON(PsGames *result, string path) {
             autoDetectCorePath(game, game->core_name, game->core_path);
         }
         if (isGameValid(game)) {
-            result->push_back(game);
+            psGames.emplace_back(game);
         } else {
             cout << "Game  invalid: " << game->title <<  endl;
         }
     }
     in.close();
-
-
+    return psGames;
 }
 
 //********************
 // RAIntegrator::parse6line
 // this routine is called when the playlist file is NOT a json file
 //********************
-void RAIntegrator::parse6line(PsGames *result, string path) {
+PsGames RAIntegrator::parse6line(string path) {
+    PsGames psGames;
     std::ifstream in(path, ifstream::binary);
 
     string game_path = "";
@@ -154,15 +328,15 @@ void RAIntegrator::parse6line(PsGames *result, string path) {
     while (!in.eof()) {
 
         getline(in, game_path);
-        if (in.eof()) return;
+        if (in.eof()) break;
         getline(in, label);
-        if (in.eof()) return;
+        if (in.eof()) break;
         getline(in, core_path);
-        if (in.eof()) return;
+        if (in.eof()) break;
         getline(in, core_name);
-        if (in.eof()) return;
+        if (in.eof()) break;
         getline(in, crc);
-        if (in.eof()) return;
+        if (in.eof()) break;
         getline(in, db_name);
 
         PsGamePtr game{new PsGame};
@@ -198,63 +372,11 @@ void RAIntegrator::parse6line(PsGames *result, string path) {
 
         }
         if (isGameValid(game)) {
-            result->push_back(game);
+            psGames.emplace_back(game);
         }
     }
     in.close();
-}
-
-//********************
-// RAIntegrator::getGamesNumber
-//********************
-int RAIntegrator::getGamesNumber(string playlist) {
-    PsGames gamesList;
-    getGames(&gamesList, playlist);
-    return gamesList.size();
-
-}
-
-//********************
-// RAIntegrator::getGames
-//********************
-bool RAIntegrator::getGames(PsGames *result, string playlist) {
-    if (playlist != "") {
-        cout << "Parsing Playlist:" << playlist << endl;
-        string path = Env::getPathToRetroarchDir() + sep + "playlists" + sep + playlist;
-        if (isJSONPlaylist(path)) {
-            parseJSON(result, path);
-        } else {
-            parse6line(result, path);
-        }
-        cout << "Games found:" << result->size() << endl;
-        return true;
-    } else {
-        return false;
-    }
-}
-
-//********************
-// RAIntegrator::getPlaylists
-//********************
-vector<string> RAIntegrator::getPlaylists() {
-    vector<string> result;
-    if (!DirEntry::exists(Env::getPathToRetroarchDir())) {
-        return result;
-    }
-    cout << "Playlists: RA folder Found" << endl;
-    string path = Env::getPathToRetroarchDir() + sep + "playlists";
-    cout << "Checking path" << path << endl;
-    vector<DirEntry> entries = DirEntry::diru_FilesOnly(path);
-    cout << "Total Playlists:" << entries.size() << endl;
-    for (const DirEntry &entry:entries) {
-        if (DirEntry::getFileNameWithoutExtension(entry.name) == "AutoBleem") continue;
-        if (isValidPlaylist(path + sep + entry.name)) {
-            if (getGamesNumber(entry.name) > 0) {
-                result.push_back(entry.name);
-            }
-        }
-    }
-    return result;
+    return psGames;
 }
 
 //********************
@@ -296,7 +418,7 @@ void RAIntegrator::initCoreInfo() {
         if (DirEntry::getFileExtension(entry.name) == "info") {
             string fullPath = infoFolder + sep + entry.name;
 
-            CoreInfoPtr ci = parseInfo(fullPath, entry.name);
+            CoreInfoPtr ci = parseCoreInfo(fullPath, entry.name);
             cores.push_back(ci);
         }
     }
@@ -380,9 +502,9 @@ bool RAIntegrator::isGameValid(PsGamePtr game) {
 }
 
 //********************
-// RAIntegrator::parseInfo
+// RAIntegrator::parseCoreInfo
 //********************
-CoreInfoPtr RAIntegrator::parseInfo(string file, string entry) {
+CoreInfoPtr RAIntegrator::parseCoreInfo(string file, string entry) {
     ifstream in(file);
     string line;
 

@@ -116,18 +116,16 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
                     DirEntry::getFileNameWithoutExtension((*this)->db_name) + sep +
                     "Named_Boxarts" + sep + RAIntegrator::escapeName((*this)->title) + ".png";
 
-
             SDL_SetRenderTarget(renderer, nullptr);
             if (DirEntry::exists(imagePath)) {
                 coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
             } else {
+                cout << "boxart image NOT found for " << imagePath << endl;
                 coverPng = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "evoimg/ra-cover.png").c_str());
             }
 
             SDL_Rect imageCoverRect;
             int w,h;
-
-
 
             SDL_SetRenderTarget(renderer, renderSurface);
             fullRect.x = 0;

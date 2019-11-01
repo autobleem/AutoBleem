@@ -44,7 +44,18 @@ void GuiEditor::processOptionChange(bool direction) {
 
     switch (selOption) {
         case OPT_FAVORITE:
-            if (!internal) {
+            if (internal) {
+                if (direction == true) {
+                    if (gameData->favorite == false) {
+                        gameData->favorite = true;
+                    }
+                } else {
+                    if (gameData->favorite == true) {
+                        gameData->favorite = false;
+                    }
+                }
+                gui->internalDB->updateFavorite(gameData->gameId, gameData->favorite);
+            } else {
                 if (gameIni.values["favorite"] == "")
                     gameIni.values["favorite"] = "0";   // doesn't exist yet in this ini so set to 0
                 if (direction == true) {
@@ -338,9 +349,15 @@ void GuiEditor::render() {
                                                                                     "(" + _("Custom") + ")"),
                         line++, offset, POS_CENTER);
 
-    gui->renderTextLineOptions(
-            _("Favorite:") + (gameIni.values["favorite"] == "1" ? string("|@Check|") : string("|@Uncheck|")),
+    if (gameData->internal) {
+        gui->renderTextLineOptions(
+            _("Favorite:") + (gameData->favorite ? string("|@Check|") : string("|@Uncheck|")),
             OPT_FAVORITE, offset, POS_LEFT, 300);
+    } else {
+        gui->renderTextLineOptions(
+            _("Favorite:") + (gameIni.values["favorite"] == "1" ? string("|@Check|") : string("|@Uncheck|")),
+                    OPT_FAVORITE, offset, POS_LEFT, 300);
+    }
 
     // pcsx.cfg
 

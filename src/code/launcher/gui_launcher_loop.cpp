@@ -346,7 +346,7 @@ void GuiLauncher::loop_chooseRAPlaylist() {
     auto playlists = new GuiPlaylists(renderer);
     playlists->playlists = raPlaylists;
     playlists->backgroundImg = background->tex;
-    playlists->integrator = &raIntegrator;
+    playlists->integrator = raIntegrator;
     int nextSel = 0;
     int i = 0;
     for (string plist:playlists->playlists) {
@@ -689,18 +689,14 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_EDIT_GAME_SETTINGS() {
             loadAssets();
         }
     } else {
-        Database *internalDB = new Database();
-#if defined(__x86_64__) || defined(_M_X64)
-        internalDB->connect("internal.db");
-#else
-        internalDB->connect("/media/System/Databases/internal.db");
-#endif
         if (editor->changes) {
-            internalDB->updateTitle(carouselGames[selGameIndex]->gameId, editor->lastName);
+            gui->internalDB->updateTitle(carouselGames[selGameIndex]->gameId, editor->lastName);
         }
-        internalDB->refreshGameInternal(carouselGames[selGameIndex]);
-        internalDB->disconnect();
-        delete internalDB;
+        gui->internalDB->refreshGameInternal(carouselGames[selGameIndex]);
+        if (currentSet == SET_FAVORITE && editor->gameData->favorite == false) {
+            gui->lastSet = SET_FAVORITE;
+            loadAssets();
+        }
     }
 
     // if the current set is favorites and the user removes the last favorite selGameIndex will be -1

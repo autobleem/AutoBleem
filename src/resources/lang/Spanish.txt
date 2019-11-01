@@ -1,6 +1,4 @@
-﻿ games
- juegos
-.-= Code C++ and shell scripts =-.
+﻿.-= Code C++ and shell scripts =-.
 .-= Codigo C++ y shell scripts =-.
 .-= Database maintenance =-.
 .-= Mantenimiento base de datos =-.
@@ -40,6 +38,10 @@ Card
 Tarjeta
 Change MC
 Cambiar MC
+Change RetroBoot System
+Cambiar Sistema RetroBoot
+Change USB Games Sub-Directory
+Cambiar Sub-Directorio Juegos USB
 Clock:
 Clock:
 Close
@@ -120,6 +122,8 @@ Game:
 Juego:
 games
 juegos
+Games
+Juegos
 Games changed. Press
 Juegos cambiados. Pulsa
 Games filter
@@ -168,8 +172,6 @@ Memory Cards
 Memory Cards
 Menu
 Menu
-Menu Theme:
-Tema Menu:
 Moving :
 Moviendo :
 Moving...
@@ -238,8 +240,6 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch no esta instalado
-RetroBoot Systems
-Sistemas RetroBoot
 Run using RetroBoot(if installed)
 Ejecutar con RetroBoot(si esta instalado)
 Scanline Level:
@@ -272,16 +272,16 @@ Show RetroArch:
 Mostrar RetroArch:
 Showing Timeout (0 = no timeout):
 Tiempo de Muestra (0 = sin tiempo):
-Showing:
-Mostrando:
 Showing: All games
 Mostrando: Todos los Juegos
 Showing: Favorite games
 Mostrando: Juegos Favoritos
 Showing: Internal games
 Mostrando: Juegos Internos
-Showing: USB games
-Mostrando: Juegos en USB
+Showing: Retroarch 
+Mostrando: Retroarch
+Showing: USB Games Directory: 
+Mostrando: Juegos USB Directorio:
 Slot
 Ranura
 Space

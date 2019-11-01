@@ -20,6 +20,7 @@ bool private_singleArgPassed = false;
 string private_pathToUSBDrive;
 string private_pathToGamesDir;
 string private_pathToRegionalDBFile;
+string private_pathToInternalDBFile;
 
 //*******************************
 // Environment:: One Liners
@@ -49,6 +50,10 @@ string Environment::getPathToRetroarchDir() {
     return private_pathToUSBDrive + sep + "retroarch";
 }
 
+string Environment::getPathToRetroarchPlaylistsDir() {
+    return getPathToRetroarchDir() + sep + "playlists";
+}
+
 string Environment::getPathToRetroarchCoreFile() {
     return getPathToRetroarchDir() + sep + "cores/km_pcsx_rearmed_neon_libretro.so";
 }
@@ -60,6 +65,11 @@ string Environment::getPathToRomsDir() {
 // includes the "regional.db" filename
 string Environment::getPathToRegionalDBFile() {
     return private_pathToRegionalDBFile;
+}
+
+// includes the "internal.db" filename
+string Environment::getPathToInternalDBFile() {
+    return private_pathToInternalDBFile;
 }
 
 //*******************************

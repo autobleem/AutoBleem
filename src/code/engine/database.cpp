@@ -17,44 +17,53 @@ using namespace std;
 // covers?.db
 //*******************************
 
+// used by: querySerial
 static const char SELECT_META[] = "SELECT SERIAL,TITLE, PUBLISHER, \
                                 RELEASE,PLAYERS,  COVER FROM SERIALS s \
                                 JOIN GAME g on s.GAME=g.id \
                                 WHERE SERIAL=? OR SERIAL LIKE ?";
 
+// used by: queryTitle
 static const char SELECT_TITLE[] = "SELECT SERIAL,TITLE, PUBLISHER, \
                                 RELEASE,PLAYERS, COVER FROM SERIALS s \
                                 JOIN GAME g on s.GAME=g.id \
                                 WHERE TITLE=?";
 
 //*******************************
-// RELEASE_YEAR is found in both internal.db and output.db
+// RELEASE_YEAR is found in both internal.db and regional.db
 // used by Database::updateYear() which is only called by VerMigration::migrate04_05()
 // VerMigration appears to be no longer used
 //*******************************
+// used by: updateYear
 static const char UPDATE_YEAR[] = "UPDATE GAME SET RELEASE_YEAR=? WHERE GAME_ID=?";
 
 //*******************************
 // regional.db
 //*******************************
 
+// used by: updateMemcard
 static const char UPDATE_MEMCARD[] = "UPDATE GAME SET MEMCARD=? WHERE GAME_ID=?";
 
+// used by: getGames
 static const char GAMES_DATA[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, PATH, SSPATH, MEMCARD, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
                                   FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
+// used by: refreshGameInternal
+// used by: refreshGame
 static const char GAMES_DATA_SINGLE[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, PATH, SSPATH, MEMCARD, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
                                   FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
                                     WHERE g.GAME_ID=?  \
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
+// used by: insertGame
 static const char INSERT_GAME[] = "INSERT INTO GAME ([GAME_ID],[GAME_TITLE_STRING],[PUBLISHER_NAME],[RELEASE_YEAR],[PLAYERS],[RATING_IMAGE],[GAME_MANUAL_QR_IMAGE],[LINK_GAME_ID],\
                 [PATH],[SSPATH],[MEMCARD]) \
                 values (?,?,?,?,?,'CERO_A','QR_Code_GM','',?,?,?)";
 
+// used by: createInitialDatabase
 static const char CREATE_GAME_SQL[] = " CREATE TABLE IF NOT EXISTS GAME  \
      ( GAME_ID integer NOT NULL UNIQUE, \
        GAME_TITLE_STRING text, \
@@ -69,12 +78,14 @@ static const char CREATE_GAME_SQL[] = " CREATE TABLE IF NOT EXISTS GAME  \
        MEMCARD text null,   \
          PRIMARY KEY ( GAME_ID ) )";
 
+// used by: createInitialDatabase
 static const char CREATE_DISC_SQL[] = " CREATE TABLE IF NOT EXISTS DISC \
      ( [GAME_ID] integer, \
        [DISC_NUMBER] integer, \
        [BASENAME] text, \
           UNIQUE ([GAME_ID], [DISC_NUMBER]) )";
 
+// used by: createInitialDatabase
 static const char CREATE_SUBDIR_ROW_SQL[] = " CREATE TABLE IF NOT EXISTS SUBDIR_ROWS  \
      ( SUBDIR_ROW_INDEX integer NOT NULL UNIQUE, \
        SUBDIR_ROW_NAME text, \
@@ -82,24 +93,31 @@ static const char CREATE_SUBDIR_ROW_SQL[] = " CREATE TABLE IF NOT EXISTS SUBDIR_
        NUM_GAMES integer,    \
        PRIMARY KEY ( SUBDIR_ROW_INDEX ) )";
 
+// used by: createInitialDatabase
+static const char CREATE_SUBDIR_GAMES_TO_DISPLAY_ON_ROW_SQL[] = " CREATE TABLE IF NOT EXISTS SUBDIR_GAMES_TO_DISPLAY_ON_ROW  \
+     ( SUBDIR_ROW_INDEX integer, GAME_ID integer )";
+
+// used by: subDirRowsTableIsEmpty
 static const char IS_SUBDIR_ROWS_TABLE_EMPTY[] = "SELECT count(*) FROM SUBDIR_ROWS";
 
+// used by: insertSubDirRow
 static const char INSERT_SUBDIR_ROW[] = "INSERT INTO SUBDIR_ROWS \
         ([SUBDIR_ROW_INDEX],[SUBDIR_ROW_NAME],[INDENT_LEVEL],[NUM_GAMES]) \
         values (?,?,?,?)";
 
+// used by: getGameRowInfos
 static const char GET_SUBDIR_ROW[] = "SELECT SUBDIR_ROW_INDEX, SUBDIR_ROW_NAME, INDENT_LEVEL, NUM_GAMES FROM \
         SUBDIR_ROWS ORDER BY SUBDIR_ROW_INDEX";
 
-static const char CREATE_SUBDIR_GAMES_TO_DISPLAY_ON_ROW_SQL[] = " CREATE TABLE IF NOT EXISTS SUBDIR_GAMES_TO_DISPLAY_ON_ROW  \
-     ( SUBDIR_ROW_INDEX integer, GAME_ID integer )";
-
+// used by: insertSubDirGames
 static const char INSERT_SUBDIR_GAME[] = "INSERT INTO SUBDIR_GAMES_TO_DISPLAY_ON_ROW \
         ([SUBDIR_ROW_INDEX],[GAME_ID]) values (?,?)";
 
+// used by: getGameRowGameInfos
 static const char GET_SUBDIR_GAME[] = "SELECT SUBDIR_ROW_INDEX, GAME_ID FROM \
         SUBDIR_GAMES_TO_DISPLAY_ON_ROW ORDER BY SUBDIR_ROW_INDEX";
 
+// used by: getGameIdsInRow
 static const char GET_SUBDIR_GAME_ON_ROW[] = "SELECT GAME_ID FROM \
         SUBDIR_GAMES_TO_DISPLAY_ON_ROW WHERE SUBDIR_ROW_INDEX =?";
 
@@ -107,14 +125,16 @@ static const char GET_SUBDIR_GAME_ON_ROW[] = "SELECT GAME_ID FROM \
 // internal.db
 //*******************************
 
-static const char GAMES_DATA_SINGLE_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
-                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
-                                    WHERE g.GAME_ID=?  \
+// used by: refreshGameInternal
+static const char GAMES_DATA_SINGLE_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD, \
+                                     FAVORITE FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
+                                     WHERE g.GAME_ID=?  \
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
-static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
-                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
+// used by: getInternalGames
+static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD, \
+                                     FAVORITE FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
@@ -122,27 +142,38 @@ static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, 
 // ????.db
 //*******************************
 
+// used by: updateTitle
 static const char UPDATE_TITLE[] = "UPDATE GAME SET GAME_TITLE_STRING=? WHERE GAME_ID=?";
 
+// used by: updateFavorite
+static const char UPDATE_FAVORITE[] = "UPDATE GAME SET FAVORITE=? WHERE GAME_ID=?";
+
+// used by: getNumGames
 static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
 
-static const char UPDATE_GAME_DB[] = "ALTER TABLE GAME ADD COLUMN FAV INT DEFAULT 0";
+// used by: createFavoriteColumn
+static const char ADD_FAVORITE_COLUMN[] = "ALTER TABLE GAME ADD COLUMN FAVORITE INT DEFAULT 0";
 
+// used by: createInitialDatabase
 static const char CREATE_LANGUAGE_SPECIFIC_SQL[] = "CREATE TABLE IF NOT EXISTS LANGUAGE_SPECIFIC \
       ( [DEFAULT_VALUE] text, \
         [LANGUAGE_ID] integer, \
         [VALUE] text, \
            UNIQUE ([DEFAULT_VALUE], [LANGUAGE_ID]) )";
 
+// used by: beginTransaction
 static const char BEGIN_TRANSACTION[] = "BEGIN TRANSACTION";
+// used by: commit
 static const char COMMIT[] = "COMMIT";
 
+// used by: truncate
 static const char DELETE_GAME_DATA[] = "DELETE FROM GAME";
 static const char DELETE_DISC_DATA[] = "DELETE FROM DISC";
 static const char DELETE_LANGUAGE_DATA[] = "DELETE FROM LANGUAGE_SPECIFIC";
 static const char DELETE_SUBDIR_ROW_DATA[] = "DELETE FROM SUBDIR_ROWS";
 static const char DELETE_SUBDIR_GAME_DATA[] = "DELETE FROM SUBDIR_GAMES_TO_DISPLAY_ON_ROW";
 
+// used by: insertDisc
 static const char INSERT_DISC[] = "INSERT INTO DISC ([GAME_ID],[DISC_NUMBER],[BASENAME]) \
                 values (?,?,?)";
 
@@ -164,6 +195,7 @@ int Database::getNumGames() {
             return number;
         }
     } else {
+        cerr << "Failed: db:: getNumGames" << endl;
         cerr << "Failed to execute statement: " << sqlite3_errmsg(db) << endl;
         sqlite3_finalize(res);
         return 0;
@@ -181,9 +213,9 @@ bool Database::updateYear(int id, int year) {
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, UPDATE_YEAR, -1, &res, nullptr);
     if (rc != SQLITE_OK) {
+        cerr << "Failed: db:: updateYear, " << id << ", " << year << endl;
         cerr << sqlite3_errmsg(db) << endl;
         if (!errorReport) sqlite3_free(errorReport);
-        sqlite3_close(db);
         return false;
     }
     sqlite3_bind_int(res, 1, year);
@@ -201,9 +233,9 @@ bool Database::updateMemcard(int id, string memcard) {
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, UPDATE_MEMCARD, -1, &res, nullptr);
     if (rc != SQLITE_OK) {
+        cerr << "Failed: db::updateMemcard, " << id << ", " << memcard << endl;
         cerr << sqlite3_errmsg(db) << endl;
         if (!errorReport) sqlite3_free(errorReport);
-        sqlite3_close(db);
         return false;
     }
     sqlite3_bind_text(res, 1, memcard.c_str(), -1, nullptr);
@@ -221,12 +253,32 @@ bool Database::updateTitle(int id, string title) {
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, UPDATE_TITLE, -1, &res, nullptr);
     if (rc != SQLITE_OK) {
+        cerr << "Failed: db:: updateTitle, " << id << ", " << title << endl;
         cerr << sqlite3_errmsg(db) << endl;
         if (!errorReport) sqlite3_free(errorReport);
-        sqlite3_close(db);
         return false;
     }
     sqlite3_bind_text(res, 1, title.c_str(), -1, nullptr);
+    sqlite3_bind_int(res, 2, id);
+    sqlite3_step(res);
+    sqlite3_finalize(res);
+    return true;
+}
+
+//*******************************
+// Database::updateFavorite
+//*******************************
+bool Database::updateFavorite(int id, int favorite) {
+    char *errorReport = nullptr;
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, UPDATE_FAVORITE, -1, &res, nullptr);
+    if (rc != SQLITE_OK) {
+        cerr << "Failed: db:: updateFavorite, " << id << ", " << favorite << endl;
+        cerr << sqlite3_errmsg(db) << endl;
+        if (!errorReport) sqlite3_free(errorReport);
+        return false;
+    }
+    sqlite3_bind_int(res, 1, favorite);
     sqlite3_bind_int(res, 2, id);
     sqlite3_step(res);
     sqlite3_finalize(res);
@@ -290,6 +342,7 @@ bool Database::getInternalGames(PsGames *result) {
             int players = sqlite3_column_int(res, 4);
             const unsigned char *base = sqlite3_column_text(res, 5);
             int discs = sqlite3_column_int(res, 6);
+            int fav = sqlite3_column_int(res, 7);
 
             PsGamePtr psGame{new PsGame};
             psGame->gameId = id;
@@ -306,6 +359,7 @@ bool Database::getInternalGames(PsGames *result) {
             psGame->memcard = "SONY";
             psGame->internal = true;
             psGame->cds = discs;
+            psGame->favorite = (fav != 0);
             result->push_back(psGame);
             //cout << "getInternalGames: " << game->serial << ", " << game->title << endl;
         }
@@ -334,6 +388,7 @@ bool Database::refreshGameInternal(PsGamePtr &psGame) {
             int players = sqlite3_column_int(res, 4);
             const unsigned char *base = sqlite3_column_text(res, 5);
             int discs = sqlite3_column_int(res, 6);
+            int fav = sqlite3_column_int(res, 7);
 
             psGame->gameId = id;
             psGame->title = string(reinterpret_cast<const char *>(title));
@@ -349,6 +404,7 @@ bool Database::refreshGameInternal(PsGamePtr &psGame) {
             psGame->memcard = "SONY";
             psGame->internal = true;
             psGame->cds = discs;
+            psGame->favorite = (fav != 0);
 
             string gameIniPath = psGame->folder + sep + GAME_INI;
             if (DirEntry::exists(gameIniPath)) {
@@ -708,14 +764,14 @@ bool Database::insertSubDirGames(int rowIndex, int gameId) {
 //*******************************
 // Database::executeCreateStatement
 //*******************************
-bool Database::executeCreateStatement(char *sql, string tableName) {
+bool Database::executeCreateStatement(char *sql, string name) {
     char *errorReport = nullptr;
-    cout << "Creating " << tableName << " table (if not exists)" << endl;
+    cout << "Creating " << name << " (if not exists)" << endl;
     int rc = sqlite3_exec(db, sql, nullptr, nullptr, &errorReport);
     if (rc != SQLITE_OK) {
-        cerr << "Failed to create " << tableName << "  table  " << sqlite3_errmsg(db) << endl;
+        cerr << "Failed: db:: executeCreateStatement, " << sql << ", " << name << endl;
+        cerr << "Failed to create " << name << "  table/column  " << sqlite3_errmsg(db) << endl;
         if (!errorReport) sqlite3_free(errorReport);
-        sqlite3_close(db);
         return false;
     }
     return true;
@@ -729,9 +785,9 @@ bool Database::executeStatement(char *sql, string outMsg, string errorMsg) {
     cout << outMsg << endl;
     int rc = sqlite3_exec(db, sql, nullptr, nullptr, &errorReport);
     if (rc != SQLITE_OK) {
+        cerr << "Failed: db:: executeStatement, " << sql << ", " << outMsg<< ", " << errorMsg << endl;
         cerr << errorMsg << sqlite3_errmsg(db) << endl;
         if (!errorReport) sqlite3_free(errorReport);
-        sqlite3_close(db);
         return false;
     }
     return true;
@@ -744,6 +800,7 @@ bool Database::connect(string fileName) {
     int rc = sqlite3_open(fileName.c_str(), &db);
     cout << "Connected to DB" << fileName << endl;
     if (rc != SQLITE_OK) {
+        cerr << "Failed: db:: connect, " << fileName << endl;
         cout << "Cannot open database: " << sqlite3_errmsg(db) << endl;
         sqlite3_close(db);
         db = nullptr;
@@ -803,8 +860,44 @@ bool Database::createInitialDatabase() {
 }
 
 //*******************************
-// Database::createFavColumn
+// Database::createFavoriteColumn
 //*******************************
-void Database::createFavColumn() {
-    //   executeCreateStatement((char*) UPDATE_GAME_DB, "FAV column" );
+void Database::createFavoriteColumn() {
+    executeCreateStatement((char*) ADD_FAVORITE_COLUMN, "Favorite column" );
 }
+
+#if 0
+// from: https://forums.coronalabs.com/topic/29425-check-if-column-exists-in-sqlite-database/
+function dbColumnExists(dbase, tbl, col)
+  local sql = "select * from "..tbl.." limit 1;"
+  local stmt = dbase:prepare(sql)
+  local tb = stmt:get_names()
+  local found = false
+  for v = 1, stmt:columns() do
+        print(tb[v]);
+    if tb[v] == col then
+        found = true;
+        print("FOUND "..tb[v]);
+    end
+  end
+  return found
+end
+
+// from: https://stackoverflow.com/questions/18920136/check-if-a-column-exists-in-sqlite
+// link has multiple code snippets
+// This method will check if column exists in your table
+public boolean isFieldExist(String tableName, String fieldName)
+{
+     boolean isExist = false;
+     SQLiteDatabase db = this.getWritableDatabase();
+     Cursor res = db.rawQuery("PRAGMA table_info("+tableName+")",null);
+    res.moveToFirst();
+    do {
+        String currentColumn = res.getString(1);
+        if (currentColumn.equals(fieldName)) {
+            isExist = true;
+        }
+    } while (res.moveToNext());
+     return isExist;
+}
+#endif

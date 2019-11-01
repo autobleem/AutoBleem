@@ -22,6 +22,7 @@
 #include "launcher/retboot_interceptor.h"
 #include "engine/GetGameDirHierarchy.h"
 #include "environment.h"
+#include "launcher/ra_integrator.h"
 
 using namespace std;
 
@@ -32,6 +33,7 @@ extern bool private_singleArgPassed;
 extern string private_pathToUSBDrive;
 extern string private_pathToGamesDir;
 extern string private_pathToRegionalDBFile;
+extern string private_pathToInternalDBFile;
 
 //*******************************
 // copyGameFilesInGamesDirToSubDirs
@@ -142,11 +144,17 @@ int main(int argc, char *argv[]) {
         private_singleArgPassed = true;
         private_pathToUSBDrive = argv[1];
         private_pathToRegionalDBFile = private_pathToUSBDrive + sep + "System/Databases/regional.db";
+        private_pathToInternalDBFile = private_pathToUSBDrive + sep + "System/Databases/internal.db";
         private_pathToGamesDir = private_pathToUSBDrive + sep + "Games";
     } else if (argc == 1 + 2) {
         // the two args are the path to the regional.db file and the path to the /Games dir on the usb drive
         private_singleArgPassed = false;
         private_pathToRegionalDBFile = argv[1];
+#if defined(__x86_64__) || defined(_M_X64)
+        private_pathToInternalDBFile = "internal.db";   // it's in the same dir as the autobleem-gui app you are debugging
+#else
+        private_pathToInternalDBFile = "/media/System/Databases/internal.db";
+#endif
         private_pathToGamesDir = argv[2];
         private_pathToUSBDrive = DirEntry::getDirNameFromPath(private_pathToGamesDir);
     }
@@ -155,6 +163,7 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    // now that Environment is setup, routines that need the paths can be called
     shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr<Scanner> scanner(Scanner::getInstance());
 
@@ -170,7 +179,15 @@ int main(int argc, char *argv[]) {
     }
     gui->db = db;
     db->createInitialDatabase();
-    db->createFavColumn();
+
+    // add favorites column to internal.db if the column doesn't exist
+    Database *internalDB = new Database();
+    if (!internalDB->connect(Env::getPathToInternalDBFile())) {
+        delete internalDB;
+        return EXIT_FAILURE;
+    }
+    gui->internalDB = internalDB;
+    gui->internalDB->createFavoriteColumn(); // add the favorites column if it doesn't exist
 
     string dbpath = Env::getPathToRegionalDBFile();
     string pathToGamesDir = Env::getPathToGamesDir();
@@ -264,6 +281,17 @@ int main(int argc, char *argv[]) {
             interceptor->memcardOut(gui->runningGame);
             delete (interceptor);
 
+            bool reloadFav {false};
+            if (gui->runningGame->foreign)
+                reloadFav = true;
+            else if (gui->emuMode != EMU_PCSX)
+                reloadFav = true;
+
+            if (reloadFav) {
+                auto ra = RAIntegrator::getInstance();
+                ra->reloadFavorites();  // they could have changed
+            }
+
             SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 
             usleep(300*1000);
@@ -276,6 +304,11 @@ int main(int argc, char *argv[]) {
     }
     db->disconnect();
     delete db;
+	db = nullptr;
+
+    internalDB->disconnect();
+    delete internalDB;
+	internalDB = nullptr;
 
     gui->logText(_("Loading ... Please Wait ..."));
     gui->finish();

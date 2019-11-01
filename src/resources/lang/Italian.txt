@@ -1,5 +1,3 @@
- games
- giochi
 .-= Code C++ and shell scripts =-.
 .-= Codice C++ e shell scripts =-.
 .-= Database maintenance =-.

@@ -1,5 +1,3 @@
- games
-
 .-= Code C++ and shell scripts =-.
 
 .-= Database maintenance =-.
@@ -39,6 +37,10 @@ Caps
 Card
 
 Change MC
+
+Change RetroBoot System
+
+Change USB Games Sub-Directory
 
 Clock:
 
@@ -120,6 +122,8 @@ Game:
 
 games
 
+Games
+
 Games changed. Press
 
 Games filter
@@ -167,8 +171,6 @@ Memory Card:
 Memory Cards
 
 Menu
-
-Menu Theme:
 
 Moving :
 
@@ -238,8 +240,6 @@ RetroArch
 
 RetroArch is not installed
 
-RetroBoot Systems
-
 Run using RetroBoot(if installed)
 
 Scanline Level:
@@ -272,15 +272,15 @@ Show RetroArch:
 
 Showing Timeout (0 = no timeout):
 
-Showing:
-
 Showing: All games
 
 Showing: Favorite games
 
 Showing: Internal games
 
-Showing: USB games
+Showing: Retroarch 
+
+Showing: USB Games Directory: 
 
 Slot
 
