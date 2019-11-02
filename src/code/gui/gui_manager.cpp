@@ -71,7 +71,8 @@ void GuiManager::render()
         }
         string path = DirEntry::removeSeparatorFromEndOfPath(psGames[i]->folder);
         path = DirEntry::removeGamesPathFromFrontOfPath(path);
-        gui->renderTextLine(psGames[i]->title + "  -  " + path, pos, offset);
+        gui->renderTextLine(string(80, ' ') + path, pos, offset);   // display game path in same column on the right
+        gui->renderTextLine(psGames[i]->title, pos, offset);        // display game title on left
         pos++;
     }
 
