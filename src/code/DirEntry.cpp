@@ -327,6 +327,24 @@ int DirEntry::rmDir(string path) {
 }
 
 //*******************************
+// DirEntry::removeDirAndContents
+//*******************************
+bool  DirEntry::removeDirAndContents(const std::string path) {
+    // remove the files in the dir
+    auto files = diru_FilesOnly(path);
+    for (auto & file : files)
+        { remove((path + sep + file.name).c_str()); }
+
+    // recursively remove the subdirs
+    auto dirs = diru_DirsOnly(path);
+    for (auto & dir : dirs)
+        { removeDirAndContents(path + sep + dir.name); }
+
+    // remove the passed (now empty) dir
+    return (rmdir(path.c_str()) == 0);
+}
+
+//*******************************
 // DirEntry::copy file
 //*******************************
 bool DirEntry::copy(const string &source, const string &dest) {

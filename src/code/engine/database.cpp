@@ -121,6 +121,11 @@ static const char GET_SUBDIR_GAME[] = "SELECT SUBDIR_ROW_INDEX, GAME_ID FROM \
 static const char GET_SUBDIR_GAME_ON_ROW[] = "SELECT GAME_ID FROM \
         SUBDIR_GAMES_TO_DISPLAY_ON_ROW WHERE SUBDIR_ROW_INDEX =?";
 
+// used by: deleteGameIdInAllTables
+static const char DELETE_GAME_ID_FROM_DISC[] = "DELETE FROM DISC WHERE GAME_ID =?";
+static const char DELETE_GAME_ID_FROM_GAME[] = "DELETE FROM GAME WHERE GAME_ID =?";
+static const char DELETE_GAME_ID_FROM_SUBDIR_GAMES_TO_DISPLAY_ON_ROW[] = "DELETE FROM SUBDIR_GAMES_TO_DISPLAY_ON_ROW WHERE GAME_ID =?";
+
 //*******************************
 // internal.db
 //*******************************
@@ -864,6 +869,45 @@ bool Database::createInitialDatabase() {
 //*******************************
 void Database::createFavoriteColumn() {
     executeCreateStatement((char*) ADD_FAVORITE_COLUMN, "Favorite column" );
+}
+
+//*******************************
+// Database::deleteGameIdFromOneTable
+//*******************************
+bool Database::deleteGameIdFromOneTable(int id, const string& cmd_str) {
+    char *errorReport = nullptr;
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, cmd_str.c_str(), -1, &res, nullptr);
+    if (rc != SQLITE_OK) {
+        cerr << "Failed: db:: delete game_id from table, " << id << ", " << cmd_str << endl;
+        cerr << sqlite3_errmsg(db) << endl;
+        if (!errorReport) sqlite3_free(errorReport);
+        return false;
+    }
+    sqlite3_bind_int(res, 1, id);
+    sqlite3_step(res);
+    sqlite3_finalize(res);
+    return true;
+}
+
+
+//*******************************
+// Database::deleteGameIdFromAllTables
+//*******************************
+bool Database::deleteGameIdFromAllTables(int id) {
+    beginTransaction(); // all the statements must succeed or the DB won't be modified
+
+    bool success = true;
+    success = deleteGameIdFromOneTable(id, DELETE_GAME_ID_FROM_DISC);
+    if (success)
+        success = deleteGameIdFromOneTable(id, DELETE_GAME_ID_FROM_GAME);
+    if (success)
+        success = deleteGameIdFromOneTable(id, DELETE_GAME_ID_FROM_SUBDIR_GAMES_TO_DISPLAY_ON_ROW);
+
+    if (success)
+        commit();
+
+    return success;
 }
 
 #if 0
