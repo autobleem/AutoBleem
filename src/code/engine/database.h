@@ -77,6 +77,9 @@ public:
     bool updateFavorite(int id, int fav);
     bool refreshGame(PsGamePtr & game);
     bool refreshGameInternal(PsGamePtr & game);
+
+    bool deleteGameIdFromOneTable(int id, const std::string& cmd_str);
+    bool deleteGameIdFromAllTables(int id);
 private:
     sqlite3 *db;
     bool executeCreateStatement(char *sql, std::string name);

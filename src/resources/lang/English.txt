@@ -16,6 +16,8 @@ Advanced
 
 Advanced:
 
+Are you sure you want to delete
+
 Are you sure you want to flush all covers?
 
 Are you sure?
@@ -72,7 +74,11 @@ Defragment Card
 
 Delete
 
+Delete !SaveState folder for game
+
 Delete card
+
+Delete Game
 
 Do you want to save memcards data ?
 
@@ -97,6 +103,8 @@ Enter new name for card
 Enter new name for memory card
 
 Entry
+
+Failed to delete
 
 Favorite:
 
@@ -199,6 +207,8 @@ Players
 Please confirm
 
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+
+Please wait ... deleting
 
 Please wait ... deleting covers...
 

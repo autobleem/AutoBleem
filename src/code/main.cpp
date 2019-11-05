@@ -180,6 +180,10 @@ int main(int argc, char *argv[]) {
     gui->db = db;
     db->createInitialDatabase();
 
+    // if the /System/Databases/internal.db doesn't exist make a copy from the PSC
+    cout << "Importing internal games from PSC to USB" << endl;
+    Util::execUnixCommand("/media/Autobleem/rc/backup_internal.sh");
+
     // add favorites column to internal.db if the column doesn't exist
     Database *internalDB = new Database();
     if (!internalDB->connect(Env::getPathToInternalDBFile())) {

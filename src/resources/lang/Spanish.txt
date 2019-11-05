@@ -16,6 +16,8 @@ Advanced
 Avanzado
 Advanced:
 Avanzado:
+Are you sure you want to delete
+Estas seguro que quieres borrar
 Are you sure you want to flush all covers?
 ¿Estas seguro que quieres eliminar todas las caratulas?
 Are you sure?
@@ -72,8 +74,12 @@ Defragment Card
 Desfragmentar Tarjeta
 Delete
 Borrar
+Delete !SaveState folder for game
+Borrar carpeta !SaveState del juego
 Delete card
 Borrar tarjeta
+Delete Game
+Borrar Juego
 Do you want to save memcards data ?
 Quieres salvar los datos de las memorycards ?
 Download latest:
@@ -98,6 +104,8 @@ Enter new name for memory card
 Entra nuevo nombre para memory card
 Entry
 Entrada
+Failed to delete
+Fallo al borrar
 Favorite:
 Favorito:
 Flush covers
@@ -200,6 +208,8 @@ Please confirm
 Por favor confirma
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 POR FAVOR CONECTA EL GAMEPAD A LA PLAYSTATION CLASSIC
+Please wait ... deleting
+Por favor espera ... borrando
 Please wait ... deleting covers...
 Por favor espera ... borrando caratulas ...
 Plugin:

@@ -71,7 +71,8 @@ void GuiManager::render()
         }
         string path = DirEntry::removeSeparatorFromEndOfPath(psGames[i]->folder);
         path = DirEntry::removeGamesPathFromFrontOfPath(path);
-        gui->renderTextLine(psGames[i]->title + "  -  " + path, pos, offset);
+        gui->renderTextLine(string(80, ' ') + path, pos, offset);   // display game path in same column on the right
+        gui->renderTextLine(psGames[i]->title, pos, offset);        // display game title on left
         pos++;
     }
 
@@ -80,7 +81,7 @@ void GuiManager::render()
     }
 
     gui->renderStatus(_("Game") + " " + to_string(selected + 1) + "/" + to_string(psGames.size()) +
-                      "    |@L1|/|@R1| " + _("Page") + "   |@X| " + _("Select") + "  |@T| " + _("Flush covers") +
+                      "    |@L1|/|@R1| " + _("Page") + "   |@X| " + _("Select") + "  |@S| " + _("Delete Game") + "  |@T| " + _("Flush covers") +
                       " |@O| " + _("Close") + " |");
     SDL_RenderPresent(renderer);
 }
@@ -179,6 +180,57 @@ void GuiManager::loop()
                         }
                         menuVisible = false;
                     };
+
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE,&e)) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        auto game = psGames[selected];
+                        int gameId = game->gameId;
+                        string gameName = game->title;
+                        string gameSaveStateFolder = game->ssFolder;
+                        GuiConfirm * confirm = new GuiConfirm(renderer);
+                        confirm->label = _("Are you sure you want to delete") + " " + gameName + "?";
+                        confirm->show();
+                        bool delGame = confirm->result;
+                        delete confirm;
+
+                        if (delGame)
+                        {
+                            cout << "Trying to delete " << gameName  << endl;
+                            gui->renderStatus(_("Please wait ... deleting") + " " + gameName);
+                            bool success = gui->db->deleteGameIdFromAllTables(gameId);
+                            if (success) {
+                                success = DirEntry::removeDirAndContents(game->folder);
+                                if (success) {
+                                    PsGames currentGames;
+                                    gui->db->getGames(&currentGames);
+                                    int numberOfGamesRemainingWithSameSaveState = count_if(begin(currentGames), end(currentGames),
+                                            [&] (const PsGamePtr& g) { return g->ssFolder == gameSaveStateFolder; });
+                                    if (numberOfGamesRemainingWithSameSaveState == 0) {
+                                        GuiConfirm * confirm = new GuiConfirm(renderer);
+                                        confirm->label = _("Delete !SaveState folder for game") + " " + gameName + "?";
+                                        confirm->show();
+                                        bool delSSFolder = confirm->result;
+                                        delete confirm;
+                                        if (delSSFolder)
+                                            DirEntry::removeDirAndContents(gameSaveStateFolder);
+                                    }
+                                }
+                                } else {
+                                    cout << "Failed to delete directory " << game->folder  << endl;
+                                    gui->renderStatus(_("Failed to delete") + " " + gameName);
+                                }
+                        }
+                            else {
+                                cout << "Failed to delete " << gameName  << endl;
+                                gui->renderStatus(_("Failed to delete") + " " + gameName);
+                            }
+                            gui->forceScan = true;  // in order for the sub dir hierarchy to be fixed we have to do a rescan
+                            //menuVisible = false;
+                            init(); // refresh games list and menu item count
+                            render();
+                        } else {
+                            render();
+                    }
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);

@@ -121,6 +121,11 @@ static const char GET_SUBDIR_GAME[] = "SELECT SUBDIR_ROW_INDEX, GAME_ID FROM \
 static const char GET_SUBDIR_GAME_ON_ROW[] = "SELECT GAME_ID FROM \
         SUBDIR_GAMES_TO_DISPLAY_ON_ROW WHERE SUBDIR_ROW_INDEX =?";
 
+// used by: deleteGameIdInAllTables
+static const char DELETE_GAME_ID_FROM_DISC[] = "DELETE FROM DISC WHERE GAME_ID =?";
+static const char DELETE_GAME_ID_FROM_GAME[] = "DELETE FROM GAME WHERE GAME_ID =?";
+static const char DELETE_GAME_ID_FROM_SUBDIR_GAMES_TO_DISPLAY_ON_ROW[] = "DELETE FROM SUBDIR_GAMES_TO_DISPLAY_ON_ROW WHERE GAME_ID =?";
+
 //*******************************
 // internal.db
 //*******************************
@@ -138,6 +143,12 @@ static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, 
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
+// used by: createFavoriteColumn
+static const char ADD_FAVORITE_COLUMN[] = "ALTER TABLE GAME ADD COLUMN FAVORITE INT DEFAULT 0";
+
+// used by: updateFavorite
+static const char UPDATE_FAVORITE[] = "UPDATE GAME SET FAVORITE=? WHERE GAME_ID=?";
+
 //*******************************
 // ????.db
 //*******************************
@@ -145,14 +156,8 @@ static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, 
 // used by: updateTitle
 static const char UPDATE_TITLE[] = "UPDATE GAME SET GAME_TITLE_STRING=? WHERE GAME_ID=?";
 
-// used by: updateFavorite
-static const char UPDATE_FAVORITE[] = "UPDATE GAME SET FAVORITE=? WHERE GAME_ID=?";
-
 // used by: getNumGames
 static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
-
-// used by: createFavoriteColumn
-static const char ADD_FAVORITE_COLUMN[] = "ALTER TABLE GAME ADD COLUMN FAVORITE INT DEFAULT 0";
 
 // used by: createInitialDatabase
 static const char CREATE_LANGUAGE_SPECIFIC_SQL[] = "CREATE TABLE IF NOT EXISTS LANGUAGE_SPECIFIC \
@@ -798,7 +803,7 @@ bool Database::executeStatement(char *sql, string outMsg, string errorMsg) {
 //*******************************
 bool Database::connect(string fileName) {
     int rc = sqlite3_open(fileName.c_str(), &db);
-    cout << "Connected to DB" << fileName << endl;
+    cout << "Connected to DB " << fileName << endl;
     if (rc != SQLITE_OK) {
         cerr << "Failed: db:: connect, " << fileName << endl;
         cout << "Cannot open database: " << sqlite3_errmsg(db) << endl;
@@ -864,6 +869,45 @@ bool Database::createInitialDatabase() {
 //*******************************
 void Database::createFavoriteColumn() {
     executeCreateStatement((char*) ADD_FAVORITE_COLUMN, "Favorite column" );
+}
+
+//*******************************
+// Database::deleteGameIdFromOneTable
+//*******************************
+bool Database::deleteGameIdFromOneTable(int id, const string& cmd_str) {
+    char *errorReport = nullptr;
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, cmd_str.c_str(), -1, &res, nullptr);
+    if (rc != SQLITE_OK) {
+        cerr << "Failed: db:: delete game_id from table, " << id << ", " << cmd_str << endl;
+        cerr << sqlite3_errmsg(db) << endl;
+        if (!errorReport) sqlite3_free(errorReport);
+        return false;
+    }
+    sqlite3_bind_int(res, 1, id);
+    sqlite3_step(res);
+    sqlite3_finalize(res);
+    return true;
+}
+
+
+//*******************************
+// Database::deleteGameIdFromAllTables
+//*******************************
+bool Database::deleteGameIdFromAllTables(int id) {
+    beginTransaction(); // all the statements must succeed or the DB won't be modified
+
+    bool success = true;
+    success = deleteGameIdFromOneTable(id, DELETE_GAME_ID_FROM_DISC);
+    if (success)
+        success = deleteGameIdFromOneTable(id, DELETE_GAME_ID_FROM_GAME);
+    if (success)
+        success = deleteGameIdFromOneTable(id, DELETE_GAME_ID_FROM_SUBDIR_GAMES_TO_DISPLAY_ON_ROW);
+
+    if (success)
+        commit();
+
+    return success;
 }
 
 #if 0
