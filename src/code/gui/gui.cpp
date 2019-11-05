@@ -460,9 +460,6 @@ void Gui::display(bool forceScan, const string &_pathToGamesDir, Database *db, b
         splashScreen->show();
         delete splashScreen;
 
-        drawText(_("Importing internal games"));
-        Util::execUnixCommand("/media/Autobleem/rc/backup_internal.sh");
-
         for (int i = 0; i < SDL_NumJoysticks(); i++) {
             SDL_Joystick *joystick = SDL_JoystickOpen(i);
             if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick))) {
