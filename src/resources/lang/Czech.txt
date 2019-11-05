@@ -112,8 +112,6 @@ High res:
 Vysoké rozlišení:
 Hold
 Čekejte
-Importing internal games
-Importování her z interní paměti
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 V BOOT MENU PRO VYPNUTÍ KONZOLE (BEZPEČNÉ VYPNUTÍ !!!)
 In Game

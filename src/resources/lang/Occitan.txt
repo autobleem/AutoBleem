@@ -132,8 +132,6 @@ High res:
 Nauta resolucion :
 Hold
 Manténer
-Importing internal games
-Importacion dels jòcs intèrnes
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 AL MENÚ D'AVIADA PER ATUDAR LA CONSÒLA (EXTINCION SEGURA !!!)
 In Game
