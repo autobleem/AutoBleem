@@ -46,9 +46,9 @@ bool copyGameFilesInGamesDirToSubDirs(const string & path){
     string filenameWE;
     vector<string> extensions;
     vector<string> binList;
+
     shared_ptr<Gui> splash(Gui::getInstance());
-    splash->logText(_("Moving..."));
-//    extensions.push_back("iso");
+
     extensions.push_back("pbp");
     extensions.push_back("cue");
 
@@ -203,10 +203,6 @@ int main(int argc, char *argv[]) {
     string prevPath = Env::getWorkingPath() + sep + "autobleem.prev";
     bool prevFileExists = DirEntry::exists(prevPath);
 
-    bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(pathToGamesDir);
-    if (thereAreGameFilesInGamesDir)
-        copyGameFilesInGamesDirToSubDirs(pathToGamesDir);
-
     GamesHierarchy gamesHierarchy;
     gamesHierarchy.getHierarchy(pathToGamesDir);
 
@@ -214,12 +210,17 @@ int main(int argc, char *argv[]) {
     USBGame::sortByFullPath(allGames);
 
     bool autobleemPrevOutOfDate = gamesHierarchy.gamesDoNotMatchAutobleemPrev(prevPath);
+    bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(pathToGamesDir);
+
     if (!prevFileExists || thereAreGameFilesInGamesDir || autobleemPrevOutOfDate ||
         db->subDirRowsTableIsEmpty() || db->getNumGames() == 0) {
         scanner->forceScan = true;
     }
 
     gui->display(scanner->forceScan, pathToGamesDir, db, false);
+
+    if (thereAreGameFilesInGamesDir)
+        copyGameFilesInGamesDirToSubDirs(pathToGamesDir);   // calls splash() so the gui->display needs to be up first
 
     while (gui->menuOption == MENU_OPTION_SCAN || gui->menuOption == MENU_OPTION_START) {
 
