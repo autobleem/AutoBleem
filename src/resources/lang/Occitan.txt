@@ -168,8 +168,6 @@ Menu Theme:
 Tèma del menú :
 Moving :
 Desplaçament :
-Moving...
-Desplaçament...
 Music:
 Musica :
 New Card

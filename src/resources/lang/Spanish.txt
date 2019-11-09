@@ -180,8 +180,6 @@ Menu
 Menu
 Moving :
 Moviendo :
-Moving...
-Moviendo...
 Music:
 Musica:
 New Card

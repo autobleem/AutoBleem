@@ -168,8 +168,6 @@ Menu Theme:
 Tema del Menu:
 Moving :
 Spostando :
-Moving...
-Spostando...
 Music:
 Musica:
 New Card

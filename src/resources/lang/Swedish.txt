@@ -12,6 +12,8 @@ AutoBleem
 AutoBleem
 AutoBleem Theme:
 AutoBleem-tema:
+Automatic PlayStation Classic USB launcher
+Automatisk PlayStation Classic USB-launcher
 Background Music:
 Bakgrundsmusik:
 Cancel
@@ -154,5 +156,3 @@ WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
 VARNING: INGA SPEL HITTADES. TRYCK PÅ VALFRI KNAPP.
 Year:
 År:
-Automatic PlayStation Classic USB launcher
-Automatisk PlayStation Classic USB-launcher

@@ -180,8 +180,6 @@ Menu
 
 Moving :
 
-Moving...
-
 Music:
 
 New Card
