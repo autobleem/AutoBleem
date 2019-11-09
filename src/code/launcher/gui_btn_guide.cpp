@@ -36,7 +36,11 @@ void GuiBtnGuide::render() {
     gui->renderTextLine("|@Select| + |@T|   " + _("Emulator config MENU"), 9, offset, POS_CENTER);
     gui->renderTextLine("RESET   " + _("Quit emulation - back to AutoBleem"), 10, offset, POS_CENTER);
 
-    gui->renderTextLine("|@R2| + |@L2|  " + _("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 12, offset,
+    gui->renderTextLine("-=" + _("In Retroarch Game") + "=-", 11, offset, POS_CENTER);
+    gui->renderTextLine("|@Select| + |@Start|   " + _("Open Retroarch Menu"), 12, offset, POS_CENTER);
+    gui->renderTextLine(_("POWER") + "   " + _("Exit to EvoUI"), 13, offset, POS_CENTER);
+
+    gui->renderTextLine("|@R2| + |@L2|  " + _("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 15, offset,
                         POS_CENTER);
 
 

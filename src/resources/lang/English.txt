@@ -104,6 +104,8 @@ Enter new name for memory card
 
 Entry
 
+Exit to EvoUI
+
 Failed to delete
 
 Favorite:
@@ -150,6 +152,8 @@ IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 
 In Game
 
+In Retroarch Game
+
 Internal
 
 INTERNAL
@@ -190,6 +194,8 @@ OK
 
 OOPS! Game crashed. Resume point not available.
 
+Open Retroarch Menu
+
 Options
 
 Original
@@ -209,6 +215,8 @@ Please wait ... deleting
 Please wait ... deleting covers...
 
 Plugin:
+
+POWER
 
 Power Off
 

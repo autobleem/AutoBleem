@@ -104,6 +104,8 @@ Enter new name for memory card
 Entra nuevo nombre para memory card
 Entry
 Entrada
+Exit to EvoUI
+Salir a EvoUI
 Failed to delete
 Fallo al borrar
 Favorite:
@@ -150,6 +152,8 @@ IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 EN EL MENU PRINCIPAL PARA APAGAR LA CONSOLA (APAGADO SEGURO!!!)
 In Game
 En Juego
+In Retroarch Game
+En Juego de Retoarch
 Internal
 Interno
 INTERNAL
@@ -190,6 +194,8 @@ OK
 Aceptar
 OOPS! Game crashed. Resume point not available.
 OOPS! Juego dañado. Punto de resumen no disponible.
+Open Retroarch Menu
+Abre Menu de Retoarch
 Options
 Opciones
 Original
@@ -210,6 +216,8 @@ Please wait ... deleting covers...
 Por favor espera ... borrando caratulas ...
 Plugin:
 Plugin:
+POWER
+POWER
 Power Off
 Apagar
 POWERING OFF... PLEASE WAIT
