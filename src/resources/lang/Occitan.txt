@@ -50,8 +50,8 @@ CONFIGURED
 CONFIGURAT
 Confirm
 Confirmar
-Console Button Guide
-Guida botons consòla
+Button Guide
+Guida botons
 Copy
 Copiar
 Cover Style:

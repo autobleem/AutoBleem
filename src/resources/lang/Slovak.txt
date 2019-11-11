@@ -56,8 +56,8 @@ CONFIGURED
 KONFIGUROVANÉ
 Confirm
 Potvrdiť
-Console Button Guide
-Sprievodca tlačidlami konzoly
+Button Guide
+Sprievodca tlačidlami
 Copy
 Kopírovať
 Cover Style:

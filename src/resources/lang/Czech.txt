@@ -38,8 +38,8 @@ Configuration saved - Press |@X| to continue
 Nastavení uloženo - Stiskněte |@X| pro pokračování
 Confirm
 Potvrdit
-Console Button Guide
-Průvodce tlačítky konzole
+Button Guide
+Průvodce tlačítky
 Cover Style:
 Styl obalu:
 Custom

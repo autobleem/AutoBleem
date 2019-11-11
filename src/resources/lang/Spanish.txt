@@ -56,8 +56,8 @@ CONFIGURED
 CONFIGURADO
 Confirm
 Confirmar
-Console Button Guide
-Guia de Botones de la Consola
+Button Guide
+Guia de Botones
 Copy
 Copiar
 Cover Style:

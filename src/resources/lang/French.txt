@@ -32,8 +32,8 @@ Configuration
 Paramètres
 Confirm
 Valider
-Console Button Guide
-Guide des touches de la console
+Button Guide
+Guide des touches
 Custom
 Personnalisée
 Custom Memory Cards

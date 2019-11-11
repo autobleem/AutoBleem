@@ -56,7 +56,7 @@ CONFIGURED
 
 Confirm
 
-Console Button Guide
+Button Guide
 
 Copy
 

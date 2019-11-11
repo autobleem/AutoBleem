@@ -56,8 +56,8 @@ CONFIGURED
 WEWNĘTRZNA
 Confirm
 Potwierdź
-Console Button Guide
-Opis funkcji konsoli
+Button Guide
+Opis funkcji
 Copy
 Kopiuj
 Cover Style:

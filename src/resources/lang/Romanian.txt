@@ -38,8 +38,8 @@ Configuration saved - Press |@X| to continue
 Configuratia a fost salvata - Apasa |@X| pentru a continua
 Confirm
 Confirma
-Console Button Guide
-Ghid butoane consola
+Button Guide
+Ghid butoane
 Cover Style:
 Stil pentru Cover:
 Custom

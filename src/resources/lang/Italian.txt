@@ -50,7 +50,7 @@ CONFIGURED
 CONFIGURATO
 Confirm
 Conferma
-Console Button Guide
+Button Guide
 Guida ai Pulsanti
 Copy
 Copia
