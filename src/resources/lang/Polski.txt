@@ -32,6 +32,8 @@ Background Music:
 Muzyka w tle:
 Button Guide
 Sterowanie
+Button Guide
+Opis funkcji
 Cancel
 Anuluj
 Caps
@@ -56,8 +58,6 @@ CONFIGURED
 WEWNĘTRZNA
 Confirm
 Potwierdź
-Button Guide
-Opis funkcji
 Copy
 Kopiuj
 Cover Style:
@@ -103,7 +103,7 @@ Podaj nową nazwę dla karty
 Enter new name for memory card
 Podaj nową nazwę dla karty pamięci
 Entry
-Wprowdź
+Wprowadź
 Failed to delete
 Nieudane usuwanie
 Favorite:
@@ -146,8 +146,6 @@ High res:
 Zwiększ Rozdzielczość:
 Hold
 Przytrzymaj
-Importing internal games
-Przenoszenie wewnętrznych gier
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 W MENU STARTOWYM - BEZPIECZNE WYŁĄCZENIE KONSOLI
 In Game
@@ -251,7 +249,7 @@ RetroArch jest nie zainstalowany
 Run using RetroBoot(if installed)
 Uruchom przy użyciu RetroBoot(jeśli zainstalowany)
 Scanline Level:
-Poziom linii:
+Intensywność linii:
 Scanlines:
 Linie:
 Scanning...
@@ -275,7 +273,7 @@ Serial:
 SETTINGS
 USTAWIENIA
 Share MC
-Udostępnij
+Stwórz własną MC
 Show RetroArch:
 Pokazuj RetroArch:
 Showing Timeout (0 = no timeout):
@@ -322,3 +320,11 @@ Widescreen:
 Pełny ekran:
 Year:
 Rok:
+Exit to EvoUI
+Powrót do EvoUI
+In Retroarch Game
+W grze Retroarch
+Open Retroarch Menu
+Otwiera Menu Retroarch
+POWER
+Przycisk POWER
