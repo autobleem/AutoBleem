@@ -56,8 +56,6 @@ CONFIGURED
 
 Confirm
 
-Button Guide
-
 Copy
 
 Cover Style:

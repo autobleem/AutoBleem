@@ -50,8 +50,6 @@ CONFIGURED
 CONFIGURATO
 Confirm
 Conferma
-Button Guide
-Guida ai Pulsanti
 Copy
 Copia
 Cover Style:

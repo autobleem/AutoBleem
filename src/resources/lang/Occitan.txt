@@ -50,8 +50,6 @@ CONFIGURED
 CONFIGURAT
 Confirm
 Confirmar
-Button Guide
-Guida botons
 Copy
 Copiar
 Cover Style:

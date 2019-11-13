@@ -38,8 +38,6 @@ Configuration saved - Press |@X| to continue
 Configuração salva - Pressione |@X| para continuar
 Confirm
 Confirmar
-Button Guide
-Guia de Botões
 Cover Style:
 Estilo da Capa:
 Custom

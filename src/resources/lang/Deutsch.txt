@@ -32,8 +32,6 @@ Configuration
 Konfiguration
 Confirm
 Bestätigen
-Button Guide
-Übersicht über die Konsolentasten
 Custom
 Benutzer
 Custom Memory Cards

@@ -56,8 +56,6 @@ CONFIGURED
 CONFIGURADO
 Confirm
 Confirmar
-Button Guide
-Guia de Botones
 Copy
 Copiar
 Cover Style:

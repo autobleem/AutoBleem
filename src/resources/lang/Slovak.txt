@@ -56,8 +56,6 @@ CONFIGURED
 KONFIGUROVANÉ
 Confirm
 Potvrdiť
-Button Guide
-Sprievodca tlačidlami
 Copy
 Kopírovať
 Cover Style:
