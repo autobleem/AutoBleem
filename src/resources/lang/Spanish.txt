@@ -290,9 +290,9 @@ Showing: Favorite games
 Mostrando: Juegos Favoritos
 Showing: Internal games
 Mostrando: Juegos Internos
-Showing: Retroarch 
+Showing: Retroarch
 Mostrando: Retroarch
-Showing: USB Games Directory: 
+Showing: USB Games Directory:
 Mostrando: Juegos USB Directorio:
 Slot
 Ranura

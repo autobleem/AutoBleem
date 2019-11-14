@@ -284,10 +284,10 @@ Showing: Favorite games
 Wyświetla: Ulubione gry
 Showing: Internal games
 Wyświetla: Wewnętrzne gry
-Showing: Retroarch 
-Wyświetla: Retroarch 
-Showing: USB Games Directory: 
-Wyświetla: Folder Gier z USB: 
+Showing: Retroarch
+Wyświetla: Retroarch
+Showing: USB Games Directory:
+Wyświetla: Folder Gier z USB:
 Slot
 Slot
 Space

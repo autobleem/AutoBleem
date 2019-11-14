@@ -290,9 +290,9 @@ Showing: Favorite games
 
 Showing: Internal games
 
-Showing: Retroarch 
+Showing: Retroarch
 
-Showing: USB Games Directory: 
+Showing: USB Games Directory:
 
 Slot
 

@@ -182,9 +182,9 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
 void GuiLauncher::showSetName() {
     vector<string> setNames = { _("Showing: All games"),
                                 _("Showing: Internal games"),
-                                _("Showing: USB Games Directory: "),
+                                _("Showing: USB Games Directory:") + " ",
                                 _("Showing: Favorite games"),
-                                _("Showing: Retroarch ")};
+                                _("Showing: Retroarch") + " "};
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
 
     auto str = gui->cfg.inifile.values["showingtimeout"];
