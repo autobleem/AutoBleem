@@ -1,21 +1,39 @@
-﻿About
+﻿.-= Code C++ and shell scripts =-.
+.-= Kodowanie C++ i shell scripts =-.
+.-= Database maintenance =-.
+.-= Baza danych gier =-.
+.-= Graphics =-.
+.-= Grafika =-.
+.-= Localization support =-.
+.-= Tłumaczenie =-.
+.-= Retroboot and emulation cores =-.
+.-= Retroboot i rdzenie =-.
+.-= Testing =-.
+.-= Testerzy =-.
+About
 O programie
 Advanced
 Zawansowane
 Advanced:
 Zawansowane:
-Are you sure?
-Czy jesteś pewien?
+Are you sure you want to delete
+Czy na pewno chcesz usunąć
 Are you sure you want to flush all covers?
 Czy na pewno chcesz wyczyścić wszystkie okładki?
+Are you sure?
+Czy jesteś pewien?
 AutoBleem
 AutoBleem
+AutoBleem resume points not available in RetroArch.
+RetroArch nie obsługuje punktów wznowienia Autobleem
 AutoBleem Theme:
 Skórka AutoBleem:
 Background Music:
 Muzyka w tle:
 Button Guide
 Sterowanie
+Button Guide
+Opis funkcji
 Cancel
 Anuluj
 Caps
@@ -24,6 +42,10 @@ Card
 Karta
 Change MC
 Zmień kartę
+Change RetroBoot System
+Zmiana Systemu RetroBoot
+Change USB Games Sub-Directory
+Zmiana Podfolderu Gier z USB
 Clock:
 Zegar:
 Close
@@ -32,24 +54,34 @@ Configuration
 Konfiguracja
 Configuration saved - Press |@X| to continue
 Konfiguracja zapisana - Naciśnij |@X| aby kontynuować
+CONFIGURED
+WEWNĘTRZNA
 Confirm
 Potwierdź
-Console Button Guide
-Opis funkcji konsoli
+Copy
+Kopiuj
 Cover Style:
 Styl Okładek:
 Custom
 Własna
-Customize AutoBleem settings
-Dostosuj ustawienia Autobleem
 Custom Memory Cards
 Współdzielone Karty Pamięci
+Customize AutoBleem settings
+Dostosuj ustawienia Autobleem
 Decompressing ecm:
 Dekompresuję ecm:
+Defragment Card
+Defragmentuj Kartę
 Delete
 Kasuj
+Delete !SaveState folder for game
+Usuń folder !SaveState dla gry
 Delete card
 Usuń kartę
+Delete Game
+Usuń Grę
+Do you want to save memcards data ?
+Czy chcesz zapisać zmienione dane katy ?
 Download latest:
 Pobierz najnowszy AB:
 DPAD - Same as classic menu
@@ -70,6 +102,10 @@ Enter new name for card
 Podaj nową nazwę dla karty
 Enter new name for memory card
 Podaj nową nazwę dla karty pamięci
+Entry
+Wprowadź
+Failed to delete
+Nieudane usuwanie
 Favorite:
 Ulubione:
 Flush covers
@@ -78,20 +114,24 @@ Folder:
 Folder:
 Frameskip:
 Pomiń klatki:
+Free
+Wolne
 Free space
 Wolne miejsce
 GAME
 GRA
 Game
 Gra
-Game:
-Gra:
 Game Manager
 Menadżer gier
 Game manager - Select game
 Manadżer gier - Wybierz grę
+Game:
+Gra:
 games
 gry
+Games
+Gry
 Games changed. Press
 Gry zmienione. Naciśnij
 Games filter
@@ -112,32 +152,42 @@ In Game
 W Grze
 Internal
 Wewnętrzna
+INTERNAL
+WEWNĘTRZNA
 Internal Games:
 Wewnętrzne Gry:
 Is your dpad analogue?
 Czy twój D-pad to analog?
 Language:
 Język:
+Link Block
+Polaczony Blok
+Link end Block
+Blok Koncowy
 Loading ... Please Wait ...
 Ładuję ... Proszę czekać ...
 Lock data:
 Blokuj zmiany:
 MEMORY CARD
 KARTA PAMIĘCI
+Memory Card Manager
+Menadżer Kart Pamięci
 Memory Card:
 Karta pamięci:
 Memory Cards
 Karty Pamięci
 Menu
 Menu
-Menu Theme:
-Skórka menu:
+Moving :
+Przenoszenie :
 Music:
 Muzyka:
 New Card
 Nowa karta
 New GamePad found
 Znaleziono Nowy Kontroler
+OK
+OK
 OOPS! Game crashed. Resume point not available.
 UUPS! Wysypało grę. Punkt wznowienia niedostępny.
 Options
@@ -154,34 +204,38 @@ Please confirm
 Potwierdź
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 PODŁĄCZ KONTROLER DO PLAYSTATION CLASSIC
+Please wait ... deleting
+Proszę czekać ... usuwanie
 Please wait ... deleting covers...
 Proszę czekać... usuwanie okładek...
 Plugin:
 Wtyczka:
-POWERING OFF... PLEASE WAIT
-WYŁĄCZANIE KONSOLI ... PROSZĘ CZEKAĆ
 Power Off
 Wyłączanie
+POWERING OFF... PLEASE WAIT
+WYŁĄCZANIE KONSOLI ... PROSZĘ CZEKAĆ
 Press a key for
 Naciśnij przycisk dla
 Published by:
 Wydawca:
 Quick boot
 Szybki Start
-QuickBoot:
-Szybki Start:
-QuickBoot Init:
-Szybki Start do:
 Quick scroll to next letter
 Szybki przeskok do następnej litery
+QuickBoot Init:
+Szybki Start do:
+QuickBoot:
+Szybki Start:
 Quit emulation - back to AutoBleem
 Zakończ emulację - powrót do AutoBleem
-Region:
-Region:
-Rename
-Zmień nazwę
 Re/Scan
 Skanuj
+Region:
+Region:
+Reload Cards
+Odśwież Karty
+Rename
+Zmień nazwę
 RESUME
 WZNÓW
 Resume game from saved state point
@@ -192,8 +246,10 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch jest nie zainstalowany
+Run using RetroBoot(if installed)
+Uruchom przy użyciu RetroBoot(jeśli zainstalowany)
 Scanline Level:
-Poziom linii:
+Intensywność linii:
 Scanlines:
 Linie:
 Scanning...
@@ -206,6 +262,10 @@ Select or cancel highlighted option
 Wybierz lub anuluj podświetloną opcję
 SELECT RESUME SLOT TO LOAD
 WYBIERZ SLOT DO WCZYTANIA
+Select RetroBoot Platform
+Wybierz Platformę Retroboot
+Select Right Card
+Wybierz Prawą Kartę
 SELECT SLOT TO SAVE STATE
 WYBIERZ SLOT DO ZAPISU
 Serial:
@@ -213,19 +273,21 @@ Serial:
 SETTINGS
 USTAWIENIA
 Share MC
-Udostępnij
+Stwórz własną MC
+Show RetroArch:
+Pokazuj RetroArch:
+Showing Timeout (0 = no timeout):
+Czas Wyświetlania (0 = ciągle)
 Showing: All games
 Wyświetla: Wszystkie gry
 Showing: Favorite games
 Wyświetla: Ulubione gry
 Showing: Internal games
 Wyświetla: Wewnętrzne gry
-Showing Timeout (0 = no timeout):
-Czas Wyświetlania (0 = ciągle)
-Showing: USB games
-Wyświetla: Gry z USB
-Show RetroArch:
-Pokazuj RetroArch:
+Showing: Retroarch
+Wyświetla: Retroarch
+Showing: USB Games Directory:
+Wyświetla: Folder Gier z USB:
 Slot
 Slot
 Space
@@ -246,6 +308,8 @@ Total:
 Razem:
 UI:
 Interfejs:
+Unknown Core (AutoDetect)
+Nieznany Rdzeń (AutoDetekcja)
 Updating regional.db...
 Uaktualniam regional.db...
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
@@ -256,59 +320,11 @@ Widescreen:
 Pełny ekran:
 Year:
 Rok:
- games
- gry
-.-= Code C++ and shell scripts =-.
-.-= Kodowanie C++ i shell scripts =-.
-.-= Database maintenance =-.
-.-= Baza danych gier =-.
-.-= Graphics =-.
-.-= Grafika =-.
-.-= Localization support =-.
-.-= Tłumaczenie =-.
-.-= Retroboot and emulation cores =-.
-.-= Retroboot i rdzenie =-.
-.-= Testing =-.
-.-= Testerzy =-.
-AutoBleem resume points not available in RetroArch.
-RetroArch nie obsługuje punktów wznowienia Autobleem
-CONFIGURED
-WEWNĘTRZNA
-Copy
-Kopiuj
-Defragment Card
-Defragmentuj Kartę
-Do you want to save memcards data ?
-Czy chcesz zapisać zmienione dane katy ?
-Entry
-Wprowdź
-Free
-Wolne
-INTERNAL
-WEWNĘTRZNA
-Link Block
-Polaczony Blok
-Link end Block
-Blok Koncowy
-Memory Card Manager
-Menadżer Kart Pamięci
-Moving :
-Przenoszenie :
-Moving...
-Przenoszę...
-OK
-OK
-Reload Cards
-Odśwież Karty
-RetroBoot Systems
-Zmiana Systemu RetroBoot
-Run using RetroBoot(if installed)
-Uruchom przy użyciu RetroBoot(jeśli zainstalowany)
-Select RetroBoot Platform
-Wybierz Platformę Retroboot
-Select Right Card
-Wybierz Prawą Kartę
-Showing:
-Wyświetla:
-Unknown Core (AutoDetect)
-Nieznany Rdzeń (AutoDetekcja)
+Exit to EvoUI
+Powrót do EvoUI
+In Retroarch Game
+W grze Retroarch
+Open Retroarch Menu
+Otwiera Menu Retroarch
+POWER
+Przycisk POWER

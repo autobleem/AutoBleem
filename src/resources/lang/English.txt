@@ -56,8 +56,6 @@ CONFIGURED
 
 Confirm
 
-Console Button Guide
-
 Copy
 
 Cover Style:
@@ -103,6 +101,8 @@ Enter new name for card
 Enter new name for memory card
 
 Entry
+
+Exit to EvoUI
 
 Failed to delete
 
@@ -150,6 +150,8 @@ IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 
 In Game
 
+In Retroarch Game
+
 Internal
 
 INTERNAL
@@ -180,8 +182,6 @@ Menu
 
 Moving :
 
-Moving...
-
 Music:
 
 New Card
@@ -191,6 +191,8 @@ New GamePad found
 OK
 
 OOPS! Game crashed. Resume point not available.
+
+Open Retroarch Menu
 
 Options
 
@@ -211,6 +213,8 @@ Please wait ... deleting
 Please wait ... deleting covers...
 
 Plugin:
+
+POWER
 
 Power Off
 
@@ -286,9 +290,9 @@ Showing: Favorite games
 
 Showing: Internal games
 
-Showing: Retroarch 
+Showing: Retroarch
 
-Showing: USB Games Directory: 
+Showing: USB Games Directory:
 
 Slot
 

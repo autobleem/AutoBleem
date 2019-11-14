@@ -38,8 +38,6 @@ Configuration saved - Press |@X| to continue
 Configuração salva - Pressione |@X| para continuar
 Confirm
 Confirmar
-Console Button Guide
-Guia de Botões do Console
 Cover Style:
 Estilo da Capa:
 Custom

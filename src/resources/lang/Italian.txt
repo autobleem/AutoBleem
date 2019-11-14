@@ -50,8 +50,6 @@ CONFIGURED
 CONFIGURATO
 Confirm
 Conferma
-Console Button Guide
-Guida ai Pulsanti
 Copy
 Copia
 Cover Style:
@@ -168,8 +166,6 @@ Menu Theme:
 Tema del Menu:
 Moving :
 Spostando :
-Moving...
-Spostando...
 Music:
 Musica:
 New Card

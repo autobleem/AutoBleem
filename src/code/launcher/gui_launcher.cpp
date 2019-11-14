@@ -182,9 +182,9 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
 void GuiLauncher::showSetName() {
     vector<string> setNames = { _("Showing: All games"),
                                 _("Showing: Internal games"),
-                                _("Showing: USB Games Directory: "),
+                                _("Showing: USB Games Directory:") + " ",
                                 _("Showing: Favorite games"),
-                                _("Showing: Retroarch ")};
+                                _("Showing: Retroarch") + " "};
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
 
     auto str = gui->cfg.inifile.values["showingtimeout"];
@@ -404,13 +404,13 @@ void GuiLauncher::loadAssets() {
     staticElements.push_back(xButton);
 
     oButton = new PsObj(renderer, "obtn", gui->getCurrentThemeImagePath() + sep + "GR/Circle_Btn_ICN.png");
-    oButton->x = 725;
+    oButton->x = 765;
     oButton->y = 640;
     oButton->visible = true;
     staticElements.push_back(oButton);
 
     tButton = new PsObj(renderer, "tbtn", gui->getCurrentThemeImagePath() + sep + "GR/Tri_Btn_ICN.png");
-    tButton->x = 870;
+    tButton->x = 910;
     tButton->y = 640;
     tButton->visible = true;
     staticElements.push_back(tButton);
@@ -659,8 +659,8 @@ void GuiLauncher::render() {
 
     auto font24 = gui->fonts[FONT_24];
     renderText(638, 640, _("Enter"), {secR, secG, secB, 0}, font24, POS_LEFT, false);
-    renderText(760, 640, _("Cancel"), {secR, secG, secB, 0}, font24, POS_LEFT, false);
-    renderText(902, 640, _("Console Button Guide"), {secR, secG, secB, 0}, font24, POS_LEFT, false);
+    renderText(800, 640, _("Cancel"), {secR, secG, secB, 0}, font24, POS_LEFT, false);
+    renderText(945, 640, _("Button Guide"), {secR, secG, secB, 0}, font24, POS_LEFT, false);
 
     notificationLines.tickTock();
 

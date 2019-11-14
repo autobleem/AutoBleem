@@ -50,8 +50,6 @@ CONFIGURED
 CONFIGURAT
 Confirm
 Confirmar
-Console Button Guide
-Guida botons consòla
 Copy
 Copiar
 Cover Style:
@@ -168,8 +166,6 @@ Menu Theme:
 Tèma del menú :
 Moving :
 Desplaçament :
-Moving...
-Desplaçament...
 Music:
 Musica :
 New Card

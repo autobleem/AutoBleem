@@ -1,4 +1,18 @@
-﻿About
+﻿ games
+ hry
+.-= Code C++ and shell scripts =-.
+Prokgramovanie v C++ a skriptách shellu
+.-= Database maintenance =-.
+Údržba databáze
+.-= Graphics =-.
+Grafika
+.-= Localization support =-.
+Prekladateľská podpora
+.-= Retroboot and emulation cores =-.
+Retroboot a emulačné jadrá
+.-= Testing =-.
+Testujem
+About
 O programe
 Advanced
 Rozšírené
@@ -10,6 +24,8 @@ Are you sure?
 Ste si tým istý?
 AutoBleem
 AutoBleem
+AutoBleem resume points not available in RetroArch.
+Obnovovacie body z AutoBleemu nie sú pre RetroArch dostupné.
 AutoBleem Theme:
 Téma AutoBleemu:
 Automatic PlayStation Classic USB launcher
@@ -36,10 +52,12 @@ Configuration
 Nastavenia
 Configuration saved - Press |@X| to continue
 Nastavenia uložené - Stlačte |@X| pre pokračovanie
+CONFIGURED
+KONFIGUROVANÉ
 Confirm
 Potvrdiť
-Console Button Guide
-Sprievodca tlačidlami konzoly
+Copy
+Kopírovať
 Cover Style:
 Štýl obalu:
 Custom
@@ -50,10 +68,14 @@ Customize AutoBleem settings
 Prispôsobiť nastavenia AutoBleem
 Decompressing ecm:
 Rozbaľovanie ECM:
+Defragment Card
+Defragmentovať kartu
 Delete
 Zmazať
 Delete card
 Zmazať kartu
+Do you want to save memcards data ?
+Chcete uložiť dáta z pamäťových kariet ?
 Download latest:
 Najnovšia verzia:
 DPAD - Same as classic menu
@@ -74,6 +96,8 @@ Enter new name for card
 Zadajte nový názov karty
 Enter new name for memory card
 Zadajte nový názov pamäťovej karty
+Entry
+Zápis
 Favorite:
 Obľúbené
 Flush covers
@@ -82,6 +106,8 @@ Folder:
 Priečinok:
 Frameskip:
 Preskočenie snímok:
+Free
+Voľné
 Free space
 Voľné miesto
 Game
@@ -118,12 +144,18 @@ In Game
 V hre
 Internal
 Originálne
+INTERNAL
+ORIGINÁLNE
 Internal Games:
 Originálne hry:
 Is your dpad analogue?
 Máte analógový dpad?
 Language:
 Jazyk:
+Link Block
+Spojiť blok
+Link end Block
+Spojiť koniec bloku
 Loading ... Please Wait ...
 Nahrávam ... Čakajte prosím ...
 Lock data:
@@ -132,6 +164,8 @@ MemCard Manager will be available soon
 Správca Pamäťových kariet nie je momentálne k dispozícii
 MEMORY CARD
 PAMÄŤOVÁ KARTA
+Memory Card Manager
+Správca Pamäťovej karty
 Memory Card:
 Pamäťová karta:
 Memory Cards
@@ -140,12 +174,18 @@ Menu
 Menu
 Menu Theme:
 Téma:
+Moving :
+Presunuté :
 Music:
 Hudba:
 New Card
 Nová karta
 New GamePad found
 Nájdený nový Gamepad
+Neznáme jadro (Autodetekcia)
+
+OK
+OK
 OOPS! Game crashed. Resume point not available.
 Och! Hra spadla. Bod obnovy nie je k dispozícii.
 Options
@@ -188,6 +228,8 @@ Re/Scan
 Pre/Hľadať
 Region:
 Oblasť:
+Reload Cards
+Znovu načítať karty
 Rename
 Premenovať
 RESUME
@@ -200,6 +242,10 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch nie je nainštalovaný
+RetroBoot Systems
+RetroBoot Systémy
+Run using RetroBoot(if installed)
+Spustiť s použitím RetroBootu (pokiaľ je nainštalovaný)
 Scanline Level:
 Úroveň obrazových riadkov:
 Scanlines:
@@ -214,6 +260,10 @@ Select or cancel highlighted option
 Vybrať alebo zrušiť zvýraznenú voľbu
 SELECT RESUME SLOT TO LOAD
 VYBERTE POZÍCIU, Z KTOREJ SA NAHRÁ PRERUŠENÁ HRA
+Select RetroBoot Platform
+Vybrať platformu pre RetroBoot
+Select Right Card
+Vybrať kartu v pravo
 SELECT SLOT TO SAVE STATE
 VYBERTE POZÍCIU, NA KTORÚ SA ULOŽÍ ROZOHRANÁ HRA
 Serial:
@@ -226,6 +276,8 @@ Show RetroArch:
 RetroArch:
 Showing Timeout (0 = no timeout):
 Zobrazenie časového limitu (0 = bez limitu):
+Showing:
+Unknown Core (AutoDetect)
 Showing: All games
 Všetky hry
 Showing: Favorite games
@@ -268,58 +320,3 @@ Widescreen:
 Širokouhlý obraz:
 Year:
 Rok:
- games
- hry
-.-= Code C++ and shell scripts =-.
-Prokgramovanie v C++ a skriptách shellu
-.-= Database maintenance =-.
-Údržba databáze
-.-= Graphics =-.
-Grafika
-.-= Localization support =-.
-Prekladateľská podpora
-.-= Retroboot and emulation cores =-.
-Retroboot a emulačné jadrá
-.-= Testing =-.
-Testujem
-AutoBleem resume points not available in RetroArch.
-Obnovovacie body z AutoBleemu nie sú pre RetroArch dostupné.
-CONFIGURED
-KONFIGUROVANÉ
-Copy
-Kopírovať
-Defragment Card
-Defragmentovať kartu
-Do you want to save memcards data ?
-Chcete uložiť dáta z pamäťových kariet ?
-Entry
-Zápis
-Free
-Voľné
-INTERNAL
-ORIGINÁLNE
-Link Block
-Spojiť blok
-Link end Block
-Spojiť koniec bloku
-Memory Card Manager
-Správca Pamäťovej karty
-Moving :
-Presunuté :
-Moving...
-Presúvam...
-OK
-OK
-Reload Cards
-Znovu načítať karty
-RetroBoot Systems
-RetroBoot Systémy
-Run using RetroBoot(if installed)
-Spustiť s použitím RetroBootu (pokiaľ je nainštalovaný)
-Select RetroBoot Platform
-Vybrať platformu pre RetroBoot
-Select Right Card
-Vybrať kartu v pravo
-Showing:
-Unknown Core (AutoDetect)
-Neznáme jadro (Autodetekcia)
