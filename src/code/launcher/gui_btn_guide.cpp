@@ -40,7 +40,7 @@ void GuiBtnGuide::render() {
     gui->renderTextLine("|@Select| + |@Start|   " + _("Open Retroarch Menu"), 12, offset, POS_CENTER);
     gui->renderTextLine(_("POWER") + "   " + _("Exit to EvoUI"), 13, offset, POS_CENTER);
 
-    gui->renderTextLine("|@R2| + |@L2|  " + _("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 15, offset,
+    gui->renderTextLine("|@L2| + |@R2|  " + _("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 14, offset,
                         POS_CENTER);
 
 
