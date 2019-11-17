@@ -75,7 +75,7 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
     } else {
         gpu = "NONE";
     }
-    cout << "Using GPU plugin:" << gpu << endl;
+    cout << "Using GPU plugin: " << gpu << endl;
 
     string RACore = RA_NEON;
     if (gpu != PCSX_NEON) {

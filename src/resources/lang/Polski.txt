@@ -31,8 +31,6 @@ Skórka AutoBleem:
 Background Music:
 Muzyka w tle:
 Button Guide
-Sterowanie
-Button Guide
 Opis funkcji
 Cancel
 Anuluj

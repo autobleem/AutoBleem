@@ -384,7 +384,7 @@ void GuiEditor::render() {
             OPT_FRAMESKIP, offset, POS_LEFT, 300);
 
     if (!internal) {
-        gui->renderTextLineOptions(_("Plugin:") + gpu, OPT_PLUGIN, offset, POS_LEFT, 300);
+        gui->renderTextLineOptions(_("Plugin:") + " " + gpu, OPT_PLUGIN, offset, POS_LEFT, 300);
     }
 
     gui->renderTextLineOptions(_("Spu Interpolation:") + " " + to_string(interpolation),
