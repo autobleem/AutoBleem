@@ -7,7 +7,7 @@
 .-= Localization support =-.
 .-= Supporto alla localizzazione =-.
 .-= Retroboot and emulation cores =-.
-.-= Retroboot e core emulatori =-.
+.-= Retroboot e core emulazione =-.
 .-= Testing =-.
 .-= Testing =-.
 About
@@ -16,6 +16,8 @@ Advanced
 Avanzate
 Advanced:
 Avanzate:
+Are you sure you want to delete
+Sei sicuro di voler cancellare
 Are you sure you want to flush all covers?
 Sei sicuro di voler cancellare tutte le cover?
 Are you sure?
@@ -38,6 +40,10 @@ Card
 Schede
 Change MC
 Cambia MC
+Change RetroBoot System
+Cambia Sistema di RetroBoot
+Change USB Games Sub-Directory
+Cambia la Sottoartella dei Giochi su USB
 Clock:
 Frequenza:
 Close
@@ -66,10 +72,14 @@ Defragment Card
 Deframmenta Card
 Delete
 Cancella
+Delete !SaveState folder for game
+Cancella la cartella !SaveState per il gioco
 Delete card
-Cancella memory
+Cancella card
+Delete Game
+Cancella Gioco
 Do you want to save memcards data ?
-Vuoi salvare i dati delle memcards ?
+Vuoi salvare i dati delle memory card ?
 Download latest:
 Scarica la versione piu' recente:
 DPAD - Same as classic menu
@@ -87,11 +97,15 @@ Inserisci il nome della nuova memory card
 Enter new game name
 Inserisci il nome del nuovo gioco
 Enter new name for card
-Inserisci il nuovo nome della scheda
+Inserisci il nuovo nome della memory card
 Enter new name for memory card
 Inserisci il nuovo nome della memory card
 Entry
 Valore
+Exit to EvoUI
+Torna a EvoUI
+Failed to delete
+Impossibile cancellare
 Favorite:
 Preferiti:
 Flush covers
@@ -116,6 +130,8 @@ Game:
 Gioco:
 games
 giochi
+Games
+Giochi
 Games changed. Press
 Giochi cambiati. Premi
 Games filter
@@ -133,7 +149,9 @@ Mantieni
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 NEL MENU DI AVVIO PER SPEGNERE LA CONSOLE (ARRESTO SICURO !!!)
 In Game
-In Gioco
+Mentre Giochi
+In Retroarch Game
+Mentre Giochi - in RetroArch
 Internal
 Interno
 INTERNAL
@@ -162,8 +180,6 @@ Memory Cards
 Memory Cards
 Menu
 Menu
-Menu Theme:
-Tema del Menu:
 Moving :
 Spostando :
 Music:
@@ -176,6 +192,8 @@ OK
 OK
 OOPS! Game crashed. Resume point not available.
 Oh-Oh! Il gioco e' crashato. Punto di salvataggio non disponibile.
+Open Retroarch Menu
+Apri il Menu di RetroArch
 Options
 Opzioni
 Original
@@ -189,11 +207,15 @@ Giocatori
 Please confirm
 Prego confermare
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
-COLLEGA UN GAMEPAD A PLAYSTATION CLASSIC
+COLLEGA UN GAMEPAD ALLA PLAYSTATION CLASSIC
+Please wait ... deleting
+Attendere prego ... sto cancellando
 Please wait ... deleting covers...
 Attendere prego ... cancello le cover...
 Plugin:
 Plugin:
+POWER
+POWER
 Power Off
 Spegni
 POWERING OFF... PLEASE WAIT
@@ -230,8 +252,6 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch non e' installato
-RetroBoot Systems
-Sistemi RetroBoot
 Run using RetroBoot(if installed)
 Esegui con RetroBoot (se installato)
 Scanline Level:
@@ -251,7 +271,7 @@ SELEZIONA UNO SLOT DA CARICARE
 Select RetroBoot Platform
 Seleziona la Piattaforma RetroBoot
 Select Right Card
-Seleziona la Card Giusta
+Seleziona la Card Destra
 SELECT SLOT TO SAVE STATE
 SELEZIONA UNO SLOT DOVE SALVARE
 Serial:
@@ -262,18 +282,18 @@ Share MC
 Condividi MC
 Show RetroArch:
 Mostra RetroArch:
+Showing: Retroarch
+Sto mostrando: Retroarch
 Showing Timeout (0 = no timeout):
-Timeout Visualizzazione (0 = nessun timeout):
-Showing:
-Visualizza:
+Timeout di Visualizzazione (0 = nessun timeout):
 Showing: All games
-Visualizza: Tutti i giochi
+Sto mostrando: Tutti i giochi
 Showing: Favorite games
-Visualizza: Giochi preferiti
+Sto mostrando: Giochi preferiti
 Showing: Internal games
-Visualizza: Giochi interni
-Showing: USB games
-Visualizza: Giochi su USB
+Sto mostrando: Giochi interni
+Showing: USB Games Directory:
+Sto mostrando: Cartella dei Giochi su USB
 Slot
 Slot
 Space
