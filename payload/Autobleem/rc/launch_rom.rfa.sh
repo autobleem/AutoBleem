@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# RetroBoot 0.9 - launch_rom_rfa.sh
+# RetroBoot 0.10 - launch_rom_rfa.sh
 # Direct ROM startup sequence
 
 showrbimage()
@@ -80,7 +80,7 @@ ITERATION=0
 # Start RetroArch.  Restart it if it crashes.
 while : ; do
 	rm /tmp/retroboot/.monitor_killed_ra
-	/media/retroarch/retroarch --config /media/retroarch/config/retroarch.cfg -L $RBCORE "$1" &> /media/retroarch/logs/retroarch.log
+	/media/retroarch/retroarch --config /media/retroarch/retroarch.cfg -L $RBCORE "$1" &> /media/retroarch/logs/retroarch.log
 	LVL=$?
 	  
 	if [ $LVL -eq 0 ] && [ ! -f /tmp/retroboot/.monitor_killed_ra ]; then
