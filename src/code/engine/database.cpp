@@ -5,6 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "serialscanner.h"
 #include "../DirEntry.h"
+#include "../environment.h"
 
 using namespace std;
 
@@ -16,44 +17,53 @@ using namespace std;
 // covers?.db
 //*******************************
 
+// used by: querySerial
 static const char SELECT_META[] = "SELECT SERIAL,TITLE, PUBLISHER, \
                                 RELEASE,PLAYERS,  COVER FROM SERIALS s \
                                 JOIN GAME g on s.GAME=g.id \
                                 WHERE SERIAL=? OR SERIAL LIKE ?";
 
+// used by: queryTitle
 static const char SELECT_TITLE[] = "SELECT SERIAL,TITLE, PUBLISHER, \
                                 RELEASE,PLAYERS, COVER FROM SERIALS s \
                                 JOIN GAME g on s.GAME=g.id \
                                 WHERE TITLE=?";
 
 //*******************************
-// RELEASE_YEAR is found in both internal.db and output.db
+// RELEASE_YEAR is found in both internal.db and regional.db
 // used by Database::updateYear() which is only called by VerMigration::migrate04_05()
 // VerMigration appears to be no longer used
 //*******************************
+// used by: updateYear
 static const char UPDATE_YEAR[] = "UPDATE GAME SET RELEASE_YEAR=? WHERE GAME_ID=?";
 
 //*******************************
-// output.db
+// regional.db
 //*******************************
 
+// used by: updateMemcard
 static const char UPDATE_MEMCARD[] = "UPDATE GAME SET MEMCARD=? WHERE GAME_ID=?";
 
+// used by: getGames
 static const char GAMES_DATA[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, PATH, SSPATH, MEMCARD, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
                                   FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
+// used by: refreshGameInternal
+// used by: refreshGame
 static const char GAMES_DATA_SINGLE[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, PATH, SSPATH, MEMCARD, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
                                   FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
                                     WHERE g.GAME_ID=?  \
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
+// used by: insertGame
 static const char INSERT_GAME[] = "INSERT INTO GAME ([GAME_ID],[GAME_TITLE_STRING],[PUBLISHER_NAME],[RELEASE_YEAR],[PLAYERS],[RATING_IMAGE],[GAME_MANUAL_QR_IMAGE],[LINK_GAME_ID],\
                 [PATH],[SSPATH],[MEMCARD]) \
                 values (?,?,?,?,?,'CERO_A','QR_Code_GM','',?,?,?)";
 
+// used by: createInitialDatabase
 static const char CREATE_GAME_SQL[] = " CREATE TABLE IF NOT EXISTS GAME  \
      ( GAME_ID integer NOT NULL UNIQUE, \
        GAME_TITLE_STRING text, \
@@ -67,46 +77,108 @@ static const char CREATE_GAME_SQL[] = " CREATE TABLE IF NOT EXISTS GAME  \
        SSPATH  text null,   \
        MEMCARD text null,   \
          PRIMARY KEY ( GAME_ID ) )";
+
+// used by: createInitialDatabase
 static const char CREATE_DISC_SQL[] = " CREATE TABLE IF NOT EXISTS DISC \
      ( [GAME_ID] integer, \
        [DISC_NUMBER] integer, \
        [BASENAME] text, \
           UNIQUE ([GAME_ID], [DISC_NUMBER]) )";
 
+// used by: createInitialDatabase
+static const char CREATE_SUBDIR_ROW_SQL[] = " CREATE TABLE IF NOT EXISTS SUBDIR_ROWS  \
+     ( SUBDIR_ROW_INDEX integer NOT NULL UNIQUE, \
+       SUBDIR_ROW_NAME text, \
+       INDENT_LEVEL integer,    \
+       NUM_GAMES integer,    \
+       PRIMARY KEY ( SUBDIR_ROW_INDEX ) )";
+
+// used by: createInitialDatabase
+static const char CREATE_SUBDIR_GAMES_TO_DISPLAY_ON_ROW_SQL[] = " CREATE TABLE IF NOT EXISTS SUBDIR_GAMES_TO_DISPLAY_ON_ROW  \
+     ( SUBDIR_ROW_INDEX integer, GAME_ID integer )";
+
+// used by: subDirRowsTableIsEmpty
+static const char IS_SUBDIR_ROWS_TABLE_EMPTY[] = "SELECT count(*) FROM SUBDIR_ROWS";
+
+// used by: insertSubDirRow
+static const char INSERT_SUBDIR_ROW[] = "INSERT INTO SUBDIR_ROWS \
+        ([SUBDIR_ROW_INDEX],[SUBDIR_ROW_NAME],[INDENT_LEVEL],[NUM_GAMES]) \
+        values (?,?,?,?)";
+
+// used by: getGameRowInfos
+static const char GET_SUBDIR_ROW[] = "SELECT SUBDIR_ROW_INDEX, SUBDIR_ROW_NAME, INDENT_LEVEL, NUM_GAMES FROM \
+        SUBDIR_ROWS ORDER BY SUBDIR_ROW_INDEX";
+
+// used by: insertSubDirGames
+static const char INSERT_SUBDIR_GAME[] = "INSERT INTO SUBDIR_GAMES_TO_DISPLAY_ON_ROW \
+        ([SUBDIR_ROW_INDEX],[GAME_ID]) values (?,?)";
+
+// used by: getGameRowGameInfos
+static const char GET_SUBDIR_GAME[] = "SELECT SUBDIR_ROW_INDEX, GAME_ID FROM \
+        SUBDIR_GAMES_TO_DISPLAY_ON_ROW ORDER BY SUBDIR_ROW_INDEX";
+
+// used by: getGameIdsInRow
+static const char GET_SUBDIR_GAME_ON_ROW[] = "SELECT GAME_ID FROM \
+        SUBDIR_GAMES_TO_DISPLAY_ON_ROW WHERE SUBDIR_ROW_INDEX =?";
+
+// used by: deleteGameIdInAllTables
+static const char DELETE_GAME_ID_FROM_DISC[] = "DELETE FROM DISC WHERE GAME_ID =?";
+static const char DELETE_GAME_ID_FROM_GAME[] = "DELETE FROM GAME WHERE GAME_ID =?";
+static const char DELETE_GAME_ID_FROM_SUBDIR_GAMES_TO_DISPLAY_ON_ROW[] = "DELETE FROM SUBDIR_GAMES_TO_DISPLAY_ON_ROW WHERE GAME_ID =?";
+
 //*******************************
 // internal.db
 //*******************************
 
-static const char GAMES_DATA_SINGLE_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
-                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
-                                    WHERE g.GAME_ID=?  \
+// used by: refreshGameInternal
+static const char GAMES_DATA_SINGLE_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD, \
+                                     FAVORITE FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
+                                     WHERE g.GAME_ID=?  \
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
 
-static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD \
-                                  FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
+// used by: getInternalGames
+static const char GAMES_DATA_INTERNAL[] = "SELECT g.GAME_ID, GAME_TITLE_STRING, PUBLISHER_NAME, RELEASE_YEAR, PLAYERS, d.BASENAME,  COUNT(d.GAME_ID) as NUMD, \
+                                     FAVORITE FROM GAME G JOIN DISC d ON g.GAME_ID=d.GAME_ID \
                                      GROUP BY g.GAME_ID HAVING MIN(d.DISC_NUMBER) \
                                      ORDER BY g.GAME_TITLE_STRING asc,d.DISC_NUMBER ASC";
+
+// used by: createFavoriteColumn
+static const char ADD_FAVORITE_COLUMN[] = "ALTER TABLE GAME ADD COLUMN FAVORITE INT DEFAULT 0";
+
+// used by: updateFavorite
+static const char UPDATE_FAVORITE[] = "UPDATE GAME SET FAVORITE=? WHERE GAME_ID=?";
 
 //*******************************
 // ????.db
 //*******************************
 
+// used by: updateTitle
 static const char UPDATE_TITLE[] = "UPDATE GAME SET GAME_TITLE_STRING=? WHERE GAME_ID=?";
 
+// used by: getNumGames
 static const char NUM_GAMES[] = "SELECT COUNT(*) as ctn FROM GAME";
 
-static const char UPDATE_GAME_DB[] = "ALTER TABLE GAME ADD COLUMN FAV INT DEFAULT 0";
-
+// used by: createInitialDatabase
 static const char CREATE_LANGUAGE_SPECIFIC_SQL[] = "CREATE TABLE IF NOT EXISTS LANGUAGE_SPECIFIC \
       ( [DEFAULT_VALUE] text, \
         [LANGUAGE_ID] integer, \
         [VALUE] text, \
            UNIQUE ([DEFAULT_VALUE], [LANGUAGE_ID]) )";
-static const char DELETE_DATA[] = "DELETE FROM GAME";
-static const char DELETE_DATA2[] = "DELETE FROM DISC";
-static const char DELETE_DATA3[] = "DELETE FROM LANGUAGE_SPECIFIC";
 
+// used by: beginTransaction
+static const char BEGIN_TRANSACTION[] = "BEGIN TRANSACTION";
+// used by: commit
+static const char COMMIT[] = "COMMIT";
+
+// used by: truncate
+static const char DELETE_GAME_DATA[] = "DELETE FROM GAME";
+static const char DELETE_DISC_DATA[] = "DELETE FROM DISC";
+static const char DELETE_LANGUAGE_DATA[] = "DELETE FROM LANGUAGE_SPECIFIC";
+static const char DELETE_SUBDIR_ROW_DATA[] = "DELETE FROM SUBDIR_ROWS";
+static const char DELETE_SUBDIR_GAME_DATA[] = "DELETE FROM SUBDIR_GAMES_TO_DISPLAY_ON_ROW";
+
+// used by: insertDisc
 static const char INSERT_DISC[] = "INSERT INTO DISC ([GAME_ID],[DISC_NUMBER],[BASENAME]) \
                 values (?,?,?)";
 
@@ -128,6 +200,7 @@ int Database::getNumGames() {
             return number;
         }
     } else {
+        cerr << "Failed: db:: getNumGames" << endl;
         cerr << "Failed to execute statement: " << sqlite3_errmsg(db) << endl;
         sqlite3_finalize(res);
         return 0;
@@ -145,9 +218,9 @@ bool Database::updateYear(int id, int year) {
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, UPDATE_YEAR, -1, &res, nullptr);
     if (rc != SQLITE_OK) {
+        cerr << "Failed: db:: updateYear, " << id << ", " << year << endl;
         cerr << sqlite3_errmsg(db) << endl;
         if (!errorReport) sqlite3_free(errorReport);
-        sqlite3_close(db);
         return false;
     }
     sqlite3_bind_int(res, 1, year);
@@ -165,9 +238,9 @@ bool Database::updateMemcard(int id, string memcard) {
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, UPDATE_MEMCARD, -1, &res, nullptr);
     if (rc != SQLITE_OK) {
+        cerr << "Failed: db::updateMemcard, " << id << ", " << memcard << endl;
         cerr << sqlite3_errmsg(db) << endl;
         if (!errorReport) sqlite3_free(errorReport);
-        sqlite3_close(db);
         return false;
     }
     sqlite3_bind_text(res, 1, memcard.c_str(), -1, nullptr);
@@ -185,12 +258,32 @@ bool Database::updateTitle(int id, string title) {
     sqlite3_stmt *res = nullptr;
     int rc = sqlite3_prepare_v2(db, UPDATE_TITLE, -1, &res, nullptr);
     if (rc != SQLITE_OK) {
+        cerr << "Failed: db:: updateTitle, " << id << ", " << title << endl;
         cerr << sqlite3_errmsg(db) << endl;
         if (!errorReport) sqlite3_free(errorReport);
-        sqlite3_close(db);
         return false;
     }
     sqlite3_bind_text(res, 1, title.c_str(), -1, nullptr);
+    sqlite3_bind_int(res, 2, id);
+    sqlite3_step(res);
+    sqlite3_finalize(res);
+    return true;
+}
+
+//*******************************
+// Database::updateFavorite
+//*******************************
+bool Database::updateFavorite(int id, int favorite) {
+    char *errorReport = nullptr;
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, UPDATE_FAVORITE, -1, &res, nullptr);
+    if (rc != SQLITE_OK) {
+        cerr << "Failed: db:: updateFavorite, " << id << ", " << favorite << endl;
+        cerr << sqlite3_errmsg(db) << endl;
+        if (!errorReport) sqlite3_free(errorReport);
+        return false;
+    }
+    sqlite3_bind_int(res, 1, favorite);
     sqlite3_bind_int(res, 2, id);
     sqlite3_step(res);
     sqlite3_finalize(res);
@@ -254,6 +347,7 @@ bool Database::getInternalGames(PsGames *result) {
             int players = sqlite3_column_int(res, 4);
             const unsigned char *base = sqlite3_column_text(res, 5);
             int discs = sqlite3_column_int(res, 6);
+            int fav = sqlite3_column_int(res, 7);
 
             PsGamePtr psGame{new PsGame};
             psGame->gameId = id;
@@ -263,13 +357,14 @@ bool Database::getInternalGames(PsGames *result) {
             psGame->year = year;
             psGame->players = players;
             psGame->folder = "/gaadata/" + to_string(id) + "/";
-            psGame->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
+            psGame->ssFolder = Env::getPathToSaveStatesDir() + sep + to_string(id) + "/";
             psGame->base = string(reinterpret_cast<const char *>(base));
             psGame->serial = psGame->base;
             psGame->region = SerialScanner::serialToRegion(psGame->serial);
             psGame->memcard = "SONY";
             psGame->internal = true;
             psGame->cds = discs;
+            psGame->favorite = (fav != 0);
             result->push_back(psGame);
             //cout << "getInternalGames: " << game->serial << ", " << game->title << endl;
         }
@@ -298,6 +393,7 @@ bool Database::refreshGameInternal(PsGamePtr &psGame) {
             int players = sqlite3_column_int(res, 4);
             const unsigned char *base = sqlite3_column_text(res, 5);
             int discs = sqlite3_column_int(res, 6);
+            int fav = sqlite3_column_int(res, 7);
 
             psGame->gameId = id;
             psGame->title = string(reinterpret_cast<const char *>(title));
@@ -306,15 +402,16 @@ bool Database::refreshGameInternal(PsGamePtr &psGame) {
             psGame->year = year;
             psGame->players = players;
             psGame->folder = "/gaadata/" + to_string(id) + "/";
-            psGame->ssFolder = "/media/Games/!SaveStates/" + to_string(id) + "/";
+            psGame->ssFolder = Env::getPathToSaveStatesDir() + sep + to_string(id) + "/";
             psGame->base = string(reinterpret_cast<const char *>(base));
             psGame->serial = psGame->base;
             psGame->region = SerialScanner::serialToRegion(psGame->serial);
             psGame->memcard = "SONY";
             psGame->internal = true;
             psGame->cds = discs;
+            psGame->favorite = (fav != 0);
 
-            string gameIniPath = psGame->folder + "/Game.ini";
+            string gameIniPath = psGame->folder + sep + GAME_INI;
             if (DirEntry::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
@@ -365,7 +462,7 @@ bool Database::refreshGame(PsGamePtr &game) {
             game->memcard = string(reinterpret_cast<const char *>(memcard));
             game->cds = discs;
 
-            string gameIniPath = game->folder + "/Game.ini";
+            string gameIniPath = game->folder + sep + GAME_INI;
             if (DirEntry::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
@@ -416,7 +513,7 @@ bool Database::getGames(PsGames *result) {
             game->cds = discs;
             //cout << "getGames: " << game->serial << ", " << game->title << endl;
 
-            string gameIniPath = game->folder + "/Game.ini";
+            string gameIniPath = game->folder + sep + GAME_INI;
             if (DirEntry::exists(gameIniPath)) {
                 Inifile ini;
                 ini.load(gameIniPath);
@@ -425,6 +522,81 @@ bool Database::getGames(PsGames *result) {
                 game->favorite = (ini.values["favorite"] == "1");
             }
             result->push_back(game);
+        }
+    } else {
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+    return true;
+}
+
+//*******************************
+// Database::getGameRowInfos
+//*******************************
+bool Database::getGameRowInfos(GameRowInfos *gameRowInfos) {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, GET_SUBDIR_ROW, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        while (sqlite3_step(res) == SQLITE_ROW) {
+            SubDirRowInfo subDirRowInfo;
+            subDirRowInfo.subDirRowIndex = sqlite3_column_int(res, 0);
+            const unsigned char *name = sqlite3_column_text(res, 1);
+            subDirRowInfo.rowName = (const char*) name;
+            subDirRowInfo.indentLevel = sqlite3_column_int(res, 2);
+            subDirRowInfo.numGames = sqlite3_column_int(res, 3);
+
+            cout << "SubDirRowInfo: " << string(subDirRowInfo.indentLevel * 2, ' ') << subDirRowInfo.rowName
+                    << ", index: " << subDirRowInfo.subDirRowIndex
+                    << ", indent: " << subDirRowInfo.indentLevel
+                    << ", numGames: " << subDirRowInfo.numGames << endl;
+
+            gameRowInfos->emplace_back(subDirRowInfo);
+        }
+    } else {
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+    return true;
+}
+
+//*******************************
+// Database::getSubDirGames
+//*******************************
+bool Database::getGameRowGameInfos(GameRowGames *gameRowGames) {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, GET_SUBDIR_GAME, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        while (sqlite3_step(res) == SQLITE_ROW) {
+            GameRowGame gameRowGame;
+            gameRowGame.rowIndex = sqlite3_column_int(res, 0);
+            gameRowGame.gameId = sqlite3_column_int(res, 1);
+
+            cout << "GameRowGame: " << gameRowGame.rowIndex << ", " << gameRowGame.gameId << endl;
+
+            gameRowGames->emplace_back(gameRowGame);
+        }
+    } else {
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+    return true;
+}
+
+//*******************************
+// Database::getSubDirGames
+//*******************************
+bool Database::getGameIdsInRow(vector<int> *gameIdsInRow, int row) {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, GET_SUBDIR_GAME_ON_ROW, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        sqlite3_bind_int(res, 1, row);
+        while (sqlite3_step(res) == SQLITE_ROW) {
+            int gameId = sqlite3_column_int(res, 0);
+            //cout << "GameId in Row: " << row << ", " << gameId << endl;
+            gameIdsInRow->emplace_back(gameId);
         }
     } else {
         sqlite3_finalize(res);
@@ -530,16 +702,81 @@ bool Database::insertGame(int id, string title, string publisher, int players, i
 }
 
 //*******************************
+// Database::subDirRowsTableIsEmpty
+// returns true if no rows in table or failure
+// *******************************
+bool Database::subDirRowsTableIsEmpty() {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, IS_SUBDIR_ROWS_TABLE_EMPTY, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        int result = sqlite3_step(res);
+        if (result == SQLITE_ROW) {
+            const int number = sqlite3_column_int(res, 0);
+            sqlite3_finalize(res);
+            return (number == 0);   // true if no rows in table
+        }
+    } else {
+        cerr << "Failed to execute statement: " << sqlite3_errmsg(db) << endl;
+        sqlite3_finalize(res);
+        return true;
+    }
+    sqlite3_finalize(res);
+    return true;
+}
+
+//*******************************
+// Database::insertSubDirRow
+//*******************************
+bool Database::insertSubDirRow(int rowIndex, string rowName, int indentLevel, int numGames) {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, INSERT_SUBDIR_ROW, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        sqlite3_bind_int(res, 1, rowIndex);
+        sqlite3_bind_text(res, 2, rowName.c_str(), -1, nullptr);
+        sqlite3_bind_int(res, 3, indentLevel);
+        sqlite3_bind_int(res, 4, numGames);
+        sqlite3_step(res);
+    } else {
+        cerr << "Failed to execute statement: " << sqlite3_errmsg(db) << endl;
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+
+    return true;
+}
+
+//*******************************
+// Database::insertSubDirGames
+//*******************************
+bool Database::insertSubDirGames(int rowIndex, int gameId) {
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, INSERT_SUBDIR_GAME, -1, &res, nullptr);
+    if (rc == SQLITE_OK) {
+        sqlite3_bind_int(res, 1, rowIndex);
+        sqlite3_bind_int(res, 2, gameId);
+        sqlite3_step(res);
+    } else {
+        cerr << "Failed to execute statement: " << sqlite3_errmsg(db) << endl;
+        sqlite3_finalize(res);
+        return false;
+    }
+    sqlite3_finalize(res);
+
+    return true;
+}
+
+//*******************************
 // Database::executeCreateStatement
 //*******************************
-bool Database::executeCreateStatement(char *sql, string tableName) {
+bool Database::executeCreateStatement(char *sql, string name) {
     char *errorReport = nullptr;
-    cout << "Creating " << tableName << " table (if not exists)" << endl;
+    cout << "Creating " << name << " (if not exists)" << endl;
     int rc = sqlite3_exec(db, sql, nullptr, nullptr, &errorReport);
     if (rc != SQLITE_OK) {
-        cerr << "Failed to create " << tableName << "  table  " << sqlite3_errmsg(db) << endl;
+        cerr << "Failed: db:: executeCreateStatement, " << sql << ", " << name << endl;
+        cerr << "Failed to create " << name << "  table/column  " << sqlite3_errmsg(db) << endl;
         if (!errorReport) sqlite3_free(errorReport);
-        sqlite3_close(db);
         return false;
     }
     return true;
@@ -553,9 +790,9 @@ bool Database::executeStatement(char *sql, string outMsg, string errorMsg) {
     cout << outMsg << endl;
     int rc = sqlite3_exec(db, sql, nullptr, nullptr, &errorReport);
     if (rc != SQLITE_OK) {
+        cerr << "Failed: db:: executeStatement, " << sql << ", " << outMsg<< ", " << errorMsg << endl;
         cerr << errorMsg << sqlite3_errmsg(db) << endl;
         if (!errorReport) sqlite3_free(errorReport);
-        sqlite3_close(db);
         return false;
     }
     return true;
@@ -566,8 +803,9 @@ bool Database::executeStatement(char *sql, string outMsg, string errorMsg) {
 //*******************************
 bool Database::connect(string fileName) {
     int rc = sqlite3_open(fileName.c_str(), &db);
-    cout << "Connected to DB" << fileName << endl;
+    cout << "Connected to DB " << fileName << endl;
     if (rc != SQLITE_OK) {
+        cerr << "Failed: db:: connect, " << fileName << endl;
         cout << "Cannot open database: " << sqlite3_errmsg(db) << endl;
         sqlite3_close(db);
         db = nullptr;
@@ -589,12 +827,30 @@ void Database::disconnect() {
 }
 
 //*******************************
+// Database::beginTransaction
+//*******************************
+bool Database::beginTransaction() {
+    executeStatement((char *) BEGIN_TRANSACTION, "Begin Transaction", "Error beginning  transaction");
+    return true;
+}
+
+//*******************************
+// Database::commit
+//*******************************
+bool Database::commit() {
+    executeStatement((char *) COMMIT, "Commit", "Error on commit");
+    return true;
+}
+
+//*******************************
 // Database::truncate
 //*******************************
 bool Database::truncate() {
-    executeStatement((char *) DELETE_DATA, "Truncating all data", "Error truncating data");
-    executeStatement((char *) DELETE_DATA2, "Truncating all data", "Error truncating data");
-    executeStatement((char *) DELETE_DATA3, "Truncating all data", "Error truncating data");
+    executeStatement((char *) DELETE_GAME_DATA, "Truncating all data", "Error truncating data");
+    executeStatement((char *) DELETE_DISC_DATA, "Truncating all data", "Error truncating data");
+    executeStatement((char *) DELETE_LANGUAGE_DATA, "Truncating all data", "Error truncating data");
+    executeStatement((char *) DELETE_SUBDIR_ROW_DATA, "Truncating all data", "Error truncating data");
+    executeStatement((char *) DELETE_SUBDIR_GAME_DATA, "Truncating all data", "Error truncating data");
     return true;
 }
 
@@ -602,12 +858,90 @@ bool Database::createInitialDatabase() {
     if (!executeCreateStatement((char *) CREATE_GAME_SQL, "GAME")) return false;
     if (!executeCreateStatement((char *) CREATE_DISC_SQL, "DISC")) return false;
     if (!executeCreateStatement((char *) CREATE_LANGUAGE_SPECIFIC_SQL, "LANGUAGE_SPECIFIC")) return false;
+    if (!executeCreateStatement((char *) CREATE_SUBDIR_ROW_SQL, "SUBDIR_ROWS")) return false;
+    if (!executeCreateStatement((char *) CREATE_SUBDIR_GAMES_TO_DISPLAY_ON_ROW_SQL, "SUBDIR_GAMES_TO_DISPLAY_ON_ROW")) return false;
+
     return true;
 }
 
 //*******************************
-// Database::createFavColumn
+// Database::createFavoriteColumn
 //*******************************
-void Database::createFavColumn() {
-    //   executeCreateStatement((char*) UPDATE_GAME_DB, "FAV column" );
+void Database::createFavoriteColumn() {
+    executeCreateStatement((char*) ADD_FAVORITE_COLUMN, "Favorite column" );
 }
+
+//*******************************
+// Database::deleteGameIdFromOneTable
+//*******************************
+bool Database::deleteGameIdFromOneTable(int id, const string& cmd_str) {
+    char *errorReport = nullptr;
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, cmd_str.c_str(), -1, &res, nullptr);
+    if (rc != SQLITE_OK) {
+        cerr << "Failed: db:: delete game_id from table, " << id << ", " << cmd_str << endl;
+        cerr << sqlite3_errmsg(db) << endl;
+        if (!errorReport) sqlite3_free(errorReport);
+        return false;
+    }
+    sqlite3_bind_int(res, 1, id);
+    sqlite3_step(res);
+    sqlite3_finalize(res);
+    return true;
+}
+
+
+//*******************************
+// Database::deleteGameIdFromAllTables
+//*******************************
+bool Database::deleteGameIdFromAllTables(int id) {
+    beginTransaction(); // all the statements must succeed or the DB won't be modified
+
+    bool success = true;
+    success = deleteGameIdFromOneTable(id, DELETE_GAME_ID_FROM_DISC);
+    if (success)
+        success = deleteGameIdFromOneTable(id, DELETE_GAME_ID_FROM_GAME);
+    if (success)
+        success = deleteGameIdFromOneTable(id, DELETE_GAME_ID_FROM_SUBDIR_GAMES_TO_DISPLAY_ON_ROW);
+
+    if (success)
+        commit();
+
+    return success;
+}
+
+#if 0
+// from: https://forums.coronalabs.com/topic/29425-check-if-column-exists-in-sqlite-database/
+function dbColumnExists(dbase, tbl, col)
+  local sql = "select * from "..tbl.." limit 1;"
+  local stmt = dbase:prepare(sql)
+  local tb = stmt:get_names()
+  local found = false
+  for v = 1, stmt:columns() do
+        print(tb[v]);
+    if tb[v] == col then
+        found = true;
+        print("FOUND "..tb[v]);
+    end
+  end
+  return found
+end
+
+// from: https://stackoverflow.com/questions/18920136/check-if-a-column-exists-in-sqlite
+// link has multiple code snippets
+// This method will check if column exists in your table
+public boolean isFieldExist(String tableName, String fieldName)
+{
+     boolean isExist = false;
+     SQLiteDatabase db = this.getWritableDatabase();
+     Cursor res = db.rawQuery("PRAGMA table_info("+tableName+")",null);
+    res.moveToFirst();
+    do {
+        String currentColumn = res.getString(1);
+        if (currentColumn.equals(fieldName)) {
+            isExist = true;
+        }
+    } while (res.moveToNext());
+     return isExist;
+}
+#endif

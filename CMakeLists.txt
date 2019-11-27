@@ -15,6 +15,7 @@ else()
 			message("Enabling additional memory debugging")
 			SET(CMAKE_C_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
 			SET(CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
+			SET(LDFLAGS "-fsanitize=address -fno-omit-frame-pointer")
 		endif()
 	endif()
 endif()
@@ -40,6 +41,8 @@ add_executable(
         src/code/engine/game.h
         src/code/engine/scanner.cpp
         src/code/engine/scanner.h
+        src/code/engine/GetGameDirHierarchy.h
+        src/code/engine/GetGameDirHierarchy.cpp
         src/code/engine/metadata.cpp
         src/code/engine/metadata.h
         src/code/engine/ecmhelper.cpp
@@ -81,6 +84,8 @@ add_executable(
         src/code/gui/gui_font.h
         src/code/gui/gui_font.cpp
         src/code/gui/gui_font_wrapper.h
+		src/code/gui/gui_gameDirMenu.h
+		src/code/gui/gui_gameDirMenu.cpp
 		src/code/ver_migration.cpp
 		src/code/ver_migration.h
         src/code/engine/coverdb.cpp
@@ -119,6 +124,7 @@ add_executable(
         src/code/launcher/ps_stateselector.h
         src/code/launcher/gui_btn_guide.cpp
         src/code/launcher/gui_btn_guide.h
+		src/code/launcher/gui_launcher_loop.cpp
         src/code/engine/padmapper.cpp
         src/code/engine/padmapper.h
         src/code/gui/gui_padconfig.cpp
@@ -135,8 +141,13 @@ add_executable(
 		src/code/gui/gui_playlists.h
         src/code/engine/cardedit.h
 		src/code/engine/cardedit.cpp
-        src/code/launcher/gui_mc_manager.h src/code/launcher/gui_mc_manager.cpp src/code/gui/starfx.cpp src/code/gui/starfx.h)
-
+        src/code/launcher/gui_mc_manager.h
+		src/code/launcher/gui_mc_manager.cpp
+		src/code/gui/starfx.cpp
+		src/code/gui/starfx.h
+        src/code/environment.h
+		src/code/environment.cpp
+		)
 
 
 add_executable(starter
@@ -147,6 +158,8 @@ add_executable(starter
 		src/code/DirEntry.cpp
         src/code/engine/inifile.cpp
         src/code/engine/memcard.cpp src/code/engine/memcard.h
+		src/code/environment.h
+		src/code/environment.cpp
 		)
 
 target_link_libraries(autobleem-gui

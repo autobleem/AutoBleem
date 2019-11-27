@@ -179,7 +179,7 @@ void Isodir::readDir(vector<string> * data, unsigned int sector, int maxlevel, i
 //*******************************
 // Isodir::getDir
 //*******************************
- IsoDirectory Isodir::getDir(string binPath,int maxlevel) {
+ IsoDirectory Isodir::getDir(string binPath, int maxlevel) {
     offset=0;
     stream = new ifstream(binPath,  ios::binary | ios::in);
     if (!stream->good()) {

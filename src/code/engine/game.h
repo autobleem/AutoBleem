@@ -22,15 +22,19 @@ public:
     bool binVerified = false;
 };
 
+using USBGamePtr = std::shared_ptr<class USBGame>;
+using USBGames = std::vector<USBGamePtr>;
+
 //******************
 // USBGame
 //******************
 class USBGame {
 public:
     int folder_id = 0;
-    std::string fullPath;
+    std::string fullPath;       // "/Games/Sports/Football/NFL Blitz"
+    std::string gameDirName;    // "NFL Blitz"
     std::string saveStatePath;
-    std::string pathName;
+    int gameId = 0;
 
     std::string title;
     std::string publisher;
@@ -47,10 +51,10 @@ public:
     bool pcsxCfgFound = false;
     bool gameIniFound = false;
     bool gameIniValid = false;
-    bool imageFound = false;
+    bool coverImageFound = false;
     bool licFound = false;
     bool automationUsed = false;
-    ImageType imageType = IMAGE_CUE_BIN;
+    ImageType imageType = IMAGE_BIN;
     bool highRes = false;
     std::string firstBinPath;
 
@@ -64,10 +68,18 @@ public:
 
     std::map<std::string, std::string> iniValues;
 
+    static void sortByTitle(USBGames &games) { std::sort(games.begin(), games.end(),
+                                                         [] (const USBGamePtr &g1, const USBGamePtr &g2) { return SortByCaseInsensitive(g1->title, g2->title); }); }
+    static void sortByFullPath(USBGames &games) { std::sort(begin(games), end(games),
+                                                            [] (const USBGamePtr &g1, const USBGamePtr &g2) { return SortByCaseInsensitive(g1->fullPath, g2->fullPath); }); }
+    static void sortByGameDirName(USBGames &games) { std::sort(begin(games), end(games),
+                                                            [] (const USBGamePtr &g1, const USBGamePtr &g2) { return SortByCaseInsensitive(g1->gameDirName, g2->gameDirName); }); }
+    static void sortBySerial(USBGames &games) { std::sort(begin(games), end(games),
+                                                          [] (const USBGamePtr &g1, const USBGamePtr &g2) { return SortByCaseInsensitive(g1->serial, g2->serial); }); }
+
 private:
     void parseIni(std::string path);
     std::string valueOrDefault(std::string name, std::string def, bool setAutomationIfDefaultUsed = true);
 };
 
-using USBGamePtr = std::shared_ptr<USBGame>;
-using USBGames = std::vector<USBGamePtr>;
+void operator += (USBGames &dest, const USBGames &src);

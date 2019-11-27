@@ -1,5 +1,3 @@
- games
- jòcs
 .-= Code C++ and shell scripts =-.
 .-= Còdi C++ e scripts shell =-.
 .-= Database maintenance =-.
@@ -52,8 +50,6 @@ CONFIGURED
 CONFIGURAT
 Confirm
 Confirmar
-Console Button Guide
-Guida botons consòla
 Copy
 Copiar
 Cover Style:
@@ -134,8 +130,6 @@ High res:
 Nauta resolucion :
 Hold
 Manténer
-Importing internal games
-Importacion dels jòcs intèrnes
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 AL MENÚ D'AVIADA PER ATUDAR LA CONSÒLA (EXTINCION SEGURA !!!)
 In Game
@@ -172,8 +166,6 @@ Menu Theme:
 Tèma del menú :
 Moving :
 Desplaçament :
-Moving...
-Desplaçament...
 Music:
 Musica :
 New Card

@@ -1,20 +1,14 @@
-//
-// Created by screemer on 2019-07-25.
-//
-
 #pragma once
 #include "gui_screen.h"
 #include "../main.h"
-#include "../launcher/ra_integrator.h"
 #include <vector>
 
-class GuiPlaylists : public GuiScreen{
+class GuiGameDirMenu : public GuiScreen{
 public:
     void init();
     void render();
     void loop();
-    std::vector<std::string> playlists;
-    std::vector<int> sizes;
+    std::vector<std::string> textsToDisplay;
 
     int selected=0;
     int maxVisible=8;
@@ -22,13 +16,9 @@ public:
     int lastVisible=8;
 
     bool changes=false;
-
     bool cancelled = false;
 
-    shared_ptr<RAIntegrator> integrator;
     SDL_Shared<SDL_Texture> backgroundImg;
 
     using GuiScreen::GuiScreen;
 };
-
-

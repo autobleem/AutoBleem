@@ -38,8 +38,6 @@ Configuration saved - Press |@X| to continue
 Configuratia a fost salvata - Apasa |@X| pentru a continua
 Confirm
 Confirma
-Console Button Guide
-Ghid butoane consola
 Cover Style:
 Stil pentru Cover:
 Custom
@@ -112,8 +110,6 @@ High res:
 High res (rezolutie inalta):
 Hold
 Pauza
-Importing internal games
-Se importa jocurile interne
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 In Game

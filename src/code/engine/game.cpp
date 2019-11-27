@@ -12,6 +12,7 @@
 #include <fstream>
 #include <iostream>
 #include "../engine/scanner.h"
+#include "../environment.h"
 
 using namespace std;
 
@@ -35,7 +36,7 @@ bool USBGame::validateCue(string cuePath, string path) {
         }
     }
     for (int i = 0; i < binFiles.size(); i++) {
-        string binPath = path + binFiles[i];
+        string binPath = path + sep + binFiles[i];
         if (!DirEntry::exists(binPath)) {
             result = false;
         } else {
@@ -76,7 +77,8 @@ string USBGame::valueOrDefault(string name, string def, bool setAutomationIfDefa
 bool USBGame::verify() {
     bool result = true;
 
-    if (discs.size() == 0) result = false;
+    if (discs.size() == 0)
+        result = false;
 
     for (int i = 0; i < discs.size(); i++) {
         if (discs[i].diskName.length() == 0)
@@ -93,7 +95,7 @@ bool USBGame::verify() {
         result = false;
     if (!gameIniValid)
         result = false;
-    if (!imageFound)
+    if (!coverImageFound)
         result = false;
     if (!licFound)
         result = false;
@@ -125,7 +127,7 @@ bool USBGame::print() {
     cout << "GameData found: " << gameDataFound << endl;
     cout << "Game.ini found: " << gameIniFound << endl;
     cout << "Game.ini valid: " << gameIniValid << endl;
-    cout << "PNG found:" << imageFound << endl;
+    cout << "PNG found:" << coverImageFound << endl;
     cout << "LIC found:" << licFound << endl;
     cout << "pcsx.cfg found: " << pcsxCfgFound << endl;
     cout << "TotalDiscs: " << discs.size() << endl;
@@ -151,7 +153,7 @@ bool USBGame::print() {
 // USBGame::recoverMissingFiles
 //*******************************
 void USBGame::recoverMissingFiles() {
-    string path = DirEntry::getWorkingPath();
+    string workingPath = Env::getWorkingPath();
 
     Metadata md;
     bool metadataLoaded = false;
@@ -164,7 +166,7 @@ void USBGame::recoverMissingFiles() {
             if (discs.size() == 0) {
                 automationUsed = false;
                 Disc disc;
-                disc.diskName = pbpFileName;
+                disc.diskName = pbpFileName;    // the full filename including the .PBP
                 disc.cueFound = true;
                 disc.cueName = pbpFileName;
                 disc.binVerified = true;
@@ -176,7 +178,7 @@ void USBGame::recoverMissingFiles() {
             cout << "Switching automation in PBP" << endl;
         }
     }
-    if (imageTypeIsAGameFileThatUsesACueFile(this->imageType)) {
+    if (DirEntry::imageTypeUsesACueFile(this->imageType)) {
         if (discs.size() == 0) {
             automationUsed = true;
             cout << "Switching automation no discs" << endl;
@@ -184,12 +186,12 @@ void USBGame::recoverMissingFiles() {
             string destination = fullPath ;
             for (const DirEntry & entry: DirEntry::diru(destination)) {
                 if (DirEntry::matchExtension(entry.name, EXT_CUE)) {
-                    string discEntry = entry.name.substr(0, entry.name.size() - 4);
                     Disc disc;
-                    disc.diskName = discEntry;
+                    string discEntry = entry.name.substr(0, entry.name.size() - 4); // remove .CUE
+                    disc.diskName = discEntry;  // the CUE filename without the .CUE
                     disc.cueFound = true;
-                    disc.cueName = discEntry;
-                    disc.binVerified = validateCue(destination + entry.name, fullPath );
+                    disc.cueName = discEntry;   // the CUE filename without the .CUE
+                    disc.binVerified = validateCue(destination + sep + entry.name, fullPath );
                     discs.push_back(disc);
                 }
             }
@@ -200,54 +202,53 @@ void USBGame::recoverMissingFiles() {
         if (!licFound) {
             automationUsed = true;
             cout << "Switching automation no lic" << endl;
-            string source = path + DirEntry::separator() + "default.lic";
-            string destination = fullPath  + discs[0].diskName + ".lic";
+            string source = workingPath + sep + "default.lic";
+            string destination = fullPath + sep  + discs[0].diskName + ".lic";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             DirEntry::copy(source, destination);
             licFound = true;
         }
-        if (!imageFound) {
+        if (!coverImageFound) {
             automationUsed = true;
             cout << "Switching automation no image" << endl;
-            string source = path + DirEntry::separator() + "default.png";
-            string destination = fullPath  + discs[0].diskName + ".png";
+            string source = workingPath + sep + "default.png";
+            string destination = fullPath + sep + discs[0].diskName + ".png";
             cerr << "SRC:" << source << " DST:" << destination << endl;
             DirEntry::copy(source, destination);
             // maybe we can do better ?
-            string serial = SerialScanner::scanSerial(imageType,fullPath,firstBinPath);
+            string serial = SerialScanner::scanSerial(imageType, fullPath, firstBinPath);
             if (serial != "") {
 
                 if (md.lookupBySerial(serial)) {
                     metadataLoaded = true;
-                    cout << "Updating cover" << destination << endl;
+                    cout << "Updating cover in recoverMissingFiles()" << destination << endl;
                     ofstream pngFile;
                     pngFile.open(destination);
                     pngFile.write(md.bytes, md.dataSize);
                     pngFile.flush();
                     pngFile.close();
                     automationUsed = false;
-                    imageFound = true;
+                    coverImageFound = true;
                 };
                 md.clean();
 
             }
-            imageFound = true;
-
+            coverImageFound = true;
         }
     }
 
     if (!pcsxCfgFound) {
         automationUsed = true;
         cout << "Switching automation no pcsx" << endl;
-        string source = path + DirEntry::separator() + "pcsx.cfg";
-        string destination = fullPath + "pcsx.cfg";
+        string source = workingPath + sep + PCSX_CFG;
+        string destination = fullPath + sep + PCSX_CFG;
         cerr << "SRC:" << source << " DST:" << destination << endl;
 
         int region = 0;
         bool japan = false;
 
         if (!metadataLoaded) {
-            string serial = SerialScanner::scanSerial(imageType,fullPath,firstBinPath);
+            string serial = SerialScanner::scanSerial(imageType, fullPath, firstBinPath);
             if (serial != "") {
                 metadataLoaded = md.lookupBySerial(serial);
             }
@@ -272,7 +273,7 @@ void USBGame::recoverMissingFiles() {
         DirEntry::copy(source, destination);
 
         CfgProcessor * processor=new CfgProcessor();
-        processor->replace(pathName, gui->path, "region", "region = " + to_string(region),false);
+        processor->replaceUSB(gameDirName, fullPath, "region", "region = " + to_string(region));
         delete(processor);
         pcsxCfgFound = true;
     }
@@ -284,7 +285,7 @@ void USBGame::recoverMissingFiles() {
 void USBGame::updateObj() {
     string tmp;
     discs.clear();
-    title = valueOrDefault("title", pathName);
+    title = valueOrDefault("title", gameDirName);
     memcard = valueOrDefault("memcard", "");
 
     publisher = valueOrDefault("publisher", "Other");
@@ -312,8 +313,8 @@ void USBGame::updateObj() {
         for (int i = 0; i < strings.size(); i++) {
             Disc disc;
             disc.diskName = strings[i];
-            if (imageTypeIsAGameFileThatUsesACueFile(imageType)) {
-                string cueFile = fullPath  + disc.diskName + EXT_CUE;
+            if (DirEntry::imageTypeUsesACueFile(imageType)) {
+                string cueFile = fullPath + sep + disc.diskName + EXT_CUE;
                 bool discCueExists = DirEntry::exists(cueFile);
                 if (discCueExists) {
                     disc.binVerified = validateCue(cueFile, fullPath );
@@ -343,7 +344,7 @@ void USBGame::updateObj() {
 // USBGame::saveIni
 //*******************************
 void USBGame::saveIni(string path) {
-    cout << "Overwritting ini file" << path << endl;
+    //cout << "Overwritting ini file" << path << endl;
     Inifile *ini = new Inifile();
     ini->section = "Game";
     ini->values["title"] = title;
@@ -356,12 +357,10 @@ void USBGame::saveIni(string path) {
     ini->values["imagetype"] = to_string(imageType);
     ini->values["highres"] = to_string(highRes);
     if (memcard.empty())
-    {
         ini->values["memcard"] = "SONY";
-    } else
-    {
+    else
         ini->values["memcard"] = memcard;
-    }
+
     ini->values["Favorite"] = favorite;
 
     stringstream ss;
@@ -400,4 +399,11 @@ void USBGame::parseIni(string path) {
 void USBGame::readIni(string path) {
     parseIni(path);
     updateObj();
+}
+
+//*******************************
+// USBGames += USBGames
+//*******************************
+void operator += (USBGames &dest, const USBGames &src) {
+    copy(begin(src), end(src), back_inserter(dest));
 }

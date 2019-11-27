@@ -1,8 +1,4 @@
-//
-// Created by screemer on 2019-07-25.
-//
-
-#include "gui_playlists.h"
+#include "gui_gameDirMenu.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -13,42 +9,36 @@
 #include "../main.h"
 #include "../lang.h"
 #include <ftw.h>
+
 using namespace std;
 
 //*******************************
-// void GuiPlaylists::init()
+// void GuiGameDirMenu::init()
 //*******************************
-void GuiPlaylists::init()
+void GuiGameDirMenu::init()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
     firstVisible = 0;
     lastVisible = firstVisible + maxVisible - 1;
-
-    sizes.clear();
-    for (const string& playlist:playlists)
-    {
-        int size=integrator->getGamesNumber(playlist);
-        sizes.push_back(size);
-    }
 }
 
 //*******************************
-// GuiPlaylists::render
+// GuiGameDirMenu::render
 //*******************************
-void GuiPlaylists::render()
+void GuiGameDirMenu::render()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
     // use evoUI background
 
     SDL_RenderClear(renderer);
-   gui->renderBackground();
+    gui->renderBackground();
 
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=" + _("Select RetroBoot Platform") + "=-",0,offset,true);
-    if (selected >= playlists.size()) {
-        selected = playlists.size() - 1;
+    //gui->renderTextLine("-=" + _("Select RetroBoot Platform") + "=-",0,offset,true);
+    if (selected >= textsToDisplay.size()) {
+        selected = textsToDisplay.size() - 1;
     }
 
     if (selected < firstVisible) {
@@ -64,26 +54,26 @@ void GuiPlaylists::render()
 
     int pos = 1;
     for (int i = firstVisible; i <= lastVisible; i++) {
-        if (i >= playlists.size()) {
+        if (i >= textsToDisplay.size()) {
             break;
         }
-        gui->renderTextLine(playlists[i] + " (" + to_string(sizes[i]) + " " + _("games") + ")", pos+1, offset, false);
+        gui->renderTextLine(textsToDisplay[i], pos+1, offset,false);
         pos++;
     }
 
-    if (!playlists.size() == 0) {
+    if (!textsToDisplay.size() == 0) {
         gui->renderSelectionBox(selected - firstVisible + 2, offset);
     }
 
-    gui->renderStatus(_("Entry")+" " + to_string(selected + 1) + "/" + to_string(playlists.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"   |@O| "+_("Close")+" |");
+    //gui->renderStatus(_("Entry")+" " + to_string(selected + 1) + "/" + to_string(playlists.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"   |@O| "+_("Close")+" |");
     SDL_RenderPresent(renderer);
 }
 
 
 //*******************************
-// GuiManager::loop
+// GuiGameDirMenu::loop
 //*******************************
-void GuiPlaylists::loop()
+void GuiGameDirMenu::loop()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;
@@ -108,7 +98,7 @@ void GuiPlaylists::loop()
                     if (gui->mapper.isDown(&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         selected++;
-                        if (selected >= playlists.size()) {
+                        if (selected >= textsToDisplay.size()) {
                             selected = 0;
                             firstVisible = selected;
                             lastVisible = firstVisible+maxVisible;
@@ -119,7 +109,7 @@ void GuiPlaylists::loop()
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         selected--;
                         if (selected < 0) {
-                            selected = playlists.size()-1;
+                            selected = textsToDisplay.size()-1;
                             firstVisible = selected;
                             lastVisible = firstVisible+maxVisible;
                         }
@@ -131,8 +121,8 @@ void GuiPlaylists::loop()
                     if (e.jbutton.button == gui->_cb(PCS_BTN_R1,&e)) {
                         Mix_PlayChannel(-1, gui->home_up, 0);
                         selected+=maxVisible;
-                        if (selected >= playlists.size()) {
-                            selected = playlists.size() - 1;
+                        if (selected >= textsToDisplay.size()) {
+                            selected = textsToDisplay.size() - 1;
                         }
                         firstVisible = selected;
                         lastVisible = firstVisible+maxVisible;
@@ -149,23 +139,18 @@ void GuiPlaylists::loop()
                         render();
                     };
 
-
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         cancelled = true;
                         menuVisible = false;
                     };
 
-
-
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         cancelled = false;
-                        if (!playlists.empty())
+                        if (!textsToDisplay.empty())
                         {
-
                             menuVisible = false;
-
                         }
                     };
             }

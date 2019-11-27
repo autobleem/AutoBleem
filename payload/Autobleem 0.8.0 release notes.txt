@@ -1,0 +1,37 @@
+
+                                       *****************************
+                                       Autobleem 0.8.0 Release Notes
+                                       *****************************
+
+USB Games sub-directories
+-------------------------
+Games can be organized into a directory hierarchy under /Games.  For example, you can organize your sports games under /Games/Sports and you can further organize your sports games into /Games/Sports/Baseball, /Games/Sports/Football, /Games/Sports/Soccer, etc.
+
+You can select the /Games sub-directory you wish to view by pressing the L2 + Select buttons while viewing the game sub-dir carousel.  When you select a game directory you will see all the games in that directory plus all the games in it's sub-directories. Using the example above if you select /Games/Sports/Football you will see only football games.  If you select /Games/Sports you will see ALL sports games (any games in /Games/Sports itself plus all the games in the Sports sub-directories combined).
+
+If you have duplicate games in more than one sub-directory you will only see one of those games in the carousel.  Autobleem will display the game that is in the highest level directory.  So if you have the same football game in /Games/Sports and in /Games/Sports/Football the game shown in the carousel will be the game in /Games/Sports.
+
+Four text files are generated during the scan for additional user information.  
+gameHierarchy_beforeScan.txt                       The list of games in each /Games directory of your USB drive.  
+                                                   This list is before invalid games are removed and before duplicate games are removed from the carousel display list.
+gameHierarchy_afterScanAndRemovingDuplicates.txt   The list of remaining games that will be displayed in the carousel after removing duplicate games.
+duplicateGames.txt                                 The list of duplicate games.
+gamesThatFailedVerifyCheck.txt                     Invalid games that are removed from the carousel lists.
+
+Consolidated Themes
+-------------------
+The data for a theme is no longer split between /Autobleem/bin/autobleem/theme and /Themes.  All theme data for a theme in contained in one directory under /Themes.  This will make it easier both for theme creators and for users to add a new theme.  You only have one directory to drag and drop the theme to: /Themes.  Axanar will release a collection of themes with all the theme data merged into /Themes.  Simply drag and drop the themes you want into /Themes.
+
+Since the files for a theme only need to copied to one directory (/Themes) there is only one options menu item needed to change themes.
+
+Deleting a game
+---------------
+You can now delete a game from within the game manager menu.  If the game is the last copy of the game on the USB Autobleem will ask you if you also wish to delete the !SaveStates for that game.
+
+Internal game favorites
+------------------------
+Internal games can now be set as a favorite and will show up in the Favorites carousel.  The internal favorite data is contained in /System/Databases/internal.db if you wish to save or copy your internal favorites to another USB.
+
+Retroarch favorites
+-------------------
+Retroarch favorites are now listed as a RA playlist at the bottom of the RA playlist menu.  You can select the Favorites playlist to see only your RA favorite games in the game carousel.  RA games are set as a favorite in Retroarch not in the Autobleem UI.

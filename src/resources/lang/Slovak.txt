@@ -1,19 +1,33 @@
-﻿About
+﻿.-= Code C++ and shell scripts =-.
+.-= Kód C++ a skripty shellu =-.
+.-= Database maintenance =-.
+.-= Údržba databázy =-.
+.-= Graphics =-.
+.-= Grafika =-.
+.-= Localization support =-.
+.-= Podpora lokalizácie =-.
+.-= Retroboot and emulation cores =-.
+.-= Retroboot a jadrá emulácie =-.
+.-= Testing =-.
+.-= Testovanie =-.
+About
 O programe
 Advanced
 Rozšírené
 Advanced:
 Rozšírené:
+Are you sure you want to delete
+Ste si istý, že chcete zmazať
 Are you sure you want to flush all covers?
 Naozaj chcete zmazať všetky obaly?
 Are you sure?
 Ste si tým istý?
 AutoBleem
 AutoBleem
+AutoBleem resume points not available in RetroArch.
+AutoBleem obnoví body, ktoré nie sú dostupné v RetroArch.
 AutoBleem Theme:
 Téma AutoBleemu:
-Automatic PlayStation Classic USB launcher
-Automatický USB spúšťač hier PlayStation Classic
 Background Music:
 Hudba na pozadí:
 Button Guide
@@ -26,20 +40,24 @@ Card
 Karta
 Change MC
 Vymeniť Pamäťovú kartu
+Change RetroBoot System
+Zmeniť systém RetroBoot
+Change USB Games Sub-Directory
+Zmeniť podadresár hier USB
 Clock:
 CPU hodiny
 Close
 Zatvoriť
-Code: AutoBleem Team
-Autori: AutoBleem Team
 Configuration
 Nastavenia
 Configuration saved - Press |@X| to continue
 Nastavenia uložené - Stlačte |@X| pre pokračovanie
+CONFIGURED
+NAKONFIGUROVANÝ
 Confirm
 Potvrdiť
-Console Button Guide
-Sprievodca tlačidlami konzoly
+Copy
+Kopírovať
 Cover Style:
 Štýl obalu:
 Custom
@@ -50,10 +68,18 @@ Customize AutoBleem settings
 Prispôsobiť nastavenia AutoBleem
 Decompressing ecm:
 Rozbaľovanie ECM:
+Defragment Card
+Defragmentovať kartu
 Delete
 Zmazať
+Delete !SaveState folder for game
+Odstrániť !SaveState priečinok pre hru
 Delete card
 Zmazať kartu
+Delete Game
+Odstrániť hru
+Do you want to save memcards data ?
+Chcete uložiť údaje z kariet?
 Download latest:
 Najnovšia verzia:
 DPAD - Same as classic menu
@@ -74,6 +100,12 @@ Enter new name for card
 Zadajte nový názov karty
 Enter new name for memory card
 Zadajte nový názov pamäťovej karty
+Entry
+Údaj
+Exit to EvoUI
+Odísť do EvoUI
+Failed to delete
+Nepodarilo sa odstrániť
 Favorite:
 Obľúbené
 Flush covers
@@ -82,6 +114,8 @@ Folder:
 Priečinok:
 Frameskip:
 Preskočenie snímok:
+Free
+Voľné
 Free space
 Voľné miesto
 Game
@@ -96,6 +130,8 @@ Game:
 Hra:
 games
 hry
+Games
+Hry
 Games changed. Press
 Hry sa zmenili. Stlač
 Games filter
@@ -106,50 +142,58 @@ GFX Filter:
 Grafický filter:
 Go back
 Späť
-Graphics by:
-Grafika:
 High res:
 Vysoké rozlíšenie:
 Hold
 Čakajte
-Importing internal games
-Importovanie originálnych hier
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 V BOOT MENU VYPNÚŤ KONZOLU (BEZPEČNÉ VYPNUTIE !!!)
 In Game
 V hre
+In Retroarch Game
+V Retroarch hre
 Internal
 Originálne
+INTERNAL
+ORIGINÁLNE
 Internal Games:
 Originálne hry:
 Is your dpad analogue?
 Máte analógový dpad?
 Language:
 Jazyk:
+Link Block
+Spojiť blok
+Link end Block
+Spojiť koniec bloku
 Loading ... Please Wait ...
 Nahrávam ... Čakajte prosím ...
 Lock data:
 Uzamknúť zmeny:
-MemCard Manager will be available soon
-Správca Pamäťových kariet nie je momentálne k dispozícii
 MEMORY CARD
 PAMÄŤOVÁ KARTA
+Memory Card Manager
+Správca pamäťových kariet
 Memory Card:
 Pamäťová karta:
 Memory Cards
 Pamäťové karty
 Menu
 Menu
-Menu Theme:
-Téma:
+Moving :
+Presúvam:
 Music:
 Hudba:
 New Card
 Nová karta
 New GamePad found
 Nájdený nový Gamepad
+OK
+OK
 OOPS! Game crashed. Resume point not available.
 Och! Hra spadla. Bod obnovy nie je k dispozícii.
+Open Retroarch Menu
+Otvoriť ponuku Retroarch
 Options
 Nastavenia
 Original
@@ -164,10 +208,14 @@ Please confirm
 Potvrďte prosím
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 PRIPOJTE PROSÍM GAMEPAD K PLAYSTATIONU CLASSIC
+Please wait ... deleting
+Čakajte prosím ... odstraňujem
 Please wait ... deleting covers...
 Čakajte prosím... mažem obaly...
 Plugin:
 Plugin:
+POWER
+VÝKON
 Power Off
 Vypnúť
 POWERING OFF... PLEASE WAIT
@@ -179,7 +227,7 @@ Vydavateľ:
 Quick boot
 Rýchly štart
 Quick scroll to next letter
-Rýchle prejdenie na nasledujúci znak  
+Rýchlo prejsť na nasledujúci znak  
 QuickBoot Init:
 Rýchly štart do:
 QuickBoot:
@@ -190,6 +238,8 @@ Re/Scan
 Pre/Hľadať
 Region:
 Oblasť:
+Reload Cards
+Znovu načítať karty
 Rename
 Premenovať
 RESUME
@@ -202,6 +252,8 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch nie je nainštalovaný
+Run using RetroBoot(if installed)
+Spustiť pomocou RetroBoot (ak je nainštalovaný)
 Scanline Level:
 Úroveň obrazových riadkov:
 Scanlines:
@@ -216,6 +268,10 @@ Select or cancel highlighted option
 Vybrať alebo zrušiť zvýraznenú voľbu
 SELECT RESUME SLOT TO LOAD
 VYBERTE POZÍCIU, Z KTOREJ SA NAHRÁ PRERUŠENÁ HRA
+Select RetroBoot Platform
+Vyberte platformu RetroBoot
+Select Right Card
+Vyberte kartu v pravo
 SELECT SLOT TO SAVE STATE
 VYBERTE POZÍCIU, NA KTORÚ SA ULOŽÍ ROZOHRANÁ HRA
 Serial:
@@ -225,27 +281,25 @@ NASTAVENIA
 Share MC
 Zdieľať Pamäťovú kartu
 Show RetroArch:
-RetroArch:
+Zobraziť RetroArch:
 Showing Timeout (0 = no timeout):
 Zobrazenie časového limitu (0 = bez limitu):
 Showing: All games
-Všetky hry
+Zobrazujem: Všetky hry
 Showing: Favorite games
-Obľúbené hry
+Zobrazujem: Obľúbené hry
 Showing: Internal games
-Originálne hry
-Showing: USB games
-USB hry
+Zobrazujem: Originálne hry
+Showing: Retroarch
+Zobrazujem: Retroarch
+Showing: USB Games Directory:
+Zobrazujem: Adresár hier USB:
 Slot
 Pozícia
-Sorting :
-Triedenie :
-Sorting...
-Triedenie...
 Space
 Medzera
 SpeedHack:
-SpeedHack
+SpeedHack:
 Spu Interpolation:
 Interpolácia zvuku:
 Starting EvolutionUI
@@ -260,6 +314,8 @@ Total:
 Celkom:
 UI:
 Užívateľské rozhranie:
+Unknown Core (AutoDetect)
+Neznáme jadro (AutoDetect)
 Updating regional.db...
 Aktualizujem regional.db...
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
@@ -270,58 +326,3 @@ Widescreen:
 Širokouhlý obraz:
 Year:
 Rok:
- games
- hry
-.-= Code C++ and shell scripts =-.
-Prokgramovanie v C++ a skriptách shellu
-.-= Database maintenance =-.
-Údržba databáze
-.-= Graphics =-.
-Grafika
-.-= Localization support =-.
-Prekladateľská podpora
-.-= Retroboot and emulation cores =-.
-Retroboot a emulačné jadrá
-.-= Testing =-.
-Testujem
-AutoBleem resume points not available in RetroArch.
-Obnovovacie body z AutoBleemu nie sú pre RetroArch dostupné.
-CONFIGURED
-KONFIGUROVANÉ
-Copy
-Kopírovať
-Defragment Card
-Defragmentovať kartu
-Do you want to save memcards data ?
-Chcete uložiť dáta z pamäťových kariet ?
-Entry
-Zápis
-Free
-Voľné
-INTERNAL
-ORIGINÁLNE
-Link Block
-Spojiť blok
-Link end Block
-Spojiť koniec bloku
-Memory Card Manager
-Správca Pamäťovej karty
-Moving :
-Presunuté :
-Moving...
-Presúvam...
-OK
-OK
-Reload Cards
-Znovu načítať karty
-RetroBoot Systems
-RetroBoot Systémy
-Run using RetroBoot(if installed)
-Spustiť s použitím RetroBootu (pokiaľ je nainštalovaný)
-Select RetroBoot Platform
-Vybrať platformu pre RetroBoot
-Select Right Card
-Vybrať kartu v pravo
-Showing:
-Unknown Core (AutoDetect)
-Neznáme jadro (Autodetekcia)

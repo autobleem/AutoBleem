@@ -15,10 +15,10 @@ Join our discord server for support: [https://discord.gg/AHUS3RM](https://discor
 
 #### NOTE: You do not need to uninstall BleemSync 0.4/0.7/1.0/1.0.1 from your console prior to use AutoBleem. Prepare new USB stick with AutoBleem and it will work as expected. 
 
-#### NOTE: If you already installed BleemSync 1.1 firmware in your PSC AutoBleem can be booted from rear USB port
+#### NOTE: If you already installed BleemSync 1.1 firmware in your PSC AutoBleem can be booted from rear USB port using an OTG cable.
 
 # AutoBleem 
-AutoBleem is a tool to make your PlayStation Classic more usefull.
+AutoBleem is a tool to make your PlayStation Classic more useful.
 It is relatively safe way to add games , change look and feel, change advanced configuration of your mini console.
      
 ## Why this project
@@ -34,7 +34,7 @@ If you found an issue - report it using "Issues" section on this website or bett
 
 **NOTE: You do not need to uninstall BleemSync 1.0/1.1 if it was already installed**
 
-#### NOTE: This tool is made to use only with legal licenced games. The whole project does not use any licenced source code, also it does not alter any of the Sony files inside the mini console, it just uses what is already there and not alter it in any way.
+#### NOTE: This tool is made to use only with legal licensed games. The whole project does not use any licensed source code, also it does not alter any of the Sony files inside the mini console, it just uses what is already there and not alter it in any way.
 
 ## Features 
 
@@ -72,7 +72,7 @@ If you found an issue - report it using "Issues" section on this website or bett
 
 ## Automatic Game scanning
 
-To allow AutoBleem to scan your games they need to be inserted into Game folder. Just take your game folder and drop it there. As soon there is .bin file inside this folder AutoBleem will try to generate all other needed files for you on console boot. So structure can be as follows:
+To allow AutoBleem to scan your games they need to be inserted into the /Games folder. Just take your game folder and drop it there. As soon there is .bin file inside this folder AutoBleem will try to generate all other needed files for you on console boot. So structure can be as follows:
 
 ```
 Games/
@@ -92,9 +92,9 @@ There are databases attached to this file with all covers and metadata. Also Aut
 
 ### General usage of database files
 
-The inital release package "Full version" DO contain Cover Repository databases. And this is probably everything you need to start your build.  In case you want to make the installation small, doenload "Clean version" and then copy the databases to your USB dongle as on previous releases. 
+The initial release package "Full version" DO contain Cover Repository databases. And this is probably everything you need to start your build.  In case you want to make the installation small, download "Clean version" and then copy the databases to your USB dongle as on previous releases. 
 
-Database is split into three separate files by region. If you do not for example plan to play JAP region games, you can install just US or PAL. The reason for that split is the file size. Original cover repository in 226x226 PNG was about 1GB in size. I managed to use a lot of optimisations and finally shrink this into much smaller size, but it still is bit big for a small USB dongle. 
+Database is split into three separate files by region. If you do not for example plan to play JAP region games, you can install just US or PAL. The reason for that split is the file size. Original cover repository in 226x226 PNG was about 1GB in size. I managed to use a lot of optimizations and finally shrink this into much smaller size, but it still is bit big for a small USB dongle. 
 
 The files are available on release page. Look for latest release for most updated databases. 
 
@@ -118,7 +118,7 @@ This software uses some parts of code based on open licences:
 
 UNECM - Copyright (C) 2002 Neill Corlett (GPLv2) (unecm.c)
 
-RetroBoot distribution of Retroarch - genderbent, cores by KMDFManic - All components of the distribution are licenced as described here:
+RetroBoot distribution of Retroarch - genderbent, cores by KMDFManic - All components of the distribution are licensed as described here:
 http://docs.libretro.com/development/licenses/
 
 

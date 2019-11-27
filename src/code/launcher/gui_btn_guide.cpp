@@ -29,13 +29,18 @@ void GuiBtnGuide::render() {
     gui->renderTextLine("|@S|   " + _("Run using RetroBoot(if installed)"), 3, offset, POS_CENTER);
     gui->renderTextLine("|@R1| / |@L1|   " + _("Quick scroll to next letter"), 4, offset, POS_CENTER);
     gui->renderTextLine("|@Select|   " + _("Games filter"), 5, offset, POS_CENTER);
-    gui->renderTextLine("|@L2| + |@Select|   " + _("RetroBoot Systems"), 6, offset, POS_CENTER);
+    gui->renderTextLine("|@L2| + |@Select|   " + _("Change USB Games Sub-Directory"), 6, offset, POS_CENTER);
+    gui->renderTextLine("|@L2| + |@Select|   " + _("Change RetroBoot System"), 7, offset, POS_CENTER);
 
     gui->renderTextLine("-=" + _("In Game") + "=-", 8, offset, POS_CENTER);
     gui->renderTextLine("|@Select| + |@T|   " + _("Emulator config MENU"), 9, offset, POS_CENTER);
     gui->renderTextLine("RESET   " + _("Quit emulation - back to AutoBleem"), 10, offset, POS_CENTER);
 
-    gui->renderTextLine("|@R2| + |@L2|  " + _("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 12, offset,
+    gui->renderTextLine("-=" + _("In Retroarch Game") + "=-", 11, offset, POS_CENTER);
+    gui->renderTextLine("|@Select| + |@Start|   " + _("Open Retroarch Menu"), 12, offset, POS_CENTER);
+    gui->renderTextLine(_("POWER") + "   " + _("Exit to EvoUI"), 13, offset, POS_CENTER);
+
+    gui->renderTextLine("|@L2| + |@R2|  " + _("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 14, offset,
                         POS_CENTER);
 
 

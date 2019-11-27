@@ -38,8 +38,6 @@ Configuration saved - Press |@X| to continue
 Configuração salva - Pressione |@X| para continuar
 Confirm
 Confirmar
-Console Button Guide
-Guia de Botões do Console
 Cover Style:
 Estilo da Capa:
 Custom
@@ -112,8 +110,6 @@ High res:
 Alta resol.:
 Hold
 Segurar
-Importing internal games
-Importando jogos internos
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 DESLIGUE O CONSOLE PELO MENU PRINCIPAL (DESLIGAMENTO SEGURO !!!)
 In Game

@@ -25,9 +25,9 @@ public:
     bool lookupByTitle(const std::string & title);
     void clean()
     {
-        if (bytes!=NULL)
+        if (bytes != NULL)
         {
-            free(bytes);
+            delete [] bytes;
             bytes=NULL;
         }
     }

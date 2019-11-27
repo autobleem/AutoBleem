@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include "../environment.h"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ CardEdit::CardEdit(SDL_Shared<SDL_Renderer> renderer1) {
     memset(memoryCard, 0, sizeof(memoryCard));
 
     convTable = new uint8_t[25088];
-    ifstream is(DirEntry::getWorkingPath()+"/shiftjis.dat");
+    ifstream is(Env::getWorkingPath() + sep + "shiftjis.dat");
     is.read(reinterpret_cast<char *>(convTable), 25088);
     is.close();
 
@@ -45,7 +46,7 @@ CardEdit::CardEdit(SDL_Shared<SDL_Renderer> renderer1) {
     }
 
     // New empty card
-    load_file(DirEntry::getWorkingPath() + DirEntry::separator() + "memcard" + DirEntry::separator() + "card1.mcd");
+    load_file(Env::getWorkingPath() + sep + "memcard" + sep + "card1.mcd");
 }
 
 CardEdit::~CardEdit() {
@@ -197,7 +198,7 @@ int CardEdit::clearData() {
     for (int i = 0; i < 131072; i++) {
         memoryCard[i] = 0;
     }
-    load_file(DirEntry::getWorkingPath() + DirEntry::separator() + "memcard" + DirEntry::separator() + "card1.mcd");
+    load_file(Env::getWorkingPath() + sep + "memcard" + sep + "card1.mcd");
     update();
     return 0;
 }

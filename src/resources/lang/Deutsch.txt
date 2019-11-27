@@ -15,7 +15,7 @@ AutoBleem Theme:
 Background Music:
 Hintergrunds Musik:
 Button Guide
-Übersicht über die Konsolentasten
+Tastenübersicht
 Cancel
 Zurück
 Caps
@@ -32,8 +32,6 @@ Configuration
 Konfiguration
 Confirm
 Bestätigen
-Console Button Guide
-Übersicht über die Konsolentasten
 Custom
 Benutzer
 Custom Memory Cards

@@ -9,6 +9,7 @@
 #include <SDL2/SDL_image.h>
 #include <unistd.h>
 #include <iostream>
+#include "../environment.h"
 
 using namespace std;
 
@@ -17,7 +18,7 @@ using namespace std;
 //*******************************
 // PsCarouselGame::loadTex
 //*******************************
-void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer, RAIntegrator* raIntegrator) {
+void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
     shared_ptr<Gui> gui(Gui::getInstance());
 
     if (!(*this)->foreign) {
@@ -35,7 +36,7 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer, RAIntegrator* ra
             SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-            string imagePath = (*this)->folder + DirEntry::separator() + (*this)->base + ".png";
+            string imagePath = (*this)->folder + sep + (*this)->base + ".png";
             SDL_SetRenderTarget(renderer, nullptr);
             if (DirEntry::exists(imagePath)) {
                 coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
@@ -111,22 +112,20 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer, RAIntegrator* ra
             SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-            string imagePath = string(RA_FOLDER) + DirEntry::separator() + "thumbnails"+ DirEntry::separator() +
-                    DirEntry::getFileNameWithoutExtension((*this)->db_name) + DirEntry::separator() +
-                    "Named_Boxarts" + DirEntry::separator() + raIntegrator->escapeName((*this)->title) + ".png";
-
+            string imagePath = Env::getPathToRetroarchDir() + sep + "thumbnails" + sep +
+                    DirEntry::getFileNameWithoutExtension((*this)->db_name) + sep +
+                    "Named_Boxarts" + sep + RAIntegrator::escapeName((*this)->title) + ".png";
 
             SDL_SetRenderTarget(renderer, nullptr);
             if (DirEntry::exists(imagePath)) {
                 coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
             } else {
-                coverPng = IMG_LoadTexture(renderer, (DirEntry::getWorkingPath() + "/evoimg/ra-cover.png").c_str());
+                cout << "boxart image NOT found for " << imagePath << endl;
+                coverPng = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "evoimg/ra-cover.png").c_str());
             }
 
             SDL_Rect imageCoverRect;
             int w,h;
-
-
 
             SDL_SetRenderTarget(renderer, renderSurface);
             fullRect.x = 0;

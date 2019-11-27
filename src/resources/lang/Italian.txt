@@ -1,19 +1,33 @@
+.-= Code C++ and shell scripts =-.
+.-= Codice C++ e shell scripts =-.
+.-= Database maintenance =-.
+.-= Manutenzione database =-.
+.-= Graphics =-.
+.-= Grafica =-.
+.-= Localization support =-.
+.-= Supporto alla localizzazione =-.
+.-= Retroboot and emulation cores =-.
+.-= Retroboot e core emulazione =-.
+.-= Testing =-.
+.-= Testing =-.
 About
 Informazioni su
 Advanced
 Avanzate
 Advanced:
 Avanzate:
+Are you sure you want to delete
+Sei sicuro di voler cancellare
 Are you sure you want to flush all covers?
 Sei sicuro di voler cancellare tutte le cover?
 Are you sure?
 Sei sicuro?
 AutoBleem
 AutoBleem
+AutoBleem resume points not available in RetroArch.
+I punti di ripristino di AutoBleem non sono disponibili in RetroArch.
 AutoBleem Theme:
 Tema di AutoBleem:
-Automatic PlayStation Classic USB launcher
-Launcher Automatico USB per PlayStation Classic
 Background Music:
 Musica di Sottofondo:
 Button Guide
@@ -26,20 +40,24 @@ Card
 Schede
 Change MC
 Cambia MC
+Change RetroBoot System
+Cambia Sistema di RetroBoot
+Change USB Games Sub-Directory
+Cambia la Sottoartella dei Giochi su USB
 Clock:
 Frequenza:
 Close
 Chiudi
-Code: AutoBleem Team
-Codice: Team AutoBleem
 Configuration
 Configurazione
 Configuration saved - Press |@X| to continue
 Configurazione salvata - Premi |@X| per continuare
+CONFIGURED
+CONFIGURATO
 Confirm
 Conferma
-Console Button Guide
-Guida ai Pulsanti
+Copy
+Copia
 Cover Style:
 Stile delle Cover:
 Custom
@@ -50,10 +68,18 @@ Customize AutoBleem settings
 Personalizza le impostazioni di AutoBleem
 Decompressing ecm:
 Decompressione ecm:
+Defragment Card
+Deframmenta Card
 Delete
 Cancella
+Delete !SaveState folder for game
+Cancella la cartella !SaveState per il gioco
 Delete card
-Cancella memory
+Cancella card
+Delete Game
+Cancella Gioco
+Do you want to save memcards data ?
+Vuoi salvare i dati delle memory card ?
 Download latest:
 Scarica la versione piu' recente:
 DPAD - Same as classic menu
@@ -71,9 +97,15 @@ Inserisci il nome della nuova memory card
 Enter new game name
 Inserisci il nome del nuovo gioco
 Enter new name for card
-Inserisci il nuovo nome della scheda
+Inserisci il nuovo nome della memory card
 Enter new name for memory card
 Inserisci il nuovo nome della memory card
+Entry
+Valore
+Exit to EvoUI
+Torna a EvoUI
+Failed to delete
+Impossibile cancellare
 Favorite:
 Preferiti:
 Flush covers
@@ -82,6 +114,8 @@ Folder:
 Cartella:
 Frameskip:
 Frameskip:
+Free
+Libero
 Free space
 Spazio libero
 Game
@@ -96,6 +130,8 @@ Game:
 Gioco:
 games
 giochi
+Games
+Giochi
 Games changed. Press
 Giochi cambiati. Premi
 Games filter
@@ -106,46 +142,46 @@ GFX Filter:
 Filtri Grafici:
 Go back
 Ritorna
-Graphics by:
-Grafica di:
 High res:
 Alta risoluzione:
 Hold
 Mantieni
-Importing internal games
-Importando giochi interni
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 NEL MENU DI AVVIO PER SPEGNERE LA CONSOLE (ARRESTO SICURO !!!)
 In Game
-In Gioco
+Mentre Giochi
+In Retroarch Game
+Mentre Giochi - in RetroArch
 Internal
 Interno
+INTERNAL
+INTERNO
 Internal Games:
 Giochi Interni:
 Is your dpad analogue?
 Il tuo dpad e' analogico?
 Language:
 Lingua:
+Link Block
+BLocco di Link
+Link end Block
+Blocco di Fine Link
 Loading ... Please Wait ...
 Caricamento ... Attendere Prego ...
 Lock data:
 Blocca dati:
-MemCard Manager will be available soon
-Il Gestore MemCard sara' presto disponibile
 MEMORY CARD
 MEMORY CARD
+Memory Card Manager
+Gestore Memory Card
 Memory Card:
 Memory Card:
 Memory Cards
 Memory Cards
 Menu
 Menu
-Menu Theme:
-Tema del Menu:
 Moving :
 Spostando :
-Moving...
-Spostando...
 Music:
 Musica:
 New Card
@@ -156,6 +192,8 @@ OK
 OK
 OOPS! Game crashed. Resume point not available.
 Oh-Oh! Il gioco e' crashato. Punto di salvataggio non disponibile.
+Open Retroarch Menu
+Apri il Menu di RetroArch
 Options
 Opzioni
 Original
@@ -169,11 +207,15 @@ Giocatori
 Please confirm
 Prego confermare
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
-COLLEGA UN GAMEPAD A PLAYSTATION CLASSIC
+COLLEGA UN GAMEPAD ALLA PLAYSTATION CLASSIC
+Please wait ... deleting
+Attendere prego ... sto cancellando
 Please wait ... deleting covers...
 Attendere prego ... cancello le cover...
 Plugin:
 Plugin:
+POWER
+POWER
 Power Off
 Spegni
 POWERING OFF... PLEASE WAIT
@@ -196,6 +238,8 @@ Re/Scan
 Ri/Cerca
 Region:
 Regione:
+Reload Cards
+Ricarica Cards
 Rename
 Rinomina
 RESUME
@@ -208,6 +252,8 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch non e' installato
+Run using RetroBoot(if installed)
+Esegui con RetroBoot (se installato)
 Scanline Level:
 Livello Scanline:
 Scanlines:
@@ -222,6 +268,10 @@ Select or cancel highlighted option
 Seleziona o annulla l'opzione evidenziata
 SELECT RESUME SLOT TO LOAD
 SELEZIONA UNO SLOT DA CARICARE
+Select RetroBoot Platform
+Seleziona la Piattaforma RetroBoot
+Select Right Card
+Seleziona la Card Destra
 SELECT SLOT TO SAVE STATE
 SELEZIONA UNO SLOT DOVE SALVARE
 Serial:
@@ -232,16 +282,18 @@ Share MC
 Condividi MC
 Show RetroArch:
 Mostra RetroArch:
+Showing: Retroarch
+Sto mostrando: Retroarch
 Showing Timeout (0 = no timeout):
-Timeout Visualizzazione (0 = nessun timeout):
+Timeout di Visualizzazione (0 = nessun timeout):
 Showing: All games
-Visualizza: Tutti i giochi
+Sto mostrando: Tutti i giochi
 Showing: Favorite games
-Visualizza: Giochi preferiti
+Sto mostrando: Giochi preferiti
 Showing: Internal games
-Visualizza: Giochi interni
-Showing: USB games
-Visualizza: Giochi su USB
+Sto mostrando: Giochi interni
+Showing: USB Games Directory:
+Sto mostrando: Cartella dei Giochi su USB
 Slot
 Slot
 Space
@@ -262,6 +314,8 @@ Total:
 Totale:
 UI:
 UI:
+Unknown Core (AutoDetect)
+Core Sconosciuto (AutoDetect)
 Updating regional.db...
 Aggiornando regional.db...
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.

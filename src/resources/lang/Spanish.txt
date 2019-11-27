@@ -1,6 +1,4 @@
-﻿ games
- juegos
-.-= Code C++ and shell scripts =-.
+﻿.-= Code C++ and shell scripts =-.
 .-= Codigo C++ y shell scripts =-.
 .-= Database maintenance =-.
 .-= Mantenimiento base de datos =-.
@@ -18,6 +16,8 @@ Advanced
 Avanzado
 Advanced:
 Avanzado:
+Are you sure you want to delete
+Estas seguro que quieres borrar
 Are you sure you want to flush all covers?
 ¿Estas seguro que quieres eliminar todas las caratulas?
 Are you sure?
@@ -40,6 +40,10 @@ Card
 Tarjeta
 Change MC
 Cambiar MC
+Change RetroBoot System
+Cambiar Sistema RetroBoot
+Change USB Games Sub-Directory
+Cambiar Sub-Directorio Juegos USB
 Clock:
 Clock:
 Close
@@ -52,8 +56,6 @@ CONFIGURED
 CONFIGURADO
 Confirm
 Confirmar
-Console Button Guide
-Guia de Botones de la Consola
 Copy
 Copiar
 Cover Style:
@@ -70,8 +72,12 @@ Defragment Card
 Desfragmentar Tarjeta
 Delete
 Borrar
+Delete !SaveState folder for game
+Borrar carpeta !SaveState del juego
 Delete card
 Borrar tarjeta
+Delete Game
+Borrar Juego
 Do you want to save memcards data ?
 Quieres salvar los datos de las memorycards ?
 Download latest:
@@ -96,6 +102,10 @@ Enter new name for memory card
 Entra nuevo nombre para memory card
 Entry
 Entrada
+Exit to EvoUI
+Salir a EvoUI
+Failed to delete
+Fallo al borrar
 Favorite:
 Favorito:
 Flush covers
@@ -120,6 +130,8 @@ Game:
 Juego:
 games
 juegos
+Games
+Juegos
 Games changed. Press
 Juegos cambiados. Pulsa
 Games filter
@@ -134,12 +146,12 @@ High res:
 High res:
 Hold
 Manten
-Importing internal games
-Importando juegos internos
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 EN EL MENU PRINCIPAL PARA APAGAR LA CONSOLA (APAGADO SEGURO!!!)
 In Game
 En Juego
+In Retroarch Game
+En Juego de Retoarch
 Internal
 Interno
 INTERNAL
@@ -168,12 +180,8 @@ Memory Cards
 Memory Cards
 Menu
 Menu
-Menu Theme:
-Tema Menu:
 Moving :
 Moviendo :
-Moving...
-Moviendo...
 Music:
 Musica:
 New Card
@@ -184,6 +192,8 @@ OK
 Aceptar
 OOPS! Game crashed. Resume point not available.
 OOPS! Juego dañado. Punto de resumen no disponible.
+Open Retroarch Menu
+Abre Menu de Retoarch
 Options
 Opciones
 Original
@@ -198,10 +208,14 @@ Please confirm
 Por favor confirma
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 POR FAVOR CONECTA EL GAMEPAD A LA PLAYSTATION CLASSIC
+Please wait ... deleting
+Por favor espera ... borrando
 Please wait ... deleting covers...
 Por favor espera ... borrando caratulas ...
 Plugin:
 Plugin:
+POWER
+POWER
 Power Off
 Apagar
 POWERING OFF... PLEASE WAIT
@@ -238,8 +252,6 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch no esta instalado
-RetroBoot Systems
-Sistemas RetroBoot
 Run using RetroBoot(if installed)
 Ejecutar con RetroBoot(si esta instalado)
 Scanline Level:
@@ -272,16 +284,16 @@ Show RetroArch:
 Mostrar RetroArch:
 Showing Timeout (0 = no timeout):
 Tiempo de Muestra (0 = sin tiempo):
-Showing:
-Mostrando:
 Showing: All games
 Mostrando: Todos los Juegos
 Showing: Favorite games
 Mostrando: Juegos Favoritos
 Showing: Internal games
 Mostrando: Juegos Internos
-Showing: USB games
-Mostrando: Juegos en USB
+Showing: Retroarch
+Mostrando: Retroarch
+Showing: USB Games Directory:
+Mostrando: Juegos USB Directorio:
 Slot
 Ranura
 Space
