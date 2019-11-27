@@ -41,7 +41,7 @@ void GuiAbout::render() {
                               "genderbent, KMFDManic"," ",
                               _("Support via Discord:") + " https://discord.gg/AHUS3RM",
                               _("This is free and open source software. It works AS IS and We take no responsibility for any issues or damage."),
-                              _("Download latest:") + " https://github.com/screemerpl/cbleemsync"
+                              _("Download latest:") + " https://github.com/autobleem/AutoBleem"
     };
 
 
