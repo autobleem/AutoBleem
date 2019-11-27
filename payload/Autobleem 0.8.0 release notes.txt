@@ -1,6 +1,7 @@
 
+
                                        *****************************
-                                       Autobleem 0.8.0 Release Notes
+                                       Autobleem-0.8.0 Release Notes
                                        *****************************
 
 USB Games sub-directories
@@ -11,16 +12,25 @@ You can select the /Games sub-directory you wish to view by pressing the L2 + Se
 
 If you have duplicate games in more than one sub-directory you will only see one of those games in the carousel.  Autobleem will display the game that is in the highest level directory.  So if you have the same football game in /Games/Sports and in /Games/Sports/Football the game shown in the carousel will be the game in /Games/Sports.
 
-Four text files are generated during the scan for additional user information.  
-gameHierarchy_beforeScan.txt                       The list of games in each /Games directory of your USB drive.  
-                                                   This list is before invalid games are removed and before duplicate games are removed from the carousel display list.
-gameHierarchy_afterScanAndRemovingDuplicates.txt   The list of remaining games that will be displayed in the carousel after removing duplicate games.
-duplicateGames.txt                                 The list of duplicate games.
-gamesThatFailedVerifyCheck.txt                     Invalid games that are removed from the carousel lists.
+Four text files are generated during the scan for additional user information.  They are found in the directory Autobleem/bin/autobleem
+
+gameHierarchy_beforeScan.txt:
+The list of games in each /Games directory of your USB drive.  This list is before invalid games are removed and before duplicate games are removed from the carousel display list.
+
+gameHierarchy_afterScanAndRemovingDuplicates.txt:
+The list of remaining games that will be displayed in the carousel after removing duplicate games.
+
+duplicateGames.txt:
+The list of duplicate games.
+
+gamesThatFailedVerifyCheck.txt:
+Invalid games that are removed from the carousel lists.
+
+Press L2 + Select to change the directory you wish to view in the carousel.  You can only change the directory when the USB Game Directory carousel display is up.  (Similarly, Press L2 + Select to change the Retroarch game system playlist when the Retroarch carousel display is up.)
 
 Consolidated Themes
 -------------------
-The data for a theme is no longer split between /Autobleem/bin/autobleem/theme and /Themes.  All theme data for a theme in contained in one directory under /Themes.  This will make it easier both for theme creators and for users to add a new theme.  You only have one directory to drag and drop the theme to: /Themes.  Axanar will release a collection of themes with all the theme data merged into /Themes.  Simply drag and drop the themes you want into /Themes.
+The data for a theme is no longer split between /Autobleem/bin/autobleem/theme and /Themes.  All theme data for a theme is contained in one directory under /Themes.  This will make it easier both for theme creators and for users to add a new theme.  You only have one directory to drag and drop the theme to: /Themes.  Axanar will release a collection of themes with all the theme data merged into /Themes.  Simply drag and drop the themes you want into /Themes.
 
 Since the files for a theme only need to copied to one directory (/Themes) there is only one options menu item needed to change themes.
 
