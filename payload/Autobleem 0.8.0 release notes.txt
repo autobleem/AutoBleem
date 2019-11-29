@@ -45,3 +45,8 @@ Internal games can now be set as a favorite and will show up in the Favorites ca
 Retroarch favorites
 -------------------
 Retroarch favorites are now listed as a RA playlist at the bottom of the RA playlist menu.  You can select the Favorites playlist to see only your RA favorite games in the game carousel.  RA games are set as a favorite in Retroarch not in the Autobleem UI.
+
+Retroboot 0.10.1
+----------------------------
+Autobleem 0.8.0 has Retroboot 0.10.1 for Autobleem pre-installed.
+
