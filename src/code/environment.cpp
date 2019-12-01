@@ -31,6 +31,10 @@ string Environment::getPathToUSBRoot() {
   return private_pathToUSBDrive;
 }
 
+string Environment::getPathToApps() {
+    return private_pathToUSBDrive + sep + "Apps";
+}
+
 string Environment::getPathToGamesDir() {
     return private_pathToGamesDir;
 }

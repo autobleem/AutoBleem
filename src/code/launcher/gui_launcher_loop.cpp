@@ -560,9 +560,13 @@ void GuiLauncher::loop_crossButtonPressed_STATE_GAMES() {
     gui->emuMode = EMU_PCSX;
     if (gui->runningGame->foreign)
     {
-        gui->emuMode = EMU_RETROARCH;
-        gui->lastRAPlaylistIndex = currentRAPlaylistIndex;
-        gui->lastRAPlaylistName = currentRAPlaylistName;
+        if (!gui->runningGame->app) {
+            gui->emuMode = EMU_RETROARCH;
+            gui->lastRAPlaylistIndex = currentRAPlaylistIndex;
+            gui->lastRAPlaylistName = currentRAPlaylistName;
+        } else {
+               gui->emuMode = EMU_LAUNCHER;
+            }
     }
 }
 

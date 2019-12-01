@@ -30,7 +30,7 @@ const SDL_Color brightWhite = {255, 255, 255, 0};
 void GuiLauncher::updateMeta() {
     if (carouselGames.empty()) {
         gameName = "";
-        meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, false, fgR,
+        meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, false, false, fgR,
                           fgG, fgB);
         return;
     }
@@ -51,6 +51,46 @@ void GuiLauncher::getGames_SET_FAVORITE(PsGames* gamesList) {
     // put only the favorites in gamesList
     copy_if(begin(completeList), end(completeList), back_inserter(*gamesList),
             [](const PsGamePtr &game) { return game->favorite; });
+}
+
+void GuiLauncher::getGames_SET_APPS(PsGames* gamesList) {
+    PsGames completeList;
+
+    std::string appPath = Environment::getPathToApps();
+    DirEntries dirs = DirEntry::diru_DirsOnly(appPath);
+    cout << "Scanning apps in: " << appPath << endl;
+    for (auto & dir : dirs) {
+        std::string appIni = appPath + sep + dir.name+  sep +"app.ini";
+        cout << "AppIni: " << appIni << endl;
+        if (DirEntry::exists(appIni))
+        {
+            Inifile * file = new Inifile();
+            file->load(appIni);
+            PsGamePtr game{new PsGame};
+            game->gameId = 0;
+            game->year = 0;
+            game->players = 0;
+            game->memcard = "";
+            game->cds = 0;
+
+            game->title = file->values["title"];
+            game->publisher = file->values["author"];
+            game->readme_path = appPath + sep + dir.name + sep + file->values["readme"];
+            game->startup = file->values["startup"];
+            game->image_path = appPath + sep + dir.name + sep + file->values["image"];
+            game->base = appPath + sep + dir.name;
+            game->kernel = file->values["kernel"]=="true";
+            game->app = true;
+            game->foreign = true;
+
+            gamesList->push_back(game);
+            delete file;
+        }
+    }
+
+
+
+
 }
 
 //*******************************
@@ -86,6 +126,8 @@ void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames* gamesList) {
 
     }
 }
+
+
 
 //*******************************
 // GuiLauncher::getGames_SET_RETROARCH
@@ -134,6 +176,8 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
     } else if (currentSet == SET_FAVORITE) {
         getGames_SET_FAVORITE(&gamesList);
 
+    } else if (currentSet == SET_APPS) {
+        getGames_SET_APPS(&gamesList);
     }
 
     if (gui->cfg.inifile.values["origames"] == "true")
@@ -170,7 +214,7 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
     }
 
     if (!noForce) {
-        if (currentSet == SET_RETROARCH) {
+        if ((currentSet == SET_RETROARCH) || (currentSet==SET_APPS)) {
             forceSettingsOnly();
         }
     }
@@ -184,7 +228,9 @@ void GuiLauncher::showSetName() {
                                 _("Showing: Internal games"),
                                 _("Showing: USB Games Directory:") + " ",
                                 _("Showing: Favorite games"),
-                                _("Showing: Retroarch") + " "};
+                                _("Showing: Retroarch") + " ",
+                                _("Showing: Apps") + " ",
+                                };
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
 
     auto str = gui->cfg.inifile.values["showingtimeout"];
@@ -385,7 +431,7 @@ void GuiLauncher::loadAssets() {
     if (selGameIndex != -1) {
         meta->updateTexts(carouselGames[selGameIndex], fgR, fgG, fgB);
     } else {
-        meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, false, fgR,
+        meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, false, false , fgR,
                           fgG, fgB);
     }
     staticElements.push_back(meta);
@@ -460,7 +506,7 @@ void GuiLauncher::loadAssets() {
     frontElemets.push_back(sselector);
 
     //switchSet(currentSet,false);
-    if (currentSet==SET_RETROARCH)
+    if ( (currentSet==SET_RETROARCH) || (currentSet==SET_APPS))
     {
         forceSettingsOnly();
     }

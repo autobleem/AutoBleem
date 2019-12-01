@@ -4,6 +4,7 @@
 
 struct Environment {
     static std::string getPathToUSBRoot();
+    static std::string getPathToApps();
     static std::string getPathToGamesDir();
     static std::string getPathToMemCardsDir();
     static std::string getPathToSaveStatesDir();

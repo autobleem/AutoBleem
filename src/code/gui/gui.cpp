@@ -47,8 +47,19 @@ GuiBase::GuiBase() {
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
     SDL_InitSubSystem(SDL_INIT_AUDIO);
 
+
+
     window = SDL_CreateWindow("AutoBleem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+#if defined(__x86_64__) || defined(_M_X64)
+
+#else
+    SDL_ShowCursor(SDL_DISABLE);
+    SDL_SetWindowGrab(window, SDL_TRUE);
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+#endif
+
 
     TTF_Init();
     fonts[FONT_30] = TTF_OpenFont((getCurrentThemeFontPath() + sep + "SST-Bold.ttf").c_str(), 28);
@@ -399,6 +410,13 @@ void Gui::waitForGamepad() {
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
         SDL_InitSubSystem(SDL_INIT_JOYSTICK);
         joysticksFound = SDL_NumJoysticks();
+#if defined(__x86_64__) || defined(_M_X64)
+
+#else
+        SDL_ShowCursor(SDL_DISABLE);
+    SDL_SetWindowGrab(window, SDL_TRUE);
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+#endif
     }
 }
 

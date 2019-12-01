@@ -32,11 +32,19 @@ public:
     bool hd = false;
     bool locked = false;
     int cds = 1;
+    // special flags
     bool favorite = false;
     bool foreign = false; // to state it is not PS1 game (RA)
+    bool app = false;
+    // RB and App params
     std::string core_path;
     std::string image_path;
     std::string core_name;
+
+    std::string readme_path;
+    std::string startup;
+    bool kernel = false;
+
     std::string db_name;
 
 

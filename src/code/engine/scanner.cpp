@@ -405,6 +405,7 @@ void Scanner::scanUSBGamesDirectory(GamesHierarchy &gamesHierarchy) {
             // if there was no ini file before, get the values for the ini, create the cover file if needed, and create/update the game.ini file
             if ( !game->gameIniFound || game->automationUsed || (game->discs.size()==0) ) {
 
+                if (game->discs.size()==0) game->recoverMissingFiles();
 				if (!game->serial.empty()) {
 					//cout << "Accessing metadata for serial: " << game->serial << endl;
 					Metadata md;

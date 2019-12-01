@@ -112,17 +112,31 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
             SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-            string imagePath = Env::getPathToRetroarchDir() + sep + "thumbnails" + sep +
-                    DirEntry::getFileNameWithoutExtension((*this)->db_name) + sep +
-                    "Named_Boxarts" + sep + RAIntegrator::escapeName((*this)->title) + ".png";
+            string imagePath;
+            if (!(*this)->app) {
+                imagePath= Env::getPathToRetroarchDir() + sep + "thumbnails" + sep +
+                                   DirEntry::getFileNameWithoutExtension((*this)->db_name) + sep +
+                                   "Named_Boxarts" + sep + RAIntegrator::escapeName((*this)->title) + ".png";
+                SDL_SetRenderTarget(renderer, nullptr);
+                if (DirEntry::exists(imagePath)) {
+                    coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
+                } else {
+                    cout << "boxart image NOT found for " << imagePath << endl;
+                    coverPng = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "evoimg/ra-cover.png").c_str());
+                }
+            } else
+            {
+                 imagePath = (*this)->image_path;
 
-            SDL_SetRenderTarget(renderer, nullptr);
-            if (DirEntry::exists(imagePath)) {
-                coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
-            } else {
-                cout << "boxart image NOT found for " << imagePath << endl;
-                coverPng = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "evoimg/ra-cover.png").c_str());
+                SDL_SetRenderTarget(renderer, nullptr);
+                if (DirEntry::exists(imagePath)) {
+                    coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
+                } else {
+                    cout << "boxart image NOT found for " << imagePath << endl;
+                    coverPng = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "evoimg/app-cover.png").c_str());
+                }
             }
+
 
             SDL_Rect imageCoverRect;
             int w,h;
