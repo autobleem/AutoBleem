@@ -2,6 +2,7 @@
 #include "DirEntry.h"
 #include <dirent.h>
 #include <unistd.h>
+#include <climits>
 
 using namespace std;
 
