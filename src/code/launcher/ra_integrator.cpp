@@ -125,7 +125,10 @@ void RAIntegrator::reloadFavorites() {
             }
         }
 
-        auto [found, index] = playlistNameToIndex(favoritesDisplayName);
+
+        std::tuple<bool,int> restuple = playlistNameToIndex(favoritesDisplayName);
+        bool found = std::get<0>(restuple);
+        int index = std::get<1>(restuple);
         if (found) {
             // the prior favorites is in the list.  modify the existing entry
             RAPlaylistInfo & fav = playlistInfos[index];
@@ -199,7 +202,9 @@ vector<string> RAIntegrator::getPlaylists() {
 //********************
 PsGames RAIntegrator::getGames(string playlist) {
     PsGames games;
-    auto [found, index] = playlistNameToIndex(playlist);
+    std::tuple<bool,int> restuple = playlistNameToIndex(playlist);
+    bool found = std::get<0>(restuple);
+    int index = std::get<1>(restuple);
     if (found)
         games = playlistInfos[index].psGames;
     return games;
@@ -209,7 +214,9 @@ PsGames RAIntegrator::getGames(string playlist) {
 // RAIntegrator::getGamesNumber
 //********************
 int RAIntegrator::getGamesNumber(string playlist) {
-    auto [found, index] = playlistNameToIndex(playlist);
+    std::tuple<bool,int> restuple = playlistNameToIndex(playlist);
+    bool found = std::get<0>(restuple);
+    int index = std::get<1>(restuple);
     if (found)
         return playlistInfos[index].psGames.size();
     else
