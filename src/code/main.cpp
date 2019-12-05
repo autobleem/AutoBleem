@@ -24,6 +24,7 @@
 #include "environment.h"
 #include "launcher/ra_integrator.h"
 #include "launcher/launch_interceptor.h"
+#include "launcher/gui_app_start.h"
 
 using namespace std;
 
@@ -251,6 +252,8 @@ int main(int argc, char *argv[]) {
                 gui->display(false, pathToGamesDir, db, true);
             } else
             {
+
+
                 gui->finish();
                 gui->saveSelection();
                 EmuInterceptor *interceptor;

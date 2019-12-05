@@ -7,7 +7,6 @@
 #include "../gui/gui.h"
 #include <iostream>
 #include <unistd.h>
-#include <wait.h>
 #include "../environment.h"
 
 using namespace std;
@@ -15,9 +14,12 @@ using namespace std;
 bool LaunchInterceptor::execute(PsGamePtr &game, int resumepoint) {
     shared_ptr<Gui> gui(Gui::getInstance());
     cout << "Starting External App" << endl;
+
     if (game->foreign) {
-        cout << "RA FOREIGN MODE" << endl;
-    }gui->saveSelection();
+        cout << "FOREIGN MODE" << endl;
+    }
+
+    gui->saveSelection();
     std::vector<const char *> argvNew;
 
     string link = game->base + sep+ game->startup;

@@ -13,6 +13,7 @@
 #include "gui_mc_manager.h"
 #include "../gui/gui_gameDirMenu.h"
 #include "../environment.h"
+#include "gui_app_start.h"
 
 using namespace std;
 
@@ -565,7 +566,19 @@ void GuiLauncher::loop_crossButtonPressed_STATE_GAMES() {
             gui->lastRAPlaylistIndex = currentRAPlaylistIndex;
             gui->lastRAPlaylistName = currentRAPlaylistName;
         } else {
-               gui->emuMode = EMU_LAUNCHER;
+            auto appStartScreen = new GuiAppStart(gui->renderer);
+            appStartScreen->setGame(gui->runningGame);
+            appStartScreen->show();
+            bool result = appStartScreen->result;
+            delete appStartScreen;
+            // Do not run
+            if (!result)
+            {
+                gui->startingGame = false;
+                menuVisible = true;
+
+            }
+            gui->emuMode = EMU_LAUNCHER;
             }
     }
 }

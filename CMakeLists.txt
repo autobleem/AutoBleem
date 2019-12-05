@@ -147,7 +147,7 @@ add_executable(
 		src/code/gui/starfx.h
         src/code/environment.h
 		src/code/environment.cpp
-        src/code/launcher/launch_interceptor.cpp src/code/launcher/launch_interceptor.h)
+        src/code/launcher/launch_interceptor.cpp src/code/launcher/launch_interceptor.h src/code/launcher/gui_app_start.cpp src/code/launcher/gui_app_start.h)
 
 
 add_executable(starter
