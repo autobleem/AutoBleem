@@ -57,6 +57,10 @@ void GuiLauncher::getGames_SET_APPS(PsGames* gamesList) {
     PsGames completeList;
 
     std::string appPath = Environment::getPathToApps();
+    if (!DirEntry::exists(appPath))
+    {
+        return;
+    }
     DirEntries dirs = DirEntry::diru_DirsOnly(appPath);
     cout << "Scanning apps in: " << appPath << endl;
     for (auto & dir : dirs) {

@@ -9,6 +9,9 @@
 #include <unistd.h>
 #include "../environment.h"
 
+#ifndef __APPLE__
+#include <wait.h>
+#endif
 using namespace std;
 
 bool LaunchInterceptor::execute(PsGamePtr &game, int resumepoint) {
