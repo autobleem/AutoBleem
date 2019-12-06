@@ -61,7 +61,7 @@ public:
     void readIni(std::string path);
     void saveIni(std::string path);
     void recoverMissingFiles();
-    bool verify();
+    bool verify(std::vector<std::string> *failureReasons = nullptr);
     bool print();
     void updateObj();
     bool validateCue(std::string cuePath, std::string path);
