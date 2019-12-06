@@ -59,6 +59,8 @@ void GuiLauncher::getGames_SET_FAVORITE(PsGames* gamesList) {
 void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames* gamesList) {
     GameRowInfos gameRowInfos;
     gui->db->getGameRowInfos(&gameRowInfos);
+    if (gameRowInfos.size() == 0)
+        return; // no games!
     currentUSBGameDirName = gameRowInfos[rowIndex].rowName;
 #if 0
     for (auto &gameRowInfo : gameRowInfos)
