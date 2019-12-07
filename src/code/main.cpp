@@ -228,8 +228,10 @@ int main(int argc, char *argv[]) {
         gui->saveSelection();
         if (gui->menuOption == MENU_OPTION_SCAN) {
             gamesHierarchy.getHierarchy(pathToGamesDir);
-            scanGames(gamesHierarchy);
+            // write the prev file now.  if you call it after scanGames the games that failed to verify will have been
+            // removed from the hierarchy and it force you to rescan on every boot.
             gamesHierarchy.writeAutobleemPrev(prevPath);
+            scanGames(gamesHierarchy);
             if (gui->forceScan) {
                 gui->forceScan = false;
             } else {
