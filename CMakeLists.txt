@@ -5,8 +5,15 @@ set(CMAKE_CXX_STANDARD 11)
 
 
 if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm" )
-	SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv7ve -s -Os -O3")
-	SET(CMAKE_CXX_FLAGS "-mfloat-abi=hard -march=armv7ve -Os -O3")
+
+	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 8.0)
+		SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv8-a+simd --static -Os -s")
+		SET(CMAKE_CXX_FLAGS " -mfloat-abi=hard -march=armv8-a+simd --static -Os -s")
+ELSE()
+		SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv7ve -s -Os -O3")
+		SET(CMAKE_CXX_FLAGS "-mfloat-abi=hard -march=armv7ve -Os -O3")
+	ENDIF()
+
 	include_directories(src/include "/home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/include")
 	link_directories(/home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/lib$)
 else()
