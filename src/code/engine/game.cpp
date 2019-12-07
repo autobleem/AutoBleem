@@ -13,6 +13,7 @@
 #include <iostream>
 #include "../engine/scanner.h"
 #include "../environment.h"
+#include "../lang.h"
 
 using namespace std;
 
@@ -74,33 +75,63 @@ string USBGame::valueOrDefault(string name, string def, bool setAutomationIfDefa
 //*******************************
 // USBGame::verify
 //*******************************
-bool USBGame::verify() {
+bool USBGame::verify(std::vector<std::string> *failureReasons) {
     bool result = true;
 
-    if (discs.size() == 0)
+    if (discs.size() == 0) {
+        if (failureReasons)
+            failureReasons->emplace_back(_("No discs"));
         result = false;
-
-    for (int i = 0; i < discs.size(); i++) {
-        if (discs[i].diskName.length() == 0)
-            result = false;
-        if (!discs[i].cueFound)
-            result = false;
-        if (!discs[i].binVerified)
-            result = false;
     }
 
-    if (!gameDataFound)
+    for (int i = 0; i < discs.size(); i++) {
+        if (discs[i].diskName.length() == 0) {
+            if (failureReasons)
+                failureReasons->emplace_back(_("No disc name"));
+            result = false;
+        }
+        if (!discs[i].cueFound) {
+            if (failureReasons)
+                failureReasons->emplace_back(_("Cue file not found"));
+            result = false;
+        }
+        if (!discs[i].binVerified) {
+            if (failureReasons)
+                failureReasons->emplace_back(_("Bin file failed to verify"));
+            result = false;
+        }
+    }
+
+    if (!gameDataFound) {
+        if (failureReasons)
+            failureReasons->emplace_back(_("Game file not found"));
         result = false;
-    if (!gameIniFound)
+    }
+    if (!gameIniFound) {
+        if (failureReasons)
+            failureReasons->emplace_back(_("Game.ini file not found"));
         result = false;
-    if (!gameIniValid)
+    }
+    if (!gameIniValid) {
+        if (failureReasons)
+            failureReasons->emplace_back(_("Game.ini file not valid"));
         result = false;
-    if (!coverImageFound)
+    }
+    if (!coverImageFound) {
+        if (failureReasons)
+            failureReasons->emplace_back(_("Cover image file not found"));
         result = false;
-    if (!licFound)
+    }
+    if (!licFound) {
+        if (failureReasons)
+            failureReasons->emplace_back(_(".lic file not found"));
         result = false;
-    if (!pcsxCfgFound)
+    }
+    if (!pcsxCfgFound) {
+        if (failureReasons)
+            failureReasons->emplace_back(_("pcsx.cfg file not found"));
         result = false;
+    }
 
     if (!result) {
         cerr << "Game: " << title << " Validation Failed" << endl;
@@ -139,11 +170,14 @@ bool USBGame::print() {
         cout << "  BIN correct: " << discs[i].binVerified << endl;
     }
 
-    bool result = verify();
+    vector<string> failureReasons;
+    bool result = verify(&failureReasons);
     if (result) {
-        cout << "-------OK-------" << endl;
+        cout << "-------Game Verify OK-------" << endl;
     } else {
-        cout << "------FAIL------" << endl;
+        cout << "------Game Verify FAIL------" << endl;
+        for (const auto & reason : failureReasons)
+            cout << "Reason: " << reason << endl;
     }
 
     return result;
