@@ -1,6 +1,8 @@
 ================================================================================
-          OpenBOR v3.0 build 7086  (DEC2019) Port for AutoBleem
+          OpenBOR Xteme v3.0 build 7086  (DEC2019) Port for AutoBleem
 ================================================================================
+                           by Screemer and KMFDManic
+
 This is still experimental package. Its fully safe to use, but the experience
 running this App may not be perfect
 
