@@ -22,17 +22,17 @@ endif()
 
 find_package(Threads REQUIRED)
 
+add_library(sqlite3 STATIC libs/sqlite/sqlite3ab.c )
+
 add_executable(
         autobleem-gui
         src/code/unecm.c
-        src/code/sqlite3.c
         src/code/main.h
         src/code/main.cpp
         src/code/DebugTimer.h
         src/code/DebugTimer.cpp
         src/code/engine/database.cpp
         src/code/engine/database.h
-        src/code/sqlite3.h
         src/code/util.h
         src/code/util.cpp
 		src/code/DirEntry.h
@@ -133,8 +133,6 @@ add_executable(
 		src/code/launcher/retboot_interceptor.h
 		src/code/launcher/emu_interceptor.cpp
 		src/code/launcher/emu_interceptor.h
-		src/code/nlohmann/json.h
-		src/code/nlohmann/fifo_map.h
 		src/code/launcher/ra_integrator.cpp
 		src/code/launcher/ra_integrator.h
 		src/code/gui/gui_playlists.cpp
@@ -149,6 +147,10 @@ add_executable(
 		src/code/environment.cpp
         src/code/launcher/launch_interceptor.cpp src/code/launcher/launch_interceptor.h src/code/launcher/gui_app_start.cpp src/code/launcher/gui_app_start.h)
 
+target_include_directories(autobleem-gui PUBLIC
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/sqlite>
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/nlohmann>
+		)
 
 add_executable(starter
 		src/code/starter.cpp
@@ -168,6 +170,7 @@ target_link_libraries(autobleem-gui
          SDL2_image
          SDL2_mixer
          SDL2_ttf
+		 sqlite3
          ${CMAKE_DL_LIBS}
 )
 

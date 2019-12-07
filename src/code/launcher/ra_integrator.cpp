@@ -9,7 +9,7 @@
 #include <sstream>
 #include <algorithm>
 #include "../util.h"
-#include "../nlohmann/json.h"
+#include <json.h>
 #include "../engine/cfgprocessor.h"
 #include "../DirEntry.h"
 #include "../environment.h"

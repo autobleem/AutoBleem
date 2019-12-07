@@ -7,7 +7,7 @@
 #pragma once
 
 #include "metadata.h"
-#include "../sqlite3.h"
+#include <sqlite3ab.h>
 #include "../launcher/ps_game.h"
 
 //******************

@@ -403,7 +403,7 @@ void GuiLauncher::loop_selectButtonPressed() {
 
             int previousSet = currentSet;
             currentSet++;
-            if (previousSet == SET_RETROARCH) {
+            if (previousSet == SET_APPS) {
                 showAllOptions();
                 menuHead->setText(headers[0], fgR, fgG, fgB);
                 menuText->setText(texts[0], fgR, fgG, fgB);

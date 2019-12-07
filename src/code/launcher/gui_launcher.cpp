@@ -103,7 +103,12 @@ void GuiLauncher::getGames_SET_APPS(PsGames* gamesList) {
 void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames* gamesList) {
     GameRowInfos gameRowInfos;
     gui->db->getGameRowInfos(&gameRowInfos);
-    currentUSBGameDirName = gameRowInfos[rowIndex].rowName;
+    if (gameRowInfos.size()!=0) {
+        currentUSBGameDirName = gameRowInfos[rowIndex].rowName;
+    } else
+    {
+        currentUSBGameDirName = "";
+    }
 #if 0
     for (auto &gameRowInfo : gameRowInfos)
             cout << "game row: " << gameRowInfo.subDirRowIndex << ", " << gameRowInfo.rowName << ", " <<
@@ -513,6 +518,11 @@ void GuiLauncher::loadAssets() {
     if ( (currentSet==SET_RETROARCH) || (currentSet==SET_APPS))
     {
         forceSettingsOnly();
+    } else {
+        if (menu->foreign)
+        {
+            showAllOptions();
+        }
     }
 
     showSetName();

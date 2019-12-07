@@ -20,7 +20,7 @@
 #include <iostream>
 #include <iomanip>
 #include "../engine/scanner.h"
-#include "../nlohmann/json.h"
+#include <json.h>
 #include "../nlohmann/fifo_map.h"
 #include "../environment.h"
 
