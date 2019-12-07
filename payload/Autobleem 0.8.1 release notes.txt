@@ -1,6 +1,21 @@
 
 
                                        *****************************
+                                       Autobleem-0.8.1 Release Notes
+                                       *****************************
+
+Fixes two problems in 0.8.0.
+
+1) Fix a crash when you start Evo UI if the /Games directory is empty.
+
+2) Fix always forcing a rescan if there are games that failed the verify 
+   step and were removed from the game list display.
+
+In addition Autobleem now splashes a message on screen if a game fails the verify.  
+The reason or reasons the game failed to verify is now output to the gamesThatFailedVerifyCheck.txt file.
+
+
+                                       *****************************
                                        Autobleem-0.8.0 Release Notes
                                        *****************************
 
