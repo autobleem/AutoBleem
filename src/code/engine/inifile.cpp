@@ -19,6 +19,7 @@ void Inifile::load(const string & _path) {
     ifstream file;
     string iniLine;
     file.open(path);
+    values.clear(); // remove values from any prior load()
 
     if (!file.good()) {
         cout << "Error opening ini file: " << path << endl;
