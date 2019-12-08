@@ -561,7 +561,7 @@ void Gui::menuSelection() {
             cout << "--" << SDL_JoystickName(joystick) << endl;
         }
     // Check if all OK
-    if (scanner->noGamesFound) {
+    if (scanner->noGamesFoundDuringScan) {
         criticalException(_("WARNING: NO GAMES FOUND. PRESS ANY BUTTON."));
     }
     //

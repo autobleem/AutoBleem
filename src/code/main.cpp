@@ -210,16 +210,15 @@ int main(int argc, char *argv[]) {
     USBGame::sortByFullPath(allGames);
 
     bool autobleemPrevOutOfDate = gamesHierarchy.gamesDoNotMatchAutobleemPrev(prevPath);
-    bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(pathToGamesDir);
+    bool thereAreRawGameFilesInGamesDir = scanner->areThereGameFilesInDir(pathToGamesDir);
 
-    if (!prevFileExists || thereAreGameFilesInGamesDir || autobleemPrevOutOfDate ||
-        db->subDirRowsTableIsEmpty() || db->getNumGames() == 0) {
+    if (!prevFileExists || thereAreRawGameFilesInGamesDir || autobleemPrevOutOfDate) {
         scanner->forceScan = true;
     }
 
     gui->display(scanner->forceScan, pathToGamesDir, db, false);
 
-    if (thereAreGameFilesInGamesDir)
+    if (thereAreRawGameFilesInGamesDir)
         copyGameFilesInGamesDirToSubDirs(pathToGamesDir);   // calls splash() so the gui->display needs to be up first
 
     while (gui->menuOption == MENU_OPTION_SCAN || gui->menuOption == MENU_OPTION_START) {

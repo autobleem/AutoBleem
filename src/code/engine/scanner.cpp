@@ -494,6 +494,7 @@ void Scanner::scanUSBGamesDirectory(GamesHierarchy &gamesHierarchy) {
     gamesHierarchy.dumpRowDisplayGameInfo(outfile, true);
     outfile.close();
 
+    noGamesFoundDuringScan = (gamesToAddToDB.size() == 0);
     complete = true;
 }
 
