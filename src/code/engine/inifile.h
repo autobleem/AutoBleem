@@ -30,6 +30,7 @@ public:
     std::string entry="";                       // example: "007 Racing (USA)"
     std::map<std::string, std::string> values;  // see example data above
 
+    // warning: load()is being used to append/overwrite default theme.ini values to an existing theme.ini values
     void load(const std::string & path);
     void save(const std::string & path);
     void print();
