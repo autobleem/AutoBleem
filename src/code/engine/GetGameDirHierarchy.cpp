@@ -174,9 +174,15 @@ void GamesHierarchy::getHierarchy(const std::string & path) {
     gameSubDirRows.emplace_back(top);
     top->scanAll();
 
-    // remove and any thaat have nothing to display
-    auto it = remove_if(begin(gameSubDirRows), end(gameSubDirRows), [&] (GameSubDirPtr &subdir) { return subdir->gamesToDisplay.size() == 0; });
+    // remove and any that have nothing to display
+    auto it = remove_if(begin(gameSubDirRows), end(gameSubDirRows), [&] (GameSubDirPtr &subdir)
+        { return subdir->gamesToDisplay.size() == 0; });
     gameSubDirRows.erase(it, end(gameSubDirRows));
+
+    // if we removed top because there no games at all then put it back so we can display that /Games
+    // has 0 games
+    if (gameSubDirRows.size() == 0)
+        gameSubDirRows.emplace_back(top);
 
     int rowIndex = 0;
     for (auto & row : gameSubDirRows) {

@@ -12,6 +12,7 @@ using namespace std;
 
 //*******************************
 // Inifile::load
+// warning: load()is being used to append/overwrite default theme.ini values to an existing theme.ini values
 //*******************************
 void Inifile::load(const string & _path) {
     this->path = _path;

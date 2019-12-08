@@ -298,7 +298,7 @@ void GuiLauncher::loop_chooseGameDir() {
     GameRowInfos gameRowInfos;
     gui->db->getGameRowInfos(&gameRowInfos);
     if (gameRowInfos.size() == 0) {
-        // abort
+        return; // no games!
     }
     auto guiGameDirMenu = new GuiGameDirMenu(renderer);
     for (auto &rowInfo : gameRowInfos) {
@@ -315,7 +315,9 @@ void GuiLauncher::loop_chooseGameDir() {
     guiGameDirMenu->show();
     bool cancelled = guiGameDirMenu->cancelled;
     currentUSBGameDirIndex = guiGameDirMenu->selected;
-    currentUSBGameDirName = gameRowInfos[currentUSBGameDirIndex].rowName;
+    currentUSBGameDirName = "";
+    if (currentUSBGameDirIndex < gameRowInfos.size())
+        currentUSBGameDirName = gameRowInfos[currentUSBGameDirIndex].rowName;
     delete guiGameDirMenu;
 
     if (cancelled)
