@@ -23,6 +23,8 @@
 #include "engine/GetGameDirHierarchy.h"
 #include "environment.h"
 #include "launcher/ra_integrator.h"
+#include "launcher/launch_interceptor.h"
+#include "launcher/gui_app_start.h"
 
 using namespace std;
 
@@ -240,14 +242,48 @@ int main(int argc, char *argv[]) {
 
         if (gui->menuOption == MENU_OPTION_START) {
 #if defined(__x86_64__) || defined(_M_X64)
-            cout << "I'm sorry Dave I'm afraid I can't do that." << endl;
-            gui->finish();
+            if (!gui->runningGame->app) {
+                cout << "I'm sorry Dave I'm afraid I can't do that." << endl;
+                gui->finish();
 
-            usleep(300*1000);
-            gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
-            gui->startingGame = false;
+                usleep(300 * 1000);
+                gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
+                gui->startingGame = false;
 
-            gui->display(false, pathToGamesDir, db, true);
+                gui->display(false, pathToGamesDir, db, true);
+            } else
+            {
+
+
+                gui->finish();
+                gui->saveSelection();
+                EmuInterceptor *interceptor;
+
+                interceptor = new LaunchInterceptor();
+
+
+                interceptor->memcardIn(gui->runningGame);
+                interceptor->prepareResumePoint(gui->runningGame, gui->resumepoint);
+                interceptor->execute(gui->runningGame, gui->resumepoint );
+                interceptor->memcardOut(gui->runningGame);
+                delete (interceptor);
+
+                bool reloadFav {false};
+                if (gui->runningGame->foreign)
+                    reloadFav = true;
+                else if (gui->emuMode != EMU_PCSX)
+                    reloadFav = true;
+
+                if (reloadFav) {
+                    auto ra = RAIntegrator::getInstance();
+                    ra->reloadFavorites();  // they could have changed
+                }
+                gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
+                gui->startingGame = false;
+
+                gui->display(false, pathToGamesDir, db, true);
+            }
+
 #else
             cout << "Starting game" << endl;
             gui->finish();
@@ -272,7 +308,13 @@ int main(int argc, char *argv[]) {
             EmuInterceptor *interceptor;
             if (gui->runningGame->foreign)
             {
-                interceptor = new RetroArchInterceptor();
+                if (!gui->runningGame->app)
+                {
+                    interceptor = new RetroArchInterceptor();
+                } else
+                    {
+                     interceptor =  new LaunchInterceptor();
+                    }
             } else {
                 if (gui->emuMode == EMU_PCSX) {
                     interceptor = new PcsxInterceptor();

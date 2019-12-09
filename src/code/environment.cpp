@@ -2,6 +2,7 @@
 #include "DirEntry.h"
 #include <dirent.h>
 #include <unistd.h>
+#include <climits>
 
 using namespace std;
 
@@ -28,6 +29,10 @@ string private_pathToInternalDBFile;
 
 string Environment::getPathToUSBRoot() {
   return private_pathToUSBDrive;
+}
+
+string Environment::getPathToApps() {
+    return private_pathToUSBDrive + sep + "Apps";
 }
 
 string Environment::getPathToGamesDir() {

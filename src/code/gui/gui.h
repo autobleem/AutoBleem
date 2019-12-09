@@ -35,6 +35,7 @@ enum MenuOption { MENU_OPTION_SCAN = 1, MENU_OPTION_RUN, MENU_OPTION_SONY, MENU_
 
 #define EMU_PCSX          0
 #define EMU_RETROARCH     1
+#define EMU_LAUNCHER      2
 
 #define POS_LEFT 0
 #define POS_CENTER 1
@@ -46,7 +47,9 @@ enum MenuOption { MENU_OPTION_SCAN = 1, MENU_OPTION_RUN, MENU_OPTION_SONY, MENU_
 #define SET_EXTERNAL 2
 #define SET_FAVORITE 3
 #define SET_RETROARCH 4
-#define SET_LAST 4
+#define SET_APPS 5
+#define SET_LAST 5
+
 
 
 //********************

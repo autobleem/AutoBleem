@@ -13,6 +13,7 @@
 #include "gui_mc_manager.h"
 #include "../gui/gui_gameDirMenu.h"
 #include "../environment.h"
+#include "gui_app_start.h"
 
 using namespace std;
 
@@ -404,7 +405,7 @@ void GuiLauncher::loop_selectButtonPressed() {
 
             int previousSet = currentSet;
             currentSet++;
-            if (previousSet == SET_RETROARCH) {
+            if (previousSet == SET_APPS) {
                 showAllOptions();
                 menuHead->setText(headers[0], fgR, fgG, fgB);
                 menuText->setText(texts[0], fgR, fgG, fgB);
@@ -562,9 +563,25 @@ void GuiLauncher::loop_crossButtonPressed_STATE_GAMES() {
     gui->emuMode = EMU_PCSX;
     if (gui->runningGame->foreign)
     {
-        gui->emuMode = EMU_RETROARCH;
-        gui->lastRAPlaylistIndex = currentRAPlaylistIndex;
-        gui->lastRAPlaylistName = currentRAPlaylistName;
+        if (!gui->runningGame->app) {
+            gui->emuMode = EMU_RETROARCH;
+            gui->lastRAPlaylistIndex = currentRAPlaylistIndex;
+            gui->lastRAPlaylistName = currentRAPlaylistName;
+        } else {
+            auto appStartScreen = new GuiAppStart(gui->renderer);
+            appStartScreen->setGame(gui->runningGame);
+            appStartScreen->show();
+            bool result = appStartScreen->result;
+            delete appStartScreen;
+            // Do not run
+            if (!result)
+            {
+                gui->startingGame = false;
+                menuVisible = true;
+
+            }
+            gui->emuMode = EMU_LAUNCHER;
+            }
     }
 }
 
