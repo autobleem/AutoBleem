@@ -93,6 +93,16 @@ string Environment::getWorkingPath() {
 #endif
 }
 
+//*******************************
+// Environment::getSonyPath
+// 1 arg: "usb:/Autobleem/bin/autobleem/sony"
+// 2 arg: autobleem-gui executable dir + sep + "sony"
+// PSC: autobleem-gui executable dir
+//*******************************
+string Environment::getSonyPath() {
+    return getWorkingPath() + sep + "sony";
+}
+
 #if 0
 //*******************************
 // Environment::getPathToWorkingPathFile

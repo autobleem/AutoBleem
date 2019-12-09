@@ -21,7 +21,7 @@ public:
     Scanner() {}
     USBGames gamesToAddToDB;
     bool forceScan=false;
-    bool noGamesFound=false;
+    bool noGamesFoundDuringScan=false;
 
     void scanUSBGamesDirectory(GamesHierarchy &gamesHierarchy);
     void repairBrokenCueFiles(const std::string & path);

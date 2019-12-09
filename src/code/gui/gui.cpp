@@ -70,7 +70,7 @@ string GuiBase::getCurrentThemePath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path = Env::getPathToThemesDir() + sep + cfg.inifile.values["theme"];
     if (!DirEntry::exists(path)) {
-        path = "./sony";
+        path = Env::getSonyPath();
     }
     return path;
 #else
@@ -90,7 +90,7 @@ string GuiBase::getCurrentThemeImagePath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path = getCurrentThemePath() + sep + "images";
     if (!DirEntry::exists(path)) {
-        path = "./sony/images";
+        path = Env::getSonyPath() + sep + "images";
     }
     return path;
 #else
@@ -110,7 +110,7 @@ string GuiBase::getCurrentThemeSoundPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path = getCurrentThemePath() + sep + "sounds";
     if (!DirEntry::exists(path)) {
-        path = "./sony/sounds";
+        path = Env::getSonyPath() + sep + "sounds";
     }
     return path;
 #else
@@ -130,7 +130,7 @@ string GuiBase::getCurrentThemeFontPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path = getCurrentThemePath() + sep + "font";
     if (!DirEntry::exists(path)) {
-        path = "./sony/font";
+        path = Env::getSonyPath() + sep + "font";
     }
     return path;
 #else
@@ -561,7 +561,7 @@ void Gui::menuSelection() {
             cout << "--" << SDL_JoystickName(joystick) << endl;
         }
     // Check if all OK
-    if (scanner->noGamesFound) {
+    if (scanner->noGamesFoundDuringScan) {
         criticalException(_("WARNING: NO GAMES FOUND. PRESS ANY BUTTON."));
     }
     //
