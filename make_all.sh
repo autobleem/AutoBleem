@@ -11,8 +11,8 @@ mkdir -p build_arm
 
 #cd ..
 cd ./build_arm
-cmake -DCMAKE_TOOLCHAIN_FILE=../PSCtoolchainV8.cmake ..
-make -j4
+cmake -DCMAKE_TOOLCHAIN_FILE=../ToolchainServer.cmake ..
+make -j 8 
 cd ..
 
 
