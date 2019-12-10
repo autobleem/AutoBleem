@@ -3,10 +3,9 @@
 //
 
 #include "config.h"
-#include "../util.h"
+#include <autobleem/autobleemui.h>
 #include "../launcher/gui_NotificationLine.h"
-#include "../DirEntry.h"
-#include "../environment.h"
+
 
 //*******************************
 // Config::Config()

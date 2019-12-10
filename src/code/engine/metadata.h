@@ -2,7 +2,9 @@
 // Created by screemer on 2018-12-16.
 //
 #pragma once
-#include "../main.h"
+
+
+#include <string>
 
 //******************
 // Metadata

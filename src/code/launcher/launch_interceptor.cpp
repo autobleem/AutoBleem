@@ -3,11 +3,11 @@
 //
 
 #include "launch_interceptor.h"
-#include "../util.h"
+#include <autobleem/autobleemui.h>
 #include "../gui/gui.h"
 #include <iostream>
 #include <unistd.h>
-#include "../environment.h"
+
 
 #ifndef __APPLE__
 #include <wait.h>

@@ -1,10 +1,11 @@
 //
 // Created by screemer on 2018-12-15.
 //
+
+#include <autobleem/autobleemui.h>
 #include "game.h"
 #include "metadata.h"
 #include "isodir.h"
-#include "inifile.h"
 #include "cfgprocessor.h"
 #include "../gui/gui.h"
 #include "serialscanner.h"
@@ -12,8 +13,7 @@
 #include <fstream>
 #include <iostream>
 #include "../engine/scanner.h"
-#include "../environment.h"
-#include "../lang.h"
+
 
 using namespace std;
 

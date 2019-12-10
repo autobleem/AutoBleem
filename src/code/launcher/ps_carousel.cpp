@@ -1,7 +1,7 @@
 //
 // Created by screemer on 2/13/19.
 //
-
+#include <autobleem/autobleemui.h>
 #include "ps_carousel.h"
 #include "../gui/gui.h"
 #include "../engine/scanner.h"
@@ -9,7 +9,7 @@
 #include <SDL2/SDL_image.h>
 #include <unistd.h>
 #include <iostream>
-#include "../environment.h"
+
 
 using namespace std;
 

@@ -4,7 +4,7 @@
 #pragma once
 
 #include <string>
-#include "../util.h"
+#include <autobleem/util.h>
 
 //******************
 // Memcard

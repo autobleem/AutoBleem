@@ -3,11 +3,9 @@
 //
 
 #include "cfgprocessor.h"
-#include "../util.h"
+#include <autobleem/autobleemui.h>
 #include <fstream>
-#include "../DirEntry.h"
 #include <iostream>
-#include "../environment.h"
 
 using namespace std;
 

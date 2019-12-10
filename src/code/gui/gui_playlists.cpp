@@ -10,8 +10,6 @@
 #include <string>
 #include <iostream>
 #include "gui.h"
-#include "../main.h"
-#include "../lang.h"
 #include <ftw.h>
 using namespace std;
 

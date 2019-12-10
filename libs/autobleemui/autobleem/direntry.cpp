@@ -1,12 +1,10 @@
 #include "util.h"
-#include "DirEntry.h"
-#include "main.h"
 
+#include "direntry.h"
 #include <fstream>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
-#include "main.h"
 #include <dirent.h>
 #include <libgen.h>
 #include <iostream>

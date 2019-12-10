@@ -2,6 +2,7 @@
 // Created by screemer on 2019-01-24.
 //
 
+#include <autobleem/autobleemui.h>
 #include "gui_about.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -9,9 +10,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include "gui.h"
-#include "../lang.h"
 #include "../engine/scanner.h"
-#include "../environment.h"
 
 void GuiAbout::init() {
     std::shared_ptr<Gui> gui(Gui::getInstance());

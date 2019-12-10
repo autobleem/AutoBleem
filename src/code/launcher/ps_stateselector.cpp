@@ -3,7 +3,6 @@
 //
 
 #include "ps_stateselector.h"
-#include "../lang.h"
 #include "../gui/gui.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

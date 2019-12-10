@@ -3,10 +3,10 @@
 //
 
 #include "gui_options.h"
-#include "../util.h"
+#include <autobleem/autobleemui.h>
 #include "gui.h"
-#include "../lang.h"
-#include "../environment.h"
+
+
 
 using namespace std;
 

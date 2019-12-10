@@ -1,11 +1,9 @@
 #include "database.h"
-#include "inifile.h"
-#include "../util.h"
+#include <autobleem/autobleemui.h>
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
 #include "serialscanner.h"
-#include "../DirEntry.h"
-#include "../environment.h"
+
 
 using namespace std;
 

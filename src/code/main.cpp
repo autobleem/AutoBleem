@@ -6,22 +6,18 @@
  */
 
 #include <iostream>
+#include <autobleem/autobleemui.h>
 #include "engine/database.h"
 #include "engine/scanner.h"
 #include "gui/gui.h"
-#include "main.h"
-#include "ver_migration.h"
 #include "engine/coverdb.h"
-#include "util.h"
 #include <unistd.h>
 #include "engine/GetGameDirHierarchy.h"
 #include "engine/memcard.h"
-#include "lang.h"
 #include "launcher/emu_interceptor.h"
 #include "launcher/pcsx_interceptor.h"
 #include "launcher/retboot_interceptor.h"
 #include "engine/GetGameDirHierarchy.h"
-#include "environment.h"
 #include "launcher/ra_integrator.h"
 #include "launcher/launch_interceptor.h"
 #include "launcher/gui_app_start.h"

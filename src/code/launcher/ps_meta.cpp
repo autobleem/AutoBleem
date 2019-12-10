@@ -4,12 +4,11 @@
 
 #include "ps_meta.h"
 #include "ps_game.h"
-#include "../util.h"
+#include <autobleem/autobleemui.h>
 #include <SDL2/SDL_image.h>
-#include "../lang.h"
-#include "../engine/inifile.h"
-#include "../DirEntry.h"
-#include "../environment.h"
+
+
+
 
 using namespace std;
 

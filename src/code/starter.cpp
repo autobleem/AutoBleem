@@ -2,9 +2,7 @@
 #include <string>
 #include <unistd.h>
 #include <sys/wait.h>
-#include "util.h"
-#include "DirEntry.h"
-#include "engine/inifile.h"
+#include <autobleem/autobleemui.h>
 #include "engine/memcard.h"
 #include "engine/config.h"
 

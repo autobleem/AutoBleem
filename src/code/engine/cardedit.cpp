@@ -1,11 +1,10 @@
 #include <cstring>
+#include <autobleem/autobleemui.h>
 #include "cardedit.h"
-#include "../DirEntry.h"
-#include "../lang.h"
 #include <string>
 #include <fstream>
 #include <iostream>
-#include "../environment.h"
+
 
 using namespace std;
 

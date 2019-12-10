@@ -10,7 +10,6 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include "gui.h"
-#include "../lang.h"
 #include "../engine/scanner.h"
 using namespace std;
 

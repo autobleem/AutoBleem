@@ -11,7 +11,6 @@
 #include <sstream>
 #include <iostream>
 #include "../gui/gui.h"
-#include "../lang.h"
 #include "../engine/scanner.h"
 
 

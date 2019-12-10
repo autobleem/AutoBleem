@@ -3,6 +3,7 @@
 //
 
 #include "isodir.h"
+#include <autobleem/stringinline.h>
 #include <fstream>
 
 using namespace std;

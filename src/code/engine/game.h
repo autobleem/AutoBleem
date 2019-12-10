@@ -3,11 +3,12 @@
 //
 #pragma once
 
-#include "../main.h"
 #include <vector>
 #include <memory>
 #include <vector>
 #include <map>
+#include <autobleem/enums.h>
+#include <autobleem/stringinline.h>
 
 //******************
 // Disc

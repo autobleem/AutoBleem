@@ -3,10 +3,8 @@
 //
 
 #include "padmapper.h"
-#include "../util.h"
+#include <autobleem/autobleemui.h>
 #include <iostream>
-#include "../DirEntry.h"
-#include "../environment.h"
 
 #define DIR_UP    1
 #define DIR_DOWN  2

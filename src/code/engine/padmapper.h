@@ -3,9 +3,9 @@
 //
 #pragma once
 
+#include <autobleem/autobleemui.h>
 #include <SDL2/SDL_events.h>
-#include "../main.h"
-#include "inifile.h"
+#include <map>
 
 
 using namespace std;

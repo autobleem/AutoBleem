@@ -14,7 +14,6 @@
 #include "ps_menu.h"
 #include "ps_centerlabel.h"
 #include "ps_stateselector.h"
-#include "../main.h"
 #include <vector>
 #include <memory>
 #include "ra_integrator.h"

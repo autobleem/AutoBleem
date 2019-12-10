@@ -4,15 +4,14 @@
 
 #include "retboot_interceptor.h"
 #include <sys/wait.h>
-#include "../util.h"
+#include <autobleem/autobleemui.h>
 #include "../gui/gui.h"
-#include "../lang.h"
 #include "../engine/memcard.h"
 #include "../engine/cfgprocessor.h"
 #include <fstream>
 #include <iostream>
 #include <unistd.h>
-#include "../environment.h"
+
 
 #define RA_MEMCARDLOC "/media/retroarch/saves/"
 #define RA_CORE_CONFIG "/media/retroarch/config/retroarch-core-options.cfg"

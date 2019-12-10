@@ -4,10 +4,12 @@
 
 #include "lang.h"
 #include "util.h"
+#include "environment.h"
+#include "direntry.h"
+
 #include <fstream>
 #include <iostream>
-#include "DirEntry.h"
-#include "environment.h"
+
 
 using namespace std;
 

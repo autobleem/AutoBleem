@@ -4,7 +4,6 @@
 #pragma once
 
 #include "gui_screen.h"
-#include "../main.h"
 #include <vector>
 #include "../launcher/ps_game.h"
 

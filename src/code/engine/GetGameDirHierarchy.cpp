@@ -1,11 +1,12 @@
 #include "GetGameDirHierarchy.h"
-#include "../util.h"
-#include "../DirEntry.h"
+#include <autobleem/autobleemui.h>
+#include <autobleem/stringinline.h>
+
 #include <iostream>
 #include "scanner.h"
 #include "serialscanner.h"
 #include <fstream>
-#include "../environment.h"
+
 
 //#include <experimental/filesystem>
 //namespace fs = std::experimental::filesystem;

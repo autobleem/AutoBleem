@@ -10,8 +10,8 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include "gui.h"
-#include "../lang.h"
-#include "../environment.h"
+
+
 
 void GuiPadConfig::render() {
     shared_ptr<Gui> gui(Gui::getInstance());

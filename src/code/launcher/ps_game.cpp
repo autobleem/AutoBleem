@@ -3,8 +3,8 @@
 //
 
 #include "ps_game.h"
-#include "../util.h"
-#include "../engine/inifile.h"
+#include <autobleem/autobleemui.h>
+
 #include "../gui/gui.h"
 #include <fstream>
 using namespace std;

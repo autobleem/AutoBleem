@@ -2,17 +2,17 @@
 // Created by screemer on 2/13/19.
 //
 
+
 #include <sys/wait.h>
 #include "pcsx_interceptor.h"
-#include "../util.h"
+#include <autobleem/autobleemui.h>
 #include "../gui/gui.h"
-#include "../lang.h"
 #include "../engine/memcard.h"
 #include "../engine/cfgprocessor.h"
 #include <fstream>
 #include <iostream>
 #include <unistd.h>
-#include "../environment.h"
+
 
 using namespace std;
 

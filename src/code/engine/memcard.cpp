@@ -2,10 +2,10 @@
 // Created by screemer on 2019-01-23.
 //
 
+#include <autobleem/autobleemui.h>
 #include "memcard.h"
-#include "inifile.h"
-#include "../DirEntry.h"
-#include "../environment.h"
+
+
 
 using namespace std;
 

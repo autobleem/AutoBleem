@@ -1,5 +1,6 @@
+#include "enums.h"
+#include "stringinline.h"
 #include "util.h"
-#include "main.h"
 
 #include <fstream>
 #include <sys/wait.h>
@@ -8,8 +9,9 @@
 #include <string.h>
 #include <sstream>
 #include <iostream>
-#include "main.h"
 #include <stdio.h>
+
+
 
 using namespace std;
 

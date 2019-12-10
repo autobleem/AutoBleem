@@ -3,10 +3,8 @@
 //
 
 #include "coverdb.h"
-#include "../util.h"
+#include <autobleem/autobleemui.h>
 #include <iostream>
-#include "../DirEntry.h"
-#include "../environment.h"
 
 using namespace std;
 

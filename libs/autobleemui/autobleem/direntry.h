@@ -1,11 +1,17 @@
 #pragma once
 
+#include "environment.h"
+#include "util.h"
+#include "enums.h"
+#include "stringinline.h"
+
+#include <tuple>
 #include <string>
 #include <vector>
-#include "util.h"
-#include "main.h"
-#include <tuple>
-#include "environment.h"
+
+
+
+
 
 //*******************************
 // separator

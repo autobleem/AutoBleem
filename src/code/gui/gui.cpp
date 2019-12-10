@@ -2,6 +2,7 @@
 // Created by screemer on 2018-12-19.
 //
 
+#include <autobleem/autobleemui.h>
 #include "gui.h"
 #include "gui_about.h"
 #include "gui_splash.h"
@@ -10,19 +11,17 @@
 #include "gui_manager.h"
 #include "gui_confirm.h"
 #include <SDL2/SDL_image.h>
-#include "../ver_migration.h"
-#include "../lang.h"
 #include "../launcher/gui_launcher.h"
 #include "gui_padconfig.h"
 #include <fstream>
 #include <unistd.h>
-#include "../util.h"
+#include <autobleem/util.h>
 #include <iostream>
 #include <iomanip>
 #include "../engine/scanner.h"
 #include <json.h>
-#include "../nlohmann/fifo_map.h"
-#include "../environment.h"
+#include <fifo_map.h>
+
 
 using namespace std;
 using namespace nlohmann;

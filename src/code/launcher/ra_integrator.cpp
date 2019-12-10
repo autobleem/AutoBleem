@@ -3,16 +3,16 @@
 //
 
 #include "ra_integrator.h"
+#include <autobleem/autobleemui.h>
 #include "fstream"
 #include <cstdio>
 #include <iostream>
 #include <sstream>
 #include <algorithm>
-#include "../util.h"
+#include <autobleem/util.h>
 #include <json.h>
 #include "../engine/cfgprocessor.h"
-#include "../DirEntry.h"
-#include "../environment.h"
+
 
 using namespace nlohmann;
 

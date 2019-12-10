@@ -2,6 +2,7 @@
 // Created by screemer on 2019-01-25.
 //
 
+#include <autobleem/autobleemui.h>
 #include "gui_editor.h"
 #include "gui.h"
 #include "gui_keyboard.h"
@@ -9,9 +10,7 @@
 #include "../engine/memcard.h"
 #include "../engine/cfgprocessor.h"
 #include <SDL2/SDL_image.h>
-#include "../lang.h"
 #include <sstream>
-#include "../environment.h"
 
 using namespace std;
 

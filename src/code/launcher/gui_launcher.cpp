@@ -2,13 +2,13 @@
 // Created by screemer on 2/8/19.
 //
 
+#include <autobleem/autobleemui.h>
 #include <SDL2/SDL.h>
 #include "gui_launcher.h"
 #include "../gui/gui.h"
 #include "../gui/gui_options.h"
 #include "../gui/gui_confirm.h"
 #include "../gui/gui_editor.h"
-#include "../lang.h"
 #include "pcsx_interceptor.h"
 #include "gui_btn_guide.h"
 #include <algorithm>
@@ -16,7 +16,7 @@
 #include "../engine/scanner.h"
 #include "../gui/gui_playlists.h"
 #include "gui_mc_manager.h"
-#include "../environment.h"
+
 
 using namespace std;
 

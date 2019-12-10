@@ -1,8 +1,8 @@
 #include "gui_font.h"
 #include <iostream>
-#include "../util.h"
+#include <autobleem/autobleemui.h>
 #include <assert.h>
-#include "../DirEntry.h"
+
 
 using namespace std;
 

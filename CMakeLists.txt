@@ -5,12 +5,14 @@ set(CMAKE_CXX_STANDARD 11)
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
 if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm" )
-message(STATUS "Building for ARM")
+
+    message(STATUS "Building for ARM")
+
 	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 8.0)
 		SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -Os -s")
 		SET(CMAKE_CXX_FLAGS " -mfloat-abi=hard -march=armv8-a+simd  -Os -s")
             message(STATUS "Newer GCC installed")
-ELSE()
+	ELSE()
      
 		SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv7ve -s -Os -O3")
 		SET(CMAKE_CXX_FLAGS "-mfloat-abi=hard -march=armv7ve -s -Os -O3")
@@ -33,20 +35,23 @@ find_package(Threads REQUIRED
              SDL2 REQUIRED)
 
 add_library(sqlite3 STATIC libs/sqlite/sqlite3ab.c )
+add_library(autobleemui SHARED
+		libs/autobleemui/autobleem/util.cpp
+		libs/autobleemui/autobleem/environment.cpp
+		libs/autobleemui/autobleem/direntry.cpp
+		libs/autobleemui/autobleem/stringinline.h
+		libs/autobleemui/autobleem/enums.h
+		libs/autobleemui/autobleem/lang.cpp
+		libs/autobleemui/autobleem/inifile.cpp)
 
 add_executable(
         autobleem-gui
         src/code/unecm.c
-        src/code/main.h
         src/code/main.cpp
         src/code/DebugTimer.h
         src/code/DebugTimer.cpp
         src/code/engine/database.cpp
         src/code/engine/database.h
-        src/code/util.h
-        src/code/util.cpp
-		src/code/DirEntry.h
-		src/code/DirEntry.cpp
         src/code/engine/game.cpp
         src/code/engine/game.h
         src/code/engine/scanner.cpp
@@ -59,8 +64,6 @@ add_executable(
         src/code/engine/ecmhelper.h
         src/code/gui/gui.h
         src/code/gui/gui.cpp
-        src/code/engine/inifile.cpp
-        src/code/engine/inifile.h
         src/code/engine/isodir.cpp
         src/code/engine/isodir.h
         src/code/engine/config.cpp
@@ -96,14 +99,10 @@ add_executable(
         src/code/gui/gui_font_wrapper.h
 		src/code/gui/gui_gameDirMenu.h
 		src/code/gui/gui_gameDirMenu.cpp
-		src/code/ver_migration.cpp
-		src/code/ver_migration.h
         src/code/engine/coverdb.cpp
         src/code/engine/coverdb.h
         src/code/engine/serialscanner.cpp
         src/code/engine/serialscanner.h
-        src/code/lang.cpp
-        src/code/lang.h 
         src/code/launcher/gui_launcher.cpp
         src/code/launcher/gui_launcher.h 
 		src/code/launcher/gui_NotificationLine.h
@@ -153,25 +152,26 @@ add_executable(
 		src/code/launcher/gui_mc_manager.cpp
 		src/code/gui/starfx.cpp
 		src/code/gui/starfx.h
-        src/code/environment.h
-		src/code/environment.cpp
         src/code/launcher/launch_interceptor.cpp src/code/launcher/launch_interceptor.h src/code/launcher/gui_app_start.cpp src/code/launcher/gui_app_start.h)
 
 target_include_directories(autobleem-gui PUBLIC
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/sqlite>
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/nlohmann>
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/autobleemui>
 		)
+
+
 
 add_executable(starter
 		src/code/starter.cpp
-		src/code/util.h
-		src/code/util.cpp
-		src/code/DirEntry.h
-		src/code/DirEntry.cpp
-        src/code/engine/inifile.cpp
-        src/code/engine/memcard.cpp src/code/engine/memcard.h
-		src/code/environment.h
-		src/code/environment.cpp
+        src/code/engine/memcard.cpp
+		src/code/engine/memcard.h
+		)
+
+target_include_directories(starter PUBLIC
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/sqlite>
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/nlohmann>
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/autobleemui>
 		)
 
 target_link_libraries(autobleem-gui
@@ -181,8 +181,15 @@ target_link_libraries(autobleem-gui
          SDL2_mixer
          SDL2_ttf
 		 sqlite3
+		 autobleemui
          ${CMAKE_DL_LIBS}
 )
+
+target_link_libraries(starter
+		autobleemui
+		${CMAKE_DL_LIBS}
+		)
+
 
 
 #add_custom_command(TARGET autobleem-gui PRE_BUILD

@@ -3,10 +3,10 @@
 //
 
 #include "inifile.h"
-#include "../main.h"
 #include <iostream>
 #include <fstream>
-#include "../util.h"
+#include "stringinline.h"
+#include "util.h"
 
 using namespace std;
 

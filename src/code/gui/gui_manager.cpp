@@ -2,6 +2,7 @@
 // Created by screemer on 2019-01-24.
 //
 
+#include <autobleem/autobleemui.h>
 #include "gui_manager.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -12,11 +13,8 @@
 #include "gui.h"
 #include "gui_editor.h"
 #include "gui_confirm.h"
-#include "../main.h"
-#include "../lang.h"
 #include <ftw.h>
 #include "../engine/scanner.h"
-#include "../environment.h"
 #include "../engine/database.h"
 
 using namespace std;

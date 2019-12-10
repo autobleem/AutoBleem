@@ -4,7 +4,6 @@
 
 #pragma once
 #include "gui_screen.h"
-#include "../main.h"
 #include "../launcher/ra_integrator.h"
 #include <vector>
 

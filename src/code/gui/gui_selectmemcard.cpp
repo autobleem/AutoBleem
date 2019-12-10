@@ -13,7 +13,7 @@
 #include "../engine/memcard.h"
 #include "gui_confirm.h"
 #include "gui_keyboard.h"
-#include "../lang.h"
+
 using namespace std;
 
 //*******************************

@@ -4,8 +4,6 @@
 
 #include "gui_splash.h"
 #include "gui.h"
-#include "../ver_migration.h"
-#include "../lang.h"
 #include "../engine/scanner.h"
 using namespace std;
 

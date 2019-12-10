@@ -3,9 +3,9 @@
 //
 
 #include "ecmhelper.h"
-#include "../util.h"
+#include <autobleem/autobleemui.h>
 #include <iostream>
-#include "../DirEntry.h"
+
 
 using namespace std;
 

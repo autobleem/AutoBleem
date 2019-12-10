@@ -2,14 +2,13 @@
 // Created by screemer on 2/3/19.
 //
 
-#include "../main.h"
 #include "serialscanner.h"
 #include "isodir.h"
 #include <sstream>
-#include "../util.h"
+#include <autobleem/autobleemui.h>
 #include <fstream>
 #include <iostream>
-#include "../DirEntry.h"
+
 
 using namespace std;
 

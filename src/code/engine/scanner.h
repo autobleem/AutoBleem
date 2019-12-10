@@ -3,13 +3,12 @@
 //
 #pragma once
 
-#include "../main.h"
+#include <autobleem/autobleemui.h>
 #include "game.h"
 #include "database.h"
 #include "../gui/gui.h"
-#include "../util.h"
+
 #include <map>
-#include "../DirEntry.h"
 #include <algorithm>
 #include "GetGameDirHierarchy.h"
 
