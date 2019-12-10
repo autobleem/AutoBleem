@@ -1,0 +1,155 @@
+config_description=Custom2
+config_hardware=true
+config_host=true
+config_version=4.3.0
+config_hardware_path=
+config_host_path=
+config_all_path=
+config_all_path=
+config_host_path=
+config_hardware_path=
+amiberry.rom_path=./
+amiberry.floppy_path=./
+amiberry.hardfile_path=./
+amiberry.cd_path=./
+; 
+; *** Controller/Input Configuration
+; 
+joyport0=mouse
+joyport0_autofire=none
+joyport0_friendlyname=Mouse
+joyport0_name=MOUSE0
+; 
+joyport1=joy1
+joyport1_autofire=none
+joyport1_friendlyname=Sony Interactive Entertainment Controller
+joyport1_name=JOY1
+joyport1_amiberry_custom_none_select=Enter GUI
+joyport1_amiberry_custom_none_north=Joy1 Fire/Mouse1 Left Button
+joyport1_amiberry_custom_none_east=Return
+joyport1_amiberry_custom_none_west=Space
+joyport1_amiberry_custom_none_start=Swap joystick ports
+; 
+; 
+; 
+input.joymouse_speed_analog=2
+input.joymouse_speed_digital=10
+input.joymouse_deadzone=33
+input.joystick_deadzone=33
+input.analog_joystick_multiplier=15
+input.analog_joystick_offset=-1
+input.mouse_speed=100
+input.autofire_speed=0
+input.autoswitch=1
+kbd_lang=us
+; 
+; *** Host-Specific
+; 
+amiberry.hide_idle_led=1
+amiberry.gfx_correct_aspect=1
+amiberry.kbd_led_num=-1
+amiberry.kbd_led_scr=-1
+amiberry.scaling_method=-1
+amiberry.use_analogue_remap=false
+amiberry.use_retroarch_quit=true
+amiberry.use_retroarch_menu=true
+amiberry.use_retroarch_reset=false
+; 
+; *** Common / Paths
+; 
+use_gui=yes
+kickstart_rom_file=/media/Apps/amiberry/kickstarts/kick13.rom
+kickstart_rom_file_id=C4F0F55F,KS ROM v1.3 (A500,A1000,A2000)
+kickstart_ext_rom_file=
+flash_file=
+cart_file=
+; 
+; *** Floppy Drives
+; 
+floppy0=
+floppy1=
+floppy2=
+floppy3=
+nr_floppies=2
+floppy_speed=100
+; 
+; *** Hard Drives
+; 
+; 
+; *** CD / CD32
+; 
+cd_speed=100
+; 
+; *** Display / Screen Setup
+; 
+gfx_framerate=1
+gfx_width=720
+gfx_height=284
+gfx_top_windowed=0
+gfx_left_windowed=0
+gfx_refreshrate=50
+gfx_refreshrate_rtg=50
+gfx_lores=false
+gfx_resolution=hires
+gfx_lores_mode=normal
+gfx_linemode=none
+gfx_fullscreen_amiga=true
+gfx_fullscreen_picasso=true
+gfx_center_horizontal=none
+gfx_center_vertical=none
+ntsc=false
+; 
+; *** CPU options
+; 
+cpu_speed=real
+cpu_type=68000
+cpu_model=68000
+cpu_compatible=true
+cpu_24bit_addressing=true
+fpu_no_unimplemented=true
+fpu_strict=false
+compfpu=false
+cachesize=0
+; 
+; *** Memory
+; 
+chipmem_size=1
+z3mapping=real
+fastmem_size=0
+a3000mem_size=0
+mbresmem_size=0
+z3mem_size=0
+z3mem_start=0x40000000
+bogomem_size=2
+gfxcard_hardware_vblank=false
+gfxcard_hardware_sprite=false
+gfxcard_multithread=false
+rtg_modes=0x112
+; 
+; *** Chipset
+; 
+chipset=ocs
+chipset_refreshrate=50.000000
+collision_level=playfields
+chipset_compatible=A500
+rtc=MSM6242B
+cia_todbug=true
+immediate_blits=false
+waiting_blits=automatic
+fast_copper=false
+; 
+; *** Sound Options
+; 
+sound_output=exact
+sound_channels=stereo
+sound_stereo_separation=7
+sound_stereo_mixing_delay=0
+sound_frequency=44100
+sound_interpol=none
+sound_filter=off
+sound_filter_type=standard
+sound_volume_cd=0
+; 
+; *** Misc. Options
+; 
+bsdsocket_emu=false

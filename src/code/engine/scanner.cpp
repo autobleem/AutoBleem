@@ -403,8 +403,9 @@ void Scanner::scanUSBGamesDirectory(GamesHierarchy &gamesHierarchy) {
             //cout << "serial: " << game->serial << ", region: " << game->region << ", " << game->title <<endl;
 
             // if there was no ini file before, get the values for the ini, create the cover file if needed, and create/update the game.ini file
-            if ( !game->gameIniFound || game->automationUsed) {
+            if ( !game->gameIniFound || game->automationUsed || (game->discs.size()==0) ) {
 
+                if (game->discs.size()==0) game->recoverMissingFiles();
 				if (!game->serial.empty()) {
 					//cout << "Accessing metadata for serial: " << game->serial << endl;
 					Metadata md;
@@ -446,7 +447,8 @@ void Scanner::scanUSBGamesDirectory(GamesHierarchy &gamesHierarchy) {
             game->readIni(gameIniPath); // the updated iniValues are needed for updateObj
 			//game->print();
 
-			if (game->verify()) {
+            vector<string> failureReasons;
+			if (game->verify(&failureReasons)) {
                 gamesToAddToDB.push_back(game);
 
                 string memcardPath = game->saveStatePath + sep + "memcards/";
@@ -465,7 +467,11 @@ void Scanner::scanUSBGamesDirectory(GamesHierarchy &gamesHierarchy) {
                 DirEntry::generateM3UForDirectory(game->fullPath, game->discs[0].cueName);
             }
             else {
+                splash->logText(_("Game failed to verify:") + " " + game->fullPath);
+                sleep(3);
                 badGameFile << "Game failed to verify: " << game->fullPath << endl;
+                for (const auto & reason : failureReasons)
+                    badGameFile << "Reason: " << reason << endl;
 
                 // the game did not pass the verify step and was not added to the DB.
                 // remove the game everywhere in the gamesHierarchy
@@ -489,6 +495,7 @@ void Scanner::scanUSBGamesDirectory(GamesHierarchy &gamesHierarchy) {
     gamesHierarchy.dumpRowDisplayGameInfo(outfile, true);
     outfile.close();
 
+    noGamesFoundDuringScan = (gamesToAddToDB.size() == 0);
     complete = true;
 }
 

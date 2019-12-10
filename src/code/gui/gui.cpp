@@ -20,7 +20,7 @@
 #include <iostream>
 #include <iomanip>
 #include "../engine/scanner.h"
-#include "../nlohmann/json.h"
+#include <json.h>
 #include "../nlohmann/fifo_map.h"
 #include "../environment.h"
 
@@ -47,8 +47,19 @@ GuiBase::GuiBase() {
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
     SDL_InitSubSystem(SDL_INIT_AUDIO);
 
+
+
     window = SDL_CreateWindow("AutoBleem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+#if defined(__x86_64__) || defined(_M_X64)
+
+#else
+    SDL_ShowCursor(SDL_DISABLE);
+    SDL_SetWindowGrab(window, SDL_TRUE);
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+#endif
+
 
     TTF_Init();
     fonts[FONT_30] = TTF_OpenFont((getCurrentThemeFontPath() + sep + "SST-Bold.ttf").c_str(), 28);
@@ -70,7 +81,7 @@ string GuiBase::getCurrentThemePath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path = Env::getPathToThemesDir() + sep + cfg.inifile.values["theme"];
     if (!DirEntry::exists(path)) {
-        path = "./sony";
+        path = Env::getSonyPath();
     }
     return path;
 #else
@@ -90,7 +101,7 @@ string GuiBase::getCurrentThemeImagePath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path = getCurrentThemePath() + sep + "images";
     if (!DirEntry::exists(path)) {
-        path = "./sony/images";
+        path = Env::getSonyPath() + sep + "images";
     }
     return path;
 #else
@@ -110,7 +121,7 @@ string GuiBase::getCurrentThemeSoundPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path = getCurrentThemePath() + sep + "sounds";
     if (!DirEntry::exists(path)) {
-        path = "./sony/sounds";
+        path = Env::getSonyPath() + sep + "sounds";
     }
     return path;
 #else
@@ -130,7 +141,7 @@ string GuiBase::getCurrentThemeFontPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     string path = getCurrentThemePath() + sep + "font";
     if (!DirEntry::exists(path)) {
-        path = "./sony/font";
+        path = Env::getSonyPath() + sep + "font";
     }
     return path;
 #else
@@ -399,6 +410,13 @@ void Gui::waitForGamepad() {
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
         SDL_InitSubSystem(SDL_INIT_JOYSTICK);
         joysticksFound = SDL_NumJoysticks();
+#if defined(__x86_64__) || defined(_M_X64)
+
+#else
+        SDL_ShowCursor(SDL_DISABLE);
+    SDL_SetWindowGrab(window, SDL_TRUE);
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+#endif
     }
 }
 
@@ -561,7 +579,7 @@ void Gui::menuSelection() {
             cout << "--" << SDL_JoystickName(joystick) << endl;
         }
     // Check if all OK
-    if (scanner->noGamesFound) {
+    if (scanner->noGamesFoundDuringScan) {
         criticalException(_("WARNING: NO GAMES FOUND. PRESS ANY BUTTON."));
     }
     //

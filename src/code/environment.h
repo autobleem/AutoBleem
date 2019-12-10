@@ -4,6 +4,7 @@
 
 struct Environment {
     static std::string getPathToUSBRoot();
+    static std::string getPathToApps();
     static std::string getPathToGamesDir();
     static std::string getPathToMemCardsDir();
     static std::string getPathToSaveStatesDir();
@@ -16,6 +17,7 @@ struct Environment {
     static std::string getPathToInternalDBFile();   // includes the "internal.db" filename
 
     static std::string getWorkingPath();  // 1 arg: "usb:/Autobleem/bin/autobleem", 2 arg: autobleem-gui executable dir
+    static std::string getSonyPath();  // 1 arg: "usb:/Autobleem/bin/autobleem/sony", 2 arg: "" + sep + "sony"
 //    static std::string getPathToWorkingPathFile(const std::string &filename);   // return path to file in working path
 
     static std::string getPathToThemesDir();        // "usb:/themes" or "./themes"

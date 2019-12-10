@@ -2,6 +2,7 @@
 #include "DirEntry.h"
 #include <dirent.h>
 #include <unistd.h>
+#include <climits>
 
 using namespace std;
 
@@ -28,6 +29,10 @@ string private_pathToInternalDBFile;
 
 string Environment::getPathToUSBRoot() {
   return private_pathToUSBDrive;
+}
+
+string Environment::getPathToApps() {
+    return private_pathToUSBDrive + sep + "Apps";
 }
 
 string Environment::getPathToGamesDir() {
@@ -91,6 +96,16 @@ string Environment::getWorkingPath() {
     char temp[PATH_MAX];
         return (getcwd(temp, sizeof(temp)) ? string(temp) : string(""));
 #endif
+}
+
+//*******************************
+// Environment::getSonyPath
+// 1 arg: "usb:/Autobleem/bin/autobleem/sony"
+// 2 arg: autobleem-gui executable dir + sep + "sony"
+// PSC: autobleem-gui executable dir
+//*******************************
+string Environment::getSonyPath() {
+    return getWorkingPath() + sep + "sony";
 }
 
 #if 0

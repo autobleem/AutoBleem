@@ -91,6 +91,7 @@ public:
     void getGames_SET_FAVORITE(PsGames* gamesList);
     void getGames_SET_SUBDIR(int rowIndex, PsGames* gamesList);
     void getGames_SET_RETROARCH(const std::string& playlistName, PsGames *gamesList);
+    void getGames_SET_APPS(PsGames* gamesList);
     void appendGames_SET_INTERNAL(PsGames* gamesList);
 
     // current USB Game Dir

@@ -59,10 +59,10 @@ If you found an issue - report it using "Issues" section on this website or bett
 
 1. Download the ZIP file from the release page [HERE](https://github.com/screemerpl/cbleemsync/releases) - you can select one of the packages 
   
-  - autobleem-0.7.0-full - contains all covers for any region
-  - autobleem-0.7.0-ntscU/palE/ntscJ - contains only covers for selected region
-  - autobleem-0.7.0-clean - no cover databases (have to be installed manually) 
-  - autobleem-0.7.0-RetroBoot - a version based on full package but also including RetroBoot preinstalled (Only this version can use full RetroArch integration)
+  - autobleem-0.7.x-full - contains all covers for any region
+  - autobleem-0.7.x-ntscU/palE/ntscJ - contains only covers for selected region
+  - autobleem-0.7.x-clean - no cover databases (have to be installed manually) 
+  - autobleem-0.7.x-RetroBoot - a version based on full package but also including RetroBoot preinstalled (Only this version can use full RetroArch integration)
   
 1. Extract the contents to the root of your FAT32(recommended) or ext4 formatted USB flash drive
 1. Name your flash drive SONY. This is a requirement.

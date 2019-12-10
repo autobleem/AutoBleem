@@ -18,7 +18,7 @@ using namespace std;
 //*******************************
 void PsMeta::updateTexts(const string & gameNameTxt, const string & publisherTxt, const string & yearTxt,
                          const string & serial, const string & region, const string & playersTxt, bool internal,
-                         bool hd, bool locked, int discs, bool favorite,  bool foreign,
+                         bool hd, bool locked, int discs, bool favorite,  bool foreign, bool app,
                          int r,int g, int b) {
     this->discs = discs;
     this->internal = internal;
@@ -32,6 +32,7 @@ void PsMeta::updateTexts(const string & gameNameTxt, const string & publisherTxt
     this->region = region;
     this->players = playersTxt;
     this->foreign = foreign;
+    this->app = app;
 
     gameNameTex = createTextTex(gameName, r,g,b, font30);
     publisherAndYearTex = createTextTex(publisher + ", " + year, r,g,b, font15);
@@ -70,17 +71,30 @@ void PsMeta::updateTexts(PsGamePtr & psGame, int r,int g, int b) {
         }
         updateTexts(psGame->title, psGame->publisher, to_string(psGame->year), psGame->serial, psGame->region,
                     to_string(psGame->players) + " " + appendText,
-                    psGame->internal, psGame->hd, psGame->locked, psGame->cds, psGame->favorite, psGame->foreign, r, g,
+                    psGame->internal, psGame->hd, psGame->locked, psGame->cds, psGame->favorite, psGame->foreign, psGame->app, r, g,
                     b);
     } else
     {
-        psGame->serial = "";
-        psGame->region = "";
+        if (psGame->app)
+        {
+            psGame->serial = "";
+            psGame->region = "";
 
-        updateTexts(psGame->title, psGame->core_name, to_string(psGame->year), psGame->serial, psGame->region,
-                    to_string(psGame->players) + " " + appendText,
-                    psGame->internal, psGame->hd, psGame->locked, psGame->cds, psGame->favorite, psGame->foreign, r, g,
-                    b);
+            updateTexts(psGame->title, psGame->publisher, to_string(psGame->year), psGame->serial, psGame->region,
+                        to_string(psGame->players) + " " + appendText,
+                        psGame->internal, psGame->hd, psGame->locked, psGame->cds, psGame->favorite, psGame->foreign, psGame->app, r,
+                        g,
+                        b);
+        } else {
+            psGame->serial = "";
+            psGame->region = "";
+
+            updateTexts(psGame->title, psGame->core_name, to_string(psGame->year), psGame->serial, psGame->region,
+                        to_string(psGame->players) + " " + appendText,
+                        psGame->internal, psGame->hd, psGame->locked, psGame->cds, psGame->favorite, psGame->foreign, psGame->app, r,
+                        g,
+                        b);
+        }
     }
 }
 
@@ -234,17 +248,19 @@ void PsMeta::render() {
             }
         } else
         {
-            SDL_QueryTexture(raTex, &format, &access, &w, &h);
-            rect.x = x;
-            rect.y = y + 43 + 22 + 28;
-            rect.w = w;
-            rect.h = h;
+            if (!app) {
+                SDL_QueryTexture(raTex, &format, &access, &w, &h);
+                rect.x = x;
+                rect.y = y + 43 + 22 + 28;
+                rect.w = w;
+                rect.h = h;
 
-            fullRect.x = 0;
-            fullRect.y = 0;
-            fullRect.w = w;
-            fullRect.h = h;
-            SDL_RenderCopy(renderer, raTex, &fullRect, &rect);
+                fullRect.x = 0;
+                fullRect.y = 0;
+                fullRect.w = w;
+                fullRect.h = h;
+                SDL_RenderCopy(renderer, raTex, &fullRect, &rect);
+            }
         }
 
     }

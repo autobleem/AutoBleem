@@ -23,6 +23,8 @@
 #include "engine/GetGameDirHierarchy.h"
 #include "environment.h"
 #include "launcher/ra_integrator.h"
+#include "launcher/launch_interceptor.h"
+#include "launcher/gui_app_start.h"
 
 using namespace std;
 
@@ -210,16 +212,15 @@ int main(int argc, char *argv[]) {
     USBGame::sortByFullPath(allGames);
 
     bool autobleemPrevOutOfDate = gamesHierarchy.gamesDoNotMatchAutobleemPrev(prevPath);
-    bool thereAreGameFilesInGamesDir = scanner->areThereGameFilesInDir(pathToGamesDir);
+    bool thereAreRawGameFilesInGamesDir = scanner->areThereGameFilesInDir(pathToGamesDir);
 
-    if (!prevFileExists || thereAreGameFilesInGamesDir || autobleemPrevOutOfDate ||
-        db->subDirRowsTableIsEmpty() || db->getNumGames() == 0) {
+    if (!prevFileExists || thereAreRawGameFilesInGamesDir || autobleemPrevOutOfDate) {
         scanner->forceScan = true;
     }
 
     gui->display(scanner->forceScan, pathToGamesDir, db, false);
 
-    if (thereAreGameFilesInGamesDir)
+    if (thereAreRawGameFilesInGamesDir)
         copyGameFilesInGamesDirToSubDirs(pathToGamesDir);   // calls splash() so the gui->display needs to be up first
 
     while (gui->menuOption == MENU_OPTION_SCAN || gui->menuOption == MENU_OPTION_START) {
@@ -228,8 +229,10 @@ int main(int argc, char *argv[]) {
         gui->saveSelection();
         if (gui->menuOption == MENU_OPTION_SCAN) {
             gamesHierarchy.getHierarchy(pathToGamesDir);
-            scanGames(gamesHierarchy);
+            // write the prev file now.  if you call it after scanGames the games that failed to verify will have been
+            // removed from the hierarchy and it force you to rescan on every boot.
             gamesHierarchy.writeAutobleemPrev(prevPath);
+            scanGames(gamesHierarchy);
             if (gui->forceScan) {
                 gui->forceScan = false;
             } else {
@@ -239,14 +242,48 @@ int main(int argc, char *argv[]) {
 
         if (gui->menuOption == MENU_OPTION_START) {
 #if defined(__x86_64__) || defined(_M_X64)
-            cout << "I'm sorry Dave I'm afraid I can't do that." << endl;
-            gui->finish();
+            if (!gui->runningGame->app) {
+                cout << "I'm sorry Dave I'm afraid I can't do that." << endl;
+                gui->finish();
 
-            usleep(300*1000);
-            gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
-            gui->startingGame = false;
+                usleep(300 * 1000);
+                gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
+                gui->startingGame = false;
 
-            gui->display(false, pathToGamesDir, db, true);
+                gui->display(false, pathToGamesDir, db, true);
+            } else
+            {
+
+
+                gui->finish();
+                gui->saveSelection();
+                EmuInterceptor *interceptor;
+
+                interceptor = new LaunchInterceptor();
+
+
+                interceptor->memcardIn(gui->runningGame);
+                interceptor->prepareResumePoint(gui->runningGame, gui->resumepoint);
+                interceptor->execute(gui->runningGame, gui->resumepoint );
+                interceptor->memcardOut(gui->runningGame);
+                delete (interceptor);
+
+                bool reloadFav {false};
+                if (gui->runningGame->foreign)
+                    reloadFav = true;
+                else if (gui->emuMode != EMU_PCSX)
+                    reloadFav = true;
+
+                if (reloadFav) {
+                    auto ra = RAIntegrator::getInstance();
+                    ra->reloadFavorites();  // they could have changed
+                }
+                gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
+                gui->startingGame = false;
+
+                gui->display(false, pathToGamesDir, db, true);
+            }
+
 #else
             cout << "Starting game" << endl;
             gui->finish();
@@ -271,7 +308,13 @@ int main(int argc, char *argv[]) {
             EmuInterceptor *interceptor;
             if (gui->runningGame->foreign)
             {
-                interceptor = new RetroArchInterceptor();
+                if (!gui->runningGame->app)
+                {
+                    interceptor = new RetroArchInterceptor();
+                } else
+                    {
+                     interceptor =  new LaunchInterceptor();
+                    }
             } else {
                 if (gui->emuMode == EMU_PCSX) {
                     interceptor = new PcsxInterceptor();

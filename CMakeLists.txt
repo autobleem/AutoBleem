@@ -2,13 +2,22 @@ cmake_minimum_required(VERSION 3.6)
 project(autobleem-gui)
 
 set(CMAKE_CXX_STANDARD 11)
-
+#set(CMAKE_VERBOSE_MAKEFILE ON)
 
 if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm" )
-	SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -s -Os -O3")
-	SET(CMAKE_CXX_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -Os -O3")
-	include_directories(src/include /home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/include)
-	link_directories(/home/screemer/x-tools/armv8-sony-linux-gnueabihf/armv8-sony-linux-gnueabihf/sysroot/usr/lib$)
+message(STATUS "Building for ARM")
+	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 8.0)
+		SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -Os -s")
+		SET(CMAKE_CXX_FLAGS " -mfloat-abi=hard -march=armv8-a+simd  -Os -s")
+            message(STATUS "Newer GCC installed")
+ELSE()
+     
+		SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv7ve -s -Os -O3")
+		SET(CMAKE_CXX_FLAGS "-mfloat-abi=hard -march=armv7ve -s -Os -O3")
+	ENDIF()
+
+	include_directories(src/include "/opt/toolchain/armv8-sony-linux-gnueabihf/sysroot/usr/include")
+	link_directories(/opt/toolchain/armv8-sony-linux-gnueabihf/sysroot/usr/lib)
 else()
 	if( "${CMAKE_BUILD_TYPE}" STREQUAL "Debug" )
 		if ( "$ENV{MEM_DEBUG}" STREQUAL "1" )
@@ -20,19 +29,20 @@ else()
 	endif()
 endif()
 
-find_package(Threads REQUIRED)
+find_package(Threads REQUIRED
+             SDL2 REQUIRED)
+
+add_library(sqlite3 STATIC libs/sqlite/sqlite3ab.c )
 
 add_executable(
         autobleem-gui
         src/code/unecm.c
-        src/code/sqlite3.c
         src/code/main.h
         src/code/main.cpp
         src/code/DebugTimer.h
         src/code/DebugTimer.cpp
         src/code/engine/database.cpp
         src/code/engine/database.h
-        src/code/sqlite3.h
         src/code/util.h
         src/code/util.cpp
 		src/code/DirEntry.h
@@ -133,8 +143,6 @@ add_executable(
 		src/code/launcher/retboot_interceptor.h
 		src/code/launcher/emu_interceptor.cpp
 		src/code/launcher/emu_interceptor.h
-		src/code/nlohmann/json.h
-		src/code/nlohmann/fifo_map.h
 		src/code/launcher/ra_integrator.cpp
 		src/code/launcher/ra_integrator.h
 		src/code/gui/gui_playlists.cpp
@@ -147,8 +155,12 @@ add_executable(
 		src/code/gui/starfx.h
         src/code/environment.h
 		src/code/environment.cpp
-		)
+        src/code/launcher/launch_interceptor.cpp src/code/launcher/launch_interceptor.h src/code/launcher/gui_app_start.cpp src/code/launcher/gui_app_start.h)
 
+target_include_directories(autobleem-gui PUBLIC
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/sqlite>
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/nlohmann>
+		)
 
 add_executable(starter
 		src/code/starter.cpp
@@ -168,6 +180,7 @@ target_link_libraries(autobleem-gui
          SDL2_image
          SDL2_mixer
          SDL2_ttf
+		 sqlite3
          ${CMAKE_DL_LIBS}
 )
 
