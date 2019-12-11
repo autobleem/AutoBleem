@@ -115,7 +115,7 @@ void Gui::getTextAndRect(SDL_Shared<SDL_Renderer> renderer, int x, int y, const 
 //*******************************
 void Gui::renderBackground() {
   Gfx::clear();
-    SDL_RenderCopy(renderer, backgroundImg, nullptr, &backgroundRect);
+  Gfx::drawImage(backgroundImg,0,0,1280,720);
 }
 
 //*******************************
@@ -123,16 +123,11 @@ void Gui::renderBackground() {
 //*******************************
 int Gui::renderLogo(bool small) {
     if (!small) {
-        SDL_RenderCopy(renderer, logo, nullptr, &logoRect);
+        Gfx::drawImage(logo,logoRect.x,logoRect.y,logoRect.w,logoRect.h);
         return 0;
     } else {
-        SDL_Rect rect;
-        rect.x = atoi(themeData.values["opscreenx"].c_str());
-        rect.y = atoi(themeData.values["opscreeny"].c_str());
-        rect.w = logoRect.w / 3;
-        rect.h = logoRect.h / 3;
-        SDL_RenderCopy(renderer, logo, nullptr, &rect);
-        return rect.y + rect.h;
+        Gfx::drawImage(logo, atoi(themeData.values["opscreenx"].c_str()), atoi(themeData.values["opscreeny"].c_str()), logoRect.w/3, logoRect.h/3);
+        return atoi(themeData.values["opscreeny"].c_str()) + logoRect.h/3;
     }
 }
 

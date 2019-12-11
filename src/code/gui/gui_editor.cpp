@@ -405,14 +405,7 @@ void GuiEditor::render() {
 
     gui->renderStatus(guiMenu);
 
-    SDL_Rect rect;
-    rect.x = atoi(gui->themeData.values["ecoverx"].c_str());
-    rect.y = atoi(gui->themeData.values["ecovery"].c_str());
-    rect.w = 226;
-    rect.h = 226;
-
-    SDL_RenderCopy(Application::renderer, cover, NULL, &rect);
-
+    Gfx::drawImage(cover,atoi(gui->themeData.values["ecoverx"].c_str()),atoi(gui->themeData.values["ecovery"].c_str()),226,226);
     Gfx::flip();
 }
 
