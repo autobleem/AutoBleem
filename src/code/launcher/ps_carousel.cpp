@@ -39,7 +39,7 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
             string imagePath = (*this)->folder + sep + (*this)->base + ".png";
             SDL_SetRenderTarget(renderer, nullptr);
             if (DirEntry::exists(imagePath)) {
-                coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
+                coverPng = Gfx::loadImage( imagePath.c_str());
             } else {
                 coverPng = nullptr;
 #if defined(__x86_64__) || defined(_M_X64)
@@ -50,7 +50,7 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
                         int pngFile = mkstemps(fname, 4);
                         write(pngFile, md.bytes, md.dataSize);
                         close(pngFile);
-                        coverPng = IMG_LoadTexture(renderer, fname);
+                        coverPng = Gfx::loadImage( fname);
                         remove(fname);
                     }
                 }
@@ -119,10 +119,10 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
                                    "Named_Boxarts" + sep + RAIntegrator::escapeName((*this)->title) + ".png";
                 SDL_SetRenderTarget(renderer, nullptr);
                 if (DirEntry::exists(imagePath)) {
-                    coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
+                    coverPng = Gfx::loadImage( imagePath.c_str());
                 } else {
                     cout << "boxart image NOT found for " << imagePath << endl;
-                    coverPng = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "evoimg/ra-cover.png").c_str());
+                    coverPng = Gfx::loadImage( (Env::getWorkingPath() + sep + "evoimg/ra-cover.png").c_str());
                 }
             } else
             {
@@ -130,10 +130,10 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
 
                 SDL_SetRenderTarget(renderer, nullptr);
                 if (DirEntry::exists(imagePath)) {
-                    coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
+                    coverPng = Gfx::loadImage( imagePath.c_str());
                 } else {
                     cout << "boxart image NOT found for " << imagePath << endl;
-                    coverPng = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "evoimg/app-cover.png").c_str());
+                    coverPng = Gfx::loadImage( (Env::getWorkingPath() + sep + "evoimg/app-cover.png").c_str());
                 }
             }
 

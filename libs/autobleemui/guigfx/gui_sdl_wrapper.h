@@ -22,3 +22,5 @@ struct SDL_Shared {
     T & operator * () { return *sdl_shared_ptr.get(); };
     T * operator -> () { return sdl_shared_ptr.get(); };
 };
+
+using GfxImage=SDL_Shared<SDL_Texture>;

@@ -1,7 +1,7 @@
 //
 // Created by screemer on 2/16/19.
 //
-
+#include <guigfx/gui.h>
 #include "ps_menu.h"
 #include <SDL2/SDL_image.h>
 using namespace std;
@@ -18,10 +18,10 @@ PsMenu::PsMenu(SDL_Shared<SDL_Renderer> renderer1, string name1, string texPath)
 // PsMenu::loadAssets
 //*******************************
 void PsMenu::loadAssets() {
-    settings = IMG_LoadTexture(renderer, (path + "/CB/Setting_ICN.png").c_str());
-    guide = IMG_LoadTexture(renderer, (path + "/CB/Manual_ICN.png").c_str());
-    memcard = IMG_LoadTexture(renderer, (path + "/CB/MemoryCard_ICN.png").c_str());
-    savestate = IMG_LoadTexture(renderer, (path + "/CB/Resume.png").c_str());
+    settings = Gfx::loadImage( (path + "/CB/Setting_ICN.png").c_str());
+    guide = Gfx::loadImage( (path + "/CB/Manual_ICN.png").c_str());
+    memcard = Gfx::loadImage( (path + "/CB/MemoryCard_ICN.png").c_str());
+    savestate = Gfx::loadImage( (path + "/CB/Resume.png").c_str());
     x = 640 - 118 / 2;
     y = 520;
     oy = y;
@@ -233,5 +233,5 @@ void PsMenu::render() {
 //*******************************
 void PsMenu::setResumePic(string picturePath)
 {
-    resume = IMG_LoadTexture(renderer,picturePath.c_str());
+    resume = Gfx::loadImage(picturePath.c_str());
 }

@@ -37,13 +37,13 @@ void PsStateSelector::loadSaveStateImages(PsGamePtr & game, bool saving)
         slotActive[i]=false;
         if (!saving) {
             if (game->isResumeSlotActive(i)) {
-                slotImg[i] = IMG_LoadTexture(renderer, game->findResumePicture(i).c_str());
+                slotImg[i] = Gfx::loadImage( game->findResumePicture(i).c_str());
                 slotActive[i]=true;
             }
         } else
         {
             if (game->isResumeSlotActive(i)) {
-                slotImg[i] = IMG_LoadTexture(renderer, game->findResumePicture(i).c_str());
+                slotImg[i] = Gfx::loadImage( game->findResumePicture(i).c_str());
 
             }
             slotActive[i]=true;

@@ -114,15 +114,15 @@ void PsMeta::render() {
 
     if (internalOffTex == nullptr) {
         string curPath = Env::getWorkingPath() + sep;
-        internalOnTex =  IMG_LoadTexture(renderer, (curPath + "evoimg/ps1.png").c_str());
-        internalOffTex = IMG_LoadTexture(renderer, (curPath + "evoimg/usb.png").c_str());
-        hdOnTex =        IMG_LoadTexture(renderer, (curPath + "evoimg/hd.png").c_str());
-        hdOffTex =       IMG_LoadTexture(renderer, (curPath + "evoimg/sd.png").c_str());
-        lockOnTex =      IMG_LoadTexture(renderer, (curPath + "evoimg/lock.png").c_str());
-        lockOffTex =     IMG_LoadTexture(renderer, (curPath + "evoimg/unlock.png").c_str());
-        cdTex =          IMG_LoadTexture(renderer, (curPath + "evoimg/cd.png").c_str());
-        favoriteTex =    IMG_LoadTexture(renderer, (curPath + "evoimg/favorite.png").c_str());
-        raTex =          IMG_LoadTexture(renderer, (curPath + "evoimg/ra.png").c_str());
+        internalOnTex =  Gfx::loadImage( (curPath + "evoimg/ps1.png").c_str());
+        internalOffTex = Gfx::loadImage( (curPath + "evoimg/usb.png").c_str());
+        hdOnTex =        Gfx::loadImage( (curPath + "evoimg/hd.png").c_str());
+        hdOffTex =       Gfx::loadImage( (curPath + "evoimg/sd.png").c_str());
+        lockOnTex =      Gfx::loadImage( (curPath + "evoimg/lock.png").c_str());
+        lockOffTex =     Gfx::loadImage( (curPath + "evoimg/unlock.png").c_str());
+        cdTex =          Gfx::loadImage( (curPath + "evoimg/cd.png").c_str());
+        favoriteTex =    Gfx::loadImage( (curPath + "evoimg/favorite.png").c_str());
+        raTex =          Gfx::loadImage( (curPath + "evoimg/ra.png").c_str());
     }
 
     if (visible) {

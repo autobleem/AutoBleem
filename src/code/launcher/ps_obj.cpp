@@ -2,6 +2,7 @@
 // Created by screemer on 2/11/19.
 //
 
+#include <guigfx/gui.h>
 #include "ps_obj.h"
 #include <SDL2/SDL_image.h>
 using namespace std;
@@ -19,7 +20,7 @@ PsObj::PsObj(SDL_Shared<SDL_Renderer> renderer1, string name1, string texPath) :
 // PsObj::load
 //*******************************
 void PsObj::load(const string & imagePath) {
-    tex = IMG_LoadTexture(renderer, imagePath.c_str());
+    tex = Gfx::loadImage( imagePath.c_str());
     Uint32 format;
     int access;
 

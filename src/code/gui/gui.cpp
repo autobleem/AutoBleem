@@ -144,9 +144,9 @@ SDL_Shared<SDL_Texture>
 Gui::loadThemeTexture(string themePath, string defaultPath, string texname) {
     SDL_Shared<SDL_Texture> tex = nullptr;
     if (DirEntry::exists(themePath + themeData.values[texname])) {
-        tex = IMG_LoadTexture(Application::renderer, (themePath + themeData.values[texname]).c_str());
+        tex = Gfx::loadImage( (themePath + themeData.values[texname]).c_str());
     } else {
-        tex = IMG_LoadTexture(Application::renderer, (defaultPath + defaultData.values[texname]).c_str());
+        tex = Gfx::loadImage( (defaultPath + defaultData.values[texname]).c_str());
     }
     return tex;
 }
@@ -205,9 +205,9 @@ void Gui::loadAssets(bool reloadMusic) {
     buttonUncheck = loadThemeTexture( themePath, defaultPath, "uncheck");
     if (cfg.inifile.values["jewel"] != "none") {
         if (cfg.inifile.values["jewel"] == "default") {
-            cdJewel = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "evoimg/nofilter.png").c_str());
+            cdJewel = Gfx::loadImage( (Env::getWorkingPath() + sep + "evoimg/nofilter.png").c_str());
         } else {
-            cdJewel = IMG_LoadTexture(renderer,
+            cdJewel = Gfx::loadImage(
                                       (Env::getWorkingPath() + sep + "evoimg/frames/" +
                                        cfg.inifile.values["jewel"]).c_str());
         }

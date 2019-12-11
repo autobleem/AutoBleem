@@ -279,12 +279,12 @@ void GuiEditor::init() {
         bool pngLoaded = false;
         for (const DirEntry & entry:DirEntry::diru(gameFolder)) {
             if (DirEntry::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(Application::renderer, (gameFolder + sep + entry.name).c_str());
+                cover = Gfx::loadImage( (gameFolder + sep + entry.name).c_str());
                 pngLoaded = true;
             }
         }
         if (!pngLoaded) {
-            cover = IMG_LoadTexture(Application::renderer, (Env::getWorkingPath() + sep + "default.png").c_str());
+            cover = Gfx::loadImage( (Env::getWorkingPath() + sep + "default.png").c_str());
         }
     } else {
         // recover ini
@@ -305,12 +305,12 @@ void GuiEditor::init() {
         bool pngLoaded = false;
         for (const DirEntry & entry:DirEntry::diru(gameData->folder)) {
             if (DirEntry::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(Application::renderer, (gameData->folder + sep + entry.name).c_str());
+                cover = Gfx::loadImage( (gameData->folder + sep + entry.name).c_str());
                 pngLoaded = true;
             }
         }
         if (!pngLoaded) {
-            cover = IMG_LoadTexture(Application::renderer, (Env::getWorkingPath() + sep + "default.png").c_str());
+            cover = Gfx::loadImage( (Env::getWorkingPath() + sep + "default.png").c_str());
         }
     }
 

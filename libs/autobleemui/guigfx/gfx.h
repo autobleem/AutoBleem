@@ -4,8 +4,9 @@
 
 #pragma once
 
-
+#include <SDL2/SDL_image.h>
 #include <memory>
+#include "gui_sdl_wrapper.h"
 
 class Gfx {
 public:
@@ -18,6 +19,7 @@ public:
     }
 
     static void flip();
+    static SDL_Shared<SDL_Texture> loadImage(std::string path);
 private:
     Gfx( ){};
 
