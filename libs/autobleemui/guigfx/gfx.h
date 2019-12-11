@@ -2,13 +2,27 @@
 // Created by screemer on 2019-12-11.
 //
 
-#ifndef AUTOBLEEM_GUI_GFX_H
-#define AUTOBLEEM_GUI_GFX_H
+#pragma once
 
+
+#include <memory>
 
 class Gfx {
+public:
+    Gfx(Gfx const &) = delete;
+    Gfx &operator=(Gfx const &) = delete;
+
+    static std::shared_ptr<Gfx> getInstance() {
+        static std::shared_ptr<Gfx> gfx{new Gfx};
+        return gfx;
+    }
+
+    void flip();
+private:
+    Gfx( ){};
+
 
 };
 
 
-#endif //AUTOBLEEM_GUI_GFX_H
+

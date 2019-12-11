@@ -4,6 +4,7 @@
 
 #include "gui_options.h"
 #include <autobleem/autobleemui.h>
+#include <guigfx/gui.h>
 #include "gui.h"
 
 
@@ -181,7 +182,9 @@ void GuiOptions::renderOptionLine(const string & text, int pos, int offset) {
 // GuiOptions::render
 //*******************************
 void GuiOptions::render() {
+    shared_ptr<Gfx> gfx(Gfx::getInstance());
     shared_ptr<Gui> gui(Gui::getInstance());
+
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
@@ -205,7 +208,7 @@ void GuiOptions::render() {
     gui->renderStatus("|@X| " + _("OK") + "     " + "|@O| " + _("Cancel") + "|");
 
     //   gui->renderSelectionBox(selOption+1,offset);
-    SDL_RenderPresent(Application::renderer);
+    gfx->flip();
 }
 
 //*******************************

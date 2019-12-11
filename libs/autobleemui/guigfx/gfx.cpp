@@ -3,3 +3,9 @@
 //
 
 #include "gfx.h"
+#include "application.h"
+
+void Gfx::flip()
+{
+    SDL_RenderPresent(Application::renderer);
+}

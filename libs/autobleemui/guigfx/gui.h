@@ -8,3 +8,4 @@
 #include "gui_font.h"
 #include "gui_screen.h"
 #include "application.h"
+#include "gfx.h"
