@@ -3,8 +3,9 @@
 //
 
 #include "config.h"
-#include <autobleem/autobleemui.h>
-#include "../launcher/gui_NotificationLine.h"
+#include "environment.h"
+#include "direntry.h"
+#include "enums.h"
 
 
 //*******************************
@@ -12,7 +13,7 @@
 //*******************************
 Config::Config()
 {
-    std::string path=Env::getWorkingPath() + sep + "config.ini";
+    std::string path=Env::getAutobleemPath() + sep + "config.ini";
     inifile.load(path);
     bool aDefaultWasSet {false};
     if (inifile.values["language"]=="")
@@ -67,6 +68,6 @@ Config::Config()
 void Config::save()
 {
     inifile.values["pcsx"]="bleemsync";
-    std::string path=Env::getWorkingPath() + sep + "config.ini";
+    std::string path=Env::getAutobleemPath() + sep + "config.ini";
     inifile.save(path);
 }

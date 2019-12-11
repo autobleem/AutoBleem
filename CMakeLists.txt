@@ -45,8 +45,12 @@ add_library(autobleemui STATIC
 		libs/autobleemui/autobleem/lang.cpp
 		libs/autobleemui/autobleem/inifile.cpp
 		libs/autobleemui/autobleem/debugtimer.cpp
+		libs/autobleemui/autobleem/padmapper.cpp
+		libs/autobleemui/autobleem/config.cpp
+
 		libs/autobleemui/guigfx/gui_sdl_wrapper.cpp
 		libs/autobleemui/guigfx/gui_screen.cpp
+		libs/autobleemui/guigfx/gui_font.cpp
 
 		libs/autobleemui/ecm/unecm.c
 		libs/autobleemui/ecm/ecmhelper.cpp
@@ -73,8 +77,6 @@ add_executable(
         src/code/gui/gui.cpp
         src/code/engine/isodir.cpp
         src/code/engine/isodir.h
-        src/code/engine/config.cpp
-        src/code/engine/config.h
         src/code/engine/cfgprocessor.cpp
         src/code/engine/cfgprocessor.h
         src/code/engine/memcard.cpp
@@ -97,8 +99,6 @@ add_executable(
         src/code/gui/gui_editor.h
 		src/code/gui/gui_selectmemcard.cpp
         src/code/gui/gui_selectmemcard.h
-        src/code/gui/gui_font.h
-        src/code/gui/gui_font.cpp
 		src/code/gui/gui_gameDirMenu.h
 		src/code/gui/gui_gameDirMenu.cpp
         src/code/engine/coverdb.cpp
@@ -136,8 +136,6 @@ add_executable(
         src/code/launcher/gui_btn_guide.cpp
         src/code/launcher/gui_btn_guide.h
 		src/code/launcher/gui_launcher_loop.cpp
-        src/code/engine/padmapper.cpp
-        src/code/engine/padmapper.h
         src/code/gui/gui_padconfig.cpp
         src/code/gui/gui_padconfig.h
 		src/code/launcher/retboot_interceptor.cpp

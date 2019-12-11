@@ -4,11 +4,11 @@
 #include <vector>
 #include <string>
 #include <guigfx/gui.h>
-#include "../gui/gui_font.h"
+
 
 #define TicksPerSecond 1000
 #define DefaultShowingTimeout (2 * TicksPerSecond)
-#define DefaultShowingTimeoutText "2"
+
 
 //******************
 // NotificationLine

@@ -19,3 +19,5 @@
 #include "lang.h"
 #include "inifile.h"
 #include "debugtimer.h"
+#include "padmapper.h"
+#include "config.h"

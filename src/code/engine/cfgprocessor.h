@@ -4,8 +4,7 @@
 
 #pragma once
 
-#include "config.h"
-
+#include <autobleem/autobleemui.h>
 //******************
 // CfgProcessor
 //******************

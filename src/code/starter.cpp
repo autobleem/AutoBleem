@@ -4,7 +4,6 @@
 #include <sys/wait.h>
 #include <autobleem/autobleemui.h>
 #include "engine/memcard.h"
-#include "engine/config.h"
 
 using namespace std;
 

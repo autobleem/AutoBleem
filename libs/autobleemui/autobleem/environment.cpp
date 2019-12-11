@@ -84,6 +84,22 @@ string Environment::getPathToInternalDBFile() {
 // 2 arg: autobleem-gui executable dir
 // PSC: autobleem-gui executable dir
 //*******************************
+string Environment::getAutobleemPath()
+{
+#if defined(__x86_64__) || defined(_M_X64)
+    if (private_singleArgPassed) {
+        string path = private_pathToUSBDrive + sep + "Autobleem/bin/autobleem";
+        return path;
+    } else {
+        char temp[PATH_MAX];
+        return (getcwd(temp, sizeof(temp)) ? string(temp) : string(""));
+    }
+#else
+    string path = "/media/Autobleem/bin/autobleem";
+        return path;
+#endif
+}
+
 string Environment::getWorkingPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     if (private_singleArgPassed) {

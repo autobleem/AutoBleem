@@ -3,7 +3,8 @@
 //
 #pragma once
 
-#include <guigfx/gui_sdl_wrapper.h>
+#include <autobleem/autobleemui.h>
+#include <guigfx/gui.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -11,12 +12,9 @@
 #include <string>
 #include <memory>
 #include "../engine/database.h"
-#include "../engine/config.h"
 #include "../engine/coverdb.h"
 #include "../engine/scanner.h"
-#include "../engine/padmapper.h"
 
-#include "gui_font.h"
 
 #define PCS_DEADZONE     32000
 #define PCS_BTN_L2       4

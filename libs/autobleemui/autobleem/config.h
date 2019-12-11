@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <autobleem/autobleemui.h>
+#include "inifile.h"
 
 //******************
 // Config

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <guigfx/gui.h>
+#include "gui.h"
 #include <map>
 
 enum FontSize { FONT_15=15, FONT_24=24, FONT_30=30 };

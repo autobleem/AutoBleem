@@ -3,6 +3,7 @@
 #include <string>
 
 struct Environment {
+    static std::string getAutobleemPath();
     static std::string getPathToUSBRoot();
     static std::string getPathToApps();
     static std::string getPathToGamesDir();

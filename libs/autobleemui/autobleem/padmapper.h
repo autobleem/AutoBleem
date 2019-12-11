@@ -3,7 +3,8 @@
 //
 #pragma once
 
-#include <autobleem/autobleemui.h>
+#include "enums.h"
+#include "inifile.h"
 #include <SDL2/SDL_events.h>
 #include <map>
 

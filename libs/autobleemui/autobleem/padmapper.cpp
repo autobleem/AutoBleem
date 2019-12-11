@@ -18,7 +18,7 @@ void PadMapper::reload() {
         delete cfg;
     }
     configs.clear();
-    string path = Env::getWorkingPath() + sep + "gpmapping";
+    string path = Env::getAutobleemPath() + sep + "gpmapping";
     for (const DirEntry & entry:DirEntry::diru(path)) {
         if (DirEntry::getFileExtension(entry.name) == "ini") {
 
