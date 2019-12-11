@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include "gui_screen.h"
+#include <guigfx/gui.h>
 #include <vector>
 #include "../launcher/ps_game.h"
 

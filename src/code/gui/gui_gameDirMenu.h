@@ -1,5 +1,5 @@
 #pragma once
-#include "gui_screen.h"
+#include <guigfx/gui.h>
 #include <vector>
 
 class GuiGameDirMenu : public GuiScreen{

@@ -3,7 +3,8 @@
 //
 
 #include "ecmhelper.h"
-#include <autobleem/autobleemui.h>
+#include <autobleem/direntry.h>
+
 #include <iostream>
 
 

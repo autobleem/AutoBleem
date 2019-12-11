@@ -7,8 +7,7 @@
 #include "ps_obj.h"
 #include "ps_game.h"
 #include <SDL2/SDL_ttf.h>
-#include "../gui/gui_sdl_wrapper.h"
-#include "../gui/gui_font_wrapper.h"
+#include <guigfx/gui.h>
 
 class PsGame;
 

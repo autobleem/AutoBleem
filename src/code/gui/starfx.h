@@ -6,7 +6,7 @@
 
 #include <vector>
 #include <SDL2/SDL_render.h>
-#include "gui_sdl_wrapper.h"
+#include <guigfx/gui.h>
 
 #define STARS_PER_LAYER 60
 #define SPEED_DIFFERENCE 1.0f

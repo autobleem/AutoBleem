@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "../gui/gui_screen.h"
+#include <guigfx/gui.h>
 
 //******************
 // GuiBtnGuide

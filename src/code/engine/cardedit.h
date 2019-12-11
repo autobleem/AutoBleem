@@ -10,7 +10,7 @@
 #include <iconv.h>
 #include <SDL2/SDL_render.h>
 #include <vector>
-#include "../gui/gui_sdl_wrapper.h"
+#include <guigfx/gui.h>
 
 #pragma once
 

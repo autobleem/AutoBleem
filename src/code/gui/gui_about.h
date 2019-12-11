@@ -3,9 +3,9 @@
 //
 #pragma once
 
-#include "gui_screen.h"
+#include <guigfx/gui.h>
 #include "starfx.h"
-#include "gui_font_wrapper.h"
+
 
 //********************
 // GuiAbout

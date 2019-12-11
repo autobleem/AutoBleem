@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "gui_screen.h"
+#include <guigfx/gui.h>
 #include "../launcher/ra_integrator.h"
 #include <vector>
 

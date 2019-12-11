@@ -5,8 +5,7 @@
 #ifndef AUTOBLEEM_GUI_GUI_APP_START_H
 #define AUTOBLEEM_GUI_GUI_APP_START_H
 
-#include "../gui/gui_screen.h"
-#include "../gui/gui_font_wrapper.h"
+#include <guigfx/gui.h>
 #include "ps_game.h"
 
 class GuiAppStart : public GuiScreen {

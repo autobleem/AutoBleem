@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include "gui_screen.h"
+#include <guigfx/gui.h>
 
 //********************
 // GuiSplash

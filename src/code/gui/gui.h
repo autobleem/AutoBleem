@@ -3,6 +3,7 @@
 //
 #pragma once
 
+#include <guigfx/gui_sdl_wrapper.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -14,8 +15,7 @@
 #include "../engine/coverdb.h"
 #include "../engine/scanner.h"
 #include "../engine/padmapper.h"
-#include "gui_sdl_wrapper.h"
-//#include "gui_font_wrapper.h"
+
 #include "gui_font.h"
 
 #define PCS_DEADZONE     32000

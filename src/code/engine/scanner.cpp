@@ -2,8 +2,8 @@
 // Created by screemer on 2018-12-15.
 //
 #include <autobleem/autobleemui.h>
+#include <ecm/ecmhelper.h>
 #include "scanner.h"
-#include "ecmhelper.h"
 #include "cfgprocessor.h"
 #include "serialscanner.h"
 #include <fstream>

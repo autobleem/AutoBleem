@@ -35,21 +35,30 @@ find_package(Threads REQUIRED
              SDL2 REQUIRED)
 
 add_library(sqlite3 STATIC libs/sqlite/sqlite3ab.c )
-add_library(autobleemui SHARED
+
+add_library(autobleemui STATIC
 		libs/autobleemui/autobleem/util.cpp
 		libs/autobleemui/autobleem/environment.cpp
 		libs/autobleemui/autobleem/direntry.cpp
 		libs/autobleemui/autobleem/stringinline.h
 		libs/autobleemui/autobleem/enums.h
 		libs/autobleemui/autobleem/lang.cpp
-		libs/autobleemui/autobleem/inifile.cpp)
+		libs/autobleemui/autobleem/inifile.cpp
+		libs/autobleemui/autobleem/debugtimer.cpp
+		libs/autobleemui/guigfx/gui_sdl_wrapper.cpp
+		libs/autobleemui/guigfx/gui_screen.cpp
+
+		libs/autobleemui/ecm/unecm.c
+		libs/autobleemui/ecm/ecmhelper.cpp
+		libs/autobleemui/guigfx/gui.h)
+
+target_include_directories(autobleemui PUBLIC
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/autobleemui>
+		)
 
 add_executable(
         autobleem-gui
-        src/code/unecm.c
         src/code/main.cpp
-        src/code/DebugTimer.h
-        src/code/DebugTimer.cpp
         src/code/engine/database.cpp
         src/code/engine/database.h
         src/code/engine/game.cpp
@@ -60,8 +69,6 @@ add_executable(
         src/code/engine/GetGameDirHierarchy.cpp
         src/code/engine/metadata.cpp
         src/code/engine/metadata.h
-        src/code/engine/ecmhelper.cpp
-        src/code/engine/ecmhelper.h
         src/code/gui/gui.h
         src/code/gui/gui.cpp
         src/code/engine/isodir.cpp
@@ -74,8 +81,6 @@ add_executable(
         src/code/engine/memcard.h
         src/code/gui/gui_about.cpp
         src/code/gui/gui_about.h
-        src/code/gui/gui_screen.cpp
-        src/code/gui/gui_screen.h
         src/code/gui/gui_splash.cpp
         src/code/gui/gui_splash.h
         src/code/gui/gui_options.cpp
@@ -92,11 +97,8 @@ add_executable(
         src/code/gui/gui_editor.h
 		src/code/gui/gui_selectmemcard.cpp
         src/code/gui/gui_selectmemcard.h
-        src/code/gui/gui_sdl_wrapper.h
-        src/code/gui/gui_sdl_wrapper.cpp
         src/code/gui/gui_font.h
         src/code/gui/gui_font.cpp
-        src/code/gui/gui_font_wrapper.h
 		src/code/gui/gui_gameDirMenu.h
 		src/code/gui/gui_gameDirMenu.cpp
         src/code/engine/coverdb.cpp

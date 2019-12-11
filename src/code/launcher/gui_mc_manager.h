@@ -4,9 +4,8 @@
 
 #pragma once
 
-#include "../gui/gui_screen.h"
+#include <guigfx/gui.h>
 #include "../engine/cardedit.h"
-#include "../gui/gui_font_wrapper.h"
 #include <string>
 
 using namespace std;

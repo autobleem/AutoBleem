@@ -2,7 +2,7 @@
 
 #include <autobleem/autobleemui.h>
 #include <SDL2/SDL_joystick.h>
-#include "gui_screen.h"
+#include <guigfx/gui.h>
 
 
 class GuiPadConfig   : public GuiScreen {

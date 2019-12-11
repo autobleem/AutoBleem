@@ -4,7 +4,7 @@
 #pragma once
 
 #include "gui_NotificationLine.h"
-#include "../gui/gui_screen.h"
+#include <guigfx/gui.h>
 #include "ps_obj.h"
 #include "ps_settings_back.h"
 #include "ps_zoom_btn.h"

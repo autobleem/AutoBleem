@@ -8,13 +8,13 @@
 //******************
 // to use create a DebugTimer variable passing it the name of the function or other text.
 // When the object goes out of scope it will output the time delay that has passed to cout.
-struct DebugTimer {
+struct debugtimer {
     std::string description;
     uint32_t ticks_start = 0;
     uint32_t ticks_end = 0;
 	
-    DebugTimer(const std::string & _description);
-    ~DebugTimer();
+    debugtimer(const std::string & _description);
+    ~debugtimer();
 };
 #else // release build
 struct DebugTimer {

@@ -5,7 +5,7 @@
 
 #include <vector>
 #include <string>
-#include "gui_screen.h"
+#include <guigfx/gui.h>
 
 #define MC_CUSTOM 0
 #define MC_MANAGER 1

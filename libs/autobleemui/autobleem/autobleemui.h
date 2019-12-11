@@ -18,3 +18,4 @@
 #include "environment.h"
 #include "lang.h"
 #include "inifile.h"
+#include "debugtimer.h"

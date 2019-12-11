@@ -6,7 +6,7 @@
 
 #include <SDL2/SDL_render.h>
 #include <string>
-#include "../gui/gui_sdl_wrapper.h"
+#include <guigfx/gui_sdl_wrapper.h>
 
 //******************
 // PsObj

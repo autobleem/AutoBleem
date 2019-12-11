@@ -4,7 +4,7 @@
 #pragma once
 
 #include <autobleem/autobleemui.h>
-#include "gui_screen.h"
+#include <guigfx/gui.h>
 #include "../launcher/ps_game.h"
 
 //********************

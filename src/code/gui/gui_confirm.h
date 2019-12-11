@@ -4,7 +4,7 @@
 #pragma once
 
 #include <string>
-#include "gui_screen.h"
+#include <guigfx/gui.h>
 
 //********************
 // GuiConfirm

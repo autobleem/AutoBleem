@@ -5,7 +5,7 @@
 #pragma once
 
 #include "ps_obj.h"
-#include "../gui/gui_font_wrapper.h"
+#include <guigfx/gui.h>
 
 //******************
 // PsCenterLabel

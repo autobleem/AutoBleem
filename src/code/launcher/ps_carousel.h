@@ -7,7 +7,7 @@
 #include "ps_game.h"
 #include <vector>
 #include <SDL2/SDL_ttf.h>
-#include "../gui/gui_sdl_wrapper.h"
+#include <guigfx/gui.h>
 #include "ra_integrator.h"
 
 //******************
