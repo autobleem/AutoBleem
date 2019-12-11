@@ -56,7 +56,7 @@ void GuiPadConfig::render() {
     if (step > 10)
         gui->renderStatus(_("Configuration saved - Press |@X| to continue"));
 
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Application::renderer);
 }
 
 void GuiPadConfig::loop() {

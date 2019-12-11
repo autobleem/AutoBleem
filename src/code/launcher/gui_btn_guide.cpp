@@ -44,7 +44,7 @@ void GuiBtnGuide::render() {
 
 
     gui->renderStatus("|@O| " + _("Go back") + "|");
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Application::renderer);
 }
 
 //*******************************

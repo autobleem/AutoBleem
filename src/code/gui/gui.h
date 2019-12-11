@@ -139,7 +139,7 @@ public:
     void criticalException(const std::string & text);
 
     SDL_Shared<SDL_Texture>
-    loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, std::string themePath, std::string defaultPath, std::string texname);
+    loadThemeTexture(std::string themePath, std::string defaultPath, std::string texname);
 
     void exportDBToRetroarch();
 

@@ -21,12 +21,12 @@ void GuiMcManager::init() {
 
 void GuiMcManager::loadAssets() {
     shared_ptr<Gui> gui(Gui::getInstance());
-    mcGrid = IMG_LoadTexture(renderer, (gui->getCurrentThemeImagePath() + sep + "MC/Dot_Matrix.png").c_str());
-    mcPencil = IMG_LoadTexture(renderer, (gui->getCurrentThemeImagePath() + sep + "MC/Pencil_Carsor.png").c_str());
+    mcGrid = IMG_LoadTexture(Application::renderer, (gui->getCurrentThemeImagePath() + sep + "MC/Dot_Matrix.png").c_str());
+    mcPencil = IMG_LoadTexture(Application::renderer, (gui->getCurrentThemeImagePath() + sep + "MC/Pencil_Carsor.png").c_str());
     fontJIS = Fonts::openFont(Env::getWorkingPath() + sep + "japanese.ttf", 20);
 
-    memcard1 = new CardEdit(renderer);
-    memcard2 = new CardEdit(renderer);
+    memcard1 = new CardEdit(Application::renderer);
+    memcard2 = new CardEdit(Application::renderer);
 
     memcard1->load_file(card1path);
     memcard2->load_file(card2path);
@@ -83,14 +83,14 @@ void GuiMcManager::renderPencil(int memcard, int col, int row) {
         pencilPos.x = mc2XStart + (col * pencilShiftX);
     }
     pencilPos.y = mcYStart + (row * pencilShiftY);
-    SDL_RenderCopy(renderer, mcPencil, nullptr, &pencilPos);
+    SDL_RenderCopy(Application::renderer, mcPencil, nullptr, &pencilPos);
 }
 
 void GuiMcManager::trySave()
 {
     if (changes)
     {
-        auto confirm = new GuiConfirm(renderer);
+        auto confirm = new GuiConfirm();
         confirm->label = _("Do you want to save memcards data ?");
         confirm->show();
         if (confirm->result) {
@@ -124,10 +124,10 @@ void GuiMcManager::renderStatic() {
     input.x = 0, input.y = 0;
     output.x = 80;
     output.y = 80;
-    SDL_RenderCopy(renderer, mcGrid, &input, &output);
+    SDL_RenderCopy(Application::renderer, mcGrid, &input, &output);
     output.x = 940;
     output.y = 80;
-    SDL_RenderCopy(renderer, mcGrid, &input, &output);
+    SDL_RenderCopy(Application::renderer, mcGrid, &input, &output);
 
 }
 
@@ -160,7 +160,7 @@ void GuiMcManager::renderMemCardIcons(int memcard) {
         output.x = start + (xShift * col) + xDecal;
         output.y = yStart + (yShift * line) + yDecal;
         if (currentCard->get_slot_is_used(i)) {
-            SDL_RenderCopy(renderer, currentCard->get_slot_icon(i, frame), nullptr, &output);
+            SDL_RenderCopy(Application::renderer, currentCard->get_slot_icon(i, frame), nullptr, &output);
         }
     }
 }
@@ -203,7 +203,7 @@ void GuiMcManager::render() {
 
     //Draw the pencil
     renderPencil(pencilMemcard, pencilColumn, pencilRow);
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Application::renderer);
 
 }
 
@@ -242,7 +242,7 @@ void GuiMcManager::loop() {
                     };
                     if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
-                        CardEdit *newCard = new CardEdit(renderer);
+                        CardEdit *newCard = new CardEdit(Application::renderer);
                         CardEdit *src;
                         if (pencilMemcard == 1) {
                             src = memcard1;
@@ -286,7 +286,7 @@ void GuiMcManager::loop() {
                     if (e.jbutton.button == gui->_cb(PCS_BTN_START, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         trySave();
-                        auto select = new GuiSelectMemcard(renderer);
+                        auto select = new GuiSelectMemcard();
                         select->listType=MC_MANAGER;
                         select->show();
                         if (select->selected!=-1)

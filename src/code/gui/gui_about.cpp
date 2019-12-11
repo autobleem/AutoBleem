@@ -14,9 +14,9 @@
 
 void GuiAbout::init() {
     std::shared_ptr<Gui> gui(Gui::getInstance());
-    fx.renderer = renderer;
+    fx.renderer = Application::renderer;
     font = Fonts::openFont(Env::getWorkingPath() + sep + "about.ttf", 17);
-    logo = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "ablogo.png").c_str());
+    logo = IMG_LoadTexture(Application::renderer, (Env::getWorkingPath() + sep + "ablogo.png").c_str());
 }
 
 //*******************************
@@ -46,8 +46,8 @@ void GuiAbout::render() {
 
     gui->renderBackground();
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 235);
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(Application::renderer, 0, 0, 0, 235);
+    SDL_SetRenderDrawBlendMode(Application::renderer, SDL_BLENDMODE_BLEND);
 
     SDL_Rect rect2;
     rect2.x = 0;
@@ -55,7 +55,7 @@ void GuiAbout::render() {
     rect2.w = 1280;
     rect2.h = 720;
 
-    SDL_RenderFillRect(renderer, &rect2);
+    SDL_RenderFillRect(Application::renderer, &rect2);
 
     fx.render();
 
@@ -65,7 +65,7 @@ void GuiAbout::render() {
     rect.y = 5;
     rect.w = 200;
     rect.h = 141;
-    SDL_RenderCopy(renderer, logo, nullptr, &rect);
+    SDL_RenderCopy(Application::renderer, logo, nullptr, &rect);
 
 
     int line = 1;
@@ -75,7 +75,7 @@ void GuiAbout::render() {
     }
 
     gui->renderStatus("|@O| " + _("Go back") + "|",680);
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Application::renderer);
 }
 
 //*******************************

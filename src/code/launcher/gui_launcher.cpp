@@ -377,10 +377,10 @@ void GuiLauncher::loadAssets() {
     cout << "Loading theme and creating objects" << endl;
     if (DirEntry::exists(gui->getCurrentThemeImagePath() + sep + "GR/AB_BG.png")) {
         staticMeta = true;
-        background = new PsObj(renderer, "background", gui->getCurrentThemeImagePath() + sep + "GR/AB_BG.png");
+        background = new PsObj(Application::renderer, "background", gui->getCurrentThemeImagePath() + sep + "GR/AB_BG.png");
     } else {
         staticMeta = false;
-        background = new PsObj(renderer, "background", gui->getCurrentThemeImagePath() + sep + "GR/JP_US_BG.png");
+        background = new PsObj(Application::renderer, "background", gui->getCurrentThemeImagePath() + sep + "GR/JP_US_BG.png");
     }
 
     background->x = 0;
@@ -393,18 +393,18 @@ void GuiLauncher::loadAssets() {
     } else {
         footerFile = "GR/Footer.png";
     }
-    auto footer = new PsObj(renderer, "footer", gui->getCurrentThemeImagePath() + sep + footerFile);
+    auto footer = new PsObj(Application::renderer, "footer", gui->getCurrentThemeImagePath() + sep + footerFile);
     footer->y = 720 - footer->h;
     footer->visible = true;
     staticElements.push_back(footer);
 
-    playButton = new PsObj(renderer, "playButton", gui->getCurrentThemeImagePath() + sep + "GR/Acid_C_Btn.png");
+    playButton = new PsObj(Application::renderer, "playButton", gui->getCurrentThemeImagePath() + sep + "GR/Acid_C_Btn.png");
     playButton->y = 428;
     playButton->x = 540;
     playButton->visible = selGameIndex != -1;
     staticElements.push_back(playButton);
 
-    playText = new PsZoomBtn(renderer, "playText", gui->getCurrentThemeImagePath() + sep + "BMP_Text/Play_Text.png");
+    playText = new PsZoomBtn(Application::renderer, "playText", gui->getCurrentThemeImagePath() + sep + "BMP_Text/Play_Text.png");
     playText->y = 428;
     playText->x = 640 - 262 / 2;
     playText->visible = selGameIndex != -1;
@@ -419,12 +419,12 @@ void GuiLauncher::loadAssets() {
     } else {
         settingsFile = "/CB/Function_BG.png";
     }
-    settingsBack = new PsSettingsBack(renderer, "playButton", gui->getCurrentThemeImagePath() + settingsFile);
+    settingsBack = new PsSettingsBack(Application::renderer, "playButton", gui->getCurrentThemeImagePath() + settingsFile);
     settingsBack->setCurLen(100);
     settingsBack->visible = true;
     staticElements.push_back(settingsBack);
 
-    meta = new PsMeta(renderer, "meta", gui->getCurrentThemeImagePath() + sep + "CB/PlayerOne.png");
+    meta = new PsMeta(Application::renderer, "meta", gui->getCurrentThemeImagePath() + sep + "CB/PlayerOne.png");
     meta->font15 = gui->fonts[FONT_15];
     meta->font24 = gui->fonts[FONT_24];
     meta->font30 = gui->fonts[FONT_30];
@@ -440,39 +440,39 @@ void GuiLauncher::loadAssets() {
     }
     staticElements.push_back(meta);
 
-    arrow = new PsMoveBtn(renderer, "arrow", gui->getCurrentThemeImagePath() + sep + "GR/arrow.png");
+    arrow = new PsMoveBtn(Application::renderer, "arrow", gui->getCurrentThemeImagePath() + sep + "GR/arrow.png");
     arrow->x = 640 - 12;
     arrow->y = 360;
     arrow->originaly = arrow->y;
     arrow->visible = false;
     staticElements.push_back(arrow);
 
-    xButton = new PsObj(renderer, "xbtn", gui->getCurrentThemeImagePath() + sep + "GR/X_Btn_ICN.png");
+    xButton = new PsObj(Application::renderer, "xbtn", gui->getCurrentThemeImagePath() + sep + "GR/X_Btn_ICN.png");
     xButton->x = 605;
     xButton->y = 640;
     xButton->visible = true;
     staticElements.push_back(xButton);
 
-    oButton = new PsObj(renderer, "obtn", gui->getCurrentThemeImagePath() + sep + "GR/Circle_Btn_ICN.png");
+    oButton = new PsObj(Application::renderer, "obtn", gui->getCurrentThemeImagePath() + sep + "GR/Circle_Btn_ICN.png");
     oButton->x = 765;
     oButton->y = 640;
     oButton->visible = true;
     staticElements.push_back(oButton);
 
-    tButton = new PsObj(renderer, "tbtn", gui->getCurrentThemeImagePath() + sep + "GR/Tri_Btn_ICN.png");
+    tButton = new PsObj(Application::renderer, "tbtn", gui->getCurrentThemeImagePath() + sep + "GR/Tri_Btn_ICN.png");
     tButton->x = 910;
     tButton->y = 640;
     tButton->visible = true;
     staticElements.push_back(tButton);
 
-    menu = new PsMenu(renderer, "menu", gui->getCurrentThemeImagePath());
+    menu = new PsMenu(Application::renderer, "menu", gui->getCurrentThemeImagePath());
     menu->loadAssets();
 
-    menuHead = new PsCenterLabel(renderer, "header");
+    menuHead = new PsCenterLabel(Application::renderer, "header");
     menuHead->font = gui->fonts[FONT_30];
     menuHead->visible = false;
     menuHead->y = 545;
-    menuText = new PsCenterLabel(renderer, "menuText");
+    menuText = new PsCenterLabel(Application::renderer, "menuText");
     menuText->visible = false;
     menuText->font = gui->fonts[FONT_24];
     menuText->y = 585;
@@ -483,7 +483,7 @@ void GuiLauncher::loadAssets() {
     staticElements.push_back(menuHead);
     staticElements.push_back(menuText);
 
-    sselector = new PsStateSelector(renderer, "selector");
+    sselector = new PsStateSelector(Application::renderer, "selector");
     sselector->font30 = gui->fonts[FONT_30];
     sselector->font24 = gui->fonts[FONT_24];
     sselector->visible = false;
@@ -676,8 +676,8 @@ void GuiLauncher::render() {
         sselector->frame = menu->savestate;
     }
 
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(Application::renderer, 0x00, 0x00, 0x00, 0x00);
+    SDL_RenderClear(Application::renderer);
 
     for (auto obj:staticElements) {
 
@@ -703,7 +703,7 @@ void GuiLauncher::render() {
                 fullRect.w = 226;
                 fullRect.h = 226;
                 SDL_SetTextureColorMod(currentGameTex, point.shade, point.shade, point.shade);
-                SDL_RenderCopy(renderer, currentGameTex, &fullRect, &coverRect);
+                SDL_RenderCopy(Application::renderer, currentGameTex, &fullRect, &coverRect);
             }
         }
     }
@@ -868,7 +868,7 @@ void GuiLauncher::setInitialPositions(int selected) {
         game.actual = game.current;
         game.destination = game.current;
         if (game.visible) {
-            game.loadTex(renderer);
+            game.loadTex(Application::renderer);
         } else {
             game.freeTex();
         }

@@ -62,8 +62,8 @@ void GuiAppStart::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
 // readme:
-    SDL_SetRenderDrawColor(renderer,0, 0, 0, 128);
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(Application::renderer,0, 0, 0, 128);
+    SDL_SetRenderDrawBlendMode(Application::renderer, SDL_BLENDMODE_BLEND);
 
     SDL_Rect rect2;
     rect2.x = 10;
@@ -71,7 +71,7 @@ void GuiAppStart::render() {
     rect2.w = 1260;
     rect2.h = 600;
 
-    SDL_RenderFillRect(renderer, &rect2);
+    SDL_RenderFillRect(Application::renderer, &rect2);
 
     // scrollbar
     rect2.x = 1240;
@@ -79,24 +79,24 @@ void GuiAppStart::render() {
     rect2.w = 20;
     rect2.h = 20*25;
 
-    SDL_RenderFillRect(renderer, &rect2);
+    SDL_RenderFillRect(Application::renderer, &rect2);
 
     // draw scroll position
     if (maxLines<totalLines) {
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+        SDL_SetRenderDrawColor(Application::renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
         int heightOfBar = 500/(totalLines-maxLines);
 
         rect2.x = 1242;
         rect2.y = 40 + firstLine*heightOfBar;
         rect2.w = 16;
         rect2.h = heightOfBar;
-        SDL_RenderFillRect(renderer, &rect2);
+        SDL_RenderFillRect(Application::renderer, &rect2);
 
     }
     int offset = 15;
     gui->renderTextLine(appName,0, offset ,0,10,font);
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-    SDL_RenderDrawLine(renderer, rect2.x, 35,rect2.w,35);
+    SDL_SetRenderDrawColor(Application::renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawLine(Application::renderer, rect2.x, 35,rect2.w,35);
 
     if (scrolling>0)
     {
@@ -137,7 +137,7 @@ void GuiAppStart::render() {
 
 
     gui->renderStatus("|@X| " + _("OK") + "  |@O| " + _("Cancel") +"|");
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Application::renderer);
 }
 
 

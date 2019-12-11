@@ -22,10 +22,5 @@ public:
         loop();
     }
 
-    GuiScreen(SDL_Shared<SDL_Renderer> renderer1)
-    {
-        renderer = renderer1;
-    };
 
-    SDL_Shared<SDL_Renderer> renderer;
 };

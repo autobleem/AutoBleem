@@ -40,7 +40,7 @@ void GuiKeyboard::render() {
 
     SDL_Shared<SDL_Texture> tex;
     SDL_Rect rect;
-    gui->getTextAndRect(renderer, 0, 0, "*", gui->themeFont, &tex, &rect);
+    gui->getTextAndRect(Application::renderer, 0, 0, "*", gui->themeFont, &tex, &rect);
 
     for (int x = 0; x < 10; x++) {
         for (int y = 0; y < 4; y++) {
@@ -59,10 +59,10 @@ void GuiKeyboard::render() {
             rectSelection.x = rectSelection.x + ((buttonWidth + 11) * x);
 
             string bg = gui->themeData.values["key_bg"];
-            SDL_SetRenderDrawColor(renderer, gui->getR(bg), gui->getG(bg), gui->getB(bg),
+            SDL_SetRenderDrawColor(Application::renderer, gui->getR(bg), gui->getG(bg), gui->getB(bg),
                                    atoi(gui->themeData.values["keyalpha"].c_str()));
-            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-            SDL_RenderFillRect(renderer, &rectSelection);
+            SDL_SetRenderDrawBlendMode(Application::renderer, SDL_BLENDMODE_BLEND);
+            SDL_RenderFillRect(Application::renderer, &rectSelection);
 
             string text = rows[y][x];
             if (caps) {
@@ -73,15 +73,15 @@ void GuiKeyboard::render() {
 
             if ((selx == x) && (sely == y)) {
                 string fg = gui->themeData.values["text_fg"];
-                SDL_SetRenderDrawColor(renderer, gui->getR(fg), gui->getG(fg), gui->getB(fg), 255);
-                SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-                SDL_RenderDrawRect(renderer, &rectSelection);
+                SDL_SetRenderDrawColor(Application::renderer, gui->getR(fg), gui->getG(fg), gui->getB(fg), 255);
+                SDL_SetRenderDrawBlendMode(Application::renderer, SDL_BLENDMODE_BLEND);
+                SDL_RenderDrawRect(Application::renderer, &rectSelection);
                 SDL_Rect rectSelection2;
                 rectSelection2.x = rectSelection.x + 1;
                 rectSelection2.y = rectSelection.y + 1;
                 rectSelection2.w = rectSelection.w - 2;
                 rectSelection2.h = rectSelection.h - 2;
-                SDL_RenderDrawRect(renderer, &rectSelection2);
+                SDL_RenderDrawRect(Application::renderer, &rectSelection2);
             }
         }
     }
@@ -89,7 +89,7 @@ void GuiKeyboard::render() {
     gui->renderStatus(
             "|@X| " + _("Select") + "  |@T|  " + _("Delete") + "  |@L1| " + _("Caps") + " |@S| " + _("Space") +
             "      |@Start| " + _("Confirm") + "  |@O| " + _("Cancel") + " |");
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Application::renderer);
 }
 
 //*******************************

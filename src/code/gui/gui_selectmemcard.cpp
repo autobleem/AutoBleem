@@ -97,7 +97,7 @@ void GuiSelectMemcard::render() {
 
     gui->renderStatus(_("Card") + " " + to_string(selected + 1) + "/" + to_string(cards.size()) +
                       "   |@L1|/|@R1| " + _("Page") + "     |@X| " + _("Select") + "  |@O| " + _("Cancel") + "|");
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Application::renderer);
 }
 
 //*******************************

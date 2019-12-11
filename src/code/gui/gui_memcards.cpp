@@ -66,7 +66,7 @@ void GuiMemcards::render() {
     gui->renderStatus(_("Card") + " " + to_string(selected + 1) + "/" + to_string(cards.size()) +
                       "   |@L1|/|@R1| " + _("Page") + "   |@X| " + _("Rename") + "  |@S| " + _("New Card") +
                       "   |@T| " + _("Delete") + "  |@O| " + _("Go back") + "|");
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Application::renderer);
 }
 
 //*******************************
@@ -146,7 +146,7 @@ void GuiMemcards::loop() {
                     if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         if (cards.size() != 0) {
-                            GuiConfirm *guiConfirm = new GuiConfirm(renderer);
+                            GuiConfirm *guiConfirm = new GuiConfirm();
                             guiConfirm->label = _("Delete card") + " '" + cards[selected] + "' ?";
                             guiConfirm->show();
                             bool result = guiConfirm->result;
@@ -168,7 +168,7 @@ void GuiMemcards::loop() {
                         if (cards.empty()) {
                             continue;
                         }
-                        GuiKeyboard *keyboard = new GuiKeyboard(renderer);
+                        GuiKeyboard *keyboard = new GuiKeyboard();
                         keyboard->label = _("Enter new name for card") + " '" + cards[selected] + "'";
                         keyboard->result = cards[selected];
                         keyboard->show();
@@ -213,7 +213,7 @@ void GuiMemcards::loop() {
                     if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
 
                         Mix_PlayChannel(-1, gui->cursor, 0);
-                        GuiKeyboard *keyboard = new GuiKeyboard(renderer);
+                        GuiKeyboard *keyboard = new GuiKeyboard();
                         keyboard->label = _("Enter new card name");
                         keyboard->show();
                         string result = keyboard->result;

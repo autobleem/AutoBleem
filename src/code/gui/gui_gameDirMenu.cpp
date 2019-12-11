@@ -29,7 +29,7 @@ void GuiGameDirMenu::render()
     shared_ptr<Gui> gui(Gui::getInstance());
     // use evoUI background
 
-    SDL_RenderClear(renderer);
+    SDL_RenderClear(Application::renderer);
     gui->renderBackground();
 
     gui->renderTextBar();
@@ -64,7 +64,7 @@ void GuiGameDirMenu::render()
     }
 
     //gui->renderStatus(_("Entry")+" " + to_string(selected + 1) + "/" + to_string(playlists.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"   |@O| "+_("Close")+" |");
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Application::renderer);
 }
 
 

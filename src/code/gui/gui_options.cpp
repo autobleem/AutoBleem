@@ -171,9 +171,9 @@ void GuiOptions::renderOptionLine(const string & text, int pos, int offset) {
         rectSelection.w = rect2.w - 10;
         rectSelection.h = height;
 
-        SDL_SetRenderDrawColor(renderer, gui->getR(fg), gui->getG(fg), gui->getB(fg), 255);
-        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-        SDL_RenderDrawRect(renderer, &rectSelection);
+        SDL_SetRenderDrawColor(Application::renderer, gui->getR(fg), gui->getG(fg), gui->getB(fg), 255);
+        SDL_SetRenderDrawBlendMode(Application::renderer, SDL_BLENDMODE_BLEND);
+        SDL_RenderDrawRect(Application::renderer, &rectSelection);
     }
 }
 
@@ -205,7 +205,7 @@ void GuiOptions::render() {
     gui->renderStatus("|@X| " + _("OK") + "     " + "|@O| " + _("Cancel") + "|");
 
     //   gui->renderSelectionBox(selOption+1,offset);
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Application::renderer);
 }
 
 //*******************************

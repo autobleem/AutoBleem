@@ -141,12 +141,12 @@ int Gui::renderLogo(bool small) {
 // Gui::loadThemeTexture
 //*******************************
 SDL_Shared<SDL_Texture>
-Gui::loadThemeTexture(SDL_Shared<SDL_Renderer> renderer, string themePath, string defaultPath, string texname) {
+Gui::loadThemeTexture(string themePath, string defaultPath, string texname) {
     SDL_Shared<SDL_Texture> tex = nullptr;
     if (DirEntry::exists(themePath + themeData.values[texname])) {
-        tex = IMG_LoadTexture(renderer, (themePath + themeData.values[texname]).c_str());
+        tex = IMG_LoadTexture(Application::renderer, (themePath + themeData.values[texname]).c_str());
     } else {
-        tex = IMG_LoadTexture(renderer, (defaultPath + defaultData.values[texname]).c_str());
+        tex = IMG_LoadTexture(Application::renderer, (defaultPath + defaultData.values[texname]).c_str());
     }
     return tex;
 }
@@ -188,21 +188,21 @@ void Gui::loadAssets(bool reloadMusic) {
     logoRect.w = atoi(themeData.values["lw"].c_str());
     logoRect.h = atoi(themeData.values["lh"].c_str());
 
-    backgroundImg = loadThemeTexture(renderer, themePath, defaultPath, "background");
-    logo = loadThemeTexture(renderer, themePath, defaultPath, "logo");
+    backgroundImg = loadThemeTexture(themePath, defaultPath, "background");
+    logo = loadThemeTexture(themePath, defaultPath, "logo");
 
-    buttonO = loadThemeTexture(renderer, themePath, defaultPath, "circle");
-    buttonX = loadThemeTexture(renderer, themePath, defaultPath, "cross");
-    buttonT = loadThemeTexture(renderer, themePath, defaultPath, "triangle");
-    buttonS = loadThemeTexture(renderer, themePath, defaultPath, "square");
-    buttonSelect = loadThemeTexture(renderer, themePath, defaultPath, "select");
-    buttonStart = loadThemeTexture(renderer, themePath, defaultPath, "start");
-    buttonL1 = loadThemeTexture(renderer, themePath, defaultPath, "l1");
-    buttonR1 = loadThemeTexture(renderer, themePath, defaultPath, "r1");
-    buttonL2 = loadThemeTexture(renderer, themePath, defaultPath, "l2");
-    buttonR2 = loadThemeTexture(renderer, themePath, defaultPath, "r2");
-    buttonCheck = loadThemeTexture(renderer, themePath, defaultPath, "check");
-    buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
+    buttonO = loadThemeTexture( themePath, defaultPath, "circle");
+    buttonX = loadThemeTexture( themePath, defaultPath, "cross");
+    buttonT = loadThemeTexture( themePath, defaultPath, "triangle");
+    buttonS = loadThemeTexture( themePath, defaultPath, "square");
+    buttonSelect = loadThemeTexture( themePath, defaultPath, "select");
+    buttonStart = loadThemeTexture( themePath, defaultPath, "start");
+    buttonL1 = loadThemeTexture( themePath, defaultPath, "l1");
+    buttonR1 = loadThemeTexture( themePath, defaultPath, "r1");
+    buttonL2 = loadThemeTexture( themePath, defaultPath, "l2");
+    buttonR2 = loadThemeTexture( themePath, defaultPath, "r2");
+    buttonCheck = loadThemeTexture(themePath, defaultPath, "check");
+    buttonUncheck = loadThemeTexture( themePath, defaultPath, "uncheck");
     if (cfg.inifile.values["jewel"] != "none") {
         if (cfg.inifile.values["jewel"] == "default") {
             cdJewel = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "evoimg/nofilter.png").c_str());
@@ -355,7 +355,7 @@ void Gui::display(bool forceScan, const string &_pathToGamesDir, Database *db, b
     loadAssets();
 
     if (!resume) {
-        auto *splashScreen = new GuiSplash(renderer);
+        auto *splashScreen = new GuiSplash();
         splashScreen->show();
         delete splashScreen;
 
@@ -363,7 +363,7 @@ void Gui::display(bool forceScan, const string &_pathToGamesDir, Database *db, b
             SDL_Joystick *joystick = SDL_JoystickOpen(i);
             if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick))) {
                 cout << "New pad type" << endl;
-                auto cfgPad = new GuiPadConfig(renderer);
+                auto cfgPad = new GuiPadConfig();
                 cfgPad->joyid = SDL_JoystickInstanceID(joystick);
                 cfgPad->show();
                 delete cfgPad;
@@ -477,7 +477,7 @@ void Gui::menuSelection() {
                         this->menuOption = MENU_OPTION_RUN;
                         return;
                     } else {
-                        auto launcherScreen = new GuiLauncher(renderer);
+                        auto launcherScreen = new GuiLauncher();
                         launcherScreen->show();
                         delete launcherScreen;
                     }
@@ -486,7 +486,7 @@ void Gui::menuSelection() {
                         this->menuOption = MENU_OPTION_RETRO;
                         return;
                     } else {
-                        auto launcherScreen = new GuiLauncher(renderer);
+                        auto launcherScreen = new GuiLauncher();
                         launcherScreen->show();
                         delete launcherScreen;
                     }
@@ -533,7 +533,7 @@ void Gui::menuSelection() {
         }
 
         if (resumingGui) {
-            auto launcherScreen = new GuiLauncher(renderer);
+            auto launcherScreen = new GuiLauncher();
             launcherScreen->show();
             delete launcherScreen;
             drawText("");
@@ -617,7 +617,7 @@ void Gui::menuSelection() {
                                     Mix_PlayChannel(-1, cursor, 0);
                                     drawText(_("Starting EvolutionUI"));
                                     loadAssets(false);
-                                    auto launcherScreen = new GuiLauncher(renderer);
+                                    auto launcherScreen = new GuiLauncher();
                                     launcherScreen->show();
                                     delete launcherScreen;
 
@@ -632,7 +632,7 @@ void Gui::menuSelection() {
                                     Mix_PlayChannel(-1, cursor, 0);
                                     if (!DirEntry::exists(Env::getPathToRetroarchDir() + sep + "retroarch")) {
 
-                                        auto confirm = new GuiConfirm(renderer);
+                                        auto confirm = new GuiConfirm();
                                         confirm->label = _("RetroArch is not installed");
                                         confirm->show();
                                         bool result = confirm->result;
@@ -660,7 +660,7 @@ void Gui::menuSelection() {
                         };
                         if (e.jbutton.button == _cb(PCS_BTN_TRIANGLE, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
-                            auto *aboutScreen = new GuiAbout(renderer);
+                            auto *aboutScreen = new GuiAbout();
                             aboutScreen->show();
                             delete aboutScreen;
 
@@ -669,7 +669,7 @@ void Gui::menuSelection() {
                         };
                         if (e.jbutton.button == _cb(PCS_BTN_SELECT, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
-                            auto options = new GuiOptions(renderer);
+                            auto options = new GuiOptions();
                             options->show();
                             delete options;
                             menuSelection();
@@ -686,7 +686,7 @@ void Gui::menuSelection() {
                     } else {
                         if (e.jbutton.button == _cb(PCS_BTN_CROSS, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
-                            auto memcardsScreen = new GuiMemcards(renderer);
+                            auto memcardsScreen = new GuiMemcards();
                             memcardsScreen->show();
                             delete memcardsScreen;
 
@@ -696,7 +696,7 @@ void Gui::menuSelection() {
 
                         if (e.jbutton.button == _cb(PCS_BTN_CIRCLE, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
-                            auto managerScreen = new GuiManager(renderer);
+                            auto managerScreen = new GuiManager();
                             managerScreen->show();
                             delete managerScreen;
 

@@ -81,7 +81,7 @@ void GuiManager::render()
     gui->renderStatus(_("Game") + " " + to_string(selected + 1) + "/" + to_string(psGames.size()) +
                       "    |@L1|/|@R1| " + _("Page") + "   |@X| " + _("Select") + "  |@S| " + _("Delete Game") + "  |@T| " + _("Flush covers") +
                       " |@O| " + _("Close") + " |");
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Application::renderer);
 }
 
 //*******************************
@@ -185,7 +185,7 @@ void GuiManager::loop()
                         int gameId = game->gameId;
                         string gameName = game->title;
                         string gameSaveStateFolder = game->ssFolder;
-                        GuiConfirm * confirm = new GuiConfirm(renderer);
+                        GuiConfirm * confirm = new GuiConfirm();
                         confirm->label = _("Are you sure you want to delete") + " " + gameName + "?";
                         confirm->show();
                         bool delGame = confirm->result;
@@ -204,7 +204,7 @@ void GuiManager::loop()
                                     int numberOfGamesRemainingWithSameSaveState = count_if(begin(currentGames), end(currentGames),
                                             [&] (const PsGamePtr& g) { return g->ssFolder == gameSaveStateFolder; });
                                     if (numberOfGamesRemainingWithSameSaveState == 0) {
-                                        GuiConfirm * confirm = new GuiConfirm(renderer);
+                                        GuiConfirm * confirm = new GuiConfirm();
                                         confirm->label = _("Delete !SaveState folder for game") + " " + gameName + "?";
                                         confirm->show();
                                         bool delSSFolder = confirm->result;
@@ -232,7 +232,7 @@ void GuiManager::loop()
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
-                        GuiConfirm * confirm = new GuiConfirm(renderer);
+                        GuiConfirm * confirm = new GuiConfirm();
                         confirm->label = _("Are you sure you want to flush all covers?");
                         confirm->show();
                         bool delCovers = confirm->result;
@@ -263,7 +263,7 @@ void GuiManager::loop()
                         if (!psGames.empty())
                         {
                             string selectedGameFolder = psGames[selected]->folder;
-                            GuiEditor *editor = new GuiEditor(renderer);
+                            GuiEditor *editor = new GuiEditor();
                             editor->gameData = psGames[selected];
                             editor->gameFolder = selectedGameFolder;
                             editor->gameIni.load(selectedGameFolder + sep + GAME_INI);

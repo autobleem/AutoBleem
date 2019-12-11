@@ -300,7 +300,7 @@ void GuiLauncher::loop_chooseGameDir() {
     if (gameRowInfos.size() == 0) {
         return; // no games!
     }
-    auto guiGameDirMenu = new GuiGameDirMenu(renderer);
+    auto guiGameDirMenu = new GuiGameDirMenu();
     for (auto &rowInfo : gameRowInfos) {
         string text = string(rowInfo.indentLevel * 4, ' ') +
                       rowInfo.rowName + " (" + to_string(rowInfo.numGames) + " " + _("Games") + ")";
@@ -345,7 +345,7 @@ void GuiLauncher::loop_chooseRAPlaylist() {
         return;
     }
     powerOffShift = false;
-    auto playlists = new GuiPlaylists(renderer);
+    auto playlists = new GuiPlaylists();
     playlists->playlists = raPlaylists;
     playlists->backgroundImg = background->tex;
     playlists->integrator = raIntegrator;
@@ -462,7 +462,7 @@ void GuiLauncher::loop_circleButtonPressed() {
 void GuiLauncher::loop_triangleButtonPressed() {
     if (state != STATE_RESUME) {
         Mix_PlayChannel(-1, gui->cursor, 0);
-        GuiBtnGuide *guide = new GuiBtnGuide(renderer);
+        GuiBtnGuide *guide = new GuiBtnGuide();
         guide->backgroundImg = background->tex;
         guide->show();
         delete guide;
@@ -473,7 +473,7 @@ void GuiLauncher::loop_triangleButtonPressed() {
             if (game->isResumeSlotActive(slot)) {
                 Mix_PlayChannel(-1, gui->cursor, 0);
 
-                GuiConfirm *confirm = new GuiConfirm(renderer);
+                GuiConfirm *confirm = new GuiConfirm();
                 confirm->label = _("Are you sure?");
                 confirm->show();
 
@@ -567,7 +567,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_GAMES() {
             gui->lastRAPlaylistIndex = currentRAPlaylistIndex;
             gui->lastRAPlaylistName = currentRAPlaylistName;
         } else {
-            auto appStartScreen = new GuiAppStart(gui->renderer);
+            auto appStartScreen = new GuiAppStart();
             appStartScreen->setGame(gui->runningGame);
             appStartScreen->show();
             bool result = appStartScreen->result;
@@ -612,7 +612,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_AB_SETTINGS() {
     int lastUSBGameDirIndex = currentUSBGameDirIndex;
     int lastRAPlaylistIndex = currentRAPlaylistIndex;
     int lastGame = selGameIndex;
-    GuiOptions *option = new GuiOptions(renderer);
+    GuiOptions *option = new GuiOptions();
     option->show();
     bool exitCode = option->exitCode;
     delete option;
@@ -680,7 +680,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_EDIT_GAME_SETTINGS() {
     }
 
     Mix_PlayChannel(-1, gui->cursor, 0);
-    GuiEditor *editor = new GuiEditor(renderer);
+    GuiEditor *editor = new GuiEditor();
     editor->internal = carouselGames[selGameIndex]->internal;
     Inifile gameIni;
     if (!editor->internal) {
@@ -769,7 +769,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_EDIT_MEMCARD() {
     }
 
     Mix_PlayChannel(-1, gui->cursor, 0);
-    auto mcManager = new GuiMcManager(renderer);
+    auto mcManager = new GuiMcManager();
     mcManager->backgroundImg=background->tex;
     mcManager->leftCardName = leftCardName;
     mcManager->rightCardName = rightCardName;

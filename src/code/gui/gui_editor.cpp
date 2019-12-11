@@ -279,12 +279,12 @@ void GuiEditor::init() {
         bool pngLoaded = false;
         for (const DirEntry & entry:DirEntry::diru(gameFolder)) {
             if (DirEntry::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(renderer, (gameFolder + sep + entry.name).c_str());
+                cover = IMG_LoadTexture(Application::renderer, (gameFolder + sep + entry.name).c_str());
                 pngLoaded = true;
             }
         }
         if (!pngLoaded) {
-            cover = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "default.png").c_str());
+            cover = IMG_LoadTexture(Application::renderer, (Env::getWorkingPath() + sep + "default.png").c_str());
         }
     } else {
         // recover ini
@@ -305,12 +305,12 @@ void GuiEditor::init() {
         bool pngLoaded = false;
         for (const DirEntry & entry:DirEntry::diru(gameData->folder)) {
             if (DirEntry::matchExtension(entry.name, EXT_PNG)) {
-                cover = IMG_LoadTexture(renderer, (gameData->folder + sep + entry.name).c_str());
+                cover = IMG_LoadTexture(Application::renderer, (gameData->folder + sep + entry.name).c_str());
                 pngLoaded = true;
             }
         }
         if (!pngLoaded) {
-            cover = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "default.png").c_str());
+            cover = IMG_LoadTexture(Application::renderer, (Env::getWorkingPath() + sep + "default.png").c_str());
         }
     }
 
@@ -411,9 +411,9 @@ void GuiEditor::render() {
     rect.w = 226;
     rect.h = 226;
 
-    SDL_RenderCopy(renderer, cover, NULL, &rect);
+    SDL_RenderCopy(Application::renderer, cover, NULL, &rect);
 
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Application::renderer);
 }
 
 //*******************************
@@ -478,7 +478,7 @@ void GuiEditor::loop() {
                         if (gameIni.values["memcard"] == "SONY") {
                             if (e.jbutton.button == gui->_cb(PCS_BTN_START, &e)) {
                                 Mix_PlayChannel(-1, gui->cursor, 0);
-                                GuiKeyboard *keyboard = new GuiKeyboard(renderer);
+                                GuiKeyboard *keyboard = new GuiKeyboard();
                                 keyboard->label = _("Enter new name for memory card");
                                 keyboard->result = gameIni.values["title"];
                                 keyboard->show();
@@ -508,7 +508,7 @@ void GuiEditor::loop() {
                     if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
                         if (!internal) {
                             Mix_PlayChannel(-1, gui->cursor, 0);
-                            GuiSelectMemcard *selector = new GuiSelectMemcard(renderer);
+                            GuiSelectMemcard *selector = new GuiSelectMemcard();
                             selector->cardSelected = gameIni.values["memcard"];
                             selector->show();
 
@@ -536,7 +536,7 @@ void GuiEditor::loop() {
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
-                        GuiKeyboard *keyboard = new GuiKeyboard(renderer);
+                        GuiKeyboard *keyboard = new GuiKeyboard();
                         keyboard->label = _("Enter new game name");
                         keyboard->result = gameIni.values["title"];
                         keyboard->show();

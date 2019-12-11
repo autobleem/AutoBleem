@@ -7,6 +7,9 @@
 
 using namespace std;
 
+SDL_Shared<SDL_Renderer> Application::renderer = nullptr;
+SDL_Shared<SDL_Window> Application::window = nullptr;
+
 //*******************************
 // Application
 //*******************************

@@ -17,8 +17,8 @@
 //********************
 class Application {
 public:
-    SDL_Shared<SDL_Window> window;
-    SDL_Shared<SDL_Renderer> renderer;
+    static SDL_Shared<SDL_Window> window;
+    static SDL_Shared<SDL_Renderer> renderer;
 
     Fonts fonts;
     Config cfg;

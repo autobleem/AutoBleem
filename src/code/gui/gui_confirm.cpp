@@ -27,7 +27,7 @@ void GuiConfirm::render()
 
 
     gui->renderStatus("|@X| "+_("Confirm")+"  |@O| "+_("Cancel")+" |");
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Application::renderer);
 }
 
 //*******************************
