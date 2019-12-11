@@ -75,7 +75,7 @@ void GuiAbout::render() {
     }
 
     gui->renderStatus("|@O| " + _("Go back") + "|",680);
-    SDL_RenderPresent(Application::renderer);
+    Gfx::flip();
 }
 
 //*******************************

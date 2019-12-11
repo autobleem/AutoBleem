@@ -203,7 +203,7 @@ void GuiMcManager::render() {
 
     //Draw the pencil
     renderPencil(pencilMemcard, pencilColumn, pencilRow);
-    SDL_RenderPresent(Application::renderer);
+    Gfx::flip();
 
 }
 

@@ -17,7 +17,7 @@ public:
         return gfx;
     }
 
-    void flip();
+    static void flip();
 private:
     Gfx( ){};
 

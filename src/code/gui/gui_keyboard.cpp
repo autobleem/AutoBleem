@@ -89,7 +89,7 @@ void GuiKeyboard::render() {
     gui->renderStatus(
             "|@X| " + _("Select") + "  |@T|  " + _("Delete") + "  |@L1| " + _("Caps") + " |@S| " + _("Space") +
             "      |@Start| " + _("Confirm") + "  |@O| " + _("Cancel") + " |");
-    SDL_RenderPresent(Application::renderer);
+    Gfx::flip();
 }
 
 //*******************************

@@ -66,7 +66,7 @@ void GuiMemcards::render() {
     gui->renderStatus(_("Card") + " " + to_string(selected + 1) + "/" + to_string(cards.size()) +
                       "   |@L1|/|@R1| " + _("Page") + "   |@X| " + _("Rename") + "  |@S| " + _("New Card") +
                       "   |@T| " + _("Delete") + "  |@O| " + _("Go back") + "|");
-    SDL_RenderPresent(Application::renderer);
+    Gfx::flip();
 }
 
 //*******************************

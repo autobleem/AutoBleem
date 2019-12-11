@@ -892,7 +892,7 @@ void Gui::drawText(const string &text) {
     renderBackground();
     renderLogo(false);
     renderStatus(text);
-    SDL_RenderPresent(renderer);
+    Gfx::flip();
 }
 
 //*******************************

@@ -720,7 +720,7 @@ void GuiLauncher::render() {
     for (auto obj:frontElemets)
         obj->render();
 
-    SDL_RenderPresent(gui->renderer);
+    Gfx::flip();
 }
 
 //*******************************

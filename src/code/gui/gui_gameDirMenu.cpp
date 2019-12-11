@@ -64,7 +64,7 @@ void GuiGameDirMenu::render()
     }
 
     //gui->renderStatus(_("Entry")+" " + to_string(selected + 1) + "/" + to_string(playlists.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"   |@O| "+_("Close")+" |");
-    SDL_RenderPresent(Application::renderer);
+    Gfx::flip();
 }
 
 

@@ -208,7 +208,7 @@ void GuiOptions::render() {
     gui->renderStatus("|@X| " + _("OK") + "     " + "|@O| " + _("Cancel") + "|");
 
     //   gui->renderSelectionBox(selOption+1,offset);
-    gfx->flip();
+    Gfx::flip();
 }
 
 //*******************************

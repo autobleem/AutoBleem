@@ -57,7 +57,7 @@ void GuiSplash::render() {
     SDL_RenderFillRect(Application::renderer, &rect);
 
     SDL_RenderCopy(Application::renderer, textTex, NULL, &textRec);
-    SDL_RenderPresent(Application::renderer);
+    Gfx::flip();
 }
 
 //*******************************

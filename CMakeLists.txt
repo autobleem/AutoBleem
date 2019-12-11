@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 11)
 if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm" )
 
     message(STATUS "Building for ARM")
+	set(CMAKE_RANLIB "/Volumes/GCCBuild/output/armv7-psc/bin/ranlib")
 
 	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 8.0)
 		SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -Os -s")

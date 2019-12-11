@@ -81,7 +81,7 @@ void GuiManager::render()
     gui->renderStatus(_("Game") + " " + to_string(selected + 1) + "/" + to_string(psGames.size()) +
                       "    |@L1|/|@R1| " + _("Page") + "   |@X| " + _("Select") + "  |@S| " + _("Delete Game") + "  |@T| " + _("Flush covers") +
                       " |@O| " + _("Close") + " |");
-    SDL_RenderPresent(Application::renderer);
+    Gfx::flip();
 }
 
 //*******************************

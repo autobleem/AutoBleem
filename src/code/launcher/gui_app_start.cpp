@@ -137,7 +137,7 @@ void GuiAppStart::render() {
 
 
     gui->renderStatus("|@X| " + _("OK") + "  |@O| " + _("Cancel") +"|");
-    SDL_RenderPresent(Application::renderer);
+    Gfx::flip();
 }
 
 

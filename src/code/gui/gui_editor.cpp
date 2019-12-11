@@ -413,7 +413,7 @@ void GuiEditor::render() {
 
     SDL_RenderCopy(Application::renderer, cover, NULL, &rect);
 
-    SDL_RenderPresent(Application::renderer);
+    Gfx::flip();
 }
 
 //*******************************
