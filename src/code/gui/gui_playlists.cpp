@@ -39,8 +39,9 @@ void GuiPlaylists::render()
     shared_ptr<Gui> gui(Gui::getInstance());
     // use evoUI background
 
-    SDL_RenderClear(Application::renderer);
-   gui->renderBackground();
+
+    Gfx::clear();
+    gui->renderBackground();
 
     gui->renderTextBar();
     int offset = gui->renderLogo(true);

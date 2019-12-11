@@ -14,7 +14,7 @@ class GuiMcManager : public GuiScreen {
 public:
     string leftCardName;
     string rightCardName;
-    SDL_Shared<SDL_Texture> backgroundImg;
+    GfxImage  backgroundImg;
     string card1path;
     string card2path;
 
@@ -53,6 +53,6 @@ private:
     int pencilMemcard;
 
     SDL_Rect pencilPos;
-    SDL_Shared<SDL_Texture> mcGrid;
-    SDL_Shared<SDL_Texture> mcPencil;
+    GfxImage  mcGrid;
+    GfxImage  mcPencil;
 };

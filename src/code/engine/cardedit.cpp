@@ -593,7 +593,7 @@ void CardEdit::update_slot_iconImages() {
     // now update link blocks to have dimmed image
     for (int i=0;i<15;i++)
     {
-        SDL_Shared<SDL_Texture> currentTex;
+        GfxImage  currentTex;
         if (is_slot_top(i))
         {
             currentTex = slot_icons[i][0];
@@ -661,7 +661,7 @@ bool CardEdit::get_slot_is_free(int slot) {
     return false;
 }
 
-SDL_Shared<SDL_Texture> CardEdit::get_slot_icon(int slot, int frame) {
+GfxImage  CardEdit::get_slot_icon(int slot, int frame) {
     return slot_icons[slot][frame];
 }
 

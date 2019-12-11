@@ -23,7 +23,7 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
 
     if (!(*this)->foreign) {
         if (coverPng == nullptr) {
-            SDL_Shared<SDL_Texture> renderSurface = SDL_CreateTexture(renderer,
+            GfxImage  renderSurface = SDL_CreateTexture(renderer,
                                                                       SDL_PIXELFORMAT_ABGR32, SDL_TEXTUREACCESS_TARGET,
                                                                       226, 226);
             SDL_Rect fullRect;
@@ -99,7 +99,7 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
         }
     } else {
         if (coverPng == nullptr) {
-            SDL_Shared<SDL_Texture> renderSurface = SDL_CreateTexture(renderer,
+            GfxImage  renderSurface = SDL_CreateTexture(renderer,
                                                                       SDL_PIXELFORMAT_ABGR32, SDL_TEXTUREACCESS_TARGET,
                                                                       226, 226);
             SDL_Rect fullRect;
@@ -168,7 +168,7 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
             SDL_RenderCopy(renderer, coverPng, &fullRect, &outputRect);
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-            SDL_Shared<SDL_Texture> titleName;
+            GfxImage  titleName;
             SDL_Rect titleRect;
             gui->getTextAndRect(renderer,0,0,(*this)->title.c_str(),gui->themeFont,&titleName,&titleRect);
 

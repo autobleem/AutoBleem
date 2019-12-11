@@ -17,7 +17,7 @@ public:
     bool changes=false;
     bool cancelled = false;
 
-    SDL_Shared<SDL_Texture> backgroundImg;
+    GfxImage  backgroundImg;
 
     using GuiScreen::GuiScreen;
 };

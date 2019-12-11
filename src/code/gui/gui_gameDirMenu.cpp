@@ -28,8 +28,7 @@ void GuiGameDirMenu::render()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
     // use evoUI background
-
-    SDL_RenderClear(Application::renderer);
+    Gfx::clear();
     gui->renderBackground();
 
     gui->renderTextBar();

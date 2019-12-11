@@ -88,7 +88,7 @@ public:
     void drawText(const std::string & text);
 
     void getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, std::string text,
-                             TTF_Font_Shared font, SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect);
+                             TTF_Font_Shared font, GfxImage  *texture, SDL_Rect *rect);
 
     void logText(const std::string & message);
 
@@ -128,7 +128,7 @@ public:
     void renderFreeSpace();
 
     void getTextAndRect(SDL_Shared<SDL_Renderer> renderer, int x, int y, const char *text,
-                        TTF_Font_Shared font, SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect);
+                        TTF_Font_Shared font, GfxImage  *texture, SDL_Rect *rect);
 
     Uint8 getR(const std::string & val);
 
@@ -138,8 +138,7 @@ public:
 
     void criticalException(const std::string & text);
 
-    SDL_Shared<SDL_Texture>
-    loadThemeTexture(std::string themePath, std::string defaultPath, std::string texname);
+    GfxImage    loadThemeTexture(std::string themePath, std::string defaultPath, std::string texname);
 
     void exportDBToRetroarch();
 
@@ -155,21 +154,21 @@ public:
     SDL_Rect backgroundRect;
     SDL_Rect logoRect;
 
-    SDL_Shared<SDL_Texture> backgroundImg;
-    SDL_Shared<SDL_Texture> logo;
-    SDL_Shared<SDL_Texture> buttonX;
-    SDL_Shared<SDL_Texture> buttonO;
-    SDL_Shared<SDL_Texture> buttonT;
-    SDL_Shared<SDL_Texture> buttonS;
-    SDL_Shared<SDL_Texture> buttonStart;
-    SDL_Shared<SDL_Texture> buttonSelect;
-    SDL_Shared<SDL_Texture> buttonL1;
-    SDL_Shared<SDL_Texture> buttonR1;
-    SDL_Shared<SDL_Texture> buttonL2;
-    SDL_Shared<SDL_Texture> buttonR2;
-    SDL_Shared<SDL_Texture> buttonCheck;
-    SDL_Shared<SDL_Texture> buttonUncheck;
-    SDL_Shared<SDL_Texture> cdJewel;
+    GfxImage  backgroundImg;
+    GfxImage  logo;
+    GfxImage  buttonX;
+    GfxImage  buttonO;
+    GfxImage  buttonT;
+    GfxImage  buttonS;
+    GfxImage  buttonStart;
+    GfxImage  buttonSelect;
+    GfxImage  buttonL1;
+    GfxImage  buttonR1;
+    GfxImage  buttonL2;
+    GfxImage  buttonR2;
+    GfxImage  buttonCheck;
+    GfxImage  buttonUncheck;
+    GfxImage  cdJewel;
 
     bool overrideQuickBoot = false;
 

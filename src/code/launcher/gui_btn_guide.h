@@ -15,7 +15,7 @@ public:
 
     void loop();
 
-    SDL_Shared<SDL_Texture> backgroundImg;
+    GfxImage  backgroundImg;
 
     using GuiScreen::GuiScreen;
 };

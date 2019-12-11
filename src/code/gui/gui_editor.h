@@ -43,5 +43,5 @@ public:
     void processOptionChange(bool direction);
 
     using GuiScreen::GuiScreen;
-    SDL_Shared<SDL_Texture> cover;
+    GfxImage  cover;
 };

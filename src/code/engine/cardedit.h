@@ -54,7 +54,7 @@ public:
     string get_slot_title(int slot);
     bool is_slot_top(int slot);
     string get_slot_gameID(int slot);
-    SDL_Shared<SDL_Texture> get_slot_icon(int slot, int frame);
+    GfxImage  get_slot_icon(int slot, int frame);
 
 	// information change command
 	void set_slot_gameID(int slot, string newID);
@@ -84,7 +84,7 @@ private:
     string slot_Pcodes[15];
     string slot_gameID[15];
     string slot_titles[15];
-    SDL_Shared<SDL_Texture>  slot_icons[15][3];
+    GfxImage   slot_icons[15][3];
 	void update();
 	void update_slot_is_used();  // also updates block_type and next slot map
 	void update_slot_is_deleted();

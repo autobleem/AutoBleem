@@ -261,7 +261,7 @@ void GuiLauncher::renderText(int x, int y, const std::string &text, const SDL_Co
     int text_width = 0;
     int text_height = 0;
     SDL_Shared<SDL_Surface> surface;
-    SDL_Shared<SDL_Texture> texture;
+    GfxImage  texture;
     SDL_Rect rect{0, 0, 0, 0};
 
     auto renderer = Gui::getInstance()->renderer;
@@ -676,8 +676,7 @@ void GuiLauncher::render() {
         sselector->frame = menu->savestate;
     }
 
-    SDL_SetRenderDrawColor(Application::renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(Application::renderer);
+  Gfx::clear();
 
     for (auto obj:staticElements) {
 
@@ -688,7 +687,7 @@ void GuiLauncher::render() {
     if (!carouselGames.empty()) {
         for (const auto &game : carouselGames) {
             if (game.visible) {
-                SDL_Shared<SDL_Texture> currentGameTex = game.coverPng;
+                GfxImage  currentGameTex = game.coverPng;
                 PsScreenpoint point = game.actual;
 
                 SDL_Rect coverRect;

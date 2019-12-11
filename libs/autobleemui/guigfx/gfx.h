@@ -19,6 +19,7 @@ public:
     }
 
     static void flip();
+    static void clear();
     static SDL_Shared<SDL_Texture> loadImage(std::string path);
 private:
     Gfx( ){};

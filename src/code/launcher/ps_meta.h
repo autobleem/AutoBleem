@@ -27,21 +27,21 @@ public:
     TTF_Font_Shared font15;
     TTF_Font_Shared font24;
 
-    SDL_Shared<SDL_Texture> discsTex;
-    SDL_Shared<SDL_Texture> gameNameTex;
-    SDL_Shared<SDL_Texture> publisherAndYearTex;
-    SDL_Shared<SDL_Texture> serialAndRegionTex;
-    SDL_Shared<SDL_Texture> playersTex;
+    GfxImage  discsTex;
+    GfxImage  gameNameTex;
+    GfxImage  publisherAndYearTex;
+    GfxImage  serialAndRegionTex;
+    GfxImage  playersTex;
 
-    SDL_Shared<SDL_Texture> internalOnTex;
-    SDL_Shared<SDL_Texture> internalOffTex;
-    SDL_Shared<SDL_Texture> hdOnTex;
-    SDL_Shared<SDL_Texture> hdOffTex;
-    SDL_Shared<SDL_Texture> lockOnTex;
-    SDL_Shared<SDL_Texture> lockOffTex;
-    SDL_Shared<SDL_Texture> cdTex;
-    SDL_Shared<SDL_Texture> favoriteTex;
-    SDL_Shared<SDL_Texture> raTex;
+    GfxImage  internalOnTex;
+    GfxImage  internalOffTex;
+    GfxImage  hdOnTex;
+    GfxImage  hdOffTex;
+    GfxImage  lockOnTex;
+    GfxImage  lockOffTex;
+    GfxImage  cdTex;
+    GfxImage  favoriteTex;
+    GfxImage  raTex;
 
     int nextPos = 0;
     int prevPos = 0;
@@ -71,5 +71,5 @@ public:
 
     using PsObj::PsObj;
 private:
-    SDL_Shared<SDL_Texture> createTextTex(const std::string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font_Shared font);
+    GfxImage  createTextTex(const std::string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font_Shared font);
 };

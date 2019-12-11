@@ -89,7 +89,7 @@ void PsStateSelector::render()
         GuiLauncher::renderText(0, 110, _(text), brightWhite, font30, POS_CENTER, false);   // center=true, background=false
 
         shared_ptr<Gui> gui(Gui::getInstance());
-        SDL_Shared<SDL_Texture> infoText;
+        GfxImage  infoText;
         SDL_Rect infoRect, infoDest;
 
         if (operation==OP_LOAD) {

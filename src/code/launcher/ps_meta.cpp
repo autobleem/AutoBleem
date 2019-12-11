@@ -268,10 +268,10 @@ void PsMeta::render() {
 //*******************************
 // PsMeta::createTextTex
 //*******************************
-SDL_Shared<SDL_Texture> PsMeta::createTextTex(const string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font_Shared font) {
+GfxImage  PsMeta::createTextTex(const string & text, Uint8 r, Uint8 g, Uint8 b, TTF_Font_Shared font) {
 
     SDL_Shared<SDL_Surface> surface;
-    SDL_Shared<SDL_Texture> texture;
+    GfxImage  texture;
     SDL_Color textColor = {r, g, b, 0};
 
     if (text.size() == 0) {

@@ -38,7 +38,7 @@ struct PsCarouselGame : public PsGamePtr {
     long animationStart = 0;
     long animationDuration = 0;
     bool visible = false;
-    SDL_Shared<SDL_Texture> coverPng;
+    GfxImage  coverPng;
 
     void loadTex(SDL_Shared<SDL_Renderer> renderer);
     void freeTex();

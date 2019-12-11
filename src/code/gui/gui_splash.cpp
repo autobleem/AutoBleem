@@ -21,7 +21,7 @@ void GuiSplash::render() {
     gui->backgroundRect.h = h;
     SDL_QueryTexture(gui->logo, NULL, NULL, &w, &h);
 
-    SDL_Shared<SDL_Texture> textTex;
+    GfxImage  textTex;
     SDL_Rect textRec;
     string splashText = _("AutoBleem")+" " + gui->cfg.inifile.values["version"];
     if (gui->cfg.inifile.values["quick"] == "true") {
@@ -33,8 +33,7 @@ void GuiSplash::render() {
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);
     textRec.y = atoi(gui->themeData.values["ttop"].c_str());
-    SDL_SetRenderDrawColor(Application::renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(Application::renderer);
+    Gfx::clear();
     SDL_SetTextureAlphaMod(gui->backgroundImg, alpha);
     SDL_SetTextureAlphaMod(gui->logo, alpha);
     SDL_SetTextureAlphaMod(textTex, alpha);

@@ -38,7 +38,7 @@ void GuiKeyboard::render() {
     rect2.w = atoi(gui->themeData.values["opscreenw"].c_str());
     rect2.h = atoi(gui->themeData.values["opscreenh"].c_str());
 
-    SDL_Shared<SDL_Texture> tex;
+    GfxImage  tex;
     SDL_Rect rect;
     gui->getTextAndRect(Application::renderer, 0, 0, "*", gui->themeFont, &tex, &rect);
 
