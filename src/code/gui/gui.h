@@ -49,34 +49,14 @@ enum MenuOption { MENU_OPTION_SCAN = 1, MENU_OPTION_RUN, MENU_OPTION_SONY, MENU_
 
 
 
-//********************
-// GuiBase
-//********************
-class GuiBase {
-public:
-    SDL_Shared<SDL_Window> window;
-    SDL_Shared<SDL_Renderer> renderer;
-
-    Fonts fonts;
-    Config cfg;
-    bool inGuiLauncher = false;
-
-    std::string getCurrentThemePath();
-    std::string getCurrentThemeImagePath();
-    std::string getCurrentThemeFontPath();
-    std::string getCurrentThemeSoundPath();
-
-    GuiBase();
-    ~GuiBase();
-};
 
 //********************
 // Gui
 //********************
-class Gui : public GuiBase {
+class Gui : public Application {
 private:
 
-    Gui() { mapper.init(); }
+    Gui() {  }
 
     string themePath;
 
@@ -86,7 +66,7 @@ public:
     int _cb(int button, SDL_Event *e);
 
     vector<string> joynames;
-    PadMapper mapper;
+
     Inifile themeData;
     Inifile defaultData;
 

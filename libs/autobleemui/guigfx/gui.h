@@ -7,3 +7,4 @@
 #include "gui_font_wrapper.h"
 #include "gui_font.h"
 #include "gui_screen.h"
+#include "application.h"

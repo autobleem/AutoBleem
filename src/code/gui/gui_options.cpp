@@ -211,7 +211,8 @@ void GuiOptions::render() {
 //*******************************
 // GuiOptions::loop
 //*******************************
-void GuiOptions::loop() {
+void GuiOptions::loop(){
+
     shared_ptr<Gui> gui(Gui::getInstance());
     shared_ptr<Lang> lang(Lang::getInstance());
 
@@ -267,14 +268,7 @@ void GuiOptions::loop() {
                 case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
                 case SDL_JOYHATMOTION:
 
-                    int device;
-                    if (e.type==SDL_JOYHATMOTION)
-                    {
-                        device = e.jhat.which;
-                    } else
-                    {
-                        device = e.jaxis.which;
-                    }
+
                     if (gui->mapper.isUp(&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         selOption--;
