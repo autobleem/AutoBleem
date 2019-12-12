@@ -3,6 +3,8 @@
 
 #include <autobleem/inifile.h>
 #include "gui_sdl_wrapper.h"
+#include "gfx.h"
+#include "gui_font_wrapper.h"
 
 using namespace std;
 
@@ -11,6 +13,8 @@ private:
 
     static GfxImage loadThemeTexture(string themePath, string defaultPath, string texname);
     static Inifile themeData;
+
+
 
 public:
     static GfxImage  backgroundImg;
@@ -38,11 +42,19 @@ public:
     // theme drawing routines
     static void drawBackground();
     static int drawLogo(bool small);
+    static Uint8 getR(const std::string & val);
+    static Uint8 getG(const std::string & val);
+    static Uint8 getB(const std::string & val);
+
 
     static string get(string key)
     {
         return themeData.values[key];
     };
+
+    static void getEmojiTextTexture(string text, TTF_Font_Shared font, GfxImage *texture, SDL_Rect *rect);
+    static GfxImage getTextImage( const char *text, TTF_Font_Shared font);
+    static GfxSize getTextSize(const char *text, TTF_Font_Shared font);
 
 };
 

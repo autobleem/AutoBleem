@@ -93,12 +93,12 @@ void PsStateSelector::render()
         SDL_Rect infoRect, infoDest;
 
         if (operation==OP_LOAD) {
-            gui->getEmojiTextTexture(renderer,
+            GfxTheme::getEmojiTextTexture(
                                      "|@T| " + _("Delete") + "     |@X| " + _("Select") + "     |@O| " + _("Cancel") +
                                      "|", font24, &infoText, &infoRect);
         } else
         {
-            gui->getEmojiTextTexture(renderer,
+            GfxTheme::getEmojiTextTexture(
                                      "|@X| " + _("Select") + "     |@O| " + _("Cancel") +
                                      "|", font24, &infoText, &infoRect);
         }

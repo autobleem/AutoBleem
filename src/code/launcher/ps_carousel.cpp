@@ -169,15 +169,17 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
             GfxImage  titleName;
-            SDL_Rect titleRect;
-            gui->getTextAndRect(renderer,0,0,(*this)->title.c_str(),gui->themeFont,&titleName,&titleRect);
+
+            titleName = GfxTheme::getTextImage((*this)->title.c_str(),gui->themeFont);
+
+
 
             outputRect.x = 0;
             outputRect.y = 0;
             outputRect.h = 26;
             outputRect.w = 226;
             if (!DirEntry::exists(imagePath)) {
-                SDL_RenderCopy(renderer, titleName, &titleRect, &outputRect);
+                SDL_RenderCopy(renderer, titleName, NULL, &outputRect);
             }
 
             coverPng = nullptr;

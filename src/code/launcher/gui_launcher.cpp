@@ -342,12 +342,12 @@ void GuiLauncher::loadAssets() {
     Inifile colorsFile;
     if (DirEntry::exists(gui->getCurrentThemePath() + sep + "colors.ini")) {
         colorsFile.load(gui->getCurrentThemePath() + sep + "colors.ini");
-        fgR = gui->getR(colorsFile.values["fg"]);
-        fgG = gui->getG(colorsFile.values["fg"]);
-        fgB = gui->getB(colorsFile.values["fg"]);
-        secR = gui->getR(colorsFile.values["sec"]);
-        secG = gui->getG(colorsFile.values["sec"]);
-        secB = gui->getB(colorsFile.values["sec"]);
+        fgR = GfxTheme::getR(colorsFile.values["fg"]);
+        fgG = GfxTheme::getG(colorsFile.values["fg"]);
+        fgB = GfxTheme::getB(colorsFile.values["fg"]);
+        secR = GfxTheme::getR(colorsFile.values["sec"]);
+        secG = GfxTheme::getG(colorsFile.values["sec"]);
+        secB = GfxTheme::getB(colorsFile.values["sec"]);
     }
 
     gui->fonts.openAllFonts(gui->getCurrentThemeFontPath());

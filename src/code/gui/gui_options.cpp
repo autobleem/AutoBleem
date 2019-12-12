@@ -172,7 +172,7 @@ void GuiOptions::renderOptionLine(const string & text, int pos, int offset) {
         rectSelection.w = rect2.w - 10;
         rectSelection.h = height;
 
-        SDL_SetRenderDrawColor(Application::renderer, gui->getR(fg), gui->getG(fg), gui->getB(fg), 255);
+        SDL_SetRenderDrawColor(Application::renderer, GfxTheme::getR(fg), GfxTheme::getG(fg), GfxTheme::getB(fg), 255);
         SDL_SetRenderDrawBlendMode(Application::renderer, SDL_BLENDMODE_BLEND);
         SDL_RenderDrawRect(Application::renderer, &rectSelection);
     }

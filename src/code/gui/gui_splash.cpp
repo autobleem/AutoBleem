@@ -30,7 +30,8 @@ void GuiSplash::render() {
         splashText += ")";
     }
 
-    gui->getEmojiTextTexture(Application::renderer, splashText.c_str(), gui->themeFont, &textTex, &textRec);
+    GfxTheme::getEmojiTextTexture(splashText.c_str(), gui->themeFont,  &textTex, &textRec);
+
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);
     textRec.y = atoi(GfxTheme::get("ttop").c_str());
@@ -53,7 +54,7 @@ void GuiSplash::render() {
 
     int bg_alpha = atoi(GfxTheme::get("textalpha").c_str()) * alpha / 255;
 
-    SDL_SetRenderDrawColor(Application::renderer, gui->getR(bg), gui->getG(bg), gui->getB(bg), bg_alpha);
+    SDL_SetRenderDrawColor(Application::renderer, GfxTheme::getR(bg), GfxTheme::getG(bg), GfxTheme::getB(bg), bg_alpha);
     SDL_SetRenderDrawBlendMode(Application::renderer, SDL_BLENDMODE_BLEND);
     SDL_Rect rect;
     rect.x = atoi(GfxTheme::get("textx").c_str());

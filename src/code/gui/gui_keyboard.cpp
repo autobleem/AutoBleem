@@ -39,16 +39,17 @@ void GuiKeyboard::render() {
     rect2.h = atoi(GfxTheme::get("opscreenh").c_str());
 
     GfxImage  tex;
-    SDL_Rect rect;
-    gui->getTextAndRect(Application::renderer, 0, 0, "*", gui->themeFont, &tex, &rect);
+
+    GfxSize size = GfxTheme::getTextSize("*",gui->themeFont);
+
 
     for (int x = 0; x < 10; x++) {
         for (int y = 0; y < 4; y++) {
             SDL_Rect rectSelection;
             rectSelection.x = rect2.x + 5;
-            rectSelection.y = offset + rect.h * (y + 3);
+            rectSelection.y = offset + size.h * (y + 3);
             rectSelection.w = rect2.w - 10;
-            rectSelection.h = rect.h;
+            rectSelection.h = size.h;
 
             int buttonWidth = (rectSelection.w / 10) - 10;
             int buttonHeight = rectSelection.h - 2;
@@ -59,7 +60,7 @@ void GuiKeyboard::render() {
             rectSelection.x = rectSelection.x + ((buttonWidth + 11) * x);
 
             string bg = GfxTheme::get("key_bg");
-            SDL_SetRenderDrawColor(Application::renderer, gui->getR(bg), gui->getG(bg), gui->getB(bg),
+            SDL_SetRenderDrawColor(Application::renderer, GfxTheme::getR(bg), GfxTheme::getG(bg), GfxTheme::getB(bg),
                                    atoi(GfxTheme::get("keyalpha").c_str()));
             SDL_SetRenderDrawBlendMode(Application::renderer, SDL_BLENDMODE_BLEND);
             SDL_RenderFillRect(Application::renderer, &rectSelection);
@@ -73,7 +74,7 @@ void GuiKeyboard::render() {
 
             if ((selx == x) && (sely == y)) {
                 string fg = GfxTheme::get("text_fg");
-                SDL_SetRenderDrawColor(Application::renderer, gui->getR(fg), gui->getG(fg), gui->getB(fg), 255);
+                SDL_SetRenderDrawColor(Application::renderer, GfxTheme::getR(fg), GfxTheme::getG(fg), GfxTheme::getB(fg), 255);
                 SDL_SetRenderDrawBlendMode(Application::renderer, SDL_BLENDMODE_BLEND);
                 SDL_RenderDrawRect(Application::renderer, &rectSelection);
                 SDL_Rect rectSelection2;

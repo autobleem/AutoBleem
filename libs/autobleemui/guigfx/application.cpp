@@ -3,6 +3,7 @@
 //
 
 
+#include <SDL2/SDL_mixer.h>
 #include "application.h"
 
 using namespace std;
@@ -40,12 +41,28 @@ Application::Application() {
     fonts[FONT_24] = TTF_OpenFont((getCurrentThemeFontPath() + sep + "SST-Medium.ttf").c_str(), 22);
 
     mapper.init();
+
+    SDL_version compiled;
+    SDL_version linked;
+
+    SDL_VERSION(&compiled);
+    SDL_GetVersion(&linked);
+    printf("We compiled against SDL version %d.%d.%d ...\n",
+           compiled.major, compiled.minor, compiled.patch);
+    printf("But we are linking against SDL version %d.%d.%d.\n",
+           linked.major, linked.minor, linked.patch);
+
+    Mix_Init(0);
+    TTF_Init();
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 }
 
 //********************
 // Application::Applicationtion
 //********************
 Application::~Application() {
+    Mix_Quit();
+    TTF_Quit();
     SDL_Quit();
 }
 

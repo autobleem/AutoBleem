@@ -83,8 +83,6 @@ public:
 
     void drawText(const std::string & text);
 
-    void getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, std::string text,
-                             TTF_Font_Shared font, GfxImage  *texture, SDL_Rect *rect);
 
     void logText(const std::string & message);
 
@@ -119,14 +117,9 @@ public:
 
     void renderFreeSpace();
 
-    void getTextAndRect(SDL_Shared<SDL_Renderer> renderer, int x, int y, const char *text,
-                        TTF_Font_Shared font, GfxImage  *texture, SDL_Rect *rect);
 
-    Uint8 getR(const std::string & val);
 
-    Uint8 getG(const std::string & val);
 
-    Uint8 getB(const std::string & val);
 
     void criticalException(const std::string & text);
 
