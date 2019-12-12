@@ -105,7 +105,7 @@ void GuiMcManager::trySave()
 
 void GuiMcManager::renderStatic() {
     shared_ptr<Gui> gui(Gui::getInstance());
-    gui->renderBackground();
+    GfxTheme::drawBackground();
     gui->renderTextBar();
     gui->renderTextLine(_("Memory Card Manager"), 1, 1, POS_CENTER);
     gui->renderStatus(

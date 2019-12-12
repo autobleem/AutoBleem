@@ -70,3 +70,25 @@ bool GfxTheme::load(string currentThemePath)
     buttonUncheck = loadThemeTexture( themePath, defaultPath, "uncheck");
     return result;
 }
+
+
+void GfxTheme::drawBackground() {
+    Gfx::clear();
+    Gfx::drawImage(GfxTheme::backgroundImg,0,0,1280,720);
+}
+
+
+int GfxTheme::drawLogo(bool small) {
+    SDL_Rect logoRect;
+    logoRect.x = atoi(get("lpositionx").c_str());
+    logoRect.y = atoi(get("lpositiony").c_str());
+    logoRect.w = atoi(get("lw").c_str());
+    logoRect.h = atoi(get("lh").c_str());
+    if (!small) {
+        Gfx::drawImage(GfxTheme::logo,logoRect.x,logoRect.y,logoRect.w,logoRect.h);
+        return 0;
+    } else {
+        Gfx::drawImage(GfxTheme::logo, atoi(GfxTheme::get("opscreenx").c_str()), atoi(GfxTheme::get("opscreeny").c_str()), logoRect.w/3, logoRect.h/3);
+        return atoi(GfxTheme::get("opscreeny").c_str()) + logoRect.h/3;
+    }
+}

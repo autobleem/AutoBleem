@@ -44,7 +44,7 @@ void GuiAbout::render() {
     };
 
 
-    gui->renderBackground();
+    GfxTheme::drawBackground();
 
     SDL_SetRenderDrawColor(Application::renderer, 0, 0, 0, 235);
     SDL_SetRenderDrawBlendMode(Application::renderer, SDL_BLENDMODE_BLEND);

@@ -15,10 +15,11 @@ void GuiSplash::render() {
     int w, h; // texture width & height
     SDL_SetTextureBlendMode(GfxTheme::backgroundImg, SDL_BLENDMODE_BLEND);
     SDL_QueryTexture(GfxTheme::backgroundImg, NULL, NULL, &w, &h);
-    gui->backgroundRect.x = 0;
-    gui->backgroundRect.y = 0;
-    gui->backgroundRect.w = w;
-    gui->backgroundRect.h = h;
+    SDL_Rect backgroundRect;
+    backgroundRect.x = 0;
+    backgroundRect.y = 0;
+    backgroundRect.w = w;
+    backgroundRect.h = h;
     SDL_QueryTexture(GfxTheme::logo, NULL, NULL, &w, &h);
 
     GfxImage  textTex;
@@ -39,8 +40,14 @@ void GuiSplash::render() {
     SDL_SetTextureAlphaMod(textTex, alpha);
     Mix_VolumeMusic(alpha / 3);
 
-    SDL_RenderCopy(Application::renderer, GfxTheme::backgroundImg, NULL, &gui->backgroundRect);
-    SDL_RenderCopy(Application::renderer, GfxTheme::logo, NULL, &gui->logoRect);
+    SDL_Rect logoRect;
+    logoRect.x = atoi(GfxTheme::get("lpositionx").c_str());
+    logoRect.y = atoi(GfxTheme::get("lpositiony").c_str());
+    logoRect.w = atoi(GfxTheme::get("lw").c_str());
+    logoRect.h = atoi(GfxTheme::get("lh").c_str());
+
+    SDL_RenderCopy(Application::renderer, GfxTheme::backgroundImg, NULL, NULL);
+    SDL_RenderCopy(Application::renderer, GfxTheme::logo, NULL, &logoRect);
 
     string bg = GfxTheme::get("text_bg");
 

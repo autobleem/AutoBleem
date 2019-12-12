@@ -44,9 +44,9 @@ void GuiManager::init()
 void GuiManager::render()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
-    gui->renderBackground();
+    GfxTheme::drawBackground();
     gui->renderTextBar();
-    int offset = gui->renderLogo(true);
+    int offset = GfxTheme::drawLogo(true);
     gui->renderFreeSpace();
     gui->renderTextLine("-=" + _("Game manager - Select game") + "=-",0,offset,POS_CENTER);
     if (selected >= psGames.size()) {

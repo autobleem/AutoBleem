@@ -32,9 +32,9 @@ void GuiMemcards::init() {
 //*******************************
 void GuiMemcards::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
-    gui->renderBackground();
+    GfxTheme::drawBackground();
     gui->renderTextBar();
-    int offset = gui->renderLogo(true);
+    int offset = GfxTheme::drawLogo(true);
     gui->renderTextLine("-=" + _("Custom Memory Cards") + "=-", 0, offset, POS_CENTER);
 
     if (selected >= cards.size()) {

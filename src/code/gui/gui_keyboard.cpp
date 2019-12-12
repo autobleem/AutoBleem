@@ -25,9 +25,9 @@ vector<vector<string>> rows = {row0, row1, row2, row3};
 //*******************************
 void GuiKeyboard::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
-    gui->renderBackground();
+    GfxTheme::drawBackground();
     gui->renderTextBar();
-    int offset = gui->renderLogo(true);
+    int offset = GfxTheme::drawLogo(true);
     gui->renderLabelBox(1, offset);
     gui->renderTextLine("-= " + label + " =-", 0, offset, POS_CENTER);
     gui->renderTextLine(result + "#", 1, offset, POS_CENTER);

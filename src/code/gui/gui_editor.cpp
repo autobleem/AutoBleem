@@ -324,9 +324,9 @@ void GuiEditor::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
 
     int line = 0;
-    gui->renderBackground();
+    GfxTheme::drawBackground();
     gui->renderTextBar();
-    int offset = gui->renderLogo(true);
+    int offset = GfxTheme::drawLogo(true);
 
     // Game.ini
 

@@ -15,9 +15,9 @@
 
 void GuiPadConfig::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
-    gui->renderBackground();
+    GfxTheme::drawBackground();
     gui->renderTextBar();
-    int offset = gui->renderLogo(true);
+    int offset = GfxTheme::drawLogo(true);
     SDL_Joystick *joy = SDL_JoystickFromInstanceID(joyid);
     gui->renderTextLine("-=" + _("New GamePad found") + "=-", 0, offset, true);
     gui->renderTextLine(SDL_JoystickName(joy), 1, offset, true);

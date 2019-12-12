@@ -60,7 +60,7 @@ void GuiAppStart::init()
 
 void GuiAppStart::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
-    gui->renderBackground();
+    GfxTheme::drawBackground();
 // readme:
     SDL_SetRenderDrawColor(Application::renderer,0, 0, 0, 128);
     SDL_SetRenderDrawBlendMode(Application::renderer, SDL_BLENDMODE_BLEND);

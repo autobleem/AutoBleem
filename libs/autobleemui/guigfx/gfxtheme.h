@@ -32,7 +32,13 @@ public:
     static string themePath;
 
 
+
     static bool load(string currentThemePath);
+
+    // theme drawing routines
+    static void drawBackground();
+    static int drawLogo(bool small);
+
     static string get(string key)
     {
         return themeData.values[key];

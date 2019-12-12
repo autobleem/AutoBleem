@@ -41,10 +41,10 @@ void GuiPlaylists::render()
 
 
     Gfx::clear();
-    gui->renderBackground();
+    GfxTheme::drawBackground();
 
     gui->renderTextBar();
-    int offset = gui->renderLogo(true);
+    int offset = GfxTheme::drawLogo(true);
     gui->renderTextLine("-=" + _("Select RetroBoot Platform") + "=-",0,offset,true);
     if (selected >= playlists.size()) {
         selected = playlists.size() - 1;

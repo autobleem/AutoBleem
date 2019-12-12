@@ -94,10 +94,6 @@ public:
 
     bool quickBoot();
 
-    void renderBackground();
-
-    int renderLogo(bool small);
-
     void renderStatus(const std::string & text, int pos=-1);
 
     void renderTextBar();
@@ -134,7 +130,6 @@ public:
 
     void criticalException(const std::string & text);
 
-    GfxImage    loadThemeTexture(std::string themePath, std::string defaultPath, std::string texname);
 
     void exportDBToRetroarch();
 
@@ -147,8 +142,6 @@ public:
     int lastRAPlaylistIndex = 0;    // top row in menu = first playlist name
     string lastRAPlaylistName = "";
 
-    SDL_Rect backgroundRect;
-    SDL_Rect logoRect;
 
 
     GfxImage  cdJewel;

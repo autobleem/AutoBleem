@@ -110,26 +110,7 @@ void Gui::getTextAndRect(SDL_Shared<SDL_Renderer> renderer, int x, int y, const 
     rect->h = text_height;
 }
 
-//*******************************
-// Gui::renderBackground
-//*******************************
-void Gui::renderBackground() {
-  Gfx::clear();
-  Gfx::drawImage(GfxTheme::backgroundImg,0,0,1280,720);
-}
 
-//*******************************
-// Gui::renderLogo
-//*******************************
-int Gui::renderLogo(bool small) {
-    if (!small) {
-        Gfx::drawImage(GfxTheme::logo,logoRect.x,logoRect.y,logoRect.w,logoRect.h);
-        return 0;
-    } else {
-        Gfx::drawImage(GfxTheme::logo, atoi(GfxTheme::get("opscreenx").c_str()), atoi(GfxTheme::get("opscreeny").c_str()), logoRect.w/3, logoRect.h/3);
-        return atoi(GfxTheme::get("opscreeny").c_str()) + logoRect.h/3;
-    }
-}
 
 
 
@@ -158,11 +139,6 @@ void Gui::loadAssets(bool reloadMusic) {
         Mix_FreeChunk(home_up);
         Mix_FreeChunk(resume);
     }
-
-    logoRect.x = atoi(GfxTheme::get("lpositionx").c_str());
-    logoRect.y = atoi(GfxTheme::get("lpositiony").c_str());
-    logoRect.w = atoi(GfxTheme::get("lw").c_str());
-    logoRect.h = atoi(GfxTheme::get("lh").c_str());
 
 
 
@@ -859,8 +835,8 @@ void Gui::renderStatus(const string &text, int posy) {
 // Gui::drawText
 //*******************************
 void Gui::drawText(const string &text) {
-    renderBackground();
-    renderLogo(false);
+    GfxTheme::drawBackground();
+    GfxTheme::drawLogo(false);
     renderStatus(text);
     Gfx::flip();
 }

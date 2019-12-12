@@ -29,10 +29,10 @@ void GuiGameDirMenu::render()
     shared_ptr<Gui> gui(Gui::getInstance());
     // use evoUI background
     Gfx::clear();
-    gui->renderBackground();
+    GfxTheme::drawBackground();
 
     gui->renderTextBar();
-    int offset = gui->renderLogo(true);
+    int offset = GfxTheme::drawLogo(true);
     //gui->renderTextLine("-=" + _("Select RetroBoot Platform") + "=-",0,offset,true);
     if (selected >= textsToDisplay.size()) {
         selected = textsToDisplay.size() - 1;

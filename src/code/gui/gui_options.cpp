@@ -182,12 +182,11 @@ void GuiOptions::renderOptionLine(const string & text, int pos, int offset) {
 // GuiOptions::render
 //*******************************
 void GuiOptions::render() {
-    shared_ptr<Gfx> gfx(Gfx::getInstance());
     shared_ptr<Gui> gui(Gui::getInstance());
 
-    gui->renderBackground();
+    GfxTheme::drawBackground();
     gui->renderTextBar();
-    int offset = gui->renderLogo(true);
+    int offset = GfxTheme::drawLogo(true);
     totalHeight = 0;
     gui->renderTextLine("-=" + _("Configuration") + "=-", 0, offset, POS_CENTER);
     renderOptionLine(_("Language:") + " " + gui->cfg.inifile.values["language"], CFG_LANG + 1, offset);

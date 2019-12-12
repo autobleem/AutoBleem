@@ -18,10 +18,10 @@ using namespace std;
 //*******************************
 void GuiBtnGuide::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
-    gui->renderBackground();
+    GfxTheme::drawBackground();
 
     gui->renderTextBar();
-    int offset = gui->renderLogo(true);
+    int offset = GfxTheme::drawLogo(true);
     gui->renderTextLine("-=" + _("Button Guide") + "=-", 0, offset, POS_CENTER);
     gui->renderTextLine(_("DPAD - Same as classic menu"), 1, offset, POS_CENTER);
     gui->renderTextLine("|@X| / |@O|   " + _("Select or cancel highlighted option"), 2, offset, POS_CENTER);
