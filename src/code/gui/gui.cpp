@@ -156,7 +156,7 @@ void Gui::loadAssets(bool reloadMusic) {
         Mix_FreeChunk(cancel);
         Mix_FreeChunk(home_down);
         Mix_FreeChunk(home_up);
-
+        Mix_FreeChunk(resume);
     }
 
     logoRect.x = atoi(GfxTheme::get("lpositionx").c_str());
@@ -217,6 +217,10 @@ void Gui::loadAssets(bool reloadMusic) {
         }
     }
     cursor = Mix_LoadWAV((this->getCurrentThemeSoundPath() + sep + "cursor.wav").c_str());
+    if (!cursor)
+    {
+        cursor = nullptr;
+    }
     cancel = Mix_LoadWAV((this->getCurrentThemeSoundPath() + sep + "cancel.wav").c_str());
     home_up = Mix_LoadWAV((this->getCurrentThemeSoundPath() + sep + "home_up.wav").c_str());
     home_down = Mix_LoadWAV((this->getCurrentThemeSoundPath() + sep + "home_down.wav").c_str());
@@ -693,6 +697,11 @@ void Gui::finish() {
     Mix_FreeChunk(home_up);
     Mix_CloseAudio();
     music = nullptr;
+    cursor = nullptr;
+    cancel = nullptr;
+    home_down = nullptr;
+    home_up = nullptr;
+    resume = nullptr;
 }
 
 //*******************************
