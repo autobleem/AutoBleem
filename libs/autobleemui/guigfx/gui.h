@@ -9,3 +9,4 @@
 #include "gui_screen.h"
 #include "application.h"
 #include "gfx.h"
+#include "gfxtheme.h"

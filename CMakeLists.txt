@@ -56,7 +56,7 @@ add_library(autobleemui STATIC
 
 		libs/autobleemui/ecm/unecm.c
 		libs/autobleemui/ecm/ecmhelper.cpp
-		libs/autobleemui/guigfx/gui.h libs/autobleemui/guigfx/application.cpp libs/autobleemui/guigfx/application.h libs/autobleemui/guigfx/gfx.cpp libs/autobleemui/guigfx/gfx.h)
+		libs/autobleemui/guigfx/gui.h libs/autobleemui/guigfx/application.cpp libs/autobleemui/guigfx/application.h libs/autobleemui/guigfx/gfx.cpp libs/autobleemui/guigfx/gfx.h libs/autobleemui/guigfx/gfxtheme.cpp libs/autobleemui/guigfx/gfxtheme.h)
 
 target_include_directories(autobleemui PUBLIC
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/autobleemui>

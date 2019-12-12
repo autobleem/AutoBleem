@@ -39,7 +39,7 @@ void GuiSelectMemcard::init() {
 
 
     }
-    maxVisible = atoi(gui->themeData.values["lines"].c_str());
+    maxVisible = atoi(GfxTheme::get("lines").c_str());
     firstVisible = 0;
     lastVisible = firstVisible + maxVisible;
 

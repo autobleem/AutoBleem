@@ -33,10 +33,10 @@ void GuiKeyboard::render() {
     gui->renderTextLine(result + "#", 1, offset, POS_CENTER);
 
     SDL_Rect rect2;
-    rect2.x = atoi(gui->themeData.values["opscreenx"].c_str());
-    rect2.y = atoi(gui->themeData.values["opscreeny"].c_str());
-    rect2.w = atoi(gui->themeData.values["opscreenw"].c_str());
-    rect2.h = atoi(gui->themeData.values["opscreenh"].c_str());
+    rect2.x = atoi(GfxTheme::get("opscreenx").c_str());
+    rect2.y = atoi(GfxTheme::get("opscreeny").c_str());
+    rect2.w = atoi(GfxTheme::get("opscreenw").c_str());
+    rect2.h = atoi(GfxTheme::get("opscreenh").c_str());
 
     GfxImage  tex;
     SDL_Rect rect;
@@ -58,9 +58,9 @@ void GuiKeyboard::render() {
 
             rectSelection.x = rectSelection.x + ((buttonWidth + 11) * x);
 
-            string bg = gui->themeData.values["key_bg"];
+            string bg = GfxTheme::get("key_bg");
             SDL_SetRenderDrawColor(Application::renderer, gui->getR(bg), gui->getG(bg), gui->getB(bg),
-                                   atoi(gui->themeData.values["keyalpha"].c_str()));
+                                   atoi(GfxTheme::get("keyalpha").c_str()));
             SDL_SetRenderDrawBlendMode(Application::renderer, SDL_BLENDMODE_BLEND);
             SDL_RenderFillRect(Application::renderer, &rectSelection);
 
@@ -72,7 +72,7 @@ void GuiKeyboard::render() {
             gui->renderTextChar(text, 3 + y, offset, rectSelection.x + 10);
 
             if ((selx == x) && (sely == y)) {
-                string fg = gui->themeData.values["text_fg"];
+                string fg = GfxTheme::get("text_fg");
                 SDL_SetRenderDrawColor(Application::renderer, gui->getR(fg), gui->getG(fg), gui->getB(fg), 255);
                 SDL_SetRenderDrawBlendMode(Application::renderer, SDL_BLENDMODE_BLEND);
                 SDL_RenderDrawRect(Application::renderer, &rectSelection);

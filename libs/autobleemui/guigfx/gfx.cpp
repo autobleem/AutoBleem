@@ -20,8 +20,7 @@ void Gfx::clear()
 
 void Gfx::drawImage(GfxImage image, int x, int y, int w, int h)
 {
-
-   GfxSize size = getImageSize(image);
+    GfxSize size = getImageSize(image);
     SDL_Rect src;
     src.x=0;    src.y=0;    src.w=size.w;    src.h=size.h;
     if ((w==0) && (h==0))

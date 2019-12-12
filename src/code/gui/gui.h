@@ -58,7 +58,6 @@ private:
 
     Gui() {  }
 
-    string themePath;
 
 public:
     std::vector<SDL_Joystick *> joysticks;
@@ -66,9 +65,6 @@ public:
     int _cb(int button, SDL_Event *e);
 
     vector<string> joynames;
-
-    Inifile themeData;
-    Inifile defaultData;
 
     Coverdb *coverdb = nullptr;
     // db and internalDB are set in main.cpp and remain alive until exit
@@ -154,20 +150,7 @@ public:
     SDL_Rect backgroundRect;
     SDL_Rect logoRect;
 
-    GfxImage  backgroundImg;
-    GfxImage  logo;
-    GfxImage  buttonX;
-    GfxImage  buttonO;
-    GfxImage  buttonT;
-    GfxImage  buttonS;
-    GfxImage  buttonStart;
-    GfxImage  buttonSelect;
-    GfxImage  buttonL1;
-    GfxImage  buttonR1;
-    GfxImage  buttonL2;
-    GfxImage  buttonR2;
-    GfxImage  buttonCheck;
-    GfxImage  buttonUncheck;
+
     GfxImage  cdJewel;
 
     bool overrideQuickBoot = false;

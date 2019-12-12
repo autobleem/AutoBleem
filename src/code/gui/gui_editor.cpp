@@ -405,7 +405,7 @@ void GuiEditor::render() {
 
     gui->renderStatus(guiMenu);
 
-    Gfx::drawImage(cover,atoi(gui->themeData.values["ecoverx"].c_str()),atoi(gui->themeData.values["ecovery"].c_str()),226,226);
+    Gfx::drawImage(cover,atoi(GfxTheme::get("ecoverx").c_str()),atoi(GfxTheme::get("ecovery").c_str()),226,226);
     Gfx::flip();
 }
 

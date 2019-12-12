@@ -60,12 +60,8 @@ void GuiAbout::render() {
     fx.render();
 
     int offset = 150;
-    SDL_Rect rect;
-    rect.x = 1280/2-100;
-    rect.y = 5;
-    rect.w = 200;
-    rect.h = 141;
-    SDL_RenderCopy(Application::renderer, logo, nullptr, &rect);
+    Gfx::drawImage(logo,1280/2-100,5,200,141);
+
 
 
     int line = 1;

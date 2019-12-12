@@ -155,16 +155,16 @@ string GuiOptions::getBooleanIcon(const string & input) {
 //*******************************
 void GuiOptions::renderOptionLine(const string & text, int pos, int offset) {
     shared_ptr<Gui> gui(Gui::getInstance());
-    string fg = gui->themeData.values["text_fg"];
+    string fg = GfxTheme::get("text_fg");
     int height = gui->renderTextLineOptions(text, pos, offset, POS_LEFT);
     totalHeight += height;
 
     if (selOption + 1 == pos) {
         SDL_Rect rect2;
-        rect2.x = atoi(gui->themeData.values["opscreenx"].c_str());
-        rect2.y = atoi(gui->themeData.values["opscreeny"].c_str());
-        rect2.w = atoi(gui->themeData.values["opscreenw"].c_str());
-        rect2.h = atoi(gui->themeData.values["opscreenh"].c_str());
+        rect2.x = atoi(GfxTheme::get("opscreenx").c_str());
+        rect2.y = atoi(GfxTheme::get("opscreeny").c_str());
+        rect2.w = atoi(GfxTheme::get("opscreenw").c_str());
+        rect2.h = atoi(GfxTheme::get("opscreenh").c_str());
 
         SDL_Rect rectSelection;
         rectSelection.x = rect2.x + 5;

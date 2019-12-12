@@ -13,13 +13,13 @@ using namespace std;
 void GuiSplash::render() {
     std::shared_ptr<Gui> gui(Gui::getInstance());
     int w, h; // texture width & height
-    SDL_SetTextureBlendMode(gui->backgroundImg, SDL_BLENDMODE_BLEND);
-    SDL_QueryTexture(gui->backgroundImg, NULL, NULL, &w, &h);
+    SDL_SetTextureBlendMode(GfxTheme::backgroundImg, SDL_BLENDMODE_BLEND);
+    SDL_QueryTexture(GfxTheme::backgroundImg, NULL, NULL, &w, &h);
     gui->backgroundRect.x = 0;
     gui->backgroundRect.y = 0;
     gui->backgroundRect.w = w;
     gui->backgroundRect.h = h;
-    SDL_QueryTexture(gui->logo, NULL, NULL, &w, &h);
+    SDL_QueryTexture(GfxTheme::logo, NULL, NULL, &w, &h);
 
     GfxImage  textTex;
     SDL_Rect textRec;
@@ -32,27 +32,27 @@ void GuiSplash::render() {
     gui->getEmojiTextTexture(Application::renderer, splashText.c_str(), gui->themeFont, &textTex, &textRec);
     int screencenter = 1280 / 2;
     textRec.x = screencenter - (textRec.w / 2);
-    textRec.y = atoi(gui->themeData.values["ttop"].c_str());
+    textRec.y = atoi(GfxTheme::get("ttop").c_str());
     Gfx::clear();
-    SDL_SetTextureAlphaMod(gui->backgroundImg, alpha);
-    SDL_SetTextureAlphaMod(gui->logo, alpha);
+    SDL_SetTextureAlphaMod(GfxTheme::backgroundImg, alpha);
+    SDL_SetTextureAlphaMod(GfxTheme::logo, alpha);
     SDL_SetTextureAlphaMod(textTex, alpha);
     Mix_VolumeMusic(alpha / 3);
 
-    SDL_RenderCopy(Application::renderer, gui->backgroundImg, NULL, &gui->backgroundRect);
-    SDL_RenderCopy(Application::renderer, gui->logo, NULL, &gui->logoRect);
+    SDL_RenderCopy(Application::renderer, GfxTheme::backgroundImg, NULL, &gui->backgroundRect);
+    SDL_RenderCopy(Application::renderer, GfxTheme::logo, NULL, &gui->logoRect);
 
-    string bg = gui->themeData.values["text_bg"];
+    string bg = GfxTheme::get("text_bg");
 
-    int bg_alpha = atoi(gui->themeData.values["textalpha"].c_str()) * alpha / 255;
+    int bg_alpha = atoi(GfxTheme::get("textalpha").c_str()) * alpha / 255;
 
     SDL_SetRenderDrawColor(Application::renderer, gui->getR(bg), gui->getG(bg), gui->getB(bg), bg_alpha);
     SDL_SetRenderDrawBlendMode(Application::renderer, SDL_BLENDMODE_BLEND);
     SDL_Rect rect;
-    rect.x = atoi(gui->themeData.values["textx"].c_str());
-    rect.y = atoi(gui->themeData.values["texty"].c_str());
-    rect.w = atoi(gui->themeData.values["textw"].c_str());
-    rect.h = atoi(gui->themeData.values["texth"].c_str());
+    rect.x = atoi(GfxTheme::get("textx").c_str());
+    rect.y = atoi(GfxTheme::get("texty").c_str());
+    rect.w = atoi(GfxTheme::get("textw").c_str());
+    rect.h = atoi(GfxTheme::get("texth").c_str());
     SDL_RenderFillRect(Application::renderer, &rect);
 
     SDL_RenderCopy(Application::renderer, textTex, NULL, &textRec);

@@ -21,7 +21,7 @@ void GuiMemcards::init() {
     shared_ptr<Gui> gui(Gui::getInstance());
     Memcard *memcardOps = new Memcard(gui->pathToGamesDir);
     cards = memcardOps->list();
-    maxVisible = atoi(gui->themeData.values["lines"].c_str());
+    maxVisible = atoi(GfxTheme::get("lines").c_str());
     firstVisible = 0;
     lastVisible = firstVisible + maxVisible;
     delete memcardOps;
