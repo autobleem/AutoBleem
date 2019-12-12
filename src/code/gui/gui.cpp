@@ -814,7 +814,7 @@ int Gui::renderTextLine(const string &text, int line, int offset,  int position,
     GfxImage  textTex;
     SDL_Rect textRec;
 
-    GfxSize size = GfxTheme::getTextSize("*",themeFont);
+    GfxSize size = GfxTheme::getTextSize("*",font);
     textRec.x=0; textRec.y=0; textRec.w=size.w; textRec.h=size.h;
 
     int lineh = textRec.h;
