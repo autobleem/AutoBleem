@@ -84,7 +84,7 @@ public:
 
     shared_ptr<Gui> gui;
 
-    int currentSet = SET_ALL;
+    int currentSet = SET_PS1;
     void switchSet(int newSet, bool noForce);
     void showSetName();
 

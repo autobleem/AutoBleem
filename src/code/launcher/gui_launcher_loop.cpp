@@ -392,7 +392,7 @@ void GuiLauncher::loop_chooseRAPlaylist() {
 void GuiLauncher::loop_selectButtonPressed() {
     if (state == STATE_GAMES) {
         if (powerOffShift) {
-            if (currentSet == SET_EXTERNAL)
+            if (currentSet == SET_PS1 && gui->getPS1SelectSubState() == CFG_PS1_Games_Subdir)
                 loop_chooseGameDir();
             else if (currentSet == SET_RETROARCH)
                 loop_chooseRAPlaylist();
@@ -411,11 +411,6 @@ void GuiLauncher::loop_selectButtonPressed() {
                 menuText->setText(texts[0], fgR, fgG, fgB);
             }
 
-            if (gui->cfg.inifile.values["origames"] != "true") {
-                if (currentSet == SET_INTERNAL) {
-                    currentSet = SET_EXTERNAL;
-                }
-            }
             if (currentSet > SET_LAST) currentSet = 0;
             switchSet(currentSet,false);
             showSetName();
@@ -627,12 +622,6 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_AB_SETTINGS() {
         currentRAPlaylistIndex = lastRAPlaylistIndex;
         selGameIndex = lastGame;
         bool resetCarouselPosition = false;
-        if (gui->cfg.inifile.values["origames"] != "true") {
-            if (currentSet == SET_INTERNAL) {
-                currentSet = SET_ALL;
-                resetCarouselPosition = true;
-            }
-        }
 
         switchSet(currentSet,false);
         showSetName();
@@ -703,8 +692,8 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_EDIT_GAME_SETTINGS() {
             gui->db->updateTitle(carouselGames[selGameIndex]->gameId, gameIni.values["title"]);
         }
         gui->db->refreshGame(carouselGames[selGameIndex]);
-        if (currentSet == SET_FAVORITE && editor->gameIni.values["favorite"] == "0") {
-            gui->lastSet = SET_FAVORITE;
+        if (currentSet == SET_PS1 && editor->gameIni.values["favorite"] == "0") {
+            gui->lastSet = SET_PS1;
             loadAssets();
         }
     } else {
@@ -712,8 +701,10 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_EDIT_GAME_SETTINGS() {
             gui->internalDB->updateTitle(carouselGames[selGameIndex]->gameId, editor->lastName);
         }
         gui->internalDB->refreshGameInternal(carouselGames[selGameIndex]);
-        if (currentSet == SET_FAVORITE && editor->gameData->favorite == false) {
-            gui->lastSet = SET_FAVORITE;
+        if (currentSet == SET_PS1 && gui->getPS1SelectSubState() == CFG_PS1_Favorites &&
+                                     editor->gameData->favorite == false)
+        {
+            gui->lastSet = SET_PS1;
             loadAssets();
         }
     }
