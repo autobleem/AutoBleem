@@ -54,6 +54,9 @@ void GuiLauncher::getGames_SET_FAVORITE(PsGames *gamesList) {
             [](const PsGamePtr &game) { return game->favorite; });
 }
 
+//*******************************
+// GuiLauncher::getGames_SET_APPS
+//*******************************
 void GuiLauncher::getGames_SET_APPS(PsGames *gamesList) {
     PsGames completeList;
 
@@ -167,27 +170,28 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
     // get fresh list of games for this set
     PsGames gamesList;
 
-    if (currentSet == SET_ALL) {
-        getGames_SET_SUBDIR(0, &gamesList);   // get the games in row 0 = /Games and on down
+    if (currentSet == SET_PS1) {
 
-    } else if (currentSet == SET_EXTERNAL) {
-        getGames_SET_SUBDIR(currentUSBGameDirIndex,
-                            &gamesList);    // get the games in the current subdir of /Games and on down
+        int ps1SubState = gui->getPS1SelectSubState();
+        if (ps1SubState == CFG_PS1_All_Games) {
+            getGames_SET_SUBDIR(0, &gamesList);   // get the games in row 0 = /Games and on down
+            if (gui->cfg.inifile.values["origames"] == "true")  // if include internal games in all games
+                appendGames_SET_INTERNAL(&gamesList);   // add internal games too
+        } else if (ps1SubState == CFG_PS1_Internal_Only) {
+                appendGames_SET_INTERNAL(&gamesList);   // since it starts out empty this sets only internal
+        } else if (ps1SubState == CFG_PS1_Games_Subdir) {
+            // get the games in the current subdir of /Games and on down
+            getGames_SET_SUBDIR(currentUSBGameDirIndex, &gamesList);
+        } else if (ps1SubState == CFG_PS1_Favorites) {
+            getGames_SET_FAVORITE(&gamesList);
+        }
 
     } else if (currentSet == SET_RETROARCH) {
         getGames_SET_RETROARCH(currentRAPlaylistName, &gamesList);
 
-    } else if (currentSet == SET_FAVORITE) {
-        getGames_SET_FAVORITE(&gamesList);
-
     } else if (currentSet == SET_APPS) {
         getGames_SET_APPS(&gamesList);
     }
-
-    if (gui->cfg.inifile.values["origames"] == "true")
-        if (currentSet == SET_ALL || currentSet == SET_INTERNAL) {
-            appendGames_SET_INTERNAL(&gamesList);
-        }
 
     sort(gamesList.begin(), gamesList.end(), sortByTitle);
     cout << "Games Sorted" << endl;
@@ -228,12 +232,14 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
 // GuiLauncher::showSetName
 //*******************************
 void GuiLauncher::showSetName() {
-    vector<string> setNames = {_("Showing: All games"),
-                               _("Showing: Internal games"),
-                               _("Showing: USB Games Directory:") + " ",
-                               _("Showing: Favorite games"),
+    vector<string> setNames = {  "Showing: PS1 games",      // this is a dummy entry. setPS1SubStateNames is used.
                                _("Showing: Retroarch") + " ",
-                               _("Showing: Apps") + " ",
+                               _("Showing: Apps") + " "
+    };
+    vector<string> setPS1SubStateNames = {_("Showing: All games") + " ",
+                                          _("Showing: Internal games") + " ",
+                                          _("Showing: USB Games Directory:") + " ",
+                                          _("Showing: Favorite games") + " "
     };
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
 
@@ -242,13 +248,21 @@ void GuiLauncher::showSetName() {
     if (str != "")
         timeout = stoi(str.c_str()) * TicksPerSecond;
 
-    if (currentSet == SET_RETROARCH) {
+    if (currentSet == SET_PS1) {
+        int ps1SubState = gui->getPS1SelectSubState();
+        if (ps1SubState == CFG_PS1_All_Games) {
+            notificationLines[0].setText(setPS1SubStateNames[ps1SubState] + numGames, timeout);
+        } else if (ps1SubState == CFG_PS1_Internal_Only) {
+            notificationLines[0].setText(setPS1SubStateNames[ps1SubState] + numGames, timeout);
+        } else if (ps1SubState == CFG_PS1_Games_Subdir) {
+            notificationLines[0].setText(setPS1SubStateNames[ps1SubState] + currentUSBGameDirName + numGames, timeout);
+        } else if (ps1SubState == CFG_PS1_Favorites) {
+            notificationLines[0].setText(setPS1SubStateNames[ps1SubState] + numGames, timeout);
+        }
+    } else if (currentSet == SET_RETROARCH) {
         string playlist = DirEntry::getFileNameWithoutExtension(currentRAPlaylistName);
         notificationLines[0].setText(setNames[currentSet] + playlist + " " + numGames, timeout);
-    } else if (currentSet == SET_EXTERNAL) {
-        // currentUSBGameDirIndex starts at 0 for top row = /Games
-        notificationLines[0].setText(setNames[currentSet] + currentUSBGameDirName + numGames, timeout);
-    } else {
+    } else if (currentSet == SET_APPS) {
         notificationLines[0].setText(setNames[currentSet] + numGames, timeout);
     }
 }

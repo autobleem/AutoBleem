@@ -42,15 +42,14 @@ enum MenuOption { MENU_OPTION_SCAN = 1, MENU_OPTION_RUN, MENU_OPTION_SONY, MENU_
 #define POS_RIGHT 2
 
 // if you add a new set also update setNames in gui_launcher.cpp
-#define SET_ALL      0
-#define SET_INTERNAL 1
-#define SET_EXTERNAL 2
-#define SET_FAVORITE 3
-#define SET_RETROARCH 4
-#define SET_APPS 5
-#define SET_LAST 5
+#define SET_PS1      0
+#define SET_RETROARCH 1
+#define SET_APPS 2
+#define SET_LAST 2
 
-
+// CFG_PS1GAMES_SELECT select states
+// in config.ini: "ps1select" = "All Games", "Internal Only", "Games Subdir", "Favorites"
+enum { CFG_PS1_All_Games=0, CFG_PS1_Internal_Only, CFG_PS1_Games_Subdir, CFG_PS1_Favorites };
 
 //********************
 // GuiBase
@@ -68,6 +67,8 @@ public:
     std::string getCurrentThemeImagePath();
     std::string getCurrentThemeFontPath();
     std::string getCurrentThemeSoundPath();
+
+    int getPS1SelectSubState(); // if the set is SET_PS1, the config.ini contains the sub category of the PS1 game display
 
     GuiBase();
     ~GuiBase();
@@ -169,7 +170,7 @@ public:
     MenuOption menuOption = MENU_OPTION_SCAN;
 
     // these are saved in gui so the next time Start brings up the carousel it can restore to last state
-    int lastSet = SET_ALL;          // all games, internal, usb game dir, favorites, RA playlist
+    int lastSet = SET_PS1;          // all games, internal, usb game dir, favorites, RA playlist
     int lastSelIndex = 0;           // index into carouselGames
     int lastUSBGameDirIndex = 0;    // top row in menu = /Games
     int lastRAPlaylistIndex = 0;    // top row in menu = first playlist name
