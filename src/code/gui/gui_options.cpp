@@ -12,7 +12,6 @@ enum {
     CFG_THEME=0,
     CFG_PS1GAMES_SELECT,
     CFG_SHOW_ORIGAMES,
-    CFG_SHOW_RETROARCH,
     CFG_UI,
     CFG_JEWEL,
     CFG_MUSIC,
@@ -78,11 +77,6 @@ void GuiOptions::doPrevNextOption(shared_ptr<Gui> gui, shared_ptr<Lang> lang, bo
     if (selOption == CFG_SHOW_ORIGAMES) {
         string nextValue = getPrevNextOption(origames, gui->cfg.inifile.values["origames"], next);
         gui->cfg.inifile.values["origames"] = nextValue;
-    }
-
-    if (selOption == CFG_SHOW_RETROARCH) {
-        string nextValue = getPrevNextOption(retroarch, gui->cfg.inifile.values["retroarch"], next);
-        gui->cfg.inifile.values["retroarch"] = nextValue;
     }
 
     if (selOption == CFG_UI) {
@@ -197,9 +191,6 @@ void GuiOptions::init() {
     autoregion.clear();
     autoregion.push_back("false");
     autoregion.push_back("true");
-    retroarch.clear();
-    retroarch.push_back("false");
-    retroarch.push_back("true");
     adv.clear();
     adv.push_back("false");
     adv.push_back("true");
@@ -302,7 +293,6 @@ void GuiOptions::render() {
     renderOptionLine(_("AutoBleem Theme:") + " " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
     renderOptionLine(_("PS1 Games Selection:") + " " + gui->cfg.inifile.values["ps1select"], CFG_PS1GAMES_SELECT + 1, offset);
     renderOptionLine(_("Show Internal Games:") + " " + getBooleanIcon("origames"), CFG_SHOW_ORIGAMES + 1, offset);
-    renderOptionLine(_("Show RetroArch Games:") + " " + getBooleanIcon("retroarch"), CFG_SHOW_RETROARCH + 1, offset);
     renderOptionLine(_("UI:") + " " + gui->cfg.inifile.values["ui"], CFG_UI + 1, offset);
     renderOptionLine(_("Cover Style:") + " " + gui->cfg.inifile.values["jewel"], CFG_JEWEL + 1, offset);
     renderOptionLine(_("Music:") + " " + gui->cfg.inifile.values["music"], CFG_MUSIC + 1, offset);
