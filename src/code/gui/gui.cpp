@@ -154,6 +154,24 @@ string GuiBase::getCurrentThemeFontPath() {
 #endif
 }
 
+//*******************************
+// GuiBase::getPS1SelectSubState
+// if the set is SET_PS1, the config.ini contains the sub category of the PS1 game display
+//*******************************
+int GuiBase::getPS1SelectSubState() {
+    string ps1_SelectSubStateString = cfg.inifile.values["ps1select"];
+    if (ps1_SelectSubStateString == "All Games")
+        return CFG_PS1_All_Games;
+    if (ps1_SelectSubStateString == "Internal Only")
+        return CFG_PS1_Internal_Only;
+    if (ps1_SelectSubStateString == "Games Subdir")
+        return CFG_PS1_Games_Subdir;
+    if (ps1_SelectSubStateString == "Favorites")
+        return CFG_PS1_Favorites;
+    else
+        return CFG_PS1_All_Games;   // unknown config.ini value, return default
+}
+
                                     //*******************************
                                     // Gui
                                     //*******************************
@@ -615,15 +633,12 @@ void Gui::menuSelection() {
     }
     otherMenuShift = false;
     powerOffShift = false;
-    string retroarch = cfg.inifile.values["retroarch"];
     string adv = cfg.inifile.values["adv"];
     string mainMenu = "|@Start| " + _("AutoBleem") + "    |@X|  " + _("Re/Scan") + " ";
     if (cfg.inifile.values["ui"] == "classic") {
         mainMenu += "  |@O|  " + _("Original") + "  ";
     }
-    if (retroarch == "true") {
-        mainMenu += "|@S|  " + _("RetroArch") + "   ";
-    }
+    mainMenu += "|@S|  " + _("RetroArch") + "   ";
     mainMenu += "|@T|  " + _("About") + "  |@Select|  " + _("Options") + " ";
     if (adv == "true") {
         mainMenu += "|@L1| " + _("Advanced");
@@ -729,7 +744,7 @@ void Gui::menuSelection() {
                                     menuVisible = false;
                                 } else {
                                     if (lastSet < 0) {
-                                        lastSet = SET_ALL;
+                                        lastSet = SET_PS1;
                                         lastSelIndex=0;
                                         resumingGui = false;
                                     }
@@ -746,30 +761,28 @@ void Gui::menuSelection() {
                             };
 
                         if (!forceScan)
-                            if (retroarch != "false") {
-                                if (e.jbutton.button == _cb(PCS_BTN_SQUARE, &e)) {
-                                    Mix_PlayChannel(-1, cursor, 0);
-                                    if (!DirEntry::exists(Env::getPathToRetroarchDir() + sep + "retroarch")) {
+                            if (e.jbutton.button == _cb(PCS_BTN_SQUARE, &e)) {
+                                Mix_PlayChannel(-1, cursor, 0);
+                                if (!DirEntry::exists(Env::getPathToRetroarchDir() + sep + "retroarch")) {
 
-                                        auto confirm = new GuiConfirm(renderer);
-                                        confirm->label = _("RetroArch is not installed");
-                                        confirm->show();
-                                        bool result = confirm->result;
-                                        delete confirm;
-                                        if (result) {
-                                            this->menuOption = MENU_OPTION_RETRO;
-                                            menuVisible = false;
-                                        } else {
-                                            menuSelection();
-                                            menuVisible = false;
-                                        }
-                                    } else {
-                                        exportDBToRetroarch();
+                                    auto confirm = new GuiConfirm(renderer);
+                                    confirm->label = _("RetroArch is not installed");
+                                    confirm->show();
+                                    bool result = confirm->result;
+                                    delete confirm;
+                                    if (result) {
                                         this->menuOption = MENU_OPTION_RETRO;
                                         menuVisible = false;
+                                    } else {
+                                        menuSelection();
+                                        menuVisible = false;
                                     }
-                                };
-                            }
+                                } else {
+                                    exportDBToRetroarch();
+                                    this->menuOption = MENU_OPTION_RETRO;
+                                    menuVisible = false;
+                                }
+                            };
 
                         if (e.jbutton.button == _cb(PCS_BTN_CROSS, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
