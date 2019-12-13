@@ -10,6 +10,8 @@
 
 .-= Testing =-.
 
+.lic file not found
+
 About
 
 Advanced
@@ -29,6 +31,8 @@ AutoBleem resume points not available in RetroArch.
 AutoBleem Theme:
 
 Background Music:
+
+Bin file failed to verify
 
 Button Guide
 
@@ -58,7 +62,11 @@ Confirm
 
 Copy
 
+Cover image file not found
+
 Cover Style:
+
+Cue file not found
 
 Custom
 
@@ -122,9 +130,17 @@ Game
 
 GAME
 
+Game failed to verify:
+
+Game file not found
+
 Game Manager
 
 Game manager - Select game
+
+Game.ini file not found
+
+Game.ini file not valid
 
 Game:
 
@@ -188,6 +204,10 @@ New Card
 
 New GamePad found
 
+No disc name
+
+No discs
+
 OK
 
 OOPS! Game crashed. Resume point not available.
@@ -199,6 +219,8 @@ Options
 Original
 
 Page
+
+pcsx.cfg file not found
 
 Player
 
@@ -235,6 +257,8 @@ QuickBoot:
 Quit emulation - back to AutoBleem
 
 Re/Scan
+
+ReadMe file not found
 
 Region:
 
@@ -285,6 +309,8 @@ Show RetroArch:
 Showing Timeout (0 = no timeout):
 
 Showing: All games
+
+Showing: Apps
 
 Showing: Favorite games
 
