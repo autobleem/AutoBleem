@@ -12,15 +12,16 @@ using namespace std;
 //*******************************
 void GuiSplash::render() {
     std::shared_ptr<Gui> gui(Gui::getInstance());
-    int w, h; // texture width & height
-    SDL_SetTextureBlendMode(GfxTheme::backgroundImg, SDL_BLENDMODE_BLEND);
-    SDL_QueryTexture(GfxTheme::backgroundImg, NULL, NULL, &w, &h);
+
+    Gfx::setImageBlend(GfxTheme::backgroundImg);
+    GfxSize size = Gfx::getImageSize(GfxTheme::backgroundImg);
+
     SDL_Rect backgroundRect;
     backgroundRect.x = 0;
     backgroundRect.y = 0;
-    backgroundRect.w = w;
-    backgroundRect.h = h;
-    SDL_QueryTexture(GfxTheme::logo, NULL, NULL, &w, &h);
+    backgroundRect.w = size.w;
+    backgroundRect.h = size.h;
+    SDL_QueryTexture(GfxTheme::logo, NULL, NULL, &size.w, &size.h);
 
     GfxImage  textTex;
     SDL_Rect textRec;
@@ -47,7 +48,7 @@ void GuiSplash::render() {
     logoRect.w = atoi(GfxTheme::get("lw").c_str());
     logoRect.h = atoi(GfxTheme::get("lh").c_str());
 
-    SDL_RenderCopy(Application::renderer, GfxTheme::backgroundImg, NULL, NULL);
+    Gfx::drawImage(GfxTheme::backgroundImg,0,0);
     SDL_RenderCopy(Application::renderer, GfxTheme::logo, NULL, &logoRect);
 
     string bg = GfxTheme::get("text_bg");

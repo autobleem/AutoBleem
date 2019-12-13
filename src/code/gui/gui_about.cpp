@@ -13,7 +13,6 @@
 #include "../engine/scanner.h"
 
 void GuiAbout::init() {
-    std::shared_ptr<Gui> gui(Gui::getInstance());
     fx.renderer = Application::renderer;
     font = Fonts::openFont(Env::getWorkingPath() + sep + "about.ttf", 17);
     logo = Gfx::loadImage( (Env::getWorkingPath() + sep + "ablogo.png").c_str());
