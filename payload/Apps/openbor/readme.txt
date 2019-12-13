@@ -14,10 +14,11 @@ Keys:
 DPAD - move the character
 X - Attack 1
 O - Attack 2
-Triangle - Jump
-Square - Special
-L1 - Attack 3
-R1 - Attack 4
+[] - Attack 3
+^ - Attack 4
+L1 - Jump
+R1 - Special
+
 Start - Start
 Select - Make Screenshot
 
