@@ -20,7 +20,7 @@ enum {
     CFG_QUICK_BOOT,
     CFG_QUICKMENU,
     CFG_GFX_FILTER,
-    CFG_ADV,
+    CFG_RACONFIG,
     CFG_SHOWINGTIMEOUT,
     CFG_LANG
 };
@@ -135,9 +135,9 @@ void GuiOptions::doPrevNextOption(shared_ptr<Gui> gui, shared_ptr<Lang> lang, bo
         gui->cfg.inifile.values["mip"] = nextValue;
     }
 
-    if (selOption == CFG_ADV) {
-        string nextValue = getPrevNextOption(adv, gui->cfg.inifile.values["adv"], next);
-        gui->cfg.inifile.values["adv"] = nextValue;
+    if (selOption == CFG_RACONFIG) {
+        string nextValue = getPrevNextOption(raconfig, gui->cfg.inifile.values["raconfig"], next);
+        gui->cfg.inifile.values["raconfig"] = nextValue;
     }
 
     if (selOption == CFG_SHOWINGTIMEOUT) {
@@ -232,6 +232,10 @@ void GuiOptions::init() {
     for (int i=0; i <= 20; ++i) {
         showingtimeout.push_back(to_string(i));
     }
+
+    raconfig.clear();
+    raconfig.push_back("false");
+    raconfig.push_back("true");
 }
 
 //*******************************
@@ -301,7 +305,7 @@ void GuiOptions::render() {
     renderOptionLine(_("QuickBoot:") + " " + getBooleanIcon("quick"), CFG_QUICK_BOOT + 1, offset);
     renderOptionLine(_("QuickBoot Init:") + " " + gui->cfg.inifile.values["quickmenu"], CFG_QUICKMENU + 1, offset);
     renderOptionLine(_("GFX Filter:") + " " + getBooleanIcon("mip"), CFG_GFX_FILTER + 1, offset);
-    renderOptionLine(_("Advanced:") + " " + getBooleanIcon("adv"), CFG_ADV + 1, offset);
+    renderOptionLine(_("Update RA Config:") + " " + getBooleanIcon("raconfig"), CFG_RACONFIG + 1, offset);
     renderOptionLine(_("Showing Timeout (0 = no timeout):") + " " + gui->cfg.inifile.values["showingtimeout"], CFG_SHOWINGTIMEOUT + 1, offset);
     renderOptionLine(_("Language:") + " " + gui->cfg.inifile.values["language"], CFG_LANG + 1, offset);
 

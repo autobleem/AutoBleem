@@ -97,15 +97,23 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
     }
     cout << endl;
 
-    backupCoreConfig();
-    transferConfig(game);
+    // core config here - to be optional
+    if (gui->cfg.inifile.values["raconfig"]=="true") {
+        backupCoreConfig();
+        transferConfig(game);
+    }
+
     int pid = fork();
     if (!pid) {
         execvp(link.c_str(), (char **) argvNew.data());
     }
     waitpid(pid, NULL, 0);
     usleep(3 * 1000);
-    restoreCoreConfig();
+
+    // core config here - to be optional
+    if (gui->cfg.inifile.values["raconfig"]=="true") {
+        restoreCoreConfig();
+    }
     return true;
 }
 

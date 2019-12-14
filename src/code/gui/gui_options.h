@@ -44,5 +44,7 @@ public:
     std::vector<std::string> pcsx;
     std::vector<std::string> autoregion;
 
+    std::vector<std::string> raconfig;
+
     using GuiScreen::GuiScreen;
 };

@@ -61,6 +61,12 @@ Config::Config()
         aDefaultWasSet = true;
     }
 
+    if (inifile.values["raconfig"]=="")
+    {
+        inifile.values["raconfig"]="true";
+        aDefaultWasSet = true;
+    }
+
     inifile.values["pcsx"]="bleemsync";
 
     if (aDefaultWasSet)
