@@ -272,7 +272,7 @@ void RetroArchInterceptor::transferConfig(PsGamePtr &game) {
         processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_show_bios_bootlogo",
                                  "pcsx_rearmed_show_bios_bootlogo  = \"enabled\" ");
         processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_nocdaudio",
-                                 "pcsx_rearmed_nocdaudio  = \"disabled\" ");
+                                 "pcsx_rearmed_nocdaudio  = \"enabled\" ");
 
         if (interpolation == 0) {
             processor->replaceRaConf(RA_CORE_CONFIG, "pcsx_rearmed_spu_interpolation",
