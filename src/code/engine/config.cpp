@@ -15,6 +15,9 @@ Config::Config()
 {
     std::string path=Env::getWorkingPath() + sep + "config.ini";
     inifile.load(path);
+
+    inifile.values["adv"]="true";
+
     bool aDefaultWasSet {false};
     if (inifile.values["language"]=="")
     {
@@ -58,6 +61,12 @@ Config::Config()
     if (inifile.values["ps1select"]=="")
     {
         inifile.values["ps1select"]="All Games";
+        aDefaultWasSet = true;
+    }
+
+    if (inifile.values["raconfig"]=="")
+    {
+        inifile.values["raconfig"]="true";
         aDefaultWasSet = true;
     }
 
