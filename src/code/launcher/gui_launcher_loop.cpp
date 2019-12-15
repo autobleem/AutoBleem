@@ -303,9 +303,9 @@ void GuiLauncher::loop_chooseGameDir() {
     }
     auto guiGameDirMenu = new GuiGameDirMenu(renderer);
     for (auto &rowInfo : gameRowInfos) {
-        string text = string(rowInfo.indentLevel * 4, ' ') +
-                      rowInfo.rowName + " (" + to_string(rowInfo.numGames) + " " + _("Games") + ")";
-        guiGameDirMenu->textsToDisplay.emplace_back(text);
+        guiGameDirMenu->infoToDisplay.emplace_back(string(rowInfo.indentLevel * 4, ' '),
+                                                   rowInfo.rowName,
+                                                   rowInfo.numGames);
     }
     guiGameDirMenu->backgroundImg = background->tex;
     int nextSel = currentUSBGameDirIndex;
