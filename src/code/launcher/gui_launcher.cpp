@@ -193,7 +193,8 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
         getGames_SET_APPS(&gamesList);
     }
 
-    sort(gamesList.begin(), gamesList.end(), sortByTitle);
+    if (!(currentSet == SET_RETROARCH && currentRAPlaylistName == raIntegrator->historyDisplayName))
+        sort(gamesList.begin(), gamesList.end(), sortByTitle);
     cout << "Games Sorted" << endl;
     // copy the gamesList into the carousel
     carouselGames.clear();

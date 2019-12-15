@@ -102,6 +102,18 @@ string RAIntegrator::findFavoritesPlaylistPath() {
 }
 
 //********************
+// RAIntegrator::findHistoryPlaylistPath
+//********************
+// returns "" if not found
+string RAIntegrator::findHistoryPlaylistPath() {
+    string defaultPath {Env::getPathToRetroarchDir() + sep + "content_history.lpl"};
+    if (DirEntry::exists(defaultPath))
+        return defaultPath;
+    else
+        return "";
+}
+
+//********************
 // RAIntegrator::reloadFavorites
 //********************
 // after running RA favorites may have been added or removed
@@ -125,6 +137,10 @@ void RAIntegrator::reloadFavorites() {
             }
         }
 
+        // remove any games in the favorites playlist that no longer exist
+        auto it = remove_if(begin(favGames), end(favGames), [&] (PsGamePtr &game)
+        { return game->title == "" || game->db_name == ""; });
+        favGames.erase(it, end(favGames));
 
         std::tuple<bool,int> restuple = playlistNameToIndex(favoritesDisplayName);
         bool found = std::get<0>(restuple);
@@ -142,6 +158,51 @@ void RAIntegrator::reloadFavorites() {
 }
 
 //********************
+// RAIntegrator::reloadHistory
+//********************
+// after running RA history may have been added or removed
+void RAIntegrator::reloadHistory() {
+    string histPath = findHistoryPlaylistPath();
+    if (histPath != "") {
+        auto histGames = readGamesFromPlaylistFile(histPath);
+
+        // when RA adds a game to history for some reason the title, crc32, and db_name fields are empty.
+        // we need the title and db_path to compute the path to the boxart.
+        // find the original game in the playlists and copy the title and db_name to the history entry for the same game
+        for (auto & histGame : histGames) {
+            for (auto const & info : playlistInfos) {
+                if (info.displayName != historyDisplayName) {
+                    auto it = find_if(begin(info.psGames), end(info.psGames), [&] (PsGamePtr game) { return (game->image_path == histGame->image_path); } );
+                    if (it != end(info.psGames)) {
+                        histGame->title = (*it)->title;
+                        histGame->db_name = (*it)->db_name;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // remove any games in the history playlist that no longer exist
+        auto it = remove_if(begin(histGames), end(histGames), [&] (PsGamePtr &game)
+        { return game->title == "" || game->db_name == ""; });
+        histGames.erase(it, end(histGames));
+
+        std::tuple<bool,int> restuple = playlistNameToIndex(historyDisplayName);
+        bool found = std::get<0>(restuple);
+        int index = std::get<1>(restuple);
+        if (found) {
+            // the prior history is in the list.  modify the existing entry
+            RAPlaylistInfo & hist = playlistInfos[index];
+            hist.path = histPath;
+            hist.psGames = histGames;
+        } else {
+            // the history list didn't exist before and isn't in the list.  add a new entry.
+            playlistInfos.emplace_back(historyDisplayName, histPath, histGames);
+        }
+    }
+}
+
+//********************
 // RAIntegrator::readGamesFromAllPlaylists
 //********************
 // reads all the playlist info into RAPlaylistInfos
@@ -149,6 +210,7 @@ void RAIntegrator::readGamesFromAllPlaylists() {
     assert(playlistInfos.size() == 0);
     if (playlistInfos.size() != 0) {
         reloadFavorites();  // playlists already read.  only need to update favorites in case changed in RA.
+        reloadHistory();    // playlists already read.  only need to update history in case changed in RA.
         return;
     }
 
@@ -165,7 +227,7 @@ void RAIntegrator::readGamesFromAllPlaylists() {
             playlistNames.emplace_back(entry.name);
         }
 
-        // sort the playlist names and if any favorites add favorites at the end
+        // sort the playlist names and if any favorites or history add them at the end
         sort(begin(playlistNames), end(playlistNames));
 
         for (auto & playlistName : playlistNames) {
@@ -183,6 +245,7 @@ void RAIntegrator::readGamesFromAllPlaylists() {
                 cout << "Invalid Playlist: " << playlistName << endl;
         }
         reloadFavorites();  // since it isn't already in the list, reloadFavorites() will add favorites at the end
+        reloadHistory();    // since it isn't already in the list, reloadHistory() will add history at the end
     }
 }
 
