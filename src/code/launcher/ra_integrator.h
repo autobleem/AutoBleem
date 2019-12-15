@@ -60,15 +60,17 @@ public:
     set<string> databases;
 
     std::vector<RAPlaylistInfo> playlistInfos;
-    //std::string favoritesFileName;
     std::string favoritesDisplayName { "Favorites" };
+    std::string historyDisplayName { "History" };
     std::tuple<bool,int> playlistNameToIndex(const std::string& name);  // returns true if name found, and the index
 
     PsGames readGamesFromPlaylistFile(const std::string& path);         // read one lpl file
     void readGamesFromAllPlaylists();                                   // reads all the playlist info into playlistInfos
 
     std::string findFavoritesPlaylistPath();                            // returns "" if not found
+    std::string findHistoryPlaylistPath();                              // returns "" if not found
     void reloadFavorites(); // after running RA, favorites may have been added or removed
+    void reloadHistory(); // after running RA, history may have changed
 
     vector<string> getPlaylists();
     PsGames getGames(string playlist);
