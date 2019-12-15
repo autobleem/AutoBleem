@@ -268,15 +268,16 @@ int main(int argc, char *argv[]) {
                 interceptor->memcardOut(gui->runningGame);
                 delete (interceptor);
 
-                bool reloadFav {false};
+                bool reloadFavAndHist {false};
                 if (gui->runningGame->foreign)
-                    reloadFav = true;
+                    reloadFavAndHist = true;
                 else if (gui->emuMode != EMU_PCSX)
-                    reloadFav = true;
+                    reloadFavAndHist = true;
 
-                if (reloadFav) {
+                if (reloadFavAndHist) {
                     auto ra = RAIntegrator::getInstance();
                     ra->reloadFavorites();  // they could have changed
+                    ra->reloadHistory();  // they could have changed
                 }
                 gui->runningGame.reset();    // replace with shared_ptr pointing to nullptr
                 gui->startingGame = false;
@@ -329,15 +330,16 @@ int main(int argc, char *argv[]) {
             interceptor->memcardOut(gui->runningGame);
             delete (interceptor);
 
-            bool reloadFav {false};
+            bool reloadFavHist {false};
             if (gui->runningGame->foreign)
-                reloadFav = true;
+                reloadFavHist = true;
             else if (gui->emuMode != EMU_PCSX)
-                reloadFav = true;
+                reloadFavHist = true;
 
-            if (reloadFav) {
+            if (reloadFavHist) {
                 auto ra = RAIntegrator::getInstance();
                 ra->reloadFavorites();  // they could have changed
+                ra->reloadHistory();  // they could have changed
             }
 
             SDL_InitSubSystem(SDL_INIT_JOYSTICK);
