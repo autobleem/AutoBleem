@@ -10,6 +10,8 @@
 .-= Retroboot e core emulazione =-.
 .-= Testing =-.
 .-= Testing =-.
+.lic file not found
+file .lic non trovato
 About
 Informazioni su
 Advanced
@@ -30,6 +32,8 @@ AutoBleem Theme:
 Tema di AutoBleem:
 Background Music:
 Musica di Sottofondo:
+Bin file failed to verify
+Verifica del file Bin fallita
 Button Guide
 Guida ai Pulsanti
 Cancel
@@ -58,8 +62,12 @@ Confirm
 Conferma
 Copy
 Copia
+Cover image file not found
+Impossibile trovare il file dell'immagine di copertina
 Cover Style:
 Stile delle Cover:
+Cue file not found
+File Cue non trovato
 Custom
 Personalizza
 Custom Memory Cards
@@ -122,10 +130,18 @@ Game
 Gioco
 GAME
 GIOCO
+Game failed to verify:
+Verifica fallita per questi giochi:
+Game file not found
+Impossibile trovare i file del gioco
 Game Manager
 Gestore del gioco
 Game manager - Select game
 Gestore del gioco - Seleziona un gioco
+Game.ini file not found
+Impossibile trovare il file Game.ini
+Game.ini file not valid
+File Game.ini non valido
 Game:
 Gioco:
 games
@@ -188,6 +204,10 @@ New Card
 Nuova Card
 New GamePad found
 Trovato nuovo GamePad
+No disc name
+Nessun nome del disco
+No discs
+Nessun disco
 OK
 OK
 OOPS! Game crashed. Resume point not available.
@@ -200,6 +220,8 @@ Original
 Originale
 Page
 Pagina
+pcsx.cfg file not found
+Impossibile trovare il file pcsx.cfg
 Player
 Giocatore
 Players
@@ -236,6 +258,8 @@ Quit emulation - back to AutoBleem
 Esci dall'emulazione - torna ad AutoBleem
 Re/Scan
 Ri/Cerca
+ReadMe file not found
+Impossibile trovare il file ReadMe
 Region:
 Regione:
 Reload Cards
@@ -282,16 +306,18 @@ Share MC
 Condividi MC
 Show RetroArch:
 Mostra RetroArch:
-Showing: Retroarch
-Sto mostrando: Retroarch
 Showing Timeout (0 = no timeout):
 Timeout di Visualizzazione (0 = nessun timeout):
 Showing: All games
 Sto mostrando: Tutti i giochi
+Showing: Apps
+Sto mostrando: Apps
 Showing: Favorite games
 Sto mostrando: Giochi preferiti
 Showing: Internal games
 Sto mostrando: Giochi interni
+Showing: Retroarch
+Sto mostrando: Retroarch
 Showing: USB Games Directory:
 Sto mostrando: Cartella dei Giochi su USB
 Slot
