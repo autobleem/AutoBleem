@@ -10,7 +10,6 @@ using namespace std;
 
 enum {
     CFG_THEME=0,
-    CFG_PS1GAMES_SELECT,
     CFG_SHOW_ORIGAMES,
     CFG_UI,
     CFG_JEWEL,
@@ -25,10 +24,6 @@ enum {
     CFG_LANG
 };
 #define CFG_LAST CFG_LANG
-
-// CFG_PS1GAMES_SELECT select states
-// in config.ini: "ps1select" = "All Games", "Internal Only", "Games Subdir", "Favorites"
-vector<string> ps1SelectStrings { "All Games", "Internal Only", "Games Subdir", "Favorites" };
 
 //*******************************
 // GuiOptions::getPrevNextOption
@@ -63,13 +58,6 @@ void GuiOptions::doPrevNextOption(shared_ptr<Gui> gui, shared_ptr<Lang> lang, bo
     if (selOption == CFG_THEME) {
         string nextValue = getPrevNextOption(autobleemUIThemes, gui->cfg.inifile.values["theme"], next);
         gui->cfg.inifile.values["theme"] = nextValue;
-        init();
-        gui->loadAssets();
-    }
-
-    if (selOption == CFG_PS1GAMES_SELECT) {
-        string nextValue = getPrevNextOption(ps1SelectState, gui->cfg.inifile.values["ps1select"], next);
-        gui->cfg.inifile.values["ps1select"] = nextValue;
         init();
         gui->loadAssets();
     }
@@ -176,8 +164,6 @@ void GuiOptions::init() {
             autobleemUIThemes.push_back(entry.name);
         }
     }
-
-    ps1SelectState = ps1SelectStrings;
 
     pcsx.clear();
     pcsx.push_back("original");
@@ -295,7 +281,6 @@ void GuiOptions::render() {
     gui->renderTextLine("-=" + _("Configuration") + "=-", 0, offset, POS_CENTER);
 
     renderOptionLine(_("AutoBleem Theme:") + " " + gui->cfg.inifile.values["theme"], CFG_THEME + 1, offset);
-    renderOptionLine(_("PS1 Games Selection:") + " " + gui->cfg.inifile.values["ps1select"], CFG_PS1GAMES_SELECT + 1, offset);
     renderOptionLine(_("Show Internal Games:") + " " + getBooleanIcon("origames"), CFG_SHOW_ORIGAMES + 1, offset);
     renderOptionLine(_("UI:") + " " + gui->cfg.inifile.values["ui"], CFG_UI + 1, offset);
     renderOptionLine(_("Cover Style:") + " " + gui->cfg.inifile.values["jewel"], CFG_JEWEL + 1, offset);

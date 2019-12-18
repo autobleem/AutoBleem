@@ -154,24 +154,6 @@ string GuiBase::getCurrentThemeFontPath() {
 #endif
 }
 
-//*******************************
-// GuiBase::getPS1SelectSubState
-// if the set is SET_PS1, the config.ini contains the sub category of the PS1 game display
-//*******************************
-int GuiBase::getPS1SelectSubState() {
-    string ps1_SelectSubStateString = cfg.inifile.values["ps1select"];
-    if (ps1_SelectSubStateString == "All Games")
-        return CFG_PS1_All_Games;
-    if (ps1_SelectSubStateString == "Internal Only")
-        return CFG_PS1_Internal_Only;
-    if (ps1_SelectSubStateString == "Games Subdir")
-        return CFG_PS1_Games_Subdir;
-    if (ps1_SelectSubStateString == "Favorites")
-        return CFG_PS1_Favorites;
-    else
-        return CFG_PS1_All_Games;   // unknown config.ini value, return default
-}
-
                                     //*******************************
                                     // Gui
                                     //*******************************

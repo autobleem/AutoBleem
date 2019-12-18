@@ -302,23 +302,40 @@ void GuiLauncher::loop_chooseGameDir() {
         return; // no games!
     }
     auto guiGameDirMenu = new GuiGameDirMenu(renderer);
+
+    for (int i=0; i < gui->ps1SelectStrings.size(); ++i) {
+        if (i != SET_PS1_Games_Subdir)  // skip the subdir item.  selecting a subdir implies selecting this state
+            guiGameDirMenu->infoToDisplay.emplace_back("", gui->ps1SelectStrings[i], -1);
+    }
+    int offsetToGamesSubDirs = gui->ps1SelectStrings.size() - 1;    // how many rows at the top for the sub select states
+
     for (auto &rowInfo : gameRowInfos) {
         guiGameDirMenu->infoToDisplay.emplace_back(string(rowInfo.indentLevel * 4, ' '),
                                                    rowInfo.rowName,
                                                    rowInfo.numGames);
     }
     guiGameDirMenu->backgroundImg = background->tex;
-    int nextSel = currentUSBGameDirIndex;
+    int nextSel = 0;
+    if (currentPS1_SelectState != SET_PS1_Games_Subdir)
+        nextSel = currentPS1_SelectState;
+    else
+        nextSel = offsetToGamesSubDirs + currentUSBGameDirIndex;
     guiGameDirMenu->selected = nextSel;
     guiGameDirMenu->firstVisible = nextSel;
     guiGameDirMenu->lastVisible = nextSel + guiGameDirMenu->maxVisible;
 
     guiGameDirMenu->show();
     bool cancelled = guiGameDirMenu->cancelled;
-    currentUSBGameDirIndex = guiGameDirMenu->selected;
-    currentUSBGameDirName = "";
-    if (currentUSBGameDirIndex < gameRowInfos.size())
-        currentUSBGameDirName = gameRowInfos[currentUSBGameDirIndex].rowName;
+
+    if (guiGameDirMenu->selected < offsetToGamesSubDirs){
+        currentPS1_SelectState = guiGameDirMenu->selected;
+    } else {
+        currentPS1_SelectState = SET_PS1_Games_Subdir;
+        currentUSBGameDirIndex = guiGameDirMenu->selected - offsetToGamesSubDirs;
+        currentUSBGameDirName = "";
+        if (currentUSBGameDirIndex < gameRowInfos.size())
+            currentUSBGameDirName = gameRowInfos[currentUSBGameDirIndex].rowName;
+    }
     delete guiGameDirMenu;
 
     if (cancelled)
@@ -392,7 +409,7 @@ void GuiLauncher::loop_chooseRAPlaylist() {
 void GuiLauncher::loop_selectButtonPressed() {
     if (state == STATE_GAMES) {
         if (powerOffShift) {
-            if (currentSet == SET_PS1 && gui->getPS1SelectSubState() == CFG_PS1_Games_Subdir)
+            if (currentSet == SET_PS1)
                 loop_chooseGameDir();
             else if (currentSet == SET_RETROARCH)
                 loop_chooseRAPlaylist();
@@ -511,6 +528,8 @@ void GuiLauncher::loop_squareButtonPressed() {
             gui->lastSelIndex = selGameIndex;
             gui->resumepoint = -1;
             gui->lastSet = currentSet;
+            if (currentSet == SET_PS1)
+                gui->lastPS1_SelectState = currentPS1_SelectState;
             gui->lastUSBGameDirIndex = currentUSBGameDirIndex;
             gui->lastRAPlaylistIndex = currentRAPlaylistIndex;
             menuVisible = false;
@@ -551,6 +570,8 @@ void GuiLauncher::loop_crossButtonPressed_STATE_GAMES() {
     gui->lastSelIndex = selGameIndex;
     gui->resumepoint = -1;
     gui->lastSet = currentSet;
+    if (currentSet == SET_PS1)
+        gui->lastPS1_SelectState = currentPS1_SelectState;
     gui->lastUSBGameDirIndex = currentUSBGameDirIndex;
     gui->lastRAPlaylistIndex = currentRAPlaylistIndex;
     menuVisible = false;
@@ -605,6 +626,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET() {
 void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_AB_SETTINGS() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     int lastSet = currentSet;
+    int lastPS1_SelectState = currentPS1_SelectState;
     int lastUSBGameDirIndex = currentUSBGameDirIndex;
     int lastRAPlaylistIndex = currentRAPlaylistIndex;
     int lastGame = selGameIndex;
@@ -618,6 +640,8 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_AB_SETTINGS() {
         loadAssets();
         gui->resumingGui = false;
         currentSet = lastSet;
+        if (currentSet = SET_PS1)
+            currentPS1_SelectState = lastPS1_SelectState;
         currentUSBGameDirIndex = lastUSBGameDirIndex;
         currentRAPlaylistIndex = lastRAPlaylistIndex;
         selGameIndex = lastGame;
@@ -692,8 +716,9 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_EDIT_GAME_SETTINGS() {
             gui->db->updateTitle(carouselGames[selGameIndex]->gameId, gameIni.values["title"]);
         }
         gui->db->refreshGame(carouselGames[selGameIndex]);
-        if (currentSet == SET_PS1 && editor->gameIni.values["favorite"] == "0") {
+        if (currentSet == SET_PS1 && currentPS1_SelectState == SET_PS1_Favorites && editor->gameIni.values["favorite"] == "0") {
             gui->lastSet = SET_PS1;
+            gui->lastPS1_SelectState = SET_PS1_Favorites;
             loadAssets();
         }
     } else {
@@ -701,10 +726,11 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_EDIT_GAME_SETTINGS() {
             gui->internalDB->updateTitle(carouselGames[selGameIndex]->gameId, editor->lastName);
         }
         gui->internalDB->refreshGameInternal(carouselGames[selGameIndex]);
-        if (currentSet == SET_PS1 && gui->getPS1SelectSubState() == CFG_PS1_Favorites &&
+        if (currentSet == SET_PS1 && currentPS1_SelectState == SET_PS1_Favorites &&
                                      editor->gameData->favorite == false)
         {
             gui->lastSet = SET_PS1;
+            gui->lastPS1_SelectState = SET_PS1_Favorites;
             loadAssets();
         }
     }
@@ -812,6 +838,8 @@ void GuiLauncher::loop_crossButtonPressed_STATE_RESUME() {
             gui->lastSelIndex = selGameIndex;
             gui->resumepoint = slot;
             gui->lastSet = currentSet;
+            if (currentSet == SET_PS1)
+                gui->lastPS1_SelectState == currentPS1_SelectState;
             gui->lastUSBGameDirIndex = currentUSBGameDirIndex;
             gui->lastRAPlaylistIndex = currentRAPlaylistIndex;
             sselector->cleanSaveStateImages();

@@ -43,7 +43,7 @@ void GuiGameDirMenu::render()
 
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=" + _("Select USB Games Directory") + "=-",0,offset,true);
+    gui->renderTextLine("-=" + _("Select USB Games Display") + "=-",0,offset,true);
     if (selected >= infoToDisplay.size()) {
         selected = infoToDisplay.size() - 1;
     }

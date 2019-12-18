@@ -85,6 +85,7 @@ public:
     shared_ptr<Gui> gui;
 
     int currentSet = SET_PS1;
+    int currentPS1_SelectState = SET_PS1_All_Games;    // SET_PS1_All_Games, SET_PS1_Internal_Only, SET_PS1_Favorites, SET_PS1_Games_Subdir
     void switchSet(int newSet, bool noForce);
     void showSetName();
 

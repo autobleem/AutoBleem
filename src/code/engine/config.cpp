@@ -58,11 +58,6 @@ Config::Config()
         inifile.values["showingtimeout"]=DefaultShowingTimeoutText;
         aDefaultWasSet = true;
     }
-    if (inifile.values["ps1select"]=="")
-    {
-        inifile.values["ps1select"]="All Games";
-        aDefaultWasSet = true;
-    }
 
     if (inifile.values["raconfig"]=="")
     {
