@@ -334,7 +334,7 @@ void GuiLauncher::loadAssets() {
                             _("Edit Memory Card information"), _("Resume game from saved state point")};
 
     currentSet = gui->lastSet;
-    if (currentSet = SET_PS1)
+    if (currentSet == SET_PS1)
         currentPS1_SelectState = gui->lastPS1_SelectState;
     currentUSBGameDirIndex = gui->lastUSBGameDirIndex;
     currentRAPlaylistIndex = gui->lastRAPlaylistIndex;
