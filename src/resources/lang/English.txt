@@ -16,8 +16,6 @@ About
 
 Advanced
 
-Advanced:
-
 Are you sure you want to delete
 
 Are you sure you want to flush all covers?
@@ -172,8 +170,6 @@ Internal
 
 INTERNAL
 
-Internal Games:
-
 Is your dpad analogue?
 
 Language:
@@ -298,13 +294,15 @@ Select Right Card
 
 SELECT SLOT TO SAVE STATE
 
+Select USB Games Display
+
 Serial:
 
 SETTINGS
 
 Share MC
 
-Show RetroArch:
+Show Internal Games:
 
 Showing Timeout (0 = no timeout):
 
@@ -341,6 +339,8 @@ Total:
 UI:
 
 Unknown Core (AutoDetect)
+
+Update RA Config:
 
 Updating regional.db...
 
