@@ -449,9 +449,9 @@ void GuiLauncher::loadAssets() {
     if (selGameIndex != -1) {
         meta->updateTexts(carouselGames[selGameIndex], fgR, fgG, fgB);
     } else {
-        meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, false,
-                          false, fgR,
-                          fgG, fgB);
+        meta->updateTexts(gameName, publisher, year, serial, region, players,
+                          false, false, false, 0, false, false, false,
+                          fgR, fgG, fgB);
     }
     staticElements.push_back(meta);
 
