@@ -35,7 +35,8 @@ void GuiLauncher::updateMeta() {
                           fgG, fgB);
         return;
     }
-    meta->updateTexts(carouselGames[selGameIndex], fgR, fgG, fgB);
+    if (selGameIndexIndexInCarouselGamesIsValid())
+        meta->updateTexts(carouselGames[selGameIndex], fgR, fgG, fgB);
 }
 
 //*******************************
@@ -446,7 +447,7 @@ void GuiLauncher::loadAssets() {
     meta->x = 785;
     meta->y = 285;
     meta->visible = true;
-    if (selGameIndex != -1) {
+    if (selGameIndex != -1 && selGameIndexIndexInCarouselGamesIsValid()) {
         meta->updateTexts(carouselGames[selGameIndex], fgR, fgG, fgB);
     } else {
         meta->updateTexts(gameName, publisher, year, serial, region, players,
@@ -536,7 +537,7 @@ void GuiLauncher::loadAssets() {
     showSetName();
     updateMeta();
 
-    if (selGameIndex >= 0) {
+    if (selGameIndexIndexInCarouselGamesIsValid()) {
         menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
     }
 }
@@ -750,7 +751,8 @@ void GuiLauncher::nextCarouselGame(int speed) {
         selGameIndex = 0;
     }
     updateMeta();
-    menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
+    if (selGameIndexIndexInCarouselGamesIsValid())
+        menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
 }
 
 //*******************************
@@ -765,7 +767,8 @@ void GuiLauncher::prevCarouselGame(int speed) {
         selGameIndex = carouselGames.size() - 1;
     }
     updateMeta();
-    menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
+    if (selGameIndexIndexInCarouselGamesIsValid())
+        menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
 }
 
 //*******************************
@@ -911,14 +914,16 @@ void GuiLauncher::moveMainCover(int state) {
 
     long time = SDL_GetTicks();
 
-    if (state == STATE_GAMES) {
-        carouselGames[selGameIndex].destination = point1;
-        carouselGames[selGameIndex].animationStart = time;
-        carouselGames[selGameIndex].animationDuration = 200;
-    } else {
-        carouselGames[selGameIndex].destination = point2;
-        carouselGames[selGameIndex].animationStart = time;
-        carouselGames[selGameIndex].animationDuration = 200;
+    if (selGameIndexIndexInCarouselGamesIsValid()) {
+        if (state == STATE_GAMES) {
+            carouselGames[selGameIndex].destination = point1;
+            carouselGames[selGameIndex].animationStart = time;
+            carouselGames[selGameIndex].animationDuration = 200;
+        } else {
+            carouselGames[selGameIndex].destination = point2;
+            carouselGames[selGameIndex].animationStart = time;
+            carouselGames[selGameIndex].animationDuration = 200;
+        }
     }
 }
 
