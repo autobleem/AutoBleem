@@ -21,7 +21,6 @@ public:
         MenuLineData(std::string _prefix, std::string _name, int _numGames) :
             prefix(_prefix), name(_name), numGames(_numGames) { };
     };
-    //std::vector<std::string> textsToDisplay;
     std::vector<MenuLineData> infoToDisplay;
 
     int selected=0;

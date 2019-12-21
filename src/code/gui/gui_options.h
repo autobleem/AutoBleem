@@ -27,7 +27,6 @@ public:
     int exitCode=0;
 
     std::vector<std::string> autobleemUIThemes;
-    std::vector<std::string> ps1SelectState;
     std::vector<std::string> origames;
     std::vector<std::string> ui;
     std::vector<std::string> jewels;
