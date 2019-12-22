@@ -46,9 +46,11 @@ void GuiLauncher::getGames_SET_FAVORITE(PsGames *gamesList) {
     PsGames completeList;
     gui->db->getGames(&completeList);
 
-    PsGames internalList;
-    gui->internalDB->getInternalGames(&internalList);
-    completeList.insert(end(completeList), begin(internalList), end(internalList));
+    if (gui->cfg.inifile.values["origames"] == "true") {
+        PsGames internalList;
+        gui->internalDB->getInternalGames(&internalList);
+        completeList.insert(end(completeList), begin(internalList), end(internalList));
+    }
 
     // put only the favorites in gamesList
     copy_if(begin(completeList), end(completeList), back_inserter(*gamesList),
@@ -167,11 +169,19 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
             game.freeTex();
         }
     }
-    cout << "Reloading games list" << endl;
-    // get fresh list of games for this set
+
+    cout << "Reloading games list" << endl; // get fresh list of games for this set
     PsGames gamesList;
 
     if (currentSet == SET_PS1) {
+
+        // if do not show internal games
+        if (gui->cfg.inifile.values["origames"] != "true") {
+            if (currentPS1_SelectState == SET_PS1_All_Games || currentPS1_SelectState == SET_PS1_Internal_Only) {
+                currentPS1_SelectState = SET_PS1_Games_Subdir;
+                //if (selGameIndexInCarouselGamesIsValid())
+            }
+        }
 
         if (currentPS1_SelectState == SET_PS1_All_Games) {
             getGames_SET_SUBDIR(0, &gamesList);   // get the games in row 0 = /Games and on down
