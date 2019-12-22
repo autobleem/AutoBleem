@@ -10,6 +10,8 @@
 .-= Retroboot a jadrá emulácie =-.
 .-= Testing =-.
 .-= Testovanie =-.
+.lic file not found
+.lic súbor sa nepodarilo nájsť
 About
 O programe
 Advanced
@@ -30,6 +32,8 @@ AutoBleem Theme:
 Téma AutoBleemu:
 Background Music:
 Hudba na pozadí:
+Bin file failed to verify
+Nepodarilo sa overiť súbor bin.
 Button Guide
 Sprievodca tlačidlami
 Cancel
@@ -58,8 +62,12 @@ Confirm
 Potvrdiť
 Copy
 Kopírovať
+Cover image file not found
+Nie je možné nájsť obal hry.
 Cover Style:
 Štýl obalu:
+Cue file not found
+Nie je možné nájsť cue súbor.
 Custom
 Vlastné
 Custom Memory Cards
@@ -122,10 +130,18 @@ Game
 Hra
 GAME
 HRA
+Game failed to verify:
+Nepodarilo sa overiť hru:
+Game file not found
+Nepodarilo sa nájsť hru
 Game Manager
 Správca hier
 Game manager - Select game
 Správca hry - Vybrať hru
+Game.ini file not found
+Súbor hry .ini sa nenašiel.
+Game.ini file not valid
+Súbor hry .ini sa nepodarilo overiť.
 Game:
 Hra:
 games
@@ -188,6 +204,10 @@ New Card
 Nová karta
 New GamePad found
 Nájdený nový Gamepad
+No disc name
+Disk hry bez názvu
+No discs
+Žiadne disky
 OK
 OK
 OOPS! Game crashed. Resume point not available.
@@ -200,6 +220,8 @@ Original
 Originálne hry
 Page
 Strana
+pcsx.cfg file not found
+Súbor pcsx.cfg sa nenašiel
 Player
 Hráč
 Players
@@ -236,6 +258,8 @@ Quit emulation - back to AutoBleem
 Ukončiť emuláciu - návrat do AutoBleemu
 Re/Scan
 Pre/Hľadať
+ReadMe file not found
+Súbor ReadMe sa nenašiel
 Region:
 Oblasť:
 Reload Cards
@@ -286,6 +310,8 @@ Showing Timeout (0 = no timeout):
 Zobrazenie časového limitu (0 = bez limitu):
 Showing: All games
 Zobrazujem: Všetky hry
+Showing: Apps
+Zobrazujem: Aplikácie
 Showing: Favorite games
 Zobrazujem: Obľúbené hry
 Showing: Internal games

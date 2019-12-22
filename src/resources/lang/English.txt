@@ -90,7 +90,7 @@ Do you want to save memcards data ?
 
 Download latest:
 
-DPAD - Same as classic menu
+DPAD
 
 Edit game parameters
 
@@ -165,6 +165,8 @@ High res:
 Hold
 
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+
+In Boot Menu: Safe Power Off The Console
 
 In Game
 
@@ -278,7 +280,9 @@ RetroArch
 
 RetroArch is not installed
 
-Run using RetroBoot(if installed)
+Run using RetroBoot
+
+Same as classic menu
 
 Scanline Level:
 
