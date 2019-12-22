@@ -16,6 +16,8 @@ About
 
 Advanced
 
+All Games
+
 Are you sure you want to delete
 
 Are you sure you want to flush all covers?
@@ -112,6 +114,8 @@ Exit to EvoUI
 
 Failed to delete
 
+Favorite Games
+
 Favorite:
 
 Flush covers
@@ -169,6 +173,8 @@ In Retroarch Game
 Internal
 
 INTERNAL
+
+Internal Games
 
 Is your dpad analogue?
 
@@ -286,6 +292,8 @@ Select memory card
 
 Select or cancel highlighted option
 
+Select PS1 Game Category
+
 SELECT RESUME SLOT TO LOAD
 
 Select RetroBoot Platform
@@ -293,8 +301,6 @@ Select RetroBoot Platform
 Select Right Card
 
 SELECT SLOT TO SAVE STATE
-
-Select USB Games Display
 
 Serial:
 
@@ -306,13 +312,13 @@ Show Internal Games:
 
 Showing Timeout (0 = no timeout):
 
-Showing: All games
+Showing: All Games
 
 Showing: Apps
 
-Showing: Favorite games
+Showing: Favorite Games
 
-Showing: Internal games
+Showing: Internal Games
 
 Showing: Retroarch
 

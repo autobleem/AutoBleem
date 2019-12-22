@@ -156,7 +156,7 @@ public:
     // So the same PsGamePtr could be in more than one PsCarouselGame.
     std::vector<PsCarouselGame> carouselGames;
     int selGameIndex = 0;
-    bool selGameIndexIndexInCarouselGamesIsValid() { return ((selGameIndex >= 0) && (selGameIndex < carouselGames.size())); }
+    bool selGameIndexInCarouselGamesIsValid() { return ((selGameIndex >= 0) && (selGameIndex < carouselGames.size())); }
 
     std::shared_ptr<RAIntegrator> raIntegrator;
     std::vector<std::string> raPlaylists;

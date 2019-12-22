@@ -35,7 +35,7 @@ void GuiLauncher::updateMeta() {
                           fgG, fgB);
         return;
     }
-    if (selGameIndexIndexInCarouselGamesIsValid())
+    if (selGameIndexInCarouselGamesIsValid())
         meta->updateTexts(carouselGames[selGameIndex], fgR, fgG, fgB);
 }
 
@@ -237,9 +237,9 @@ void GuiLauncher::showSetName() {
                                _("Showing: Retroarch") + " ",
                                _("Showing: Apps") + " "
     };
-    vector<string> setPS1SubStateNames = {_("Showing: All games") + " ",
-                                          _("Showing: Internal games") + " ",
-                                          _("Showing: Favorite games") + " ",
+    vector<string> setPS1SubStateNames = {_("Showing: All Games") + " ",
+                                          _("Showing: Internal Games") + " ",
+                                          _("Showing: Favorite Games") + " ",
                                           _("Showing: USB Games Directory:") + " "
     };
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
@@ -447,7 +447,7 @@ void GuiLauncher::loadAssets() {
     meta->x = 785;
     meta->y = 285;
     meta->visible = true;
-    if (selGameIndex != -1 && selGameIndexIndexInCarouselGamesIsValid()) {
+    if (selGameIndex != -1 && selGameIndexInCarouselGamesIsValid()) {
         meta->updateTexts(carouselGames[selGameIndex], fgR, fgG, fgB);
     } else {
         meta->updateTexts(gameName, publisher, year, serial, region, players,
@@ -537,7 +537,7 @@ void GuiLauncher::loadAssets() {
     showSetName();
     updateMeta();
 
-    if (selGameIndexIndexInCarouselGamesIsValid()) {
+    if (selGameIndexInCarouselGamesIsValid()) {
         menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
     }
 }
@@ -751,7 +751,7 @@ void GuiLauncher::nextCarouselGame(int speed) {
         selGameIndex = 0;
     }
     updateMeta();
-    if (selGameIndexIndexInCarouselGamesIsValid())
+    if (selGameIndexInCarouselGamesIsValid())
         menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
 }
 
@@ -767,7 +767,7 @@ void GuiLauncher::prevCarouselGame(int speed) {
         selGameIndex = carouselGames.size() - 1;
     }
     updateMeta();
-    if (selGameIndexIndexInCarouselGamesIsValid())
+    if (selGameIndexInCarouselGamesIsValid())
         menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
 }
 
@@ -914,7 +914,7 @@ void GuiLauncher::moveMainCover(int state) {
 
     long time = SDL_GetTicks();
 
-    if (selGameIndexIndexInCarouselGamesIsValid()) {
+    if (selGameIndexInCarouselGamesIsValid()) {
         if (state == STATE_GAMES) {
             carouselGames[selGameIndex].destination = point1;
             carouselGames[selGameIndex].animationStart = time;

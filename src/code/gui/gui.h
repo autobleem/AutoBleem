@@ -67,9 +67,6 @@ public:
     std::string getCurrentThemeFontPath();
     std::string getCurrentThemeSoundPath();
 
-    // SET_PS1 select sub states
-    vector<string> ps1SelectStrings { "All Games", "Internal Only", "Favorites", "Games Subdir" };
-
     GuiBase();
     ~GuiBase();
 };
