@@ -24,25 +24,34 @@ void GuiBtnGuide::render() {
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     gui->renderTextLine("-=" + _("Button Guide") + "=-", 0, offset, POS_CENTER);
-    gui->renderTextLine(_("DPAD - Same as classic menu"), 1, offset, POS_CENTER);
-    gui->renderTextLine("|@X| / |@O|   " + _("Select or cancel highlighted option"), 2, offset, POS_CENTER);
-    gui->renderTextLine("|@S|   " + _("Run using RetroBoot(if installed)"), 3, offset, POS_CENTER);
-    gui->renderTextLine("|@R1| / |@L1|   " + _("Quick scroll to next letter"), 4, offset, POS_CENTER);
-    gui->renderTextLine("|@Select|   " + _("Games filter"), 5, offset, POS_CENTER);
-    gui->renderTextLine("|@L2| + |@Select|   " + _("Change USB Games Sub-Directory"), 6, offset, POS_CENTER);
-    gui->renderTextLine("|@L2| + |@Select|   " + _("Change RetroBoot System"), 7, offset, POS_CENTER);
+    string leftColumnSpaces(30, ' ');
+    string spaceOverToColumn(20, ' ');
 
-    gui->renderTextLine("-=" + _("In Game") + "=-", 8, offset, POS_CENTER);
-    gui->renderTextLine("|@Select| + |@T|   " + _("Emulator config MENU"), 9, offset, POS_CENTER);
-    gui->renderTextLine("RESET   " + _("Quit emulation - back to AutoBleem"), 10, offset, POS_CENTER);
+    auto renderTextLineToColumns = [&] (const string &textLeft, const string &textRight, int line, int offset) {
+        gui->renderTextLine(leftColumnSpaces + spaceOverToColumn + textRight, line, offset, POS_LEFT);
+        gui->renderTextLine(leftColumnSpaces + textLeft,                      line, offset, POS_LEFT);
+    };
 
-    gui->renderTextLine("-=" + _("In Retroarch Game") + "=-", 11, offset, POS_CENTER);
-    gui->renderTextLine("|@Select| + |@Start|   " + _("Open Retroarch Menu"), 12, offset, POS_CENTER);
-    gui->renderTextLine(_("POWER") + "   " + _("Exit to EvoUI"), 13, offset, POS_CENTER);
+    int line = 1;
+    renderTextLineToColumns(_("DPAD"),              _("Same as classic menu"), line++, offset);
 
-    gui->renderTextLine("|@L2| + |@R2|  " + _("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 14, offset,
-                        POS_CENTER);
+    renderTextLineToColumns("|@X| / |@O|",          _("Select or cancel highlighted option"), line++, offset);
+    renderTextLineToColumns("|@S|",                 _("Run using RetroBoot"), line++, offset);
+    renderTextLineToColumns("|@R1| / |@L1|",        _("Quick scroll to next letter"), line++, offset);
+    renderTextLineToColumns("|@Select|",            _("Games filter"), line++, offset);
+    renderTextLineToColumns("|@L2| + |@Select|",    _("Change USB Games Sub-Directory"), line++, offset);
+    renderTextLineToColumns("|@L2| + |@Select|",    _("Change RetroBoot System"), line++, offset);
 
+    renderTextLineToColumns("",                     "-=" + _("In Game") + "=-", line++, offset);
+    renderTextLineToColumns("|@Select| + |@T|",     _("Emulator config MENU"), line++, offset);
+    renderTextLineToColumns("RESET",                _("Quit emulation - back to AutoBleem"), line++, offset);
+
+    renderTextLineToColumns("",                     "-=" + _("In Retroarch Game") + "=-", line++, offset);
+    renderTextLineToColumns("|@Select| + |@Start|", _("Open Retroarch Menu"), line++, offset);
+    renderTextLineToColumns(_("POWER"),             _("Exit to EvoUI"), line++, offset);
+
+//    renderTextLineToColumns("|@L2| + |@R2|",        _("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 14, offset);
+    renderTextLineToColumns("|@L2| + |@R2|",        "        " + _("In Boot Menu: Safe Power Off The Console"), 14, offset);
 
     gui->renderStatus("|@O| " + _("Go back") + "|");
     SDL_RenderPresent(renderer);
