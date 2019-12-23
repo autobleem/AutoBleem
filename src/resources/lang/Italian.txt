@@ -16,8 +16,8 @@ About
 Informazioni su
 Advanced
 Avanzate
-Advanced:
-Avanzate:
+All Games
+Tutti i Giochi
 Are you sure you want to delete
 Sei sicuro di voler cancellare
 Are you sure you want to flush all covers?
@@ -90,8 +90,8 @@ Do you want to save memcards data ?
 Vuoi salvare i dati delle memory card ?
 Download latest:
 Scarica la versione piu' recente:
-DPAD - Same as classic menu
-DPAD - Come nel menu classico
+DPAD
+DPAD
 Edit game parameters
 Modifica i parametri del gioco
 Edit Memory Card information
@@ -116,6 +116,8 @@ Failed to delete
 Impossibile cancellare
 Favorite:
 Preferiti:
+Favorite Games
+Giochi Preferiti
 Flush covers
 Cancella le cover
 Folder:
@@ -162,8 +164,8 @@ High res:
 Alta risoluzione:
 Hold
 Mantieni
-IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
-NEL MENU DI AVVIO PER SPEGNERE LA CONSOLE (ARRESTO SICURO !!!)
+In Boot Menu: Safe Power Off The Console
+Nel Menu Di Avvio: Spegni La Console In Modo Sicuro
 In Game
 Mentre Giochi
 In Retroarch Game
@@ -172,8 +174,8 @@ Internal
 Interno
 INTERNAL
 INTERNO
-Internal Games:
-Giochi Interni:
+Internal Games
+Giochi Interni
 Is your dpad analogue?
 Il tuo dpad e' analogico?
 Language:
@@ -276,8 +278,10 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch non e' installato
-Run using RetroBoot(if installed)
-Esegui con RetroBoot (se installato)
+Run using RetroBoot
+Esegui con RetroBoot
+Same as classic menu
+Come nel menu classico
 Scanline Level:
 Livello Scanline:
 Scanlines:
@@ -290,6 +294,8 @@ Select memory card
 Seleziona memory card
 Select or cancel highlighted option
 Seleziona o annulla l'opzione evidenziata
+Select PS1 Game Category
+Seleziona la Categoria dei Giochi PS1
 SELECT RESUME SLOT TO LOAD
 SELEZIONA UNO SLOT DA CARICARE
 Select RetroBoot Platform
@@ -304,18 +310,18 @@ SETTINGS
 IMPOSTAZIONI
 Share MC
 Condividi MC
-Show RetroArch:
-Mostra RetroArch:
 Showing Timeout (0 = no timeout):
 Timeout di Visualizzazione (0 = nessun timeout):
-Showing: All games
-Sto mostrando: Tutti i giochi
+Show Internal Games:
+Mostra i Giochi Interni
+Showing: All Games
+Sto mostrando: Tutti i Giochi
 Showing: Apps
 Sto mostrando: Apps
-Showing: Favorite games
-Sto mostrando: Giochi preferiti
-Showing: Internal games
-Sto mostrando: Giochi interni
+Showing: Favorite Games
+Sto mostrando: Giochi Preferiti
+Showing: Internal Games
+Sto mostrando: Giochi Interni
 Showing: Retroarch
 Sto mostrando: Retroarch
 Showing: USB Games Directory:
@@ -342,8 +348,12 @@ UI:
 UI:
 Unknown Core (AutoDetect)
 Core Sconosciuto (AutoDetect)
+Update RA Config:
+Aggiorna Configurazione RA:
 Updating regional.db...
 Aggiornando regional.db...
+USB Games
+Giochi su USB
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 ATTENZIONE: DB DELLE COVER NON TROVATO. PREMI UN TASTO QUALSIASI.
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.

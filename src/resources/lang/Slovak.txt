@@ -16,8 +16,8 @@ About
 O programe
 Advanced
 Rozšírené
-Advanced:
-Rozšírené:
+All Games
+Všetky hry
 Are you sure you want to delete
 Ste si istý, že chcete zmazať
 Are you sure you want to flush all covers?
@@ -90,7 +90,7 @@ Do you want to save memcards data ?
 Chcete uložiť údaje z kariet?
 Download latest:
 Najnovšia verzia:
-DPAD - Same as classic menu
+DPAD
 DPAD - To isté ako na PlayStation Classic
 Edit game parameters
 Upraviť parametre hry
@@ -114,6 +114,8 @@ Exit to EvoUI
 Odísť do EvoUI
 Failed to delete
 Nepodarilo sa odstrániť
+Favorite Games
+Obľúbené hry
 Favorite:
 Obľúbené
 Flush covers
@@ -164,6 +166,8 @@ Hold
 Čakajte
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 V BOOT MENU VYPNÚŤ KONZOLU (BEZPEČNÉ VYPNUTIE !!!)
+In Boot Menu: Safe Power Off The Console
+V bootovacom menu: Bezpečne vypnúť konzolu
 In Game
 V hre
 In Retroarch Game
@@ -172,8 +176,8 @@ Internal
 Originálne
 INTERNAL
 ORIGINÁLNE
-Internal Games:
-Originálne hry:
+Internal Games
+Originálne hry
 Is your dpad analogue?
 Máte analógový dpad?
 Language:
@@ -276,8 +280,10 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch nie je nainštalovaný
-Run using RetroBoot(if installed)
-Spustiť pomocou RetroBoot (ak je nainštalovaný)
+Run using RetroBoot
+Spustiť cez Retroboot
+Same as classic menu
+Rovnaké ako v PS Classic menu
 Scanline Level:
 Úroveň obrazových riadkov:
 Scanlines:
@@ -290,6 +296,8 @@ Select memory card
 Vybrať Pamäťovú kartu
 Select or cancel highlighted option
 Vybrať alebo zrušiť zvýraznenú voľbu
+Select PS1 Game Category
+Vybrať kategóriu PS1 hry
 SELECT RESUME SLOT TO LOAD
 VYBERTE POZÍCIU, Z KTOREJ SA NAHRÁ PRERUŠENÁ HRA
 Select RetroBoot Platform
@@ -304,17 +312,17 @@ SETTINGS
 NASTAVENIA
 Share MC
 Zdieľať Pamäťovú kartu
-Show RetroArch:
-Zobraziť RetroArch:
+Show Internal Games:
+Zobraziť originálne hry:
 Showing Timeout (0 = no timeout):
 Zobrazenie časového limitu (0 = bez limitu):
-Showing: All games
+Showing: All Games
 Zobrazujem: Všetky hry
 Showing: Apps
 Zobrazujem: Aplikácie
-Showing: Favorite games
+Showing: Favorite Games
 Zobrazujem: Obľúbené hry
-Showing: Internal games
+Showing: Internal Games
 Zobrazujem: Originálne hry
 Showing: Retroarch
 Zobrazujem: Retroarch
@@ -342,6 +350,8 @@ UI:
 Užívateľské rozhranie:
 Unknown Core (AutoDetect)
 Neznáme jadro (AutoDetect)
+Update RA Config:
+Aktualizovať konfiguráciu RA:
 Updating regional.db...
 Aktualizujem regional.db...
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
