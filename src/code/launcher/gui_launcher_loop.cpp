@@ -319,7 +319,7 @@ void GuiLauncher::loop_chooseGameDir() {
     for (auto &rowInfo : gameRowInfos) {
         if (top) {
             guiGameDirMenu->infoToDisplay.emplace_back(string(rowInfo.indentLevel * 4, ' '),
-                                                       "USB Games", // display "USB Games" instead of "Games"
+                                                       _("USB Games"), // display "USB Games" instead of "Games"
                                                        rowInfo.numGames);
             top = false;
         } else {

@@ -48,7 +48,6 @@ void GuiBtnGuide::render() {
     renderTextLineToColumns("|@Select| + |@Start|", _("Open Retroarch Menu"), line++, offset);
     renderTextLineToColumns(_("POWER"),             _("Exit to EvoUI"), line++, offset);
 
-//    renderTextLineToColumns("|@L2| + |@R2|",        _("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 14, offset);
     renderTextLineToColumns("|@L2| + |@R2|",        _("In Boot Menu: Safe Power Off The Console"), 14, offset);
 
     gui->renderStatus("|@O| " + _("Go back") + "|");
