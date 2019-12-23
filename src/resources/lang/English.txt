@@ -164,8 +164,6 @@ High res:
 
 Hold
 
-IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
-
 In Boot Menu: Safe Power Off The Console
 
 In Game

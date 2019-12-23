@@ -164,8 +164,6 @@ High res:
 High res:
 Hold
 Manten
-IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
-EN EL MENU PRINCIPAL PARA APAGAR LA CONSOLA (APAGADO SEGURO!!!)
 In Boot Menu: Safe Power Off The Console
 En el Menu Principal: Apagado Seguro de la Consola
 In Game
