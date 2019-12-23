@@ -10,12 +10,14 @@
 .-= Retroboot i rdzenie =-.
 .-= Testing =-.
 .-= Testerzy =-.
+.lic file not found
+Nie znaleziono pliku .lic
 About
 O programie
 Advanced
 Zawansowane
-Advanced:
-Zawansowane:
+All Games
+Wszystkie Gry
 Are you sure you want to delete
 Czy na pewno chcesz usunąć
 Are you sure you want to flush all covers?
@@ -30,6 +32,8 @@ AutoBleem Theme:
 Skórka AutoBleem:
 Background Music:
 Muzyka w tle:
+Bin file failed to verify
+Nie udało się zweryfikować pliku Bin
 Button Guide
 Opis funkcji
 Cancel
@@ -58,8 +62,12 @@ Confirm
 Potwierdź
 Copy
 Kopiuj
+Cover image file not found
+Nie znaleziono pliku obrazu okładki
 Cover Style:
 Styl Okładek:
+Cue file not found
+Nie znaleziono pliku Cue
 Custom
 Własna
 Custom Memory Cards
@@ -82,8 +90,8 @@ Do you want to save memcards data ?
 Czy chcesz zapisać zmienione dane katy ?
 Download latest:
 Pobierz najnowszy AB:
-DPAD - Same as classic menu
-Kierunki - Tak samo jak w klasycznym menu
+DPAD
+Kierunki
 Edit game parameters
 Edytuj parametry gry
 Edit Memory Card information
@@ -102,8 +110,12 @@ Enter new name for memory card
 Podaj nową nazwę dla karty pamięci
 Entry
 Wprowadź
+Exit to EvoUI
+Powrót do EvoUI
 Failed to delete
 Nieudane usuwanie
+Favorite Games
+Ulubione Gry
 Favorite:
 Ulubione:
 Flush covers
@@ -120,10 +132,18 @@ GAME
 GRA
 Game
 Gra
+Game failed to verify:
+Nie udało się zweryfikować Gry: 
+Game file not found
+Nie znaleziono pliku Gry
 Game Manager
 Menadżer gier
 Game manager - Select game
 Manadżer gier - Wybierz grę
+Game.ini file not found
+Nie znaleziono pliku Game.ini
+Game.ini file not valid
+Plik Game.ini jest niepoprawny
 Game:
 Gra:
 games
@@ -146,14 +166,18 @@ Hold
 Przytrzymaj
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 W MENU STARTOWYM - BEZPIECZNE WYŁĄCZENIE KONSOLI
+In Boot Menu: Safe Power Off The Console
+W Menu Startowym: Bezpieczne Wyłączenie Konsoli
 In Game
 W Grze
-Internal
-Wewnętrzna
+In Retroarch Game
+W grze Retroarch
 INTERNAL
 WEWNĘTRZNA
-Internal Games:
-Wewnętrzne Gry:
+Internal
+Wewnętrzna
+Internal Games
+Wewnętrzne Gry
 Is your dpad analogue?
 Czy twój D-pad to analog?
 Language:
@@ -184,16 +208,24 @@ New Card
 Nowa karta
 New GamePad found
 Znaleziono Nowy Kontroler
+No disc name
+Brak nazwy dysku
+No discs
+Brak dysku
 OK
 OK
 OOPS! Game crashed. Resume point not available.
 UUPS! Wysypało grę. Punkt wznowienia niedostępny.
+Open Retroarch Menu
+Otwiera Menu Retroarch
 Options
 Opcje
 Original
 Oryginał
 Page
 Strona
+pcsx.cfg file not found
+Nie znaleziono pliku pcsx.cfg
 Player
 Gracz
 Players
@@ -208,6 +240,8 @@ Please wait ... deleting covers...
 Proszę czekać... usuwanie okładek...
 Plugin:
 Wtyczka:
+POWER
+Przycisk POWER
 Power Off
 Wyłączanie
 POWERING OFF... PLEASE WAIT
@@ -228,6 +262,8 @@ Quit emulation - back to AutoBleem
 Zakończ emulację - powrót do AutoBleem
 Re/Scan
 Skanuj
+ReadMe file not found
+Nie znaleziono pliku ReadMe
 Region:
 Region:
 Reload Cards
@@ -244,8 +280,10 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch jest nie zainstalowany
-Run using RetroBoot(if installed)
-Uruchom przy użyciu RetroBoot(jeśli zainstalowany)
+Run using RetroBoot
+Urochom za pomocą RetroBoot
+Same as classic menu
+Tak samo jak w klasycznym menu
 Scanline Level:
 Intensywność linii:
 Scanlines:
@@ -258,6 +296,8 @@ Select memory card
 Wybierz kartę
 Select or cancel highlighted option
 Wybierz lub anuluj podświetloną opcję
+Select PS1 Game Category
+Wybierz Kategorię Gry PS1
 SELECT RESUME SLOT TO LOAD
 WYBIERZ SLOT DO WCZYTANIA
 Select RetroBoot Platform
@@ -272,16 +312,18 @@ SETTINGS
 USTAWIENIA
 Share MC
 Stwórz własną MC
-Show RetroArch:
-Pokazuj RetroArch:
+Show Internal Games:
+Pokazuj Wewnętrzne Gry:
 Showing Timeout (0 = no timeout):
 Czas Wyświetlania (0 = ciągle)
-Showing: All games
-Wyświetla: Wszystkie gry
-Showing: Favorite games
-Wyświetla: Ulubione gry
-Showing: Internal games
-Wyświetla: Wewnętrzne gry
+Showing: All Games
+Wyświetla: Wszystkie Gry
+Showing: Apps
+Wyświetla: Aplikacje
+Showing: Favorite Games
+Wyświetla: Ulubione Gry
+Showing: Internal Games
+Wyświetla: Wewnętrzne Gry
 Showing: Retroarch
 Wyświetla: Retroarch
 Showing: USB Games Directory:
@@ -308,8 +350,12 @@ UI:
 Interfejs:
 Unknown Core (AutoDetect)
 Nieznany Rdzeń (AutoDetekcja)
+Update RA Config:
+Uaktualniaj plik konfiguracji RA:
 Updating regional.db...
 Uaktualniam regional.db...
+USB Games
+Gry USB
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 UWAGA: BRAK BAZY OKŁADEK. NACIŚNIJ DOWOLNY PRZYCISK
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
@@ -318,11 +364,3 @@ Widescreen:
 Pełny ekran:
 Year:
 Rok:
-Exit to EvoUI
-Powrót do EvoUI
-In Retroarch Game
-W grze Retroarch
-Open Retroarch Menu
-Otwiera Menu Retroarch
-POWER
-Przycisk POWER
