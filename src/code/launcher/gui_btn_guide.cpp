@@ -24,16 +24,14 @@ void GuiBtnGuide::render() {
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     gui->renderTextLine("-=" + _("Button Guide") + "=-", 0, offset, POS_CENTER);
-    string leftColumnSpaces(30, ' ');
-    string spaceOverToColumn(20, ' ');
 
     auto renderTextLineToColumns = [&] (const string &textLeft, const string &textRight, int line, int offset) {
-        gui->renderTextLine(leftColumnSpaces + spaceOverToColumn + textRight, line, offset, POS_LEFT);
-        gui->renderTextLine(leftColumnSpaces + textLeft,                      line, offset, POS_LEFT);
+        gui->renderTextLine(textRight, line, offset, POS_LEFT, 600, gui->sonyFonts[FONT_15]);
+        gui->renderTextLine(textLeft,  line, offset, POS_LEFT, 450, gui->sonyFonts[FONT_15]);
     };
 
     int line = 1;
-    renderTextLineToColumns(_("DPAD"),              _("Same as classic menu"), line++, offset);
+    //renderTextLineToColumns(_("DPAD"),              _("Same as classic menu"), line++, offset);
 
     renderTextLineToColumns("|@X| / |@O|",          _("Select or cancel highlighted option"), line++, offset);
     renderTextLineToColumns("|@S|",                 _("Run using RetroBoot"), line++, offset);
@@ -51,7 +49,7 @@ void GuiBtnGuide::render() {
     renderTextLineToColumns(_("POWER"),             _("Exit to EvoUI"), line++, offset);
 
 //    renderTextLineToColumns("|@L2| + |@R2|",        _("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 14, offset);
-    renderTextLineToColumns("|@L2| + |@R2|",        "        " + _("In Boot Menu: Safe Power Off The Console"), 14, offset);
+    renderTextLineToColumns("|@L2| + |@R2|",        _("In Boot Menu: Safe Power Off The Console"), 14, offset);
 
     gui->renderStatus("|@O| " + _("Go back") + "|");
     SDL_RenderPresent(renderer);
