@@ -16,8 +16,8 @@ About
 Sobre
 Advanced
 Avanzado
-Advanced:
-Avanzado:
+All Games
+Todos los Juegos
 Are you sure you want to delete
 Estas seguro que quieres borrar
 Are you sure you want to flush all covers?
@@ -90,8 +90,8 @@ Do you want to save memcards data ?
 Quieres salvar los datos de las memorycards ?
 Download latest:
 Descargar ultimo:
-DPAD - Same as classic menu
-DPAD - Igual que el menu clasico
+DPAD
+DPAD
 Edit game parameters
 Editar parametros de juego
 Edit Memory Card information
@@ -114,6 +114,8 @@ Exit to EvoUI
 Salir a EvoUI
 Failed to delete
 Fallo al borrar
+Favorite Games
+Juegos Favoritos
 Favorite:
 Favorito:
 Flush covers
@@ -164,6 +166,8 @@ Hold
 Manten
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 EN EL MENU PRINCIPAL PARA APAGAR LA CONSOLA (APAGADO SEGURO!!!)
+In Boot Menu: Safe Power Off The Console
+En el Menu Principal: Apagado Seguro de la Consola
 In Game
 En Juego
 In Retroarch Game
@@ -172,8 +176,8 @@ Internal
 Interno
 INTERNAL
 INTERNO
-Internal Games:
-Juegos Internos:
+Internal Games
+Juegos Internos
 Is your dpad analogue?
 ¿Es tu dpad analogico?
 Language:
@@ -276,8 +280,10 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch no esta instalado
-Run using RetroBoot(if installed)
-Ejecutar con RetroBoot(si esta instalado)
+Run using RetroBoot
+Ejecutar con RetroBoot
+Same as classic menu
+Igual que el Menu Clasico
 Scanline Level:
 Nivel de Scanline:
 Scanlines:
@@ -290,6 +296,8 @@ Select memory card
 Elige memory card
 Select or cancel highlighted option
 Elige o cancela la opcion resaltada
+Select PS1 Game Category
+Selecciona Categoria de Juegos PS1
 SELECT RESUME SLOT TO LOAD
 ELIGE RANURA PARA CARGAR
 Select RetroBoot Platform
@@ -304,17 +312,17 @@ SETTINGS
 AJUSTES
 Share MC
 Compartir MC
-Show RetroArch:
-Mostrar RetroArch:
+Show Internal Games:
+Mostrar Juegos Internos:
 Showing Timeout (0 = no timeout):
 Tiempo de Muestra (0 = sin tiempo):
-Showing: All games
+Showing: All Games
 Mostrando: Todos los Juegos
 Showing: Apps
 Mostrando: Apps
-Showing: Favorite games
+Showing: Favorite Games
 Mostrando: Juegos Favoritos
-Showing: Internal games
+Showing: Internal Games
 Mostrando: Juegos Internos
 Showing: Retroarch
 Mostrando: Retroarch
@@ -342,8 +350,12 @@ UI:
 UI:
 Unknown Core (AutoDetect)
 Core Desconocido (AutoDetectar)
+Update RA Config:
+Transferir Configuracion RA:
 Updating regional.db...
 Actualizando regional.db...
+USB Games
+Juegos USB
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 ADVERTENCIA: COVER BD NO ENCONTRADO. PULSE CUALQUIER BOTON.
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.

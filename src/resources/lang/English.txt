@@ -354,6 +354,8 @@ Update RA Config:
 
 Updating regional.db...
 
+USB Games
+
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
