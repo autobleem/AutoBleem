@@ -35,7 +35,7 @@ void GuiLauncher::updateMeta() {
                           fgG, fgB);
         return;
     }
-    if (selGameIndexIndexInCarouselGamesIsValid())
+    if (selGameIndexInCarouselGamesIsValid())
         meta->updateTexts(carouselGames[selGameIndex], fgR, fgG, fgB);
 }
 
@@ -46,9 +46,11 @@ void GuiLauncher::getGames_SET_FAVORITE(PsGames *gamesList) {
     PsGames completeList;
     gui->db->getGames(&completeList);
 
-    PsGames internalList;
-    gui->internalDB->getInternalGames(&internalList);
-    completeList.insert(end(completeList), begin(internalList), end(internalList));
+    if (gui->cfg.inifile.values["origames"] == "true") {
+        PsGames internalList;
+        gui->internalDB->getInternalGames(&internalList);
+        completeList.insert(end(completeList), begin(internalList), end(internalList));
+    }
 
     // put only the favorites in gamesList
     copy_if(begin(completeList), end(completeList), back_inserter(*gamesList),
@@ -167,11 +169,19 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
             game.freeTex();
         }
     }
-    cout << "Reloading games list" << endl;
-    // get fresh list of games for this set
+
+    cout << "Reloading games list" << endl; // get fresh list of games for this set
     PsGames gamesList;
 
     if (currentSet == SET_PS1) {
+
+        // if do not show internal games
+        if (gui->cfg.inifile.values["origames"] != "true") {
+            if (currentPS1_SelectState == SET_PS1_All_Games || currentPS1_SelectState == SET_PS1_Internal_Only) {
+                currentPS1_SelectState = SET_PS1_Games_Subdir;
+                //if (selGameIndexInCarouselGamesIsValid())
+            }
+        }
 
         if (currentPS1_SelectState == SET_PS1_All_Games) {
             getGames_SET_SUBDIR(0, &gamesList);   // get the games in row 0 = /Games and on down
@@ -237,9 +247,9 @@ void GuiLauncher::showSetName() {
                                _("Showing: Retroarch") + " ",
                                _("Showing: Apps") + " "
     };
-    vector<string> setPS1SubStateNames = {_("Showing: All games") + " ",
-                                          _("Showing: Internal games") + " ",
-                                          _("Showing: Favorite games") + " ",
+    vector<string> setPS1SubStateNames = {_("Showing: All Games") + " ",
+                                          _("Showing: Internal Games") + " ",
+                                          _("Showing: Favorite Games") + " ",
                                           _("Showing: USB Games Directory:") + " "
     };
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
@@ -447,7 +457,7 @@ void GuiLauncher::loadAssets() {
     meta->x = 785;
     meta->y = 285;
     meta->visible = true;
-    if (selGameIndex != -1 && selGameIndexIndexInCarouselGamesIsValid()) {
+    if (selGameIndex != -1 && selGameIndexInCarouselGamesIsValid()) {
         meta->updateTexts(carouselGames[selGameIndex], fgR, fgG, fgB);
     } else {
         meta->updateTexts(gameName, publisher, year, serial, region, players,
@@ -537,7 +547,7 @@ void GuiLauncher::loadAssets() {
     showSetName();
     updateMeta();
 
-    if (selGameIndexIndexInCarouselGamesIsValid()) {
+    if (selGameIndexInCarouselGamesIsValid()) {
         menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
     }
 }
@@ -751,7 +761,7 @@ void GuiLauncher::nextCarouselGame(int speed) {
         selGameIndex = 0;
     }
     updateMeta();
-    if (selGameIndexIndexInCarouselGamesIsValid())
+    if (selGameIndexInCarouselGamesIsValid())
         menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
 }
 
@@ -767,7 +777,7 @@ void GuiLauncher::prevCarouselGame(int speed) {
         selGameIndex = carouselGames.size() - 1;
     }
     updateMeta();
-    if (selGameIndexIndexInCarouselGamesIsValid())
+    if (selGameIndexInCarouselGamesIsValid())
         menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
 }
 
@@ -914,7 +924,7 @@ void GuiLauncher::moveMainCover(int state) {
 
     long time = SDL_GetTicks();
 
-    if (selGameIndexIndexInCarouselGamesIsValid()) {
+    if (selGameIndexInCarouselGamesIsValid()) {
         if (state == STATE_GAMES) {
             carouselGames[selGameIndex].destination = point1;
             carouselGames[selGameIndex].animationStart = time;

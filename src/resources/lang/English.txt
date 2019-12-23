@@ -16,6 +16,8 @@ About
 
 Advanced
 
+All Games
+
 Are you sure you want to delete
 
 Are you sure you want to flush all covers?
@@ -88,7 +90,7 @@ Do you want to save memcards data ?
 
 Download latest:
 
-DPAD - Same as classic menu
+DPAD
 
 Edit game parameters
 
@@ -111,6 +113,8 @@ Entry
 Exit to EvoUI
 
 Failed to delete
+
+Favorite Games
 
 Favorite:
 
@@ -162,6 +166,8 @@ Hold
 
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 
+In Boot Menu: Safe Power Off The Console
+
 In Game
 
 In Retroarch Game
@@ -169,6 +175,8 @@ In Retroarch Game
 Internal
 
 INTERNAL
+
+Internal Games
 
 Is your dpad analogue?
 
@@ -272,7 +280,9 @@ RetroArch
 
 RetroArch is not installed
 
-Run using RetroBoot(if installed)
+Run using RetroBoot
+
+Same as classic menu
 
 Scanline Level:
 
@@ -286,6 +296,8 @@ Select memory card
 
 Select or cancel highlighted option
 
+Select PS1 Game Category
+
 SELECT RESUME SLOT TO LOAD
 
 Select RetroBoot Platform
@@ -293,8 +305,6 @@ Select RetroBoot Platform
 Select Right Card
 
 SELECT SLOT TO SAVE STATE
-
-Select USB Games Display
 
 Serial:
 
@@ -306,13 +316,13 @@ Show Internal Games:
 
 Showing Timeout (0 = no timeout):
 
-Showing: All games
+Showing: All Games
 
 Showing: Apps
 
-Showing: Favorite games
+Showing: Favorite Games
 
-Showing: Internal games
+Showing: Internal Games
 
 Showing: Retroarch
 

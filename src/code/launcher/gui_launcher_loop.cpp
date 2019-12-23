@@ -303,39 +303,78 @@ void GuiLauncher::loop_chooseGameDir() {
     }
     auto guiGameDirMenu = new GuiGameDirMenu(renderer);
 
-    for (int i=0; i < gui->ps1SelectStrings.size(); ++i) {
-        if (i != SET_PS1_Games_Subdir)  // skip the subdir item.  selecting a subdir implies selecting this state
-            guiGameDirMenu->infoToDisplay.emplace_back("", gui->ps1SelectStrings[i], -1);
+    // add All Games and Internal Games only if origames is true in the config.ini
+    int offsetToGamesSubDirs {0};
+    bool showInternalGames = (gui->cfg.inifile.values["origames"] == "true");
+    if (showInternalGames) {
+        guiGameDirMenu->infoToDisplay.emplace_back("", _("All Games"), -1);
+        guiGameDirMenu->infoToDisplay.emplace_back("", _("Internal Games"), -1);
+        offsetToGamesSubDirs = 2;
+    } else {
+        offsetToGamesSubDirs = 0;
     }
-    int offsetToGamesSubDirs = gui->ps1SelectStrings.size() - 1;    // how many rows at the top for the sub select states
 
+    // add the /Games dir and all the game sub directories
+    bool top = true;
     for (auto &rowInfo : gameRowInfos) {
-        guiGameDirMenu->infoToDisplay.emplace_back(string(rowInfo.indentLevel * 4, ' '),
-                                                   rowInfo.rowName,
-                                                   rowInfo.numGames);
+        if (top) {
+            guiGameDirMenu->infoToDisplay.emplace_back(string(rowInfo.indentLevel * 4, ' '),
+                                                       "USB Games", // display "USB Games" instead of "Games"
+                                                       rowInfo.numGames);
+            top = false;
+        } else {
+            guiGameDirMenu->infoToDisplay.emplace_back(string(rowInfo.indentLevel * 4, ' '),
+                                                       rowInfo.rowName,
+                                                       rowInfo.numGames);
+        }
     }
+
+    // add Favorite Games at the bottom
+    int favoritesIndex = guiGameDirMenu->infoToDisplay.size();  // favorites is the last line
+    guiGameDirMenu->infoToDisplay.emplace_back("", _("Favorite Games"), -1);
+
+    // set initial selected row
     guiGameDirMenu->backgroundImg = background->tex;
-    int nextSel = 0;
-    if (currentPS1_SelectState != SET_PS1_Games_Subdir)
-        nextSel = currentPS1_SelectState;
-    else
+    int nextSel = offsetToGamesSubDirs; // set to game dir as default
+    if (currentPS1_SelectState == SET_PS1_Games_Subdir) {
         nextSel = offsetToGamesSubDirs + currentUSBGameDirIndex;
+    }
+    else {
+        if (currentPS1_SelectState == SET_PS1_Favorites)
+            nextSel = favoritesIndex; // favorite is the last line
+        else {
+            if (showInternalGames)
+                nextSel = currentPS1_SelectState;   // SET_PS1_All_Games is on row 0, SET_PS1_Internal_Only is on row 1
+                else {
+                    cout << "Error: loop_chooseGameDir() called with \"origames\" off and currentPS1_SelectState = " <<
+                    currentPS1_SelectState << endl;
+                }
+        }
+    }
+
     guiGameDirMenu->selected = nextSel;
     guiGameDirMenu->firstVisible = nextSel;
     guiGameDirMenu->lastVisible = nextSel + guiGameDirMenu->maxVisible;
 
+    // display the menu and return when user made selection or canceled
     guiGameDirMenu->show();
     bool cancelled = guiGameDirMenu->cancelled;
 
-    if (guiGameDirMenu->selected < offsetToGamesSubDirs){
-        currentPS1_SelectState = guiGameDirMenu->selected;
-    } else {
-        currentPS1_SelectState = SET_PS1_Games_Subdir;
-        currentUSBGameDirIndex = guiGameDirMenu->selected - offsetToGamesSubDirs;
-        currentUSBGameDirName = "";
-        if (currentUSBGameDirIndex < gameRowInfos.size())
-            currentUSBGameDirName = gameRowInfos[currentUSBGameDirIndex].rowName;
+    // set the select state to the user selection
+    if (!cancelled) {
+        if (showInternalGames && guiGameDirMenu->selected < offsetToGamesSubDirs)
+            currentPS1_SelectState = guiGameDirMenu->selected;  // SET_PS1_All_Games or SET_PS1_Internal_Only
+        else if (guiGameDirMenu->selected == favoritesIndex)
+            currentPS1_SelectState = SET_PS1_Favorites;
+        else {
+            currentPS1_SelectState = SET_PS1_Games_Subdir;
+            currentUSBGameDirIndex = guiGameDirMenu->selected - offsetToGamesSubDirs;
+            currentUSBGameDirName = "";
+            if (currentUSBGameDirIndex < gameRowInfos.size())
+                currentUSBGameDirName = gameRowInfos[currentUSBGameDirIndex].rowName;
+        }
     }
+
     delete guiGameDirMenu;
 
     if (cancelled)
@@ -344,7 +383,7 @@ void GuiLauncher::loop_chooseGameDir() {
     menuHead->setText(headers[0], fgR, fgG, fgB);
     menuText->setText(texts[0], fgR, fgG, fgB);
     showSetName();
-    if (selGameIndex != -1 && selGameIndexIndexInCarouselGamesIsValid()) {
+    if (selGameIndex != -1 && selGameIndexInCarouselGamesIsValid()) {
         updateMeta();
         menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
     } else {
@@ -395,7 +434,7 @@ void GuiLauncher::loop_chooseRAPlaylist() {
     menuHead->setText(headers[0], fgR, fgG, fgB);
     menuText->setText(texts[0], fgR, fgG, fgB);
     showSetName();
-    if (selGameIndex != -1 && selGameIndexIndexInCarouselGamesIsValid()) {
+    if (selGameIndex != -1 && selGameIndexInCarouselGamesIsValid()) {
         updateMeta();
         menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
     } else {
@@ -431,7 +470,7 @@ void GuiLauncher::loop_selectButtonPressed() {
             if (currentSet > SET_LAST) currentSet = 0;
             switchSet(currentSet,false);
             showSetName();
-            if (selGameIndex != -1 && selGameIndexIndexInCarouselGamesIsValid()) {
+            if (selGameIndex != -1 && selGameIndexInCarouselGamesIsValid()) {
                 updateMeta();
                 menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
             } else {
@@ -459,7 +498,7 @@ void GuiLauncher::loop_circleButtonPressed() {
         sselector->visible = false;
         arrow->visible = true;
         sselector->cleanSaveStateImages();
-        if (selGameIndexIndexInCarouselGamesIsValid())
+        if (selGameIndexInCarouselGamesIsValid())
             menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
 
         if (sselector->operation == OP_LOAD) {
@@ -482,7 +521,7 @@ void GuiLauncher::loop_triangleButtonPressed() {
         delete guide;
     } else {
         if (sselector->operation == OP_LOAD) {
-            if (selGameIndexIndexInCarouselGamesIsValid()) {
+            if (selGameIndexInCarouselGamesIsValid()) {
                 auto game = carouselGames[selGameIndex];
                 int slot = sselector->selSlot;
                 if (game->isResumeSlotActive(slot)) {
@@ -521,11 +560,11 @@ void GuiLauncher::loop_squareButtonPressed() {
             if (carouselGames.empty()) {
                 return;
             }
-            if (selGameIndexIndexInCarouselGamesIsValid() && carouselGames[selGameIndex]->foreign) {
+            if (selGameIndexInCarouselGamesIsValid() && carouselGames[selGameIndex]->foreign) {
                 return;
             }
             gui->startingGame = true;
-            if (selGameIndexIndexInCarouselGamesIsValid()) {
+            if (selGameIndexInCarouselGamesIsValid()) {
                 gui->runningGame = carouselGames[selGameIndex];
                 gui->lastSelIndex = selGameIndex;
             }
@@ -569,7 +608,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_GAMES() {
     }
 
     gui->startingGame = true;
-    if (selGameIndexIndexInCarouselGamesIsValid()) {
+    if (selGameIndexInCarouselGamesIsValid()) {
         gui->runningGame = carouselGames[selGameIndex];
         gui->lastSelIndex = selGameIndex;
     }
@@ -668,7 +707,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_AB_SETTINGS() {
             if (selGameIndex != -1) {
                 setInitialPositions(selGameIndex);
                 updateMeta();
-                if (selGameIndexIndexInCarouselGamesIsValid())
+                if (selGameIndexInCarouselGamesIsValid())
                     menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
             }
         }
@@ -702,7 +741,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_EDIT_GAME_SETTINGS() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     GuiEditor *editor = new GuiEditor(renderer);
     Inifile gameIni;
-    if (selGameIndexIndexInCarouselGamesIsValid()) {
+    if (selGameIndexInCarouselGamesIsValid()) {
         editor->internal = carouselGames[selGameIndex]->internal;
         if (!editor->internal) {
             editor->gameFolder = carouselGames[selGameIndex]->folder;
@@ -718,7 +757,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_EDIT_GAME_SETTINGS() {
     }
 
     editor->show();
-    if (selGameIndexIndexInCarouselGamesIsValid()) {
+    if (selGameIndexInCarouselGamesIsValid()) {
         if (!editor->internal) {
             if (editor->changes) {
                 gameIni.load(carouselGames[selGameIndex]->folder + sep + GAME_INI);
@@ -746,7 +785,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_EDIT_GAME_SETTINGS() {
     }
 
     // if the current set is favorites and the user removes the last favorite selGameIndex will be -1
-    if (selGameIndex != -1 && selGameIndexIndexInCarouselGamesIsValid()) {
+    if (selGameIndex != -1 && selGameIndexInCarouselGamesIsValid()) {
         setInitialPositions(selGameIndex);
         updateMeta();
         menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
@@ -771,7 +810,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_EDIT_MEMCARD() {
     if (carouselGames.empty()) {
         return;
     }
-    if (selGameIndexIndexInCarouselGamesIsValid() && carouselGames[selGameIndex]->foreign)
+    if (selGameIndexInCarouselGamesIsValid() && carouselGames[selGameIndex]->foreign)
     {
         return;
     }
@@ -781,7 +820,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_EDIT_MEMCARD() {
     string cardPath1;
     string cardPath2;
     string memcard; // Mapped card
-    if (selGameIndexIndexInCarouselGamesIsValid()) {
+    if (selGameIndexInCarouselGamesIsValid()) {
         leftCardName = "[1]" + _("INTERNAL");
         rightCardName = "[2]" + _("INTERNAL");
         cardPath1 = carouselGames[selGameIndex]->ssFolder + "memcards/card1.mcd";
@@ -822,7 +861,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_RESUME_FROM_SAVESTATE()
     }
     bool resumeAvailable = false;
     for (int i = 0; i < 4; i++) {
-        if (selGameIndexIndexInCarouselGamesIsValid() && carouselGames[selGameIndex]->isResumeSlotActive(i)) {
+        if (selGameIndexInCarouselGamesIsValid() && carouselGames[selGameIndex]->isResumeSlotActive(i)) {
             resumeAvailable = true;
         }
     }
@@ -830,7 +869,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_RESUME_FROM_SAVESTATE()
     if (resumeAvailable) {
         Mix_PlayChannel(-1, gui->cursor, 0);
         sselector->visible = true;
-        if (selGameIndexIndexInCarouselGamesIsValid())
+        if (selGameIndexInCarouselGamesIsValid())
             sselector->loadSaveStateImages(carouselGames[selGameIndex], false);
         state = STATE_RESUME;
         sselector->selSlot = 0;
@@ -844,7 +883,7 @@ void GuiLauncher::loop_crossButtonPressed_STATE_SET__OPT_RESUME_FROM_SAVESTATE()
 // GuiLauncher::loop_crossButtonPressed_STATE_RESUME
 //*******************************
 void GuiLauncher::loop_crossButtonPressed_STATE_RESUME() {
-    if (selGameIndexIndexInCarouselGamesIsValid()) {
+    if (selGameIndexInCarouselGamesIsValid()) {
         auto game = carouselGames[selGameIndex];
         int slot = sselector->selSlot;
 
@@ -910,7 +949,7 @@ void GuiLauncher::loop_prevGameFirstLetter() {
             return;
         }
         // find prev game
-        if (selGameIndexIndexInCarouselGamesIsValid()) {
+        if (selGameIndexInCarouselGamesIsValid()) {
             int nextGame = selGameIndex;
             string currentFirst = carouselGames[selGameIndex]->title.substr(0, 1);
             string futureFirst = carouselGames[selGameIndex]->title.substr(0, 1);
@@ -956,7 +995,7 @@ void GuiLauncher::loop_nextGameFirstLetter() {
             return;
         }
         // find next game
-        if (selGameIndexIndexInCarouselGamesIsValid()) {
+        if (selGameIndexInCarouselGamesIsValid()) {
             int nextGame = selGameIndex;
             string currentFirst = carouselGames[selGameIndex]->title.substr(0, 1);
             string futureFirst = carouselGames[selGameIndex]->title.substr(0, 1);
