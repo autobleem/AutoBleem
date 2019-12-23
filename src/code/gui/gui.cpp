@@ -65,6 +65,10 @@ GuiBase::GuiBase() {
     fonts[FONT_30] = TTF_OpenFont((getCurrentThemeFontPath() + sep + "SST-Bold.ttf").c_str(), 28);
     fonts[FONT_15] = TTF_OpenFont((getCurrentThemeFontPath() + sep + "SST-Bold.ttf").c_str(), 15);
     fonts[FONT_24] = TTF_OpenFont((getCurrentThemeFontPath() + sep + "SST-Medium.ttf").c_str(), 22);
+
+    sonyFonts[FONT_30] = TTF_OpenFont((Env::getSonyFontPath() + sep + "SST-Bold.ttf").c_str(), 28);
+    sonyFonts[FONT_15] = TTF_OpenFont((Env::getSonyFontPath() + sep + "SST-Bold.ttf").c_str(), 15);
+    sonyFonts[FONT_24] = TTF_OpenFont((Env::getSonyFontPath() + sep + "SST-Medium.ttf").c_str(), 22);
 }
 
 //********************
