@@ -105,7 +105,21 @@ string Environment::getWorkingPath() {
 // PSC: autobleem-gui executable dir
 //*******************************
 string Environment::getSonyPath() {
+#if defined(__x86_64__) || defined(_M_X64)
     return getWorkingPath() + sep + "sony";
+#else
+    return "/usr/sony/share/data";
+#endif
+}
+
+//*******************************
+// Environment::getSonyFontPath
+// 1 arg: "usb:/Autobleem/bin/autobleem/sony/font"
+// 2 arg: autobleem-gui executable dir + sep + "sony" + sep + "font"
+// PSC: autobleem-gui executable dir
+//*******************************
+string Environment::getSonyFontPath() {
+    return getSonyPath() + sep + "font";
 }
 
 #if 0
