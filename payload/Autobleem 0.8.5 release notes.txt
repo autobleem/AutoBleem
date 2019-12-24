@@ -1,6 +1,20 @@
 
 
                                        *****************************
+                                       Autobleem-0.8.5 Release Notes
+                                       *****************************
+
+1) Applications!  Press Select until you get to the Apps selection.  There are four Applications in 0.8.5 - The Amiberry Amiga game emulator, the Doom Shareware App, the OpenBOR (Open Beats of Rage) emulator, and Retroboot.  
+
+Doom - if you own copies of Doom you can add additional level maps by copying the doom WAD files to the /Apps/doom directory on your USB stick.
+
+OpenBOR - to add OpenBOR games copy the OpenBOR PAK files to \Apps\openbor\OpenBOR\Paks.
+
+2) The multiple select button screens have been reduced to three select states.  1) PS1 Games, 2) Retroarch games, 3) Applications.  When the PS1 Game carousel is selected L2 + Select will display a menu of PS1 categories to choose from.  If "Show Internal Games" is enabled in the UI Options then the categories are "All Games", Internal Games, "USB Game Directory, and "Favorites".  If Favorites is selected, internal games are included in the favorites list.  If "Show Internal Games" is off in the UI Options then the categories are "Game Directory, and "Favorites".    If Favorites is selected, internal games are not included in the favorites list.  The Favorites selection is at the end of the menu (like they are in the Retroarch playlist).
+
+3) The Retroarch playlist menu now includes the Retroarch History playlist.  The Favorites and History playlist selections are at the end of the playlist menu.  When the Retroarch carousel is displayed pressing L2 + Select brings up the playlist selection menu.
+
+                                       *****************************
                                        Autobleem-0.8.1 Release Notes
                                        *****************************
 
