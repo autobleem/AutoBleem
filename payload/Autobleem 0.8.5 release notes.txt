@@ -66,6 +66,7 @@ menu.  When the Retroarch carousel is displayed pressing L2 + Select brings
 up the playlist selection menu.
 
 Autobleem support channel on Discord: https://discord.gg/eKqfjk
+Restalgia demo video of 0.8.5:        https://www.youtube.com/watch?v=BhmgkTt0mZY
 
 
                                        *****************************
@@ -79,8 +80,8 @@ Fixes two problems in 0.8.0.
 2) Fixes always forcing a rescan if there are games that failed the verify 
    step and were removed from the game list display.
 
-In addition Autobleem now splashes a message on screen if a game fails the v
-erify.  The reason or reasons the game failed to verify are also output to 
+In addition Autobleem now splashes a message on screen if a game fails the 
+verify.  The reason or reasons the game failed to verify are also output to 
 /Autobleem/bin/autobleem/gamesThatFailedVerifyCheck.txt.
 
 
