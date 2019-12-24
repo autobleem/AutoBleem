@@ -4,34 +4,69 @@
                                        Autobleem-0.8.5 Release Notes
                                        *****************************
 
-1) Applications!  Press Select until you get to the Apps selection.  There are four Applications in 0.8.5 - The Amiberry Amiga game emulator, the Doom Shareware App, the OpenBOR (Open Beats of Rage) emulator, and Retroboot.  
+**** Applications ****
+Applications!  Press Select until you get to the Apps selection.  There are four 
+Applications in 0.8.5 - The Amiberry Amiga game emulator, the Doom Shareware App, 
+the OpenBOR (Open Beats of Rage) emulator, and Retroboot.  
 
 **** Doom ****
-Doom - if you own copies of Doom you can add additional level maps by copying the doom WAD files to the /Apps/doom directory on your USB stick.
+Doom - if you own copies of Doom you can add additional level maps by copying the 
+doom WAD files to the /Apps/doom directory on your USB stick.
 
 **** OpenBor ****
-OpenBOR - to add OpenBOR games copy the OpenBOR PAK files to \Apps\openbor\OpenBOR\Paks.
+OpenBOR - to add OpenBOR games copy the OpenBOR PAK files to 
+\Apps\openbor\OpenBOR\Paks.
 
 **** Amiberry ****
 Amiberry is for advanced users and requires a bios.
 
-KMFDManic has collaborated with screemer on optimization and performance for OpenBOR/Amiberry Applications.  KMFD will continue to collaborate in future Releases with Screemer, Axanar, and the rest of the AutoBleem Team, to bring forth new surprise additions!  Demonstrations of both emulators, in action, can be seen on his YouTube Channel:
+KMFDManic has collaborated with screemer on optimization and performance for 
+OpenBOR/Amiberry Applications.  KMFD will continue to collaborate in future 
+Releases with Screemer, Axanar, and the rest of the AutoBleem Team, to bring 
+forth new surprise additions!  Demonstrations of both emulators, in action, 
+can be seen on his YouTube Channel:
 
 https://www.youtube.com/channel/UCoRrbw6gyi4KRPGUNnVVjMQ
 
-Cores that run with AutoBleem and RetroBoot and his own Xtreme AB Injector are also provided by KMFD.  You are welcome to ping him in our Discord, as well as refer to his Release Page for any troubleshooting.  Genderbent and KMFD also collaborate on the harmonious union of RetroArch and the Cores.  Again, feel free to ping any of them, if you need any direct assistance!
+Cores that run with AutoBleem and RetroBoot and his own Xtreme AB Injector 
+are also provided by KMFD.  You are welcome to ping him in our Discord, as 
+well as refer to his Release Page for any troubleshooting.  Genderbent and 
+KMFD also collaborate on the harmonious union of RetroArch and the Cores.  
+Again, feel free to ping any of them, if you need any direct assistance!
 
 https://github.com/KMFDManic/NESC-SNESC-Modifications/releases
 
-Note 1: OpenBOR simply requires you place .paks within the Apps/openbor/OpenBOR/Paks Folder.  ONE single Pak will auto load.  Multiple will prompt a pull down list.  On KMFD's Google Drive Link, you can refresh and check back in Xtras/Games/OpenBOR for some nifty surprises to peruse with said Emulator!  More Games will be added, including a special Xmas Bonus Game, specifically fixed up to work on the Mini Classics, courtesy of the debugging, troubleshooting, collaboration of Douglas Baldan and KMFDManic.
+Note 1: OpenBOR simply requires you place .paks within the 
+Apps/openbor/OpenBOR/Paks Folder.  ONE single Pak will auto load.  Multiple 
+will prompt a pull down list.  On KMFD's Google Drive Link, you can refresh 
+and check back in Xtras/Games/OpenBOR for some nifty surprises to peruse 
+with said Emulator!  More Games will be added, including a special Xmas Bonus 
+Game, specifically fixed up to work on the Mini Classics, courtesy of the 
+debugging, troubleshooting, collaboration of Douglas Baldan and KMFDManic.
 
-Note 2: Amiberry is a very advanced Emulator (BIOS Required!), of which KMFD will be doing a Video Tutorial on, to help you get going on!
+Note 2: Amiberry is a very advanced Emulator (BIOS Required!), of which KMFD 
+will be doing a Video Tutorial on, to help you get going on!
 
 **** Select Screen Changes ****
-2) The multiple select button screens have been reduced to three select states.  1) PS1 Games, 2) Retroarch games, 3) Applications.  When the PS1 Game carousel is selected L2 + Select will display a menu of PS1 categories to choose from.  If "Show Internal Games" is enabled in the UI Options then the categories are "All Games", Internal Games, "USB Game Directory, and "Favorites".  If Favorites is selected, internal games are included in the favorites list.  If "Show Internal Games" is off in the UI Options then the categories are "Game Directory, and "Favorites".    If Favorites is selected, internal games are not included in the favorites list.  The Favorites selection is at the end of the menu (like they are in the Retroarch playlist).
+The multiple select button screens have been reduced to three select states.  
+1) PS1 Games, 2) Retroarch games, 3) Applications.  When the PS1 Game carousel 
+is selected L2 + Select will display a menu of PS1 categories to choose from.  
+If "Show Internal Games" is enabled in the UI Options then the categories are 
+"All Games", Internal Games, "USB Game Directory, and "Favorites".  If 
+Favorites is selected, internal games are included in the favorites list.  If 
+"Show Internal Games" is off in the UI Options then the categories are "Game 
+Directory, and "Favorites".    If Favorites is selected, internal games are 
+not included in the favorites list.  The Favorites selection is at the end 
+of the menu (like they are in the Retroarch playlist).
 
 **** Retroarch History ****
-3) The Retroarch playlist menu now includes the Retroarch History playlist.  The Favorites and History playlist selections are at the end of the playlist menu.  When the Retroarch carousel is displayed pressing L2 + Select brings up the playlist selection menu.
+The Retroarch playlist menu now includes the Retroarch History playlist.  
+The Favorites and History playlist selections are at the end of the playlist 
+menu.  When the Retroarch carousel is displayed pressing L2 + Select brings 
+up the playlist selection menu.
+
+Autobleem support channel on Discord: https://discord.gg/eKqfjk
+Restalgia demo video of 0.8.5:        https://www.youtube.com/watch?v=BhmgkTt0mZY
 
 
                                        *****************************
@@ -45,8 +80,8 @@ Fixes two problems in 0.8.0.
 2) Fixes always forcing a rescan if there are games that failed the verify 
    step and were removed from the game list display.
 
-In addition Autobleem now splashes a message on screen if a game fails the verify.  
-The reason or reasons the game failed to verify are also output to 
+In addition Autobleem now splashes a message on screen if a game fails the 
+verify.  The reason or reasons the game failed to verify are also output to 
 /Autobleem/bin/autobleem/gamesThatFailedVerifyCheck.txt.
 
 
