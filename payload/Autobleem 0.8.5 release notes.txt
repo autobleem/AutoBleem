@@ -65,6 +65,8 @@ The Favorites and History playlist selections are at the end of the playlist
 menu.  When the Retroarch carousel is displayed pressing L2 + Select brings 
 up the playlist selection menu.
 
+Autobleem support channel on Discord: https://discord.gg/eKqfjk
+
 
                                        *****************************
                                        Autobleem-0.8.1 Release Notes
