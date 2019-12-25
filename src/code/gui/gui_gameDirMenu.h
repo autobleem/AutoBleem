@@ -1,6 +1,7 @@
 #pragma once
 #include "gui_screen.h"
 #include "../main.h"
+#include "../lang.h"
 #include <vector>
 
 class GuiGameDirMenu : public GuiScreen{
@@ -8,7 +9,19 @@ public:
     void init();
     void render();
     void loop();
-    std::vector<std::string> textsToDisplay;
+
+    struct MenuLineData {
+        std::string prefix;
+        std::string name;   // a separate name makes it easy to compare what line it is, if needed
+        int numGames { -1 };    // -1 = "", 0+ = " (# of games)"
+
+        std::string toText();   // returns the text to display on the line
+
+        // ctor
+        MenuLineData(std::string _prefix, std::string _name, int _numGames) :
+            prefix(_prefix), name(_name), numGames(_numGames) { };
+    };
+    std::vector<MenuLineData> infoToDisplay;
 
     int selected=0;
     int maxVisible=8;

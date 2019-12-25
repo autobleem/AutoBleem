@@ -30,23 +30,27 @@ const SDL_Color brightWhite = {255, 255, 255, 0};
 void GuiLauncher::updateMeta() {
     if (carouselGames.empty()) {
         gameName = "";
-        meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, false, fgR,
+        meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, false,
+                          false, fgR,
                           fgG, fgB);
         return;
     }
-    meta->updateTexts(carouselGames[selGameIndex], fgR, fgG, fgB);
+    if (selGameIndexInCarouselGamesIsValid())
+        meta->updateTexts(carouselGames[selGameIndex], fgR, fgG, fgB);
 }
 
 //*******************************
 // GuiLauncher::getGames_SET_FAVORITE
 //*******************************
-void GuiLauncher::getGames_SET_FAVORITE(PsGames* gamesList) {
+void GuiLauncher::getGames_SET_FAVORITE(PsGames *gamesList) {
     PsGames completeList;
     gui->db->getGames(&completeList);
 
-    PsGames internalList;
-    gui->internalDB->getInternalGames(&internalList);
-    completeList.insert(end(completeList), begin(internalList), end(internalList));
+    if (gui->cfg.inifile.values["origames"] == "true") {
+        PsGames internalList;
+        gui->internalDB->getInternalGames(&internalList);
+        completeList.insert(end(completeList), begin(internalList), end(internalList));
+    }
 
     // put only the favorites in gamesList
     copy_if(begin(completeList), end(completeList), back_inserter(*gamesList),
@@ -54,14 +58,58 @@ void GuiLauncher::getGames_SET_FAVORITE(PsGames* gamesList) {
 }
 
 //*******************************
+// GuiLauncher::getGames_SET_APPS
+//*******************************
+void GuiLauncher::getGames_SET_APPS(PsGames *gamesList) {
+    PsGames completeList;
+
+    std::string appPath = Environment::getPathToApps();
+    if (!DirEntry::exists(appPath)) {
+        return;
+    }
+    DirEntries dirs = DirEntry::diru_DirsOnly(appPath);
+    cout << "Scanning apps in: " << appPath << endl;
+    for (auto &dir : dirs) {
+        std::string appIni = appPath + sep + dir.name + sep + "app.ini";
+        cout << "AppIni: " << appIni << endl;
+        if (DirEntry::exists(appIni)) {
+            Inifile *file = new Inifile();
+            file->load(appIni);
+            PsGamePtr game{new PsGame};
+            game->gameId = 0;
+            game->year = 0;
+            game->players = 0;
+            game->memcard = "";
+            game->cds = 0;
+
+            game->title = file->values["title"];
+            game->publisher = file->values["author"];
+            game->readme_path = appPath + sep + dir.name + sep + file->values["readme"];
+            game->startup = file->values["startup"];
+            game->image_path = appPath + sep + dir.name + sep + file->values["image"];
+            game->base = appPath + sep + dir.name;
+            game->kernel = file->values["kernel"] == "true";
+            game->app = true;
+            game->foreign = true;
+
+            gamesList->push_back(game);
+            delete file;
+        }
+    }
+
+
+}
+
+//*******************************
 // GuiLauncher::getGames_SET_SUBDIR
 //*******************************
-void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames* gamesList) {
+void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames *gamesList) {
     GameRowInfos gameRowInfos;
     gui->db->getGameRowInfos(&gameRowInfos);
     if (gameRowInfos.size() == 0)
         return; // no games!
     currentUSBGameDirName = gameRowInfos[rowIndex].rowName;
+
 #if 0
     for (auto &gameRowInfo : gameRowInfos)
             cout << "game row: " << gameRowInfo.subDirRowIndex << ", " << gameRowInfo.rowName << ", " <<
@@ -89,10 +137,11 @@ void GuiLauncher::getGames_SET_SUBDIR(int rowIndex, PsGames* gamesList) {
     }
 }
 
+
 //*******************************
 // GuiLauncher::getGames_SET_RETROARCH
 //*******************************
-void GuiLauncher::getGames_SET_RETROARCH(const std::string& playlistName, PsGames* gamesList) {
+void GuiLauncher::getGames_SET_RETROARCH(const std::string &playlistName, PsGames *gamesList) {
     cout << "Getting RA games for playlist: " << playlistName << endl;
     if (playlistName != "")
         *gamesList = raIntegrator->getGames(playlistName);
@@ -101,7 +150,7 @@ void GuiLauncher::getGames_SET_RETROARCH(const std::string& playlistName, PsGame
 //*******************************
 // GuiLauncher::appendGames_SET_INTERNAL
 //*******************************
-void GuiLauncher::appendGames_SET_INTERNAL(PsGames* gamesList) {
+void GuiLauncher::appendGames_SET_INTERNAL(PsGames *gamesList) {
     PsGames internal;
     gui->internalDB->getInternalGames(&internal);
     for (const auto &internalGame : internal) {
@@ -120,30 +169,42 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
             game.freeTex();
         }
     }
-    cout << "Reloading games list" << endl;
-    // get fresh list of games for this set
+
+    cout << "Reloading games list" << endl; // get fresh list of games for this set
     PsGames gamesList;
 
-    if (currentSet == SET_ALL) {
-        getGames_SET_SUBDIR(0, &gamesList);   // get the games in row 0 = /Games and on down
+    if (currentSet == SET_PS1) {
 
-    } else if (currentSet == SET_EXTERNAL) {
-        getGames_SET_SUBDIR(currentUSBGameDirIndex, &gamesList);    // get the games in the current subdir of /Games and on down
+        // if do not show internal games
+        if (gui->cfg.inifile.values["origames"] != "true") {
+            if (currentPS1_SelectState == SET_PS1_All_Games || currentPS1_SelectState == SET_PS1_Internal_Only) {
+                currentPS1_SelectState = SET_PS1_Games_Subdir;
+                //if (selGameIndexInCarouselGamesIsValid())
+            }
+        }
+
+        if (currentPS1_SelectState == SET_PS1_All_Games) {
+            getGames_SET_SUBDIR(0, &gamesList);   // get the games in row 0 = /Games and on down
+            if (gui->cfg.inifile.values["origames"] == "true")  // if include internal games in all games
+                appendGames_SET_INTERNAL(&gamesList);   // add internal games too
+        } else if (currentPS1_SelectState == SET_PS1_Internal_Only) {
+                appendGames_SET_INTERNAL(&gamesList);   // since it starts out empty this sets only internal
+        } else if (currentPS1_SelectState == SET_PS1_Games_Subdir) {
+            // get the games in the current subdir of /Games and on down
+            getGames_SET_SUBDIR(currentUSBGameDirIndex, &gamesList);
+        } else if (currentPS1_SelectState == SET_PS1_Favorites) {
+            getGames_SET_FAVORITE(&gamesList);
+        }
 
     } else if (currentSet == SET_RETROARCH) {
         getGames_SET_RETROARCH(currentRAPlaylistName, &gamesList);
 
-    } else if (currentSet == SET_FAVORITE) {
-        getGames_SET_FAVORITE(&gamesList);
-
+    } else if (currentSet == SET_APPS) {
+        getGames_SET_APPS(&gamesList);
     }
 
-    if (gui->cfg.inifile.values["origames"] == "true")
-        if (currentSet == SET_ALL || currentSet == SET_INTERNAL) {
-            appendGames_SET_INTERNAL(&gamesList);
-        }
-
-    sort(gamesList.begin(), gamesList.end(), sortByTitle);
+    if (!(currentSet == SET_RETROARCH && currentRAPlaylistName == raIntegrator->historyDisplayName))
+        sort(gamesList.begin(), gamesList.end(), sortByTitle);
     cout << "Games Sorted" << endl;
     // copy the gamesList into the carousel
     carouselGames.clear();
@@ -172,7 +233,7 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
     }
 
     if (!noForce) {
-        if (currentSet == SET_RETROARCH) {
+        if ((currentSet == SET_RETROARCH) || (currentSet == SET_APPS)) {
             forceSettingsOnly();
         }
     }
@@ -182,11 +243,15 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
 // GuiLauncher::showSetName
 //*******************************
 void GuiLauncher::showSetName() {
-    vector<string> setNames = { _("Showing: All games"),
-                                _("Showing: Internal games"),
-                                _("Showing: USB Games Directory:") + " ",
-                                _("Showing: Favorite games"),
-                                _("Showing: Retroarch") + " "};
+    vector<string> setNames = {  "Showing: PS1 games",      // this is a dummy entry. setPS1SubStateNames is used.
+                               _("Showing: Retroarch") + " ",
+                               _("Showing: Apps") + " "
+    };
+    vector<string> setPS1SubStateNames = {_("Showing: All Games") + " ",
+                                          _("Showing: Internal Games") + " ",
+                                          _("Showing: Favorite Games") + " ",
+                                          _("Showing: USB Games Directory:") + " "
+    };
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
 
     auto str = gui->cfg.inifile.values["showingtimeout"];
@@ -194,14 +259,20 @@ void GuiLauncher::showSetName() {
     if (str != "")
         timeout = stoi(str.c_str()) * TicksPerSecond;
 
-    if (currentSet == SET_RETROARCH) {
+    if (currentSet == SET_PS1) {
+        if (currentPS1_SelectState == SET_PS1_All_Games) {
+            notificationLines[0].setText(setPS1SubStateNames[currentPS1_SelectState] + numGames, timeout);
+        } else if (currentPS1_SelectState == SET_PS1_Internal_Only) {
+            notificationLines[0].setText(setPS1SubStateNames[currentPS1_SelectState] + numGames, timeout);
+        } else if (currentPS1_SelectState == SET_PS1_Favorites) {
+            notificationLines[0].setText(setPS1SubStateNames[currentPS1_SelectState] + numGames, timeout);
+        } else if (currentPS1_SelectState == SET_PS1_Games_Subdir) {
+            notificationLines[0].setText(setPS1SubStateNames[currentPS1_SelectState] + currentUSBGameDirName + numGames, timeout);
+        }
+    } else if (currentSet == SET_RETROARCH) {
         string playlist = DirEntry::getFileNameWithoutExtension(currentRAPlaylistName);
         notificationLines[0].setText(setNames[currentSet] + playlist + " " + numGames, timeout);
-    }
-    else if (currentSet == SET_EXTERNAL) {
-        // currentUSBGameDirIndex starts at 0 for top row = /Games
-        notificationLines[0].setText(setNames[currentSet] + currentUSBGameDirName + numGames, timeout);
-    } else {
+    } else if (currentSet == SET_APPS) {
         notificationLines[0].setText(setNames[currentSet] + numGames, timeout);
     }
 }
@@ -274,6 +345,8 @@ void GuiLauncher::loadAssets() {
                             _("Edit Memory Card information"), _("Resume game from saved state point")};
 
     currentSet = gui->lastSet;
+    if (currentSet == SET_PS1)
+        currentPS1_SelectState = gui->lastPS1_SelectState;
     currentUSBGameDirIndex = gui->lastUSBGameDirIndex;
     currentRAPlaylistIndex = gui->lastRAPlaylistIndex;
     if (currentRAPlaylistIndex < raPlaylists.size())
@@ -312,7 +385,7 @@ void GuiLauncher::loadAssets() {
     frontElemets.clear();
     carouselGames.clear();
     carouselPositions.initCoverPositions();
-    switchSet(currentSet,true);
+    switchSet(currentSet, true);
     showSetName();
 
     gameName = "";
@@ -384,11 +457,12 @@ void GuiLauncher::loadAssets() {
     meta->x = 785;
     meta->y = 285;
     meta->visible = true;
-    if (selGameIndex != -1) {
+    if (selGameIndex != -1 && selGameIndexInCarouselGamesIsValid()) {
         meta->updateTexts(carouselGames[selGameIndex], fgR, fgG, fgB);
     } else {
-        meta->updateTexts(gameName, publisher, year, serial, region, players, false, false, false, 0, false, false, fgR,
-                          fgG, fgB);
+        meta->updateTexts(gameName, publisher, year, serial, region, players,
+                          false, false, false, 0, false, false, false,
+                          fgR, fgG, fgB);
     }
     staticElements.push_back(meta);
 
@@ -462,15 +536,18 @@ void GuiLauncher::loadAssets() {
     frontElemets.push_back(sselector);
 
     //switchSet(currentSet,false);
-    if (currentSet==SET_RETROARCH)
-    {
+    if ((currentSet == SET_RETROARCH) || (currentSet == SET_APPS)) {
         forceSettingsOnly();
+    } else {
+        if (menu->foreign) {
+            showAllOptions();
+        }
     }
 
     showSetName();
     updateMeta();
 
-    if (selGameIndex >= 0) {
+    if (selGameIndexInCarouselGamesIsValid()) {
         menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
     }
 }
@@ -684,7 +761,8 @@ void GuiLauncher::nextCarouselGame(int speed) {
         selGameIndex = 0;
     }
     updateMeta();
-    menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
+    if (selGameIndexInCarouselGamesIsValid())
+        menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
 }
 
 //*******************************
@@ -699,7 +777,8 @@ void GuiLauncher::prevCarouselGame(int speed) {
         selGameIndex = carouselGames.size() - 1;
     }
     updateMeta();
-    menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
+    if (selGameIndexInCarouselGamesIsValid())
+        menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
 }
 
 //*******************************
@@ -845,14 +924,16 @@ void GuiLauncher::moveMainCover(int state) {
 
     long time = SDL_GetTicks();
 
-    if (state == STATE_GAMES) {
-        carouselGames[selGameIndex].destination = point1;
-        carouselGames[selGameIndex].animationStart = time;
-        carouselGames[selGameIndex].animationDuration = 200;
-    } else {
-        carouselGames[selGameIndex].destination = point2;
-        carouselGames[selGameIndex].animationStart = time;
-        carouselGames[selGameIndex].animationDuration = 200;
+    if (selGameIndexInCarouselGamesIsValid()) {
+        if (state == STATE_GAMES) {
+            carouselGames[selGameIndex].destination = point1;
+            carouselGames[selGameIndex].animationStart = time;
+            carouselGames[selGameIndex].animationDuration = 200;
+        } else {
+            carouselGames[selGameIndex].destination = point2;
+            carouselGames[selGameIndex].animationStart = time;
+            carouselGames[selGameIndex].animationDuration = 200;
+        }
     }
 }
 

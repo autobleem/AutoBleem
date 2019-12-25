@@ -84,13 +84,15 @@ public:
 
     shared_ptr<Gui> gui;
 
-    int currentSet = SET_ALL;
+    int currentSet = SET_PS1;
+    int currentPS1_SelectState = SET_PS1_All_Games;    // SET_PS1_All_Games, SET_PS1_Internal_Only, SET_PS1_Favorites, SET_PS1_Games_Subdir
     void switchSet(int newSet, bool noForce);
     void showSetName();
 
     void getGames_SET_FAVORITE(PsGames* gamesList);
     void getGames_SET_SUBDIR(int rowIndex, PsGames* gamesList);
     void getGames_SET_RETROARCH(const std::string& playlistName, PsGames *gamesList);
+    void getGames_SET_APPS(PsGames* gamesList);
     void appendGames_SET_INTERNAL(PsGames* gamesList);
 
     // current USB Game Dir
@@ -153,11 +155,12 @@ public:
     // Note that if there are less than 13 games in the gamesList the games are duplicated to fill out the carousel.
     // So the same PsGamePtr could be in more than one PsCarouselGame.
     std::vector<PsCarouselGame> carouselGames;
-    std::vector<std::string> raPlaylists;
+    int selGameIndex = 0;
+    bool selGameIndexInCarouselGamesIsValid() { return ((selGameIndex >= 0) && (selGameIndex < carouselGames.size())); }
 
     std::shared_ptr<RAIntegrator> raIntegrator;
+    std::vector<std::string> raPlaylists;
 
-    int selGameIndex = 0;
     int state = STATE_GAMES;
     void setInitialPositions(int selected);
     int getPreviousId(int id);

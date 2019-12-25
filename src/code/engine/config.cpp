@@ -15,6 +15,9 @@ Config::Config()
 {
     std::string path=Env::getWorkingPath() + sep + "config.ini";
     inifile.load(path);
+
+    inifile.values["adv"]="true";
+
     bool aDefaultWasSet {false};
     if (inifile.values["language"]=="")
     {
@@ -53,6 +56,12 @@ Config::Config()
     if (inifile.values["showingtimeout"]=="")
     {
         inifile.values["showingtimeout"]=DefaultShowingTimeoutText;
+        aDefaultWasSet = true;
+    }
+
+    if (inifile.values["raconfig"]=="")
+    {
+        inifile.values["raconfig"]="true";
         aDefaultWasSet = true;
     }
 

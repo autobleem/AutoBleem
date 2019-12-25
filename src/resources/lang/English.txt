@@ -10,11 +10,13 @@
 
 .-= Testing =-.
 
+.lic file not found
+
 About
 
 Advanced
 
-Advanced:
+All Games
 
 Are you sure you want to delete
 
@@ -29,6 +31,8 @@ AutoBleem resume points not available in RetroArch.
 AutoBleem Theme:
 
 Background Music:
+
+Bin file failed to verify
 
 Button Guide
 
@@ -58,7 +62,11 @@ Confirm
 
 Copy
 
+Cover image file not found
+
 Cover Style:
+
+Cue file not found
 
 Custom
 
@@ -82,7 +90,7 @@ Do you want to save memcards data ?
 
 Download latest:
 
-DPAD - Same as classic menu
+DPAD
 
 Edit game parameters
 
@@ -106,6 +114,8 @@ Exit to EvoUI
 
 Failed to delete
 
+Favorite Games
+
 Favorite:
 
 Flush covers
@@ -122,9 +132,17 @@ Game
 
 GAME
 
+Game failed to verify:
+
+Game file not found
+
 Game Manager
 
 Game manager - Select game
+
+Game.ini file not found
+
+Game.ini file not valid
 
 Game:
 
@@ -146,7 +164,7 @@ High res:
 
 Hold
 
-IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+In Boot Menu: Safe Power Off The Console
 
 In Game
 
@@ -156,7 +174,7 @@ Internal
 
 INTERNAL
 
-Internal Games:
+Internal Games
 
 Is your dpad analogue?
 
@@ -188,6 +206,10 @@ New Card
 
 New GamePad found
 
+No disc name
+
+No discs
+
 OK
 
 OOPS! Game crashed. Resume point not available.
@@ -199,6 +221,8 @@ Options
 Original
 
 Page
+
+pcsx.cfg file not found
 
 Player
 
@@ -236,6 +260,8 @@ Quit emulation - back to AutoBleem
 
 Re/Scan
 
+ReadMe file not found
+
 Region:
 
 Reload Cards
@@ -252,7 +278,9 @@ RetroArch
 
 RetroArch is not installed
 
-Run using RetroBoot(if installed)
+Run using RetroBoot
+
+Same as classic menu
 
 Scanline Level:
 
@@ -265,6 +293,8 @@ Select
 Select memory card
 
 Select or cancel highlighted option
+
+Select PS1 Game Category
 
 SELECT RESUME SLOT TO LOAD
 
@@ -280,15 +310,17 @@ SETTINGS
 
 Share MC
 
-Show RetroArch:
+Show Internal Games:
 
 Showing Timeout (0 = no timeout):
 
-Showing: All games
+Showing: All Games
 
-Showing: Favorite games
+Showing: Apps
 
-Showing: Internal games
+Showing: Favorite Games
+
+Showing: Internal Games
 
 Showing: Retroarch
 
@@ -316,7 +348,11 @@ UI:
 
 Unknown Core (AutoDetect)
 
+Update RA Config:
+
 Updating regional.db...
+
+USB Games
 
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 

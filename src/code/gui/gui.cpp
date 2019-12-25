@@ -20,7 +20,7 @@
 #include <iostream>
 #include <iomanip>
 #include "../engine/scanner.h"
-#include "../nlohmann/json.h"
+#include <json.h>
 #include "../nlohmann/fifo_map.h"
 #include "../environment.h"
 
@@ -47,13 +47,28 @@ GuiBase::GuiBase() {
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
     SDL_InitSubSystem(SDL_INIT_AUDIO);
 
+
+
     window = SDL_CreateWindow("AutoBleem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+#if defined(__x86_64__) || defined(_M_X64)
+
+#else
+    SDL_ShowCursor(SDL_DISABLE);
+    SDL_SetWindowGrab(window, SDL_TRUE);
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+#endif
+
 
     TTF_Init();
     fonts[FONT_30] = TTF_OpenFont((getCurrentThemeFontPath() + sep + "SST-Bold.ttf").c_str(), 28);
     fonts[FONT_15] = TTF_OpenFont((getCurrentThemeFontPath() + sep + "SST-Bold.ttf").c_str(), 15);
     fonts[FONT_24] = TTF_OpenFont((getCurrentThemeFontPath() + sep + "SST-Medium.ttf").c_str(), 22);
+
+    sonyFonts[FONT_30] = TTF_OpenFont((Env::getSonyFontPath() + sep + "SST-Bold.ttf").c_str(), 28);
+    sonyFonts[FONT_15] = TTF_OpenFont((Env::getSonyFontPath() + sep + "SST-Bold.ttf").c_str(), 15);
+    sonyFonts[FONT_24] = TTF_OpenFont((Env::getSonyFontPath() + sep + "SST-Medium.ttf").c_str(), 22);
 }
 
 //********************
@@ -399,6 +414,13 @@ void Gui::waitForGamepad() {
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
         SDL_InitSubSystem(SDL_INIT_JOYSTICK);
         joysticksFound = SDL_NumJoysticks();
+#if defined(__x86_64__) || defined(_M_X64)
+
+#else
+        SDL_ShowCursor(SDL_DISABLE);
+    SDL_SetWindowGrab(window, SDL_TRUE);
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+#endif
     }
 }
 
@@ -597,15 +619,12 @@ void Gui::menuSelection() {
     }
     otherMenuShift = false;
     powerOffShift = false;
-    string retroarch = cfg.inifile.values["retroarch"];
     string adv = cfg.inifile.values["adv"];
     string mainMenu = "|@Start| " + _("AutoBleem") + "    |@X|  " + _("Re/Scan") + " ";
     if (cfg.inifile.values["ui"] == "classic") {
         mainMenu += "  |@O|  " + _("Original") + "  ";
     }
-    if (retroarch == "true") {
-        mainMenu += "|@S|  " + _("RetroArch") + "   ";
-    }
+    mainMenu += "|@S|  " + _("RetroArch") + "   ";
     mainMenu += "|@T|  " + _("About") + "  |@Select|  " + _("Options") + " ";
     if (adv == "true") {
         mainMenu += "|@L1| " + _("Advanced");
@@ -711,7 +730,7 @@ void Gui::menuSelection() {
                                     menuVisible = false;
                                 } else {
                                     if (lastSet < 0) {
-                                        lastSet = SET_ALL;
+                                        lastSet = SET_PS1;
                                         lastSelIndex=0;
                                         resumingGui = false;
                                     }
@@ -728,30 +747,28 @@ void Gui::menuSelection() {
                             };
 
                         if (!forceScan)
-                            if (retroarch != "false") {
-                                if (e.jbutton.button == _cb(PCS_BTN_SQUARE, &e)) {
-                                    Mix_PlayChannel(-1, cursor, 0);
-                                    if (!DirEntry::exists(Env::getPathToRetroarchDir() + sep + "retroarch")) {
+                            if (e.jbutton.button == _cb(PCS_BTN_SQUARE, &e)) {
+                                Mix_PlayChannel(-1, cursor, 0);
+                                if (!DirEntry::exists(Env::getPathToRetroarchDir() + sep + "retroarch")) {
 
-                                        auto confirm = new GuiConfirm(renderer);
-                                        confirm->label = _("RetroArch is not installed");
-                                        confirm->show();
-                                        bool result = confirm->result;
-                                        delete confirm;
-                                        if (result) {
-                                            this->menuOption = MENU_OPTION_RETRO;
-                                            menuVisible = false;
-                                        } else {
-                                            menuSelection();
-                                            menuVisible = false;
-                                        }
-                                    } else {
-                                        exportDBToRetroarch();
+                                    auto confirm = new GuiConfirm(renderer);
+                                    confirm->label = _("RetroArch is not installed");
+                                    confirm->show();
+                                    bool result = confirm->result;
+                                    delete confirm;
+                                    if (result) {
                                         this->menuOption = MENU_OPTION_RETRO;
                                         menuVisible = false;
+                                    } else {
+                                        menuSelection();
+                                        menuVisible = false;
                                     }
-                                };
-                            }
+                                } else {
+                                    exportDBToRetroarch();
+                                    this->menuOption = MENU_OPTION_RETRO;
+                                    menuVisible = false;
+                                }
+                            };
 
                         if (e.jbutton.button == _cb(PCS_BTN_CROSS, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);

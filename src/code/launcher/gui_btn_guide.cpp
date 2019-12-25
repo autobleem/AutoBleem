@@ -22,27 +22,38 @@ void GuiBtnGuide::render() {
     gui->renderBackground();
 
     gui->renderTextBar();
-    int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=" + _("Button Guide") + "=-", 0, offset, POS_CENTER);
-    gui->renderTextLine(_("DPAD - Same as classic menu"), 1, offset, POS_CENTER);
-    gui->renderTextLine("|@X| / |@O|   " + _("Select or cancel highlighted option"), 2, offset, POS_CENTER);
-    gui->renderTextLine("|@S|   " + _("Run using RetroBoot(if installed)"), 3, offset, POS_CENTER);
-    gui->renderTextLine("|@R1| / |@L1|   " + _("Quick scroll to next letter"), 4, offset, POS_CENTER);
-    gui->renderTextLine("|@Select|   " + _("Games filter"), 5, offset, POS_CENTER);
-    gui->renderTextLine("|@L2| + |@Select|   " + _("Change USB Games Sub-Directory"), 6, offset, POS_CENTER);
-    gui->renderTextLine("|@L2| + |@Select|   " + _("Change RetroBoot System"), 7, offset, POS_CENTER);
+    // -50 is because the "button guide" line is too low and the lines go below the bottom of the rectangle
+    int offset = gui->renderLogo(true) - 50;
+    int yoffsetPerLine = 5;  // +5 is so the icons don't overlap with the prior line
 
-    gui->renderTextLine("-=" + _("In Game") + "=-", 8, offset, POS_CENTER);
-    gui->renderTextLine("|@Select| + |@T|   " + _("Emulator config MENU"), 9, offset, POS_CENTER);
-    gui->renderTextLine("RESET   " + _("Quit emulation - back to AutoBleem"), 10, offset, POS_CENTER);
+    int xLeft = 370;
+    int xRight = 520;
+    int line = 0;
+    auto font = gui->sonyFonts[FONT_15];
 
-    gui->renderTextLine("-=" + _("In Retroarch Game") + "=-", 11, offset, POS_CENTER);
-    gui->renderTextLine("|@Select| + |@Start|   " + _("Open Retroarch Menu"), 12, offset, POS_CENTER);
-    gui->renderTextLine(_("POWER") + "   " + _("Exit to EvoUI"), 13, offset, POS_CENTER);
+    auto renderTextLineToColumns = [&] (const string &textLeft, const string &textRight, int line, int offset) {
+        gui->renderTextLine(textLeft,  line, offset, POS_LEFT, xLeft, font);
+        gui->renderTextLine(textRight, line, offset, POS_LEFT, xRight, font);
+    };
 
-    gui->renderTextLine("|@L2| + |@R2|  " + _("IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)"), 14, offset,
-                        POS_CENTER);
-
+    renderTextLineToColumns("",                     "-=" + _("Button Guide") + "=-", line++, offset += yoffsetPerLine);
+    line++; offset += yoffsetPerLine;
+    renderTextLineToColumns("|@X| / |@O|",          _("Select or cancel highlighted option"), line++, offset += yoffsetPerLine);
+    renderTextLineToColumns("|@S|",                 _("Run using RetroBoot"), line++, offset += yoffsetPerLine);
+    renderTextLineToColumns("|@R1| / |@L1|",        _("Quick scroll to next letter"), line++, offset += yoffsetPerLine);
+    renderTextLineToColumns("|@Select|",            _("Games filter"), line++, offset += yoffsetPerLine);
+    renderTextLineToColumns("|@L2| + |@Select|",    _("Change USB Games Sub-Directory"), line++, offset += yoffsetPerLine);
+    renderTextLineToColumns("|@L2| + |@Select|",    _("Change RetroBoot System"), line++, offset += yoffsetPerLine);
+    line++; offset += yoffsetPerLine;
+    renderTextLineToColumns("",                     "-=" + _("In Game") + "=-", line++, offset += yoffsetPerLine);
+    renderTextLineToColumns("|@Select| + |@T|",     _("Emulator config MENU"), line++, offset += yoffsetPerLine);
+    renderTextLineToColumns("RESET",                _("Quit emulation - back to AutoBleem"), line++, offset += yoffsetPerLine);
+    line++; offset += yoffsetPerLine;
+    renderTextLineToColumns("",                     "-=" + _("In Retroarch Game") + "=-", line++, offset += yoffsetPerLine);
+    renderTextLineToColumns("|@Select| + |@Start|", _("Open Retroarch Menu"), line++, offset += yoffsetPerLine);
+    renderTextLineToColumns(_("POWER"),             _("Exit to EvoUI"), line++, offset += yoffsetPerLine);
+    line++; offset += yoffsetPerLine;
+    renderTextLineToColumns("|@L2| + |@R2|",        _("In Boot Menu: Safe Power Off The Console"), line++, offset += yoffsetPerLine);
 
     gui->renderStatus("|@O| " + _("Go back") + "|");
     SDL_RenderPresent(renderer);

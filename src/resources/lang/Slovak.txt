@@ -10,12 +10,14 @@
 .-= Retroboot a jadrá emulácie =-.
 .-= Testing =-.
 .-= Testovanie =-.
+.lic file not found
+.lic súbor sa nepodarilo nájsť
 About
 O programe
 Advanced
 Rozšírené
-Advanced:
-Rozšírené:
+All Games
+Všetky hry
 Are you sure you want to delete
 Ste si istý, že chcete zmazať
 Are you sure you want to flush all covers?
@@ -30,6 +32,8 @@ AutoBleem Theme:
 Téma AutoBleemu:
 Background Music:
 Hudba na pozadí:
+Bin file failed to verify
+Nepodarilo sa overiť súbor bin.
 Button Guide
 Sprievodca tlačidlami
 Cancel
@@ -58,8 +62,12 @@ Confirm
 Potvrdiť
 Copy
 Kopírovať
+Cover image file not found
+Nie je možné nájsť obal hry.
 Cover Style:
 Štýl obalu:
+Cue file not found
+Nie je možné nájsť cue súbor.
 Custom
 Vlastné
 Custom Memory Cards
@@ -82,7 +90,7 @@ Do you want to save memcards data ?
 Chcete uložiť údaje z kariet?
 Download latest:
 Najnovšia verzia:
-DPAD - Same as classic menu
+DPAD
 DPAD - To isté ako na PlayStation Classic
 Edit game parameters
 Upraviť parametre hry
@@ -106,6 +114,8 @@ Exit to EvoUI
 Odísť do EvoUI
 Failed to delete
 Nepodarilo sa odstrániť
+Favorite Games
+Obľúbené hry
 Favorite:
 Obľúbené
 Flush covers
@@ -122,10 +132,18 @@ Game
 Hra
 GAME
 HRA
+Game failed to verify:
+Nepodarilo sa overiť hru:
+Game file not found
+Nepodarilo sa nájsť hru
 Game Manager
 Správca hier
 Game manager - Select game
 Správca hry - Vybrať hru
+Game.ini file not found
+Súbor hry .ini sa nenašiel.
+Game.ini file not valid
+Súbor hry .ini sa nepodarilo overiť.
 Game:
 Hra:
 games
@@ -148,6 +166,8 @@ Hold
 Čakajte
 IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
 V BOOT MENU VYPNÚŤ KONZOLU (BEZPEČNÉ VYPNUTIE !!!)
+In Boot Menu: Safe Power Off The Console
+V bootovacom menu: Bezpečne vypnúť konzolu
 In Game
 V hre
 In Retroarch Game
@@ -156,8 +176,8 @@ Internal
 Originálne
 INTERNAL
 ORIGINÁLNE
-Internal Games:
-Originálne hry:
+Internal Games
+Originálne hry
 Is your dpad analogue?
 Máte analógový dpad?
 Language:
@@ -188,6 +208,10 @@ New Card
 Nová karta
 New GamePad found
 Nájdený nový Gamepad
+No disc name
+Disk hry bez názvu
+No discs
+Žiadne disky
 OK
 OK
 OOPS! Game crashed. Resume point not available.
@@ -200,6 +224,8 @@ Original
 Originálne hry
 Page
 Strana
+pcsx.cfg file not found
+Súbor pcsx.cfg sa nenašiel
 Player
 Hráč
 Players
@@ -236,6 +262,8 @@ Quit emulation - back to AutoBleem
 Ukončiť emuláciu - návrat do AutoBleemu
 Re/Scan
 Pre/Hľadať
+ReadMe file not found
+Súbor ReadMe sa nenašiel
 Region:
 Oblasť:
 Reload Cards
@@ -252,8 +280,10 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch nie je nainštalovaný
-Run using RetroBoot(if installed)
-Spustiť pomocou RetroBoot (ak je nainštalovaný)
+Run using RetroBoot
+Spustiť cez Retroboot
+Same as classic menu
+Rovnaké ako v PS Classic menu
 Scanline Level:
 Úroveň obrazových riadkov:
 Scanlines:
@@ -266,6 +296,8 @@ Select memory card
 Vybrať Pamäťovú kartu
 Select or cancel highlighted option
 Vybrať alebo zrušiť zvýraznenú voľbu
+Select PS1 Game Category
+Vybrať kategóriu PS1 hry
 SELECT RESUME SLOT TO LOAD
 VYBERTE POZÍCIU, Z KTOREJ SA NAHRÁ PRERUŠENÁ HRA
 Select RetroBoot Platform
@@ -280,15 +312,17 @@ SETTINGS
 NASTAVENIA
 Share MC
 Zdieľať Pamäťovú kartu
-Show RetroArch:
-Zobraziť RetroArch:
+Show Internal Games:
+Zobraziť originálne hry:
 Showing Timeout (0 = no timeout):
 Zobrazenie časového limitu (0 = bez limitu):
-Showing: All games
+Showing: All Games
 Zobrazujem: Všetky hry
-Showing: Favorite games
+Showing: Apps
+Zobrazujem: Aplikácie
+Showing: Favorite Games
 Zobrazujem: Obľúbené hry
-Showing: Internal games
+Showing: Internal Games
 Zobrazujem: Originálne hry
 Showing: Retroarch
 Zobrazujem: Retroarch
@@ -316,6 +350,8 @@ UI:
 Užívateľské rozhranie:
 Unknown Core (AutoDetect)
 Neznáme jadro (AutoDetect)
+Update RA Config:
+Aktualizovať konfiguráciu RA:
 Updating regional.db...
 Aktualizujem regional.db...
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
