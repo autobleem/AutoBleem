@@ -1,363 +1,365 @@
+.-= Code C++ and shell scripts =-.
 .-= Kod C ++ ve shell komut dosyaları =-.
-
+.-= Database maintenance =-.
 .-= Veritabanı Bakımı =-.
-
+.-= Graphics =-.
 .-= Grafik =-.
-
+.-= Localization support =-.
 .-= Yerelleştirme desteği =-.
-
+.-= Retroboot and emulation cores =-.
 .-= Retroboot ve çekirdek emülasyonları =-.
-
+.-= Testing =-.
 .-= Deneme =-.
-
+.lic file not found
 .lic dosyası bulunamadı
-
+About
 Hakkında
-
+Advanced
 Gelişmiş
-
+All Games
 Tüm Oyunlar
-
+Are you sure you want to delete
 Silmek istediğine emin misin
-
+Are you sure you want to flush all covers?
 Tüm kapakları temizlemek istediğinizden emin misiniz?
-
+Are you sure?
 Emin misiniz?
-
 AutoBleem
-
+AutoBleem
+AutoBleem resume points not available in RetroArch.
 AutoBleem sürdürme noktaları RetroArch'ta bulunmaz.
-
+AutoBleem Theme:
 AutoBleem Teması
-
+Background Music:
 Arkaplan Müziği:
-
+Bin file failed to verify
 Bin dosyası doğrulanamadı
-
+Button Guide
 Düğme Kılavuzu
-
+Cancel
 İptal et
-
 Caps
-
+Caps
+Card
 Kart
-
+Change MC
 MC'yi değiştir
-
 Change RetroBoot System
-
+Change RetroBoot System
+Change USB Games Sub-Directory
 USB Oyunları Alt Dizinini Değiştir
-
+Clock:
 Saat hızı:
-
+Close
 Kapat
-
+Configuration
 Konfigürasyon
-
+Configuration saved - Press |@X| to continue
 Yapılandırma kaydedildi - Devam etmek için |@X| basın
-
+CONFIGURED
 YAPILANDIRILDI
-
+Confirm
 Onayla
-
+Copy
 Kopyala
-
+Cover image file not found
 Kapak resmi dosyası bulunamadı
-
+Cover Style:
 Kapak Stili:
-
+Cue file not found
 Cue dosyası bulunamadı
-
+Custom
 Özel
-
+Custom Memory Cards
 Özel Bellek Kartları
-
+Customize AutoBleem settings
 AutoBleem ayarlarını özelleştirme
-
+Decompressing ecm:
 Ecm sıkıştırılıyor:
-
+Defragment Card
 Birleştirme Kartı
-
+Delete
 Sil
-
+Delete !SaveState folder for game
 Oyun için !SaveState klasörünü sil
-
+Delete card
 Kartı sil
-
+Delete Game
+Delete Game
 Oyunu Sil
-
+Do you want to save memcards data ?
 Hafıza kartların verilerini kaydetmek istiyor musunuz?
-
-En son indir:
-
+Download latest:
+En son versiyonu indirmek için:
 DPAD
-
+DPAD
+Edit game parameters
 Oyun parametrelerini düzenle
-
+Edit Memory Card information
 Bellek Kartı bilgilerini düzenleme
-
+Emulator config MENU
 Emülatör yapılandırma MENÜSÜ
-
+Enter
 Giriş
-
+Enter new card name
 Yeni kart adı girin
-
+Enter new game name
 Yeni oyun adı girin
-
+Enter new name for card
 Kart için yeni bir ad girin
-
+Enter new name for memory card
 Hafıza kartı için yeni bir ad girin
-
+Entry
 Girdi
-
+Exit to EvoUI
 EvoUI'ye çıkış
-
+Failed to delete
 Silinemedi
-
+Favorite Games
 Favori Oyunlar
-
+Favorite:
 Favori:
-
+Flush covers
 Gömme kapaklar
-
+Folder:
 Klasör:
-
-Çerçeve atlama:
-
+Frameskip:
+Kare Atlama:
+Free
 Boş
-
+Free space
 Boş alan
-
-oyun
-
+Game
+Oyun
+GAME
 OYUN
-
+Game failed to verify:
 Oyun doğrulanamadı:
-
+Game file not found
 Oyun dosyası bulunamadı
-
-Oyun Yöneticisi
-
+Game manager
+Oyun yöneticisi
+Game manager - Select game
 Oyun yöneticisi - Oyunu seç
-
+Game.ini file not found
 Game.ini dosyası bulunamadı
-
+Game.ini file not valid
 Game.ini dosyası geçerli değil
-
+Game:
 Oyun:
-
+games
 oyunlar
-
+Oames
 Oyunlar
-
+Games changed. Press
 Oyunlar değişti. Basın
-
+Games filter
 Oyunlar filtresi
-
+games scanned
 taranan oyunlar
-
+GFX Filter:
 GFX Filtresi:
-
+Go back
 Geri dön
-
+High res:
 Yüksek çözünürlük:
-
+Hold
 Basılı tutun
-
+In Boot Menu: Safe Power Off The Console
 Önyükleme Menüsünde: Konsolu Güvenli Kapatma
-
+In Game
 Oyunda
-
+In Retroarch Game
 Retroarch Oyunu
-
-İç
-
-İÇ
-
+Internal
+Dahili
+INTERNAL
+DAHİLİ
+Internal Games
 Dahili Oyunlar
-
+Is your dpad analogue?
 Dpad'iniz analog mu?
-
+Language:
 Dil:
-
+Link Block
 Bağlantı Bloğu
-
+Link end Block
 Bağlantı sonu Bloğu
-
-Yükleniyor lütfen bekleyin ...
-
+Loading ... Please Wait ...
+Yükleniyor... lütfen bekleyin...
+Lock data:
 Verileri kilitle:
-
+MEMORY CARD
 HAFIZA KARTI
-
+Memory Card Manager
 Hafıza Kartı Yöneticisi
-
+Memory Card:
 Hafıza kartı:
-
+Memory Cards
 Hafıza kartları
-
+Menu
 Menü
-
+Moving :
 Hareketli :
-
+Music:
 Müzik:
-
+New Card
 Yeni Kart
-
+New GamePad found
 Yeni GamePad bulundu
-
+No disc name
 Disk adı yok
-
+No discs
 Disk yok
-
+OK
 TAMAM
-
+OOPS! Game crashed. Resume point not available.
 Oops! Oyun çöktü. Devam noktası yok.
-
+Open Retroarch Menu
 Retroarch Menüsünü Aç
-
+Options
 Seçenekler
-
+Original
 Orijinal
-
+Page
 Sayfa
-
+pcsx.cfg file not found
 pcsx.cfg dosyası bulunamadı
-
+Player
 Oyuncu
-
+Players
 Oyuncular
-
+Please confirm
 Lütfen onaylayın
-
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 LÜTFEN GAMEPAD'I PLAYSTATION CLASSIC'E BAĞLAYIN
-
-Lütfen bekleyin ... siliniyor
-
-Lütfen bekleyin ... kapaklar siliniyor ...
-
+Please wait ... deleting
+Lütfen bekleyin... siliniyor
+Please wait ... deleting covers..
+Lütfen bekleyin... kapaklar siliniyor...
+Plugin:
 Eklenti:
-
+POWER
 GÜÇ
-
+Power Off
 Kapat
-
+POWERING OFF... PLEASE WAIT
 KAPATILIYOR... LÜTFEN BEKLEYİN
-
+Press a key for
 İçin bir tuşa basın
-
+Published by:
 Tarafından yayınlandı:
-
+Quick boot
 Hızlı önyükleme
-
+Quick scroll to next letter
 Sonraki harfe hızlı kaydırma
-
-Hızlı Önyükleme Init:
-
+QuickBoot Init:
+Hızlı Önyükleme için:
+QuickBoot:
 Hızlı önyükleme:
-
+Quit emulation - back to AutoBleem
 Emülasyondan çık - AutoBleem'e geri dön
-
+Re/Scan
 Yeniden/Tara
-
+ReadMe file not found
 BeniOku dosyası bulunamadı
-
+Region:
 Bölge:
-
+Reload Cards
 Kartları Yeniden Yükle
-
+Rename
 Adını değiştir
-
+RESUME
 DEVAM ET
-
+Resume game from saved state point
 Oyunu kayıtlı durum noktasından devam ettir
-
+Resume point saved to slot
 Devam noktası yuvaya kaydedildi
-
 RetroArch
-
+RetroArch
+RetroArch is not installed
 RetroArch kurulu değil
-
+Run using RetroBoot
 RetroBoot kullanarak çalıştırın
-
+Same as classic menu
 Klasik menü ile aynı
-
-Tarama Seviyesi:
-
+Scanline Level:
+Tarama Çizgisi Seviyesi:
+Tarama Çizgileri
 Scanlines:
-
+Scanning...
 Taranıyor...
-
+Select
 Seç
-
+Select memory card
 Hafıza kartını seçin
-
+Select or cancel highlighted option
 Vurgulanan seçeneği seçme veya iptal etme
-
+Select PS1 Game Category
 PS1 Oyun Kategorisini Seçin
-
+SELECT RESUME SLOT TO LOAD
 YÜKLEMEK İÇİN DEVAM YUVASINI SEÇİN
-
+Select RetroBoot Platform
 RetroBoot Platformunu Seçin
-
+Select Right Card
 Sağ Kartı Seçin
-
+SELECT SLOT TO SAVE STATE
 KONUM KAYDI İÇİN YUVA SEÇİN
-
+Serial:
 Seri:
-
+SETTINGS
 AYARLAR
-
+Share MC
 Paylaş HK
-
+Show Internal Games:
 Dahili Oyunları Göster:
-
-Zaman Aşımı Gösteriliyor (0 = zaman aşımı yok):
-
+Showing Timeout (0 = no timeout):
+Zaman Aşımı Göster (0 = zaman aşımı yok):
+Showing: All Games
 Gösterilen: Tüm Oyunlar
-
+Showing: Apps
 Gösteriliyor: Uygulamalar
-
+Showing: Favorite Games
 Gösterilen: Favori Oyunlar
-
+Showing: Internal Games
 Gösterilen: Dahili Oyunlar
-
+Showing: Retroarch
 Gösterilen: Retroarch
-
+Showing: USB Games Directory:
 Gösterilen: USB Oyunlar Dizini:
-
+Slot
 Yuva
-
+Space
 Alan
-
+SpeedHack:
 Hız hilesi:
-
+Spu Interpolation:
 Spu Enterpolasyonu:
-
+Starting EvolutionUI
 EvolutionUI Başlat
-
+Support via Discord:
 Discord aracılığıyla destek:
-
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 Bu ücretsiz ve açık kaynaklı bir yazılımdır. OLDUĞU GİBİ çalışır, herhangi bir sorun veya hasar için sorumluluk kabul etmiyoruz.
-
+to scan
 taramak için
-
+Total:
 Toplam:
-
+UI:
 Kullanıcı arayüzü:
-
+Unknown Core (AutoDetect)
 Bilinmeyen Çekirdek (Otomatik Algılama)
-
+Update RA Config:
 RA Konfigürasyonu güncelleyin:
-
+Updating regional.db...
 Regional.db güncelleniyor ...
-
+USB Games
 USB Oyunlar
-
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 UYARI: KAPAK VERİTABANI BULUNAMADI. HERHANGİ BİR TUŞA BASIN.
-
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
 UYARI: OYUN BULUNAMADI. HERHANGİ BİR TUŞA BASIN.
-
+Widescreen:
 Geniş Ekran:
-
+Year:
 Yıl:
