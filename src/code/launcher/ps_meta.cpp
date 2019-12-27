@@ -34,14 +34,14 @@ void PsMeta::updateTexts(const string & gameNameTxt, const string & publisherTxt
     this->foreign = foreign;
     this->app = app;
 
-    gameNameTex = createTextTex(gameName, r,g,b, font28_bold);
-    publisherAndYearTex = createTextTex(publisher + ", " + year, r,g,b, font15_bold);
+    gameNameTex = createTextTex(gameName, r,g,b, fonts[FONT_28_BOLD]);
+    publisherAndYearTex = createTextTex(publisher + ", " + year, r,g,b, fonts[FONT_15_BOLD]);
     if (serial != "")
-        serialAndRegionTex = createTextTex(_("Serial:") + " " + serial + ", " + _("Region:") + " " + region, r,g,b, font15_bold);
+        serialAndRegionTex = createTextTex(_("Serial:") + " " + serial + ", " + _("Region:") + " " + region, r,g,b, fonts[FONT_15_BOLD]);
 	else
-        serialAndRegionTex = createTextTex("", r,g,b, font15_bold);
-    playersTex = createTextTex(playersTxt, r,g,b, font15_bold);
-    discsTex = createTextTex(to_string(discs),r,g,b,font15_bold);
+        serialAndRegionTex = createTextTex("", r,g,b, fonts[FONT_15_BOLD]);
+    playersTex = createTextTex(playersTxt, r,g,b, fonts[FONT_15_BOLD]);
+    discsTex = createTextTex(to_string(discs),r,g,b,fonts[FONT_15_BOLD]);
 
     if (foreign)
     {
@@ -50,7 +50,7 @@ void PsMeta::updateTexts(const string & gameNameTxt, const string & publisherTxt
         {
             publisher = _("Unknown Core (AutoDetect)");
         }
-        publisherAndYearTex = createTextTex(publisher, r,g,b, font15_bold);
+        publisherAndYearTex = createTextTex(publisher, r,g,b, fonts[FONT_15_BOLD]);
     }
 }
 

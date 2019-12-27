@@ -9,6 +9,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "../gui/gui_sdl_wrapper.h"
 #include "../gui/gui_font_wrapper.h"
+#include "../gui/gui_font.h"
 
 class PsGame;
 
@@ -24,9 +25,7 @@ public:
     std::string serial;
     std::string region;
 
-    TTF_Font_Shared font15_bold;
-    TTF_Font_Shared font22_med;
-    TTF_Font_Shared font28_bold;
+    Fonts fonts;
 
     SDL_Shared<SDL_Texture> discsTex;
     SDL_Shared<SDL_Texture> gameNameTex;

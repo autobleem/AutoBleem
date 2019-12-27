@@ -451,9 +451,7 @@ void GuiLauncher::loadAssets() {
     staticElements.push_back(settingsBack);
 
     meta = new PsMeta(renderer, "meta", gui->getCurrentThemeImagePath() + sep + "CB/PlayerOne.png");
-    meta->font15_bold = gui->themeFonts[FONT_15_BOLD];
-    meta->font22_med = gui->themeFonts[FONT_22_MED];
-    meta->font28_bold = gui->themeFonts[FONT_28_BOLD];
+    meta->fonts = gui->themeFonts;
     meta->x = 785;
     meta->y = 285;
     meta->visible = true;
