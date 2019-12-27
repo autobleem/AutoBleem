@@ -17,6 +17,9 @@
 
 using namespace std;
 
+//*******************************
+// GuiPadConfig::render
+//*******************************
 void GuiPadConfig::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
@@ -62,6 +65,9 @@ void GuiPadConfig::render() {
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiPadConfig::loop
+//*******************************
 void GuiPadConfig::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;

@@ -14,6 +14,9 @@
 #define DIR_RIGHT 4
 #define DIR_NONE  5
 
+//*******************************
+// PadMapper::reload
+//*******************************
 void PadMapper::reload() {
     for (const auto &any : configs) {
         Inifile *cfg = any.second;
@@ -32,6 +35,9 @@ void PadMapper::reload() {
     }
 }
 
+//*******************************
+// PadMapper::init
+//*******************************
 void PadMapper::init() {
     buttonNames.clear();
     buttonNames[PCS_BTN_CIRCLE] = "circle";
@@ -66,6 +72,9 @@ void PadMapper::init() {
 
 }
 
+//*******************************
+// PadMapper::isKnownPad
+//*******************************
 bool PadMapper::isKnownPad(int id) {
     SDL_Joystick *joy = SDL_JoystickFromInstanceID(id);
     string joyname = SDL_JoystickName(joy);
@@ -78,6 +87,9 @@ bool PadMapper::isKnownPad(int id) {
     return config != nullptr;
 }
 
+//*******************************
+// PadMapper::getMappingString
+//*******************************
 string PadMapper::getMappingString(int id) {
     SDL_Joystick *joy = SDL_JoystickFromInstanceID(id);
     string joyname = SDL_JoystickName(joy);
@@ -113,6 +125,9 @@ using namespace std;
 }
 
 
+//*******************************
+// PadMapper::isDirection
+//*******************************
 bool PadMapper::isDirection(SDL_Event *e, int dir) {
     // find pad name
 
@@ -171,26 +186,44 @@ bool PadMapper::isDirection(SDL_Event *e, int dir) {
     return false;
 }
 
+//*******************************
+// PadMapper::isCenter
+//*******************************
 bool PadMapper::isCenter(SDL_Event *event) {
     return isDirection(event, DIR_NONE);
 }
 
+//*******************************
+// PadMapper::isUp
+//*******************************
 bool PadMapper::isUp(SDL_Event *event) {
     return isDirection(event, DIR_UP);
 }
 
+//*******************************
+// PadMapper::isDown
+//*******************************
 bool PadMapper::isDown(SDL_Event *event) {
     return isDirection(event, DIR_DOWN);
 }
 
+//*******************************
+// PadMapper::isLeft
+//*******************************
 bool PadMapper::isLeft(SDL_Event *event) {
     return isDirection(event, DIR_LEFT);
 }
 
+//*******************************
+// PadMapper::isRight
+//*******************************
 bool PadMapper::isRight(SDL_Event *event) {
     return isDirection(event, DIR_RIGHT);
 }
 
+//*******************************
+// PadMapper::translateButton
+//*******************************
 int PadMapper::translateButton(int button, SDL_Event *e) {
     SDL_Joystick *joy = SDL_JoystickFromInstanceID(e->jbutton.which);
     const char *joyname = SDL_JoystickName(joy);
