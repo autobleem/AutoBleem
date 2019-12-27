@@ -58,7 +58,7 @@ public:
     SDL_Shared<SDL_Window> window;
     SDL_Shared<SDL_Renderer> renderer;
 
-    Fonts fonts;
+    Fonts themeFonts;
     Fonts sonyFonts;
     Config cfg;
     bool inGuiLauncher = false;

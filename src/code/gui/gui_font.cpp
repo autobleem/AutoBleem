@@ -6,11 +6,11 @@
 
 using namespace std;
 
-FontSize allFontSizes[] { FONT_15, FONT_24, FONT_30 };
+FontSize allFontSizes[] { FONT_15_BOLD, FONT_22_MED, FONT_28_BOLD };
 map<FontSize, string> TTF_FileNameToUseForFontSize  {
-        {FONT_15, "SST-Bold.ttf"},
-        {FONT_24, "SST-Medium.ttf"},
-        {FONT_30, "SST-Bold.ttf"}
+        {FONT_15_BOLD, "SST-Bold.ttf"},
+        {FONT_22_MED, "SST-Medium.ttf"},
+        {FONT_28_BOLD, "SST-Bold.ttf"}
 };
 
 //********************
@@ -22,9 +22,9 @@ Fonts::Fonts() {
 }
 
 //********************
-// Fonts::openFont
+// Fonts::openNewSharedFont
 //********************
-TTF_Font_Shared Fonts::openFont(const string &filename, int fontSize) {
+TTF_Font_Shared Fonts::openNewSharedFont(const string &filename, int fontSize) {
     TTF_Font_Shared font = TTF_Font_Shared(TTF_OpenFont(filename.c_str(), fontSize));
     if (font) {
         cout << "Success opening font " << filename << " of size " << fontSize << endl;
@@ -42,5 +42,5 @@ TTF_Font_Shared Fonts::openFont(const string &filename, int fontSize) {
 //********************
 void Fonts::openAllFonts(const std::string &dirname) {
     for (auto size : allFontSizes)
-        fonts[size] = openFont(dirname + sep + TTF_FileNameToUseForFontSize[size], size);
+        fonts[size] = openNewSharedFont(dirname + sep + TTF_FileNameToUseForFontSize[size], size);
 }

@@ -376,10 +376,10 @@ void GuiLauncher::loadAssets() {
         secB = gui->getB(colorsFile.values["sec"]);
     }
 
-    gui->fonts.openAllFonts(gui->getCurrentThemeFontPath());
+    gui->themeFonts.openAllFonts(gui->getCurrentThemeFontPath());
 
-    notificationLines.createAndSetDefaults(2, 10, 10, FONT_24, 24,
-                                           8);    // count, x_start, y_start, FontSize, fontHeight, separationBetweenLines
+    // count, x_start, y_start, FontSize, fontHeight, separationBetweenLines
+    notificationLines.createAndSetDefaults(2, 10, 10, FONT_22_MED, 24, 8);
 
     staticElements.clear();
     frontElemets.clear();
@@ -451,9 +451,9 @@ void GuiLauncher::loadAssets() {
     staticElements.push_back(settingsBack);
 
     meta = new PsMeta(renderer, "meta", gui->getCurrentThemeImagePath() + sep + "CB/PlayerOne.png");
-    meta->font15 = gui->fonts[FONT_15];
-    meta->font24 = gui->fonts[FONT_24];
-    meta->font30 = gui->fonts[FONT_30];
+    meta->font15_bold = gui->themeFonts[FONT_15_BOLD];
+    meta->font22_med = gui->themeFonts[FONT_22_MED];
+    meta->font28_bold = gui->themeFonts[FONT_28_BOLD];
     meta->x = 785;
     meta->y = 285;
     meta->visible = true;
@@ -495,12 +495,12 @@ void GuiLauncher::loadAssets() {
     menu->loadAssets();
 
     menuHead = new PsCenterLabel(renderer, "header");
-    menuHead->font = gui->fonts[FONT_30];
+    menuHead->font = gui->themeFonts[FONT_28_BOLD];
     menuHead->visible = false;
     menuHead->y = 545;
     menuText = new PsCenterLabel(renderer, "menuText");
     menuText->visible = false;
-    menuText->font = gui->fonts[FONT_24];
+    menuText->font = gui->themeFonts[FONT_22_MED];
     menuText->y = 585;
 
     menuHead->setText(headers[0], fgR, fgG, fgB);
@@ -510,8 +510,8 @@ void GuiLauncher::loadAssets() {
     staticElements.push_back(menuText);
 
     sselector = new PsStateSelector(renderer, "selector");
-    sselector->font30 = gui->fonts[FONT_30];
-    sselector->font24 = gui->fonts[FONT_24];
+    sselector->font30 = gui->themeFonts[FONT_28_BOLD];
+    sselector->font24 = gui->themeFonts[FONT_22_MED];
     sselector->visible = false;
 
     if (gui->resumingGui) {
@@ -736,7 +736,7 @@ void GuiLauncher::render() {
 
     menu->render();
 
-    auto font24 = gui->fonts[FONT_24];
+    auto font24 = gui->themeFonts[FONT_22_MED];
     renderText(638, 640, _("Enter"), {secR, secG, secB, 0}, font24, POS_LEFT, false);
     renderText(800, 640, _("Cancel"), {secR, secG, secB, 0}, font24, POS_LEFT, false);
     renderText(945, 640, _("Button Guide"), {secR, secG, secB, 0}, font24, POS_LEFT, false);

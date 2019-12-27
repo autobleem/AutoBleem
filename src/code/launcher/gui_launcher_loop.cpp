@@ -972,14 +972,14 @@ void GuiLauncher::loop_prevGameFirstLetter() {
             if (nextGame != selGameIndex) {
                 // we have next game;
                 Mix_PlayChannel(-1, gui->cursor, 0);
-                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, FONT_24);
+                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, FONT_22_MED);
                 selGameIndex = nextGame;
                 setInitialPositions(selGameIndex);
                 updateMeta();
                 menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
             } else {
                 Mix_PlayChannel(-1, gui->cancel, 0);
-                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, FONT_24);
+                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, FONT_22_MED);
             }
         }
     }
@@ -1009,14 +1009,14 @@ void GuiLauncher::loop_nextGameFirstLetter() {
             if (nextGame != selGameIndex) {
                 // we have next game;
                 Mix_PlayChannel(-1, gui->cursor, 0);
-                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, FONT_24);
+                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, FONT_22_MED);
                 selGameIndex = nextGame;
                 setInitialPositions(selGameIndex);
                 updateMeta();
                 menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
             } else {
                 Mix_PlayChannel(-1, gui->cancel, 0);
-                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, FONT_24);
+                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, FONT_22_MED);
             }
         }
     }

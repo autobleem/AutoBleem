@@ -16,7 +16,7 @@
 void GuiAbout::init() {
     std::shared_ptr<Gui> gui(Gui::getInstance());
     fx.renderer = renderer;
-    font = Fonts::openFont(Env::getWorkingPath() + sep + "about.ttf", 17);
+    font = Fonts::openNewSharedFont(Env::getWorkingPath() + sep + "about.ttf", 17);
     logo = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "ablogo.png").c_str());
 }
 

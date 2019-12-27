@@ -29,7 +29,7 @@ void GuiBtnGuide::render() {
     int xLeft = 370;
     int xRight = 520;
     int line = 0;
-    auto font = gui->sonyFonts[FONT_15];
+    auto font = gui->sonyFonts[FONT_15_BOLD];
 
     auto renderTextLineToColumns = [&] (const string &textLeft, const string &textRight, int line, int offset) {
         gui->renderTextLine(textLeft,  line, offset, POS_LEFT, xLeft, font);

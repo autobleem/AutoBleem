@@ -24,9 +24,9 @@ public:
     std::string serial;
     std::string region;
 
-    TTF_Font_Shared font30;
-    TTF_Font_Shared font15;
-    TTF_Font_Shared font24;
+    TTF_Font_Shared font15_bold;
+    TTF_Font_Shared font22_med;
+    TTF_Font_Shared font28_bold;
 
     SDL_Shared<SDL_Texture> discsTex;
     SDL_Shared<SDL_Texture> gameNameTex;
