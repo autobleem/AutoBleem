@@ -30,29 +30,28 @@ void GuiBtnGuide::render() {
     int line = 0;
     auto font = gui->sonyFonts[FONT_20_BOLD];
 
-    auto renderTextLineToColumns = [&] (const string &textLeft, const string &textRight, int line, int offset) {
-        gui->renderTextLine(textLeft,  line, offset, POS_LEFT, xLeft, font);
-        gui->renderTextLine(textRight, line, offset, POS_LEFT, xRight, font);
+    auto renderTextLineToColumns = [&] (const string &textLeft, const string &textRight) {
+        gui->renderTextLineToColumns(textLeft, textRight, xLeft, xRight, line++, offset, font);
     };
 
-    renderTextLineToColumns("",                     "-=" + _("Button Guide") + "=-", line++, offset);
+    renderTextLineToColumns("",                          "-=" + _("Button Guide") + "=-");
     line++;
-    renderTextLineToColumns("|@X| / |@O|",          _("Select or cancel highlighted option"), line++, offset);
-    renderTextLineToColumns("|@S|",                 _("Run using RetroBoot"), line++, offset);
-    renderTextLineToColumns("|@R1| / |@L1|",        _("Quick scroll to next letter"), line++, offset);
-    renderTextLineToColumns("|@Select|",            _("Games filter"), line++, offset);
-    renderTextLineToColumns("|@L2| + |@Select|",    _("Change USB Games Sub-Directory"), line++, offset);
-    renderTextLineToColumns("|@L2| + |@Select|",    _("Change RetroBoot System"), line++, offset);
+    renderTextLineToColumns("|@X| / |@O|",               _("Select or cancel highlighted option"));
+    renderTextLineToColumns("|@S|",                      _("Run using RetroBoot"));
+    renderTextLineToColumns("|@R1| / |@L1|",             _("Quick scroll to next letter"));
+    renderTextLineToColumns("|@Select|",                 _("Games filter"));
+    renderTextLineToColumns("|@L2| + |@Select|",         _("Change USB Games Sub-Directory"));
+    renderTextLineToColumns("|@L2| + |@Select|",              _("Change RetroBoot System"));
     line++;
-    renderTextLineToColumns("",                     "-=" + _("In Game") + "=-", line++, offset);
-    renderTextLineToColumns("|@Select| + |@T|",     _("Emulator config MENU"), line++, offset);
-    renderTextLineToColumns("RESET",                _("Quit emulation - back to AutoBleem"), line++, offset);
+    renderTextLineToColumns("",                          "-=" + _("In Game") + "=-");
+    renderTextLineToColumns("|@Select| + |@T|",          _("Emulator config MENU"));
+    renderTextLineToColumns("RESET",                     _("Quit emulation - back to AutoBleem"));
     line++;
-    renderTextLineToColumns("",                     "-=" + _("In Retroarch Game") + "=-", line++, offset);
-    renderTextLineToColumns("|@Select| + |@Start|", _("Open Retroarch Menu"), line++, offset);
-    renderTextLineToColumns(_("POWER"),             _("Exit to EvoUI"), line++, offset);
+    renderTextLineToColumns("",                          "-=" + _("In Retroarch Game") + "=-");
+    renderTextLineToColumns("|@Select| + |@Start|",      _("Open Retroarch Menu"));
+    renderTextLineToColumns(_("POWER"),                  _("Exit to EvoUI"));
     line++;
-    renderTextLineToColumns("|@L2| + |@R2|",        _("In Boot Menu: Safe Power Off The Console"), line++, offset);
+    renderTextLineToColumns("|@L2| + |@R2|",             _("In Boot Menu: Safe Power Off The Console"));
 
     gui->renderStatus("|@O| " + _("Go back") + "|");
     SDL_RenderPresent(renderer);

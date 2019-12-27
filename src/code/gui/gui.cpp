@@ -1152,7 +1152,7 @@ int Gui::renderTextLine(const string &text, int line, int offset, int position) 
 
 int Gui::renderTextLine(const string &text, int line, int offset,  int position, int xoffset)
 {
-    return renderTextLine(text,line,offset,position,xoffset,themeFont);
+    return renderTextLine(text, line, offset, position, xoffset, themeFont);
 }
 
 int Gui::renderTextLine(const string &text, int line, int offset,  int position, int xoffset, TTF_Font_Shared font) {
@@ -1190,6 +1190,19 @@ int Gui::renderTextLine(const string &text, int line, int offset,  int position,
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
 
     return textRec.h;
+}
+
+//*******************************
+// Gui::renderTextLineToColumns
+//*******************************
+int Gui::renderTextLineToColumns(const string &textLeft, const string &textRight,
+                                 int xLeft, int xRight,
+                                 int line, int offset, TTF_Font_Shared font) {
+
+            renderTextLine(textLeft,  line, offset, POS_LEFT, xLeft, font);
+    int h = renderTextLine(textRight, line, offset, POS_LEFT, xRight, font);
+
+    return h;   // rectangle height
 }
 
 //*******************************
