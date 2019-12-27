@@ -27,7 +27,7 @@ Fonts::Fonts() {
 
 //********************
 // Fonts::openNewSharedFont
-// low level open shared font.  filename is the full path to the ttf file.  fontSize is the size in pixels.
+// low level open shared font.  filename is the full path to the ttf file.  fontSize is the font point size.
 //********************
 TTF_Font_Shared Fonts::openNewSharedFont(const string &filename, int fontSize) {
     TTF_Font_Shared font = TTF_Font_Shared(TTF_OpenFont(filename.c_str(), fontSize));
