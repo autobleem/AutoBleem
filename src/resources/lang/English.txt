@@ -54,8 +54,6 @@ Close
 
 Configuration
 
-Configuration saved - Press |@X| to continue
-
 CONFIGURED
 
 Confirm
@@ -89,8 +87,6 @@ Delete Game
 Do you want to save memcards data ?
 
 Download latest:
-
-DPAD
 
 Edit game parameters
 
@@ -176,8 +172,6 @@ INTERNAL
 
 Internal Games
 
-Is your dpad analogue?
-
 Language:
 
 Link Block
@@ -244,7 +238,11 @@ Power Off
 
 POWERING OFF... PLEASE WAIT
 
+Press |@X| to save controller mapping, or |@O| to retry configuration
+
 Press a key for
+
+Press any DPAD button (to determine if it's digital or analogue)
 
 Published by:
 
@@ -279,8 +277,6 @@ RetroArch
 RetroArch is not installed
 
 Run using RetroBoot
-
-Same as classic menu
 
 Scanline Level:
 

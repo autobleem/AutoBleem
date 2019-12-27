@@ -12,6 +12,10 @@
 #include "gui.h"
 #include "../lang.h"
 #include "../environment.h"
+#include "../gui/gui_confirm.h"
+#include <iostream>
+
+using namespace std;
 
 void GuiPadConfig::render() {
     shared_ptr<Gui> gui(Gui::getInstance());
@@ -19,11 +23,10 @@ void GuiPadConfig::render() {
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     SDL_Joystick *joy = SDL_JoystickFromInstanceID(joyid);
+
     gui->renderTextLine("-=" + _("New GamePad found") + "=-", 0, offset, true);
     gui->renderTextLine(SDL_JoystickName(joy), 1, offset, true);
-
     newConfig.section = SDL_JoystickName(joy);
-
 
     /*
     defaultConfig->values["dpad"]    ="analogue";
@@ -52,9 +55,9 @@ void GuiPadConfig::render() {
     if (step > 8)
         gui->renderTextLine(_("Press a key for") + "  |@R2| " + newConfig.values["r2"], 12, offset, true);
     if (step > 9)
-        gui->renderTextLine(_("Is your dpad analogue?") + "  |@X| / |@O| ", 13, offset, true);
+        gui->renderTextLine(_("Press any DPAD button (to determine if it's digital or analogue)") + ": " + newConfig.values["dpad"], 13, offset, true);
     if (step > 10)
-        gui->renderStatus(_("Configuration saved - Press |@X| to continue"));
+        gui->renderTextLine(_("Press |@X| to save controller mapping, or |@O| to retry configuration"), 14, offset, true);
 
     SDL_RenderPresent(renderer);
 }
@@ -70,12 +73,36 @@ void GuiPadConfig::loop() {
                 if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
                     gui->drawText(_("POWERING OFF... PLEASE WAIT"));
                     Util::powerOff();
-
                 }
             }
 
             switch (e.type) {
-                case SDL_JOYBUTTONUP:
+                case SDL_JOYHATMOTION: {
+                    if (step == 10) {
+                        // digital
+                        cout <<  "dpad is digital" << endl;
+                        newConfig.values["dpad"] = "digital";
+                        newConfig.values["analogue1"] = "na";
+                        newConfig.values["analogue2"] = "na";
+                        newConfig.values["dpaddeadzone"] = "32000";
+                        step++;
+                        render();
+                    }
+                    break;
+                }
+                case SDL_JOYAXISMOTION: {
+                    if (step == 10) {
+                        // analogue
+                        newConfig.values["dpad"] = "analogue";
+                        newConfig.values["analogue1"] = "1";
+                        newConfig.values["analogue2"] = "1";
+                        newConfig.values["dpaddeadzone"] = "32000";
+                        step++;
+                        render();
+                    }
+                    break;
+                }
+                case SDL_JOYBUTTONUP: {
                     if (step == 0) newConfig.values["cross"] = to_string(e.jbutton.button);
                     if (step == 1) newConfig.values["circle"] = to_string(e.jbutton.button);
                     if (step == 2) newConfig.values["square"] = to_string(e.jbutton.button);
@@ -88,41 +115,31 @@ void GuiPadConfig::loop() {
                     if (step == 8) newConfig.values["r1"] = to_string(e.jbutton.button);
                     if (step == 9) newConfig.values["r2"] = to_string(e.jbutton.button);
 
-                    if (step == 10) {
-                        if (to_string(e.jbutton.button) == newConfig.values["cross"]) {
-                            // analogue
-                            newConfig.values["dpad"] = "analogue";
-                            newConfig.values["analogue1"] = "1";
-                            newConfig.values["analogue2"] = "1";
-                            newConfig.values["dpaddeadzone"] = "32000";
-                        } else {
-                            // digital
-                            newConfig.values["dpad"] = "digital";
-                            newConfig.values["analogue1"] = "na";
-                            newConfig.values["analogue2"] = "na";
-                            newConfig.values["dpaddeadzone"] = "32000";
-                        }
-
-
-                        string name = newConfig.section;
-
-                        name.erase(std::remove(name.begin(), name.end(), '/'), name.end());
-                        name.erase(std::remove(name.begin(), name.end(), '\\'), name.end());
-
-                        string path = Env::getWorkingPath() + sep + "gpmapping/" + name + ".ini";
-                        newConfig.save(path);
-                    }
+                    // for step 10 see the two case statements above
 
                     if (step < 11) {
                         step++;
                     } else {
-                        gui->mapper.reload();
-                        menuVisible == false;
-                        return;;
+                        if (to_string(e.jbutton.button) == newConfig.values["cross"]) {
+                            string name = newConfig.section;
+                            name.erase(std::remove(name.begin(), name.end(), '/'), name.end());
+                            name.erase(std::remove(name.begin(), name.end(), '\\'), name.end());
+                            newConfig.path = Env::getWorkingPath() + sep + "gpmapping/" + name + ".ini";
+                            newConfig.save(newConfig.path);
+                            gui->mapper.reload();
+                            menuVisible == false;
+                            return;
+                        } else if (to_string(e.jbutton.button) == newConfig.values["circle"]) {
+                            step = 0;
+                            newConfig.values.clear();
+                        } else {
+                            continue;    // again until cross or circle pressed
+                        }
                     }
                     render();
                     break;
-            }
-        }
-    }
+                } // case SDL_JOYBUTTONUP
+            } // switch
+        } // if (SDL_PollEvent(&e))
+    } // while
 }
