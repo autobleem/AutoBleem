@@ -378,7 +378,7 @@ void GuiLauncher::loadAssets() {
 
     gui->themeFonts.openAllFonts(gui->getCurrentThemeFontPath());
 
-    // count, x_start, y_start, FontSize, fontHeight, separationBetweenLines
+    // count, x_start, y_start, fontEnum, fontHeight, separationBetweenLines
     notificationLines.createAndSetDefaults(2, 10, 10, FONT_22_MED, 24, 8);
 
     staticElements.clear();
