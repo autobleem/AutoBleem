@@ -141,6 +141,8 @@ add_executable(
         src/code/engine/padmapper.h
         src/code/gui/gui_padconfig.cpp
         src/code/gui/gui_padconfig.h
+        src/code/gui/gui_padTest.cpp
+        src/code/gui/gui_padTest.h
 		src/code/launcher/retboot_interceptor.cpp
 		src/code/launcher/retboot_interceptor.h
 		src/code/launcher/emu_interceptor.cpp
