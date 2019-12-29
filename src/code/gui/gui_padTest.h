@@ -11,7 +11,7 @@ public:
     void render() { GuiScrollWin::render(); }
     void loop();
 
-    SDL_JoystickID joyid = 0;
+    SDL_JoystickID joyid = -1;
 
     GuiPadTest(SDL_Shared<SDL_Renderer> renderer1) : GuiScrollWin(renderer1)
     {

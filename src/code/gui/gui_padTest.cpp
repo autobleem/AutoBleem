@@ -1,5 +1,6 @@
 
 #include "gui_padTest.h"
+#include <unistd.h>
 #include <SDL2/SDL.h>
 #include <string>
 #include "gui.h"
@@ -14,19 +15,27 @@ using namespace std;
 //*******************************
 void GuiPadTest::init() {
     GuiScrollWin::init();
-    SDL_Joystick *joy = SDL_JoystickFromInstanceID(joyid);
+    if (joyid != -1) {
+        SDL_Joystick *joy = SDL_JoystickFromInstanceID(joyid);
 
-    appendLine("-=" + _("New GamePad found") + "=-");
-    appendLine(SDL_JoystickName(joy));
+        appendLine("-=" + _("New GamePad found") + "=-");
+        appendLine(SDL_JoystickName(joy));
+    }
+    appendLine("Hold down three buttons to exit");
 }
 
 //*******************************
 // GuiPadTest::loop
 //*******************************
 void GuiPadTest::loop() {
+    // eat any events in the queue
+    SDL_Event e;
+    while (SDL_PollEvent(&e))
+        ;
+
     shared_ptr<Gui> gui(Gui::getInstance());
     int buttonDownCount = 0;
-    while (buttonDownCount < 3) {
+    while (buttonDownCount >= 0 && buttonDownCount < 3) {
         gui->watchJoystickPort();
         SDL_Event e;
         auto status = SDL_PollEvent(&e);
@@ -41,7 +50,8 @@ void GuiPadTest::loop() {
                 buttonDownCount++;
             } else if (e.type == SDL_JOYBUTTONUP) {
                 appendLine("SDL_JOYBUTTONUP = " + to_string(e.jbutton.button));
-                buttonDownCount--;
+                if (buttonDownCount > 0)
+                    buttonDownCount--;
 
             } else if (e.type == SDL_JOYHATMOTION) {
                 appendLine("SDL_JOYHATMOTION = " + to_string(e.jhat.value));
@@ -63,4 +73,8 @@ void GuiPadTest::loop() {
             render();
         }
     }
+    appendLine("Release all buttons now");
+    sleep(3);
+    while (SDL_PollEvent(&e))
+        ;   // eat any events in the queue
 }
