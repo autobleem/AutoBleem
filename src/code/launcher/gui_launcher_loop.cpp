@@ -123,9 +123,9 @@ void GuiLauncher::loop() {
                     loop_joyButtonReleased();   // button released
                     break;
 
-            }
-        }
-    }
+            }   // switch (e.type)
+        }   // if (SDL_PollEvent(&e))
+    }   // while (menuVisible)
 
     freeAssets();
 }
@@ -265,13 +265,38 @@ void GuiLauncher::loop_joyButtonPressed() {
     if (powerOffShift)
         return; // none of the following buttons should work if L2 is pressed
 
+        //*******************************
+        // fastForwardPrevNextButtonPress lambda
+        //*******************************
+        auto fastForwardPrevNextButtonPress = [&] () {
+        auto saveButtonPressEvent = e;
+        Sint32 timeLimit = 150;
+        bool leave = false;
+        Uint32 ticks_start = SDL_GetTicks();
+        while (!leave) {
+            SDL_Event e;
+            if (SDL_PollEvent(&e) && e.type == SDL_JOYBUTTONUP)
+                leave = true;    // a button was released, exit fast-forward mode
+            else {
+                Sint32 time = (Sint32) (SDL_GetTicks() - ticks_start);
+                if (time > timeLimit) {
+                    // fast forward by pressing the button again
+                    SDL_PeepEvents(&saveButtonPressEvent, 1, SDL_ADDEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT);
+                    leave = true;   // we have to leave the routine for the display to get updated
+                }
+            }
+        }
+    };
+
     if (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)) {
         Mix_PlayChannel(-1, gui->cursor, 0);
         loop_prevGameFirstLetter();
+        fastForwardPrevNextButtonPress();
 
     } else if (e.jbutton.button == gui->_cb(PCS_BTN_R1, &e)) {
         Mix_PlayChannel(-1, gui->cursor, 0);
         loop_nextGameFirstLetter();
+        fastForwardPrevNextButtonPress();
 
     } else if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
         loop_circleButtonPressed();
@@ -967,7 +992,7 @@ void GuiLauncher::loop_prevNextGameFirstLetter(bool next) {  // false is prev, t
             } else {
                 auto iter = firstLetterToIndex.find(currentLetter);
                 if (next) {
-                    if (firstLetterToIndex.upper_bound(currentLetter) == firstLetterToIndex.end())           // if this is the last letter
+                    if (firstLetterToIndex.upper_bound(currentLetter) == firstLetterToIndex.end()) // if this is the last letter
                         nextGame = firstLetterToIndex.begin()->second;  // wrap around to first letter
                     else
                         nextGame = (++iter)->second;                    // next letter
@@ -979,18 +1004,18 @@ void GuiLauncher::loop_prevNextGameFirstLetter(bool next) {  // false is prev, t
                 }
             }
 
-            string currentLetterAsString = string(1, currentLetter);
             if (nextGame != selGameIndex) {
-                // we have next game;
-                Mix_PlayChannel(-1, gui->cursor, 0);
-                notificationLines[1].setText(currentLetterAsString, DefaultShowingTimeout, brightWhite, FONT_22_MED);
+                // we have prev/next game first letter;
                 selGameIndex = nextGame;
+                Mix_PlayChannel(-1, gui->cursor, 0);
+                notificationLines[1].setText(carouselGames[selGameIndex]->title.substr(0,1), DefaultShowingTimeout, brightWhite, FONT_22_MED);
                 setInitialPositions(selGameIndex);
                 updateMeta();
                 menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
             } else {
+                // no change
                 Mix_PlayChannel(-1, gui->cancel, 0);
-                notificationLines[1].setText(currentLetterAsString, DefaultShowingTimeout, brightWhite, FONT_22_MED);
+                notificationLines[1].setText(carouselGames[selGameIndex]->title.substr(0,1), DefaultShowingTimeout, brightWhite, FONT_22_MED);
             }
         }
     }
