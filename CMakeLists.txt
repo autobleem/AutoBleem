@@ -96,6 +96,8 @@ add_executable(
         src/code/gui/gui_font_wrapper.h
 		src/code/gui/gui_gameDirMenu.h
 		src/code/gui/gui_gameDirMenu.cpp
+		src/code/gui/gui_scrollWin.h 
+		src/code/gui/gui_scrollWin.cpp
 		src/code/ver_migration.cpp
 		src/code/ver_migration.h
         src/code/engine/coverdb.cpp
