@@ -72,8 +72,9 @@ public:
 
     // a button is released
     void loop_joyButtonReleased();
-    void loop_prevGameFirstLetter();
-    void loop_nextGameFirstLetter();
+    void loop_prevNextGameFirstLetter(bool next);   // false is prev, true is next
+    void loop_prevGameFirstLetter() { loop_prevNextGameFirstLetter(false); };
+    void loop_nextGameFirstLetter() { loop_prevNextGameFirstLetter(true); };
 
     void nextCarouselGame(int speed);
     void prevCarouselGame(int speed);

@@ -939,11 +939,11 @@ void GuiLauncher::loop_joyButtonReleased() {
         powerOffShift = false;
     }
 }
+
 //*******************************
-// GuiLauncher::loop_prevGameFirstLetter
+// GuiLauncher::loop_prevNextGameFirstLetter
 //*******************************
-// event loop
-void GuiLauncher::loop_prevGameFirstLetter() {
+void GuiLauncher::loop_prevNextGameFirstLetter(bool next) {  // false is prev, true is next
     if (state == STATE_GAMES) {
         if (carouselGames.empty()) {
             return;
@@ -953,22 +953,33 @@ void GuiLauncher::loop_prevGameFirstLetter() {
             int nextGame = selGameIndex;
             string currentFirst = carouselGames[selGameIndex]->title.substr(0, 1);
             string futureFirst = carouselGames[selGameIndex]->title.substr(0, 1);
-            for (int i = selGameIndex; i >= 0; i--) {
-                futureFirst = carouselGames[i]->title.substr(0, 1);
-                if (currentFirst != futureFirst) {
-                    nextGame = i;
-                    break;
+            if (next) {
+                for (int i = selGameIndex; i < carouselGames.size(); i++) {
+                    futureFirst = carouselGames[i]->title.substr(0, 1);
+                    if (currentFirst != futureFirst) {
+                        nextGame = i;
+                        break;
+                    }
+                }
+            } else {
+                for (int i = selGameIndex; i >= 0; i--) {
+                    futureFirst = carouselGames[i]->title.substr(0, 1);
+                    if (currentFirst != futureFirst) {
+                        nextGame = i;
+                        break;
+                    }
+                }
+                // now find the same
+                for (int i = nextGame; i >= 0; i--) {
+                    string foundFirst = carouselGames[i]->title.substr(0, 1);
+                    if (futureFirst == foundFirst) {
+                        nextGame = i;
+                    } else {
+                        break;
+                    }
                 }
             }
-            // now find the same
-            for (int i = nextGame; i >= 0; i--) {
-                string foundFirst = carouselGames[i]->title.substr(0, 1);
-                if (futureFirst == foundFirst) {
-                    nextGame = i;
-                } else {
-                    break;
-                }
-            }
+
             if (nextGame != selGameIndex) {
                 // we have next game;
                 Mix_PlayChannel(-1, gui->cursor, 0);
@@ -984,41 +995,3 @@ void GuiLauncher::loop_prevGameFirstLetter() {
         }
     }
 }
-
-//*******************************
-// GuiLauncher::loop_nextGameFirstLetter
-//*******************************
-// event loop
-void GuiLauncher::loop_nextGameFirstLetter() {
-    if (state == STATE_GAMES) {
-        if (carouselGames.empty()) {
-            return;
-        }
-        // find next game
-        if (selGameIndexInCarouselGamesIsValid()) {
-            int nextGame = selGameIndex;
-            string currentFirst = carouselGames[selGameIndex]->title.substr(0, 1);
-            string futureFirst = carouselGames[selGameIndex]->title.substr(0, 1);
-            for (int i = selGameIndex; i < carouselGames.size(); i++) {
-                futureFirst = carouselGames[i]->title.substr(0, 1);
-                if (currentFirst != futureFirst) {
-                    nextGame = i;
-                    break;
-                }
-            }
-            if (nextGame != selGameIndex) {
-                // we have next game;
-                Mix_PlayChannel(-1, gui->cursor, 0);
-                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, FONT_22_MED);
-                selGameIndex = nextGame;
-                setInitialPositions(selGameIndex);
-                updateMeta();
-                menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
-            } else {
-                Mix_PlayChannel(-1, gui->cancel, 0);
-                notificationLines[1].setText(futureFirst, DefaultShowingTimeout, brightWhite, FONT_22_MED);
-            }
-        }
-    }
-}
-
