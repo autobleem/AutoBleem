@@ -36,6 +36,7 @@ void GuiLauncher::loop() {
     motionStart = 0;
     timespeed = 0;
     motionDir = 0;
+    Sint32 prevNextFFTimeLimit = 150;
 
     while (menuVisible) {
         // get the current translated string values
@@ -124,7 +125,22 @@ void GuiLauncher::loop() {
                     break;
 
             }   // switch (e.type)
-        }   // if (SDL_PollEvent(&e))
+        // end if (SDL_PollEvent(&e))
+        }  else { // no event.  see if we're holding down L1 or R1 for fast forward first letter
+            if (L1_isDownForFastForward) {
+                Sint32 time = (Sint32) (SDL_GetTicks() - L1_fastForwardTimeStart);
+                if (time > prevNextFFTimeLimit) {
+                    loop_prevGameFirstLetter();
+                }
+            }
+
+            if (R1_isDownForFastForward) {
+                Sint32 time = (Sint32) (SDL_GetTicks() - R1_fastForwardTimeStart);
+                if (time > prevNextFFTimeLimit) {
+                    loop_nextGameFirstLetter();
+                }
+            }
+        }
     }   // while (menuVisible)
 
     freeAssets();
@@ -265,40 +281,13 @@ void GuiLauncher::loop_joyButtonPressed() {
     if (powerOffShift)
         return; // none of the following buttons should work if L2 is pressed
 
-#if 0
-        //*******************************
-        // fastForwardPrevNextButtonPress lambda
-        //*******************************
-        auto fastForwardPrevNextButtonPress = [&] () {
-        auto saveButtonPressEvent = e;
-        Sint32 timeLimit = 100;
-        bool leave = false;
-        Uint32 ticks_start = SDL_GetTicks();
-        while (!leave) {
-            SDL_Event e;
-            if (SDL_PollEvent(&e) && e.type == SDL_JOYBUTTONUP)
-                leave = true;    // a button was released, exit fast-forward mode
-            else {
-                Sint32 time = (Sint32) (SDL_GetTicks() - ticks_start);
-                if (time > timeLimit) {
-                    // fast forward by pressing the button again
-                    SDL_PeepEvents(&saveButtonPressEvent, 1, SDL_ADDEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT);
-                    leave = true;   // we have to leave the routine for the display to get updated
-                }
-            }
-        }
-    };
-#endif
-
     if (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)) {
-        //Mix_PlayChannel(-1, gui->cursor, 0);
         loop_prevGameFirstLetter();
-        //fastForwardPrevNextButtonPress();
+        L1_isDownForFastForward = true;
 
     } else if (e.jbutton.button == gui->_cb(PCS_BTN_R1, &e)) {
-        //Mix_PlayChannel(-1, gui->cursor, 0);
         loop_nextGameFirstLetter();
-        //fastForwardPrevNextButtonPress();
+        R1_isDownForFastForward = true;
 
     } else if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
         loop_circleButtonPressed();
@@ -374,6 +363,23 @@ void GuiLauncher::loop_prevNextGameFirstLetter(bool next) {  // false is prev, t
         }
     }
 }
+
+//*******************************
+// GuiLauncher::loop_prevGameFirstLetter
+//*******************************
+void GuiLauncher::loop_prevGameFirstLetter() {
+    loop_prevNextGameFirstLetter(false);
+    L1_fastForwardTimeStart = SDL_GetTicks();
+};
+
+//*******************************
+// GuiLauncher::loop_nextGameFirstLetter
+//*******************************
+void GuiLauncher::loop_nextGameFirstLetter()
+{
+    loop_prevNextGameFirstLetter(true);
+    R1_fastForwardTimeStart = SDL_GetTicks();
+};
 
 //*******************************
 // GuiLauncher::loop_chooseGameDir
@@ -1023,4 +1029,9 @@ void GuiLauncher::loop_joyButtonReleased() {
         Mix_PlayChannel(-1, gui->cursor, 0);
         powerOffShift = false;
     }
+
+    if (L1_isDownForFastForward && (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)))
+        L1_isDownForFastForward = false;
+    if (R1_isDownForFastForward && (e.jbutton.button == gui->_cb(PCS_BTN_R1, &e)))
+        R1_isDownForFastForward = false;
 }
