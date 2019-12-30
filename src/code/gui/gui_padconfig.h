@@ -4,6 +4,9 @@
 #include "gui_screen.h"
 #include "../engine/inifile.h"
 
+//******************
+// GuiPadConfig
+//******************
 class GuiPadConfig   : public GuiScreen {
 public:
     void render();

@@ -3,20 +3,36 @@
 #include "gui_font_wrapper.h"
 #include <map>
 
-enum FontSize { FONT_15=15, FONT_24=24, FONT_30=30 };
-
-extern FontSize allFontSizes[];
-extern std::map<FontSize, std::string> TTF_FileNameToUseForFontSize;
+enum FontEnum {
+    FONT_15_BOLD,
+    FONT_20_BOLD,
+    FONT_22_MED,
+    FONT_28_BOLD,
+};
+enum FontType { FONT_MED, FONT_BOLD };
 
 class Fonts {
-    std::map<FontSize, TTF_Font_Shared> fonts;
+    std::string rootPath;
+    std::string medPath;
+    std::string boldPath;
+
+    struct FontInfo {
+        FontEnum    fontEnum;
+        int size;
+        FontType fontType;
+    };
+
+    static FontInfo allFontInfos[];
+
+    std::map<FontEnum, TTF_Font_Shared> fonts;
 
 public:
     Fonts();
 
     // use operator [] to get or set the shared font
-    TTF_Font_Shared & operator [] (FontSize size) { return fonts[size]; }
+    TTF_Font_Shared & operator [] (FontEnum size) { return fonts[size]; }
 
-    static TTF_Font_Shared openFont(const std::string &filename, int fontSize);
-    void openAllFonts(const std::string &dirname);
+    static TTF_Font_Shared openNewSharedFont(const std::string &filename, int fontSize);
+    // in gui_launcher.cpp this call is used to change all the fonts to use the fonts in the current theme
+    void openAllFonts(const std::string &_rootPath);
 };

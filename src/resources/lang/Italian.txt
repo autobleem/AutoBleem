@@ -47,7 +47,7 @@ Cambia MC
 Change RetroBoot System
 Cambia Sistema di RetroBoot
 Change USB Games Sub-Directory
-Cambia la Sottoartella dei Giochi su USB
+Cambia la Sottocartella dei Giochi su USB
 Clock:
 Frequenza:
 Close
@@ -63,7 +63,7 @@ Conferma
 Copy
 Copia
 Cover image file not found
-Impossibile trovare il file dell'immagine di copertina
+File dell'immagine di copertina non trovato 
 Cover Style:
 Stile delle Cover:
 Cue file not found
@@ -87,7 +87,7 @@ Cancella card
 Delete Game
 Cancella Gioco
 Do you want to save memcards data ?
-Vuoi salvare i dati delle memory card ?
+Vuoi salvare i dati delle memorycard ?
 Download latest:
 Scarica la versione piu' recente:
 DPAD
@@ -101,11 +101,11 @@ MENU di configurazione dell'emulatore
 Enter
 Scegli
 Enter new card name
-Inserisci il nome della nuova memory card
+Inserisci il nome della nuova card
 Enter new game name
 Inserisci il nome del nuovo gioco
 Enter new name for card
-Inserisci il nuovo nome della memory card
+Inserisci il nuovo nome della card
 Enter new name for memory card
 Inserisci il nuovo nome della memory card
 Entry
@@ -135,13 +135,13 @@ GIOCO
 Game failed to verify:
 Verifica fallita per questi giochi:
 Game file not found
-Impossibile trovare i file del gioco
+File del gioco non trovato
 Game Manager
 Gestore del gioco
 Game manager - Select game
 Gestore del gioco - Seleziona un gioco
 Game.ini file not found
-Impossibile trovare il file Game.ini
+File Game.ini non trovato
 Game.ini file not valid
 File Game.ini non valido
 Game:
@@ -181,7 +181,7 @@ Il tuo dpad e' analogico?
 Language:
 Lingua:
 Link Block
-BLocco di Link
+Blocco di Link
 Link end Block
 Blocco di Fine Link
 Loading ... Please Wait ...
@@ -223,7 +223,7 @@ Originale
 Page
 Pagina
 pcsx.cfg file not found
-Impossibile trovare il file pcsx.cfg
+File pcsx.cfg non trovato
 Player
 Giocatore
 Players
@@ -261,7 +261,7 @@ Esci dall'emulazione - torna ad AutoBleem
 Re/Scan
 Ri/Cerca
 ReadMe file not found
-Impossibile trovare il file ReadMe
+File ReadMe non trovato
 Region:
 Regione:
 Reload Cards

@@ -58,7 +58,7 @@ public:
     SDL_Shared<SDL_Window> window;
     SDL_Shared<SDL_Renderer> renderer;
 
-    Fonts fonts;
+    Fonts themeFonts;
     Fonts sonyFonts;
     Config cfg;
     bool inGuiLauncher = false;
@@ -128,8 +128,10 @@ public:
 
     void renderTextBar();
 
+    // returns rectangle height
     int renderTextLine(const std::string & text, int line, int offset,  int position, int xoffset);
     int renderTextLine(const std::string & text, int line, int offset, int position, int xoffset, TTF_Font_Shared font);
+    int renderTextLineToColumns(const string &textLeft, const string &textRight, int xLeft, int xRight, int line, int offset, TTF_Font_Shared font);
 
     int renderTextLine(const std::string & text, int line, int offset,  int position);
 

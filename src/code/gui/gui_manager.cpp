@@ -50,7 +50,7 @@ void GuiManager::render()
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     gui->renderFreeSpace();
-    gui->renderTextLine("-=" + _("Game manager - Select game") + "=-",0,offset,POS_CENTER);
+
     if (selected >= psGames.size()) {
         selected = psGames.size() - 1;
     }
@@ -64,16 +64,24 @@ void GuiManager::render()
         lastVisible++;
     }
 
-    int pos = 1;
+    int xLeft = 0;
+    int xRight = 500;
+    int line = 0;
+    auto font = gui->themeFont;
+
+    auto renderTextLineToColumns = [&] (const string &textLeft, const string &textRight) {
+        gui->renderTextLineToColumns(textLeft, textRight, xLeft, xRight, line++, offset, font);
+    };
+
+    renderTextLineToColumns("",                              "-=" + _("Game manager - Select game") + "=-");
     for (int i = firstVisible; i < lastVisible; i++) {
         if (i >= psGames.size()) {
             break;
         }
         string path = DirEntry::removeSeparatorFromEndOfPath(psGames[i]->folder);
         path = DirEntry::removeGamesPathFromFrontOfPath(path);
-        gui->renderTextLine(string(80, ' ') + path, pos, offset);   // display game path in same column on the right
-        gui->renderTextLine(psGames[i]->title, pos, offset);        // display game title on left
-        pos++;
+
+        renderTextLineToColumns(psGames[i]->title,           path);
     }
 
     if (!psGames.size() == 0) {

@@ -14,6 +14,7 @@
 #include "../lang.h"
 #include "../launcher/gui_launcher.h"
 #include "gui_padconfig.h"
+#include "gui_padTest.h"
 #include <fstream>
 #include <unistd.h>
 #include "../util.h"
@@ -62,13 +63,8 @@ GuiBase::GuiBase() {
 
 
     TTF_Init();
-    fonts[FONT_30] = TTF_OpenFont((getCurrentThemeFontPath() + sep + "SST-Bold.ttf").c_str(), 28);
-    fonts[FONT_15] = TTF_OpenFont((getCurrentThemeFontPath() + sep + "SST-Bold.ttf").c_str(), 15);
-    fonts[FONT_24] = TTF_OpenFont((getCurrentThemeFontPath() + sep + "SST-Medium.ttf").c_str(), 22);
-
-    sonyFonts[FONT_30] = TTF_OpenFont((Env::getSonyFontPath() + sep + "SST-Bold.ttf").c_str(), 28);
-    sonyFonts[FONT_15] = TTF_OpenFont((Env::getSonyFontPath() + sep + "SST-Bold.ttf").c_str(), 15);
-    sonyFonts[FONT_24] = TTF_OpenFont((Env::getSonyFontPath() + sep + "SST-Medium.ttf").c_str(), 22);
+    sonyFonts.openAllFonts(Env::getSonyFontPath());
+    themeFonts.openAllFonts(getCurrentThemeFontPath());
 }
 
 //********************
@@ -342,7 +338,7 @@ void Gui::loadAssets(bool reloadMusic) {
     string fontSizeString = themeData.values["fsize"];
     if (fontSizeString != "")
         fontSize = atoi(fontSizeString.c_str());
-    themeFont = Fonts::openFont(fontPath, fontSize);
+    themeFont = Fonts::openNewSharedFont(fontPath, fontSize);
 
     if (reloadMusic) {
         if (music != nullptr) {
@@ -486,10 +482,26 @@ void Gui::display(bool forceScan, const string &_pathToGamesDir, Database *db, b
             SDL_Joystick *joystick = SDL_JoystickOpen(i);
             if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick))) {
                 cout << "New pad type" << endl;
+#if 1
+                // new controller configuration
                 auto cfgPad = new GuiPadConfig(renderer);
                 cfgPad->joyid = SDL_JoystickInstanceID(joystick);
                 cfgPad->show();
                 delete cfgPad;
+#else
+                // for debugging new controllers
+                // this will display a scrollable window displaying all the events coming from the new controller
+                // for testing.  it also writes the output to ab_out.txt
+                // hold down three buttons to exit and do a safe shutdown!
+                auto cfgTest = new GuiPadTest(renderer);
+                cfgTest->joyid = SDL_JoystickInstanceID(joystick);
+                cfgTest->alsoWriteToCout = true;
+                assert(cfgTest->joyid != 0);
+                if (cfgTest->joyid != 0)
+                    cfgTest->show();
+                delete cfgTest;
+                Util::powerOff();
+#endif
             }
         }
 
@@ -1157,7 +1169,7 @@ int Gui::renderTextLine(const string &text, int line, int offset, int position) 
 
 int Gui::renderTextLine(const string &text, int line, int offset,  int position, int xoffset)
 {
-    return renderTextLine(text,line,offset,position,xoffset,themeFont);
+    return renderTextLine(text, line, offset, position, xoffset, themeFont);
 }
 
 int Gui::renderTextLine(const string &text, int line, int offset,  int position, int xoffset, TTF_Font_Shared font) {
@@ -1195,6 +1207,19 @@ int Gui::renderTextLine(const string &text, int line, int offset,  int position,
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
 
     return textRec.h;
+}
+
+//*******************************
+// Gui::renderTextLineToColumns
+//*******************************
+int Gui::renderTextLineToColumns(const string &textLeft, const string &textRight,
+                                 int xLeft, int xRight,
+                                 int line, int offset, TTF_Font_Shared font) {
+
+            renderTextLine(textLeft,  line, offset, POS_LEFT, xLeft, font);
+    int h = renderTextLine(textRight, line, offset, POS_LEFT, xRight, font);
+
+    return h;   // rectangle height
 }
 
 //*******************************

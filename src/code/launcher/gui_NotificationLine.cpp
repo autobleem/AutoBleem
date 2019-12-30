@@ -7,7 +7,7 @@ using namespace std;
 //*******************************
 // NotificationLine::setText
 //*******************************
-void NotificationLine::setText(string _text, long _timeLimitInMilliSeconds, const SDL_Color & _textColor, FontSize _fontSize) {
+void NotificationLine::setText(string _text, long _timeLimitInMilliSeconds, const SDL_Color & _textColor, FontEnum _fontEnum) {
     text = _text;
     timed = (_timeLimitInMilliSeconds != 0);
     notificationTime = SDL_GetTicks();  // tick count when setText called
@@ -15,14 +15,14 @@ void NotificationLine::setText(string _text, long _timeLimitInMilliSeconds, cons
         ++notificationTime;
     timeLimit = _timeLimitInMilliSeconds;
     textColor = _textColor;
-    fontSize = _fontSize;
+    fontEnum = _fontEnum;
 };
 
 //*******************************
 // NotificationLine::setText
 //*******************************
 void NotificationLine::setText(string _text, long _timeLimitInMilliSeconds) {
-    setText(_text, _timeLimitInMilliSeconds, textColor, fontSize);
+    setText(_text, _timeLimitInMilliSeconds, textColor, fontEnum);
 };
 
 //*******************************
@@ -37,18 +37,18 @@ void NotificationLine::tickTock() {
                 notificationTime = 0;   // turn off the display
         }
         if (notificationTime != 0)
-            GuiLauncher::renderText(x, y, text, textColor, gui->fonts[fontSize], POS_CENTER, true);
+            GuiLauncher::renderText(x, y, text, textColor, gui->themeFonts[fontEnum], POS_CENTER, true);
     } else // not timed - keep display on
-        GuiLauncher::renderText(x, y, text, textColor, gui->fonts[fontSize], POS_CENTER, true);
+        GuiLauncher::renderText(x, y, text, textColor, gui->themeFonts[fontEnum], POS_CENTER, true);
 }
 
 //*******************************
 // NotificationLines::createAndSetDefaults
 //*******************************
-void NotificationLines::createAndSetDefaults(int count, int x_start, int y_start, FontSize fontSize, int fontHeight, int separationBetweenLines) {
+void NotificationLines::createAndSetDefaults(int count, int x_start, int y_start, FontEnum fontEnum, int fontHeight, int separationBetweenLines) {
     for (int line=0; line < count; ++line) {
         NotificationLine notificationLine;
-        notificationLine.fontSize = fontSize;
+        notificationLine.fontEnum = fontEnum;
         notificationLine.textColor = brightWhite;
         notificationLine.x = x_start;
         notificationLine.y = y_start + (line * (fontHeight + separationBetweenLines));

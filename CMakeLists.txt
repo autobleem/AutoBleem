@@ -96,6 +96,8 @@ add_executable(
         src/code/gui/gui_font_wrapper.h
 		src/code/gui/gui_gameDirMenu.h
 		src/code/gui/gui_gameDirMenu.cpp
+		src/code/gui/gui_scrollWin.h 
+		src/code/gui/gui_scrollWin.cpp
 		src/code/ver_migration.cpp
 		src/code/ver_migration.h
         src/code/engine/coverdb.cpp
@@ -139,6 +141,8 @@ add_executable(
         src/code/engine/padmapper.h
         src/code/gui/gui_padconfig.cpp
         src/code/gui/gui_padconfig.h
+        src/code/gui/gui_padTest.cpp
+        src/code/gui/gui_padTest.h
 		src/code/launcher/retboot_interceptor.cpp
 		src/code/launcher/retboot_interceptor.h
 		src/code/launcher/emu_interceptor.cpp

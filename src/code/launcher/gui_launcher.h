@@ -45,6 +45,12 @@ public:
     vector<string> texts;
     long time = 0;
     SDL_Event e;
+    // for prev/next first letter fast forwarding
+    Sint32 prevNextFFTimeLimit = 0;   // set in cpp.  how long to wait to trigger a fast forward prev/next first letter
+    bool L1_isDownForFastForward = false;
+    Sint32 L1_fastForwardTimeStart = 0;
+    bool R1_isDownForFastForward = false;
+    Sint32 R1_fastForwardTimeStart = 0;
 
     void loop();
 
@@ -72,6 +78,7 @@ public:
 
     // a button is released
     void loop_joyButtonReleased();
+    void loop_prevNextGameFirstLetter(bool next);   // false is prev, true is next
     void loop_prevGameFirstLetter();
     void loop_nextGameFirstLetter();
 

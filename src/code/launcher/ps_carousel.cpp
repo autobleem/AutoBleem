@@ -112,26 +112,39 @@ void PsCarouselGame::loadTex(SDL_Shared<SDL_Renderer> renderer) {
             SDL_SetTextureBlendMode(renderSurface, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
+            SDL_SetRenderTarget(renderer, nullptr);
             string imagePath;
             if (!(*this)->app) {
-                imagePath= Env::getPathToRetroarchDir() + sep + "thumbnails" + sep +
-                                   DirEntry::getFileNameWithoutExtension((*this)->db_name) + sep +
-                                   "Named_Boxarts" + sep + RAIntegrator::escapeName((*this)->title) + ".png";
-                SDL_SetRenderTarget(renderer, nullptr);
+                auto makeBoxArtPath = [&] (const string& boxartDir) -> string
+                        { return Env::getPathToRetroarchDir() + sep + "thumbnails" + sep +
+                        DirEntry::getFileNameWithoutExtension((*this)->db_name) + sep +
+                        boxartDir + sep + RAIntegrator::escapeName((*this)->title) + ".png";
+                        };
+
+                imagePath = makeBoxArtPath("Named_Boxarts");
+                string imagePath2 = makeBoxArtPath("Named_Titles");
+                string imagePath3 = makeBoxArtPath("Named_Snaps");
                 if (DirEntry::exists(imagePath)) {
                     coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
+                } else if (DirEntry::exists(imagePath2)) {
+                    imagePath = imagePath2;
+                    coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
+                } else if (DirEntry::exists(imagePath3)) {
+                    imagePath = imagePath3;
+                    coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
                 } else {
+                    // use default
                     cout << "boxart image NOT found for " << imagePath << endl;
                     coverPng = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "evoimg/ra-cover.png").c_str());
                 }
             } else
             {
-                 imagePath = (*this)->image_path;
+                imagePath = (*this)->image_path;
 
-                SDL_SetRenderTarget(renderer, nullptr);
                 if (DirEntry::exists(imagePath)) {
                     coverPng = IMG_LoadTexture(renderer, imagePath.c_str());
                 } else {
+                    // use default
                     cout << "boxart image NOT found for " << imagePath << endl;
                     coverPng = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "evoimg/app-cover.png").c_str());
                 }
