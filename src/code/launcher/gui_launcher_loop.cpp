@@ -398,10 +398,16 @@ void GuiLauncher::loop_chooseGameDir() {
     int offsetToGamesSubDirs {0};
     bool showInternalGames = (gui->cfg.inifile.values["origames"] == "true");
     if (showInternalGames) {
-        guiGameDirMenu->infoToDisplay.emplace_back("", _("All Games"), -1);
-        guiGameDirMenu->infoToDisplay.emplace_back("", _("Internal Games"), -1);
+        // show internal is enabled.  show usbgames + internal, and show internal only menu items.
+        PsGames gamesList;
+        getGames_SET_SUBDIR(0, &gamesList);
+        int usbOnly = gamesList.size();
+        appendGames_SET_INTERNAL(&gamesList);
+        guiGameDirMenu->infoToDisplay.emplace_back("", _("All Games"), gamesList.size());
+        guiGameDirMenu->infoToDisplay.emplace_back("", _("Internal Games"), gamesList.size() - usbOnly); // 20 games
         offsetToGamesSubDirs = 2;
     } else {
+        // show internal is disabled.  top game row 0 shows all usb games from /Games down.
         offsetToGamesSubDirs = 0;
     }
 
@@ -422,7 +428,9 @@ void GuiLauncher::loop_chooseGameDir() {
 
     // add Favorite Games at the bottom
     int favoritesIndex = guiGameDirMenu->infoToDisplay.size();  // favorites is the last line
-    guiGameDirMenu->infoToDisplay.emplace_back("", _("Favorite Games"), -1);
+    PsGames gamesList;
+    getGames_SET_FAVORITE(&gamesList);
+    guiGameDirMenu->infoToDisplay.emplace_back("", _("Favorite Games"), gamesList.size());
 
     // set initial selected row
     guiGameDirMenu->backgroundImg = background->tex;
