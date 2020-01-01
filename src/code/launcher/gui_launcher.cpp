@@ -106,6 +106,19 @@ void GuiLauncher::getGames_SET_FAVORITE(PsGames *gamesList) {
 }
 
 //*******************************
+// GuiLauncher::getAllPS1Games
+//*******************************
+PsGames GuiLauncher::getAllPS1Games(bool includeUSB, bool includeInternal) {
+    PsGames gamesList;
+    if (includeUSB)
+        getGames_SET_SUBDIR(&gamesList, 0);
+    if (includeInternal)
+        appendGames_SET_INTERNAL(&gamesList);
+
+    return gamesList;
+}
+
+//*******************************
 // GuiLauncher::getGames_SET_RETROARCH
 //*******************************
 void GuiLauncher::getGames_SET_RETROARCH(const std::string &playlistName, PsGames *gamesList) {
@@ -181,14 +194,16 @@ void GuiLauncher::switchSet(int newSet, bool noForce) {
         }
 
         if (currentPS1_SelectState == SET_PS1_All_Games) {
-            getGames_SET_SUBDIR(&gamesList, 0);   // get the games in row 0 = /Games and on down
-            if (gui->cfg.inifile.values["origames"] == "true")  // if include internal games in all games
-                appendGames_SET_INTERNAL(&gamesList);   // add internal games too
+            bool includeInternal = gui->cfg.inifile.values["origames"] == "true";
+            gamesList = getAllPS1Games(true, includeInternal);
+
         } else if (currentPS1_SelectState == SET_PS1_Internal_Only) {
                 appendGames_SET_INTERNAL(&gamesList);   // since it starts out empty this sets only internal
+
         } else if (currentPS1_SelectState == SET_PS1_Games_Subdir) {
             // get the games in the current subdir of /Games and on down
             getGames_SET_SUBDIR(&gamesList, currentUSBGameDirIndex);
+
         } else if (currentPS1_SelectState == SET_PS1_Favorites) {
             getGames_SET_FAVORITE(&gamesList);
         }
