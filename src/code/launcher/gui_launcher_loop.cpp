@@ -398,10 +398,16 @@ void GuiLauncher::loop_chooseGameDir() {
     int offsetToGamesSubDirs {0};
     bool showInternalGames = (gui->cfg.inifile.values["origames"] == "true");
     if (showInternalGames) {
-        guiGameDirMenu->infoToDisplay.emplace_back("", _("All Games"), -1);
-        guiGameDirMenu->infoToDisplay.emplace_back("", _("Internal Games"), -1);
+        // show internal is enabled.  show usbgames + internal, and show internal only menu items.
+        PsGames gamesList;
+        getGames_SET_SUBDIR(&gamesList, 0);
+        int usbOnly = gamesList.size();
+        appendGames_SET_INTERNAL(&gamesList);
+        guiGameDirMenu->infoToDisplay.emplace_back("", _("All Games"), gamesList.size());
+        guiGameDirMenu->infoToDisplay.emplace_back("", _("Internal Games"), gamesList.size() - usbOnly); // 20 games
         offsetToGamesSubDirs = 2;
     } else {
+        // show internal is disabled.  top game row 0 shows all usb games from /Games down.
         offsetToGamesSubDirs = 0;
     }
 
@@ -422,7 +428,15 @@ void GuiLauncher::loop_chooseGameDir() {
 
     // add Favorite Games at the bottom
     int favoritesIndex = guiGameDirMenu->infoToDisplay.size();  // favorites is the last line
-    guiGameDirMenu->infoToDisplay.emplace_back("", _("Favorite Games"), -1);
+    PsGames gamesList;
+    getGames_SET_FAVORITE(&gamesList);
+    guiGameDirMenu->infoToDisplay.emplace_back("", _("Favorite Games"), gamesList.size());
+
+    // add History Games at the bottom
+    int historyIndex = guiGameDirMenu->infoToDisplay.size();  // history is the last line
+    gamesList.clear();
+    getGames_SET_HISTORY(&gamesList);
+    guiGameDirMenu->infoToDisplay.emplace_back("", _("Game History"), gamesList.size());
 
     // set initial selected row
     guiGameDirMenu->backgroundImg = background->tex;
@@ -432,14 +446,16 @@ void GuiLauncher::loop_chooseGameDir() {
     }
     else {
         if (currentPS1_SelectState == SET_PS1_Favorites)
-            nextSel = favoritesIndex; // favorite is the last line
+            nextSel = favoritesIndex; // favorites is the next to the last line
+        else if (currentPS1_SelectState == SET_PS1_History)
+            nextSel = historyIndex; // history is the last line
         else {
             if (showInternalGames)
                 nextSel = currentPS1_SelectState;   // SET_PS1_All_Games is on row 0, SET_PS1_Internal_Only is on row 1
-                else {
+            else {
                     cout << "Error: loop_chooseGameDir() called with \"origames\" off and currentPS1_SelectState = " <<
                     currentPS1_SelectState << endl;
-                }
+            }
         }
     }
 
@@ -457,6 +473,8 @@ void GuiLauncher::loop_chooseGameDir() {
             currentPS1_SelectState = guiGameDirMenu->selected;  // SET_PS1_All_Games or SET_PS1_Internal_Only
         else if (guiGameDirMenu->selected == favoritesIndex)
             currentPS1_SelectState = SET_PS1_Favorites;
+        else if (guiGameDirMenu->selected == historyIndex)
+            currentPS1_SelectState = SET_PS1_History;
         else {
             currentPS1_SelectState = SET_PS1_Games_Subdir;
             currentUSBGameDirIndex = guiGameDirMenu->selected - offsetToGamesSubDirs;
@@ -658,6 +676,7 @@ void GuiLauncher::loop_squareButtonPressed() {
             if (selGameIndexInCarouselGamesIsValid()) {
                 gui->runningGame = carouselGames[selGameIndex];
                 gui->lastSelIndex = selGameIndex;
+                addGameToPS1GameHistoryAsLatestGamePlayed(gui->runningGame);
             }
             gui->resumepoint = -1;
             gui->lastSet = currentSet;
@@ -711,7 +730,10 @@ void GuiLauncher::loop_crossButtonPressed_STATE_GAMES() {
     gui->lastRAPlaylistIndex = currentRAPlaylistIndex;
     menuVisible = false;
 
-    gui->emuMode = EMU_PCSX;
+    if (currentSet == SET_PS1)
+        addGameToPS1GameHistoryAsLatestGamePlayed(gui->runningGame);
+
+        gui->emuMode = EMU_PCSX;
     if (gui->runningGame->foreign)
     {
         if (!gui->runningGame->app) {
@@ -733,6 +755,44 @@ void GuiLauncher::loop_crossButtonPressed_STATE_GAMES() {
             }
             gui->emuMode = EMU_LAUNCHER;
             }
+    }
+}
+
+//*******************************
+// GuiLauncher::addGameToPS1GameHistoryAsLatestGamePlayed
+//*******************************
+void GuiLauncher::addGameToPS1GameHistoryAsLatestGamePlayed(PsGamePtr game) {
+    // include the internal games too as they need to be renumbered and possibly have a game dropped from the list
+    PsGames gamesList = getAllPS1Games(true, true);
+    PsGames histGamesList;
+
+    // put only the games that are in the history in histGamesList
+    // but don't include the game we are adding so we can add it as #1 in the history
+    copy_if(begin(gamesList), end(gamesList), back_inserter(histGamesList),
+            [&](PsGamePtr &g) { return g->history > 0 && g->gameId != game->gameId; });
+
+    // sort history.  1 is latest game played, 100 is the oldest
+    sort(begin(histGamesList), end(histGamesList),
+         [&](PsGamePtr p1, PsGamePtr p2) { return p1->history < p2->history; });
+
+    // change the history number to 2 thru N
+    int h = 2;
+    for (auto & g : histGamesList) {
+        if (h <= 100)               // 100 is the limit to match the RA history limit of 100 games
+            g->history = h++;
+        else
+            g->history = 0;
+    }
+
+    // add the new game at the top of the history
+    game->history = 1;
+    histGamesList.emplace_back(game);
+
+    for (auto & g : histGamesList) {
+        if (g->internal)
+            gui->internalDB->updateHistory(g->gameId, g->history);
+        else
+            gui->db->updateHistory(g->gameId, g->history);
     }
 }
 

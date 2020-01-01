@@ -69,6 +69,7 @@ public:
     void loop_squareButtonPressed();
     void loop_crossButtonPressed();
     void loop_crossButtonPressed_STATE_GAMES();
+    void addGameToPS1GameHistoryAsLatestGamePlayed(PsGamePtr game);
     void loop_crossButtonPressed_STATE_SET();
     void loop_crossButtonPressed_STATE_SET__OPT_AB_SETTINGS();
     void loop_crossButtonPressed_STATE_SET__OPT_EDIT_GAME_SETTINGS();
@@ -96,11 +97,15 @@ public:
     void switchSet(int newSet, bool noForce);
     void showSetName();
 
+    void getGames_SET_SUBDIR(PsGames* gamesList, int rowIndex);
+    void appendGames_SET_INTERNAL(PsGames* gamesList);
     void getGames_SET_FAVORITE(PsGames* gamesList);
-    void getGames_SET_SUBDIR(int rowIndex, PsGames* gamesList);
+    void getGames_SET_HISTORY(PsGames* gamesList);
+
+    PsGames getAllPS1Games(bool includeUSB, bool includeInternal);
+
     void getGames_SET_RETROARCH(const std::string& playlistName, PsGames *gamesList);
     void getGames_SET_APPS(PsGames* gamesList);
-    void appendGames_SET_INTERNAL(PsGames* gamesList);
 
     // current USB Game Dir
     int currentUSBGameDirIndex = 0;

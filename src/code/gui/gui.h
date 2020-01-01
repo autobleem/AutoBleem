@@ -48,7 +48,7 @@ enum MenuOption { MENU_OPTION_SCAN = 1, MENU_OPTION_RUN, MENU_OPTION_SONY, MENU_
 #define SET_LAST 2
 
 // SET_PS1 select sub states. keep SET_PS1_Games_Subdir last as it's going to be left off the L2+Select menu
-enum { SET_PS1_All_Games=0, SET_PS1_Internal_Only, SET_PS1_Favorites, SET_PS1_Games_Subdir };
+enum { SET_PS1_All_Games=0, SET_PS1_Internal_Only, SET_PS1_Favorites, SET_PS1_History, SET_PS1_Games_Subdir };
 
 //********************
 // GuiBase
@@ -171,7 +171,8 @@ public:
 
     // these are saved in gui so the next time Start brings up the carousel it can restore to last state
     int lastSet = SET_PS1;          // one of these: all games, internal, usb game dir, favorites, RA playlist
-    int lastPS1_SelectState = SET_PS1_All_Games;    // SET_PS1_All_Games, SET_PS1_Internal_Only, SET_PS1_Favorites, SET_PS1_Games_Subdir
+    // SET_PS1_All_Games, SET_PS1_Internal_Only, SET_PS1_Favorites, SET_PS1_History, SET_PS1_Games_Subdir
+    int lastPS1_SelectState = SET_PS1_All_Games;
     int lastSelIndex = 0;           // index into carouselGames
     int lastUSBGameDirIndex = 0;    // top row in menu = /Games
     int lastRAPlaylistIndex = 0;    // top row in menu = first playlist name

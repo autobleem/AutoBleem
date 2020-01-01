@@ -54,8 +54,6 @@ Close
 Cerrar
 Configuration
 Configuracion
-Configuration saved - Press |@X| to continue
-Configuracion guardada - Pulsa |@X| para continuar
 CONFIGURED
 CONFIGURADO
 Confirm
@@ -90,8 +88,6 @@ Do you want to save memcards data ?
 Quieres salvar los datos de las memorycards ?
 Download latest:
 Descargar ultimo:
-DPAD
-DPAD
 Edit game parameters
 Editar parametros de juego
 Edit Memory Card information
@@ -136,6 +132,8 @@ Game failed to verify:
 El juego no se pudo verificar:
 Game file not found
 Archivo de juego no encontrado
+Game History
+Historial de Juego
 Game Manager
 Administrador de Juegos
 Game manager - Select game
@@ -176,8 +174,6 @@ INTERNAL
 INTERNO
 Internal Games
 Juegos Internos
-Is your dpad analogue?
-¿Es tu dpad analogico?
 Language:
 Idioma:
 Link Block
@@ -244,8 +240,12 @@ Power Off
 Apagar
 POWERING OFF... PLEASE WAIT
 APAGANDO... POR FAVOR ESPERA
+Press |@X| to save controller mapping, or |@O| to retry configuration
+Pulsa |@X| para guardar el mapeo del mando, o |@O| para reiniciar la configuracion
 Press a key for
 Pulsa un boton para
+Press any DPAD button (to determine if it's digital or analogue)
+Presiona cualquier direccion del DPAD (para determinar si es digital o analogico)
 Published by:
 Publicado por:
 Quick boot
@@ -280,8 +280,6 @@ RetroArch is not installed
 RetroArch no esta instalado
 Run using RetroBoot
 Ejecutar con RetroBoot
-Same as classic menu
-Igual que el Menu Clasico
 Scanline Level:
 Nivel de Scanline:
 Scanlines:

@@ -16,6 +16,8 @@ Config::Config()
     std::string path=Env::getWorkingPath() + sep + "config.ini";
     inifile.load(path);
 
+    inifile.values.erase("stheme"); // stheme no longer used since themes were consolidated into /Themes
+
     inifile.values["adv"]="true";
 
     bool aDefaultWasSet {false};

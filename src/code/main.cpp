@@ -186,7 +186,7 @@ int main(int argc, char *argv[]) {
     cout << "Importing internal games from PSC to USB" << endl;
     Util::execUnixCommand("/media/Autobleem/rc/backup_internal.sh");
 
-    // add favorites column to internal.db if the column doesn't exist
+    // add favorites and history columns to internal.db if the column doesn't exist
     Database *internalDB = new Database();
     if (!internalDB->connect(Env::getPathToInternalDBFile())) {
         delete internalDB;
@@ -194,6 +194,7 @@ int main(int argc, char *argv[]) {
     }
     gui->internalDB = internalDB;
     gui->internalDB->createFavoriteColumn(); // add the favorites column if it doesn't exist
+    gui->internalDB->createHistoryColumn();  // add the history column if it doesn't exist
 
     string dbpath = Env::getPathToRegionalDBFile();
     string pathToGamesDir = Env::getPathToGamesDir();
@@ -253,14 +254,11 @@ int main(int argc, char *argv[]) {
                 gui->display(false, pathToGamesDir, db, true);
             } else
             {
-
-
                 gui->finish();
                 gui->saveSelection();
                 EmuInterceptor *interceptor;
 
                 interceptor = new LaunchInterceptor();
-
 
                 interceptor->memcardIn(gui->runningGame);
                 interceptor->prepareResumePoint(gui->runningGame, gui->resumepoint);
