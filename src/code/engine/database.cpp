@@ -76,7 +76,8 @@ static const char CREATE_GAME_SQL[] = " CREATE TABLE IF NOT EXISTS GAME  \
        PATH    text null,   \
        SSPATH  text null,   \
        MEMCARD text null,   \
-         PRIMARY KEY ( GAME_ID ) )";
+       HISTORY integer,     \
+       PRIMARY KEY ( GAME_ID ) )";
 
 // used by: createInitialDatabase
 static const char CREATE_DISC_SQL[] = " CREATE TABLE IF NOT EXISTS DISC \
@@ -148,6 +149,12 @@ static const char ADD_FAVORITE_COLUMN[] = "ALTER TABLE GAME ADD COLUMN FAVORITE 
 
 // used by: updateFavorite
 static const char UPDATE_FAVORITE[] = "UPDATE GAME SET FAVORITE=? WHERE GAME_ID=?";
+
+// used by: createHistoryColumn
+static const char ADD_HISTORY_COLUMN[] = "ALTER TABLE GAME ADD COLUMN HISTORY INT DEFAULT 0";
+
+// used by: updateHistoy
+static const char UPDATE_HISTORY[] = "UPDATE GAME SET HISTORY=? WHERE GAME_ID=?";
 
 //*******************************
 // ????.db
@@ -284,6 +291,27 @@ bool Database::updateFavorite(int id, int favorite) {
         return false;
     }
     sqlite3_bind_int(res, 1, favorite);
+    sqlite3_bind_int(res, 2, id);
+    sqlite3_step(res);
+    sqlite3_finalize(res);
+    return true;
+}
+
+//*******************************
+// Database::updateHistory
+// 0 = not in history, 1-100 history from latest game played to oldest
+//*******************************
+bool Database::updateHistory(int id, int rank) {
+    char *errorReport = nullptr;
+    sqlite3_stmt *res = nullptr;
+    int rc = sqlite3_prepare_v2(db, UPDATE_HISTORY, -1, &res, nullptr);
+    if (rc != SQLITE_OK) {
+        cerr << "Failed: db:: updateHistory, " << id << ", " << rank << endl;
+        cerr << sqlite3_errmsg(db) << endl;
+        if (!errorReport) sqlite3_free(errorReport);
+        return false;
+    }
+    sqlite3_bind_int(res, 1, rank);
     sqlite3_bind_int(res, 2, id);
     sqlite3_step(res);
     sqlite3_finalize(res);
@@ -859,6 +887,7 @@ bool Database::truncate() {
 //*******************************
 bool Database::createInitialDatabase() {
     if (!executeCreateStatement((char *) CREATE_GAME_SQL, "GAME")) return false;
+         executeCreateStatement((char*) ADD_HISTORY_COLUMN, "History column" ); // add column to existing table
     if (!executeCreateStatement((char *) CREATE_DISC_SQL, "DISC")) return false;
     if (!executeCreateStatement((char *) CREATE_LANGUAGE_SPECIFIC_SQL, "LANGUAGE_SPECIFIC")) return false;
     if (!executeCreateStatement((char *) CREATE_SUBDIR_ROW_SQL, "SUBDIR_ROWS")) return false;
@@ -872,6 +901,13 @@ bool Database::createInitialDatabase() {
 //*******************************
 void Database::createFavoriteColumn() {
     executeCreateStatement((char*) ADD_FAVORITE_COLUMN, "Favorite column" );
+}
+
+//*******************************
+// Database::createHistoryColumn
+//*******************************
+void Database::createHistoryColumn() {
+    executeCreateStatement((char*) ADD_HISTORY_COLUMN, "History column" );
 }
 
 //*******************************
