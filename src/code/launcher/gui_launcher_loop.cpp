@@ -676,6 +676,7 @@ void GuiLauncher::loop_squareButtonPressed() {
             if (selGameIndexInCarouselGamesIsValid()) {
                 gui->runningGame = carouselGames[selGameIndex];
                 gui->lastSelIndex = selGameIndex;
+                addGameToPS1GameHistoryAsLatestGamePlayed(gui->runningGame);
             }
             gui->resumepoint = -1;
             gui->lastSet = currentSet;
