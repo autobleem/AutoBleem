@@ -132,6 +132,8 @@ Game failed to verify:
 
 Game file not found
 
+Game History
+
 Game Manager
 
 Game manager - Select game

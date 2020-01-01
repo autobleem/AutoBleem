@@ -149,23 +149,18 @@ void GuiPlaylists::loop()
                         render();
                     };
 
-
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
                         Mix_PlayChannel(-1, gui->cancel, 0);
                         cancelled = true;
                         menuVisible = false;
                     };
 
-
-
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         cancelled = false;
                         if (!playlists.empty())
                         {
-
                             menuVisible = false;
-
                         }
                     };
             }
