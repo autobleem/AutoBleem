@@ -854,6 +854,9 @@ bool Database::truncate() {
     return true;
 }
 
+//*******************************
+// Database::createInitialDatabase
+//*******************************
 bool Database::createInitialDatabase() {
     if (!executeCreateStatement((char *) CREATE_GAME_SQL, "GAME")) return false;
     if (!executeCreateStatement((char *) CREATE_DISC_SQL, "DISC")) return false;

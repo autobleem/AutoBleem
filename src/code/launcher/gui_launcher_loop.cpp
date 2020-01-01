@@ -400,7 +400,7 @@ void GuiLauncher::loop_chooseGameDir() {
     if (showInternalGames) {
         // show internal is enabled.  show usbgames + internal, and show internal only menu items.
         PsGames gamesList;
-        getGames_SET_SUBDIR(0, &gamesList);
+        getGames_SET_SUBDIR(&gamesList, 0);
         int usbOnly = gamesList.size();
         appendGames_SET_INTERNAL(&gamesList);
         guiGameDirMenu->infoToDisplay.emplace_back("", _("All Games"), gamesList.size());
