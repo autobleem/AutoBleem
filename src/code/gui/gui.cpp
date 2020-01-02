@@ -1090,20 +1090,6 @@ void Gui::renderSelectionBox(int line, int offset, int xoffset) {
 }
 
 //*******************************
-// Gui::renderTextLine
-//*******************************
-int Gui::renderTextLine(const string &text, int line, int offset) {
-    return renderTextLine(text, line, offset, POS_LEFT);
-}
-
-//*******************************
-// Gui::renderTextLineOptions
-//*******************************
-int Gui::renderTextLineOptions(const string &text, int line, int offset, int position) {
-    return renderTextLineOptions(text, line, offset, position, 0);
-}
-
-//*******************************
 // Gui::renderTextLineOptions
 //*******************************
 int Gui::renderTextLineOptions(const string &_text, int line, int offset, int position, int xoffset) {
@@ -1163,16 +1149,10 @@ int Gui::renderTextLineOptions(const string &_text, int line, int offset, int po
 //*******************************
 // Gui::renderTextLine
 //*******************************
-int Gui::renderTextLine(const string &text, int line, int offset, int position) {
-    return renderTextLine(text, line, offset, position, 0);
-}
-
-int Gui::renderTextLine(const string &text, int line, int offset,  int position, int xoffset)
-{
-    return renderTextLine(text, line, offset, position, xoffset, themeFont);
-}
-
 int Gui::renderTextLine(const string &text, int line, int offset,  int position, int xoffset, TTF_Font_Shared font) {
+    if (!font)
+        font = themeFont;   // default to themeFont
+
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
@@ -1214,6 +1194,9 @@ int Gui::renderTextLine(const string &text, int line, int offset,  int position,
 //*******************************
 // returns the SDL_Rect of the screen positions if your rendered this text with these args
 SDL_Rect Gui::getTextRectangleOnScreen(const string &text, int line, int offset,  int position, int xoffset, TTF_Font_Shared font) {
+    if (!font)
+        font = themeFont;   // default to themeFont
+
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());

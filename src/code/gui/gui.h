@@ -129,20 +129,19 @@ public:
     void renderTextBar();
 
     // returns rectangle height
-    int renderTextLine(const std::string & text, int line, int offset,  int position, int xoffset);
-    int renderTextLine(const std::string & text, int line, int offset, int position, int xoffset, TTF_Font_Shared font);
+    int renderTextLine(const std::string & text, int line,
+                       int offset = 0, int position = POS_LEFT, int xoffset = 0,
+                       TTF_Font_Shared font = TTF_Font_Shared());   // font will default to themeFont in the cpp
+
     // returns the SDL_Rect of the screen positions if your rendered this text with these args
-    SDL_Rect getTextRectangleOnScreen(const std::string & text, int line, int offset, int position, int xoffset, TTF_Font_Shared font);
+    // this is basically renderTextLine but doesn't render the texct and instead returns the bounding rectangle
+    SDL_Rect getTextRectangleOnScreen(const std::string & text, int line,
+                       int offset = 0, int position = POS_LEFT, int xoffset = 0,
+                       TTF_Font_Shared font = TTF_Font_Shared());    // font will default to themeFont in the cpp
 
     int renderTextLineToColumns(const string &textLeft, const string &textRight, int xLeft, int xRight, int line, int offset, TTF_Font_Shared font);
 
-    int renderTextLine(const std::string & text, int line, int offset,  int position);
-
-    int renderTextLine(const std::string & text, int line, int offset);
-
-    int renderTextLineOptions(const std::string & text, int line, int offset,  int position);
-
-    int renderTextLineOptions(const std::string & text, int line, int offset,  int position, int xoffset);
+    int renderTextLineOptions(const std::string & text, int line, int offset = 0,  int position = POS_LEFT, int xoffset = 0);
 
     void renderSelectionBox(int line, int offset);
 
