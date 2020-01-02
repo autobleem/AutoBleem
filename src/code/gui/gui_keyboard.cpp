@@ -19,10 +19,14 @@ vector<string> row1 = {"q", "w", "e", "r", "t", "y", "u", "i", "o", "p"};
 vector<string> row2 = {"a", "s", "d", "f", "g", "h", "j", "k", "l", "."};
 vector<string> row3 = {"z", "x", "c", "v", "b", "n", "m", "_", "-", " "};
 
-#define xsize 10
-#define ysize 4
-#define xlast (xsize-1)
-#define ylast (ysize-1)
+#define numColumns 10
+#define numRows 4
+#define xlast (numColumns-1)
+#define ylast (numRows-1)
+
+//#define editboxOffset 3
+//#define keyboardOffset 5
+#define indentOffset 5
 
 vector<vector<string>> rows = {row0, row1, row2, row3};
 
@@ -58,15 +62,23 @@ void GuiKeyboard::render() {
     SDL_Rect rect;
     gui->getTextAndRect(renderer, 0, 0, "*", gui->themeFont, &tex, &rect);
 
-    for (int x = 0; x < 10; x++) {
-        for (int y = 0; y < ysize; y++) {
+    if (L2_cursor_shift) {
+        SDL_Rect rectEditbox;
+        rectEditbox.x = rect2.x + indentOffset;
+        rectEditbox.w = rect2.w - (indentOffset + indentOffset);
+        rectEditbox.y = offset + rect.h;
+        rectEditbox.h = rect.h;
+    }
+
+    for (int x = 0; x < numColumns; x++) {
+        for (int y = 0; y < numRows; y++) {
             SDL_Rect rectSelection;
-            rectSelection.x = rect2.x + 5;
+            rectSelection.x = rect2.x + indentOffset;
             rectSelection.y = offset + rect.h * (y + 3);
-            rectSelection.w = rect2.w - 10;
+            rectSelection.w = rect2.w - (indentOffset + indentOffset);
             rectSelection.h = rect.h;
 
-            int buttonWidth = (rectSelection.w / 10) - 10;
+            int buttonWidth = (rectSelection.w / 10) - (indentOffset + indentOffset);
             int buttonHeight = rectSelection.h - 2;
 
             rectSelection.w = buttonWidth;
