@@ -1210,6 +1210,47 @@ int Gui::renderTextLine(const string &text, int line, int offset,  int position,
 }
 
 //*******************************
+// Gui::getTextRectangleOnScreen
+//*******************************
+// returns the SDL_Rect of the screen positions if your rendered this text with these args
+SDL_Rect Gui::getTextRectangleOnScreen(const string &text, int line, int offset,  int position, int xoffset, TTF_Font_Shared font) {
+    SDL_Rect rect2;
+    rect2.x = atoi(themeData.values["opscreenx"].c_str());
+    rect2.y = atoi(themeData.values["opscreeny"].c_str());
+    rect2.w = atoi(themeData.values["opscreenw"].c_str());
+    rect2.h = atoi(themeData.values["opscreenh"].c_str());
+
+    SDL_Shared<SDL_Texture> textTex;
+    SDL_Rect textRec;
+
+    getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
+    int lineh = textRec.h;
+    getEmojiTextTexture(renderer, text, font, &textTex, &textRec);
+    textRec.x = rect2.x + 10 + xoffset;
+    textRec.y = (lineh * line) + offset;
+
+    if (line<0)
+    {
+        line=-line;
+        textRec.y=line;
+    }
+
+    if (textRec.w >= (1280 - rect2.x * 4)) {
+        textRec.w = (1280 - rect2.x * 4);
+    }
+    if (position==POS_CENTER) {
+        textRec.x = (1280 / 2) - textRec.w / 2;
+    }
+    if (position==POS_RIGHT) {
+        textRec.x = 1280 - textRec.x - textRec.w;
+    }
+
+    //SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
+
+    return textRec;
+}
+
+//*******************************
 // Gui::renderTextLineToColumns
 //*******************************
 int Gui::renderTextLineToColumns(const string &textLeft, const string &textRight,
