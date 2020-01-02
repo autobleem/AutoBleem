@@ -12,6 +12,8 @@
 #include "gui.h"
 #include "../lang.h"
 #include "../engine/scanner.h"
+#include <iostream>
+
 using namespace std;
 
 vector<string> row0 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
@@ -23,9 +25,6 @@ vector<string> row3 = {"z", "x", "c", "v", "b", "n", "m", "_", "-", " "};
 #define numRows 4
 #define xlast (numColumns-1)
 #define ylast (numRows-1)
-
-//#define editboxOffset 3
-//#define keyboardOffset 5
 #define indentOffset 5
 
 vector<vector<string>> rows = {row0, row1, row2, row3};
@@ -48,6 +47,22 @@ void GuiKeyboard::render() {
     gui->renderLabelBox(1, offset);
     gui->renderTextLine("-= " + label + " =-", 0, offset, POS_CENTER);
 
+    //*******************************
+    // drawRectangle lambda
+    //*******************************
+    auto drawRectangle = [&] (SDL_Rect& rect) {
+        string fg = gui->themeData.values["text_fg"];
+        SDL_SetRenderDrawColor(renderer, gui->getR(fg), gui->getG(fg), gui->getB(fg), 255);
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+        SDL_RenderDrawRect(renderer, &rect);
+        SDL_Rect rectSelection2;
+        rectSelection2.x = rect.x + 1;
+        rectSelection2.y = rect.y + 1;
+        rectSelection2.w = rect.w - 2;
+        rectSelection2.h = rect.h - 2;
+        SDL_RenderDrawRect(renderer, &rectSelection2);
+    };
+
     string displayResult = result;
     displayResult.insert(cursorIndex, "#");
     gui->renderTextLine(displayResult, 1, offset, POS_CENTER);
@@ -63,11 +78,19 @@ void GuiKeyboard::render() {
     gui->getTextAndRect(renderer, 0, 0, "*", gui->themeFont, &tex, &rect);
 
     if (L2_cursor_shift) {
-        SDL_Rect rectEditbox;
-        rectEditbox.x = rect2.x + indentOffset;
-        rectEditbox.w = rect2.w - (indentOffset + indentOffset);
-        rectEditbox.y = offset + rect.h;
-        rectEditbox.h = rect.h;
+        SDL_Rect rectEditbox = gui->getTextRectangleOnScreen(displayResult, 1, offset, POS_CENTER, 0, gui->themeFont);
+
+        // compute the bounding box around the cursor (#)
+        SDL_Point textBeforeCursorSize { 0, 0 };
+        if (cursorIndex > 0)    // get the size of the text before the cursor
+            TTF_SizeText(gui->themeFont, displayResult.substr(0, cursorIndex).c_str(), &textBeforeCursorSize.x, &textBeforeCursorSize.y);
+        SDL_Point cursorSize;
+        TTF_SizeText(gui->themeFont, "#", &cursorSize.x, &cursorSize.y);    // get the cursor size
+        // bounding box rectangle around the # cursor
+        SDL_Rect cursorRect { rectEditbox.x + textBeforeCursorSize.x, rectEditbox.y,    // x, y position
+                              cursorSize.x, cursorSize.y };                             //w, h
+
+        drawRectangle(cursorRect);
     }
 
     for (int x = 0; x < numColumns; x++) {
@@ -102,16 +125,7 @@ void GuiKeyboard::render() {
             // display rectangle around current character
             if (!L2_cursor_shift) { // don't draw rectangle if in move cursor mode
                 if ((selx == x) && (sely == y)) {
-                    string fg = gui->themeData.values["text_fg"];
-                    SDL_SetRenderDrawColor(renderer, gui->getR(fg), gui->getG(fg), gui->getB(fg), 255);
-                    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-                    SDL_RenderDrawRect(renderer, &rectSelection);
-                    SDL_Rect rectSelection2;
-                    rectSelection2.x = rectSelection.x + 1;
-                    rectSelection2.y = rectSelection.y + 1;
-                    rectSelection2.w = rectSelection.w - 2;
-                    rectSelection2.h = rectSelection.h - 2;
-                    SDL_RenderDrawRect(renderer, &rectSelection2);
+                    drawRectangle(rectSelection);
                 }
             }
         }
