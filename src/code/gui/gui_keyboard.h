@@ -11,15 +11,19 @@
 //********************
 class GuiKeyboard : public GuiScreen {
 public:
-    void render();
-    void loop();
+    virtual void render();
+    virtual void loop();
+    virtual void init();
 
     int selx=0;
     int sely=0;
     std::string label="";
     std::string result="";
+    int cursorIndex = 0;
+    bool L1_caps_shift = false;
+    bool L2_cursor_shift = false;
+
     bool cancelled=true;
-    bool caps = false;
 
     using GuiScreen::GuiScreen;
 };
