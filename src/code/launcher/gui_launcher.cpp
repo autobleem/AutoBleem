@@ -17,6 +17,7 @@
 #include "../gui/gui_playlists.h"
 #include "gui_mc_manager.h"
 #include "../environment.h"
+#include <cassert>
 
 using namespace std;
 
@@ -277,8 +278,12 @@ void GuiLauncher::showSetName() {
     vector<string> setPS1SubStateNames = {_("Showing: All Games") + " ",
                                           _("Showing: Internal Games") + " ",
                                           _("Showing: Favorite Games") + " ",
+                                          _("Showing: Game History") + " ",
                                           _("Showing: USB Games Directory:") + " "
     };
+    assert(currentPS1_SelectState >= 0 && currentPS1_SelectState <= SET_PS1_Games_Subdir);
+    assert(setPS1SubStateNames.size()-1 == SET_PS1_Games_Subdir);  // currentPS1_SelectState out of range
+
     string numGames = " (" + to_string(numberOfNonDuplicatedGamesInCarousel) + " " + _("games") + ")";
 
     auto str = gui->cfg.inifile.values["showingtimeout"];
@@ -293,8 +298,11 @@ void GuiLauncher::showSetName() {
             notificationLines[0].setText(setPS1SubStateNames[currentPS1_SelectState] + numGames, timeout);
         } else if (currentPS1_SelectState == SET_PS1_Favorites) {
             notificationLines[0].setText(setPS1SubStateNames[currentPS1_SelectState] + numGames, timeout);
+        } else if (currentPS1_SelectState == SET_PS1_History) {
+            notificationLines[0].setText(setPS1SubStateNames[currentPS1_SelectState] + numGames, timeout);
         } else if (currentPS1_SelectState == SET_PS1_Games_Subdir) {
-            notificationLines[0].setText(setPS1SubStateNames[currentPS1_SelectState] + currentUSBGameDirName + numGames, timeout);
+            notificationLines[0].setText(
+                    setPS1SubStateNames[currentPS1_SelectState] + currentUSBGameDirName + numGames, timeout);
         }
     } else if (currentSet == SET_RETROARCH) {
         string playlist = DirEntry::getFileNameWithoutExtension(currentRAPlaylistName);
