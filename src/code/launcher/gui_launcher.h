@@ -46,11 +46,11 @@ public:
     long time = 0;
     SDL_Event e;
     // for prev/next first letter fast forwarding
-    Sint32 prevNextFFTimeLimit = 0;   // set in cpp.  how long to wait to trigger a fast forward prev/next first letter
-    bool L1_isDownForFastForward = false;
-    Sint32 L1_fastForwardTimeStart = 0;
-    bool R1_isDownForFastForward = false;
-    Sint32 R1_fastForwardTimeStart = 0;
+    Uint32 prevNextFastForwardTimeLimit = 200;
+    bool L1_isPressedForFastForward = false;
+    Uint32 L1_fastForwardTimeStart = 0;
+    bool R1_isPressedForFastForward = false;
+    Uint32 R1_fastForwardTimeStart = 0;
 
     void loop();
 

@@ -194,6 +194,8 @@ Memory Cards
 Memory Cards
 Menu
 Menu
+Move Cursor
+Mover Cursor
 Moving :
 Moviendo :
 Music:
@@ -241,7 +243,7 @@ Apagar
 POWERING OFF... PLEASE WAIT
 APAGANDO... POR FAVOR ESPERA
 Press |@X| to save controller mapping, or |@O| to retry configuration
-Pulsa |@X| para guardar el mapeo del mando, o |@O| para reiniciar la configuracion
+Pulsa |@X| para guardar el mapeo de botones, o |@O| para reiniciar la configuracion
 Press a key for
 Pulsa un boton para
 Press any DPAD button (to determine if it's digital or analogue)
@@ -318,6 +320,8 @@ Showing: Apps
 Mostrando: Apps
 Showing: Favorite Games
 Mostrando: Juegos Favoritos
+Showing: Game History
+Mostrando: Historial de Juego
 Showing: Internal Games
 Mostrando: Juegos Internos
 Showing: Retroarch

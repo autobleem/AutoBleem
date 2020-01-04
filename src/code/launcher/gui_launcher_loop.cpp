@@ -36,7 +36,6 @@ void GuiLauncher::loop() {
     motionStart = 0;
     timespeed = 0;
     motionDir = 0;
-    Sint32 prevNextFFTimeLimit = 150;
 
     while (menuVisible) {
         // get the current translated string values
@@ -127,16 +126,16 @@ void GuiLauncher::loop() {
             }   // switch (e.type)
         // end if (SDL_PollEvent(&e))
         }  else { // no event.  see if we're holding down L1 or R1 for fast forward first letter
-            if (L1_isDownForFastForward) {
-                Sint32 time = (Sint32) (SDL_GetTicks() - L1_fastForwardTimeStart);
-                if (time > prevNextFFTimeLimit) {
+            if (L1_isPressedForFastForward) {
+                Uint32 timePressed = (SDL_GetTicks() - L1_fastForwardTimeStart);
+                if (timePressed > prevNextFastForwardTimeLimit) {
                     loop_prevGameFirstLetter();
                 }
             }
 
-            if (R1_isDownForFastForward) {
-                Sint32 time = (Sint32) (SDL_GetTicks() - R1_fastForwardTimeStart);
-                if (time > prevNextFFTimeLimit) {
+            if (R1_isPressedForFastForward) {
+                Uint32 timePressed = (SDL_GetTicks() - R1_fastForwardTimeStart);
+                if (timePressed > prevNextFastForwardTimeLimit) {
                     loop_nextGameFirstLetter();
                 }
             }
@@ -282,12 +281,12 @@ void GuiLauncher::loop_joyButtonPressed() {
         return; // none of the following buttons should work if L2 is pressed
 
     if (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)) {
+        L1_isPressedForFastForward = true;
         loop_prevGameFirstLetter();
-        L1_isDownForFastForward = true;
 
     } else if (e.jbutton.button == gui->_cb(PCS_BTN_R1, &e)) {
+        R1_isPressedForFastForward = true;
         loop_nextGameFirstLetter();
-        R1_isDownForFastForward = true;
 
     } else if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
         loop_circleButtonPressed();
@@ -314,13 +313,17 @@ void GuiLauncher::loop_prevNextGameFirstLetter(bool next) {  // false is prev, t
             return;
         }
 
+        if (carouselGames[selGameIndex]->title == "") {
+            return;
+        }
+
         // find the index of all the first letters
         map<char, int> firstLetterToIndex;
         for (int index = 0; index < carouselGames.size() ; ++index) {
             if (carouselGames[index]->title != "") {
-                char firstLetter = carouselGames[index]->title[0];
-                if (firstLetterToIndex.find(firstLetter) == firstLetterToIndex.end())
-                    firstLetterToIndex[firstLetter] = index;
+                char firstLetter = toupper(carouselGames[index]->title[0]);
+                if (firstLetterToIndex.find(firstLetter) == firstLetterToIndex.end())   // if letter not in map
+                    firstLetterToIndex[firstLetter] = index;    // add the first letter to the map
             }
         }
 
@@ -328,7 +331,7 @@ void GuiLauncher::loop_prevNextGameFirstLetter(bool next) {  // false is prev, t
             return; // nothing with a title
 
         if (selGameIndexInCarouselGamesIsValid()) {
-            char currentLetter = carouselGames[selGameIndex]->title[0];
+            char currentLetter = toupper(carouselGames[selGameIndex]->title[0]);
             int nextGame = selGameIndex;
             if (firstLetterToIndex.size() == 1) {
                 nextGame = firstLetterToIndex[currentLetter];   // there is only one first letter in the games
@@ -351,14 +354,16 @@ void GuiLauncher::loop_prevNextGameFirstLetter(bool next) {  // false is prev, t
                 // we have prev/next game first letter;
                 selGameIndex = nextGame;
                 Mix_PlayChannel(-1, gui->cursor, 0);
-                notificationLines[1].setText(carouselGames[selGameIndex]->title.substr(0,1), DefaultShowingTimeout, brightWhite, FONT_22_MED);
+                notificationLines[1].setText(ReturnUpperCase(carouselGames[selGameIndex]->title.substr(0,1)),
+                                             DefaultShowingTimeout, brightWhite, FONT_22_MED);
                 setInitialPositions(selGameIndex);
                 updateMeta();
                 menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
             } else {
                 // no change
                 Mix_PlayChannel(-1, gui->cancel, 0);
-                notificationLines[1].setText(carouselGames[selGameIndex]->title.substr(0,1), DefaultShowingTimeout, brightWhite, FONT_22_MED);
+                notificationLines[1].setText(ReturnUpperCase(carouselGames[selGameIndex]->title.substr(0,1)),
+                                             DefaultShowingTimeout, brightWhite, FONT_22_MED);
             }
         }
     }
@@ -1090,8 +1095,10 @@ void GuiLauncher::loop_joyButtonReleased() {
         powerOffShift = false;
     }
 
-    if (L1_isDownForFastForward && (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)))
-        L1_isDownForFastForward = false;
-    if (R1_isDownForFastForward && (e.jbutton.button == gui->_cb(PCS_BTN_R1, &e)))
-        R1_isDownForFastForward = false;
+    if (L1_isPressedForFastForward && (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e))) {
+        L1_isPressedForFastForward = false;
+    }
+    else if (R1_isPressedForFastForward && (e.jbutton.button == gui->_cb(PCS_BTN_R1, &e))) {
+        R1_isPressedForFastForward = false;
+    }
 }
