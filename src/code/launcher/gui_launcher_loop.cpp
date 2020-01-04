@@ -313,13 +313,17 @@ void GuiLauncher::loop_prevNextGameFirstLetter(bool next) {  // false is prev, t
             return;
         }
 
+        if (carouselGames[selGameIndex]->title == "") {
+            return;
+        }
+
         // find the index of all the first letters
         map<char, int> firstLetterToIndex;
         for (int index = 0; index < carouselGames.size() ; ++index) {
             if (carouselGames[index]->title != "") {
-                char firstLetter = carouselGames[index]->title[0];
-                if (firstLetterToIndex.find(firstLetter) == firstLetterToIndex.end())
-                    firstLetterToIndex[firstLetter] = index;
+                char firstLetter = toupper(carouselGames[index]->title[0]);
+                if (firstLetterToIndex.find(firstLetter) == firstLetterToIndex.end())   // if letter not in map
+                    firstLetterToIndex[firstLetter] = index;    // add the first letter to the map
             }
         }
 
@@ -327,7 +331,7 @@ void GuiLauncher::loop_prevNextGameFirstLetter(bool next) {  // false is prev, t
             return; // nothing with a title
 
         if (selGameIndexInCarouselGamesIsValid()) {
-            char currentLetter = carouselGames[selGameIndex]->title[0];
+            char currentLetter = toupper(carouselGames[selGameIndex]->title[0]);
             int nextGame = selGameIndex;
             if (firstLetterToIndex.size() == 1) {
                 nextGame = firstLetterToIndex[currentLetter];   // there is only one first letter in the games
@@ -350,14 +354,16 @@ void GuiLauncher::loop_prevNextGameFirstLetter(bool next) {  // false is prev, t
                 // we have prev/next game first letter;
                 selGameIndex = nextGame;
                 Mix_PlayChannel(-1, gui->cursor, 0);
-                notificationLines[1].setText(carouselGames[selGameIndex]->title.substr(0,1), DefaultShowingTimeout, brightWhite, FONT_22_MED);
+                notificationLines[1].setText(ReturnUpperCase(carouselGames[selGameIndex]->title.substr(0,1)),
+                                             DefaultShowingTimeout, brightWhite, FONT_22_MED);
                 setInitialPositions(selGameIndex);
                 updateMeta();
                 menu->setResumePic(carouselGames[selGameIndex]->findResumePicture());
             } else {
                 // no change
                 Mix_PlayChannel(-1, gui->cancel, 0);
-                notificationLines[1].setText(carouselGames[selGameIndex]->title.substr(0,1), DefaultShowingTimeout, brightWhite, FONT_22_MED);
+                notificationLines[1].setText(ReturnUpperCase(carouselGames[selGameIndex]->title.substr(0,1)),
+                                             DefaultShowingTimeout, brightWhite, FONT_22_MED);
             }
         }
     }
