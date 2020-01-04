@@ -25,7 +25,7 @@ void GuiBtnGuide::render() {
     // -50 is because the "button guide" line is too low and the lines go below the bottom of the rectangle
     int offset = gui->renderLogo(true) - 50;
 
-    int xLeft = 370;
+    int xLeft = 300;
     int xRight = 520;
     int line = 0;
     auto font = gui->sonyFonts[FONT_20_BOLD];
@@ -45,7 +45,7 @@ void GuiBtnGuide::render() {
     line++;
     renderTextLineToColumns("",                          "-=" + _("In Game") + "=-");
     renderTextLineToColumns("|@Select| + |@T|",          _("Emulator config MENU"));
-    renderTextLineToColumns("RESET",                     _("Quit emulation - back to AutoBleem"));
+    renderTextLineToColumns(_("RESET"),                  _("Quit emulation - back to AutoBleem"));
     line++;
     renderTextLineToColumns("",                          "-=" + _("In Retroarch Game") + "=-");
     renderTextLineToColumns("|@Select| + |@Start|",      _("Open Retroarch Menu"));

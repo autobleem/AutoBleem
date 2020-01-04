@@ -54,8 +54,6 @@ Close
 Zatvoriť
 Configuration
 Nastavenia
-Configuration saved - Press |@X| to continue
-Nastavenia uložené - Stlačte |@X| pre pokračovanie
 CONFIGURED
 NAKONFIGUROVANÝ
 Confirm
@@ -90,8 +88,6 @@ Do you want to save memcards data ?
 Chcete uložiť údaje z kariet?
 Download latest:
 Najnovšia verzia:
-DPAD
-DPAD - To isté ako na PlayStation Classic
 Edit game parameters
 Upraviť parametre hry
 Edit Memory Card information
@@ -136,6 +132,8 @@ Game failed to verify:
 Nepodarilo sa overiť hru:
 Game file not found
 Nepodarilo sa nájsť hru
+Game History
+História hry
 Game Manager
 Správca hier
 Game manager - Select game
@@ -164,8 +162,6 @@ High res:
 Vysoké rozlíšenie:
 Hold
 Čakajte
-IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
-V BOOT MENU VYPNÚŤ KONZOLU (BEZPEČNÉ VYPNUTIE !!!)
 In Boot Menu: Safe Power Off The Console
 V bootovacom menu: Bezpečne vypnúť konzolu
 In Game
@@ -178,8 +174,6 @@ INTERNAL
 ORIGINÁLNE
 Internal Games
 Originálne hry
-Is your dpad analogue?
-Máte analógový dpad?
 Language:
 Jazyk:
 Link Block
@@ -200,6 +194,8 @@ Memory Cards
 Pamäťové karty
 Menu
 Menu
+Move Cursor
+Presunúť kurzor
 Moving :
 Presúvam:
 Music:
@@ -246,8 +242,12 @@ Power Off
 Vypnúť
 POWERING OFF... PLEASE WAIT
 VYPÍNAM... ČAKAJTE PROSÍM
+Press |@X| to save controller mapping, or |@O| to retry configuration
+Stlačte |@X| na premapovanie ovládača, alebo |@O| na zopakovanie konfigurácie
 Press a key for
 Stlačte hocijaké tlačidlo
+Press any DPAD button (to determine if it's digital or analogue)
+Stlačte ktorékoľvek tlačidlo DPAD (aby ste zistili, či je digitálne alebo analógové)
 Published by:
 Vydavateľ:
 Quick boot
@@ -270,6 +270,8 @@ Reload Cards
 Znovu načítať karty
 Rename
 Premenovať
+RESET
+RESETOVAŤ
 RESUME
 OBNOVA
 Resume game from saved state point
@@ -282,8 +284,6 @@ RetroArch is not installed
 RetroArch nie je nainštalovaný
 Run using RetroBoot
 Spustiť cez Retroboot
-Same as classic menu
-Rovnaké ako v PS Classic menu
 Scanline Level:
 Úroveň obrazových riadkov:
 Scanlines:
@@ -322,6 +322,8 @@ Showing: Apps
 Zobrazujem: Aplikácie
 Showing: Favorite Games
 Zobrazujem: Obľúbené hry
+Showing: Game History
+Zobrazujem: Históriu hry
 Showing: Internal Games
 Zobrazujem: Originálne hry
 Showing: Retroarch
@@ -354,6 +356,8 @@ Update RA Config:
 Aktualizovať konfiguráciu RA:
 Updating regional.db...
 Aktualizujem regional.db...
+USB Games
+USB Hry
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 POZOR: NENAŠLA SA DATABÁZA OBALOV NA HRY. STLAČTE ĽUBOVOĽNÚ KLÁVESU.
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.

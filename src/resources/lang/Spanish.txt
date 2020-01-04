@@ -270,6 +270,8 @@ Reload Cards
 Recargar Tarjetas
 Rename
 Renombrar
+RESET
+RESET
 RESUME
 REANUDAR
 Resume game from saved state point
