@@ -194,6 +194,8 @@ Memory Cards
 
 Menu
 
+Move Cursor
+
 Moving :
 
 Music:
@@ -317,6 +319,8 @@ Showing: All Games
 Showing: Apps
 
 Showing: Favorite Games
+
+Showing: Game History
 
 Showing: Internal Games
 
