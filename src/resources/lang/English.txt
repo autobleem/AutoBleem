@@ -270,6 +270,8 @@ Reload Cards
 
 Rename
 
+RESET
+
 RESUME
 
 Resume game from saved state point

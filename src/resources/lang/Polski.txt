@@ -54,8 +54,6 @@ Close
 Zamknij
 Configuration
 Konfiguracja
-Configuration saved - Press |@X| to continue
-Konfiguracja zapisana - Naciśnij |@X| aby kontynuować
 CONFIGURED
 WEWNĘTRZNA
 Confirm
@@ -90,8 +88,6 @@ Do you want to save memcards data ?
 Czy chcesz zapisać zmienione dane katy ?
 Download latest:
 Pobierz najnowszy AB:
-DPAD
-Kierunki
 Edit game parameters
 Edytuj parametry gry
 Edit Memory Card information
@@ -136,6 +132,8 @@ Game failed to verify:
 Nie udało się zweryfikować Gry: 
 Game file not found
 Nie znaleziono pliku Gry
+Game History
+Historia Gry
 Game Manager
 Menadżer gier
 Game manager - Select game
@@ -164,8 +162,6 @@ High res:
 Zwiększ Rozdzielczość:
 Hold
 Przytrzymaj
-IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
-W MENU STARTOWYM - BEZPIECZNE WYŁĄCZENIE KONSOLI
 In Boot Menu: Safe Power Off The Console
 W Menu Startowym: Bezpieczne Wyłączenie Konsoli
 In Game
@@ -178,8 +174,6 @@ Internal
 Wewnętrzna
 Internal Games
 Wewnętrzne Gry
-Is your dpad analogue?
-Czy twój D-pad to analog?
 Language:
 Język:
 Link Block
@@ -200,6 +194,8 @@ Memory Cards
 Karty Pamięci
 Menu
 Menu
+Move Cursor
+Przesuń Kursor
 Moving :
 Przenoszenie :
 Music:
@@ -248,6 +244,10 @@ POWERING OFF... PLEASE WAIT
 WYŁĄCZANIE KONSOLI ... PROSZĘ CZEKAĆ
 Press a key for
 Naciśnij przycisk dla
+Press any DPAD button (to determine if it's digital or analogue)
+Naciśnij dowolny przycisk kierunku (aby określić czy jest cyfrowy czy analogowy)
+Press |@X| to save controller mapping, or |@O| to retry configuration
+Naciśnij |@X| aby zapisać układ kontrolera, albo |@O| aby ponowić konfigurację
 Published by:
 Wydawca:
 Quick boot
@@ -270,6 +270,8 @@ Reload Cards
 Odśwież Karty
 Rename
 Zmień nazwę
+RESET
+RESET
 RESUME
 WZNÓW
 Resume game from saved state point
@@ -282,8 +284,6 @@ RetroArch is not installed
 RetroArch jest nie zainstalowany
 Run using RetroBoot
 Urochom za pomocą RetroBoot
-Same as classic menu
-Tak samo jak w klasycznym menu
 Scanline Level:
 Intensywność linii:
 Scanlines:
@@ -322,6 +322,8 @@ Showing: Apps
 Wyświetla: Aplikacje
 Showing: Favorite Games
 Wyświetla: Ulubione Gry
+Showing: Game History
+Wyświetla: Historię Gry
 Showing: Internal Games
 Wyświetla: Wewnętrzne Gry
 Showing: Retroarch
