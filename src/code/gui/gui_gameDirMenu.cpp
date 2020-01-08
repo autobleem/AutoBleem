@@ -13,13 +13,6 @@
 using namespace std;
 
 //*******************************
-// GuiGameDirMenu::MenuLineData::toText
-//*******************************
-string GuiGameDirMenu::MenuLineData::toText() {
-    return prefix + name + string((numGames >= 0) ? " ( " + to_string(numGames) + " " + _("Games") + ")" : "");
-}
-
-//*******************************
 // void GuiGameDirMenu::init()
 //*******************************
 void GuiGameDirMenu::init()
@@ -44,8 +37,8 @@ void GuiGameDirMenu::render()
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
     gui->renderTextLine("-=" + _("Select PS1 Game Category") + "=-",0,offset,true);
-    if (selected >= infoToDisplay.size()) {
-        selected = infoToDisplay.size() - 1;
+    if (selected >= lines.size()) {
+        selected = lines.size() - 1;
     }
 
     if (selected < firstVisible) {
@@ -61,18 +54,18 @@ void GuiGameDirMenu::render()
 
     int pos = 1;
     for (int i = firstVisible; i <= lastVisible; i++) {
-        if (i >= infoToDisplay.size()) {
+        if (i >= lines.size()) {
             break;
         }
-        gui->renderTextLine(infoToDisplay[i].toText(), pos+1, offset,false);
+        gui->renderTextLine(lines[i], pos+1, offset,false);
         pos++;
     }
 
-    if (!infoToDisplay.size() == 0) {
+    if (!lines.size() == 0) {
         gui->renderSelectionBox(selected - firstVisible + 2, offset);
     }
 
-    gui->renderStatus(_("Entry")+" " + to_string(selected + 1) + "/" + to_string(infoToDisplay.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"   |@O| "+_("Close")+" |");
+    gui->renderStatus(_("Entry")+" " + to_string(selected + 1) + "/" + to_string(lines.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"   |@O| "+_("Close")+" |");
     SDL_RenderPresent(renderer);
 }
 
@@ -105,7 +98,7 @@ void GuiGameDirMenu::loop()
                     if (gui->mapper.isDown(&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         selected++;
-                        if (selected >= infoToDisplay.size()) {
+                        if (selected >= lines.size()) {
                             selected = 0;
                             firstVisible = selected;
                             lastVisible = firstVisible+maxVisible;
@@ -116,7 +109,7 @@ void GuiGameDirMenu::loop()
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         selected--;
                         if (selected < 0) {
-                            selected = infoToDisplay.size()-1;
+                            selected = lines.size()-1;
                             firstVisible = selected;
                             lastVisible = firstVisible+maxVisible;
                         }
@@ -128,8 +121,8 @@ void GuiGameDirMenu::loop()
                     if (e.jbutton.button == gui->_cb(PCS_BTN_R1,&e)) {
                         Mix_PlayChannel(-1, gui->home_up, 0);
                         selected+=maxVisible;
-                        if (selected >= infoToDisplay.size()) {
-                            selected = infoToDisplay.size() - 1;
+                        if (selected >= lines.size()) {
+                            selected = lines.size() - 1;
                         }
                         firstVisible = selected;
                         lastVisible = firstVisible+maxVisible;
@@ -155,7 +148,7 @@ void GuiGameDirMenu::loop()
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         cancelled = false;
-                        if (!infoToDisplay.empty())
+                        if (!lines.empty())
                         {
                             menuVisible = false;
                         }

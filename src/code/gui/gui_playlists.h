@@ -10,9 +10,9 @@
 
 class GuiPlaylists : public GuiScreen{
 public:
-    void init();
-    void render();
-    void loop();
+    void init() override;
+    void render() override;
+    void loop() override;
     std::vector<std::string> playlists;
     std::vector<int> sizes;
 
