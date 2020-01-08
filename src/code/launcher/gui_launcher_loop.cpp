@@ -444,7 +444,6 @@ void GuiLauncher::loop_chooseGameDir() {
     guiGameDirMenu->infoToDisplay.emplace_back("", _("Game History"), gamesList.size());
 
     // set initial selected row
-    guiGameDirMenu->backgroundImg = background->tex;
     int nextSel = offsetToGamesSubDirs; // set to game dir as default
     if (currentPS1_SelectState == SET_PS1_Games_Subdir) {
         nextSel = offsetToGamesSubDirs + currentUSBGameDirIndex;
@@ -518,7 +517,6 @@ void GuiLauncher::loop_chooseRAPlaylist() {
     powerOffShift = false;
     auto playlists = new GuiPlaylists(renderer);
     playlists->playlists = raPlaylists;
-    playlists->backgroundImg = background->tex;
     playlists->integrator = raIntegrator;
     int nextSel = 0;
     int i = 0;
