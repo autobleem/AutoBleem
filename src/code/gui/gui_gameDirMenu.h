@@ -1,24 +1,16 @@
 #pragma once
-#include "gui_screen.h"
-#include "../main.h"
-#include "../lang.h"
+
+#include "gui_menu.h"
 #include <vector>
+#include <string>
+#include "../lang.h"
 
-class GuiGameDirMenu : public GuiScreen{
+class GuiGameDirMenu : public GuiMenu {
 public:
-    void init() override;
-    void render() override;
-    void loop() override;
+    GuiGameDirMenu(SDL_Shared<SDL_Renderer> _renderer) : GuiMenu(_renderer,
+                                                         "-=" + _("Select PS1 Game Category") + "=-") {}
 
-    std::vector<std::string> lines;
-
-    int selected=0;
-    int maxVisible=8;
-    int firstVisible=0;
-    int lastVisible=8;
-
-    bool changes=false;
-    bool cancelled = false;
-
-    using GuiScreen::GuiScreen;
+    void init() override { GuiMenu::init(); };
+    void render() override { GuiMenu::render(); };
+    void loop() override { GuiMenu::loop(); };
 };

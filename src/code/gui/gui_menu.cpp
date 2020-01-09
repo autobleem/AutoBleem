@@ -1,32 +1,28 @@
-#include "gui_gameDirMenu.h"
+#include "gui_Menu.h"
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_ttf.h>
 #include <string>
-#include <iostream>
-#include "gui.h"
-#include "../main.h"
+//#include <iostream>
 #include "../lang.h"
-#include <ftw.h>
 
 using namespace std;
 
 //*******************************
-// void GuiGameDirMenu::init()
+// void GuiMenu::init()
 //*******************************
-void GuiGameDirMenu::init()
+void GuiMenu::init()
 {
-    shared_ptr<Gui> gui(Gui::getInstance());
+    gui = Gui::getInstance();
+
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
     firstVisible = 0;
     lastVisible = firstVisible + maxVisible - 1;
 }
 
 //*******************************
-// GuiGameDirMenu::render
+// GuiMenu::render
 //*******************************
-void GuiGameDirMenu::render()
+void GuiMenu::render()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
     // use evoUI background
@@ -36,7 +32,7 @@ void GuiGameDirMenu::render()
 
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
-    gui->renderTextLine("-=" + _("Select PS1 Game Category") + "=-",0,offset,true);
+    gui->renderTextLine(title, 0, offset, POS_CENTER);
     if (selected >= lines.size()) {
         selected = lines.size() - 1;
     }
@@ -52,28 +48,38 @@ void GuiGameDirMenu::render()
         lastVisible += moveBy;
     }
 
-    int pos = 1;
+    int pos = firstLine;
     for (int i = firstVisible; i <= lastVisible; i++) {
         if (i >= lines.size()) {
             break;
         }
-        gui->renderTextLine(lines[i], pos+1, offset,false);
+        gui->renderTextLine(lines[i], pos, offset,false);
         pos++;
     }
 
     if (!lines.size() == 0) {
-        gui->renderSelectionBox(selected - firstVisible + 2, offset);
+        gui->renderSelectionBox(selected - firstVisible + firstLine, offset);
     }
 
-    gui->renderStatus(_("Entry")+" " + to_string(selected + 1) + "/" + to_string(lines.size()) +"    |@L1|/|@R1| "+_("Page")+"   |@X| "+_("Select")+"   |@O| "+_("Close")+" |");
+    gui->renderStatus(statusLine());
     SDL_RenderPresent(renderer);
 }
 
+//*******************************
+// GuiMenu::statusLine
+//*******************************
+// the default status line for menus.  override if needed.
+string GuiMenu::statusLine() {
+    return _("Entry")+" " + to_string(selected + 1) + "/" + to_string(lines.size()) +
+             "    |@L1|/|@R1| " + _("Page") +
+             "   |@X| " + _("Select") +
+             "   |@O| " + _("Close") + " |";
+}
 
 //*******************************
-// GuiGameDirMenu::loop
+// GuiMenu::loop
 //*******************************
-void GuiGameDirMenu::loop()
+void GuiMenu::loop()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
     bool menuVisible = true;

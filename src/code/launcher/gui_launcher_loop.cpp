@@ -464,8 +464,6 @@ void GuiLauncher::loop_chooseGameDir() {
     }
 
     guiGameDirMenu->selected = nextSel;
-    guiGameDirMenu->firstVisible = nextSel;
-    guiGameDirMenu->lastVisible = nextSel + guiGameDirMenu->maxVisible;
 
     // display the menu and return when user made selection or canceled
     guiGameDirMenu->show();
@@ -518,6 +516,8 @@ void GuiLauncher::loop_chooseRAPlaylist() {
     auto playlists = new GuiPlaylists(renderer);
     playlists->playlists = raPlaylists;
     playlists->integrator = raIntegrator;
+
+    // set the selected menu line to be the current playlist
     int nextSel = 0;
     int i = 0;
     for (string plist:playlists->playlists) {
@@ -528,8 +528,6 @@ void GuiLauncher::loop_chooseRAPlaylist() {
         i++;
     }
     playlists->selected = nextSel;
-    playlists->firstVisible = nextSel;
-    playlists->lastVisible = nextSel + playlists->maxVisible;
 
     playlists->show();
     bool cancelled = playlists->cancelled;

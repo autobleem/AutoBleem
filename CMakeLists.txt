@@ -51,8 +51,8 @@ add_executable(
         src/code/engine/game.h
         src/code/engine/scanner.cpp
         src/code/engine/scanner.h
-        src/code/engine/GetGameDirHierarchy.h
         src/code/engine/GetGameDirHierarchy.cpp
+        src/code/engine/GetGameDirHierarchy.h
         src/code/engine/metadata.cpp
         src/code/engine/metadata.h
         src/code/engine/ecmhelper.cpp
@@ -95,8 +95,7 @@ add_executable(
         src/code/gui/gui_font.cpp
         src/code/gui/gui_font_wrapper.h
 		src/code/gui/gui_gameDirMenu.h
-		src/code/gui/gui_gameDirMenu.cpp
-		src/code/gui/gui_scrollWin.h 
+		src/code/gui/gui_scrollWin.h
 		src/code/gui/gui_scrollWin.cpp
 		src/code/ver_migration.cpp
 		src/code/ver_migration.h
@@ -149,8 +148,7 @@ add_executable(
 		src/code/launcher/emu_interceptor.h
 		src/code/launcher/ra_integrator.cpp
 		src/code/launcher/ra_integrator.h
-		src/code/gui/gui_playlists.cpp
-		src/code/gui/gui_playlists.h
+        src/code/gui/gui_playlists.h
         src/code/engine/cardedit.h
 		src/code/engine/cardedit.cpp
         src/code/launcher/gui_mc_manager.h
@@ -159,7 +157,12 @@ add_executable(
 		src/code/gui/starfx.h
         src/code/environment.h
 		src/code/environment.cpp
-        src/code/launcher/launch_interceptor.cpp src/code/launcher/launch_interceptor.h src/code/launcher/gui_app_start.cpp src/code/launcher/gui_app_start.h)
+        src/code/launcher/launch_interceptor.cpp 
+		src/code/launcher/launch_interceptor.h 
+		src/code/launcher/gui_app_start.cpp 
+		src/code/launcher/gui_app_start.h 
+		src/code/gui/gui_menu.h 
+		src/code/gui/gui_menu.cpp)
 
 target_include_directories(autobleem-gui PUBLIC
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/sqlite>

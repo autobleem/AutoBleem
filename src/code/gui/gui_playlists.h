@@ -1,33 +1,25 @@
-//
-// Created by screemer on 2019-07-25.
-//
-
 #pragma once
-#include "gui_screen.h"
-#include "../main.h"
+
+#include "gui_menu.h"
+#include "../lang.h"
 #include "../launcher/ra_integrator.h"
-#include <vector>
 
-class GuiPlaylists : public GuiScreen{
+class GuiPlaylists : public GuiMenu {
 public:
-    void init() override;
-    void render() override;
-    void loop() override;
+    GuiPlaylists(SDL_Shared<SDL_Renderer> _renderer) : GuiMenu(_renderer,
+                                                       "-=" + _("Select RetroBoot Platform") + "=-") {}
+
+    void init() override {
+        GuiMenu::init();
+        for (const string& playlist : playlists) {
+            lines.emplace_back(playlist + " (" + to_string(integrator->getGamesNumber(playlist)) + " " + _("games") + ")");
+        }
+    }
+    void render() override { GuiMenu::render(); };
+    void loop() override { GuiMenu::loop(); };
+
     std::vector<std::string> playlists;
-    std::vector<int> sizes;
-
-    int selected=0;
-    int maxVisible=8;
-    int firstVisible=0;
-    int lastVisible=8;
-
-    bool changes=false;
-
-    bool cancelled = false;
-
     shared_ptr<RAIntegrator> integrator;
-
-    using GuiScreen::GuiScreen;
 };
 
 
