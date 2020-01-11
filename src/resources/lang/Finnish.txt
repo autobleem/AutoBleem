@@ -1,0 +1,364 @@
+.-= Code C++ and shell scripts =-.
+.-= Ohjelmoi C++ ja shell scriptejä =-.
+.-= Database maintenance =-.
+.-= Tietokannan ylläpito =-.
+.-= Graphics =-.
+.-= Grafiikat
+.-= Localization support =-.
+.-= Lokalisointituki =-.
+.-= Retroboot and emulation cores =-.
+.-= Retroboot ja emulaatio ytimet =-.
+.-= Testing =-.
+.-= Testausta =-.
+.lic file not found
+.lic tiedostoa ei löytynyt
+About
+Tietoja
+Advanced
+Lisäasetukset
+All Games
+Kaikki pelit
+Are you sure you want to delete
+Haluatko varmasti poistaa
+Are you sure you want to flush all covers?
+Haluatko varmasti tyhjentää kaikki kannet?
+Are you sure?
+Oletko varma?
+AutoBleem
+AutoBleem
+AutoBleem resume points not available in RetroArch.
+AutoBleem-jatkamispisteet eivät ole saatavilla RetroArchissa.
+AutoBleem Theme:
+AutoBleem Teema:
+Background Music:
+Taustamusiikki:
+Bin file failed to verify
+Bin tiedoston varmistus epäonnistui
+Button Guide
+Painikeopas
+Cancel
+Peruuta
+Caps
+Caps
+Card
+Kortti
+Change MC
+Muuta MC
+Change RetroBoot System
+Vaihda RetroBoot järjestelmää
+Change USB Games Sub-Directory
+Vaihda USB Pelien alihakemistoa
+Clock:
+Kello:
+Close
+Sulje
+Configuration
+Kokoonpano
+Configuration saved - Press |@X| to continue
+Kokoonpano tallennettu - Paina |@X| jatkaaksesi
+CONFIGURED
+MÄÄRITETTY
+Confirm
+Varmista
+Copy
+Kopioi
+Cover image file not found
+Kansikuva tiedostoa ei löytynyt
+Cover Style:
+Kannen tyyli:
+Cue file not found
+Cue tiedostoa ei löytynyt
+Custom
+Mukautettu
+Custom Memory Cards
+Mukautetut muistikortit
+Customize AutoBleem settings
+Muokkaa AutoBleemin asetuksia
+Decompressing ecm:
+Puretaan ecm:
+Defragment Card
+Eheytä kortti
+Delete
+Poista
+Delete !SaveState folder for game
+Poista pelin !SaveState kansio
+Delete card
+Poista kortti
+Delete Game
+Poista peli
+Do you want to save memcards data ?
+Haluatko tallentaa muistikorttien datan?
+Download latest:
+Lataa uusin:
+DPAD
+DPAD
+Edit game parameters
+Muokkaa pelin parametrejä
+Edit Memory Card information
+Muokkaa muistikortin
+Emulator config MENU
+Emulaattorin konfigurointivalikko
+Enter
+Enter
+Enter new card name
+Kirjoita uudsi kortin nimi
+Enter new game name
+Kirjoita uusi pelin nimi
+Enter new name for card
+Kirjoita uusi nimi kortille
+Enter new name for memory card
+Kirjoita uusi nimi muistikortille
+Entry
+Merkintä
+Exit to EvoUI
+Poistu EvoUI:hin
+Failed to delete
+Poisto epäonnistui
+Favorite Games
+Suosikkipelit
+Favorite:
+Suosikki:
+Flush covers
+Tyhjennä kannet
+Folder:
+Kansio:
+Frameskip:
+Frameskip:
+Free
+Vapaa
+Free space
+Vapaa tila
+Game
+Peli
+GAME
+PELI
+Game failed to verify:
+Pelin varmistus epäonnistui:
+Game file not found
+Peli tiedostoa ei löytynyt
+Game Manager
+Pelien hallinta
+Game manager - Select game
+Pelien hallinta - Valitse peli
+Game.ini file not found
+Game.ini tiedostoa ei löytynyt
+Game.ini file not valid
+Game.ini tiedosto ei kelpaa
+Game:
+Peli:
+games
+pelit
+Games
+Pelit
+Games changed. Press
+Pelit muuttuivat. Paina
+Games filter
+Pelisuodatin
+games scanned
+pelejä skannattu
+GFX Filter:
+GFX-Suodatin:
+Go back
+Mene takaisin
+High res:
+Korkea resoluutio:
+Hold
+Pidä
+In Boot Menu: Safe Power Off The Console
+Bootmenussa: Sammuta konsolisi turvallisesti
+In Game
+Pelissä
+In Retroarch Game
+RetroArch pelissä
+Internal
+Sisäinen
+INTERNAL
+SISÄINEN
+Internal Games
+Sisäiset Pelit
+Is your dpad analogue?
+Onko sinun dpadisi analooginen?
+Language:
+Kieli:
+Link Block
+Linkki Esto
+Link end Block
+Linkin päätylohko
+Loading ... Please Wait ...
+Ladataan ... Odota hetki ...
+Lock data:
+Lukitse data:
+MEMORY CARD
+MUISTIKORTTI
+Memory Card Manager
+Muistikortin hallinta
+Memory Card:
+Muistikortti:
+Memory Cards
+Muistikortti
+Menu
+Valikko
+Moving :
+Liikuta :
+Music:
+Musiikki:
+New Card
+Uusi kortti
+New GamePad found
+Uusi peliohjain löytyi:
+No disc name
+Ei levyn nimeä
+No discs
+Ei levyjä
+OK
+OK
+OOPS! Game crashed. Resume point not available.
+HUPS! Peli kaatui. Jatka-piste ei ole käytettävissä.
+Open Retroarch Menu
+Avaa RetroArch valikko
+Options
+Vaihtoehdot
+Original
+Alkuperäinen
+Page
+Sivu
+pcsx.cfg file not found
+pcsx.cfg tiedostoa ei löytynyt
+Player
+Pelaaja
+Players
+Pelaajat
+Please confirm
+Ole hyvä ja vahvista
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+OLE HYVÄ JA YHDISTÄ PELIOHJAIN PLAYSTATION CLASSIC KONSOLIIN
+Please wait ... deleting
+Odota hetki ... poistetaan
+Please wait ... deleting covers...
+Odota hetki ... poistetaan kannet...
+Plugin:
+Liitännäinen:
+POWER
+VIRTA
+Power Off
+Sammuta
+POWERING OFF... PLEASE WAIT
+SAMMUTETAAN... ODOTA HETKI
+Press a key for
+Paina a näppäintä
+Published by:
+Julkaissut:
+Quick boot
+Nopea käynnistys
+Quick scroll to next letter
+Selaa nopeasti seuraavaan kirjaimeen
+QuickBoot Init:
+Nopea Käynnistys Init:
+QuickBoot:
+Nopea käynnistys:
+Quit emulation - back to AutoBleem
+Poistu emulaatiosta - takaisin AutoBleem:iin
+Re/Scan
+Uudelleen skannaa/Skannaa
+ReadMe file not found
+ReadMe tiedosto ei löytynyt
+Region:
+Alue:
+Reload Cards
+Lataa kortit uudelleen
+Rename
+Nimeä uudelleen
+RESUME
+JATKA
+Resume game from saved state point
+Jatka peliä jatko-pisteestä
+Resume point saved to slot
+Jatko-piste tallennettu paikkaan
+RetroArch
+RetroArch
+RetroArch is not installed
+RetroArch ei ole asennettu
+Run using RetroBoot
+Käynnistä RetroBootilla
+Same as classic menu
+Sama kuin classic valikko
+Scanline Level:
+Skannaustaso:
+Scanlines:
+Skannauslinjat:
+Scanning...
+Skannataan:
+Select
+Valitse
+Select memory card
+Valitse muistikortti
+Select or cancel highlighted option
+Valitse tai peruuta korostettu vaihtoehto
+Select PS1 Game Category
+Valitse PS1-peliluokka
+SELECT RESUME SLOT TO LOAD
+VALITSE JATKO-PISTE JONKA HALUAT LADATA
+Select RetroBoot Platform
+Valitse RetroBoot Alusta
+Select Right Card
+Valitse oikea kortti
+SELECT SLOT TO SAVE STATE
+VALITSE PAIKKA JATKO-PISTEELLE
+Serial:
+Sarja:
+SETTINGS
+ASETUKSET
+Share MC
+Jaa MC
+Show Internal Games:
+Näytä Sisäiset Pelit:
+Showing Timeout (0 = no timeout):
+Näytetään: aikakatkaisu (0 = ei aikakatkaisua)
+Showing: All Games
+Näytetään: Kaikki Pelit
+Showing: Apps
+Näytetään: Sovellukset
+Showing: Favorite Games
+Näytetään: Suosikkipelit
+Showing: Internal Games
+Näytetään: Sisäiset Pelit
+Showing: Retroarch
+Näytetään: RetroArch
+Showing: USB Games Directory:
+Näytetään: USB Pelien Kansio:
+Slot
+Paikka
+Space
+Väli
+SpeedHack:
+Nopeuden Muutin:
+Spu Interpolation:
+SPU-interpolointi:
+Starting EvolutionUI
+Käynnistetään EvolutionUI
+Support via Discord:
+Tuki Discordin kautta:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+Tämä on ilmainen ja avoimen lähdekoodin ohjelmisto. Se toimii sellaisena kuin SE ON. Emme ota vastuuta mistään ongelmista tai vaurioista.
+to scan
+skannata
+Total:
+Yhteensä:
+UI:
+UI:
+Unknown Core (AutoDetect)
+Tuntematon ydin (Automaattisesti havaittu)
+Update RA Config:
+Päivitä RA Konfiguraatio:
+Updating regional.db...
+Päivitetään regional.db...
+USB Games
+USB Pelit
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+VAROITUS: COVER DB EI LÖYTYNYT. PAINA MITÄ TAHANSA NÄPPÄINTÄ.
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+VAROITUS: PELEJÄ EI LÖYTYNYT. PAINA MITÄ TAHANSA NÄPPÄINTÄ.
+Widescreen:
+Laajakuva:
+Year:
+Vuosi:

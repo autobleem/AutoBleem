@@ -68,8 +68,6 @@ Cue file not found
 
 Custom
 
-Custom Memory Cards
-
 Customize AutoBleem settings
 
 Decompressing ecm:
@@ -136,8 +134,6 @@ Game History
 
 Game Manager
 
-Game manager - Select game
-
 Game.ini file not found
 
 Game.ini file not valid
@@ -145,8 +141,6 @@ Game.ini file not valid
 Game:
 
 games
-
-Games
 
 Games changed. Press
 
@@ -296,11 +290,7 @@ Select memory card
 
 Select or cancel highlighted option
 
-Select PS1 Game Category
-
 SELECT RESUME SLOT TO LOAD
-
-Select RetroBoot Platform
 
 Select Right Card
 
