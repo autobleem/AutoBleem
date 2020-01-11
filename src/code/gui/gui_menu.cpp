@@ -2,7 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <string>
-//#include <iostream>
+#include <cassert>
 #include "../lang.h"
 
 using namespace std;
@@ -13,10 +13,64 @@ using namespace std;
 void GuiMenu::init()
 {
     gui = Gui::getInstance();
+    font = gui->themeFont;
 
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
-    firstVisible = 0;
-    lastVisible = firstVisible + maxVisible - 1;
+    firstVisibleIndex = 0;
+    lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+}
+
+//*******************************
+// GuiMenu::makeSelectedLineVisibleOnPage
+//*******************************
+void GuiMenu::makeSelectedLineVisibleOnPage() {
+    if (selected >= 0 && lines.size() > 0) {
+        if (selected >= lines.size()) {
+            selected = lines.size() - 1;
+        }
+
+        if (selected < firstVisibleIndex) {
+            int moveBy = firstVisibleIndex - selected;
+            firstVisibleIndex -= moveBy;
+            lastVisibleIndex -= moveBy;
+        }
+        if (selected > lastVisibleIndex) {
+            int moveBy = selected - lastVisibleIndex;
+            firstVisibleIndex += moveBy;
+            lastVisibleIndex += moveBy;
+        }
+    }
+}
+
+//*******************************
+// GuiMenu::renderLines
+//*******************************
+void GuiMenu::renderLines() {
+    if (selected >= 0 && lines.size() > 0) {
+        int row = firstRow;
+        for (int i = firstVisibleIndex; i <= lastVisibleIndex; i++) {
+            if (i < 0 || i >= lines.size()) {
+                break;
+            }
+            if (menuType == Menu_Plain) {
+                gui->renderTextLine(lines[i], row, offset, POS_LEFT, 0, font);
+            } else if (menuType == Menu_TwoColumns) {
+                gui->renderTextLineToColumns(lines_L[i], lines_R[i], xoffset_L, xoffset_R, row, offset, font);
+            } else {
+                assert(false);
+            }
+            row++;
+        }
+    }
+}
+
+//*******************************
+// GuiMenu::renderSelectionBox
+//*******************************
+void GuiMenu::renderSelectionBox() {
+    if (!lines.size() == 0) {
+        gui->renderSelectionBox(selected - firstVisibleIndex + firstRow, offset);
+    }
 }
 
 //*******************************
@@ -24,42 +78,15 @@ void GuiMenu::init()
 //*******************************
 void GuiMenu::render()
 {
-    shared_ptr<Gui> gui(Gui::getInstance());
-    // use evoUI background
-
     SDL_RenderClear(renderer);
     gui->renderBackground();
-
     gui->renderTextBar();
-    int offset = gui->renderLogo(true);
+    offset = gui->renderLogo(true);
     gui->renderTextLine(title, 0, offset, POS_CENTER);
-    if (selected >= lines.size()) {
-        selected = lines.size() - 1;
-    }
 
-    if (selected < firstVisible) {
-        int moveBy = firstVisible - selected;
-        firstVisible -= moveBy;
-        lastVisible -= moveBy;
-    }
-    if (selected >= lastVisible) {
-        int moveBy = selected - lastVisible;
-        firstVisible += moveBy;
-        lastVisible += moveBy;
-    }
-
-    int pos = firstLine;
-    for (int i = firstVisible; i <= lastVisible; i++) {
-        if (i >= lines.size()) {
-            break;
-        }
-        gui->renderTextLine(lines[i], pos, offset,false);
-        pos++;
-    }
-
-    if (!lines.size() == 0) {
-        gui->renderSelectionBox(selected - firstVisible + firstLine, offset);
-    }
+    makeSelectedLineVisibleOnPage();
+    renderLines();
+    renderSelectionBox();
 
     gui->renderStatus(statusLine());
     SDL_RenderPresent(renderer);
@@ -77,12 +104,88 @@ string GuiMenu::statusLine() {
 }
 
 //*******************************
+// GuiMenu::arrowDown
+//*******************************
+void GuiMenu::arrowDown() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    selected++;
+    if (selected >= lines.size()) {
+        selected = 0;
+        firstVisibleIndex = selected;
+        lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+    }
+    render();
+}
+
+//*******************************
+// GuiMenu::arrowUp
+//*******************************
+void GuiMenu::arrowUp() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    selected--;
+    if (selected < 0) {
+        selected = lines.size()-1;
+        firstVisibleIndex = selected;
+        lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+    }
+    render();
+}
+
+//*******************************
+// GuiMenu::pageDown
+//*******************************
+void GuiMenu::pageDown() {
+    Mix_PlayChannel(-1, gui->home_up, 0);
+    selected+=maxVisible;
+    if (selected >= lines.size()) {
+        selected = lines.size() - 1;
+    }
+    firstVisibleIndex = selected;
+    lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+    render();
+}
+
+//*******************************
+// GuiMenu::pageUp
+//*******************************
+void GuiMenu::pageUp() {
+    Mix_PlayChannel(-1, gui->home_down, 0);
+    selected-=maxVisible;
+    if (selected < 0) {
+        selected = 0;
+    }
+    firstVisibleIndex = selected;
+    lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+    render();
+}
+
+//*******************************
+// GuiMenu::doCircle
+//*******************************
+void GuiMenu::doCircle() {
+    Mix_PlayChannel(-1, gui->cancel, 0);
+    cancelled = true;
+    menuVisible = false;
+}
+
+//*******************************
+// GuiMenu::pagedoCrossUp
+//*******************************
+void GuiMenu::doCross() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    cancelled = false;
+    if (!lines.empty())
+    {
+        menuVisible = false;
+    }
+}
+
+//*******************************
 // GuiMenu::loop
 //*******************************
 void GuiMenu::loop()
 {
-    shared_ptr<Gui> gui(Gui::getInstance());
-    bool menuVisible = true;
+    menuVisible = true;
     while (menuVisible) {
         gui->watchJoystickPort();
         SDL_Event e;
@@ -102,62 +205,27 @@ void GuiMenu::loop()
                 case SDL_JOYHATMOTION:
 
                     if (gui->mapper.isDown(&e)) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        selected++;
-                        if (selected >= lines.size()) {
-                            selected = 0;
-                            firstVisible = selected;
-                            lastVisible = firstVisible+maxVisible;
-                        }
-                        render();
+                        arrowDown();
                     }
                     if (gui->mapper.isUp(&e)) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        selected--;
-                        if (selected < 0) {
-                            selected = lines.size()-1;
-                            firstVisible = selected;
-                            lastVisible = firstVisible+maxVisible;
-                        }
-                        render();
+                        arrowUp();
                     }
 
                     break;
                 case SDL_JOYBUTTONDOWN:
                     if (e.jbutton.button == gui->_cb(PCS_BTN_R1,&e)) {
-                        Mix_PlayChannel(-1, gui->home_up, 0);
-                        selected+=maxVisible;
-                        if (selected >= lines.size()) {
-                            selected = lines.size() - 1;
-                        }
-                        firstVisible = selected;
-                        lastVisible = firstVisible+maxVisible;
-                        render();
+                        pageDown();
                     };
                     if (e.jbutton.button == gui->_cb(PCS_BTN_L1,&e)) {
-                        Mix_PlayChannel(-1, gui->home_down, 0);
-                        selected-=maxVisible;
-                        if (selected < 0) {
-                            selected = 0;
-                        }
-                        firstVisible = selected;
-                        lastVisible = firstVisible+maxVisible;
-                        render();
+                        pageUp();
                     };
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
-                        Mix_PlayChannel(-1, gui->cancel, 0);
-                        cancelled = true;
-                        menuVisible = false;
+                        doCircle();
                     };
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        cancelled = false;
-                        if (!lines.empty())
-                        {
-                            menuVisible = false;
-                        }
+                        doCross();
                     };
             }
         }

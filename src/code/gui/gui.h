@@ -139,7 +139,8 @@ public:
                        int offset = 0, int position = POS_LEFT, int xoffset = 0,
                        TTF_Font_Shared font = TTF_Font_Shared());    // font will default to themeFont in the cpp
 
-    int renderTextLineToColumns(const string &textLeft, const string &textRight, int xLeft, int xRight, int line, int offset, TTF_Font_Shared font);
+    int renderTextLineToColumns(const string &textLeft, const string &textRight, int xLeft, int xRight, int line,
+                                int offset = 0, TTF_Font_Shared font = TTF_Font_Shared());
 
     int renderTextLineOptions(const std::string & text, int line, int offset = 0,  int position = POS_LEFT, int xoffset = 0);
 

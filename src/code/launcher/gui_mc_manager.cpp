@@ -108,7 +108,7 @@ void GuiMcManager::renderStatic() {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
     gui->renderTextBar();
-    gui->renderTextLine(_("Memory Card Manager"), 1, 1, POS_CENTER);
+    gui->renderTextLine("-=" + _("Memory Card Manager") + "=-", 1, 1, POS_CENTER);
     gui->renderStatus(
             "|@Start| " + _("Select Right Card") +
             " | |@Select| " + _("Defragment Card") +

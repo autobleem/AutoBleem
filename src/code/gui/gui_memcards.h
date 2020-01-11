@@ -1,26 +1,26 @@
-//
-// Created by screemer on 2019-01-24.
-//
 #pragma once
 
-#include "gui_screen.h"
-
+#include "gui_menu.h"
 #include <vector>
 #include <string>
+#include "../lang.h"
 
 //********************
 // GuiMemcards
 //********************
-class GuiMemcards : public GuiScreen {
+class GuiMemcards : public GuiMenu {
 public:
+    GuiMemcards(SDL_Shared<SDL_Renderer> _renderer) : GuiMenu(_renderer,
+                                                             "-=" + _("Custom Memory Cards") + "=-") {}
+
     void init() override;
-    void render() override;
+    void render() override { GuiMenu::render(); };
     void loop() override;
 
-    std::vector<std::string> cards;
-    int selected=0;
-    int maxVisible=8;
-    int firstVisible=0;
-    int lastVisible=8;
-    using GuiScreen::GuiScreen;
+    virtual std::string statusLine() override;   // returns the status line at the bottom
+
+    void doCircle();
+    void doSquare();
+    void doTriangle();
+    void doCross();
 };
