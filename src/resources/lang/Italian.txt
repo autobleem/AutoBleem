@@ -54,8 +54,6 @@ Close
 Chiudi
 Configuration
 Configurazione
-Configuration saved - Press |@X| to continue
-Configurazione salvata - Premi |@X| per continuare
 CONFIGURED
 CONFIGURATO
 Confirm
@@ -90,8 +88,6 @@ Do you want to save memcards data ?
 Vuoi salvare i dati delle memorycard ?
 Download latest:
 Scarica la versione piu' recente:
-DPAD
-DPAD
 Edit game parameters
 Modifica i parametri del gioco
 Edit Memory Card information
@@ -114,10 +110,10 @@ Exit to EvoUI
 Torna a EvoUI
 Failed to delete
 Impossibile cancellare
-Favorite:
-Preferiti:
 Favorite Games
 Giochi Preferiti
+Favorite:
+Preferiti:
 Flush covers
 Cancella le cover
 Folder:
@@ -136,6 +132,8 @@ Game failed to verify:
 Verifica fallita per questi giochi:
 Game file not found
 File del gioco non trovato
+Game History
+Cronologia dei Giochi
 Game Manager
 Gestore del gioco
 Game manager - Select game
@@ -176,8 +174,6 @@ INTERNAL
 INTERNO
 Internal Games
 Giochi Interni
-Is your dpad analogue?
-Il tuo dpad e' analogico?
 Language:
 Lingua:
 Link Block
@@ -198,6 +194,8 @@ Memory Cards
 Memory Cards
 Menu
 Menu
+Move Cursor
+Sposta Cursore
 Moving :
 Spostando :
 Music:
@@ -246,6 +244,10 @@ POWERING OFF... PLEASE WAIT
 SPEGNIMENTO IN CORSO... ATTENDERE PREGO
 Press a key for
 Premi un tasto per
+Press any DPAD button (to determine if it's digital or analogue)
+Premi un tasto del DPAD (per determinare se digitale o analogico)
+Press |@X| to save controller mapping, or |@O| to retry configuration
+Premi |@X| per salvare la mappatura del controller, o |@O| per ripetere la configurazione
 Published by:
 Pubblicato da:
 Quick boot
@@ -268,6 +270,8 @@ Reload Cards
 Ricarica Cards
 Rename
 Rinomina
+RESET
+RESETTA
 RESUME
 RIPRENDI
 Resume game from saved state point
@@ -280,8 +284,6 @@ RetroArch is not installed
 RetroArch non e' installato
 Run using RetroBoot
 Esegui con RetroBoot
-Same as classic menu
-Come nel menu classico
 Scanline Level:
 Livello Scanline:
 Scanlines:
@@ -310,16 +312,18 @@ SETTINGS
 IMPOSTAZIONI
 Share MC
 Condividi MC
-Showing Timeout (0 = no timeout):
-Timeout di Visualizzazione (0 = nessun timeout):
 Show Internal Games:
 Mostra i Giochi Interni
+Showing Timeout (0 = no timeout):
+Timeout di Visualizzazione (0 = nessun timeout):
 Showing: All Games
 Sto mostrando: Tutti i Giochi
 Showing: Apps
 Sto mostrando: Apps
 Showing: Favorite Games
 Sto mostrando: Giochi Preferiti
+Showing: Game History
+Sto mostrando: Cronologia dei Giochi
 Showing: Internal Games
 Sto mostrando: Giochi Interni
 Showing: Retroarch
