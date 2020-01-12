@@ -5,6 +5,7 @@
 
 #include <string>
 #include "gui_screen.h"
+#include "gui.h"
 
 //********************
 // GuiKeyboard
@@ -15,6 +16,7 @@ public:
     virtual void loop();
     virtual void init();
 
+    std::shared_ptr<Gui> gui;
     int selx=0;
     int sely=0;
     std::string label="";

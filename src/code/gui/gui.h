@@ -201,6 +201,7 @@ public:
     SDL_Shared<SDL_Texture> buttonEsc;
     SDL_Shared<SDL_Texture> buttonEnter;
     SDL_Shared<SDL_Texture> buttonBackspace;
+    SDL_Shared<SDL_Texture> buttonTab;
     SDL_Shared<SDL_Texture> cdJewel;
 
     bool overrideQuickBoot = false;

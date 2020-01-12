@@ -33,6 +33,7 @@ vector<vector<string>> rows = {row0, row1, row2, row3};
 // GuiKeyboard::init
 //*******************************
 void GuiKeyboard::init() {
+    gui = Gui::getInstance();
     cursorIndex = result.size(); // the "#" cursor position starts out at the end of the string
 }
 
@@ -40,7 +41,6 @@ void GuiKeyboard::init() {
 // GuiKeyboard::render
 //*******************************
 void GuiKeyboard::render() {
-    shared_ptr<Gui> gui(Gui::getInstance());
     gui->renderBackground();
     gui->renderTextBar();
     int offset = gui->renderLogo(true);
@@ -77,7 +77,7 @@ void GuiKeyboard::render() {
     SDL_Rect rect;
     gui->getTextAndRect(renderer, 0, 0, "*", gui->themeFont, &tex, &rect);
 
-    if (L2_cursor_shift) {
+    if (L2_cursor_shift || usingUsbKeyboard) {
         SDL_Rect rectEditbox = gui->getTextRectangleOnScreen(displayResult, 1, offset, POS_CENTER, 0, gui->themeFont);
 
         // compute the bounding box around the cursor (#)
@@ -93,39 +93,41 @@ void GuiKeyboard::render() {
         drawRectangle(cursorRect);
     }
 
-    for (int x = 0; x < numColumns; x++) {
-        for (int y = 0; y < numRows; y++) {
-            SDL_Rect rectSelection;
-            rectSelection.x = rect2.x + indentOffset;
-            rectSelection.y = offset + rect.h * (y + 3);
-            rectSelection.w = rect2.w - (indentOffset + indentOffset);
-            rectSelection.h = rect.h;
+    if (!usingUsbKeyboard) {
+        for (int x = 0; x < numColumns; x++) {
+            for (int y = 0; y < numRows; y++) {
+                SDL_Rect rectSelection;
+                rectSelection.x = rect2.x + indentOffset;
+                rectSelection.y = offset + rect.h * (y + 3);
+                rectSelection.w = rect2.w - (indentOffset + indentOffset);
+                rectSelection.h = rect.h;
 
-            int buttonWidth = (rectSelection.w / 10) - (indentOffset + indentOffset);
-            int buttonHeight = rectSelection.h - 2;
+                int buttonWidth = (rectSelection.w / 10) - (indentOffset + indentOffset);
+                int buttonHeight = rectSelection.h - 2;
 
-            rectSelection.w = buttonWidth;
-            rectSelection.h = buttonHeight;
+                rectSelection.w = buttonWidth;
+                rectSelection.h = buttonHeight;
 
-            rectSelection.x = rectSelection.x + ((buttonWidth + 11) * x);
+                rectSelection.x = rectSelection.x + ((buttonWidth + 11) * x);
 
-            string bg = gui->themeData.values["key_bg"];
-            SDL_SetRenderDrawColor(renderer, gui->getR(bg), gui->getG(bg), gui->getB(bg),
-                                   atoi(gui->themeData.values["keyalpha"].c_str()));
-            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-            SDL_RenderFillRect(renderer, &rectSelection);
+                string bg = gui->themeData.values["key_bg"];
+                SDL_SetRenderDrawColor(renderer, gui->getR(bg), gui->getG(bg), gui->getB(bg),
+                                       atoi(gui->themeData.values["keyalpha"].c_str()));
+                SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+                SDL_RenderFillRect(renderer, &rectSelection);
 
-            string text = rows[y][x];
-            if (L1_caps_shift) {
-                text = ucase(text);
-            }
+                string text = rows[y][x];
+                if (L1_caps_shift) {
+                    text = ucase(text);
+                }
 
-            gui->renderTextChar(text, 3 + y, offset, rectSelection.x + 10);
+                gui->renderTextChar(text, 3 + y, offset, rectSelection.x + 10);
 
-            // display rectangle around current character
-            if (!L2_cursor_shift) { // don't draw rectangle if in move cursor mode
-                if ((selx == x) && (sely == y)) {
-                    drawRectangle(rectSelection);
+                // display rectangle around current character
+                if (!L2_cursor_shift) { // don't draw rectangle if in move cursor mode
+                    if ((selx == x) && (sely == y)) {
+                        drawRectangle(rectSelection);
+                    }
                 }
             }
         }
@@ -133,7 +135,7 @@ void GuiKeyboard::render() {
 
     if (usingUsbKeyboard) {
         gui->renderStatus(
-                "|@Enter| " + _("Confirm") + "  |@Backspace|  " + _("Backspace") +
+                "|@Tab| " + _("Use Controller") + "  |@Enter| " + _("Confirm") +
                 "  |@Esc| " + _("Cancel") + " |");
     } else {
         gui->renderStatus(
@@ -216,7 +218,7 @@ void GuiKeyboard::loop() {
                     } else if (e.key.keysym.sym == SDLK_TAB) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
                         L2_cursor_shift = !L2_cursor_shift;
-                        usingUsbKeyboard = true;
+                        usingUsbKeyboard = !usingUsbKeyboard;
                         render();
                     } else if (e.key.keysym.sym == SDLK_ESCAPE) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
