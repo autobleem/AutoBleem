@@ -22,8 +22,8 @@ public:
     int cursorIndex = 0;
     bool L1_caps_shift = false;
     bool L2_cursor_shift = false;
-
     bool cancelled=true;
+    bool usingUsbKeyboard = false;
 
     using GuiScreen::GuiScreen;
 };

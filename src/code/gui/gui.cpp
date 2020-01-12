@@ -322,6 +322,9 @@ void Gui::loadAssets(bool reloadMusic) {
     buttonR2 = loadThemeTexture(renderer, themePath, defaultPath, "r2");
     buttonCheck = loadThemeTexture(renderer, themePath, defaultPath, "check");
     buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
+    buttonEsc = loadThemeTexture(renderer, themePath, defaultPath, "esc");
+    buttonEnter = loadThemeTexture(renderer, themePath, defaultPath, "enter");
+    buttonBackspace = loadThemeTexture(renderer, themePath, defaultPath, "backspace");
     if (cfg.inifile.values["jewel"] != "none") {
         if (cfg.inifile.values["jewel"] == "default") {
             cdJewel = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "evoimg/nofilter.png").c_str());
@@ -926,6 +929,15 @@ void Gui::getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, string text, TT
             }
             if (icon == "Uncheck") {
                 textTexures.push_back(buttonUncheck);
+            }
+            if (icon == "Esc") {
+                textTexures.push_back(buttonEsc);
+            }
+            if (icon == "Enter") {
+                textTexures.push_back(buttonEnter);
+            }
+            if (icon == "Backspace") {
+                textTexures.push_back(buttonBackspace);
             }
         } else {
             SDL_Shared<SDL_Texture> textTex = nullptr;
