@@ -132,8 +132,8 @@ void GuiKeyboard::render() {
     }
 
     gui->renderStatus(
-            "|@X| " + _("Select") + "  |@T|  " + _("Delete") + "  |@L1| " + _("Caps")  + "  |@L2| " + _("Move Cursor") + "(#)" + " |@S| " + _("Space") +
-            "      |@Start| " + _("Confirm") + "  |@O| " + _("Cancel") + " |");
+            "|@X| " + _("Select") + "  |@T|  " + _("Backspace") + "  |@L1| " + _("Caps")  + "  |@L2| " + _("Move Cursor") + "(#)" + " |@S| " + _("Space") +
+            "      |@Start|/Enter " + _("Confirm") + "  |@O|/Escape " + _("Cancel") + " |");
     SDL_RenderPresent(renderer);
 }
 
@@ -158,7 +158,96 @@ void GuiKeyboard::loop() {
             if (e.type == SDL_QUIT) {
                 menuVisible = false;
             }
+
             switch (e.type) {
+                case SDL_KEYDOWN:
+                    if (e.key.keysym.sym == SDLK_RIGHT) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        if (L2_cursor_shift) {
+                            if (cursorIndex != result.size())
+                                ++cursorIndex;
+                        } else {
+                            selx++;
+                            if (selx > xlast) {
+                                selx = 0;
+                            }
+                        }
+                        L2_cursor_shift = true;
+                        render();
+                    } else if (e.key.keysym.sym == SDLK_LEFT) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        if (L2_cursor_shift) {
+                            if (cursorIndex > 0)
+                                --cursorIndex;
+                        } else {
+                            selx--;
+                            if (selx < 0) {
+                                selx = xlast;
+                            }
+                        }
+                        L2_cursor_shift = true;
+                        render();
+#if 0
+                    } else if (e.key.keysym.sym == SDLK_DOWN) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        if (!L2_cursor_shift) {
+                            sely++;
+                            if (sely > ylast) {
+                                sely = 0;
+                            }
+                        }
+                        L2_cursor_shift = true;
+                        render();
+                    } else if (e.key.keysym.sym == SDLK_UP) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        if (!L2_cursor_shift) {
+                            sely--;
+                            if (sely < 0) {
+                                sely = ylast;
+                            }
+                        }
+                        L2_cursor_shift = true;
+                        render();
+#endif
+                    } else if (e.key.keysym.sym == SDLK_BACKSPACE) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        if (!result.empty() && cursorIndex > 0) {
+                            result = result.erase(cursorIndex - 1, 1);
+                            --cursorIndex;
+                        }
+                        L2_cursor_shift = true;
+                        render();
+                    } else if (e.key.keysym.sym == SDLK_DELETE) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        if (!result.empty() && cursorIndex < result.size()) {
+                            result = result.erase(cursorIndex, 1);
+                        }
+                        L2_cursor_shift = true;
+                        render();
+                    } else if (e.key.keysym.sym == SDLK_TAB) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        L2_cursor_shift = !L2_cursor_shift;
+                        render();
+                    } else if (e.key.keysym.sym == SDLK_ESCAPE) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        cancelled = true;
+                        menuVisible = false;
+                    } else if (e.key.keysym.sym == SDLK_RETURN) {
+                        Mix_PlayChannel(-1, gui->cursor, 0);
+                        cancelled = false;
+                        menuVisible = false;
+                    }
+
+                    break;
+
+                case SDL_TEXTINPUT:
+                    Mix_PlayChannel(-1, gui->cursor, 0);
+                    result.insert(cursorIndex, e.text.text);
+                    cursorIndex += strlen(e.text.text);
+                    L2_cursor_shift = true;
+                    render();
+                    break;
+
                 case SDL_JOYBUTTONUP:
                     if (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)) {
                         Mix_PlayChannel(-1, gui->cursor, 0);
