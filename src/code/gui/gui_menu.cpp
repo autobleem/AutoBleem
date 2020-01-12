@@ -160,6 +160,34 @@ void GuiMenu::pageUp() {
 }
 
 //*******************************
+// GuiMenu::doHome
+//*******************************
+void GuiMenu::doHome() {
+    Mix_PlayChannel(-1, gui->home_down, 0);
+    selected = 0;
+    firstVisibleIndex = selected;
+    lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+    render();
+}
+
+//*******************************
+// GuiMenu::doEnd
+//*******************************
+void GuiMenu::doEnd() {
+    Mix_PlayChannel(-1, gui->home_down, 0);
+    if (lines.size() > 0) {
+        selected = lines.size() - 1;
+        firstVisibleIndex = selected;
+        lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+    } else {
+        selected = 0;
+        firstVisibleIndex = selected;
+        lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+    }
+    render();
+}
+
+//*******************************
 // GuiMenu::doCircle
 //*******************************
 void GuiMenu::doCircle() {
@@ -169,7 +197,7 @@ void GuiMenu::doCircle() {
 }
 
 //*******************************
-// GuiMenu::pagedoCrossUp
+// GuiMenu::pagedoCross
 //*******************************
 void GuiMenu::doCross() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -178,6 +206,24 @@ void GuiMenu::doCross() {
     {
         menuVisible = false;
     }
+}
+
+//*******************************
+// GuiMenu::handlePowerShutdownAndQuit
+//*******************************
+// returns true if applicable event type and it was handled
+bool GuiMenu::handlePowerShutdownAndQuit(SDL_Event &e) {
+    if (e.type == SDL_KEYDOWN) {
+        if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
+            gui->drawText(_("POWERING OFF... PLEASE WAIT"));
+            Util::powerOff();
+            return true;    // but it will never get here
+        }
+    } else if (e.type == SDL_QUIT) {     // this is for pc Only
+        menuVisible = false;
+        return true;
+    }
+    return false;
 }
 
 //*******************************
@@ -190,17 +236,35 @@ void GuiMenu::loop()
         gui->watchJoystickPort();
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
-            if (e.type == SDL_KEYDOWN) {
-                if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
-                    gui->drawText(_("POWERING OFF... PLEASE WAIT"));
-                    Util::powerOff();
-                }
-            }
-            // this is for pc Only
-            if (e.type == SDL_QUIT) {
-                menuVisible = false;
-            }
+            if (handlePowerShutdownAndQuit(e))
+                continue;
+
             switch (e.type) {
+                case SDL_KEYDOWN:
+                    if (e.key.keysym.sym == SDLK_DOWN)
+                        arrowDown();
+                    if (e.key.keysym.sym == SDLK_UP)
+                        arrowUp();
+                    if (e.key.keysym.sym == SDLK_PAGEDOWN)
+                        pageDown();
+                    if (e.key.keysym.sym == SDLK_PAGEUP)
+                        pageUp();
+                    if (e.key.keysym.sym == SDLK_HOME)
+                        doHome();
+                    if (e.key.keysym.sym == SDLK_END)
+                        doEnd();
+
+                    if (e.key.keysym.sym == SDLK_RETURN)
+                        doEnter();
+                    if (e.key.keysym.sym == SDLK_DELETE)
+                        doDelete();
+                    if (e.key.keysym.sym == SDLK_TAB)
+                        doTab();
+                    if (e.key.keysym.sym == SDLK_ESCAPE)
+                        doEscape();
+
+                break;
+
                 case SDL_JOYAXISMOTION:
                 case SDL_JOYHATMOTION:
 
@@ -226,6 +290,22 @@ void GuiMenu::loop()
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
                         doCross();
+                    };
+
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE,&e)) {
+                        doTriangle();
+                    };
+
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE,&e)) {
+                        doSquare();
+                    };
+
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_START,&e)) {
+                        doStart();
+                    };
+
+                    if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT,&e)) {
+                        doSelect();
                     };
             }
         }

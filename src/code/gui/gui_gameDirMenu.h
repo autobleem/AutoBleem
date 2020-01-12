@@ -13,4 +13,7 @@ public:
     void init() override { GuiMenu::init(); };
     void render() override { GuiMenu::render(); };
     void loop() override { GuiMenu::loop(); };
+
+    void doEnter() { doCross(); }
+    void doEscape() { doCircle(); }
 };

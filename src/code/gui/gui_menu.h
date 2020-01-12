@@ -10,9 +10,9 @@ public:
     GuiMenu(SDL_Shared<SDL_Renderer> _renderer, std::string _title = "")
             : GuiScreen(_renderer), title(_title) {}
 
-    void init() override;
-    void render() override;
-    void loop() override;
+    virtual void init() override;
+    virtual void render() override;
+    virtual void loop() override;
 
     virtual std::string statusLine();   // returns the status line at the bottom if you need to override it
 
@@ -20,14 +20,29 @@ public:
     void renderLines();
     void renderSelectionBox();
 
-    void arrowDown();
-    void arrowUp();
-    void pageDown();
-    void pageUp();
+    //controller and keyboard
+    virtual void arrowDown();   // move down one line
+    virtual void arrowUp();     // move up one line
+    virtual void pageDown();    // move down one page
+    virtual void pageUp();      // move up one page
+
+    // keyboard only
+    virtual void doHome();      // move up top
+    virtual void doEnd();       // move up bottom
+    virtual void doEnter() { }
+    virtual void doDelete() { }
+    virtual void doTab() { }
+    virtual void doEscape() { }
 
     // you can write your own virtual loop() to do something different from these
-    void doCircle();    // leave menu.  cancel = true.
-    void doCross();     // leave menu.  cancel = false.
+    virtual void doCircle();    // default = leave menu.  cancel = true.
+    virtual void doCross();     // default = leave menu.  cancel = false.
+    virtual void doTriangle() { }
+    virtual void doSquare() { }
+    virtual void doStart() { }
+    virtual void doSelect() { }
+
+    bool handlePowerShutdownAndQuit(SDL_Event &e);  // returns true if applicable event type and it was handled
 
     shared_ptr<Gui> gui;
     std::string title;

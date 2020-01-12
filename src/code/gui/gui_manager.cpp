@@ -79,10 +79,9 @@ string GuiManager::statusLine() {
 }
 
 //*******************************
-// flushCovers
+// GuiManager::flushCovers
 //*******************************
-int flushCovers(const char *file, const struct stat *sb,
-            int flag, struct FTW *s)
+int GuiManager::flushCovers(const char *file, const struct stat *sb, int flag, struct FTW *s)
 {
     int retval = 0;
 
@@ -226,62 +225,5 @@ void GuiManager::doCross() {
         }
         render();
         delete editor;
-    }
-}
-
-//*******************************
-// GuiManager::loop
-//*******************************
-void GuiManager::loop()
-{
-    menuVisible = true;
-
-    while (menuVisible) {
-        gui->watchJoystickPort();
-        SDL_Event e;
-        if (SDL_PollEvent(&e)) {
-            if (e.type == SDL_KEYDOWN) {
-                if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
-                    gui->drawText(_("POWERING OFF... PLEASE WAIT"));
-                    Util::powerOff();
-                }
-            }
-            // this is for pc Only
-            if (e.type == SDL_QUIT) {
-                menuVisible = false;
-            }
-            switch (e.type) {
-                case SDL_JOYAXISMOTION:
-                case SDL_JOYHATMOTION:
-                    if (gui->mapper.isDown(&e)) {
-                        arrowDown();
-                    } else if (gui->mapper.isUp(&e)) {
-                        arrowUp();
-                    }
-                    break;
-
-                case SDL_JOYBUTTONDOWN:
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_R1, &e)) {
-                        pageDown();
-
-                    } else if (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)) {
-                        pageUp();
-
-                    } else if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
-                        doCircle();
-
-                    } else if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
-                        doSquare();
-
-                    } else if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE, &e)) {
-                        doTriangle();
-
-                    } else if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
-                        doCross();
-
-                    }
-                    break;
-            }   // end switch
-        }
     }
 }

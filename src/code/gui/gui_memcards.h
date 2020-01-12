@@ -14,13 +14,17 @@ public:
                                                              "-=" + _("Custom Memory Cards") + "=-") {}
 
     void init() override;
-    void render() override { GuiMenu::render(); };
-    void loop() override;
+    void render() override { GuiMenu::render(); }
+    void loop() override { GuiMenu::loop(); }
 
     virtual std::string statusLine() override;   // returns the status line at the bottom
 
-    void doCircle();
-    void doSquare();
-    void doTriangle();
-    void doCross();
+    void doCircle() override;
+    void doSquare() override;
+    void doTriangle() override;
+    void doCross() override;
+
+    void doEnter() { doCross(); }
+    void doEscape() { doCircle(); }
+    void doDelete() { doSquare(); }
 };
