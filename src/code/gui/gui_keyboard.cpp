@@ -147,217 +147,368 @@ void GuiKeyboard::render() {
 }
 
 //*******************************
+// GuiKeyboard::handlePowerShutdownAndQuit
+//*******************************
+// returns true if applicable event type and it was handled
+bool GuiKeyboard::handlePowerShutdownAndQuit(SDL_Event &e) {
+    if (e.type == SDL_KEYDOWN) {
+        if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
+            gui->drawText(_("POWERING OFF... PLEASE WAIT"));
+            Util::powerOff();
+            return true;    // but it will never get here
+        }
+    } else if (e.type == SDL_QUIT) { // this is for pc Only
+        menuVisible = false;
+        return true;
+    }
+    return false;
+}
+
+//*******************************
+// GuiKeyboard::doKbdRight
+//*******************************
+void GuiKeyboard::doKbdRight() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    if (L2_cursor_shift) {
+        if (cursorIndex != result.size())
+            ++cursorIndex;
+    } else {
+        selx++;
+        if (selx > xlast) {
+            selx = 0;
+        }
+    }
+    L2_cursor_shift = true;
+    usingUsbKeyboard = true;
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doKbdLeft
+//*******************************
+void GuiKeyboard::doKbdLeft() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    if (L2_cursor_shift) {
+        if (cursorIndex > 0)
+            --cursorIndex;
+    } else {
+        selx--;
+        if (selx < 0) {
+            selx = xlast;
+        }
+    }
+    L2_cursor_shift = true;
+    usingUsbKeyboard = true;
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doKbdBackspace
+//*******************************
+void GuiKeyboard::doKbdBackspace() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    if (!result.empty() && cursorIndex > 0) {
+        result = result.erase(cursorIndex - 1, 1);
+        --cursorIndex;
+    }
+    L2_cursor_shift = true;
+    usingUsbKeyboard = true;
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doKbdDelete
+//*******************************
+void GuiKeyboard::doKbdDelete() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    if (!result.empty() && cursorIndex < result.size()) {
+        result = result.erase(cursorIndex, 1);
+    }
+    L2_cursor_shift = true;
+    usingUsbKeyboard = true;
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doKbdTab
+//*******************************
+void GuiKeyboard::doKbdTab() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    L2_cursor_shift = !L2_cursor_shift;
+    usingUsbKeyboard = !usingUsbKeyboard;
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doKbdEscape
+//*******************************
+void GuiKeyboard::doKbdEscape() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    cancelled = true;
+    menuVisible = false;
+}
+
+//*******************************
+// GuiKeyboard::doKbdReturn
+//*******************************
+void GuiKeyboard::doKbdReturn() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    cancelled = false;
+    menuVisible = false;
+}
+
+//*******************************
+// GuiKeyboard::doKbdTextInput
+//*******************************
+void GuiKeyboard::doKbdTextInput(SDL_Event& e) {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    result.insert(cursorIndex, e.text.text);
+    cursorIndex += strlen(e.text.text);
+    L2_cursor_shift = true;
+    usingUsbKeyboard = true;
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doL1_up
+//*******************************
+void GuiKeyboard::doL1_up() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    L1_caps_shift = false;
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doL2_up
+//*******************************
+void GuiKeyboard::doL2_up() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    L2_cursor_shift = false;
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doL1_down
+//*******************************
+void GuiKeyboard::doL1_down() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    L1_caps_shift = true;
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doL2_down
+//*******************************
+void GuiKeyboard::doL2_down() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    L2_cursor_shift = true;
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doTriangle
+//*******************************
+void GuiKeyboard::doTriangle() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    if (!result.empty() && cursorIndex > 0) {
+        result = result.erase(cursorIndex - 1, 1);
+        --cursorIndex;
+    }
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doSquare
+//*******************************
+void GuiKeyboard::doSquare() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    result.insert(cursorIndex, " ");
+    ++cursorIndex;
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doCross
+//*******************************
+void GuiKeyboard::doCross() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    string character = rows[sely][selx];
+    string ch;
+    if (L1_caps_shift)
+        ch = ucase(character);
+    else
+        ch = character;
+    result.insert(cursorIndex, ch);
+    ++cursorIndex;
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doStart
+//*******************************
+void GuiKeyboard::doStart() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    cancelled = false;
+    menuVisible = false;
+}
+
+//*******************************
+// GuiKeyboard::doCircle
+//*******************************
+void GuiKeyboard::doCircle() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    cancelled = true;
+    menuVisible = false;
+}
+
+//*******************************
+// GuiKeyboard::doRight
+//*******************************
+void GuiKeyboard::doRight() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    if (L2_cursor_shift) {
+        if (cursorIndex != result.size())
+            ++cursorIndex;
+    } else {
+        selx++;
+        if (selx > xlast) {
+            selx = 0;
+        }
+    }
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doLeft
+//*******************************
+void GuiKeyboard::doLeft() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    if (L2_cursor_shift) {
+        if (cursorIndex > 0)
+            --cursorIndex;
+    } else {
+        selx--;
+        if (selx < 0) {
+            selx = xlast;
+        }
+    }
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doDown
+//*******************************
+void GuiKeyboard::doDown() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    if (!L2_cursor_shift) {
+        sely++;
+        if (sely > ylast) {
+            sely = 0;
+        }
+    }
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doUp
+//*******************************
+void GuiKeyboard::doUp() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    if (!L2_cursor_shift) {
+        sely--;
+        if (sely < 0) {
+            sely = ylast;
+        }
+    }
+    render();
+}
+
+//*******************************
 // GuiKeyboard::loop
 //*******************************
 void GuiKeyboard::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
 
-    bool menuVisible = true;
+    menuVisible = true;
     while (menuVisible) {
         gui->watchJoystickPort();
         SDL_Event e;
         if (SDL_PollEvent(&e)) {
-            if (e.type == SDL_KEYDOWN) {
-                if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
-                    gui->drawText(_("POWERING OFF... PLEASE WAIT"));
-                    Util::powerOff();
-                }
-            }
-            // this is for pc Only
-            if (e.type == SDL_QUIT) {
-                menuVisible = false;
-            }
+            if (handlePowerShutdownAndQuit(e))
+                continue;
 
             switch (e.type) {
                 case SDL_KEYDOWN:
                     if (e.key.keysym.sym == SDLK_RIGHT) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        if (L2_cursor_shift) {
-                            if (cursorIndex != result.size())
-                                ++cursorIndex;
-                        } else {
-                            selx++;
-                            if (selx > xlast) {
-                                selx = 0;
-                            }
-                        }
-                        L2_cursor_shift = true;
-                        usingUsbKeyboard = true;
-                        render();
-                    } else if (e.key.keysym.sym == SDLK_LEFT) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        if (L2_cursor_shift) {
-                            if (cursorIndex > 0)
-                                --cursorIndex;
-                        } else {
-                            selx--;
-                            if (selx < 0) {
-                                selx = xlast;
-                            }
-                        }
-                        L2_cursor_shift = true;
-                        usingUsbKeyboard = true;
-                        render();
-                    } else if (e.key.keysym.sym == SDLK_BACKSPACE) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        if (!result.empty() && cursorIndex > 0) {
-                            result = result.erase(cursorIndex - 1, 1);
-                            --cursorIndex;
-                        }
-                        L2_cursor_shift = true;
-                        usingUsbKeyboard = true;
-                        render();
-                    } else if (e.key.keysym.sym == SDLK_DELETE) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        if (!result.empty() && cursorIndex < result.size()) {
-                            result = result.erase(cursorIndex, 1);
-                        }
-                        L2_cursor_shift = true;
-                        usingUsbKeyboard = true;
-                        render();
-                    } else if (e.key.keysym.sym == SDLK_TAB) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        L2_cursor_shift = !L2_cursor_shift;
-                        usingUsbKeyboard = !usingUsbKeyboard;
-                        render();
-                    } else if (e.key.keysym.sym == SDLK_ESCAPE) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        cancelled = true;
-                        menuVisible = false;
-                    } else if (e.key.keysym.sym == SDLK_RETURN) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        cancelled = false;
-                        menuVisible = false;
-                    }
+                        doKbdRight();
 
+                    } else if (e.key.keysym.sym == SDLK_LEFT) {
+                        doKbdLeft();
+
+                    } else if (e.key.keysym.sym == SDLK_BACKSPACE) {
+                        doKbdBackspace();
+
+                    } else if (e.key.keysym.sym == SDLK_DELETE) {
+                        doKbdDelete();
+
+                    } else if (e.key.keysym.sym == SDLK_TAB) {
+                        doKbdTab();
+
+                    } else if (e.key.keysym.sym == SDLK_ESCAPE) {
+                        doKbdEscape();
+
+                    } else if (e.key.keysym.sym == SDLK_RETURN) {
+                        doKbdReturn();
+                    }
                     break;
 
                 case SDL_TEXTINPUT:
-                    Mix_PlayChannel(-1, gui->cursor, 0);
-                    result.insert(cursorIndex, e.text.text);
-                    cursorIndex += strlen(e.text.text);
-                    L2_cursor_shift = true;
-                    usingUsbKeyboard = true;
-                    render();
+                    doKbdTextInput(e);
                     break;
 
                 case SDL_JOYBUTTONUP:
                     if (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        L1_caps_shift = false;
-                        render();
-                    }
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_L2, &e)) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        L2_cursor_shift = false;
-                        render();
+                        doL1_up();
+                    } else if (e.jbutton.button == gui->_cb(PCS_BTN_L2, &e)) {
+                        doL2_up();
                     }
                     break;
 
                 case SDL_JOYBUTTONDOWN:
                     if (e.jbutton.button == gui->_cb(PCS_BTN_L1, &e)) {     // caps shift
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        L1_caps_shift = true;
-                        render();
-                    }
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_L2, &e)) {     // move cursor shift
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        L2_cursor_shift = true;
-                        render();
+                        doL1_down();
+                    } else if (e.jbutton.button == gui->_cb(PCS_BTN_L2, &e)) {     // move cursor shift
+                        doL2_down();
                     }
 
                     if (!L2_cursor_shift) {
-                        if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE, &e)) {   // delete char
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            if (!result.empty() && cursorIndex > 0) {
-                                result = result.erase(cursorIndex - 1, 1);
-                                --cursorIndex;
-                            }
-                            render();
+                        if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE, &e)) {   // delete char on the left
+                            doTriangle();
+                        } else if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {     //insert space
+                            doSquare();
+                        } else if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
+                            doCross();
+                        } else if (e.jbutton.button == gui->_cb(PCS_BTN_START, &e)) {  // Confirm
+                            doStart();
+                        } else if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) { // Cancel
+                            doCircle();
                         }
-
-                        if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {     //insert space
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            result.insert(cursorIndex, " ");
-                            ++cursorIndex;
-                            render();
-                        }
-
-                        if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            string character = rows[sely][selx];
-                            string ch;
-                            if (L1_caps_shift)
-                                ch = ucase(character);
-                            else
-                                ch = character;
-                            result.insert(cursorIndex, ch);
-                            ++cursorIndex;
-                            render();
-                        }
-
-                        if (e.jbutton.button == gui->_cb(PCS_BTN_START, &e)) {  // Confirm
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            cancelled = false;
-                            menuVisible = false;
-                        };
-                        if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) { // Cancel
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            cancelled = true;
-                            menuVisible = false;
-                        };
                     }
                     break;
 
                 case SDL_JOYAXISMOTION:
                 case SDL_JOYHATMOTION:
                     if (gui->mapper.isRight(&e)) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        if (L2_cursor_shift) {
-                            if (cursorIndex != result.size())
-                                ++cursorIndex;
-                        } else {
-                            selx++;
-                            if (selx > xlast) {
-                                selx = 0;
-                            }
-                        }
-                        render();
-                    }
-                    if (gui->mapper.isLeft(&e)) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        if (L2_cursor_shift) {
-                            if (cursorIndex > 0)
-                                --cursorIndex;
-                        } else {
-                            selx--;
-                            if (selx < 0) {
-                                selx = xlast;
-                            }
-                        }
-                        render();
+                        doRight();
+                    } else if (gui->mapper.isLeft(&e)) {
+                        doLeft();
                     }
 
                     if (!L2_cursor_shift) {
                         if (gui->mapper.isDown(&e)) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            if (!L2_cursor_shift) {
-                                sely++;
-                                if (sely > ylast) {
-                                    sely = 0;
-                                }
-                            }
-                            render();
-                        }
-                        if (gui->mapper.isUp(&e)) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            if (!L2_cursor_shift) {
-                                sely--;
-                                if (sely < 0) {
-                                    sely = ylast;
-                                }
-                            }
-                            render();
+                            doDown();
+                        } else if (gui->mapper.isUp(&e)) {
+                            doUp();
                         }
                     }
 
