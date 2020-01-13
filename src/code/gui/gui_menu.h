@@ -42,13 +42,15 @@ public:
     virtual void doStart() { }
     virtual void doSelect() { }
 
+    void computeLastVisibleIndex();
     bool handlePowerShutdownAndQuit(SDL_Event &e);  // returns true if applicable event type and it was handled
 
-    shared_ptr<Gui> gui;
+    std::shared_ptr<Gui> gui;
     std::string title;
 
     enum MenuType { Menu_Plain, Menu_TwoColumns };
     MenuType menuType = Menu_Plain;
+    bool useSmallerFont = false;    // useful for 2 column menu with long strings
 
     // plain menu
     std::vector<std::string> lines; // these are the menu lines

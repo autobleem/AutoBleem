@@ -144,9 +144,7 @@ public:
 
     int renderTextLineOptions(const std::string & text, int line, int offset = 0,  int position = POS_LEFT, int xoffset = 0);
 
-    void renderSelectionBox(int line, int offset);
-
-    void renderSelectionBox(int line, int offset, int xoffset);
+    void renderSelectionBox(int line, int offset, int xoffset = 0, TTF_Font_Shared font = TTF_Font_Shared());
 
     void renderLabelBox(int line, int offset);
 

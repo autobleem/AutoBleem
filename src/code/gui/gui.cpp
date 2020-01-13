@@ -1069,20 +1069,16 @@ void Gui::renderLabelBox(int line, int offset) {
 //*******************************
 // Gui::renderSelectionBox
 //*******************************
-void Gui::renderSelectionBox(int line, int offset) {
-    renderSelectionBox(line, offset, 0);
-}
-
-//*******************************
-// Gui::renderSelectionBox
-//*******************************
-void Gui::renderSelectionBox(int line, int offset, int xoffset) {
+void Gui::renderSelectionBox(int line, int offset, int xoffset, TTF_Font_Shared font) {
     SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
+    if (!font)
+        font = themeFont;
+
     string fg = themeData.values["text_fg"];
 
-    getTextAndRect(renderer, 0, 0, "*", themeFont, &textTex, &textRec);
+    getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
 
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());

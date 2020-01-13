@@ -18,6 +18,17 @@ void GuiMenu::init()
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
     firstVisibleIndex = 0;
     lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+
+    if (useSmallerFont) {
+        // sometimes the left column will overwrite into the right column.
+        // and the second column sometimes go off the right side.
+        font = gui->themeFonts[FONT_15_BOLD];   // use a smaller font
+        // compute the larger number of rows we can now display
+        string themeFontSizeString = gui->themeData.values["fsize"];
+        int themeFontSize = atoi(themeFontSizeString.c_str());
+        maxVisible = ( ((float)themeFontSize) / ((float)15) ) * ((float) maxVisible);
+        lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+    }
 }
 
 //*******************************
@@ -40,6 +51,13 @@ void GuiMenu::makeSelectedLineVisibleOnPage() {
             lastVisibleIndex += moveBy;
         }
     }
+}
+
+//*******************************
+// GuiMenu::computeLastVisibleIndex
+//*******************************
+void GuiMenu::computeLastVisibleIndex() {
+    lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
 }
 
 //*******************************
@@ -69,7 +87,7 @@ void GuiMenu::renderLines() {
 //*******************************
 void GuiMenu::renderSelectionBox() {
     if (!lines.size() == 0) {
-        gui->renderSelectionBox(selected - firstVisibleIndex + firstRow, offset);
+        gui->renderSelectionBox(selected - firstVisibleIndex + firstRow, offset, 0, font);
     }
 }
 
@@ -112,7 +130,7 @@ void GuiMenu::arrowDown() {
     if (selected >= lines.size()) {
         selected = 0;
         firstVisibleIndex = selected;
-        lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+        computeLastVisibleIndex();
     }
     render();
 }
@@ -126,7 +144,7 @@ void GuiMenu::arrowUp() {
     if (selected < 0) {
         selected = lines.size()-1;
         firstVisibleIndex = selected;
-        lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+        computeLastVisibleIndex();
     }
     render();
 }
@@ -141,7 +159,7 @@ void GuiMenu::pageDown() {
         selected = lines.size() - 1;
     }
     firstVisibleIndex = selected;
-    lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+    computeLastVisibleIndex();
     render();
 }
 
@@ -155,7 +173,7 @@ void GuiMenu::pageUp() {
         selected = 0;
     }
     firstVisibleIndex = selected;
-    lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+    computeLastVisibleIndex();
     render();
 }
 
@@ -166,7 +184,7 @@ void GuiMenu::doHome() {
     Mix_PlayChannel(-1, gui->home_down, 0);
     selected = 0;
     firstVisibleIndex = selected;
-    lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+    computeLastVisibleIndex();
     render();
 }
 
@@ -177,13 +195,11 @@ void GuiMenu::doEnd() {
     Mix_PlayChannel(-1, gui->home_down, 0);
     if (lines.size() > 0) {
         selected = lines.size() - 1;
-        firstVisibleIndex = selected;
-        lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
     } else {
         selected = 0;
-        firstVisibleIndex = selected;
-        lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
     }
+    firstVisibleIndex = selected;
+    computeLastVisibleIndex();
     render();
 }
 
