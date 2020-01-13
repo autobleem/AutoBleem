@@ -3,29 +3,34 @@
 //
 #pragma once
 
-#include "gui_screen.h"
-#include "../main.h"
-#include <vector>
+#include "gui_menu.h"
+#include "../lang.h"
 #include "../launcher/ps_game.h"
 
 //********************
 // GuiManager
 //********************
-class GuiManager : public GuiScreen{
+class GuiManager : public GuiMenu {
 public:
-    void init();
-    void render();
-    void loop();
+    GuiManager(SDL_Shared<SDL_Renderer> _renderer) : GuiMenu(_renderer,
+                                                             "-=" + _("Game manager - Select game") + "=-") {}
+
+    void init() override;
+    void render() override;
+    void loop() override { GuiMenu::loop(); }
+
+    std::string statusLine() override;
+
+    void doCircle();
+    void doSquare();
+    void doTriangle();
+    void doCross();
+
+    void doEnter() { doCross(); }
+    void doEscape() { doCircle(); }
+    void doDelete() { doSquare(); }
+
     PsGames psGames;
-
-    int selected=0;
-    int maxVisible=8;
-    int firstVisible=0;
-    int lastVisible=8;
-
-    bool changes=false;
-
+    static int flushCovers(const char *file, const struct stat *sb, int flag, struct FTW *s);
     static bool sortByTitle(PsGamePtr i, PsGamePtr j) { return SortByCaseInsensitive(i->title, j->title); }
-
-    using GuiScreen::GuiScreen;
 };

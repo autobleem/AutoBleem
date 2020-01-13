@@ -25,6 +25,7 @@ class Fonts {
     static FontInfo allFontInfos[];
 
     std::map<FontEnum, TTF_Font_Shared> fonts;
+    std::map<FontEnum, FontInfo> fontInfos;
 
 public:
     Fonts();

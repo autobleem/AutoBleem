@@ -139,13 +139,12 @@ public:
                        int offset = 0, int position = POS_LEFT, int xoffset = 0,
                        TTF_Font_Shared font = TTF_Font_Shared());    // font will default to themeFont in the cpp
 
-    int renderTextLineToColumns(const string &textLeft, const string &textRight, int xLeft, int xRight, int line, int offset, TTF_Font_Shared font);
+    int renderTextLineToColumns(const string &textLeft, const string &textRight, int xLeft, int xRight, int line,
+                                int offset = 0, TTF_Font_Shared font = TTF_Font_Shared());
 
     int renderTextLineOptions(const std::string & text, int line, int offset = 0,  int position = POS_LEFT, int xoffset = 0);
 
-    void renderSelectionBox(int line, int offset);
-
-    void renderSelectionBox(int line, int offset, int xoffset);
+    void renderSelectionBox(int line, int offset, int xoffset = 0, TTF_Font_Shared font = TTF_Font_Shared());
 
     void renderLabelBox(int line, int offset);
 
@@ -197,6 +196,10 @@ public:
     SDL_Shared<SDL_Texture> buttonR2;
     SDL_Shared<SDL_Texture> buttonCheck;
     SDL_Shared<SDL_Texture> buttonUncheck;
+    SDL_Shared<SDL_Texture> buttonEsc;
+    SDL_Shared<SDL_Texture> buttonEnter;
+    SDL_Shared<SDL_Texture> buttonBackspace;
+    SDL_Shared<SDL_Texture> buttonTab;
     SDL_Shared<SDL_Texture> cdJewel;
 
     bool overrideQuickBoot = false;

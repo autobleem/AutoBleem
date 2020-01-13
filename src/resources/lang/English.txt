@@ -32,6 +32,8 @@ AutoBleem Theme:
 
 Background Music:
 
+Backspace
+
 Bin file failed to verify
 
 Button Guide
@@ -347,6 +349,8 @@ Update RA Config:
 Updating regional.db...
 
 USB Games
+
+Use Controller
 
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 

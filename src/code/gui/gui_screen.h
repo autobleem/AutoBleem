@@ -11,7 +11,10 @@
 //********************
 class GuiScreen {
 public:
-    virtual void init(){};
+    GuiScreen(SDL_Shared<SDL_Renderer> _renderer) : renderer(_renderer) {}
+    SDL_Shared<SDL_Renderer> renderer;
+
+    virtual void init() {};
     virtual void render()=0;
     virtual void loop()=0;
 
@@ -21,11 +24,4 @@ public:
         render();
         loop();
     }
-
-    GuiScreen(SDL_Shared<SDL_Renderer> renderer1)
-    {
-        renderer = renderer1;
-    };
-
-    SDL_Shared<SDL_Renderer> renderer;
 };

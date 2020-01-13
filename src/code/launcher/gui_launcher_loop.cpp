@@ -408,8 +408,8 @@ void GuiLauncher::loop_chooseGameDir() {
         getGames_SET_SUBDIR(&gamesList, 0);
         int usbOnly = gamesList.size();
         appendGames_SET_INTERNAL(&gamesList);
-        guiGameDirMenu->infoToDisplay.emplace_back("", _("All Games"), gamesList.size());
-        guiGameDirMenu->infoToDisplay.emplace_back("", _("Internal Games"), gamesList.size() - usbOnly); // 20 games
+        guiGameDirMenu->lines.emplace_back(_("All Games") + " ( " + to_string(gamesList.size()) + ")");
+        guiGameDirMenu->lines.emplace_back(_("Internal Games") + " ( " + to_string(gamesList.size() - usbOnly) + ")"); // 20 games
         offsetToGamesSubDirs = 2;
     } else {
         // show internal is disabled.  top game row 0 shows all usb games from /Games down.
@@ -420,31 +420,30 @@ void GuiLauncher::loop_chooseGameDir() {
     bool top = true;
     for (auto &rowInfo : gameRowInfos) {
         if (top) {
-            guiGameDirMenu->infoToDisplay.emplace_back(string(rowInfo.indentLevel * 4, ' '),
-                                                       _("USB Games"), // display "USB Games" instead of "Games"
-                                                       rowInfo.numGames);
+            guiGameDirMenu->lines.emplace_back(string(rowInfo.indentLevel * 4, ' ') +
+                                               _("USB Games") + // display "USB Games" instead of "Games"
+                                               " ( " + to_string(rowInfo.numGames) + ")");
             top = false;
         } else {
-            guiGameDirMenu->infoToDisplay.emplace_back(string(rowInfo.indentLevel * 4, ' '),
-                                                       rowInfo.rowName,
-                                                       rowInfo.numGames);
+            guiGameDirMenu->lines.emplace_back(string(rowInfo.indentLevel * 4, ' ') +
+                                               rowInfo.rowName +
+                                               " ( " + to_string(rowInfo.numGames) + ")");
         }
     }
 
     // add Favorite Games at the bottom
-    int favoritesIndex = guiGameDirMenu->infoToDisplay.size();  // favorites is the last line
+    int favoritesIndex = guiGameDirMenu->lines.size();  // favorites is the last line
     PsGames gamesList;
     getGames_SET_FAVORITE(&gamesList);
-    guiGameDirMenu->infoToDisplay.emplace_back("", _("Favorite Games"), gamesList.size());
+    guiGameDirMenu->lines.emplace_back(_("Favorite Games") + " ( " + to_string(gamesList.size()) + ")");
 
     // add History Games at the bottom
-    int historyIndex = guiGameDirMenu->infoToDisplay.size();  // history is the last line
+    int historyIndex = guiGameDirMenu->lines.size();  // history is the last line
     gamesList.clear();
     getGames_SET_HISTORY(&gamesList);
-    guiGameDirMenu->infoToDisplay.emplace_back("", _("Game History"), gamesList.size());
+    guiGameDirMenu->lines.emplace_back(_("Game History") + " ( " + to_string(gamesList.size()) + ")");
 
     // set initial selected row
-    guiGameDirMenu->backgroundImg = background->tex;
     int nextSel = offsetToGamesSubDirs; // set to game dir as default
     if (currentPS1_SelectState == SET_PS1_Games_Subdir) {
         nextSel = offsetToGamesSubDirs + currentUSBGameDirIndex;
@@ -465,8 +464,6 @@ void GuiLauncher::loop_chooseGameDir() {
     }
 
     guiGameDirMenu->selected = nextSel;
-    guiGameDirMenu->firstVisible = nextSel;
-    guiGameDirMenu->lastVisible = nextSel + guiGameDirMenu->maxVisible;
 
     // display the menu and return when user made selection or canceled
     guiGameDirMenu->show();
@@ -518,8 +515,9 @@ void GuiLauncher::loop_chooseRAPlaylist() {
     powerOffShift = false;
     auto playlists = new GuiPlaylists(renderer);
     playlists->playlists = raPlaylists;
-    playlists->backgroundImg = background->tex;
     playlists->integrator = raIntegrator;
+
+    // set the selected menu line to be the current playlist
     int nextSel = 0;
     int i = 0;
     for (string plist:playlists->playlists) {
@@ -530,8 +528,6 @@ void GuiLauncher::loop_chooseRAPlaylist() {
         i++;
     }
     playlists->selected = nextSel;
-    playlists->firstVisible = nextSel;
-    playlists->lastVisible = nextSel + playlists->maxVisible;
 
     playlists->show();
     bool cancelled = playlists->cancelled;

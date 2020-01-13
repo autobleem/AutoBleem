@@ -322,6 +322,9 @@ void Gui::loadAssets(bool reloadMusic) {
     buttonR2 = loadThemeTexture(renderer, themePath, defaultPath, "r2");
     buttonCheck = loadThemeTexture(renderer, themePath, defaultPath, "check");
     buttonUncheck = loadThemeTexture(renderer, themePath, defaultPath, "uncheck");
+    buttonEsc = loadThemeTexture(renderer, themePath, defaultPath, "esc");
+    buttonEnter = loadThemeTexture(renderer, themePath, defaultPath, "enter");
+    buttonTab = loadThemeTexture(renderer, themePath, defaultPath, "tab");
     if (cfg.inifile.values["jewel"] != "none") {
         if (cfg.inifile.values["jewel"] == "default") {
             cdJewel = IMG_LoadTexture(renderer, (Env::getWorkingPath() + sep + "evoimg/nofilter.png").c_str());
@@ -927,6 +930,15 @@ void Gui::getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, string text, TT
             if (icon == "Uncheck") {
                 textTexures.push_back(buttonUncheck);
             }
+            if (icon == "Esc") {
+                textTexures.push_back(buttonEsc);
+            }
+            if (icon == "Enter") {
+                textTexures.push_back(buttonEnter);
+            }
+            if (icon == "Tab") {
+                textTexures.push_back(buttonTab);
+            }
         } else {
             SDL_Shared<SDL_Texture> textTex = nullptr;
             SDL_Rect textRec;
@@ -1057,20 +1069,16 @@ void Gui::renderLabelBox(int line, int offset) {
 //*******************************
 // Gui::renderSelectionBox
 //*******************************
-void Gui::renderSelectionBox(int line, int offset) {
-    renderSelectionBox(line, offset, 0);
-}
-
-//*******************************
-// Gui::renderSelectionBox
-//*******************************
-void Gui::renderSelectionBox(int line, int offset, int xoffset) {
+void Gui::renderSelectionBox(int line, int offset, int xoffset, TTF_Font_Shared font) {
     SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;
 
+    if (!font)
+        font = themeFont;
+
     string fg = themeData.values["text_fg"];
 
-    getTextAndRect(renderer, 0, 0, "*", themeFont, &textTex, &textRec);
+    getTextAndRect(renderer, 0, 0, "*", font, &textTex, &textRec);
 
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());

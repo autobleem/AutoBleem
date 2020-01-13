@@ -24,20 +24,25 @@ using namespace std;
 //*******************************
 // GuiManager::init
 //*******************************
-void GuiManager::init()
-{
+void GuiManager::init() {
+    menuType = Menu_TwoColumns;
+    useSmallerFont = true;
+    GuiMenu::init();    // call the base class init()
+
+    firstRow = 2;
+    xoffset_L = 0;
+    xoffset_R = 500;
+
     psGames.clear();
-    // Create list of games
-
-    shared_ptr<Gui> gui(Gui::getInstance());
-    gui->db->getGames(&psGames);
-
-    // sort them by title
-    sort(psGames.begin(), psGames.end(), sortByTitle);
-
-    maxVisible = atoi(gui->themeData.values["lines"].c_str());
-    firstVisible = 0;
-    lastVisible = firstVisible + maxVisible;
+    gui->db->getGames(&psGames);    // Create list of games
+    sort(psGames.begin(), psGames.end(), sortByTitle);  // sort by title
+    for (int i = 0; i < psGames.size(); ++i) {
+        // "title"                "path"
+        lines_L.emplace_back(psGames[i]->title);
+        string path = DirEntry::removeSeparatorFromEndOfPath(psGames[i]->folder);
+        path = DirEntry::removeGamesPathFromFrontOfPath(path);
+        lines_R.emplace_back(path);
+    }
 }
 
 //*******************************
@@ -45,60 +50,39 @@ void GuiManager::init()
 //*******************************
 void GuiManager::render()
 {
-    shared_ptr<Gui> gui(Gui::getInstance());
+    SDL_RenderClear(renderer);
     gui->renderBackground();
     gui->renderTextBar();
-    int offset = gui->renderLogo(true);
-    gui->renderFreeSpace();
+    offset = gui->renderLogo(true);
 
-    if (selected >= psGames.size()) {
-        selected = psGames.size() - 1;
-    }
+    gui->renderFreeSpace();     // this is why this menu's render is special instead of using the base class
 
-    if (selected < firstVisible) {
-        firstVisible--;
-        lastVisible--;
-    }
-    if (selected >= lastVisible) {
-        firstVisible++;
-        lastVisible++;
-    }
+    gui->renderTextLine(title, 0, offset, POS_CENTER);
 
-    int xLeft = 0;
-    int xRight = 500;
-    int line = 0;
-    auto font = gui->themeFont;
+    makeSelectedLineVisibleOnPage();
+    renderLines();
+    renderSelectionBox();
 
-    auto renderTextLineToColumns = [&] (const string &textLeft, const string &textRight) {
-        gui->renderTextLineToColumns(textLeft, textRight, xLeft, xRight, line++, offset, font);
-    };
-
-    renderTextLineToColumns("",                              "-=" + _("Game manager - Select game") + "=-");
-    for (int i = firstVisible; i < lastVisible; i++) {
-        if (i >= psGames.size()) {
-            break;
-        }
-        string path = DirEntry::removeSeparatorFromEndOfPath(psGames[i]->folder);
-        path = DirEntry::removeGamesPathFromFrontOfPath(path);
-
-        renderTextLineToColumns(psGames[i]->title,           path);
-    }
-
-    if (!psGames.size() == 0) {
-        gui->renderSelectionBox(selected - firstVisible + 1, offset);
-    }
-
-    gui->renderStatus(_("Game") + " " + to_string(selected + 1) + "/" + to_string(psGames.size()) +
-                      "    |@L1|/|@R1| " + _("Page") + "   |@X| " + _("Select") + "  |@S| " + _("Delete Game") + "  |@T| " + _("Flush covers") +
-                      " |@O| " + _("Close") + " |");
+    gui->renderStatus(statusLine());
     SDL_RenderPresent(renderer);
 }
 
 //*******************************
-// flushCovers
+// GuiManager::statusLine
 //*******************************
-int flushCovers(const char *file, const struct stat *sb,
-            int flag, struct FTW *s)
+string GuiManager::statusLine() {
+    return _("Game") + " " + to_string(selected + 1) + "/" + to_string(psGames.size()) +
+           "    |@L1|/|@R1| " + _("Page") +
+           "   |@X| " + _("Select") +
+           "  |@S| " + _("Delete Game") +
+           "  |@T| " + _("Flush covers") +
+           " |@O| " + _("Close") + " |";
+}
+
+//*******************************
+// GuiManager::flushCovers
+//*******************************
+int GuiManager::flushCovers(const char *file, const struct stat *sb, int flag, struct FTW *s)
 {
     int retval = 0;
 
@@ -111,201 +95,136 @@ int flushCovers(const char *file, const struct stat *sb,
 }
 
 //*******************************
-// GuiManager::loop
+// GuiManager::doCircle
 //*******************************
-void GuiManager::loop()
-{
-    shared_ptr<Gui> gui(Gui::getInstance());
-    bool menuVisible = true;
-    while (menuVisible) {
-        gui->watchJoystickPort();
-        SDL_Event e;
-        if (SDL_PollEvent(&e)) {
-            if (e.type == SDL_KEYDOWN) {
-                if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
-                    gui->drawText(_("POWERING OFF... PLEASE WAIT"));
-                    Util::powerOff();
+void GuiManager::doCircle() {
+    Mix_PlayChannel(-1, gui->cancel, 0);
+    if (changes)
+    {
+        gui->forceScan=true;
+    }
+    menuVisible = false;
+}
+
+//*******************************
+// GuiManager::doSquare
+//*******************************
+void GuiManager::doSquare() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    auto game = psGames[selected];
+    int gameId = game->gameId;
+    string gameName = game->title;
+    string gameSaveStateFolder = game->ssFolder;
+    GuiConfirm *confirm = new GuiConfirm(renderer);
+    confirm->label = _("Are you sure you want to delete") + " " + gameName + "?";
+    confirm->show();
+    bool delGame = confirm->result;
+    delete confirm;
+
+    if (delGame) {
+        cout << "Trying to delete " << gameName << endl;
+        gui->renderStatus(_("Please wait ... deleting") + " " + gameName);
+        bool success = gui->db->deleteGameIdFromAllTables(gameId);
+        if (success) {
+            success = DirEntry::removeDirAndContents(game->folder);
+            if (success) {
+                PsGames currentGames;
+                gui->db->getGames(&currentGames);
+                int numberOfGamesRemainingWithSameSaveState = count_if(begin(currentGames), end(currentGames),
+                                                                       [&](const PsGamePtr &g) {
+                                                                           return g->ssFolder == gameSaveStateFolder;
+                                                                       });
+                if (numberOfGamesRemainingWithSameSaveState == 0) {
+                    GuiConfirm *confirm = new GuiConfirm(renderer);
+                    confirm->label = _("Delete !SaveState folder for game") + " " + gameName + "?";
+                    confirm->show();
+                    bool delSSFolder = confirm->result;
+                    delete confirm;
+                    if (delSSFolder)
+                        DirEntry::removeDirAndContents(gameSaveStateFolder);
                 }
             }
-            // this is for pc Only
-            if (e.type == SDL_QUIT) {
-                menuVisible = false;
-            }
-            switch (e.type) {
-                case SDL_JOYAXISMOTION:
-                case SDL_JOYHATMOTION:
-
-                    if (gui->mapper.isDown(&e)) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            selected++;
-                            if (selected >= psGames.size()) {
-                                selected = 0;
-                                firstVisible = selected;
-                                lastVisible = firstVisible+maxVisible;
-                            }
-                            render();
-                        }
-                    if (gui->mapper.isUp(&e)) {
-                            Mix_PlayChannel(-1, gui->cursor, 0);
-                            selected--;
-                            if (selected < 0) {
-                                selected = psGames.size()-1;
-                                firstVisible = selected;
-                                lastVisible = firstVisible+maxVisible;
-                            }
-                            render();
-                        }
-
-                    break;
-                case SDL_JOYBUTTONDOWN:
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_R1,&e)) {
-                        Mix_PlayChannel(-1, gui->home_up, 0);
-                        selected+=maxVisible;
-                        if (selected >= psGames.size()) {
-                            selected = psGames.size() - 1;
-                        }
-                        firstVisible = selected;
-                        lastVisible = firstVisible+maxVisible;
-                        render();
-                    };
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_L1,&e)) {
-                        Mix_PlayChannel(-1, gui->home_down, 0);
-                        selected-=maxVisible;
-                        if (selected < 0) {
-                            selected = 0;
-                        }
-                        firstVisible = selected;
-                        lastVisible = firstVisible+maxVisible;
-                        render();
-                    };
-
-
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
-                        Mix_PlayChannel(-1, gui->cancel, 0);
-                        if (changes)
-                        {
-                            gui->forceScan=true;
-                        }
-                        menuVisible = false;
-                    };
-
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE,&e)) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        auto game = psGames[selected];
-                        int gameId = game->gameId;
-                        string gameName = game->title;
-                        string gameSaveStateFolder = game->ssFolder;
-                        GuiConfirm * confirm = new GuiConfirm(renderer);
-                        confirm->label = _("Are you sure you want to delete") + " " + gameName + "?";
-                        confirm->show();
-                        bool delGame = confirm->result;
-                        delete confirm;
-
-                        if (delGame)
-                        {
-                            cout << "Trying to delete " << gameName  << endl;
-                            gui->renderStatus(_("Please wait ... deleting") + " " + gameName);
-                            bool success = gui->db->deleteGameIdFromAllTables(gameId);
-                            if (success) {
-                                success = DirEntry::removeDirAndContents(game->folder);
-                                if (success) {
-                                    PsGames currentGames;
-                                    gui->db->getGames(&currentGames);
-                                    int numberOfGamesRemainingWithSameSaveState = count_if(begin(currentGames), end(currentGames),
-                                            [&] (const PsGamePtr& g) { return g->ssFolder == gameSaveStateFolder; });
-                                    if (numberOfGamesRemainingWithSameSaveState == 0) {
-                                        GuiConfirm * confirm = new GuiConfirm(renderer);
-                                        confirm->label = _("Delete !SaveState folder for game") + " " + gameName + "?";
-                                        confirm->show();
-                                        bool delSSFolder = confirm->result;
-                                        delete confirm;
-                                        if (delSSFolder)
-                                            DirEntry::removeDirAndContents(gameSaveStateFolder);
-                                    }
-                                }
-                                } else {
-                                    cout << "Failed to delete directory " << game->folder  << endl;
-                                    gui->renderStatus(_("Failed to delete") + " " + gameName);
-                                }
-                        }
-                            else {
-                                cout << "Failed to delete " << gameName  << endl;
-                                gui->renderStatus(_("Failed to delete") + " " + gameName);
-                            }
-                            gui->forceScan = true;  // in order for the sub dir hierarchy to be fixed we have to do a rescan
-                            //menuVisible = false;
-                            init(); // refresh games list and menu item count
-                            render();
-                        } else {
-                            render();
-                    }
-
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE,&e)) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        GuiConfirm * confirm = new GuiConfirm(renderer);
-                        confirm->label = _("Are you sure you want to flush all covers?");
-                        confirm->show();
-                        bool delCovers = confirm->result;
-                        delete confirm;
-
-                        if (delCovers)
-                        {
-                            cout << "Trying to delete covers" << endl;
-                            gui->renderStatus(_("Please wait ... deleting covers..."));
-
-                            int errors = 0;
-                            int flags = FTW_DEPTH | FTW_PHYS | FTW_CHDIR;
-                            //cout << gui->pathToGamesDir << endl;
-                            if (nftw(DirEntry::fixPath(gui->pathToGamesDir).c_str(), flushCovers, 1, flags) != 0) {
-                                errors++;
-                            }
-
-                            gui->forceScan = true;
-                            menuVisible = false;
-                        } else {
-                            render();
-                        }
-                    }
-
-
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
-                        Mix_PlayChannel(-1, gui->cursor, 0);
-                        if (!psGames.empty())
-                        {
-                            string selectedGameFolder = psGames[selected]->folder;
-                            GuiEditor *editor = new GuiEditor(renderer);
-                            editor->gameData = psGames[selected];
-                            editor->gameFolder = selectedGameFolder;
-                            editor->gameIni.load(selectedGameFolder + sep + GAME_INI);
-                            string folderNoLast = DirEntry::removeSeparatorFromEndOfPath(selectedGameFolder);
-                            // change "/media/Games/Racing/Driver 2" to "Driver 2"
-                            editor->gameIni.entry = DirEntry::getFileNameFromPath(folderNoLast);
-                            editor->show();
-                            if (editor->changes)
-                            {
-                                changes = true;
-                            }
-                            selected=0;
-                            firstVisible=0;
-                            lastVisible = firstVisible + maxVisible;
-
-                            init();
-                            int pos=0;
-                            for (const auto & psGame : psGames)
-                            {
-                                if (psGame->folder == selectedGameFolder)
-                                {
-                                    selected=pos;
-                                    firstVisible=pos;
-                                    lastVisible=firstVisible+maxVisible;
-                                }
-                                pos++;
-                            }
-                            render();
-                            delete editor;
-                        }
-                    };
-            }
+        } else {
+            cout << "Failed to delete directory " << game->folder << endl;
+            gui->renderStatus(_("Failed to delete") + " " + gameName);
         }
+    } else {
+        cout << "Failed to delete " << gameName << endl;
+        gui->renderStatus(_("Failed to delete") + " " + gameName);
+    }
+    gui->forceScan = true;  // in order for the sub dir hierarchy to be fixed we have to do a rescan
+    //menuVisible = false;
+    init(); // refresh games list and menu item count
+    render();
+}
+
+//*******************************
+// GuiManager::doTriangle
+//*******************************
+void GuiManager::doTriangle() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    GuiConfirm * confirm = new GuiConfirm(renderer);
+    confirm->label = _("Are you sure you want to flush all covers?");
+    confirm->show();
+    bool delCovers = confirm->result;
+    delete confirm;
+
+    if (delCovers)
+    {
+        cout << "Trying to delete covers" << endl;
+        gui->renderStatus(_("Please wait ... deleting covers..."));
+
+        int errors = 0;
+        int flags = FTW_DEPTH | FTW_PHYS | FTW_CHDIR;
+        //cout << gui->pathToGamesDir << endl;
+        if (nftw(DirEntry::fixPath(gui->pathToGamesDir).c_str(), flushCovers, 1, flags) != 0) {
+            errors++;
+        }
+
+        gui->forceScan = true;
+        menuVisible = false;
+    } else {
+        render();
+    }
+}
+
+//*******************************
+// GuiManager::doCross
+//*******************************
+void GuiManager::doCross() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    if (!psGames.empty())
+    {
+        string selectedGameFolder = psGames[selected]->folder;
+        GuiEditor *editor = new GuiEditor(renderer);
+        editor->gameData = psGames[selected];
+        editor->gameFolder = selectedGameFolder;
+        editor->gameIni.load(selectedGameFolder + sep + GAME_INI);
+        string folderNoLast = DirEntry::removeSeparatorFromEndOfPath(selectedGameFolder);
+        // change "/media/Games/Racing/Driver 2" to "Driver 2"
+        editor->gameIni.entry = DirEntry::getFileNameFromPath(folderNoLast);
+        editor->show();
+        if (editor->changes)
+        {
+            changes = true;
+        }
+        selected = 0;
+        firstVisibleIndex = 0;
+        lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+
+        init();
+        int pos = 0;
+        for (const auto & psGame : psGames)
+        {
+            if (psGame->folder == selectedGameFolder)
+            {
+                selected = pos;
+                firstVisibleIndex = pos;
+                lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+            }
+            pos++;
+        }
+        render();
+        delete editor;
     }
 }

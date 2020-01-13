@@ -58,5 +58,6 @@ void Fonts::openAllFonts(const std::string &_rootPath) {
         else
             path = boldPath;
         fonts[fontInfo.fontEnum] = openNewSharedFont(path, fontInfo.size);
+        fontInfos[fontInfo.fontEnum] = fontInfo;
     }
 }
