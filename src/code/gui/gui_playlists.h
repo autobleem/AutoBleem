@@ -10,10 +10,10 @@ public:
                                                        "-=" + _("Select RetroBoot Platform") + "=-") {}
 
     void init() override {
-        GuiMenu::init();
         for (const string& playlist : playlists) {
             lines.emplace_back(playlist + " (" + to_string(integrator->getGamesNumber(playlist)) + " " + _("games") + ")");
         }
+        GuiMenu::init();
     }
     void render() override { GuiMenu::render(); };
     void loop() override { GuiMenu::loop(); };

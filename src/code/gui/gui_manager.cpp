@@ -59,7 +59,6 @@ void GuiManager::render()
 
     gui->renderTextLine(title, 0, offset, POS_CENTER);
 
-    makeSelectedLineVisibleOnPage();
     renderLines();
     renderSelectionBox();
 
