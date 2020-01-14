@@ -16,8 +16,6 @@ void GuiMenu::init()
     font = gui->themeFont;
 
     maxVisible = atoi(gui->themeData.values["lines"].c_str());
-    firstVisibleIndex = 0;
-    lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
 
     if (useSmallerFont) {
         // sometimes the left column will overwrite into the right column.
@@ -32,32 +30,38 @@ void GuiMenu::init()
 }
 
 //*******************************
-// GuiMenu::makeSelectedLineVisibleOnPage
+// GuiMenu::adjustPageBy
 //*******************************
-void GuiMenu::makeSelectedLineVisibleOnPage() {
-    if (selected >= 0 && lines.size() > 0) {
-        if (selected >= lines.size()) {
-            selected = lines.size() - 1;
-        }
-
-        if (selected < firstVisibleIndex) {
-            int moveBy = firstVisibleIndex - selected;
-            firstVisibleIndex -= moveBy;
-            lastVisibleIndex -= moveBy;
-        }
-        if (selected > lastVisibleIndex) {
-            int moveBy = selected - lastVisibleIndex;
-            firstVisibleIndex += moveBy;
-            lastVisibleIndex += moveBy;
-        }
-    }
+void GuiMenu::adjustPageBy(int moveBy) {
+    selected += moveBy;
+    firstVisibleIndex += moveBy;
+    lastVisibleIndex += moveBy;
 }
 
 //*******************************
-// GuiMenu::computeLastVisibleIndex
+// GuiMenu::computePagePosition
 //*******************************
-void GuiMenu::computeLastVisibleIndex() {
-    lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+void GuiMenu::computePagePosition() {
+    if (lines.size() == 0) {
+        selected = 0;
+        firstVisibleIndex = 0;
+        lastVisibleIndex = 0;
+    } else {
+        bool AllLinesFitOnOnePage = lines.size() <= maxVisible;
+        bool selectedIsOnTheFirstPage = selected < maxVisible;
+        bool selectedIsOnTheLastPage = selected >= (lines.size() - maxVisible);
+
+        if (AllLinesFitOnOnePage) {
+            firstVisibleIndex = 0;
+        } else if (selectedIsOnTheFirstPage) {
+            firstVisibleIndex = 0;
+        } else if (selectedIsOnTheLastPage) {
+            firstVisibleIndex = lines.size() - maxVisible;
+        } else {
+            firstVisibleIndex = selected - (maxVisible / 2);
+        }
+        lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
+    }
 }
 
 //*******************************
@@ -102,7 +106,10 @@ void GuiMenu::render()
     offset = gui->renderLogo(true);
     gui->renderTextLine(title, 0, offset, POS_CENTER);
 
-    makeSelectedLineVisibleOnPage();
+    if (firstRender) {
+        computePagePosition();
+        firstRender = false;
+    }
     renderLines();
     renderSelectionBox();
 
@@ -126,11 +133,15 @@ string GuiMenu::statusLine() {
 //*******************************
 void GuiMenu::arrowDown() {
     Mix_PlayChannel(-1, gui->cursor, 0);
-    selected++;
-    if (selected >= lines.size()) {
-        selected = 0;
-        firstVisibleIndex = selected;
-        computeLastVisibleIndex();
+    if (lines.size() > 1) {
+        if (selected >= lines.size() - 1) {
+            selected = 0;
+            computePagePosition();
+        } else if (selected == lastVisibleIndex) {
+            adjustPageBy(1);
+        } else {
+            ++selected;
+        }
     }
     render();
 }
@@ -140,11 +151,15 @@ void GuiMenu::arrowDown() {
 //*******************************
 void GuiMenu::arrowUp() {
     Mix_PlayChannel(-1, gui->cursor, 0);
-    selected--;
-    if (selected < 0) {
-        selected = lines.size()-1;
-        firstVisibleIndex = selected;
-        computeLastVisibleIndex();
+    if (lines.size() > 1) {
+        if (selected <= 0) {
+            selected = lines.size() - 1;
+            computePagePosition();
+        } else if (selected == firstVisibleIndex) {
+            adjustPageBy(-1);
+        } else {
+            --selected;
+        }
     }
     render();
 }
@@ -154,12 +169,14 @@ void GuiMenu::arrowUp() {
 //*******************************
 void GuiMenu::pageDown() {
     Mix_PlayChannel(-1, gui->home_up, 0);
-    selected+=maxVisible;
-    if (selected >= lines.size()) {
-        selected = lines.size() - 1;
+    if (lines.size() > 1) {
+        if (lastVisibleIndex + maxVisible >= lines.size()) {
+            selected = lines.size() - 1;
+            computePagePosition();
+        } else {
+            adjustPageBy(maxVisible);
+        }
     }
-    firstVisibleIndex = selected;
-    computeLastVisibleIndex();
     render();
 }
 
@@ -168,12 +185,14 @@ void GuiMenu::pageDown() {
 //*******************************
 void GuiMenu::pageUp() {
     Mix_PlayChannel(-1, gui->home_down, 0);
-    selected-=maxVisible;
-    if (selected < 0) {
-        selected = 0;
+    if (lines.size() > 1) {
+        if (firstVisibleIndex - maxVisible < 0) {
+            selected = 0;
+            computePagePosition();
+        } else {
+            adjustPageBy(-maxVisible);
+        }
     }
-    firstVisibleIndex = selected;
-    computeLastVisibleIndex();
     render();
 }
 
@@ -182,9 +201,10 @@ void GuiMenu::pageUp() {
 //*******************************
 void GuiMenu::doHome() {
     Mix_PlayChannel(-1, gui->home_down, 0);
-    selected = 0;
-    firstVisibleIndex = selected;
-    computeLastVisibleIndex();
+    if (lines.size() > 1) {
+        selected = 0;
+        computePagePosition();
+    }
     render();
 }
 
@@ -193,13 +213,10 @@ void GuiMenu::doHome() {
 //*******************************
 void GuiMenu::doEnd() {
     Mix_PlayChannel(-1, gui->home_down, 0);
-    if (lines.size() > 0) {
+    if (lines.size() > 1) {
         selected = lines.size() - 1;
-    } else {
-        selected = 0;
+        computePagePosition();
     }
-    firstVisibleIndex = selected;
-    computeLastVisibleIndex();
     render();
 }
 
@@ -213,7 +230,7 @@ void GuiMenu::doCircle() {
 }
 
 //*******************************
-// GuiMenu::pagedoCross
+// GuiMenu::doCross
 //*******************************
 void GuiMenu::doCross() {
     Mix_PlayChannel(-1, gui->cursor, 0);
