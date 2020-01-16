@@ -52,8 +52,6 @@ Clock:
 Frequenza:
 Close
 Chiudi
-Configuration
-Configurazione
 CONFIGURED
 CONFIGURATO
 Confirm
@@ -68,8 +66,6 @@ Cue file not found
 File Cue non trovato
 Custom
 Personalizza
-Custom Memory Cards
-Memory Card Personalizzate
 Customize AutoBleem settings
 Personalizza le impostazioni di AutoBleem
 Decompressing ecm:
@@ -136,8 +132,6 @@ Game History
 Cronologia dei Giochi
 Game Manager
 Gestore del gioco
-Game manager - Select game
-Gestore del gioco - Seleziona un gioco
 Game.ini file not found
 File Game.ini non trovato
 Game.ini file not valid
@@ -146,8 +140,6 @@ Game:
 Gioco:
 games
 giochi
-Games
-Giochi
 Games changed. Press
 Giochi cambiati. Premi
 Games filter
@@ -296,12 +288,8 @@ Select memory card
 Seleziona memory card
 Select or cancel highlighted option
 Seleziona o annulla l'opzione evidenziata
-Select PS1 Game Category
-Seleziona la Categoria dei Giochi PS1
 SELECT RESUME SLOT TO LOAD
 SELEZIONA UNO SLOT DA CARICARE
-Select RetroBoot Platform
-Seleziona la Piattaforma RetroBoot
 Select Right Card
 Seleziona la Card Destra
 SELECT SLOT TO SAVE STATE
@@ -358,6 +346,8 @@ Updating regional.db...
 Aggiornando regional.db...
 USB Games
 Giochi su USB
+Use Controller
+Usa Controller
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 ATTENZIONE: DB DELLE COVER NON TROVATO. PREMI UN TASTO QUALSIASI.
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
