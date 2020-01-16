@@ -162,7 +162,7 @@ add_executable(
 		src/code/launcher/gui_app_start.cpp 
 		src/code/launcher/gui_app_start.h 
 		src/code/gui/gui_menu.h 
-		src/code/gui/gui_menu.cpp)
+		src/code/gui/gui_menu.cpp src/code/gui/gui_optionsMenu.h src/code/gui/gui_optionsMenu.cpp)
 
 target_include_directories(autobleem-gui PUBLIC
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/sqlite>

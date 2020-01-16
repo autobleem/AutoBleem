@@ -28,7 +28,7 @@ void GuiMemcards::init() {
 //*******************************
 // returns the status line at the bottom
 string GuiMemcards::statusLine() {
-    return _("Card") + " " + to_string(selected + 1) + "/" + to_string(lines.size()) +
+    return _("Card") + " " + to_string(selected + 1) + "/" + to_string(getVerticalSize()) +
            "   |@L1|/|@R1| " + _("Page") +
            "   |@X| " + _("Rename") +
            "  |@S| " + _("New Card") +
@@ -76,9 +76,9 @@ void GuiMemcards::doSquare() {
                 firstVisibleIndex = i;
                 lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
 
-                if (lines.size() > maxVisible) {
-                    if (lastVisibleIndex >= lines.size()) {
-                        lastVisibleIndex = lines.size() - 1;
+                if (getVerticalSize() > maxVisible) {
+                    if (lastVisibleIndex >= getVerticalSize()) {
+                        lastVisibleIndex = getVerticalSize() - 1;
                         firstVisibleIndex = lastVisibleIndex - maxVisible + 1;
                     }
                 }
@@ -95,7 +95,7 @@ void GuiMemcards::doSquare() {
 //*******************************
 void GuiMemcards::doTriangle() {
     Mix_PlayChannel(-1, gui->cursor, 0);
-    if (lines.size() != 0) {
+    if (getVerticalSize() != 0) {
         GuiConfirm *guiConfirm = new GuiConfirm(renderer);
         guiConfirm->label = _("Delete card") + " '" + lines[selected] + "' ?";
         guiConfirm->show();

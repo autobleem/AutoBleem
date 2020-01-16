@@ -21,26 +21,31 @@ public:
     void renderSelectionBox();
 
     //controller and keyboard
-    virtual void arrowDown();   // move down one line
-    virtual void arrowUp();     // move up one line
-    virtual void pageDown();    // move down one page
-    virtual void pageUp();      // move up one page
+    virtual void doArrowDown();       // move down one line
+    virtual void doArrowUp();         // move up one line
+    virtual void doArrowRight() {}    // move option to the right
+    virtual void doArrowLeft() {}     // move option to the left
+    virtual void doPageDown();        // move down one page
+    virtual void doPageUp();          // move up one page
 
     // keyboard only
-    virtual void doHome();      // move up top
-    virtual void doEnd();       // move up bottom
+    virtual void doHome();          // move up top
+    virtual void doEnd();           // move up bottom
     virtual void doEnter() { }
     virtual void doDelete() { }
     virtual void doTab() { }
     virtual void doEscape() { }
 
-    // you can write your own virtual loop() to do something different from these
-    virtual void doCircle();    // default = leave menu.  cancel = true.
-    virtual void doCross();     // default = leave menu.  cancel = false.
+    virtual void doCircle();        // default = leave menu.  cancel = true.
+    virtual void doCross();         // default = leave menu.  cancel = false.
     virtual void doTriangle() { }
     virtual void doSquare() { }
     virtual void doStart() { }
     virtual void doSelect() { }
+    virtual void doL1() { }
+    virtual void doR1() { }
+    virtual void doL2() { }
+    virtual void doR2() { }
 
     bool handlePowerShutdownAndQuit(SDL_Event &e);  // returns true if applicable event type and it was handled
 
@@ -54,6 +59,7 @@ public:
 
     // plain menu
     std::vector<std::string> lines; // these are the menu lines
+    virtual int getVerticalSize() { return lines.size(); }
 
     // two column menus only
     // left column lines_L uses lines for storage.  that way lines.size() works for both types of menus

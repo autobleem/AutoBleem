@@ -3,28 +3,48 @@
 //
 #pragma once
 
-#include "gui_screen.h"
+#include "gui_optionsMenu.h"
 #include "gui.h"
 #include "../lang.h"
 #include <string>
 #include <vector>
 
+enum {
+    CFG_THEME=0,
+    CFG_SHOW_ORIGAMES,
+    CFG_UI,
+    CFG_JEWEL,
+    CFG_MUSIC,
+    CFG_ENABLE_BACKGROUND_MUSIC,
+    CFG_WIDESCREEN,
+    CFG_QUICK_BOOT,
+    CFG_QUICKMENU,
+    CFG_GFX_FILTER,
+    CFG_RACONFIG,
+    CFG_SHOWINGTIMEOUT,
+    CFG_LANG
+};
+#define CFG_LAST CFG_LANG
+#define CFG_SIZE (CFG_LAST+1)
+
 //********************
 // GuiOptions
 //********************
-class GuiOptions : public GuiScreen{
+class GuiOptions : public GuiOptionsMenu{
 public:
-    void init();
-    void render();
-    void loop();
+    GuiOptions(SDL_Shared<SDL_Renderer> _renderer)
+        : GuiOptionsMenu(_renderer, "-=" + _("Configuration") + "=-") {}
+
+    void init() override;
+    void render() override;
+
     std::string getPrevNextOption(const std::vector<std::string> & list, const std::string & current, bool next);
     void doPrevNextOption(shared_ptr<Gui> gui, shared_ptr<Lang> lang, bool next);
     std::string getBooleanIcon(const std::string & input);
-    void renderOptionLine(const std::string & text, int pos, int offset);
+    void renderOptionLine(const std::string & text, int cfgIndex, int offset);
 
-    int selOption=0;
-    int totalHeight=0;
     int exitCode=0;
+    std::shared_ptr<Lang> lang;
 
     std::vector<std::string> autobleemUIThemes;
     std::vector<std::string> origames;
@@ -36,14 +56,16 @@ public:
     std::vector<std::string> quickboot;
     std::vector<std::string> quickmenu;
     std::vector<std::string> mip;
-    std::vector<std::string> adv;
+    std::vector<std::string> raconfig;
     std::vector<std::string> showingtimeout;
     std::vector<std::string> languages;
 
-    std::vector<std::string> pcsx;
-    std::vector<std::string> autoregion;
+    virtual int getVerticalSize() { return CFG_SIZE; }
 
-    std::vector<std::string> raconfig;
-
-    using GuiScreen::GuiScreen;
+    virtual void doCircle();
+    virtual void doCross();
+    virtual void doArrowRight();  // move option to the right
+    virtual void doArrowLeft();   // move option to the left
+    virtual void doEnter() { doCross(); }
+    virtual void doEscape() { doCircle(); }
 };

@@ -42,21 +42,21 @@ void GuiMenu::adjustPageBy(int moveBy) {
 // GuiMenu::computePagePosition
 //*******************************
 void GuiMenu::computePagePosition() {
-    if (lines.size() == 0) {
+    if (getVerticalSize() == 0) {
         selected = 0;
         firstVisibleIndex = 0;
         lastVisibleIndex = 0;
     } else {
-        bool AllLinesFitOnOnePage = lines.size() <= maxVisible;
+        bool AllLinesFitOnOnePage = getVerticalSize() <= maxVisible;
         bool selectedIsOnTheFirstPage = selected < maxVisible;
-        bool selectedIsOnTheLastPage = selected >= (lines.size() - maxVisible);
+        bool selectedIsOnTheLastPage = selected >= (getVerticalSize() - maxVisible);
 
         if (AllLinesFitOnOnePage) {
             firstVisibleIndex = 0;
         } else if (selectedIsOnTheFirstPage) {
             firstVisibleIndex = 0;
         } else if (selectedIsOnTheLastPage) {
-            firstVisibleIndex = lines.size() - maxVisible;
+            firstVisibleIndex = getVerticalSize() - maxVisible;
         } else {
             firstVisibleIndex = selected - (maxVisible / 2);
         }
@@ -68,10 +68,10 @@ void GuiMenu::computePagePosition() {
 // GuiMenu::renderLines
 //*******************************
 void GuiMenu::renderLines() {
-    if (selected >= 0 && lines.size() > 0) {
+    if (selected >= 0 && getVerticalSize() > 0) {
         int row = firstRow;
         for (int i = firstVisibleIndex; i <= lastVisibleIndex; i++) {
-            if (i < 0 || i >= lines.size()) {
+            if (i < 0 || i >= getVerticalSize()) {
                 break;
             }
             if (menuType == Menu_Plain) {
@@ -90,7 +90,7 @@ void GuiMenu::renderLines() {
 // GuiMenu::renderSelectionBox
 //*******************************
 void GuiMenu::renderSelectionBox() {
-    if (!lines.size() == 0) {
+    if (!getVerticalSize() == 0) {
         gui->renderSelectionBox(selected - firstVisibleIndex + firstRow, offset, 0, font);
     }
 }
@@ -122,19 +122,19 @@ void GuiMenu::render()
 //*******************************
 // the default status line for menus.  override if needed.
 string GuiMenu::statusLine() {
-    return _("Entry")+" " + to_string(selected + 1) + "/" + to_string(lines.size()) +
+    return _("Entry")+" " + to_string(selected + 1) + "/" + to_string(getVerticalSize()) +
              "    |@L1|/|@R1| " + _("Page") +
              "   |@X| " + _("Select") +
              "   |@O| " + _("Close") + " |";
 }
 
 //*******************************
-// GuiMenu::arrowDown
+// GuiMenu::doArrowDown
 //*******************************
-void GuiMenu::arrowDown() {
+void GuiMenu::doArrowDown() {
     Mix_PlayChannel(-1, gui->cursor, 0);
-    if (lines.size() > 1) {
-        if (selected >= lines.size() - 1) {
+    if (getVerticalSize() > 1) {
+        if (selected >= getVerticalSize() - 1) {
             selected = 0;
             computePagePosition();
         } else if (selected == lastVisibleIndex) {
@@ -143,17 +143,16 @@ void GuiMenu::arrowDown() {
             ++selected;
         }
     }
-    render();
 }
 
 //*******************************
-// GuiMenu::arrowUp
+// GuiMenu::doArrowUp
 //*******************************
-void GuiMenu::arrowUp() {
+void GuiMenu::doArrowUp() {
     Mix_PlayChannel(-1, gui->cursor, 0);
-    if (lines.size() > 1) {
+    if (getVerticalSize() > 1) {
         if (selected <= 0) {
-            selected = lines.size() - 1;
+            selected = getVerticalSize() - 1;
             computePagePosition();
         } else if (selected == firstVisibleIndex) {
             adjustPageBy(-1);
@@ -161,31 +160,29 @@ void GuiMenu::arrowUp() {
             --selected;
         }
     }
-    render();
 }
 
 //*******************************
-// GuiMenu::pageDown
+// GuiMenu::doPageDown
 //*******************************
-void GuiMenu::pageDown() {
+void GuiMenu::doPageDown() {
     Mix_PlayChannel(-1, gui->home_up, 0);
-    if (lines.size() > 1) {
-        if (lastVisibleIndex + maxVisible >= lines.size()) {
-            selected = lines.size() - 1;
+    if (getVerticalSize() > 1) {
+        if (lastVisibleIndex + maxVisible >= getVerticalSize()) {
+            selected = getVerticalSize() - 1;
             computePagePosition();
         } else {
             adjustPageBy(maxVisible);
         }
     }
-    render();
 }
 
 //*******************************
-// GuiMenu::pageUp
+// GuiMenu::doPageUp
 //*******************************
-void GuiMenu::pageUp() {
+void GuiMenu::doPageUp() {
     Mix_PlayChannel(-1, gui->home_down, 0);
-    if (lines.size() > 1) {
+    if (getVerticalSize() > 1) {
         if (firstVisibleIndex - maxVisible < 0) {
             selected = 0;
             computePagePosition();
@@ -193,7 +190,6 @@ void GuiMenu::pageUp() {
             adjustPageBy(-maxVisible);
         }
     }
-    render();
 }
 
 //*******************************
@@ -201,11 +197,10 @@ void GuiMenu::pageUp() {
 //*******************************
 void GuiMenu::doHome() {
     Mix_PlayChannel(-1, gui->home_down, 0);
-    if (lines.size() > 1) {
+    if (getVerticalSize() > 1) {
         selected = 0;
         computePagePosition();
     }
-    render();
 }
 
 //*******************************
@@ -213,11 +208,10 @@ void GuiMenu::doHome() {
 //*******************************
 void GuiMenu::doEnd() {
     Mix_PlayChannel(-1, gui->home_down, 0);
-    if (lines.size() > 1) {
-        selected = lines.size() - 1;
+    if (getVerticalSize() > 1) {
+        selected = getVerticalSize() - 1;
         computePagePosition();
     }
-    render();
 }
 
 //*******************************
@@ -268,6 +262,7 @@ void GuiMenu::loop()
     while (menuVisible) {
         gui->watchJoystickPort();
         SDL_Event e;
+		
         if (SDL_PollEvent(&e)) {
             if (handlePowerShutdownAndQuit(e))
                 continue;
@@ -275,13 +270,17 @@ void GuiMenu::loop()
             switch (e.type) {
                 case SDL_KEYDOWN:
                     if (e.key.keysym.sym == SDLK_DOWN)
-                        arrowDown();
+                        doArrowDown();
                     if (e.key.keysym.sym == SDLK_UP)
-                        arrowUp();
+                        doArrowUp();
+                    if (e.key.keysym.sym == SDLK_RIGHT)
+                        doArrowRight();
+                    if (e.key.keysym.sym == SDLK_LEFT)
+                        doArrowLeft();
                     if (e.key.keysym.sym == SDLK_PAGEDOWN)
-                        pageDown();
+                        doPageDown();
                     if (e.key.keysym.sym == SDLK_PAGEUP)
-                        pageUp();
+                        doPageUp();
                     if (e.key.keysym.sym == SDLK_HOME)
                         doHome();
                     if (e.key.keysym.sym == SDLK_END)
@@ -302,19 +301,19 @@ void GuiMenu::loop()
                 case SDL_JOYHATMOTION:
 
                     if (gui->mapper.isDown(&e)) {
-                        arrowDown();
+                        doArrowDown();
                     }
                     if (gui->mapper.isUp(&e)) {
-                        arrowUp();
+                        doArrowUp();
                     }
 
                     break;
                 case SDL_JOYBUTTONDOWN:
                     if (e.jbutton.button == gui->_cb(PCS_BTN_R1,&e)) {
-                        pageDown();
+                        doPageDown();
                     };
                     if (e.jbutton.button == gui->_cb(PCS_BTN_L1,&e)) {
-                        pageUp();
+                        doPageUp();
                     };
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
@@ -342,5 +341,6 @@ void GuiMenu::loop()
                     };
             }
         }
+        render();
     }
 }

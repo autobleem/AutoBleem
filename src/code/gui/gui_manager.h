@@ -12,8 +12,8 @@
 //********************
 class GuiManager : public GuiMenu {
 public:
-    GuiManager(SDL_Shared<SDL_Renderer> _renderer) : GuiMenu(_renderer,
-                                                             "-=" + _("Game manager - Select game") + "=-") {}
+    GuiManager(SDL_Shared<SDL_Renderer> _renderer)
+        : GuiMenu(_renderer, "-=" + _("Game manager - Select game") + "=-") {}
 
     void init() override;
     void render() override;
