@@ -95,7 +95,7 @@ void GuiSplash::loop() {
         int time = current - start;
         if (time > 2) {
             if (alpha < 255) {
-                alpha += 2;
+                alpha += 10;
                 if (alpha > 255) {
                     alpha = 255;
                 }
