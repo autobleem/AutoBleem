@@ -60,14 +60,14 @@ public:
     void loop_joyMoveDown();
 
     // a button is pressed
-    void loop_joyButtonPressed();
+    void loop_joyButton_Pressed();
     void loop_chooseGameDir();
     void loop_chooseRAPlaylist();
-    void loop_selectButtonPressed();
-    void loop_circleButtonPressed();
-    void loop_triangleButtonPressed();
-    void loop_squareButtonPressed();
-    void loop_crossButtonPressed();
+    void loop_selectButton_Pressed();
+    void loop_circleButton_Pressed();
+    void loop_triangleButton_Pressed();
+    void loop_squareButton_Pressed();
+    void loop_crossButton_Pressed();
     void loop_crossButtonPressed_STATE_GAMES();
     void addGameToPS1GameHistoryAsLatestGamePlayed(PsGamePtr game);
     void loop_crossButtonPressed_STATE_SET();

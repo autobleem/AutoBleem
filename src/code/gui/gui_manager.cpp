@@ -94,7 +94,7 @@ int GuiManager::flushCovers(const char *file, const struct stat *sb, int flag, s
 }
 
 //*******************************
-// GuiManager::doCircle
+// GuiManager::doCirclePressed
 //*******************************
 void GuiManager::doCircle() {
     Mix_PlayChannel(-1, gui->cancel, 0);
@@ -106,7 +106,7 @@ void GuiManager::doCircle() {
 }
 
 //*******************************
-// GuiManager::doSquare
+// GuiManager::doSquarePressed
 //*******************************
 void GuiManager::doSquare() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -158,7 +158,7 @@ void GuiManager::doSquare() {
 }
 
 //*******************************
-// GuiManager::doTriangle
+// GuiManager::doTrianglePressed
 //*******************************
 void GuiManager::doTriangle() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -188,7 +188,7 @@ void GuiManager::doTriangle() {
 }
 
 //*******************************
-// GuiManager::doCross
+// GuiManager::doCrossPressed
 //*******************************
 void GuiManager::doCross() {
     Mix_PlayChannel(-1, gui->cursor, 0);

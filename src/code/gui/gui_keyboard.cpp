@@ -306,7 +306,7 @@ void GuiKeyboard::doL2_down() {
 }
 
 //*******************************
-// GuiKeyboard::doTriangle
+// GuiKeyboard::doTrianglePressed
 //*******************************
 void GuiKeyboard::doTriangle() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -318,7 +318,7 @@ void GuiKeyboard::doTriangle() {
 }
 
 //*******************************
-// GuiKeyboard::doSquare
+// GuiKeyboard::doSquarePressed
 //*******************************
 void GuiKeyboard::doSquare() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -328,7 +328,7 @@ void GuiKeyboard::doSquare() {
 }
 
 //*******************************
-// GuiKeyboard::doCross
+// GuiKeyboard::doCrossPressed
 //*******************************
 void GuiKeyboard::doCross() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -344,7 +344,7 @@ void GuiKeyboard::doCross() {
 }
 
 //*******************************
-// GuiKeyboard::doStart
+// GuiKeyboard::doStartPressed
 //*******************************
 void GuiKeyboard::doStart() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -353,7 +353,7 @@ void GuiKeyboard::doStart() {
 }
 
 //*******************************
-// GuiKeyboard::doCircle
+// GuiKeyboard::doCirclePressed
 //*******************************
 void GuiKeyboard::doCircle() {
     Mix_PlayChannel(-1, gui->cursor, 0);

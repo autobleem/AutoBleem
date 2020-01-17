@@ -13,7 +13,6 @@ using namespace std;
 void GuiOptionsMenu::init()
 {
     gui = Gui::getInstance();
-    font = gui->themeFont;
 }
 
 #if 0
@@ -60,9 +59,9 @@ bool GuiOptionsMenu::handlePowerShutdownAndQuit(SDL_Event &e) {
 }
 
 //*******************************
-// GuiOptionsMenu::doArrowDown
+// GuiOptionsMenu::doJoyDownPressed
 //*******************************
-void GuiOptionsMenu::doArrowDown() {
+void GuiOptionsMenu::doJoyDown() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     selected++;
     if (selected > getVerticalSize() - 1) {
@@ -71,9 +70,9 @@ void GuiOptionsMenu::doArrowDown() {
 }
 
 //*******************************
-// GuiOptionsMenu::doArrowUp
+// GuiOptionsMenu::doJoyUpPressed
 //*******************************
-void GuiOptionsMenu::doArrowUp() {
+void GuiOptionsMenu::doJoyUp() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     selected--;
     if (selected < 0) {
@@ -114,13 +113,13 @@ void GuiOptionsMenu::loop()
             switch (e.type) {
                 case SDL_KEYDOWN:
                     if (e.key.keysym.sym == SDLK_DOWN)
-                        doArrowDown();
+                        doKeyDown();
                     if (e.key.keysym.sym == SDLK_UP)
-                        doArrowUp();
+                        doKeyUp();
                     if (e.key.keysym.sym == SDLK_RIGHT)
-                        doArrowRight();
+                        doKeyRight();
                     if (e.key.keysym.sym == SDLK_LEFT)
-                        doArrowLeft();
+                        doKeyLeft();
                     if (e.key.keysym.sym == SDLK_PAGEDOWN)
                         doPageDown();
                     if (e.key.keysym.sym == SDLK_PAGEUP)
@@ -145,13 +144,13 @@ void GuiOptionsMenu::loop()
                 case SDL_JOYHATMOTION:
 
                     if (gui->mapper.isDown(&e)) {
-                        doArrowDown();
+                        doJoyDown();
                     } else if (gui->mapper.isUp(&e)) {
-                        doArrowUp();
+                        doJoyUp();
                     } else if (gui->mapper.isRight(&e)) {
-                        doArrowRight();
+                        doJoyRight();
                     } else if (gui->mapper.isLeft(&e)) {
-                        doArrowLeft();
+                        doJoyLeft();
                     }
 
                     break;

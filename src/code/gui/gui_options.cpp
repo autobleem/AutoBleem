@@ -142,7 +142,7 @@ void GuiOptions::render() {
 
     gui->cfg.inifile.values["autoregion"] = "true"; // removing this as an option - not needed - just set to true
 
-    gui->renderSelectionBox(firstRow + selected, offset, 0, font);
+    gui->renderSelectionBox(firstRow + selected, offset);
 
     gui->renderStatus(statusLine());
     SDL_RenderPresent(renderer);
@@ -290,7 +290,7 @@ string GuiOptions::getBooleanIcon(const string & input) {
 }
 
 //*******************************
-// GuiOptions::doCircle
+// GuiOptions::doCirclePressed
 //*******************************
 void GuiOptions::doCircle() {
     Mix_PlayChannel(-1, gui->cancel, 0);
@@ -304,7 +304,7 @@ void GuiOptions::doCircle() {
 }
 
 //*******************************
-// GuiOptions::doCross
+// GuiOptions::doCrossPressed
 //*******************************
 void GuiOptions::doCross() {
     Mix_PlayChannel(-1, gui->cancel, 0);
@@ -315,17 +315,17 @@ void GuiOptions::doCross() {
 }
 
 //*******************************
-// GuiOptions::doArrowRight
+// GuiOptions::doJoyRightPressed
 //*******************************
-void GuiOptions::doArrowRight() {
+void GuiOptions::doJoyRight() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     doPrevNextOption(gui, lang, true);
 }
 
 //*******************************
-// GuiOptions::doArrowLeft
+// GuiOptions::doJoyLeftPressed
 //*******************************
-void GuiOptions::doArrowLeft() {
+void GuiOptions::doJoyLeft() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     doPrevNextOption(gui, lang, false);
 }

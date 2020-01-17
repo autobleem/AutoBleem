@@ -117,7 +117,7 @@ void GuiLauncher::loop() {
                     break;
 
                 case SDL_JOYBUTTONDOWN:
-                    loop_joyButtonPressed();    // button pressed
+                    loop_joyButton_Pressed();    // button pressed
                     break;
                 case SDL_JOYBUTTONUP:
                     loop_joyButtonReleased();   // button released
@@ -257,7 +257,7 @@ void GuiLauncher::loop_joyMoveDown() {
 // GuiLauncher::loop_joyButtonPressed
 // button pressed
 //*******************************
-void GuiLauncher::loop_joyButtonPressed() {
+void GuiLauncher::loop_joyButton_Pressed() {
     if (e.jbutton.button == gui->_cb(PCS_BTN_L2, &e)) {
         Mix_PlayChannel(-1, gui->cursor, 0);
         powerOffShift = true;
@@ -274,7 +274,7 @@ void GuiLauncher::loop_joyButtonPressed() {
 
 
     if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT, &e)) {
-        loop_selectButtonPressed();
+        loop_selectButton_Pressed();
     };
 
     if (powerOffShift)
@@ -289,16 +289,16 @@ void GuiLauncher::loop_joyButtonPressed() {
         loop_nextGameFirstLetter();
 
     } else if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE, &e)) {
-        loop_circleButtonPressed();
+        loop_circleButton_Pressed();
 
     } else if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE, &e)) {
-        loop_triangleButtonPressed();
+        loop_triangleButton_Pressed();
 
     } else if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE, &e)) {
-        loop_squareButtonPressed();
+        loop_squareButton_Pressed();
 
     } else if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS, &e)) {
-        loop_crossButtonPressed();
+        loop_crossButton_Pressed();
     };
 }
 
@@ -555,7 +555,7 @@ void GuiLauncher::loop_chooseRAPlaylist() {
 //*******************************
 // GuiLauncher::loop_selectButtonPressed
 //*******************************
-void GuiLauncher::loop_selectButtonPressed() {
+void GuiLauncher::loop_selectButton_Pressed() {
     if (state == STATE_GAMES) {
         if (powerOffShift) {
             if (currentSet == SET_PS1)
@@ -593,7 +593,7 @@ void GuiLauncher::loop_selectButtonPressed() {
 //*******************************
 // GuiLauncher::loop_circleButtonPressed
 //*******************************
-void GuiLauncher::loop_circleButtonPressed() {
+void GuiLauncher::loop_circleButton_Pressed() {
     if (state == STATE_SET) {
         if (menu->animationStarted == 0) {
             menu->transition = TR_MENUON;
@@ -622,7 +622,7 @@ void GuiLauncher::loop_circleButtonPressed() {
 //*******************************
 // GuiLauncher::loop_triangleButtonPressed
 //*******************************
-void GuiLauncher::loop_triangleButtonPressed() {
+void GuiLauncher::loop_triangleButton_Pressed() {
     if (state != STATE_RESUME) {
         Mix_PlayChannel(-1, gui->cursor, 0);
         GuiBtnGuide *guide = new GuiBtnGuide(renderer);
@@ -661,7 +661,7 @@ void GuiLauncher::loop_triangleButtonPressed() {
 //*******************************
 // GuiLauncher::loop_squareButtonPressed
 //*******************************
-void GuiLauncher::loop_squareButtonPressed() {
+void GuiLauncher::loop_squareButton_Pressed() {
     gui->padMapping = gui->mapper.getMappingString(e.jbutton.which);
 
     if (DirEntry::exists(Env::getPathToRetroarchDir() + sep + "retroarch")) { // retroarch is a file!!
@@ -695,7 +695,7 @@ void GuiLauncher::loop_squareButtonPressed() {
 //*******************************
 // GuiLauncher::loop_crossButtonPressed
 //*******************************
-void GuiLauncher::loop_crossButtonPressed() {
+void GuiLauncher::loop_crossButton_Pressed() {
     gui->padMapping = gui->mapper.getMappingString(e.jbutton.which);
 
     if (state == STATE_GAMES) {

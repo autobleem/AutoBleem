@@ -20,32 +20,55 @@ public:
     void renderLines();
     void renderSelectionBox();
 
-    //controller and keyboard
-    virtual void doArrowDown();       // move down one line
-    virtual void doArrowUp();         // move up one line
-    virtual void doArrowRight() {}    // move option to the right
-    virtual void doArrowLeft() {}     // move option to the left
-    virtual void doPageDown();        // move down one page
-    virtual void doPageUp();          // move up one page
+    // controller button pressed
+    virtual void doJoyDown_Pressed();       // move down one line
+    virtual void doJoyUp_Pressed();         // move up one line
+    virtual void doJoyRight_Pressed() {}
+    virtual void doJoyLeft_Pressed() {}
 
-    // keyboard only
-    virtual void doHome();          // move up top
-    virtual void doEnd();           // move up bottom
-    virtual void doEnter() { }
-    virtual void doDelete() { }
-    virtual void doTab() { }
-    virtual void doEscape() { }
+    virtual void doCircle_Pressed();        // default = leave menu.  cancel = true.
+    virtual void doCross_Pressed();         // default = leave menu.  cancel = false.
+    virtual void doTriangle_Pressed() {}
+    virtual void doSquare_Pressed() {}
+    virtual void doStart_Pressed() {}
+    virtual void doSelect_Pressed() {}
 
-    virtual void doCircle();        // default = leave menu.  cancel = true.
-    virtual void doCross();         // default = leave menu.  cancel = false.
-    virtual void doTriangle() { }
-    virtual void doSquare() { }
-    virtual void doStart() { }
-    virtual void doSelect() { }
-    virtual void doL1() { }
-    virtual void doR1() { }
-    virtual void doL2() { }
-    virtual void doR2() { }
+    virtual void doL1_Pressed() {}
+    virtual void doR1_Pressed() {}
+    virtual void doL2_Pressed() {}
+    virtual void doR2_Pressed() {}
+
+    // controller button released
+    virtual void doJoyDown_Released() {}
+    virtual void doJoyUp_Released() {}
+    virtual void doJoyRight_Released() {}
+    virtual void doJoyLeft_Released() {}
+
+    virtual void doCircle_Released() {}
+    virtual void doCross_Released() {}
+    virtual void doTriangle_Released() {}
+    virtual void doSquare_Released() {}
+    virtual void doStart_Released() {}
+    virtual void doSelect_Released() {}
+
+    virtual void doL1_Released() {}
+    virtual void doR1_Released() {}
+    virtual void doL2_Released() {}
+    virtual void doR2_Released() {}
+
+    // keyboard
+    virtual void doKeyDown() { doJoyDown_Pressed(); }       // move down one line
+    virtual void doKeyUp() { doJoyUp_Pressed(); }           // move up one line
+    virtual void doKeyRight() { doJoyRight_Pressed(); }
+    virtual void doKeyLeft() { doJoyLeft_Pressed(); }
+    virtual void doPageDown();                              // move down one page
+    virtual void doPageUp();                                // move up one page
+    virtual void doHome();                                  // move up top
+    virtual void doEnd();                                   // move up bottom
+    virtual void doEnter() {}
+    virtual void doDelete() {}
+    virtual void doTab() {}
+    virtual void doEscape() {}
 
     bool handlePowerShutdownAndQuit(SDL_Event &e);  // returns true if applicable event type and it was handled
 

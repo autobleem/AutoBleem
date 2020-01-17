@@ -37,17 +37,17 @@ string GuiMemcards::statusLine() {
 }
 
 //*******************************
-// GuiMemcards::doCircle
+// GuiMemcards::doCirclePressed
 //*******************************
-void GuiMemcards::doCircle() {
+void GuiMemcards::doCircle_Pressed() {
     Mix_PlayChannel(-1, gui->cancel, 0);
     menuVisible = false;
 }
 
 //*******************************
-// GuiMemcards::doSquare
+// GuiMemcards::doSquarePressed
 //*******************************
-void GuiMemcards::doSquare() {
+void GuiMemcards::doSquare_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     GuiKeyboard *keyboard = new GuiKeyboard(renderer);
     keyboard->label = _("Enter new card name");
@@ -91,9 +91,9 @@ void GuiMemcards::doSquare() {
 }
 
 //*******************************
-// GuiMemcards::doTriangle
+// GuiMemcards::doTrianglePressed
 //*******************************
-void GuiMemcards::doTriangle() {
+void GuiMemcards::doTriangle_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (getVerticalSize() != 0) {
         GuiConfirm *guiConfirm = new GuiConfirm(renderer);
@@ -113,9 +113,9 @@ void GuiMemcards::doTriangle() {
 }
 
 //*******************************
-// GuiMemcards::doCross
+// GuiMemcards::doCrossPressed
 //*******************************
-void GuiMemcards::doCross() {
+void GuiMemcards::doCross_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (lines.empty()) {
         return;

@@ -129,9 +129,9 @@ string GuiMenu::statusLine() {
 }
 
 //*******************************
-// GuiMenu::doArrowDown
+// GuiMenu::doJoyDownPressed
 //*******************************
-void GuiMenu::doArrowDown() {
+void GuiMenu::doJoyDown_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (getVerticalSize() > 1) {
         if (selected >= getVerticalSize() - 1) {
@@ -146,9 +146,9 @@ void GuiMenu::doArrowDown() {
 }
 
 //*******************************
-// GuiMenu::doArrowUp
+// GuiMenu::doJoyUpPressed
 //*******************************
-void GuiMenu::doArrowUp() {
+void GuiMenu::doJoyUp_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (getVerticalSize() > 1) {
         if (selected <= 0) {
@@ -215,18 +215,18 @@ void GuiMenu::doEnd() {
 }
 
 //*******************************
-// GuiMenu::doCircle
+// GuiMenu::doCirclePressed
 //*******************************
-void GuiMenu::doCircle() {
+void GuiMenu::doCircle_Pressed() {
     Mix_PlayChannel(-1, gui->cancel, 0);
     cancelled = true;
     menuVisible = false;
 }
 
 //*******************************
-// GuiMenu::doCross
+// GuiMenu::doCrossPressed
 //*******************************
-void GuiMenu::doCross() {
+void GuiMenu::doCross_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     cancelled = false;
     if (!lines.empty())
@@ -270,13 +270,13 @@ void GuiMenu::loop()
             switch (e.type) {
                 case SDL_KEYDOWN:
                     if (e.key.keysym.sym == SDLK_DOWN)
-                        doArrowDown();
+                        doKeyDown();
                     if (e.key.keysym.sym == SDLK_UP)
-                        doArrowUp();
+                        doKeyUp();
                     if (e.key.keysym.sym == SDLK_RIGHT)
-                        doArrowRight();
+                        doKeyRight();
                     if (e.key.keysym.sym == SDLK_LEFT)
-                        doArrowLeft();
+                        doKeyLeft();
                     if (e.key.keysym.sym == SDLK_PAGEDOWN)
                         doPageDown();
                     if (e.key.keysym.sym == SDLK_PAGEUP)
@@ -301,10 +301,10 @@ void GuiMenu::loop()
                 case SDL_JOYHATMOTION:
 
                     if (gui->mapper.isDown(&e)) {
-                        doArrowDown();
+                        doJoyDown_Pressed();
                     }
                     if (gui->mapper.isUp(&e)) {
-                        doArrowUp();
+                        doJoyUp_Pressed();
                     }
 
                     break;
@@ -317,27 +317,27 @@ void GuiMenu::loop()
                     };
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
-                        doCircle();
+                        doCircle_Pressed();
                     };
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
-                        doCross();
+                        doCross_Pressed();
                     };
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE,&e)) {
-                        doTriangle();
+                        doTriangle_Pressed();
                     };
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE,&e)) {
-                        doSquare();
+                        doSquare_Pressed();
                     };
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_START,&e)) {
-                        doStart();
+                        doStart_Pressed();
                     };
 
                     if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT,&e)) {
-                        doSelect();
+                        doSelect_Pressed();
                     };
             }
         }

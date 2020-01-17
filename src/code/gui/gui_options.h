@@ -64,8 +64,8 @@ public:
 
     virtual void doCircle();
     virtual void doCross();
-    virtual void doArrowRight();  // move option to the right
-    virtual void doArrowLeft();   // move option to the left
+    virtual void doJoyRight();  // move option to the right
+    virtual void doJoyLeft();   // move option to the left
     virtual void doEnter() { doCross(); }
     virtual void doEscape() { doCircle(); }
 };

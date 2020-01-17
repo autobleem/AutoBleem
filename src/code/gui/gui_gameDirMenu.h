@@ -14,6 +14,6 @@ public:
     void render() override { GuiMenu::render(); };
     void loop() override { GuiMenu::loop(); };
 
-    void doEnter() { doCross(); }
-    void doEscape() { doCircle(); }
+    void doEnter() { doCross_Pressed(); }
+    void doEscape() { doCircle_Pressed(); }
 };

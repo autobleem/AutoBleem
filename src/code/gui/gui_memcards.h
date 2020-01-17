@@ -19,12 +19,12 @@ public:
 
     virtual std::string statusLine() override;   // returns the status line at the bottom
 
-    void doCircle() override;
-    void doSquare() override;
-    void doTriangle() override;
-    void doCross() override;
+    void doCircle_Pressed() override;
+    void doSquare_Pressed() override;
+    void doTriangle_Pressed() override;
+    void doCross_Pressed() override;
 
-    void doEnter() { doCross(); }
-    void doEscape() { doCircle(); }
-    void doDelete() { doSquare(); }
+    void doEnter() { doCross_Pressed(); }
+    void doEscape() { doCircle_Pressed(); }
+    void doDelete() { doSquare_Pressed(); }
 };
