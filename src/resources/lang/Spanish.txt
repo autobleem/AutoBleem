@@ -32,6 +32,8 @@ AutoBleem Theme:
 Tema AutoBleem:
 Background Music:
 Musica de Fondo:
+Backspace
+Restroceso
 Bin file failed to verify
 El archivo .bin no se pudo verificar
 Button Guide
@@ -146,8 +148,6 @@ Game:
 Juego:
 games
 juegos
-Games
-Juegos
 Games changed. Press
 Juegos cambiados. Pulsa
 Games filter
@@ -242,12 +242,12 @@ Power Off
 Apagar
 POWERING OFF... PLEASE WAIT
 APAGANDO... POR FAVOR ESPERA
-Press |@X| to save controller mapping, or |@O| to retry configuration
-Pulsa |@X| para guardar el mapeo de botones, o |@O| para reiniciar la configuracion
 Press a key for
 Pulsa un boton para
 Press any DPAD button (to determine if it's digital or analogue)
 Presiona cualquier direccion del DPAD (para determinar si es digital o analogico)
+Press |@X| to save controller mapping, or |@O| to retry configuration
+Pulsa |@X| para guardar el mapeo de botones, o |@O| para reiniciar la configuracion
 Published by:
 Publicado por:
 Quick boot
@@ -358,6 +358,8 @@ Updating regional.db...
 Actualizando regional.db...
 USB Games
 Juegos USB
+Use Controller
+Usar Mando
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 ADVERTENCIA: COVER BD NO ENCONTRADO. PULSE CUALQUIER BOTON.
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
