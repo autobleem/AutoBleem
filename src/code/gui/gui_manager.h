@@ -3,21 +3,21 @@
 //
 #pragma once
 
-#include "gui_menu.h"
+#include "gui_menuBase.h"
 #include "../lang.h"
 #include "../launcher/ps_game.h"
 
 //********************
 // GuiManager
 //********************
-class GuiManager : public GuiMenu {
+class GuiManager : public GuiMenuBase {
 public:
     GuiManager(SDL_Shared<SDL_Renderer> _renderer)
-        : GuiMenu(_renderer, "-=" + _("Game manager - Select game") + "=-") {}
+        : GuiMenuBase(_renderer, "-=" + _("Game manager - Select game") + "=-") {}
 
     void init() override;
     void render() override;
-    void loop() override { GuiMenu::loop(); }
+    void loop() override { GuiMenuBase::loop(); }
 
     std::string statusLine() override;
 

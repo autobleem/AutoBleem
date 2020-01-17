@@ -27,7 +27,7 @@ using namespace std;
 void GuiManager::init() {
     menuType = Menu_TwoColumns;
     useSmallerFont = true;
-    GuiMenu::init();    // call the base class init()
+    GuiMenuBase::init();    // call the base class init()
 
     firstRow = 2;
     xoffset_L = 0;

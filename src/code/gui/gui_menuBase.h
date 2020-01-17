@@ -5,9 +5,9 @@
 #include <vector>
 #include <string>
 
-class GuiMenu : public GuiScreen {
+class GuiMenuBase : public GuiScreen {
 public:
-    GuiMenu(SDL_Shared<SDL_Renderer> _renderer, std::string _title = "")
+    GuiMenuBase(SDL_Shared<SDL_Renderer> _renderer, std::string _title = "")
             : GuiScreen(_renderer), title(_title) {}
 
     virtual void init() override;

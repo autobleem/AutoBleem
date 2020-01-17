@@ -1,4 +1,4 @@
-#include "gui_Menu.h"
+#include "gui_MenuBase.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <string>
@@ -8,9 +8,9 @@
 using namespace std;
 
 //*******************************
-// void GuiMenu::init()
+// void GuiMenuBase::init()
 //*******************************
-void GuiMenu::init()
+void GuiMenuBase::init()
 {
     gui = Gui::getInstance();
     font = gui->themeFont;
@@ -30,18 +30,18 @@ void GuiMenu::init()
 }
 
 //*******************************
-// GuiMenu::adjustPageBy
+// GuiMenuBase::adjustPageBy
 //*******************************
-void GuiMenu::adjustPageBy(int moveBy) {
+void GuiMenuBase::adjustPageBy(int moveBy) {
     selected += moveBy;
     firstVisibleIndex += moveBy;
     lastVisibleIndex += moveBy;
 }
 
 //*******************************
-// GuiMenu::computePagePosition
+// GuiMenuBase::computePagePosition
 //*******************************
-void GuiMenu::computePagePosition() {
+void GuiMenuBase::computePagePosition() {
     if (getVerticalSize() == 0) {
         selected = 0;
         firstVisibleIndex = 0;
@@ -65,9 +65,9 @@ void GuiMenu::computePagePosition() {
 }
 
 //*******************************
-// GuiMenu::renderLines
+// GuiMenuBase::renderLines
 //*******************************
-void GuiMenu::renderLines() {
+void GuiMenuBase::renderLines() {
     if (selected >= 0 && getVerticalSize() > 0) {
         int row = firstRow;
         for (int i = firstVisibleIndex; i <= lastVisibleIndex; i++) {
@@ -87,18 +87,18 @@ void GuiMenu::renderLines() {
 }
 
 //*******************************
-// GuiMenu::renderSelectionBox
+// GuiMenuBase::renderSelectionBox
 //*******************************
-void GuiMenu::renderSelectionBox() {
+void GuiMenuBase::renderSelectionBox() {
     if (!getVerticalSize() == 0) {
         gui->renderSelectionBox(selected - firstVisibleIndex + firstRow, offset, 0, font);
     }
 }
 
 //*******************************
-// GuiMenu::render
+// GuiMenuBase::render
 //*******************************
-void GuiMenu::render()
+void GuiMenuBase::render()
 {
     SDL_RenderClear(renderer);
     gui->renderBackground();
@@ -118,10 +118,10 @@ void GuiMenu::render()
 }
 
 //*******************************
-// GuiMenu::statusLine
+// GuiMenuBase::statusLine
 //*******************************
 // the default status line for menus.  override if needed.
-string GuiMenu::statusLine() {
+string GuiMenuBase::statusLine() {
     return _("Entry")+" " + to_string(selected + 1) + "/" + to_string(getVerticalSize()) +
              "    |@L1|/|@R1| " + _("Page") +
              "   |@X| " + _("Select") +
@@ -129,9 +129,9 @@ string GuiMenu::statusLine() {
 }
 
 //*******************************
-// GuiMenu::doJoyDownPressed
+// GuiMenuBase::doJoyDownPressed
 //*******************************
-void GuiMenu::doJoyDown_Pressed() {
+void GuiMenuBase::doJoyDown_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (getVerticalSize() > 1) {
         if (selected >= getVerticalSize() - 1) {
@@ -146,9 +146,9 @@ void GuiMenu::doJoyDown_Pressed() {
 }
 
 //*******************************
-// GuiMenu::doJoyUpPressed
+// GuiMenuBase::doJoyUpPressed
 //*******************************
-void GuiMenu::doJoyUp_Pressed() {
+void GuiMenuBase::doJoyUp_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (getVerticalSize() > 1) {
         if (selected <= 0) {
@@ -163,9 +163,9 @@ void GuiMenu::doJoyUp_Pressed() {
 }
 
 //*******************************
-// GuiMenu::doPageDown
+// GuiMenuBase::doPageDown
 //*******************************
-void GuiMenu::doPageDown() {
+void GuiMenuBase::doPageDown() {
     Mix_PlayChannel(-1, gui->home_up, 0);
     if (getVerticalSize() > 1) {
         if (lastVisibleIndex + maxVisible >= getVerticalSize()) {
@@ -178,9 +178,9 @@ void GuiMenu::doPageDown() {
 }
 
 //*******************************
-// GuiMenu::doPageUp
+// GuiMenuBase::doPageUp
 //*******************************
-void GuiMenu::doPageUp() {
+void GuiMenuBase::doPageUp() {
     Mix_PlayChannel(-1, gui->home_down, 0);
     if (getVerticalSize() > 1) {
         if (firstVisibleIndex - maxVisible < 0) {
@@ -193,9 +193,9 @@ void GuiMenu::doPageUp() {
 }
 
 //*******************************
-// GuiMenu::doHome
+// GuiMenuBase::doHome
 //*******************************
-void GuiMenu::doHome() {
+void GuiMenuBase::doHome() {
     Mix_PlayChannel(-1, gui->home_down, 0);
     if (getVerticalSize() > 1) {
         selected = 0;
@@ -204,9 +204,9 @@ void GuiMenu::doHome() {
 }
 
 //*******************************
-// GuiMenu::doEnd
+// GuiMenuBase::doEnd
 //*******************************
-void GuiMenu::doEnd() {
+void GuiMenuBase::doEnd() {
     Mix_PlayChannel(-1, gui->home_down, 0);
     if (getVerticalSize() > 1) {
         selected = getVerticalSize() - 1;
@@ -215,18 +215,18 @@ void GuiMenu::doEnd() {
 }
 
 //*******************************
-// GuiMenu::doCirclePressed
+// GuiMenuBase::doCirclePressed
 //*******************************
-void GuiMenu::doCircle_Pressed() {
+void GuiMenuBase::doCircle_Pressed() {
     Mix_PlayChannel(-1, gui->cancel, 0);
     cancelled = true;
     menuVisible = false;
 }
 
 //*******************************
-// GuiMenu::doCrossPressed
+// GuiMenuBase::doCrossPressed
 //*******************************
-void GuiMenu::doCross_Pressed() {
+void GuiMenuBase::doCross_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     cancelled = false;
     if (!lines.empty())
@@ -236,10 +236,10 @@ void GuiMenu::doCross_Pressed() {
 }
 
 //*******************************
-// GuiMenu::handlePowerShutdownAndQuit
+// GuiMenuBase::handlePowerShutdownAndQuit
 //*******************************
 // returns true if applicable event type and it was handled
-bool GuiMenu::handlePowerShutdownAndQuit(SDL_Event &e) {
+bool GuiMenuBase::handlePowerShutdownAndQuit(SDL_Event &e) {
     if (e.type == SDL_KEYDOWN) {
         if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
             gui->drawText(_("POWERING OFF... PLEASE WAIT"));
@@ -254,9 +254,9 @@ bool GuiMenu::handlePowerShutdownAndQuit(SDL_Event &e) {
 }
 
 //*******************************
-// GuiMenu::loop
+// GuiMenuBase::loop
 //*******************************
-void GuiMenu::loop()
+void GuiMenuBase::loop()
 {
     menuVisible = true;
     while (menuVisible) {

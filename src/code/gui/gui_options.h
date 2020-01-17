@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include "gui_optionsMenu.h"
+#include "gui_optionsMenuBase.h"
 #include "gui.h"
 #include "../lang.h"
 #include <string>

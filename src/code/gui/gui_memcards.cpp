@@ -16,7 +16,7 @@ using namespace std;
 // GuiMemcards::init
 //*******************************
 void GuiMemcards::init() {
-    GuiMenu::init();    // call the base init
+    GuiMenuBase::init();    // call the base init
 
     Memcard *memcardOps = new Memcard(gui->pathToGamesDir);
     lines = memcardOps->list();

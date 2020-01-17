@@ -1,4 +1,4 @@
-#include "gui_optionsMenu.h"
+#include "gui_optionsMenuBase.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <string>
@@ -81,7 +81,7 @@ void GuiOptionsMenu::doJoyUp() {
 }
 
 //*******************************
-// GuiMenu::doPageDown
+// GuiMenuBase::doPageDown
 //*******************************
 void GuiOptionsMenu::doPageDown() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -89,7 +89,7 @@ void GuiOptionsMenu::doPageDown() {
 }
 
 //*******************************
-// GuiMenu::doPageUp
+// GuiMenuBase::doPageUp
 //*******************************
 void GuiOptionsMenu::doPageUp() {
     Mix_PlayChannel(-1, gui->cursor, 0);
