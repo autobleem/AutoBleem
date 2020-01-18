@@ -129,9 +129,9 @@ string GuiMenuBase::statusLine() {
 }
 
 //*******************************
-// GuiMenuBase::doJoyDown
+// GuiMenuBase::doKeyDown
 //*******************************
-void GuiMenuBase::doJoyDown() {
+void GuiMenuBase::doKeyDown() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (getVerticalSize() > 1) {
         if (selected >= getVerticalSize() - 1) {
@@ -146,9 +146,9 @@ void GuiMenuBase::doJoyDown() {
 }
 
 //*******************************
-// GuiMenuBase::doJoyUp
+// GuiMenuBase::doKeyUp
 //*******************************
-void GuiMenuBase::doJoyUp() {
+void GuiMenuBase::doKeyUp() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (getVerticalSize() > 1) {
         if (selected <= 0) {
@@ -160,6 +160,26 @@ void GuiMenuBase::doJoyUp() {
             --selected;
         }
     }
+}
+
+//*******************************
+// GuiMenuBase::doJoyDown
+//*******************************
+void GuiMenuBase::doJoyDown() {
+    do {
+        doKeyDown();
+        render();
+    } while (fastForwardUntilAnotherEvent(100));
+}
+
+//*******************************
+// GuiMenuBase::doJoyUp
+//*******************************
+void GuiMenuBase::doJoyUp() {
+    do {
+        doKeyUp();
+        render();
+    } while (fastForwardUntilAnotherEvent(100));
 }
 
 //*******************************

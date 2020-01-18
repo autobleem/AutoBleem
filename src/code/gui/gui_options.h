@@ -30,10 +30,10 @@ enum {
 //********************
 // GuiOptions
 //********************
-class GuiOptions : public GuiOptionsMenu{
+class GuiOptions : public GuiOptionsMenuBase {
 public:
     GuiOptions(SDL_Shared<SDL_Renderer> _renderer)
-        : GuiOptionsMenu(_renderer, "-=" + _("Configuration") + "=-") {}
+        : GuiOptionsMenuBase(_renderer, "-=" + _("Configuration") + "=-") {}
 
     void init() override;
     void render() override;
@@ -64,8 +64,13 @@ public:
 
     virtual void doCircle();
     virtual void doCross();
-    virtual void doJoyRight();  // move option to the right
-    virtual void doJoyLeft();   // move option to the left
+
+    virtual void doJoyRight();  // move option to the right, may fast forwward
+    virtual void doJoyLeft();   // move option to the left, may fast forwward
+
+    virtual void doKeyRight();  // move option to the right
+    virtual void doKeyLeft();   // move option to the left
+
     virtual void doEnter() { doCross(); }
     virtual void doEscape() { doCircle(); }
 };

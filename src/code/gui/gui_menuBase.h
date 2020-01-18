@@ -21,8 +21,8 @@ public:
     void renderSelectionBox();
 
     // controller dpad/joystick pressed
-    virtual void doJoyDown();                           // move down one line
-    virtual void doJoyUp();                             // move up one line
+    virtual void doJoyDown();                           // move down one line, may fast forwward
+    virtual void doJoyUp();                             // move up one line, may fast forwward
 
     // controller button pressed
     virtual void doCircle_Pressed();                    // default = leave menu.  cancel = true.
@@ -33,8 +33,8 @@ public:
     virtual void doR2_Pressed() { doEnd(); }            // default = end
 
     // keyboard
-    virtual void doKeyDown() { doJoyDown(); }           // move down one line
-    virtual void doKeyUp() { doJoyUp(); }               // move up one line
+    virtual void doKeyDown();                           // move down one line
+    virtual void doKeyUp();                             // move up one line
     virtual void doKeyRight() { doJoyRight(); }
     virtual void doKeyLeft() { doJoyLeft(); }
     virtual void doEnter() { doCross_Pressed(); }       // default = doCross

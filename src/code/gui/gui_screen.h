@@ -22,6 +22,18 @@ public:
     virtual void render()=0;
     virtual void loop();
 
+// usage example:
+// void doSomeJoyEvent() {
+//      do {
+//          whatever you want to do on the event
+//          render();
+//      } while (fastForwardUntilJoyCenter(300);  // repeat every 300 milliseconds
+    bool fastForwardUntilAnotherEvent(Uint32 startTicks);
+
+// other versions:
+//    bool fastForwardUntilJoyCenter(Uint32 startTicks);
+//    bool fastForwardUntilButtonReleased(int button, Uint32 ticksPerFastForwardRepeat);
+
     void show()
     {
         init();

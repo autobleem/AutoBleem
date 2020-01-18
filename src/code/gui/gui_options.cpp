@@ -12,7 +12,7 @@ using namespace std;
 // GuiOptions::init
 //*******************************
 void GuiOptions::init() {
-    GuiOptionsMenu::init(); // call the base class init()
+    GuiOptionsMenuBase::init(); // call the base class init()
 
     lang = Lang::getInstance();
 
@@ -318,14 +318,34 @@ void GuiOptions::doCross() {
 // GuiOptions::doJoyRight
 //*******************************
 void GuiOptions::doJoyRight() {
-    Mix_PlayChannel(-1, gui->cursor, 0);
-    doPrevNextOption(gui, lang, true);
+    do {
+        doKeyRight();
+        render();
+    } while (fastForwardUntilAnotherEvent(100));
 }
 
 //*******************************
 // GuiOptions::doJoyLeft
 //*******************************
 void GuiOptions::doJoyLeft() {
+    do {
+        doKeyLeft();
+        render();
+    } while (fastForwardUntilAnotherEvent(100));
+}
+
+//*******************************
+// GuiOptions::doKeyRight
+//*******************************
+void GuiOptions::doKeyRight() {
+    Mix_PlayChannel(-1, gui->cursor, 0);
+    doPrevNextOption(gui, lang, true);
+}
+
+//*******************************
+// GuiOptions::doKeyLeft
+//*******************************
+void GuiOptions::doKeyLeft() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     doPrevNextOption(gui, lang, false);
 }

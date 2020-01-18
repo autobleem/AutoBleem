@@ -8,18 +8,18 @@
 using namespace std;
 
 //*******************************
-// void GuiOptionsMenu::init()
+// void GuiOptionsMenuBase::init()
 //*******************************
-void GuiOptionsMenu::init()
+void GuiOptionsMenuBase::init()
 {
     gui = Gui::getInstance();
 }
 
 #if 0
 //*******************************
-// GuiOptionsMenu::render
+// GuiOptionsMenuBase::render
 //*******************************
-void GuiOptionsMenu::render()
+void GuiOptionsMenuBase::render()
 {
     SDL_RenderClear(renderer);
     gui->renderBackground();
@@ -33,18 +33,18 @@ void GuiOptionsMenu::render()
 #endif
 
 //*******************************
-// GuiOptionsMenu::statusLine
+// GuiOptionsMenuBase::statusLine
 //*******************************
 // the default status line for menus.  override if needed.
-string GuiOptionsMenu::statusLine() {
+string GuiOptionsMenuBase::statusLine() {
     return "|@X| " + _("OK") + "     " + "|@O| " + _("Cancel") + "|";
 }
 
 //*******************************
-// GuiOptionsMenu::handlePowerShutdownAndQuit
+// GuiOptionsMenuBase::handlePowerShutdownAndQuit
 //*******************************
 // returns true if applicable event type and it was handled
-bool GuiOptionsMenu::handlePowerShutdownAndQuit(SDL_Event &e) {
+bool GuiOptionsMenuBase::handlePowerShutdownAndQuit(SDL_Event &e) {
     if (e.type == SDL_KEYDOWN) {
         if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
             gui->drawText(_("POWERING OFF... PLEASE WAIT"));
@@ -59,9 +59,9 @@ bool GuiOptionsMenu::handlePowerShutdownAndQuit(SDL_Event &e) {
 }
 
 //*******************************
-// GuiOptionsMenu::doJoyDownPressed
+// GuiOptionsMenuBase::doJoyDownPressed
 //*******************************
-void GuiOptionsMenu::doJoyDown() {
+void GuiOptionsMenuBase::doJoyDown() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     selected++;
     if (selected > getVerticalSize() - 1) {
@@ -70,9 +70,9 @@ void GuiOptionsMenu::doJoyDown() {
 }
 
 //*******************************
-// GuiOptionsMenu::doJoyUpPressed
+// GuiOptionsMenuBase::doJoyUpPressed
 //*******************************
-void GuiOptionsMenu::doJoyUp() {
+void GuiOptionsMenuBase::doJoyUp() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     selected--;
     if (selected < 0) {
@@ -81,25 +81,25 @@ void GuiOptionsMenu::doJoyUp() {
 }
 
 //*******************************
-// GuiMenuBase::doPageDown
+// GuiOptionsMenuBase::doPageDown
 //*******************************
-void GuiOptionsMenu::doPageDown() {
+void GuiOptionsMenuBase::doPageDown() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     selected = getVerticalSize() - 1;
 }
 
 //*******************************
-// GuiMenuBase::doPageUp
+// GuiOptionsMenuBase::doPageUp
 //*******************************
-void GuiOptionsMenu::doPageUp() {
+void GuiOptionsMenuBase::doPageUp() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     selected = 0;
 }
 
 //*******************************
-// GuiOptionsMenu::loop
+// GuiOptionsMenuBase::loop
 //*******************************
-void GuiOptionsMenu::loop()
+void GuiOptionsMenuBase::loop()
 {
     menuVisible = true;
     while (menuVisible) {
