@@ -481,32 +481,33 @@ void Gui::display(bool forceScan, const string &_pathToGamesDir, Database *db, b
         splashScreen->show();
         delete splashScreen;
 
+#if 1
         for (int i = 0; i < SDL_NumJoysticks(); i++) {
             SDL_Joystick *joystick = SDL_JoystickOpen(i);
             if (!mapper.isKnownPad(SDL_JoystickInstanceID(joystick))) {
                 cout << "New pad type" << endl;
-#if 1
                 // new controller configuration
                 auto cfgPad = new GuiPadConfig(renderer);
                 cfgPad->joyid = SDL_JoystickInstanceID(joystick);
                 cfgPad->show();
                 delete cfgPad;
-#else
-                // for debugging new controllers
-                // this will display a scrollable window displaying all the events coming from the new controller
-                // for testing.  it also writes the output to ab_out.txt
-                // hold down three buttons to exit and do a safe shutdown!
-                auto cfgTest = new GuiPadTest(renderer);
-                cfgTest->joyid = SDL_JoystickInstanceID(joystick);
-                cfgTest->alsoWriteToCout = true;
-                assert(cfgTest->joyid != 0);
-                if (cfgTest->joyid != 0)
-                    cfgTest->show();
-                delete cfgTest;
-                Util::powerOff();
-#endif
             }
         }
+#else   // build verion to test controllers.  GuiPadTest displays the SDL event coming from the controller.
+        for (int i = 0; i < SDL_NumJoysticks(); i++) {
+            SDL_Joystick *joystick = SDL_JoystickOpen(i);
+            // for debugging new controllers
+            // this will display a scrollable window displaying all the events coming from the new controller
+            // for testing.  it also writes the output to ab_out.txt
+            // hold down three buttons to exit and do a safe shutdown!
+            auto cfgTest = new GuiPadTest(renderer);
+            cfgTest->joyid = SDL_JoystickInstanceID(joystick);
+            cfgTest->alsoWriteToCout = true;
+                cfgTest->show();
+            delete cfgTest;
+            Util::powerOff();
+        }
+#endif
 
         if (cfg.inifile.values["quick"] != "true")
             waitForGamepad();
