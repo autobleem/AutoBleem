@@ -59,6 +59,5 @@ public:
     int firstRow = 2;           // row 0 is the title.  this is the first row of the menu item lines
     bool changes = false;
 //    bool cancelled = false;
-    bool menuVisible = true;
     int offset = 0;             // y offset for the line I believe.  set by renderLogo()
 };

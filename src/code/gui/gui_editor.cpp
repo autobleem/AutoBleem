@@ -422,7 +422,7 @@ void GuiEditor::render() {
 //*******************************
 void GuiEditor::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
-    bool menuVisible = true;
+    menuVisible = true;
     while (menuVisible) {
         gui->watchJoystickPort();
         SDL_Event e;

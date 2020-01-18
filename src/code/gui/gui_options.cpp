@@ -315,7 +315,7 @@ void GuiOptions::doCross() {
 }
 
 //*******************************
-// GuiOptions::doJoyRightPressed
+// GuiOptions::doJoyRight
 //*******************************
 void GuiOptions::doJoyRight() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -323,7 +323,7 @@ void GuiOptions::doJoyRight() {
 }
 
 //*******************************
-// GuiOptions::doJoyLeftPressed
+// GuiOptions::doJoyLeft
 //*******************************
 void GuiOptions::doJoyLeft() {
     Mix_PlayChannel(-1, gui->cursor, 0);

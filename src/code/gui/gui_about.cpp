@@ -84,7 +84,7 @@ void GuiAbout::render() {
 //*******************************
 void GuiAbout::loop() {
     std::shared_ptr<Gui> gui(Gui::getInstance());
-    bool menuVisible = true;
+    menuVisible = true;
     while (menuVisible) {
         render();
         gui->watchJoystickPort();

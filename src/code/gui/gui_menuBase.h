@@ -12,7 +12,7 @@ public:
 
     virtual void init() override;
     virtual void render() override;
-    virtual void loop() override;
+//    virtual void loop() override;
 
     virtual std::string statusLine();   // returns the status line at the bottom if you need to override it
 
@@ -20,57 +20,29 @@ public:
     void renderLines();
     void renderSelectionBox();
 
+    // controller dpad/joystick pressed
+    virtual void doJoyDown();                           // move down one line
+    virtual void doJoyUp();                             // move up one line
+
     // controller button pressed
-    virtual void doJoyDown_Pressed();       // move down one line
-    virtual void doJoyUp_Pressed();         // move up one line
-    virtual void doJoyRight_Pressed() {}
-    virtual void doJoyLeft_Pressed() {}
-
-    virtual void doCircle_Pressed();        // default = leave menu.  cancel = true.
-    virtual void doCross_Pressed();         // default = leave menu.  cancel = false.
-    virtual void doTriangle_Pressed() {}
-    virtual void doSquare_Pressed() {}
-    virtual void doStart_Pressed() {}
-    virtual void doSelect_Pressed() {}
-
-    virtual void doL1_Pressed() {}
-    virtual void doR1_Pressed() {}
-    virtual void doL2_Pressed() {}
-    virtual void doR2_Pressed() {}
-
-    // controller button released
-    virtual void doJoyDown_Released() {}
-    virtual void doJoyUp_Released() {}
-    virtual void doJoyRight_Released() {}
-    virtual void doJoyLeft_Released() {}
-
-    virtual void doCircle_Released() {}
-    virtual void doCross_Released() {}
-    virtual void doTriangle_Released() {}
-    virtual void doSquare_Released() {}
-    virtual void doStart_Released() {}
-    virtual void doSelect_Released() {}
-
-    virtual void doL1_Released() {}
-    virtual void doR1_Released() {}
-    virtual void doL2_Released() {}
-    virtual void doR2_Released() {}
+    virtual void doCircle_Pressed();                    // default = leave menu.  cancel = true.
+    virtual void doCross_Pressed();                     // default = leave menu.  cancel = false.
+    virtual void doL1_Pressed() { doPageUp(); }         // default = page up
+    virtual void doR1_Pressed() { doPageDown(); }       // default = page down
+    virtual void doL2_Pressed() { doHome(); }           // default = home
+    virtual void doR2_Pressed() { doEnd(); }            // default = end
 
     // keyboard
-    virtual void doKeyDown() { doJoyDown_Pressed(); }       // move down one line
-    virtual void doKeyUp() { doJoyUp_Pressed(); }           // move up one line
-    virtual void doKeyRight() { doJoyRight_Pressed(); }
-    virtual void doKeyLeft() { doJoyLeft_Pressed(); }
-    virtual void doPageDown();                              // move down one page
-    virtual void doPageUp();                                // move up one page
-    virtual void doHome();                                  // move up top
-    virtual void doEnd();                                   // move up bottom
-    virtual void doEnter() {}
-    virtual void doDelete() {}
-    virtual void doTab() {}
-    virtual void doEscape() {}
-
-    bool handlePowerShutdownAndQuit(SDL_Event &e);  // returns true if applicable event type and it was handled
+    virtual void doKeyDown() { doJoyDown(); }           // move down one line
+    virtual void doKeyUp() { doJoyUp(); }               // move up one line
+    virtual void doKeyRight() { doJoyRight(); }
+    virtual void doKeyLeft() { doJoyLeft(); }
+    virtual void doEnter() { doCross_Pressed(); }       // default = doCross
+    virtual void doEscape() { doCircle_Pressed(); }     // default = doCircle
+    virtual void doPageDown();
+    virtual void doPageUp();
+    virtual void doHome();
+    virtual void doEnd();
 
     std::shared_ptr<Gui> gui;
     std::string title;
@@ -102,5 +74,4 @@ public:
 
     bool changes=false;
     bool cancelled = false;
-    bool menuVisible = true;
 };

@@ -129,9 +129,9 @@ string GuiMenuBase::statusLine() {
 }
 
 //*******************************
-// GuiMenuBase::doJoyDownPressed
+// GuiMenuBase::doJoyDown
 //*******************************
-void GuiMenuBase::doJoyDown_Pressed() {
+void GuiMenuBase::doJoyDown() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (getVerticalSize() > 1) {
         if (selected >= getVerticalSize() - 1) {
@@ -146,9 +146,9 @@ void GuiMenuBase::doJoyDown_Pressed() {
 }
 
 //*******************************
-// GuiMenuBase::doJoyUpPressed
+// GuiMenuBase::doJoyUp
 //*******************************
-void GuiMenuBase::doJoyUp_Pressed() {
+void GuiMenuBase::doJoyUp() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (getVerticalSize() > 1) {
         if (selected <= 0) {
@@ -215,7 +215,7 @@ void GuiMenuBase::doEnd() {
 }
 
 //*******************************
-// GuiMenuBase::doCirclePressed
+// GuiMenuBase::doCircle_Pressed
 //*******************************
 void GuiMenuBase::doCircle_Pressed() {
     Mix_PlayChannel(-1, gui->cancel, 0);
@@ -224,7 +224,7 @@ void GuiMenuBase::doCircle_Pressed() {
 }
 
 //*******************************
-// GuiMenuBase::doCrossPressed
+// GuiMenuBase::doCross_Pressed
 //*******************************
 void GuiMenuBase::doCross_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -232,115 +232,5 @@ void GuiMenuBase::doCross_Pressed() {
     if (!lines.empty())
     {
         menuVisible = false;
-    }
-}
-
-//*******************************
-// GuiMenuBase::handlePowerShutdownAndQuit
-//*******************************
-// returns true if applicable event type and it was handled
-bool GuiMenuBase::handlePowerShutdownAndQuit(SDL_Event &e) {
-    if (e.type == SDL_KEYDOWN) {
-        if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
-            gui->drawText(_("POWERING OFF... PLEASE WAIT"));
-            Util::powerOff();
-            return true;    // but it will never get here
-        }
-    } else if (e.type == SDL_QUIT) {     // this is for pc Only
-        menuVisible = false;
-        return true;
-    }
-    return false;
-}
-
-//*******************************
-// GuiMenuBase::loop
-//*******************************
-void GuiMenuBase::loop()
-{
-    menuVisible = true;
-    while (menuVisible) {
-        gui->watchJoystickPort();
-        SDL_Event e;
-		
-        if (SDL_PollEvent(&e)) {
-            if (handlePowerShutdownAndQuit(e))
-                continue;
-
-            switch (e.type) {
-                case SDL_KEYDOWN:
-                    if (e.key.keysym.sym == SDLK_DOWN)
-                        doKeyDown();
-                    if (e.key.keysym.sym == SDLK_UP)
-                        doKeyUp();
-                    if (e.key.keysym.sym == SDLK_RIGHT)
-                        doKeyRight();
-                    if (e.key.keysym.sym == SDLK_LEFT)
-                        doKeyLeft();
-                    if (e.key.keysym.sym == SDLK_PAGEDOWN)
-                        doPageDown();
-                    if (e.key.keysym.sym == SDLK_PAGEUP)
-                        doPageUp();
-                    if (e.key.keysym.sym == SDLK_HOME)
-                        doHome();
-                    if (e.key.keysym.sym == SDLK_END)
-                        doEnd();
-
-                    if (e.key.keysym.sym == SDLK_RETURN)
-                        doEnter();
-                    if (e.key.keysym.sym == SDLK_DELETE)
-                        doDelete();
-                    if (e.key.keysym.sym == SDLK_TAB)
-                        doTab();
-                    if (e.key.keysym.sym == SDLK_ESCAPE)
-                        doEscape();
-
-                break;
-
-                case SDL_JOYAXISMOTION:
-                case SDL_JOYHATMOTION:
-
-                    if (gui->mapper.isDown(&e)) {
-                        doJoyDown_Pressed();
-                    }
-                    if (gui->mapper.isUp(&e)) {
-                        doJoyUp_Pressed();
-                    }
-
-                    break;
-                case SDL_JOYBUTTONDOWN:
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_R1,&e)) {
-                        doPageDown();
-                    };
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_L1,&e)) {
-                        doPageUp();
-                    };
-
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_CIRCLE,&e)) {
-                        doCircle_Pressed();
-                    };
-
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_CROSS,&e)) {
-                        doCross_Pressed();
-                    };
-
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_TRIANGLE,&e)) {
-                        doTriangle_Pressed();
-                    };
-
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_SQUARE,&e)) {
-                        doSquare_Pressed();
-                    };
-
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_START,&e)) {
-                        doStart_Pressed();
-                    };
-
-                    if (e.jbutton.button == gui->_cb(PCS_BTN_SELECT,&e)) {
-                        doSelect_Pressed();
-                    };
-            }
-        }
-        render();
     }
 }

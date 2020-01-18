@@ -37,7 +37,6 @@ public:
     void render();
 
     // these variables are used by the loop routines
-    bool menuVisible = true;
     long motionStart = 0;
     long timespeed = 0;
     int motionDir = 0;
