@@ -35,8 +35,6 @@ public:
     // keyboard
     virtual void doKeyDown();                           // move down one line
     virtual void doKeyUp();                             // move up one line
-    virtual void doKeyRight() { doJoyRight(); }
-    virtual void doKeyLeft() { doJoyLeft(); }
     virtual void doEnter() { doCross_Pressed(); }       // default = doCross
     virtual void doEscape() { doCircle_Pressed(); }     // default = doCircle
     virtual void doPageDown();
@@ -69,8 +67,8 @@ public:
     int lastVisibleIndex = 7;   // current visible range on page
     int firstRow = 2;           // row 0 is the title.  this is the first row of the menu item lines
     int offset = 0;             // y offset for the line I believe.  set by renderLogo()
-    void adjustPageBy(int moveBy);
-    void computePagePosition();
+    void adjustPageBy(int moveBy);  // move the page up or down by an amount
+    void computePagePosition();     // complete recompute of positions based on the selected value
 
     bool changes=false;
     bool cancelled = false;

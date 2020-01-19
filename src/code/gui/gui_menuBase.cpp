@@ -32,6 +32,7 @@ void GuiMenuBase::init()
 //*******************************
 // GuiMenuBase::adjustPageBy
 //*******************************
+// move the page up or down by an amount
 void GuiMenuBase::adjustPageBy(int moveBy) {
     selected += moveBy;
     firstVisibleIndex += moveBy;
@@ -41,6 +42,7 @@ void GuiMenuBase::adjustPageBy(int moveBy) {
 //*******************************
 // GuiMenuBase::computePagePosition
 //*******************************
+// complete recompute of positions based on the selected value
 void GuiMenuBase::computePagePosition() {
     if (getVerticalSize() == 0) {
         selected = 0;
