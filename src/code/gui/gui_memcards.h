@@ -1,6 +1,6 @@
 #pragma once
 
-#include "gui_menuBase.h"
+#include "gui_stringMenu.h"
 #include <vector>
 #include <string>
 #include "../lang.h"
@@ -8,16 +8,14 @@
 //********************
 // GuiMemcards
 //********************
-class GuiMemcards : public GuiMenuBase {
+class GuiMemcards : public GuiStringMenu {
 public:
-    GuiMemcards(SDL_Shared<SDL_Renderer> _renderer) : GuiMenuBase(_renderer,
-                                                             "-=" + _("Custom Memory Cards") + "=-") {}
+    GuiMemcards(SDL_Shared<SDL_Renderer> _renderer) : GuiStringMenu(_renderer) {}
 
     void init() override;
-    void render() override { GuiMenuBase::render(); }
-    void loop() override { GuiMenuBase::loop(); }
 
-    virtual std::string statusLine() override;   // returns the status line at the bottom
+    virtual std::string getTitle() override { return "-=" + _("-=" + _("Custom Memory Cards") + "=-") + "=-"; }
+    virtual std::string getStatusLine() override;   // returns the status line at the bottom
 
     void doCircle_Pressed() override;
     void doSquare_Pressed() override;

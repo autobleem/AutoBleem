@@ -3,32 +3,31 @@
 //
 #pragma once
 
-#include "gui_menuBase.h"
+#include "gui_twoColumnStringMenu.h"
 #include "../lang.h"
 #include "../launcher/ps_game.h"
 
 //********************
 // GuiManager
 //********************
-class GuiManager : public GuiMenuBase {
+class GuiManager : public GuiTwoColumnStringMenu {
 public:
-    GuiManager(SDL_Shared<SDL_Renderer> _renderer)
-        : GuiMenuBase(_renderer, "-=" + _("Game manager - Select game") + "=-") {}
+    GuiManager(SDL_Shared<SDL_Renderer> _renderer) : GuiTwoColumnStringMenu(_renderer) {}
 
     void init() override;
     void render() override;
-    void loop() override { GuiMenuBase::loop(); }
 
-    std::string statusLine() override;
+    virtual std::string getTitle() override;
+    std::string getStatusLine() override;
 
-    void doCircle();
-    void doSquare();
-    void doTriangle();
-    void doCross();
+    virtual void doCircle_Pressed() override;
+    virtual void doSquare_Pressed() override;
+    virtual void doTriangle_Pressed() override;
+    virtual void doCross_Pressed() override;
 
-    void doEnter() { doCross(); }
-    void doEscape() { doCircle(); }
-    void doDelete() { doSquare(); }
+    virtual void doEnter() override { doCross_Pressed(); }
+    virtual void doEscape() override { doCircle_Pressed(); }
+    virtual void doDelete() override { doSquare_Pressed(); }
 
     PsGames psGames;
     static int flushCovers(const char *file, const struct stat *sb, int flag, struct FTW *s);

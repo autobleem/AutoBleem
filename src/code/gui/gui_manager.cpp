@@ -4,19 +4,14 @@
 
 #include "gui_manager.h"
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_ttf.h>
 #include <string>
 #include <iostream>
-#include "gui.h"
 #include "gui_editor.h"
 #include "gui_confirm.h"
-#include "../main.h"
 #include "../lang.h"
 #include <ftw.h>
 #include "../engine/scanner.h"
-#include "../environment.h"
 #include "../engine/database.h"
 
 using namespace std;
@@ -25,23 +20,18 @@ using namespace std;
 // GuiManager::init
 //*******************************
 void GuiManager::init() {
-    menuType = Menu_TwoColumns;
     useSmallerFont = true;
     GuiMenuBase::init();    // call the base class init()
-
-    firstRow = 2;
-    xoffset_L = 0;
-    xoffset_R = 500;
 
     psGames.clear();
     gui->db->getGames(&psGames);    // Create list of games
     sort(psGames.begin(), psGames.end(), sortByTitle);  // sort by title
     for (int i = 0; i < psGames.size(); ++i) {
-        // "title"                "path"
-        lines_L.emplace_back(psGames[i]->title);
+        // left column              right column
+        // "title"                  "path"
         string path = DirEntry::removeSeparatorFromEndOfPath(psGames[i]->folder);
         path = DirEntry::removeGamesPathFromFrontOfPath(path);
-        lines_R.emplace_back(path);
+        lines.emplace_back(TwoColumnsOfText(psGames[i]->title, path));
     }
 }
 
@@ -57,19 +47,26 @@ void GuiManager::render()
 
     gui->renderFreeSpace();     // this is why this menu's render is special instead of using the base class
 
-    gui->renderTextLine(title, 0, offset, POS_CENTER);
+    gui->renderTextLine(getTitle(), 0, offset, POS_CENTER);
 
     renderLines();
     renderSelectionBox();
 
-    gui->renderStatus(statusLine());
+    gui->renderStatus(getStatusLine());
     SDL_RenderPresent(renderer);
 }
 
 //*******************************
-// GuiManager::statusLine
+// GuiManager::getTitle
 //*******************************
-string GuiManager::statusLine() {
+std::string GuiManager::getTitle() {
+    return "-=" + _("Game manager - Select game") + "=-";
+}
+
+//*******************************
+// GuiManager::getStatusLine
+//*******************************
+string GuiManager::getStatusLine() {
     return _("Game") + " " + to_string(selected + 1) + "/" + to_string(psGames.size()) +
            "    |@L1|/|@R1| " + _("Page") +
            "   |@X| " + _("Select") +
@@ -94,9 +91,9 @@ int GuiManager::flushCovers(const char *file, const struct stat *sb, int flag, s
 }
 
 //*******************************
-// GuiManager::doCirclePressed
+// GuiManager::doCircle_Pressed
 //*******************************
-void GuiManager::doCircle() {
+void GuiManager::doCircle_Pressed() {
     Mix_PlayChannel(-1, gui->cancel, 0);
     if (changes)
     {
@@ -106,9 +103,9 @@ void GuiManager::doCircle() {
 }
 
 //*******************************
-// GuiManager::doSquarePressed
+// GuiManager::doSquare_Pressed
 //*******************************
-void GuiManager::doSquare() {
+void GuiManager::doSquare_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     auto game = psGames[selected];
     int gameId = game->gameId;
@@ -158,9 +155,9 @@ void GuiManager::doSquare() {
 }
 
 //*******************************
-// GuiManager::doTrianglePressed
+// GuiManager::doTriangle_Pressed
 //*******************************
-void GuiManager::doTriangle() {
+void GuiManager::doTriangle_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     GuiConfirm * confirm = new GuiConfirm(renderer);
     confirm->label = _("Are you sure you want to flush all covers?");
@@ -188,9 +185,9 @@ void GuiManager::doTriangle() {
 }
 
 //*******************************
-// GuiManager::doCrossPressed
+// GuiManager::doCross_Pressed
 //*******************************
-void GuiManager::doCross() {
+void GuiManager::doCross_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (!psGames.empty())
     {

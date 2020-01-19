@@ -144,7 +144,7 @@ void GuiOptions::render() {
 
     gui->renderSelectionBox(firstRow + selected, offset);
 
-    gui->renderStatus(statusLine());
+    gui->renderStatus(getStatusLine());
     SDL_RenderPresent(renderer);
 }
 
@@ -290,9 +290,9 @@ string GuiOptions::getBooleanIcon(const string & input) {
 }
 
 //*******************************
-// GuiOptions::doCirclePressed
+// GuiOptions::doCircle_Pressed
 //*******************************
-void GuiOptions::doCircle() {
+void GuiOptions::doCircle_Pressed() {
     Mix_PlayChannel(-1, gui->cancel, 0);
     string cfg_path = Env::getWorkingPath() + sep + "config.ini";
     gui->cfg.inifile.load(cfg_path);    // restore the original config.ini settings
@@ -304,9 +304,9 @@ void GuiOptions::doCircle() {
 }
 
 //*******************************
-// GuiOptions::doCrossPressed
+// GuiOptions::doCross_Pressed
 //*******************************
-void GuiOptions::doCross() {
+void GuiOptions::doCross_Pressed() {
     Mix_PlayChannel(-1, gui->cancel, 0);
     gui->cfg.save();
     gui->overrideQuickBoot = true;

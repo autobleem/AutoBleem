@@ -1,18 +1,19 @@
 #pragma once
 
-#include "gui_menuBase.h"
+#include "gui_stringMenu.h"
 #include <vector>
 #include <string>
 #include "../lang.h"
 
-class GuiGameDirMenu : public GuiMenuBase {
+//*******************************
+// class GuiGameDirMenu
+//*******************************
+class GuiGameDirMenu : public GuiStringMenu {
 public:
-    GuiGameDirMenu(SDL_Shared<SDL_Renderer> _renderer) : GuiMenuBase(_renderer,
-                                                         "-=" + _("Select PS1 Game Category") + "=-") {}
+    GuiGameDirMenu(SDL_Shared<SDL_Renderer> _renderer) : GuiStringMenu(_renderer) {}
 
-    void init() override { GuiMenuBase::init(); };
-    void render() override { GuiMenuBase::render(); };
-    void loop() override { GuiMenuBase::loop(); };
+    virtual std::string getTitle() override { return "-=" + _("Select PS1 Game Category") + "=-"; }
+    virtual std::string getStatusLine() override { return GuiStringMenu::getStatusLine(); }
 
     void doEnter() { doCross_Pressed(); }
     void doEscape() { doCircle_Pressed(); }

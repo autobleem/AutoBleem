@@ -62,8 +62,8 @@ public:
 
     virtual int getVerticalSize() { return CFG_SIZE; }
 
-    virtual void doCircle();
-    virtual void doCross();
+    virtual void doCircle_Pressed();
+    virtual void doCross_Pressed();
 
     virtual void doJoyRight();  // move option to the right, may fast forwward
     virtual void doJoyLeft();   // move option to the left, may fast forwward
@@ -71,6 +71,6 @@ public:
     virtual void doKeyRight();  // move option to the right
     virtual void doKeyLeft();   // move option to the left
 
-    virtual void doEnter() { doCross(); }
-    virtual void doEscape() { doCircle(); }
+    virtual void doEnter() { doCross_Pressed(); }
+    virtual void doEscape() { doCircle_Pressed(); }
 };

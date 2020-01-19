@@ -161,10 +161,12 @@ add_executable(
 		src/code/launcher/launch_interceptor.h 
 		src/code/launcher/gui_app_start.cpp 
 		src/code/launcher/gui_app_start.h 
-		src/code/gui/gui_menuBase.h 
-		src/code/gui/gui_menuBase.cpp 
-		src/code/gui/gui_optionsMenuBase.h 
-		src/code/gui/gui_optionsMenuBase.cpp)
+		src/code/gui/gui_menuBase.h
+		src/code/gui/gui_optionsMenuBase.h
+		src/code/gui/gui_optionsMenuBase.cpp 
+		src/code/gui/gui_stringMenu.h
+		src/code/gui/gui_twoColumnStringMenu.h
+)
 
 target_include_directories(autobleem-gui PUBLIC
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs/sqlite>

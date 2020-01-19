@@ -27,16 +27,16 @@ void GuiOptionsMenuBase::render()
     offset = gui->renderLogo(true);
     gui->renderTextLine(title, 0, offset, POS_CENTER);
 
-    gui->renderStatus(statusLine());
+    gui->renderStatus(getStatusLine());
     SDL_RenderPresent(renderer);
 }
 #endif
 
 //*******************************
-// GuiOptionsMenuBase::statusLine
+// GuiOptionsMenuBase::getStatusLine
 //*******************************
 // the default status line for menus.  override if needed.
-string GuiOptionsMenuBase::statusLine() {
+string GuiOptionsMenuBase::getStatusLine() {
     return "|@X| " + _("OK") + "     " + "|@O| " + _("Cancel") + "|";
 }
 

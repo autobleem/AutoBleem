@@ -5,16 +5,17 @@
 #include <vector>
 #include <string>
 
+//*******************************
+// class GuiOptionsMenuBase
+//*******************************
 class GuiOptionsMenuBase : public GuiScreen {
 public:
     GuiOptionsMenuBase(SDL_Shared<SDL_Renderer> _renderer, std::string _title = "")
         : GuiScreen(_renderer), title(_title) {}
 
     virtual void init() override;
-    virtual void render() override {}
-    virtual void loop() override {}
 
-    virtual std::string statusLine();   // returns the status line at the bottom if you need to override it
+    virtual std::string getStatusLine();   // returns the status line at the bottom if you need to override it
 
     std::shared_ptr<Gui> gui;
     std::string title;
