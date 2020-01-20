@@ -8,11 +8,11 @@
 #include <string>
 #include <iostream>
 #include "gui_editor.h"
-#include "gui_confirm.h"
-#include "../lang.h"
+#include "../gui_confirm.h"
+#include "../../lang.h"
 #include <ftw.h>
-#include "../engine/scanner.h"
-#include "../engine/database.h"
+#include "../../engine/scanner.h"
+#include "../../engine/database.h"
 
 using namespace std;
 

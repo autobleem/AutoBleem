@@ -2,7 +2,7 @@
 
 #include "gui_menuBase.h"
 #include <SDL2/SDL_render.h>
-#include "gui_sdl_wrapper.h"
+#include "../gui_sdl_wrapper.h"
 
 //*******************************
 // class GuiStringMenu

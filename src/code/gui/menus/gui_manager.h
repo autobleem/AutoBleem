@@ -4,8 +4,8 @@
 #pragma once
 
 #include "gui_twoColumnStringMenu.h"
-#include "../lang.h"
-#include "../launcher/ps_game.h"
+#include "../../lang.h"
+#include "../../launcher/ps_game.h"
 
 //********************
 // GuiManager

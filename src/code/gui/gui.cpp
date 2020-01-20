@@ -5,9 +5,9 @@
 #include "gui.h"
 #include "gui_about.h"
 #include "gui_splash.h"
-#include "gui_options.h"
-#include "gui_memcards.h"
-#include "gui_manager.h"
+#include "menus/gui_options.h"
+#include "menus/gui_memcards.h"
+#include "menus/gui_manager.h"
 #include "gui_confirm.h"
 #include <SDL2/SDL_image.h>
 #include "../ver_migration.h"

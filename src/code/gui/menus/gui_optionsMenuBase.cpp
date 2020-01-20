@@ -3,17 +3,18 @@
 #include <SDL2/SDL_mixer.h>
 #include <string>
 #include <cassert>
-#include "../lang.h"
+#include "../../lang.h"
 
 using namespace std;
 
+#if 0
 //*******************************
 // void GuiOptionsMenuBase::init()
 //*******************************
 void GuiOptionsMenuBase::init()
 {
-    gui = Gui::getInstance();
 }
+#endif
 
 #if 0
 //*******************************

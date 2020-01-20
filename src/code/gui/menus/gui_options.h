@@ -4,8 +4,8 @@
 #pragma once
 
 #include "gui_optionsMenuBase.h"
-#include "gui.h"
-#include "../lang.h"
+#include "../gui.h"
+#include "../../lang.h"
 #include <string>
 #include <vector>
 

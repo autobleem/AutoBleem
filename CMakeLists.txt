@@ -89,18 +89,10 @@ add_executable(
         src/code/gui/gui_screen.h
         src/code/gui/gui_splash.cpp
         src/code/gui/gui_splash.h
-        src/code/gui/gui_options.cpp
-        src/code/gui/gui_options.h
-        src/code/gui/gui_memcards.cpp
-        src/code/gui/gui_memcards.h
         src/code/gui/gui_confirm.cpp
         src/code/gui/gui_confirm.h
         src/code/gui/gui_keyboard.cpp
         src/code/gui/gui_keyboard.h
-        src/code/gui/gui_manager.cpp
-        src/code/gui/gui_manager.h
-        src/code/gui/gui_editor.cpp
-        src/code/gui/gui_editor.h
 		src/code/gui/gui_selectmemcard.cpp
         src/code/gui/gui_selectmemcard.h
         src/code/gui/gui_sdl_wrapper.h
@@ -108,21 +100,29 @@ add_executable(
         src/code/gui/gui_font.h
         src/code/gui/gui_font.cpp
         src/code/gui/gui_font_wrapper.h
-		src/code/gui/gui_gameDirMenu.h
 		src/code/gui/gui_scrollWin.h
 		src/code/gui/gui_scrollWin.cpp
         src/code/gui/gui_padconfig.cpp
         src/code/gui/gui_padconfig.h
         src/code/gui/gui_padTest.cpp
         src/code/gui/gui_padTest.h
-        src/code/gui/gui_playlists.h
 		src/code/gui/starfx.cpp
 		src/code/gui/starfx.h
-		src/code/gui/gui_menuBase.h
-		src/code/gui/gui_optionsMenuBase.h
-		src/code/gui/gui_optionsMenuBase.cpp 
-		src/code/gui/gui_stringMenu.h
-		src/code/gui/gui_twoColumnStringMenu.h
+        src/code/gui/menus/gui_options.cpp
+        src/code/gui/menus/gui_options.h
+        src/code/gui/menus/gui_memcards.cpp
+        src/code/gui/menus/gui_memcards.h
+        src/code/gui/menus/gui_manager.cpp
+        src/code/gui/menus/gui_manager.h
+        src/code/gui/menus/gui_editor.cpp
+        src/code/gui/menus/gui_editor.h
+		src/code/gui/menus/gui_gameDirMenu.h
+        src/code/gui/menus/gui_playlists.h
+		src/code/gui/menus/gui_menuBase.h
+		src/code/gui/menus/gui_optionsMenuBase.h
+		src/code/gui/menus/gui_optionsMenuBase.cpp 
+		src/code/gui/menus/gui_stringMenu.h
+		src/code/gui/menus/gui_twoColumnStringMenu.h
         src/code/launcher/gui_launcher.cpp
         src/code/launcher/gui_launcher.h 
 		src/code/launcher/gui_NotificationLine.h

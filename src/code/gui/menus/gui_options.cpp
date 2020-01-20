@@ -3,8 +3,8 @@
 //
 
 #include "gui_options.h"
-#include "../util.h"
-#include "../environment.h"
+#include "../../util.h"
+#include "../../environment.h"
 
 using namespace std;
 

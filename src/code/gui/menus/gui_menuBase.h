@@ -1,11 +1,11 @@
 #pragma once
 
-#include "gui_screen.h"
-#include "gui.h"
+#include "../gui_screen.h"
+#include "../gui.h"
 #include <vector>
 #include <string>
-#include "../lang.h"
-#include "../gui/gui_sdl_wrapper.h"
+#include "../../lang.h"
+#include "../gui_sdl_wrapper.h"
 
 //*******************************
 // GuiMenuBase template class

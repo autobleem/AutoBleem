@@ -3,7 +3,7 @@
 #include "gui_stringMenu.h"
 #include <vector>
 #include <string>
-#include "../lang.h"
+#include "../../lang.h"
 
 //*******************************
 // class GuiGameDirMenu

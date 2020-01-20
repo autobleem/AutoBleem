@@ -3,15 +3,15 @@
 //
 
 #include "gui_editor.h"
-#include "gui.h"
-#include "gui_keyboard.h"
-#include "gui_selectmemcard.h"
-#include "../engine/memcard.h"
-#include "../engine/cfgprocessor.h"
+#include "../gui.h"
+#include "../gui_keyboard.h"
+#include "../gui_selectmemcard.h"
+#include "../../engine/memcard.h"
+#include "../../engine/cfgprocessor.h"
 #include <SDL2/SDL_image.h>
-#include "../lang.h"
+#include "../../lang.h"
 #include <sstream>
-#include "../environment.h"
+#include "../../environment.h"
 
 using namespace std;
 

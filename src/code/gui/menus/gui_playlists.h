@@ -1,8 +1,8 @@
 #pragma once
 
 #include "gui_stringMenu.h"
-#include "../lang.h"
-#include "../launcher/ra_integrator.h"
+#include "../../lang.h"
+#include "../../launcher/ra_integrator.h"
 
 //*******************************
 // class GuiPlaylists

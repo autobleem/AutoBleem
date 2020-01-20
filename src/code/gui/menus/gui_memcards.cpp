@@ -2,11 +2,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <string>
-#include "gui.h"
-#include "../engine/memcard.h"
-#include "gui_confirm.h"
-#include "gui_keyboard.h"
-#include "../lang.h"
+#include "../gui.h"
+#include "../../engine/memcard.h"
+#include "../gui_confirm.h"
+#include "../gui_keyboard.h"
+#include "../../lang.h"
 
 using namespace std;
 
