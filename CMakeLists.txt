@@ -36,136 +36,136 @@ add_library(sqlite3 STATIC libs/sqlite/sqlite3ab.c )
 
 add_executable(
         autobleem-gui
-        src/code/unecm.c
-        src/code/main.h
-        src/code/main.cpp
-        src/code/DebugTimer.h
         src/code/DebugTimer.cpp
+        src/code/DebugTimer.h
+        src/code/engine/cardedit.h
+        src/code/engine/cfgprocessor.cpp
+        src/code/engine/cfgprocessor.h
+        src/code/engine/config.cpp
+        src/code/engine/config.h
+        src/code/engine/coverdb.cpp
+        src/code/engine/coverdb.h
         src/code/engine/database.cpp
         src/code/engine/database.h
-        src/code/util.h
-        src/code/util.cpp
-		src/code/DirEntry.h
-		src/code/DirEntry.cpp
-		src/code/ver_migration.cpp
-		src/code/ver_migration.h
-        src/code/lang.cpp
-        src/code/lang.h 
-        src/code/environment.h
-		src/code/environment.cpp
-        src/code/engine/game.cpp
-        src/code/engine/game.h
-        src/code/engine/scanner.cpp
-        src/code/engine/scanner.h
-        src/code/engine/GetGameDirHierarchy.cpp
-        src/code/engine/GetGameDirHierarchy.h
-        src/code/engine/metadata.cpp
-        src/code/engine/metadata.h
         src/code/engine/ecmhelper.cpp
         src/code/engine/ecmhelper.h
+        src/code/engine/game.cpp
+        src/code/engine/game.h
+        src/code/engine/GetGameDirHierarchy.cpp
+        src/code/engine/GetGameDirHierarchy.h
         src/code/engine/inifile.cpp
         src/code/engine/inifile.h
         src/code/engine/isodir.cpp
         src/code/engine/isodir.h
-        src/code/engine/config.cpp
-        src/code/engine/config.h
-        src/code/engine/cfgprocessor.cpp
-        src/code/engine/cfgprocessor.h
         src/code/engine/memcard.cpp
         src/code/engine/memcard.h
-        src/code/engine/coverdb.h
-        src/code/engine/serialscanner.cpp
-        src/code/engine/serialscanner.h
-        src/code/engine/coverdb.cpp
+        src/code/engine/metadata.cpp
+        src/code/engine/metadata.h
         src/code/engine/padmapper.cpp
         src/code/engine/padmapper.h
-        src/code/engine/cardedit.h
-		src/code/engine/cardedit.cpp
-        src/code/gui/gui.h
+        src/code/engine/scanner.cpp
+        src/code/engine/scanner.h
+        src/code/engine/serialscanner.cpp
+        src/code/engine/serialscanner.h
+        src/code/environment.h
         src/code/gui/gui.cpp
+        src/code/gui/gui.h
         src/code/gui/gui_about.cpp
         src/code/gui/gui_about.h
-        src/code/gui/gui_screen.cpp
-        src/code/gui/gui_screen.h
-        src/code/gui/gui_splash.cpp
-        src/code/gui/gui_splash.h
         src/code/gui/gui_confirm.cpp
         src/code/gui/gui_confirm.h
+        src/code/gui/gui_font.cpp
+        src/code/gui/gui_font.h
+        src/code/gui/gui_font_wrapper.h
         src/code/gui/gui_keyboard.cpp
         src/code/gui/gui_keyboard.h
-		src/code/gui/gui_selectmemcard.cpp
-        src/code/gui/gui_selectmemcard.h
-        src/code/gui/gui_sdl_wrapper.h
-        src/code/gui/gui_sdl_wrapper.cpp
-        src/code/gui/gui_font.h
-        src/code/gui/gui_font.cpp
-        src/code/gui/gui_font_wrapper.h
-		src/code/gui/gui_scrollWin.h
-		src/code/gui/gui_scrollWin.cpp
         src/code/gui/gui_padconfig.cpp
         src/code/gui/gui_padconfig.h
         src/code/gui/gui_padTest.cpp
         src/code/gui/gui_padTest.h
-		src/code/gui/starfx.cpp
-		src/code/gui/starfx.h
-        src/code/gui/menus/gui_options.cpp
-        src/code/gui/menus/gui_options.h
-        src/code/gui/menus/gui_memcards.cpp
-        src/code/gui/menus/gui_memcards.h
-        src/code/gui/menus/gui_manager.cpp
-        src/code/gui/menus/gui_manager.h
+        src/code/gui/gui_screen.cpp
+        src/code/gui/gui_screen.h
+        src/code/gui/gui_sdl_wrapper.cpp
+        src/code/gui/gui_sdl_wrapper.h
+        src/code/gui/gui_selectmemcard.h
+        src/code/gui/gui_splash.cpp
+        src/code/gui/gui_splash.h
         src/code/gui/menus/gui_editor.cpp
         src/code/gui/menus/gui_editor.h
-		src/code/gui/menus/gui_gameDirMenu.h
+        src/code/gui/menus/gui_manager.cpp
+        src/code/gui/menus/gui_manager.h
+        src/code/gui/menus/gui_memcards.cpp
+        src/code/gui/menus/gui_memcards.h
+        src/code/gui/menus/gui_options.cpp
+        src/code/gui/menus/gui_options.h
         src/code/gui/menus/gui_playlists.h
-		src/code/gui/menus/gui_menuBase.h
-		src/code/gui/menus/gui_optionsMenuBase.h
-		src/code/gui/menus/gui_optionsMenuBase.cpp 
-		src/code/gui/menus/gui_stringMenu.h
-		src/code/gui/menus/gui_twoColumnStringMenu.h
-        src/code/launcher/gui_launcher.cpp
-        src/code/launcher/gui_launcher.h 
-		src/code/launcher/gui_NotificationLine.h
-		src/code/launcher/gui_NotificationLine.cpp
-        src/code/launcher/ps_obj.cpp
-        src/code/launcher/ps_obj.h
-        src/code/launcher/ps_static.cpp
-        src/code/launcher/ps_static.h
-        src/code/launcher/ps_settings_back.cpp 
-        src/code/launcher/ps_settings_back.h
-        src/code/launcher/ps_zoom_btn.cpp
-        src/code/launcher/ps_zoom_btn.h
-        src/code/launcher/ps_meta.cpp
-        src/code/launcher/ps_meta.h
-        src/code/launcher/ps_game.cpp 
-        src/code/launcher/ps_game.h 
-        src/code/launcher/ps_carousel.cpp
-        src/code/launcher/ps_carousel.h
-        src/code/launcher/pcsx_interceptor.cpp
-        src/code/launcher/pcsx_interceptor.h
-        src/code/launcher/ps_move_bnt.cpp
-        src/code/launcher/ps_move_bnt.h 
-        src/code/launcher/ps_menu.cpp
-        src/code/launcher/ps_menu.h
-        src/code/launcher/ps_centerlabel.cpp
-        src/code/launcher/ps_centerlabel.h
-        src/code/launcher/ps_stateselector.cpp
-        src/code/launcher/ps_stateselector.h
+        src/code/lang.cpp
+        src/code/lang.h 
         src/code/launcher/gui_btn_guide.cpp
         src/code/launcher/gui_btn_guide.h
-		src/code/launcher/gui_launcher_loop.cpp
-		src/code/launcher/retboot_interceptor.cpp
-		src/code/launcher/retboot_interceptor.h
+        src/code/launcher/gui_launcher.cpp
+        src/code/launcher/gui_launcher.h 
+        src/code/launcher/gui_mc_manager.h
+        src/code/launcher/launch_interceptor.cpp 
+        src/code/launcher/pcsx_interceptor.cpp
+        src/code/launcher/pcsx_interceptor.h
+        src/code/launcher/ps_carousel.cpp
+        src/code/launcher/ps_carousel.h
+        src/code/launcher/ps_centerlabel.cpp
+        src/code/launcher/ps_centerlabel.h
+        src/code/launcher/ps_game.cpp 
+        src/code/launcher/ps_game.h 
+        src/code/launcher/ps_menu.cpp
+        src/code/launcher/ps_menu.h
+        src/code/launcher/ps_meta.cpp
+        src/code/launcher/ps_meta.h
+        src/code/launcher/ps_move_bnt.cpp
+        src/code/launcher/ps_move_bnt.h 
+        src/code/launcher/ps_obj.cpp
+        src/code/launcher/ps_obj.h
+        src/code/launcher/ps_settings_back.cpp 
+        src/code/launcher/ps_settings_back.h
+        src/code/launcher/ps_stateselector.cpp
+        src/code/launcher/ps_stateselector.h
+        src/code/launcher/ps_static.cpp
+        src/code/launcher/ps_static.h
+        src/code/launcher/ps_zoom_btn.cpp
+        src/code/launcher/ps_zoom_btn.h
+        src/code/main.cpp
+        src/code/main.h
+        src/code/unecm.c
+        src/code/util.cpp
+        src/code/util.h
+		src/code/DirEntry.cpp
+		src/code/DirEntry.h
+		src/code/engine/cardedit.cpp
+		src/code/environment.cpp
+		src/code/gui/gui_scrollWin.cpp
+		src/code/gui/gui_scrollWin.h
+		src/code/gui/gui_selectmemcard.cpp
+		src/code/gui/menus/gui_gameDirMenu.h
+		src/code/gui/menus/gui_menuBase.h
+		src/code/gui/menus/gui_optionsMenuBase.cpp 
+		src/code/gui/menus/gui_optionsMenuBase.h
+		src/code/gui/menus/gui_stringMenu.h
+		src/code/gui/menus/gui_twoColumnStringMenu.h
+		src/code/gui/starfx.cpp
+		src/code/gui/starfx.h
 		src/code/launcher/emu_interceptor.cpp
 		src/code/launcher/emu_interceptor.h
-		src/code/launcher/ra_integrator.cpp
-		src/code/launcher/ra_integrator.h
-        src/code/launcher/gui_mc_manager.h
-		src/code/launcher/gui_mc_manager.cpp
-        src/code/launcher/launch_interceptor.cpp 
-		src/code/launcher/launch_interceptor.h 
 		src/code/launcher/gui_app_start.cpp 
 		src/code/launcher/gui_app_start.h 
+		src/code/launcher/gui_launcher_loop.cpp
+		src/code/launcher/gui_mc_manager.cpp
+		src/code/launcher/gui_NotificationLine.cpp
+		src/code/launcher/gui_NotificationLine.h
+		src/code/launcher/launch_interceptor.h 
+		src/code/launcher/ra_integrator.cpp
+		src/code/launcher/ra_integrator.h
+		src/code/launcher/retboot_interceptor.cpp
+		src/code/launcher/retboot_interceptor.h
+		src/code/ver_migration.cpp
+		src/code/ver_migration.h
 )
 
 target_include_directories(autobleem-gui PUBLIC
