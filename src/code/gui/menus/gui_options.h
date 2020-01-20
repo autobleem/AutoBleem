@@ -33,10 +33,13 @@ enum {
 class GuiOptions : public GuiOptionsMenuBase {
 public:
     GuiOptions(SDL_Shared<SDL_Renderer> _renderer)
-        : GuiOptionsMenuBase(_renderer, "-=" + _("Configuration") + "=-") {}
+        : GuiOptionsMenuBase(_renderer) {}
 
     void init() override;
     void render() override;
+
+    virtual std::string getTitle() override { return "-=" + _("Configuration") + "=-"; }
+    virtual std::string getStatusLine() override { return "|@X| " + _("OK") + "     " + "|@O| " + _("Cancel") + "|"; }
 
     std::string getPrevNextOption(const std::vector<std::string> & list, const std::string & current, bool next);
     void doPrevNextOption(shared_ptr<Gui> gui, shared_ptr<Lang> lang, bool next);

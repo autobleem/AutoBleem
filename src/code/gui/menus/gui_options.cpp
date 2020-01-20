@@ -95,7 +95,7 @@ void GuiOptions::renderOptionLine(const string & text, int cfgIndex, int offset)
     int height = gui->renderTextLineOptions(text, row, offset, POS_LEFT);
     int totalHeight = row * height;
 
-#if 0
+#if 0   // use gui->renderSelectionBox instead
     if (selected == cfgIndex) {
         SDL_Rect rect2;
         rect2.x = atoi(gui->themeData.values["opscreenx"].c_str());
@@ -117,6 +117,23 @@ void GuiOptions::renderOptionLine(const string & text, int cfgIndex, int offset)
 }
 
 //*******************************
+// GuiOptions::getBooleanIcon
+//*******************************
+string GuiOptions::getBooleanIcon(const string & input) {
+    shared_ptr<Gui> gui(Gui::getInstance());
+    string value = gui->cfg.inifile.values[input];
+    if (input == "quick") {
+        if (value == "true") return gui->cfg.inifile.values["delay"] + "s  " + "|@Check|"; else return "|@Uncheck|";
+    }
+
+    if ((input != "nomusic") && (input != "mip")) {
+        if (value == "true") return "|@Check|"; else return "|@Uncheck|";
+    } else {
+        if (value != "true") return "|@Check|"; else return "|@Uncheck|";
+    }
+}
+
+//*******************************
 // GuiOptions::render
 //*******************************
 void GuiOptions::render() {
@@ -124,7 +141,7 @@ void GuiOptions::render() {
     gui->renderBackground();
     gui->renderTextBar();
     offset = gui->renderLogo(true);
-    gui->renderTextLine(title, 0, offset, POS_CENTER);
+    gui->renderTextLine(getTitle(), 0, offset, POS_CENTER);
 
     renderOptionLine(_("AutoBleem Theme:") + " " + gui->cfg.inifile.values["theme"], CFG_THEME, offset);
     renderOptionLine(_("Show Internal Games:") + " " + getBooleanIcon("origames"), CFG_SHOW_ORIGAMES, offset);
@@ -269,23 +286,6 @@ void GuiOptions::doPrevNextOption(shared_ptr<Gui> gui, shared_ptr<Lang> lang, bo
         gui->cfg.inifile.values["language"] = nextValue;
         lang->load(nextValue);
         init();
-    }
-}
-
-//*******************************
-// GuiOptions::getBooleanIcon
-//*******************************
-string GuiOptions::getBooleanIcon(const string & input) {
-    shared_ptr<Gui> gui(Gui::getInstance());
-    string value = gui->cfg.inifile.values[input];
-    if (input == "quick") {
-        if (value == "true") return gui->cfg.inifile.values["delay"] + "s  " + "|@Check|"; else return "|@Uncheck|";
-    }
-
-    if ((input != "nomusic") && (input != "mip")) {
-        if (value == "true") return "|@Check|"; else return "|@Uncheck|";
-    } else {
-        if (value != "true") return "|@Check|"; else return "|@Uncheck|";
     }
 }
 
