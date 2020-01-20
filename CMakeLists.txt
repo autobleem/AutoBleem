@@ -47,6 +47,12 @@ add_executable(
         src/code/util.cpp
 		src/code/DirEntry.h
 		src/code/DirEntry.cpp
+		src/code/ver_migration.cpp
+		src/code/ver_migration.h
+        src/code/lang.cpp
+        src/code/lang.h 
+        src/code/environment.h
+		src/code/environment.cpp
         src/code/engine/game.cpp
         src/code/engine/game.h
         src/code/engine/scanner.cpp
@@ -57,8 +63,6 @@ add_executable(
         src/code/engine/metadata.h
         src/code/engine/ecmhelper.cpp
         src/code/engine/ecmhelper.h
-        src/code/gui/gui.h
-        src/code/gui/gui.cpp
         src/code/engine/inifile.cpp
         src/code/engine/inifile.h
         src/code/engine/isodir.cpp
@@ -69,6 +73,16 @@ add_executable(
         src/code/engine/cfgprocessor.h
         src/code/engine/memcard.cpp
         src/code/engine/memcard.h
+        src/code/engine/coverdb.h
+        src/code/engine/serialscanner.cpp
+        src/code/engine/serialscanner.h
+        src/code/engine/coverdb.cpp
+        src/code/engine/padmapper.cpp
+        src/code/engine/padmapper.h
+        src/code/engine/cardedit.h
+		src/code/engine/cardedit.cpp
+        src/code/gui/gui.h
+        src/code/gui/gui.cpp
         src/code/gui/gui_about.cpp
         src/code/gui/gui_about.h
         src/code/gui/gui_screen.cpp
@@ -97,14 +111,18 @@ add_executable(
 		src/code/gui/gui_gameDirMenu.h
 		src/code/gui/gui_scrollWin.h
 		src/code/gui/gui_scrollWin.cpp
-		src/code/ver_migration.cpp
-		src/code/ver_migration.h
-        src/code/engine/coverdb.cpp
-        src/code/engine/coverdb.h
-        src/code/engine/serialscanner.cpp
-        src/code/engine/serialscanner.h
-        src/code/lang.cpp
-        src/code/lang.h 
+        src/code/gui/gui_padconfig.cpp
+        src/code/gui/gui_padconfig.h
+        src/code/gui/gui_padTest.cpp
+        src/code/gui/gui_padTest.h
+        src/code/gui/gui_playlists.h
+		src/code/gui/starfx.cpp
+		src/code/gui/starfx.h
+		src/code/gui/gui_menuBase.h
+		src/code/gui/gui_optionsMenuBase.h
+		src/code/gui/gui_optionsMenuBase.cpp 
+		src/code/gui/gui_stringMenu.h
+		src/code/gui/gui_twoColumnStringMenu.h
         src/code/launcher/gui_launcher.cpp
         src/code/launcher/gui_launcher.h 
 		src/code/launcher/gui_NotificationLine.h
@@ -136,36 +154,18 @@ add_executable(
         src/code/launcher/gui_btn_guide.cpp
         src/code/launcher/gui_btn_guide.h
 		src/code/launcher/gui_launcher_loop.cpp
-        src/code/engine/padmapper.cpp
-        src/code/engine/padmapper.h
-        src/code/gui/gui_padconfig.cpp
-        src/code/gui/gui_padconfig.h
-        src/code/gui/gui_padTest.cpp
-        src/code/gui/gui_padTest.h
 		src/code/launcher/retboot_interceptor.cpp
 		src/code/launcher/retboot_interceptor.h
 		src/code/launcher/emu_interceptor.cpp
 		src/code/launcher/emu_interceptor.h
 		src/code/launcher/ra_integrator.cpp
 		src/code/launcher/ra_integrator.h
-        src/code/gui/gui_playlists.h
-        src/code/engine/cardedit.h
-		src/code/engine/cardedit.cpp
         src/code/launcher/gui_mc_manager.h
 		src/code/launcher/gui_mc_manager.cpp
-		src/code/gui/starfx.cpp
-		src/code/gui/starfx.h
-        src/code/environment.h
-		src/code/environment.cpp
         src/code/launcher/launch_interceptor.cpp 
 		src/code/launcher/launch_interceptor.h 
 		src/code/launcher/gui_app_start.cpp 
 		src/code/launcher/gui_app_start.h 
-		src/code/gui/gui_menuBase.h
-		src/code/gui/gui_optionsMenuBase.h
-		src/code/gui/gui_optionsMenuBase.cpp 
-		src/code/gui/gui_stringMenu.h
-		src/code/gui/gui_twoColumnStringMenu.h
 )
 
 target_include_directories(autobleem-gui PUBLIC
