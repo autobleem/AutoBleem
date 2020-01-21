@@ -90,15 +90,15 @@ add_executable(
         src/code/gui/gui_selectmemcard.h
         src/code/gui/gui_splash.cpp
         src/code/gui/gui_splash.h
-        src/code/gui/menus/gui_editor.cpp
-        src/code/gui/menus/gui_editor.h
-        src/code/gui/menus/gui_manager.cpp
-        src/code/gui/menus/gui_manager.h
-        src/code/gui/menus/gui_memcards.cpp
-        src/code/gui/menus/gui_memcards.h
-        src/code/gui/menus/gui_options.cpp
-        src/code/gui/menus/gui_options.h
-        src/code/gui/menus/gui_playlists.h
+        src/code/gui/menus/gui_gameEditorMenu.cpp
+        src/code/gui/menus/gui_gameEditorMenu.h
+        src/code/gui/menus/gui_gameManagerMenu.cpp
+        src/code/gui/menus/gui_gameManagerMenu.h
+        src/code/gui/menus/gui_memCardsMenu.cpp
+        src/code/gui/menus/gui_memCardsMenu.h
+        src/code/gui/menus/gui_optionsMenu.cpp
+        src/code/gui/menus/gui_optionsMenu.h
+        src/code/gui/menus/gui_playlistsMenu.h
         src/code/lang.cpp
         src/code/lang.h 
         src/code/launcher/gui_btn_guide.cpp

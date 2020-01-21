@@ -47,7 +47,6 @@ public:
     void renderOptionLine(const std::string & text, int cfgIndex, int offset);
 
     int exitCode=0;
-    std::shared_ptr<Lang> lang;
 
     std::vector<std::string> autobleemUIThemes;
     std::vector<std::string> origames;

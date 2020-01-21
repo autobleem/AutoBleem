@@ -7,28 +7,17 @@
 
 using namespace std;
 
-#if 0
 //*******************************
 // void GuiOptionsMenuBase::init()
 //*******************************
 void GuiOptionsMenuBase::init()
 {
+    lang = Lang::getInstance();
 }
-#endif
 
-#if 0
 //*******************************
-// GuiOptionsMenuBase::render
+// void GuiOptionsMenuBase::init()
 //*******************************
-void GuiOptionsMenuBase::render()
-{
-    SDL_RenderClear(renderer);
-    gui->renderBackground();
-    gui->renderTextBar();
-    offset = gui->renderLogo(true);
-    gui->renderTextLine(title, 0, offset, POS_CENTER);
+void GuiOptionsMenuBase::renderLineIndexOnRow(int index, int row) {
 
-    gui->renderStatus(getStatusLine());
-    SDL_RenderPresent(renderer);
 }
-#endif

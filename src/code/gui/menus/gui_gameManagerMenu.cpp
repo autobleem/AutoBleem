@@ -2,12 +2,12 @@
 // Created by screemer on 2019-01-24.
 //
 
-#include "gui_manager.h"
+#include "gui_gameManagerMenu.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <string>
 #include <iostream>
-#include "gui_editor.h"
+#include "gui_gameEditorMenu.h"
 #include "../gui_confirm.h"
 #include "../../lang.h"
 #include <ftw.h>

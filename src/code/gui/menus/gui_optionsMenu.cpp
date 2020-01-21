@@ -2,7 +2,7 @@
 // Created by screemer on 2019-01-24.
 //
 
-#include "gui_options.h"
+#include "gui_optionsMenu.h"
 #include "../../util.h"
 #include "../../environment.h"
 
@@ -13,8 +13,6 @@ using namespace std;
 //*******************************
 void GuiOptions::init() {
     GuiOptionsMenuBase::init(); // call the base class init()
-
-    lang = Lang::getInstance();
 
     autobleemUIThemes.clear();
 
@@ -84,13 +82,14 @@ void GuiOptions::init() {
     raconfig.clear();
     raconfig.push_back("false");
     raconfig.push_back("true");
+
+    gui->cfg.inifile.values["autoregion"] = "true"; // removing this as an option - not needed - just set to true
 }
 
 //*******************************
 // GuiOptions::renderOptionLine
 //*******************************
 void GuiOptions::renderOptionLine(const string & text, int cfgIndex, int offset) {
-    string fg = gui->themeData.values["text_fg"];
     int row = firstRow + cfgIndex;
     int height = gui->renderTextLineOptions(text, row, offset, POS_LEFT);
     int totalHeight = row * height;
@@ -109,6 +108,7 @@ void GuiOptions::renderOptionLine(const string & text, int cfgIndex, int offset)
         rectSelection.w = rect2.w - 10;
         rectSelection.h = height;
 
+    string fg = gui->themeData.values["text_fg"];
         SDL_SetRenderDrawColor(renderer, gui->getR(fg), gui->getG(fg), gui->getB(fg), 255);
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
         SDL_RenderDrawRect(renderer, &rectSelection);
@@ -156,8 +156,6 @@ void GuiOptions::render() {
     renderOptionLine(_("Update RA Config:") + " " + getBooleanIcon("raconfig"), CFG_RACONFIG, offset);
     renderOptionLine(_("Showing Timeout (0 = no timeout):") + " " + gui->cfg.inifile.values["showingtimeout"], CFG_SHOWINGTIMEOUT, offset);
     renderOptionLine(_("Language:") + " " + gui->cfg.inifile.values["language"], CFG_LANG, offset);
-
-    gui->cfg.inifile.values["autoregion"] = "true"; // removing this as an option - not needed - just set to true
 
     gui->renderSelectionBox(firstRow + selected, offset);
 

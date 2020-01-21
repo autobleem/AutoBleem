@@ -2,7 +2,7 @@
 // Created by screemer on 2019-01-25.
 //
 
-#include "gui_editor.h"
+#include "gui_gameEditorMenu.h"
 #include "../gui.h"
 #include "../gui_keyboard.h"
 #include "../gui_selectmemcard.h"
