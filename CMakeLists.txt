@@ -38,6 +38,9 @@ add_executable(
         autobleem-gui
         src/code/DebugTimer.cpp
         src/code/DebugTimer.h
+        src/code/DirEntry.cpp
+        src/code/DirEntry.h
+        src/code/engine/cardedit.cpp
         src/code/engine/cardedit.h
         src/code/engine/cfgprocessor.cpp
         src/code/engine/cfgprocessor.h
@@ -67,6 +70,7 @@ add_executable(
         src/code/engine/scanner.h
         src/code/engine/serialscanner.cpp
         src/code/engine/serialscanner.h
+        src/code/environment.cpp
         src/code/environment.h
         src/code/gui/gui.cpp
         src/code/gui/gui.h
@@ -85,28 +89,48 @@ add_executable(
         src/code/gui/gui_padTest.h
         src/code/gui/gui_screen.cpp
         src/code/gui/gui_screen.h
+        src/code/gui/gui_scrollWin.cpp
+        src/code/gui/gui_scrollWin.h
         src/code/gui/gui_sdl_wrapper.cpp
         src/code/gui/gui_sdl_wrapper.h
+        src/code/gui/gui_selectmemcard.cpp
         src/code/gui/gui_selectmemcard.h
         src/code/gui/gui_splash.cpp
         src/code/gui/gui_splash.h
+        src/code/gui/menus/gui_gameDirMenu.h
         src/code/gui/menus/gui_gameEditorMenu.cpp
         src/code/gui/menus/gui_gameEditorMenu.h
         src/code/gui/menus/gui_gameManagerMenu.cpp
         src/code/gui/menus/gui_gameManagerMenu.h
         src/code/gui/menus/gui_memCardsMenu.cpp
         src/code/gui/menus/gui_memCardsMenu.h
+        src/code/gui/menus/gui_menuBase.h
         src/code/gui/menus/gui_optionsMenu.cpp
         src/code/gui/menus/gui_optionsMenu.h
+        src/code/gui/menus/gui_optionsMenuBase.cpp 
+        src/code/gui/menus/gui_optionsMenuBase.h
         src/code/gui/menus/gui_playlistsMenu.h
+        src/code/gui/menus/gui_stringMenu.h
+        src/code/gui/menus/gui_twoColumnStringMenu.h
+        src/code/gui/starfx.cpp
+        src/code/gui/starfx.h
         src/code/lang.cpp
         src/code/lang.h 
+        src/code/launcher/emu_interceptor.cpp
+        src/code/launcher/emu_interceptor.h
+        src/code/launcher/gui_app_start.cpp 
+        src/code/launcher/gui_app_start.h 
         src/code/launcher/gui_btn_guide.cpp
         src/code/launcher/gui_btn_guide.h
         src/code/launcher/gui_launcher.cpp
         src/code/launcher/gui_launcher.h 
+        src/code/launcher/gui_launcher_loop.cpp
+        src/code/launcher/gui_mc_manager.cpp
         src/code/launcher/gui_mc_manager.h
+        src/code/launcher/gui_NotificationLine.cpp
+        src/code/launcher/gui_NotificationLine.h
         src/code/launcher/launch_interceptor.cpp 
+        src/code/launcher/launch_interceptor.h 
         src/code/launcher/pcsx_interceptor.cpp
         src/code/launcher/pcsx_interceptor.h
         src/code/launcher/ps_carousel.cpp
@@ -131,41 +155,17 @@ add_executable(
         src/code/launcher/ps_static.h
         src/code/launcher/ps_zoom_btn.cpp
         src/code/launcher/ps_zoom_btn.h
+        src/code/launcher/ra_integrator.cpp
+        src/code/launcher/ra_integrator.h
+        src/code/launcher/retboot_interceptor.cpp
+        src/code/launcher/retboot_interceptor.h
         src/code/main.cpp
         src/code/main.h
         src/code/unecm.c
         src/code/util.cpp
         src/code/util.h
-		src/code/DirEntry.cpp
-		src/code/DirEntry.h
-		src/code/engine/cardedit.cpp
-		src/code/environment.cpp
-		src/code/gui/gui_scrollWin.cpp
-		src/code/gui/gui_scrollWin.h
-		src/code/gui/gui_selectmemcard.cpp
-		src/code/gui/menus/gui_gameDirMenu.h
-		src/code/gui/menus/gui_menuBase.h
-		src/code/gui/menus/gui_optionsMenuBase.cpp 
-		src/code/gui/menus/gui_optionsMenuBase.h
-		src/code/gui/menus/gui_stringMenu.h
-		src/code/gui/menus/gui_twoColumnStringMenu.h
-		src/code/gui/starfx.cpp
-		src/code/gui/starfx.h
-		src/code/launcher/emu_interceptor.cpp
-		src/code/launcher/emu_interceptor.h
-		src/code/launcher/gui_app_start.cpp 
-		src/code/launcher/gui_app_start.h 
-		src/code/launcher/gui_launcher_loop.cpp
-		src/code/launcher/gui_mc_manager.cpp
-		src/code/launcher/gui_NotificationLine.cpp
-		src/code/launcher/gui_NotificationLine.h
-		src/code/launcher/launch_interceptor.h 
-		src/code/launcher/ra_integrator.cpp
-		src/code/launcher/ra_integrator.h
-		src/code/launcher/retboot_interceptor.cpp
-		src/code/launcher/retboot_interceptor.h
-		src/code/ver_migration.cpp
-		src/code/ver_migration.h
+        src/code/ver_migration.cpp
+        src/code/ver_migration.h
 )
 
 target_include_directories(autobleem-gui PUBLIC
