@@ -28,18 +28,33 @@ public:
 
     std::shared_ptr<Lang> lang;
 
+    std::string getBooleanSymbol(const OptionsInfo& info, const std::string& value) {
+        if (info.options[0] == "true")
+        {
+            // the boolean is reversed
+            if (value == "true")
+                return "|@Uncheck|";
+            else
+                return "|@Check|";
+        }
+        else {
+            // boolean is normal
+            if (value == "true")
+                return "|@Check|";
+            else
+                return "|@Uncheck|";
+        }
+    }
+
     std::string getLineText(const OptionsInfo& info) {
         std::string temp = lang->translate(info.descriptionToTranslate) + " ";
         auto value = gui->cfg.inifile.values[info.iniKey];
         if (info.keyIsBoolean) {
-            // append the off/on or on/off icon
-            if (info.options[0] == "true")   // if the boolean is reversed
-                if (value == "true") temp += "|@Uncheck|"; else temp += "|@Check|";
-            else
-                if (value == "true") temp += "|@Check|"; else temp += "|@Uncheck|";
+            temp += getBooleanSymbol(info, value);
         }
-        else
-            temp += value;  // append the current text value in the config.ini
+        else {
+            temp += value;  // append the current text value in the options list
+        }
         return temp;
     }
 

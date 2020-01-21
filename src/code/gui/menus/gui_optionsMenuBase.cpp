@@ -1,8 +1,4 @@
 #include "gui_optionsMenuBase.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
-#include <string>
-#include <cassert>
 #include "../../lang.h"
 
 using namespace std;

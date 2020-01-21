@@ -7,16 +7,9 @@
 #include "../gui/gui.h"
 #include "../gui/menus/gui_optionsMenu.h"
 #include "../gui/gui_confirm.h"
-#include "../gui/menus/gui_gameEditorMenu.h"
-#include "../lang.h"
-#include "pcsx_interceptor.h"
-#include "gui_btn_guide.h"
 #include <algorithm>
 #include <iostream>
-#include "../engine/scanner.h"
-#include "../gui/menus/gui_playlistsMenu.h"
 #include "gui_mc_manager.h"
-#include "../environment.h"
 #include <cassert>
 
 using namespace std;

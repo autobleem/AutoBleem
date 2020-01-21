@@ -3,16 +3,13 @@
 #include "../gui/menus/gui_optionsMenu.h"
 #include "../gui/gui_confirm.h"
 #include "../gui/menus/gui_gameEditorMenu.h"
-//#include "../lang.h"
 #include "pcsx_interceptor.h"
 #include "gui_btn_guide.h"
 #include <algorithm>
 #include <iostream>
-//#include "../engine/scanner.h"
 #include "../gui/menus/gui_playlistsMenu.h"
 #include "gui_mc_manager.h"
 #include "../gui/menus/gui_gameDirMenu.h"
-#include "../environment.h"
 #include "gui_app_start.h"
 
 using namespace std;
