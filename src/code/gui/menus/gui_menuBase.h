@@ -57,7 +57,7 @@ public:
     std::vector<LineDataType> lines; // these are the menu lines
     virtual int getVerticalSize() { return lines.size(); }
 
-    int selected = 0;               // the current selected line index
+    int selected = 0;               // the current selected index
     int maxVisible = 8;             // the number of lines that can fit on the display (theme dependent)
     int firstVisibleIndex = 0;      // current visible range on page
     int lastVisibleIndex = 7;       // current visible range on page

@@ -9,13 +9,13 @@ struct OptionsInfo {
     int id;                                 // ex: CFG_THEME
     std::string descriptionToTranslate;     // ex: _("AutoBleem Theme:")
     std::string iniKey;                     // ex: "theme"
-    bool keyIsBoolean;
-    std::vector<std::string> options;
+    bool keyIsBoolean;                      // if it's false/true we substitute the switch icons
+    std::vector<std::string> choices;
 
-    OptionsInfo(int _id, std::string _descriptionToTranslate,
-            std::string _iniKey, bool _keyIsBoolean, const std::vector<std::string> & _options = std::vector<std::string>())
+    OptionsInfo(int _id = 0, std::string _descriptionToTranslate = std::string(),
+            std::string _iniKey = std::string(), bool _keyIsBoolean = false, const std::vector<std::string> & _choices = std::vector<std::string>())
         : id(_id), descriptionToTranslate(_descriptionToTranslate),
-        iniKey(_iniKey), keyIsBoolean(_keyIsBoolean), options(_options) {}
+        iniKey(_iniKey), keyIsBoolean(_keyIsBoolean), choices(_choices) {}
 };
 
 //*******************************
@@ -26,38 +26,26 @@ public:
     GuiOptionsMenuBase(SDL_Shared<SDL_Renderer> _renderer) : GuiMenuBase(_renderer) {}
     virtual void init();
 
-    std::shared_ptr<Lang> lang;
+    std::shared_ptr<Lang> lang;             // so we can translate OptionsInfo.descriptionToTranslate
 
-    std::string getBooleanSymbol(const OptionsInfo& info, const std::string& value) {
-        if (info.options[0] == "true")
-        {
-            // the boolean is reversed
-            if (value == "true")
-                return "|@Uncheck|";
-            else
-                return "|@Check|";
-        }
-        else {
-            // boolean is normal
-            if (value == "true")
-                return "|@Check|";
-            else
-                return "|@Uncheck|";
-        }
-    }
-
-    std::string getLineText(const OptionsInfo& info) {
-        std::string temp = lang->translate(info.descriptionToTranslate) + " ";
-        auto value = gui->cfg.inifile.values[info.iniKey];
-        if (info.keyIsBoolean) {
-            temp += getBooleanSymbol(info, value);
-        }
-        else {
-            temp += value;  // append the current text value in the options list
-        }
-        return temp;
-    }
+    virtual std::string getBooleanSymbolText(const OptionsInfo& info, const std::string& value);
+    virtual std::string getLineText(const OptionsInfo& info);
 
     virtual void renderLineIndexOnRow(int index, int row);
-    virtual int getVerticalSize() { return 0; }
+
+    bool validSelectedIndex() { return (lines.size() > 0 && selected >= 0 && selected < lines.size()); }
+
+    virtual std::string getPrevNextOption(OptionsInfo& info, const std::string & current, bool next);
+    virtual std::string doPrevNextOption(OptionsInfo& info, bool next);
+    virtual std::string doPrevNextOption(bool next);
+
+    virtual std::string doOptionIndex(uint index);
+    virtual std::string doFirstOption();
+    virtual std::string doLastOption();
+
+    virtual void doL2_Pressed() { doFirstOption(); }
+    virtual void doR2_Pressed() { doLastOption(); }
+    virtual void doHome() { doFirstOption(); }
+    virtual void doEnd() { doLastOption(); }
+
 };

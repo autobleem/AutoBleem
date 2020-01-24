@@ -36,18 +36,35 @@ public:
         : GuiOptionsMenuBase(_renderer) {}
 
     void init() override;
-    void render() override;
+    //void render() override;
+    //void loop() override;
+
+    std::vector<std::string> getThemes();
+    std::vector<std::string> getJewels();
+    std::vector<std::string> getMusic();
+    std::vector<std::string> getTimeoutValues();
+
+    void fill();
 
     virtual std::string getTitle() override { return "-=" + _("Configuration") + "=-"; }
     virtual std::string getStatusLine() override { return "|@X| " + _("OK") + "     " + "|@O| " + _("Cancel") + "|"; }
 
+#if 0
     std::string getPrevNextOption(const std::vector<std::string> & list, const std::string & current, bool next);
     void doPrevNextOption(shared_ptr<Gui> gui, shared_ptr<Lang> lang, bool next);
     std::string getBooleanIcon(const std::string & input);
     void renderOptionLine(const std::string & text, int cfgIndex, int offset);
+#endif
+
+    virtual std::string getLineText(const OptionsInfo& info);
+    virtual std::string doPrevNextOption(OptionsInfo& info, bool next);
+    virtual std::string doPrevNextOption(bool next) { return GuiOptionsMenuBase::doPrevNextOption(next); }
+
+    virtual std::string doOptionIndex(uint index);
 
     int exitCode=0;
 
+#if 0
     std::vector<std::string> autobleemUIThemes;
     std::vector<std::string> origames;
     std::vector<std::string> ui;
@@ -61,8 +78,9 @@ public:
     std::vector<std::string> raconfig;
     std::vector<std::string> showingtimeout;
     std::vector<std::string> languages;
+#endif
 
-    virtual int getVerticalSize() { return CFG_SIZE; }
+    //virtual int getVerticalSize() { return CFG_SIZE; }
 
     virtual void doCircle_Pressed();
     virtual void doCross_Pressed();

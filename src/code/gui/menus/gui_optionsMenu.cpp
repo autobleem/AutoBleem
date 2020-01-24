@@ -9,11 +9,91 @@
 using namespace std;
 
 //*******************************
+// GuiOptions::getThemes
+//*******************************
+vector<string> GuiOptions::getThemes() {
+    vector<string> list;
+    string uiThemePath = Env::getPathToThemesDir();
+    DirEntries uiThemeFolders = DirEntry::diru_DirsOnly(uiThemePath);
+    for (const DirEntry &entry : uiThemeFolders) {
+        if (DirEntry::exists(uiThemePath + sep + entry.name + sep + "theme.ini")) {
+            list.push_back(entry.name); // add the theme dir name
+        }
+    }
+
+    return list;
+}
+
+//*******************************
+// GuiOptions::getJewels
+//*******************************
+vector<string> GuiOptions::getJewels() {
+    vector<string> list;
+    DirEntries folders = DirEntry::diru_FilesOnly(Env::getWorkingPath() + sep + "evoimg/frames");
+    for (const DirEntry & entry : folders) {
+        if (DirEntry::getFileExtension(entry.name) == "png") {
+            list.push_back(entry.name);
+        }
+    }
+
+    return list;
+}
+
+//*******************************
+// GuiOptions::getMusic
+//*******************************
+vector<string> GuiOptions::getMusic() {
+    vector<string> list;
+    DirEntries folders = DirEntry::diru_FilesOnly(Env::getWorkingPath() + sep + "music");
+    for (const DirEntry & entry:folders) {
+        if (DirEntry::getFileExtension(entry.name) == "ogg") {
+            list.push_back(entry.name);
+        }
+    }
+
+    return list;
+}
+
+//*******************************
+// GuiOptions::getTimeoutValues
+//*******************************
+vector<string> GuiOptions::getTimeoutValues() {
+    vector<string> list;
+    for (int i=0; i <= 20; ++i) {
+        list.push_back(to_string(i));
+    }
+
+    return list;
+}
+
+//*******************************
+// GuiOptions::fill
+//*******************************
+void GuiOptions::fill() {
+    lines.emplace_back(CFG_THEME, "AutoBleem Theme:", "theme", false, getThemes());
+    lines.emplace_back(CFG_SHOW_ORIGAMES, "Show Internal Games:", "origames", true, vector<string> ({ "false", "true" }) );
+    lines.emplace_back(CFG_UI, "UI:", "ui", false, vector<string> ({ "classic", "EvolutionUI" }) );
+    lines.emplace_back(CFG_JEWEL, "Cover Style:", "jewel", false, getJewels());
+    lines.emplace_back(CFG_MUSIC, "Music:", "music", false, getMusic());
+    lines.emplace_back(CFG_ENABLE_BACKGROUND_MUSIC, "Background Music:", "nomusic", true, vector<string> ({ "true", "false" }) );
+    lines.emplace_back(CFG_WIDESCREEN, "Widescreen:", "aspect", true, vector<string> ({ "false", "true" }) );
+    lines.emplace_back(CFG_QUICK_BOOT, "QuickBoot:", "quick", true, vector<string> ({ "false", "true" }) );
+    lines.emplace_back(CFG_QUICKMENU, "QuickBoot Init:", "quickmenu", false, vector<string> ({ "UI", "RetroArch" }) );
+    lines.emplace_back(CFG_GFX_FILTER, "GFX Filter:", "mip", true, vector<string> ({ "true", "false" }) );
+    lines.emplace_back(CFG_RACONFIG, "Update RA Config:", "raconfig", true, vector<string> ({ "false", "true" }) );
+    lines.emplace_back(CFG_SHOWINGTIMEOUT, "Showing Timeout (0 = no timeout):", "showingtimeout", false, getTimeoutValues());
+    lines.emplace_back(CFG_LANG, "Language:", "language", false, lang->getListOfLanguages());
+}
+
+//*******************************
 // GuiOptions::init
 //*******************************
 void GuiOptions::init() {
     GuiOptionsMenuBase::init(); // call the base class init()
+    lines.clear();
+    fill();
 
+#if 0
     autobleemUIThemes.clear();
 
     string uiThemePath = Env::getPathToThemesDir();
@@ -82,10 +162,12 @@ void GuiOptions::init() {
     raconfig.clear();
     raconfig.push_back("false");
     raconfig.push_back("true");
+#endif
 
     gui->cfg.inifile.values["autoregion"] = "true"; // removing this as an option - not needed - just set to true
 }
 
+#if 0
 //*******************************
 // GuiOptions::renderOptionLine
 //*******************************
@@ -132,7 +214,26 @@ string GuiOptions::getBooleanIcon(const string & input) {
         if (value != "true") return "|@Check|"; else return "|@Uncheck|";
     }
 }
+#endif
 
+//*******************************
+// void GuiOptions::getLineText
+//*******************************
+std::string GuiOptions::getLineText(const OptionsInfo& info) {
+    std::string temp = lang->translate(info.descriptionToTranslate) + " ";
+    auto value = gui->cfg.inifile.values[info.iniKey];
+    if (info.keyIsBoolean) {
+        if (value == "true" && info.id == CFG_QUICK_BOOT) // quick boot as both a delay value and a boolean switch
+            temp += gui->cfg.inifile.values["delay"] + "s  ";
+        temp += getBooleanSymbolText(info, value);
+    } else {
+        temp += value;  // append the current text value in the options list
+    }
+
+    return temp;
+}
+
+#if 0
 //*******************************
 // GuiOptions::render
 //*******************************
@@ -143,6 +244,7 @@ void GuiOptions::render() {
     offset = gui->renderLogo(true);
     gui->renderTextLine(getTitle(), 0, offset, POS_CENTER);
 
+#if 0
     renderOptionLine(_("AutoBleem Theme:") + " " + gui->cfg.inifile.values["theme"], CFG_THEME, offset);
     renderOptionLine(_("Show Internal Games:") + " " + getBooleanIcon("origames"), CFG_SHOW_ORIGAMES, offset);
     renderOptionLine(_("UI:") + " " + gui->cfg.inifile.values["ui"], CFG_UI, offset);
@@ -156,13 +258,16 @@ void GuiOptions::render() {
     renderOptionLine(_("Update RA Config:") + " " + getBooleanIcon("raconfig"), CFG_RACONFIG, offset);
     renderOptionLine(_("Showing Timeout (0 = no timeout):") + " " + gui->cfg.inifile.values["showingtimeout"], CFG_SHOWINGTIMEOUT, offset);
     renderOptionLine(_("Language:") + " " + gui->cfg.inifile.values["language"], CFG_LANG, offset);
+#endif
 
     gui->renderSelectionBox(firstRow + selected, offset);
 
     gui->renderStatus(getStatusLine());
     SDL_RenderPresent(renderer);
 }
+#endif
 
+#if 0
 //*******************************
 // GuiOptions::getPrevNextOption
 //*******************************
@@ -188,54 +293,17 @@ string GuiOptions::getPrevNextOption(const vector<string> & list, const string &
 
     return list[pos];
 }
+#endif
 
 //*******************************
 // GuiOptions::doPrevNextOption
 //*******************************
-void GuiOptions::doPrevNextOption(shared_ptr<Gui> gui, shared_ptr<Lang> lang, bool next) {
-    if (selected == CFG_THEME) {
-        string nextValue = getPrevNextOption(autobleemUIThemes, gui->cfg.inifile.values["theme"], next);
-        gui->cfg.inifile.values["theme"] = nextValue;
-        init();
-        gui->loadAssets();
-    }
+string GuiOptions::doPrevNextOption(OptionsInfo& info, bool next) {
+    int id = info.id;
 
-    if (selected == CFG_SHOW_ORIGAMES) {
-        string nextValue = getPrevNextOption(origames, gui->cfg.inifile.values["origames"], next);
-        gui->cfg.inifile.values["origames"] = nextValue;
-    }
-
-    if (selected == CFG_UI) {
-        string nextValue = getPrevNextOption(ui, gui->cfg.inifile.values["ui"], next);
-        gui->cfg.inifile.values["ui"] = nextValue;
-    }
-
-    if (selected == CFG_JEWEL) {
-        string nextValue = getPrevNextOption(jewels, gui->cfg.inifile.values["jewel"], next);
-        gui->cfg.inifile.values["jewel"] = nextValue;
-    }
-
-    if (selected == CFG_MUSIC) {
-        string nextValue = getPrevNextOption(music, gui->cfg.inifile.values["music"], next);
-        gui->cfg.inifile.values["music"] = nextValue;
-        init();
-        gui->loadAssets();
-    }
-
-    if (selected == CFG_ENABLE_BACKGROUND_MUSIC) {
-        string nextValue = getPrevNextOption(nomusic, gui->cfg.inifile.values["nomusic"], next);
-        gui->cfg.inifile.values["nomusic"] = nextValue;
-        init();
-        gui->loadAssets();
-    }
-
-    if (selected == CFG_WIDESCREEN) {
-        string nextValue = getPrevNextOption(aspect, gui->cfg.inifile.values["aspect"], next);
-        gui->cfg.inifile.values["aspect"] = nextValue;
-    }
-
-    if (selected == CFG_QUICK_BOOT) {
-        string nextValue = getPrevNextOption(quickboot, gui->cfg.inifile.values["quick"], next);
+    // CFG_QUICK_BOOT is a specal case
+    if (id == CFG_QUICK_BOOT) {
+        string nextValue = getPrevNextOption(info, gui->cfg.inifile.values[info.iniKey], next);
         if (next) {
             string last = gui->cfg.inifile.values["quick"];
             gui->cfg.inifile.values["quick"] = nextValue;
@@ -249,42 +317,47 @@ void GuiOptions::doPrevNextOption(shared_ptr<Gui> gui, shared_ptr<Lang> lang, bo
             gui->cfg.inifile.values["delay"] = to_string(1);
             gui->cfg.inifile.values["quick"] = nextValue;
         }
+
+        return nextValue;
     }
 
-    if (selected == CFG_QUICKMENU) {
-        string nextValue = getPrevNextOption(quickmenu, gui->cfg.inifile.values["quickmenu"], next);
-        gui->cfg.inifile.values["quickmenu"] = nextValue;
-    }
+    // do the default action
+    string nextValue = GuiOptionsMenuBase::doPrevNextOption(info, next);
 
-    if (selected == CFG_GFX_FILTER) {
-        string nextValue = getPrevNextOption(mip, gui->cfg.inifile.values["mip"], next);
-        gui->cfg.inifile.values["mip"] = nextValue;
-    }
+    // after doing the default these need special action afterwards
+    if (id == CFG_THEME || id == CFG_MUSIC || id == CFG_ENABLE_BACKGROUND_MUSIC) {
+        gui->loadAssets();
 
-    if (selected == CFG_RACONFIG) {
-        string nextValue = getPrevNextOption(raconfig, gui->cfg.inifile.values["raconfig"], next);
-        gui->cfg.inifile.values["raconfig"] = nextValue;
+        if (id == CFG_THEME)
+            font = gui->themeFont;
+        else if (id == CFG_LANG)
+            lang->load(nextValue);
     }
+    return nextValue;
+}
 
-    if (selected == CFG_SHOWINGTIMEOUT) {
-//        if (next) {
-            string nextValue = getPrevNextOption(showingtimeout, gui->cfg.inifile.values["showingtimeout"], next);
-            gui->cfg.inifile.values["showingtimeout"] = nextValue;
-//        } else {
-//              // it looks like it was preventing wrap around from 0 to 20 but wrap around isn't in getPrevNextOption
-//            string curValue = gui->cfg.inifile.values["showingtimeout"];
-//            string nextValue = getPrevNextOption(showingtimeout, curValue, false);
-//            if (curValue != "0")
-//                gui->cfg.inifile.values["showingtimeout"] = nextValue;
-//        }
-    }
+//*******************************
+// void GuiOptions::doOptionIndex()
+//*******************************
+string GuiOptions::doOptionIndex(uint index) {
+    if (validSelectedIndex()) {
+        int id = lines[selected].id;
+        if (id == CFG_QUICK_BOOT)
+            return "";  // CFG_QUICK_BOOT is a special case.  don't do it
+        else {
+            string nextValue = GuiOptionsMenuBase::doOptionIndex(index);
+            if (id == CFG_THEME || id == CFG_MUSIC || id == CFG_ENABLE_BACKGROUND_MUSIC) {
+                gui->loadAssets();
 
-    if (selected == CFG_LANG) {
-        string nextValue = getPrevNextOption(languages, gui->cfg.inifile.values["language"], next);
-        gui->cfg.inifile.values["language"] = nextValue;
-        lang->load(nextValue);
-        init();
-    }
+                if (id == CFG_THEME)
+                    font = gui->themeFont;
+                else if (id == CFG_LANG)
+                    lang->load(nextValue);
+            }
+            return nextValue;
+        }
+    } else
+        return "";
 }
 
 //*******************************
@@ -337,7 +410,7 @@ void GuiOptions::doJoyLeft() {
 //*******************************
 void GuiOptions::doKeyRight() {
     Mix_PlayChannel(-1, gui->cursor, 0);
-    doPrevNextOption(gui, lang, true);
+    doPrevNextOption(true);
 }
 
 //*******************************
@@ -345,5 +418,5 @@ void GuiOptions::doKeyRight() {
 //*******************************
 void GuiOptions::doKeyLeft() {
     Mix_PlayChannel(-1, gui->cursor, 0);
-    doPrevNextOption(gui, lang, false);
+    doPrevNextOption(false);
 }
