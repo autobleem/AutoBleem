@@ -4,28 +4,56 @@ project(autobleem-gui)
 set(CMAKE_CXX_STANDARD 11)
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
-if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm" )
-message(STATUS "Building for ARM")
+if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm CPU" )
+	message(STATUS "Building for ARM")
 	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 8.0)
+		message(STATUS "CXX Compiler Version > 8")
 		SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv8-a+simd -Os -s")
 		SET(CMAKE_CXX_FLAGS " -mfloat-abi=hard -march=armv8-a+simd  -Os -s")
-            message(STATUS "Newer GCC installed")
-ELSE()
-     
+        message(STATUS "Newer GCC installed")
+	else()
+		message(STATUS "CXX Compiler Version <= 8")
 		SET(CMAKE_C_FLAGS "-mfloat-abi=hard -march=armv7ve -s -Os -O3")
 		SET(CMAKE_CXX_FLAGS "-mfloat-abi=hard -march=armv7ve -s -Os -O3")
-	ENDIF()
+	endif()
 
 	include_directories(src/include "/opt/toolchain/armv8-sony-linux-gnueabihf/sysroot/usr/include")
 	link_directories(/opt/toolchain/armv8-sony-linux-gnueabihf/sysroot/usr/lib)
+
 else()
+
+    message(STATUS "Building for PC CPU type=${CMAKE_BUILD_TYPE}")
 	if( "${CMAKE_BUILD_TYPE}" STREQUAL "Debug" )
-		if ( "$ENV{MEM_DEBUG}" STREQUAL "1" )
-			message("Enabling additional memory debugging")
-			SET(CMAKE_C_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
-			SET(CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
-			SET(LDFLAGS "-fsanitize=address -fno-omit-frame-pointer")
-		endif()
+#		if (MEM_DEBUG)	# -DMEM_DEBUG=Extra in Clion does not work!  cmake doesn't see it
+
+#			message(STATUS "Enabling all warnings")
+#			# all compiler warnings
+#			SET(CMAKE_C_FLAGS "-Wall -W")
+#			SET(CMAKE_CXX_FLAGS "-Wall -W")
+
+			message(STATUS "Enabling some warnings")
+			# all compiler warnings
+			SET(CMAKE_C_FLAGS "-Wreturn-type -Wuninitialized")
+			SET(CMAKE_CXX_FLAGS "-Wreturn-type -Wuninitialized")
+
+#			message(STATUS "Enabling additional memory debugging")
+			# memory sanitizer with all compiler warnings
+#			SET(CMAKE_C_FLAGS "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined -ggdb -Wall -W")
+#			SET(CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined -ggdb -Wall -W")
+
+			# memory sanitizer with compiler warning for not returning a value from a function and uninitialized vars
+#			SET(CMAKE_C_FLAGS "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined -ggdb -Wreturn-type -Wuninitialized")
+#			SET(CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined -ggdb -Wreturn-type -Wuninitialized")
+			
+			# memory sanitizer with no additonal compiler warnings
+#			SET(CMAKE_C_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
+#			SET(CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
+
+#			SET(LDFLAGS "-fsanitize=address -fno-omit-frame-pointer")
+
+#		endif()
+	else()
+		message(STATUS "Building Release")
 	endif()
 endif()
 
