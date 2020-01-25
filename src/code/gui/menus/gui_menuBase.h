@@ -22,7 +22,7 @@ public:
     virtual std::string getStatusLine();   // returns the status line at the bottom.  cross, circle, etc icons.
 
     bool firstRender = true;
-    virtual void renderLineIndexOnRow(int index, int row) {}  // you must inherit from GuiMenuBase and provide this
+    virtual void renderLineIndexOnRow(int /*index*/, int /*row*/) {}  // you must inherit from GuiMenuBase and provide this
     void renderLines();
     void renderSelectionBox();
 

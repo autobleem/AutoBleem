@@ -1117,7 +1117,7 @@ int Gui::renderTextLineOptions(const string &_text, int line, int offset, int po
     int h = renderTextLine(text, line, offset, position, xoffset);
 
     SDL_Shared<SDL_Texture> buttonTex;
-    SDL_Rect rect;
+//    SDL_Rect rect;
 
     if (button == -1) {
         return h;
@@ -1259,11 +1259,13 @@ int Gui::renderTextLineToColumns(const string &textLeft, const string &textRight
 // Gui::renderTextChar
 //*******************************
 void Gui::renderTextChar(const string &text, int line, int offset, int posx) {
+#if 0
     SDL_Rect rect2;
     rect2.x = atoi(themeData.values["opscreenx"].c_str());
     rect2.y = atoi(themeData.values["opscreeny"].c_str());
     rect2.w = atoi(themeData.values["opscreenw"].c_str());
     rect2.h = atoi(themeData.values["opscreenh"].c_str());
+#endif
 
     SDL_Shared<SDL_Texture> textTex;
     SDL_Rect textRec;

@@ -13,6 +13,7 @@
 class GuiScreen {
 public:
     GuiScreen(SDL_Shared<SDL_Renderer> _renderer) : renderer(_renderer), gui(Gui::getInstance()) {}
+    virtual ~GuiScreen() {}
 
     SDL_Shared<SDL_Renderer> renderer;
     std::shared_ptr<Gui> gui;

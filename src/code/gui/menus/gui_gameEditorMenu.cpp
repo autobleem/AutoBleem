@@ -513,7 +513,7 @@ void GuiEditor::loop() {
                             selector->cardSelected = gameIni.values["memcard"];
                             selector->show();
 
-                            if (selector->selected != -1)
+                            if (selector->selected != -1) {
                                 if (selector->selected == 0) {
                                     gameIni.values["memcard"] = "SONY";
                                     gameIni.save(gameIni.path);
@@ -521,6 +521,7 @@ void GuiEditor::loop() {
                                     gameIni.values["memcard"] = selector->cards[selector->selected];
                                     gameIni.save(gameIni.path);
                                 }
+                            }
                             delete (selector);
                         } else {
                             Mix_PlayChannel(-1, gui->cancel, 0);
