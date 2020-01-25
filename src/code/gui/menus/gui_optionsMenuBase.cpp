@@ -57,6 +57,40 @@ void GuiOptionsMenuBase::renderLineIndexOnRow(int index, int row) {
 }
 
 //*******************************
+// void GuiOptionsMenuBase::validSelectedIndex()
+//*******************************
+bool GuiOptionsMenuBase::validSelectedIndex() {
+    return (lines.size() > 0 && selected >= 0 && selected < lines.size());
+}
+
+//*******************************
+// void GuiOptionsMenuBase::getChoicesSize()
+//*******************************
+uint GuiOptionsMenuBase::getChoicesSize() {
+    if (validSelectedIndex())
+        return lines[selected].choices.size();
+    else
+        return 0;
+}
+
+//*******************************
+// void GuiOptionsMenuBase::getCurrentOptionIndex()
+//*******************************
+uint GuiOptionsMenuBase::getCurrentOptionIndex(OptionsInfo& info, const std::string & current) {
+    const vector<string>& list = info.choices;
+    // find current position
+    int pos = 0;
+    for (int i = 0; i < list.size(); i++) {
+        if (list[i] == current) {
+            pos = i;
+            break;
+        }
+    }
+
+    return pos;
+}
+
+//*******************************
 // void GuiOptionsMenuBase::getPrevNextOption()
 //*******************************
 std::string GuiOptionsMenuBase::getPrevNextOption(OptionsInfo& info, const std::string & current, bool next) {
@@ -139,3 +173,58 @@ string GuiOptionsMenuBase::doLastOption() {
     else
         return "";
 }
+
+//*******************************
+// void GuiOptionsMenuBase::computeAmountTomoveBy()
+//*******************************
+int GuiOptionsMenuBase::computeAmountTomoveBy(uint totalSize) {
+    if (totalSize == 0)
+        return 0;
+    else if (totalSize <= 10)
+        return 2;
+    else if (totalSize <= 50)
+        return 5;
+    else if (totalSize <= 100)
+        return 5;
+    else
+        return totalSize / 20;
+}
+
+//*******************************
+// void GuiOptionsMenuBase::doL1_Pressed()
+//*******************************
+void GuiOptionsMenuBase::doL1_Pressed() {
+        do {
+        int size = getChoicesSize();
+        if (size > 0) {
+            auto &info = lines[selected];
+            string value = gui->cfg.inifile.values[info.iniKey];
+            int index = getCurrentOptionIndex(info, value) - computeAmountTomoveBy(size);
+            if (index < 0)
+                doFirstOption();
+            else
+                doOptionIndex(index);
+        }
+    render();
+    } while (fastForwardUntilAnotherEvent());
+}
+
+//*******************************
+// void GuiOptionsMenuBase::doR1_Pressed()
+//*******************************
+void GuiOptionsMenuBase::doR1_Pressed() {
+    do {
+        int size = getChoicesSize();
+        if (size > 0) {
+            auto &info = lines[selected];
+            string value = gui->cfg.inifile.values[info.iniKey];
+            int index = getCurrentOptionIndex(info, value) + computeAmountTomoveBy(size);
+            if (index >= size)
+                doLastOption();
+            else
+                doOptionIndex(index);
+        }
+    render();
+} while (fastForwardUntilAnotherEvent());
+}
+
