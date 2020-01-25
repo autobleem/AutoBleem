@@ -28,7 +28,7 @@ public:
 //          whatever you want to do on the event
 //          render();
 //      } while (fastForwardUntilJoyCenter(300);  // repeat every 300 milliseconds
-    bool fastForwardUntilAnotherEvent(Uint32 startTicks);
+    bool fastForwardUntilAnotherEvent(Uint32 ticksPerFastForwardRepeat = 200);
 
 // other versions:
 //    bool fastForwardUntilJoyCenter(Uint32 startTicks);

@@ -392,7 +392,7 @@ void GuiOptions::doJoyRight() {
     do {
         doKeyRight();
         render();
-    } while (fastForwardUntilAnotherEvent(100));
+    } while (fastForwardUntilAnotherEvent());
 }
 
 //*******************************
@@ -402,7 +402,7 @@ void GuiOptions::doJoyLeft() {
     do {
         doKeyLeft();
         render();
-    } while (fastForwardUntilAnotherEvent(100));
+    } while (fastForwardUntilAnotherEvent());
 }
 
 //*******************************

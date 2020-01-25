@@ -245,7 +245,7 @@ void GuiMenuBase<LineDataType>::doJoyDown() {
     do {
         doKeyDown();
         render();
-    } while (fastForwardUntilAnotherEvent(100));
+    } while (fastForwardUntilAnotherEvent());
 }
 
 //*******************************
@@ -256,7 +256,7 @@ void GuiMenuBase<LineDataType>::doJoyUp() {
     do {
         doKeyUp();
         render();
-    } while (fastForwardUntilAnotherEvent(100));
+    } while (fastForwardUntilAnotherEvent());
 }
 
 //*******************************
