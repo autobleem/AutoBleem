@@ -599,9 +599,10 @@ void Gui::menuSelection() {
             cout << "--" << SDL_JoystickName(joystick) << endl;
         }
     // Check if all OK
-    if (scanner->noGamesFoundDuringScan) {
-        criticalException(_("WARNING: NO GAMES FOUND. PRESS ANY BUTTON."));
-    }
+// commented this part out.  it was just annoying people who only played RA
+//    if (scanner->noGamesFoundDuringScan) {
+//        criticalException(_("WARNING: NO GAMES FOUND. PRESS ANY BUTTON."));
+//    }
     //
     if (!coverdb->isValid()) {
         criticalException(_("WARNING: NO COVER DB FOUND. PRESS ANY BUTTON."));
