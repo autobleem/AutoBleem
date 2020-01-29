@@ -35,6 +35,9 @@ public:
 //    bool fastForwardUntilJoyCenter(Uint32 startTicks);
 //    bool fastForwardUntilButtonReleased(int button, Uint32 ticksPerFastForwardRepeat);
 
+    // by the time the render() finishes the user may have already pushed the joy button one or more times
+    int countMoreJoyPressesInQueue(int direction);  // direction = DIR_UP, DIR_DOWN, etc from padmapper.h
+
     void show()
     {
         init();

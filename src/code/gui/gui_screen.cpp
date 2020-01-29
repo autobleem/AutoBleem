@@ -236,3 +236,30 @@ bool GuiScreen::fastForwardUntilButtonReleased(int button, Uint32 ticksPerFastFo
 }
 #endif
 
+//*******************************
+// GuiScreen::countMoreJoyPressesInQueue
+//*******************************
+// by the time the render() finishes the user may have already pushed the joy button one or more times
+// direction = DIR_UP, DIR_DOWN, etc from padmapper.h
+int GuiScreen::countMoreJoyPressesInQueue(int direction) {
+    int count = 0;
+    while (true) {
+      SDL_Event e;
+      SDL_PumpEvents();     // needed before peek
+      int ret = SDL_PeepEvents(&e, 1, SDL_PEEKEVENT , SDL_FIRSTEVENT, SDL_LASTEVENT);   // look in the queue
+      if (ret > 0 && (e.type == SDL_JOYAXISMOTION || e.type == SDL_JOYHATMOTION)) {
+          if (gui->mapper.isDirection(&e, direction)) {
+              count++;
+              SDL_Event e2;
+              SDL_PollEvent(&e2);  // remove the event from the queue
+          } else if (gui->mapper.isDirection(&e, DIR_NONE)) {
+              SDL_Event e2;
+              SDL_PollEvent(&e2);  // remove the event from the queue
+          } else {
+              return count; // done. not the direction we're looking for.
+          }
+      } else {
+          return count; // done. no event in queue or not the event we're looking for.
+      }
+    }
+}
