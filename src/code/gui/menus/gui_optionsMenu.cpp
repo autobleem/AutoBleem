@@ -40,6 +40,7 @@ vector<string> GuiOptions::getJewels() {
 //*******************************
 vector<string> GuiOptions::getMusic() {
     vector<string> list;
+    list.push_back("--");
     DirEntries folders = DirEntry::diru_FilesOnly(Env::getWorkingPath() + sep + "music");
     for (const DirEntry & entry:folders) {
         if (DirEntry::getFileExtension(entry.name) == "ogg") {
@@ -139,14 +140,15 @@ string GuiOptions::doPrevNextOption(OptionsInfo& info, bool next) {
     string nextValue = GuiOptionsMenuBase::doPrevNextOption(info, next);
 
     // after doing the default these need special action afterwards
-    if (id == CFG_THEME || id == CFG_MUSIC || id == CFG_ENABLE_BACKGROUND_MUSIC) {
+    if (id == CFG_THEME) {
         gui->loadAssets();
-
-        if (id == CFG_THEME)
-            font = gui->themeFont;
-        else if (id == CFG_LANG)
-            lang->load(nextValue);
+        font = gui->themeFont;  // get the new font for the menu
+    } else if (id == CFG_LANG) {
+        lang->load(nextValue);
+    } else if (id == CFG_MUSIC || id == CFG_ENABLE_BACKGROUND_MUSIC) {
+        gui->loadAssets();
     }
+
     return nextValue;
 }
 
@@ -159,15 +161,19 @@ string GuiOptions::doOptionIndex(uint index) {
         if (id == CFG_QUICK_BOOT)
             return "";  // CFG_QUICK_BOOT is a special case.  don't do it
         else {
+            // do the default action
             string nextValue = GuiOptionsMenuBase::doOptionIndex(index);
-            if (id == CFG_THEME || id == CFG_MUSIC || id == CFG_ENABLE_BACKGROUND_MUSIC) {
-                gui->loadAssets();
 
-                if (id == CFG_THEME)
-                    font = gui->themeFont;
-                else if (id == CFG_LANG)
-                    lang->load(nextValue);
+            // after doing the default these need special action afterwards
+            if (id == CFG_THEME) {
+                gui->loadAssets();
+                font = gui->themeFont;  // get the new font for the menu
+            } else if (id == CFG_LANG) {
+                lang->load(nextValue);
+            } else if (id == CFG_MUSIC || id == CFG_ENABLE_BACKGROUND_MUSIC) {
+                gui->loadAssets();
             }
+
             return nextValue;
         }
     } else
