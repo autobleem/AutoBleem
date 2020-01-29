@@ -67,19 +67,27 @@ vector<string> GuiOptions::getTimeoutValues() {
 // GuiOptions::fill
 //*******************************
 void GuiOptions::fill() {
-    lines.emplace_back(CFG_THEME, "AutoBleem Theme:", "theme", false, getThemes());
-    lines.emplace_back(CFG_SHOW_ORIGAMES, "Show Internal Games:", "origames", true, vector<string> ({ "false", "true" }) );
-    lines.emplace_back(CFG_UI, "UI:", "ui", false, vector<string> ({ "classic", "EvolutionUI" }) );
-    lines.emplace_back(CFG_JEWEL, "Cover Style:", "jewel", false, getJewels());
-    lines.emplace_back(CFG_MUSIC, "Music:", "music", false, getMusic());
-    lines.emplace_back(CFG_ENABLE_BACKGROUND_MUSIC, "Background Music:", "nomusic", true, vector<string> ({ "true", "false" }) );
-    lines.emplace_back(CFG_WIDESCREEN, "Widescreen:", "aspect", true, vector<string> ({ "false", "true" }) );
-    lines.emplace_back(CFG_QUICK_BOOT, "QuickBoot:", "quick", true, vector<string> ({ "false", "true" }) );
-    lines.emplace_back(CFG_QUICKMENU, "QuickBoot Init:", "quickmenu", false, vector<string> ({ "UI", "RetroArch" }) );
-    lines.emplace_back(CFG_GFX_FILTER, "GFX Filter:", "mip", true, vector<string> ({ "true", "false" }) );
-    lines.emplace_back(CFG_RACONFIG, "Update RA Config:", "raconfig", true, vector<string> ({ "false", "true" }) );
-    lines.emplace_back(CFG_SHOWINGTIMEOUT, "Showing Timeout (0 = no timeout):", "showingtimeout", false, getTimeoutValues());
-    lines.emplace_back(CFG_LANG, "Language:", "language", false, lang->getListOfLanguages());
+    // this is filled once and not on every render.
+    // save the current lang and switch to English.  we need the "Prefix:" to be scanned in English for English.txt
+    // getLineText() will do the translation
+    string saveCurrentLang = lang->currentLang;
+    lang->load("English");
+
+    lines.emplace_back(CFG_THEME, _("AutoBleem Theme:"), "theme", false, getThemes());
+    lines.emplace_back(CFG_SHOW_ORIGAMES, _("Show Internal Games:"), "origames", true, vector<string> ({ "false", "true" }) );
+    lines.emplace_back(CFG_UI, _("UI:"), "ui", false, vector<string> ({ "classic", "EvolutionUI" }) );
+    lines.emplace_back(CFG_JEWEL, _("Cover Style:"), "jewel", false, getJewels());
+    lines.emplace_back(CFG_MUSIC, _("Music:"), "music", false, getMusic());
+    lines.emplace_back(CFG_ENABLE_BACKGROUND_MUSIC, _("Background Music:"), "nomusic", true, vector<string> ({ "true", "false" }) );
+    lines.emplace_back(CFG_WIDESCREEN, _("Widescreen:"), "aspect", true, vector<string> ({ "false", "true" }) );
+    lines.emplace_back(CFG_QUICK_BOOT, _("QuickBoot:"), "quick", true, vector<string> ({ "false", "true" }) );
+    lines.emplace_back(CFG_QUICKMENU, _("QuickBoot Init:"), "quickmenu", false, vector<string> ({ "UI", "RetroArch" }) );
+    lines.emplace_back(CFG_GFX_FILTER, _("GFX Filter:"), "mip", true, vector<string> ({ "true", "false" }) );
+    lines.emplace_back(CFG_RACONFIG, _("Update RA Config:"), "raconfig", true, vector<string> ({ "false", "true" }) );
+    lines.emplace_back(CFG_SHOWINGTIMEOUT, _("Showing Timeout (0 = no timeout):"), "showingtimeout", false, getTimeoutValues());
+    lines.emplace_back(CFG_LANG, _("Language:"), "language", false, lang->getListOfLanguages());
+
+    lang->load(saveCurrentLang);
 }
 
 //*******************************
