@@ -77,6 +77,15 @@ string Environment::getPathToInternalDBFile() {
     return private_pathToInternalDBFile;
 }
 
+// for networking
+string Environment::getPathToBleemsyncDir() {
+    return getPathToUSBRoot() + sep + "bleemsync";
+}
+
+string Environment::getPathToBleemsyncCFGDir() {
+    return getPathToBleemsyncDir() + sep + "etc/bleemsync/CFG";
+}
+
 //*******************************
 // Environment::getWorkingPath
 // 1 arg: "usb:/Autobleem/bin/autobleem"
