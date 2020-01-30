@@ -24,6 +24,7 @@
 #include <json.h>
 #include "../nlohmann/fifo_map.h"
 #include "../environment.h"
+#include "menus/gui_networkMenu.h"
 
 using namespace std;
 using namespace nlohmann;
@@ -575,7 +576,7 @@ void Gui::menuSelection() {
     mainMenu += " |@L2|+|@R2|" + _("Power Off");
 
     string forceScanMenu = _("Games changed. Press") + "  |@X|  " + _("to scan") + "|";
-    string otherMenu = "|@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager");
+    string otherMenu = "|@S|  " + _("Network SSID") + "  |@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager");
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
 
     if (!forceScan) {
@@ -745,6 +746,21 @@ void Gui::menuSelection() {
                                 };
                         break;
                     } else {
+                        if (e.jbutton.button == _cb(PCS_BTN_SQUARE, &e)) {
+                            Mix_PlayChannel(-1, cursor, 0);
+                            if (DirEntry::exists(Env::getPathToBleemsyncCFGDir())) {
+                                auto networkMenu = new GuiNetworkMenu(renderer);
+                                networkMenu->show();
+                                delete networkMenu;
+
+                                menuSelection();
+                                menuVisible = false;
+                            } else {
+                                shared_ptr<Gui> splash(Gui::getInstance());
+                                splash->logText(_("Bleemsync directory not on USB"));
+                            }
+                        };
+
                         if (e.jbutton.button == _cb(PCS_BTN_CROSS, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             auto memcardsScreen = new GuiMemcards(renderer);
