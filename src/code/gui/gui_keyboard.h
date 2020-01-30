@@ -20,25 +20,31 @@ public:
 
     void doKbdRight();
     void doKbdLeft();
+    void doKbdHome();
+    void doKbdEnd();
     void doKbdBackspace();
     void doKbdDelete();
     void doKbdTab();
     void doKbdEscape();
     void doKbdReturn();
     void doKbdTextInput(SDL_Event& e);
+
     void doL1_up();
     void doL2_up();
     void doL1_down();
     void doL2_down();
+
     void doTriangle();
     void doSquare();
     void doCross();
-    void doStart();
     void doCircle();
-    void doRight();
-    void doLeft();
-    void doDown();
-    void doUp();
+
+    void doStart();
+
+    void doJoyRight();
+    void doJoyLeft();
+    void doJoyDown();
+    void doJoyUp();
 
     std::shared_ptr<Gui> gui;
     int selx=0;
