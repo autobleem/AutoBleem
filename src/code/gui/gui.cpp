@@ -458,7 +458,6 @@ void Gui::display(bool forceScan, const string &_pathToGamesDir, Database *db, b
     this->db = db;
     this->pathToGamesDir = _pathToGamesDir;
     this->forceScan = forceScan;
-    if (forceScan) overrideQuickBoot = true;
 
     SDL_version compiled;
     SDL_version linked;
@@ -509,11 +508,9 @@ void Gui::display(bool forceScan, const string &_pathToGamesDir, Database *db, b
         }
 #endif
 
-        if (cfg.inifile.values["quick"] != "true")
-            waitForGamepad();
+        waitForGamepad();
     } else {
         resumingGui = true;
-        overrideQuickBoot = true;
     }
 }
 
@@ -536,50 +533,6 @@ void Gui::saveSelection() {
 
 bool otherMenuShift = false;
 bool powerOffShift = false;
-
-//*******************************
-// Gui::quickBoot
-//*******************************
-bool Gui::quickBoot() {
-    int currentTime = SDL_GetTicks();
-    string splashText = _("AutoBleem") + " " + cfg.inifile.values["version"];
-    if (cfg.inifile.values["quick"] == "true") {
-        splashText += " (" + _("Quick boot") + " - " + _("Hold") + " |@O| " + _("Menu") + ")";
-    }
-
-    while (true) {
-        SDL_Event e;
-        if (SDL_PollEvent(&e)) {
-            if (e.type == SDL_KEYDOWN) {
-                if (e.key.keysym.scancode == SDL_SCANCODE_SLEEP) {
-                    drawText(_("POWERING OFF... PLEASE WAIT"));
-                    Util::powerOff();
-                }
-            }
-            if (e.type == SDL_QUIT)
-                return false;
-            else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
-                return false;
-
-            if (e.type == SDL_JOYBUTTONDOWN) {
-                overrideQuickBoot = true;
-                return false;
-            }
-        }
-        drawText(splashText);
-
-        int delay = TicksPerSecond;
-
-        if (cfg.inifile.values["delay"] != "") {
-            delay = delay * atoi(cfg.inifile.values["delay"].c_str());
-        }
-        int newTime = SDL_GetTicks();
-        int secs = (delay / TicksPerSecond) - (newTime - currentTime) / TicksPerSecond;
-        if (newTime - currentTime > delay) {
-            return true;
-        }
-    }
-}
 
 int Gui::_cb(int button, SDL_Event *e) {
     return mapper.translateButton(button, e);
@@ -606,33 +559,6 @@ void Gui::menuSelection() {
     //
     if (!coverdb->isValid()) {
         criticalException(_("WARNING: NO COVER DB FOUND. PRESS ANY BUTTON."));
-    }
-    if (!overrideQuickBoot) {
-        bool quickBootCfg = (cfg.inifile.values["quick"] == "true");
-        if (quickBootCfg && !forceScan) {
-            if (quickBoot()) {
-
-                if (cfg.inifile.values["quickmenu"] == "UI") {
-                    if (cfg.inifile.values["ui"] == "classic") {
-                        this->menuOption = MENU_OPTION_RUN;
-                        return;
-                    } else {
-                        auto launcherScreen = new GuiLauncher(renderer);
-                        launcherScreen->show();
-                        delete launcherScreen;
-                    }
-                } else {
-                    if (DirEntry::exists(Env::getPathToRetroarchDir() + sep + "retroarch")) {
-                        this->menuOption = MENU_OPTION_RETRO;
-                        return;
-                    } else {
-                        auto launcherScreen = new GuiLauncher(renderer);
-                        launcherScreen->show();
-                        delete launcherScreen;
-                    }
-                }
-            };
-        }
     }
     otherMenuShift = false;
     powerOffShift = false;

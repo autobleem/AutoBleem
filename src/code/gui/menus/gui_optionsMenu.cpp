@@ -80,8 +80,6 @@ void GuiOptions::fill() {
     lines.emplace_back(CFG_MUSIC, _("Music:"), "music", false, getMusic());
     lines.emplace_back(CFG_ENABLE_BACKGROUND_MUSIC, _("Background Music:"), "nomusic", true, vector<string> ({ "true", "false" }) );
     lines.emplace_back(CFG_WIDESCREEN, _("Widescreen:"), "aspect", true, vector<string> ({ "false", "true" }) );
-    lines.emplace_back(CFG_QUICK_BOOT, _("QuickBoot:"), "quick", true, vector<string> ({ "false", "true" }) );
-    lines.emplace_back(CFG_QUICKMENU, _("QuickBoot Init:"), "quickmenu", false, vector<string> ({ "UI", "RetroArch" }) );
     lines.emplace_back(CFG_GFX_FILTER, _("GFX Filter:"), "mip", true, vector<string> ({ "true", "false" }) );
     lines.emplace_back(CFG_RACONFIG, _("Update RA Config:"), "raconfig", true, vector<string> ({ "false", "true" }) );
     lines.emplace_back(CFG_SHOWINGTIMEOUT, _("Showing Timeout (0 = no timeout):"), "showingtimeout", false, getTimeoutValues());
@@ -97,8 +95,6 @@ void GuiOptions::init() {
     GuiOptionsMenuBase::init(); // call the base class init()
     lines.clear();
     fill();
-
-    gui->cfg.inifile.values["autoregion"] = "true"; // removing this as an option - not needed - just set to true
 }
 
 //*******************************
@@ -108,8 +104,6 @@ std::string GuiOptions::getLineText(const OptionsInfo& info) {
     std::string temp = lang->translate(info.descriptionToTranslate) + " ";
     auto value = gui->cfg.inifile.values[info.iniKey];
     if (info.keyIsBoolean) {
-        if (value == "true" && info.id == CFG_QUICK_BOOT) // quick boot as both a delay value and a boolean switch
-            temp += gui->cfg.inifile.values["delay"] + "s  ";
         temp += getBooleanSymbolText(info, value);
     } else {
         temp += value;  // append the current text value in the options list
@@ -123,26 +117,6 @@ std::string GuiOptions::getLineText(const OptionsInfo& info) {
 //*******************************
 string GuiOptions::doPrevNextOption(OptionsInfo& info, bool next) {
     int id = info.id;
-
-    // CFG_QUICK_BOOT is a specal case
-    if (id == CFG_QUICK_BOOT) {
-        string nextValue = getPrevNextOption(info, gui->cfg.inifile.values[info.iniKey], next);
-        if (next) {
-            string last = gui->cfg.inifile.values["quick"];
-            gui->cfg.inifile.values["quick"] = nextValue;
-            int delay = atoi(gui->cfg.inifile.values["delay"].c_str());
-            delay++;
-            if (last == "false") delay = 1;
-            gui->cfg.inifile.values["delay"] = to_string(delay);
-        } else {
-            int delay = atoi(gui->cfg.inifile.values["delay"].c_str());
-            delay++;
-            gui->cfg.inifile.values["delay"] = to_string(1);
-            gui->cfg.inifile.values["quick"] = nextValue;
-        }
-
-        return nextValue;
-    }
 
     // do the default action
     string nextValue = GuiOptionsMenuBase::doPrevNextOption(info, next);
@@ -166,24 +140,20 @@ string GuiOptions::doPrevNextOption(OptionsInfo& info, bool next) {
 string GuiOptions::doOptionIndex(uint index) {
     if (validSelectedIndex()) {
         int id = lines[selected].id;
-        if (id == CFG_QUICK_BOOT)
-            return "";  // CFG_QUICK_BOOT is a special case.  don't do it
-        else {
-            // do the default action
-            string nextValue = GuiOptionsMenuBase::doOptionIndex(index);
+        // do the default action
+        string nextValue = GuiOptionsMenuBase::doOptionIndex(index);
 
-            // after doing the default these need special action afterwards
-            if (id == CFG_THEME) {
-                gui->loadAssets();
-                font = gui->themeFont;  // get the new font for the menu
-            } else if (id == CFG_LANG) {
-                lang->load(nextValue);
-            } else if (id == CFG_MUSIC || id == CFG_ENABLE_BACKGROUND_MUSIC) {
-                gui->loadAssets();
-            }
-
-            return nextValue;
+        // after doing the default these need special action afterwards
+        if (id == CFG_THEME) {
+            gui->loadAssets();
+            font = gui->themeFont;  // get the new font for the menu
+        } else if (id == CFG_LANG) {
+            lang->load(nextValue);
+        } else if (id == CFG_MUSIC || id == CFG_ENABLE_BACKGROUND_MUSIC) {
+            gui->loadAssets();
         }
+
+        return nextValue;
     } else
         return "";
 }
@@ -197,7 +167,6 @@ void GuiOptions::doCircle_Pressed() {
     gui->cfg.inifile.load(cfg_path);    // restore the original config.ini settings
     lang->load(gui->cfg.inifile.values["language"]);    // restore the original lang
     gui->loadAssets();                                  // restore original themes
-    gui->overrideQuickBoot = true;
     menuVisible = false;
     exitCode = -1;
 }
@@ -208,7 +177,6 @@ void GuiOptions::doCircle_Pressed() {
 void GuiOptions::doCross_Pressed() {
     Mix_PlayChannel(-1, gui->cancel, 0);
     gui->cfg.save();
-    gui->overrideQuickBoot = true;
     menuVisible = false;
     exitCode = 0;
 }
