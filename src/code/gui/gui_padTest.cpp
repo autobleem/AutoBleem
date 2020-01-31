@@ -56,8 +56,15 @@ void GuiPadTest::loop() {
             } else if (e.type == SDL_JOYHATMOTION) {
                 appendLine("SDL_JOYHATMOTION = " + to_string(e.jhat.value));
             } else if (e.type == SDL_JOYAXISMOTION) {
+#if 0
+                // controller on valium
+                if (e.jaxis.value == -32768 || e.jaxis.value == 32767 || e.jaxis.value == 0 ||
+                    e.jaxis.value == -1 || e.jaxis.value == 1) {
+                    appendLine("SDL_JOYAXISMOTION = " + to_string(e.jaxis.axis) + ", " + to_string(e.jaxis.value));
+                }
+#else
                 appendLine("SDL_JOYAXISMOTION = " + to_string(e.jaxis.axis) + ", " + to_string(e.jaxis.value));
-
+#endif
             } else if (e.type == SDL_MOUSEMOTION ||
                        e.type == SDL_MOUSEBUTTONDOWN ||
                        e.type == SDL_MOUSEBUTTONUP ||

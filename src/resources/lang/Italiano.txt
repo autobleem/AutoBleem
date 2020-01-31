@@ -18,12 +18,12 @@ Advanced
 Avanzate
 All Games
 Tutti i Giochi
-Are you sure you want to delete
-Sei sicuro di voler cancellare
-Are you sure you want to flush all covers?
-Sei sicuro di voler cancellare tutte le cover?
-Are you sure?
-Sei sicuro?
+ Are you sure you want to delete
+ Sei sicuro di voler cancellare
+ Are you sure you want to flush all covers?
+ Sei sicuro di voler cancellare tutte le cover?
+ Are you sure?
+ Sei sicuro?
 AutoBleem
 AutoBleem
 AutoBleem resume points not available in RetroArch.
@@ -32,6 +32,8 @@ AutoBleem Theme:
 Tema di AutoBleem:
 Background Music:
 Musica di Sottofondo:
+Backspace
+Backspace
 Bin file failed to verify
 Verifica del file Bin fallita
 Button Guide
@@ -47,7 +49,7 @@ Cambia MC
 Change RetroBoot System
 Cambia Sistema di RetroBoot
 Change USB Games Sub-Directory
-Cambia la Sottocartella dei Giochi su USB
+Cambia Sottocartella dei Giochi su USB
 Clock:
 Frequenza:
 Close
@@ -69,9 +71,9 @@ File Cue non trovato
 Custom
 Personalizza
 Custom Memory Cards
-Memory Card Personalizzate
+Personalizza Memory Cards
 Customize AutoBleem settings
-Personalizza le impostazioni di AutoBleem
+Personalizza impostazioni di AutoBleem
 Decompressing ecm:
 Decompressione ecm:
 Defragment Card
@@ -89,11 +91,11 @@ Vuoi salvare i dati delle memorycard ?
 Download latest:
 Scarica la versione piu' recente:
 Edit game parameters
-Modifica i parametri del gioco
+Modifica parametri del gioco
 Edit Memory Card information
-Modifica le informazioni della Memory Card
+Modifica informazioni della Memory Card
 Emulator config MENU
-MENU di configurazione dell'emulatore
+MENU configurazione dell'emulatore
 Enter
 Scegli
 Enter new card name
@@ -106,8 +108,8 @@ Enter new name for memory card
 Inserisci il nuovo nome della memory card
 Entry
 Valore
-Exit to EvoUI
-Torna a EvoUI
+ Exit to EvoUI
+ Torna a EvoUI
 Failed to delete
 Impossibile cancellare
 Favorite Games
@@ -115,7 +117,7 @@ Giochi Preferiti
 Favorite:
 Preferiti:
 Flush covers
-Cancella le cover
+Svuota le cover
 Folder:
 Cartella:
 Frameskip:
@@ -133,11 +135,11 @@ Verifica fallita per questi giochi:
 Game file not found
 File del gioco non trovato
 Game History
-Cronologia dei Giochi
+Cronologia Giochi
 Game Manager
 Gestore del gioco
 Game manager - Select game
-Gestore del gioco - Seleziona un gioco
+Gestore del gioco - Scegli un gioco
 Game.ini file not found
 File Game.ini non trovato
 Game.ini file not valid
@@ -146,8 +148,6 @@ Game:
 Gioco:
 games
 giochi
-Games
-Giochi
 Games changed. Press
 Giochi cambiati. Premi
 Games filter
@@ -162,8 +162,8 @@ High res:
 Alta risoluzione:
 Hold
 Mantieni
-In Boot Menu: Safe Power Off The Console
-Nel Menu Di Avvio: Spegni La Console In Modo Sicuro
+ In Boot Menu: Safe Power Off The Console
+ Nel Menu Di Avvio: Spegni La Console In Modo Sicuro
 In Game
 Mentre Giochi
 In Retroarch Game
@@ -180,8 +180,8 @@ Link Block
 Blocco di Link
 Link end Block
 Blocco di Fine Link
-Loading ... Please Wait ...
-Caricamento ... Attendere Prego ...
+ Loading ... Please Wait ...
+ Caricamento ... Attendere Prego ...
 Lock data:
 Blocca dati:
 MEMORY CARD
@@ -204,8 +204,8 @@ New Card
 Nuova Card
 New GamePad found
 Trovato nuovo GamePad
-No disc name
-Nessun nome del disco
+ No disc name
+ Nessun nome del disco
 No discs
 Nessun disco
 OK
@@ -242,8 +242,8 @@ Power Off
 Spegni
 POWERING OFF... PLEASE WAIT
 SPEGNIMENTO IN CORSO... ATTENDERE PREGO
-Press a key for
-Premi un tasto per
+ Press a key for
+ Premi un tasto per
 Press any DPAD button (to determine if it's digital or analogue)
 Premi un tasto del DPAD (per determinare se digitale o analogico)
 Press |@X| to save controller mapping, or |@O| to retry configuration
@@ -297,13 +297,13 @@ Seleziona memory card
 Select or cancel highlighted option
 Seleziona o annulla l'opzione evidenziata
 Select PS1 Game Category
-Seleziona la Categoria dei Giochi PS1
+Seleziona Categoria dei Giochi PS1
 SELECT RESUME SLOT TO LOAD
 SELEZIONA UNO SLOT DA CARICARE
 Select RetroBoot Platform
-Seleziona la Piattaforma RetroBoot
+Seleziona Piattaforma Retroboot
 Select Right Card
-Seleziona la Card Destra
+Seleziona Card Destra
 SELECT SLOT TO SAVE STATE
 SELEZIONA UNO SLOT DOVE SALVARE
 Serial:
@@ -313,9 +313,9 @@ IMPOSTAZIONI
 Share MC
 Condividi MC
 Show Internal Games:
-Mostra i Giochi Interni
-Showing Timeout (0 = no timeout):
-Timeout di Visualizzazione (0 = nessun timeout):
+Mostra Giochi Interni
+ Showing Timeout (0 = no timeout):
+ Timeout di Visualizzazione (0 = nessun timeout):
 Showing: All Games
 Sto mostrando: Tutti i Giochi
 Showing: Apps
@@ -340,24 +340,26 @@ Spu Interpolation:
 Interpolazione Spu:
 Starting EvolutionUI
 Avvio di EvolutionUI
-Support via Discord:
-Supporto via Discord:
-This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
-Questo e' un programma gratuito e open source. Funziona COSI' COME E' e Noi non ci assumiamo alcuna responsabilita' per eventuali problemi o danni.
+ Support via Discord:
+ Supporto via Discord:
+ This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+ Questo e' un programma gratuito e open source. Funziona COSI' COME E' e Noi non ci assumiamo alcuna responsabilita' per eventuali problemi o danni.
 to scan
 per cercare
 Total:
 Totale:
 UI:
 UI:
-Unknown Core (AutoDetect)
-Core Sconosciuto (AutoDetect)
+ Unknown Core (AutoDetect)
+ Core Sconosciuto (AutoDetect)
 Update RA Config:
 Aggiorna Configurazione RA:
 Updating regional.db...
 Aggiornando regional.db...
 USB Games
 Giochi su USB
+Use Controller
+Usa Controller
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 ATTENZIONE: DB DELLE COVER NON TROVATO. PREMI UN TASTO QUALSIASI.
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.

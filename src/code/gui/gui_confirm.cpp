@@ -37,7 +37,7 @@ void GuiConfirm::render()
 void GuiConfirm::loop()
 {
     shared_ptr<Gui> gui(Gui::getInstance());
-    bool menuVisible = true;
+    menuVisible = true;
     while (menuVisible) {
         gui->watchJoystickPort();
         SDL_Event e;

@@ -1,14 +1,12 @@
-#include "gui_memcards.h"
+#include "gui_memCardsMenu.h"
 #include <SDL2/SDL.h>
-//#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
-//#include <SDL2/SDL_ttf.h>
 #include <string>
-#include "gui.h"
-#include "../engine/memcard.h"
-#include "gui_confirm.h"
-#include "gui_keyboard.h"
-#include "../lang.h"
+#include "../gui.h"
+#include "../../engine/memcard.h"
+#include "../gui_confirm.h"
+#include "../gui_keyboard.h"
+#include "../../lang.h"
 
 using namespace std;
 
@@ -16,7 +14,7 @@ using namespace std;
 // GuiMemcards::init
 //*******************************
 void GuiMemcards::init() {
-    GuiMenu::init();    // call the base init
+    GuiMenuBase::init();    // call the base init
 
     Memcard *memcardOps = new Memcard(gui->pathToGamesDir);
     lines = memcardOps->list();
@@ -24,11 +22,11 @@ void GuiMemcards::init() {
 }
 
 //*******************************
-// GuiMemcards::statusLine
+// GuiMemcards::getStatusLine
 //*******************************
 // returns the status line at the bottom
-string GuiMemcards::statusLine() {
-    return _("Card") + " " + to_string(selected + 1) + "/" + to_string(lines.size()) +
+string GuiMemcards::getStatusLine() {
+    return _("Card") + " " + to_string(selected + 1) + "/" + to_string(getVerticalSize()) +
            "   |@L1|/|@R1| " + _("Page") +
            "   |@X| " + _("Rename") +
            "  |@S| " + _("New Card") +
@@ -37,17 +35,17 @@ string GuiMemcards::statusLine() {
 }
 
 //*******************************
-// GuiMemcards::doCircle
+// GuiMemcards::doCirclePressed
 //*******************************
-void GuiMemcards::doCircle() {
+void GuiMemcards::doCircle_Pressed() {
     Mix_PlayChannel(-1, gui->cancel, 0);
     menuVisible = false;
 }
 
 //*******************************
-// GuiMemcards::doSquare
+// GuiMemcards::doSquarePressed
 //*******************************
-void GuiMemcards::doSquare() {
+void GuiMemcards::doSquare_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     GuiKeyboard *keyboard = new GuiKeyboard(renderer);
     keyboard->label = _("Enter new card name");
@@ -76,9 +74,9 @@ void GuiMemcards::doSquare() {
                 firstVisibleIndex = i;
                 lastVisibleIndex = firstVisibleIndex + maxVisible - 1;
 
-                if (lines.size() > maxVisible) {
-                    if (lastVisibleIndex >= lines.size()) {
-                        lastVisibleIndex = lines.size() - 1;
+                if (getVerticalSize() > maxVisible) {
+                    if (lastVisibleIndex >= getVerticalSize()) {
+                        lastVisibleIndex = getVerticalSize() - 1;
                         firstVisibleIndex = lastVisibleIndex - maxVisible + 1;
                     }
                 }
@@ -91,11 +89,11 @@ void GuiMemcards::doSquare() {
 }
 
 //*******************************
-// GuiMemcards::doTriangle
+// GuiMemcards::doTrianglePressed
 //*******************************
-void GuiMemcards::doTriangle() {
+void GuiMemcards::doTriangle_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
-    if (lines.size() != 0) {
+    if (getVerticalSize() != 0) {
         GuiConfirm *guiConfirm = new GuiConfirm(renderer);
         guiConfirm->label = _("Delete card") + " '" + lines[selected] + "' ?";
         guiConfirm->show();
@@ -113,9 +111,9 @@ void GuiMemcards::doTriangle() {
 }
 
 //*******************************
-// GuiMemcards::doCross
+// GuiMemcards::doCrossPressed
 //*******************************
-void GuiMemcards::doCross() {
+void GuiMemcards::doCross_Pressed() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (lines.empty()) {
         return;

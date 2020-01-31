@@ -118,8 +118,6 @@ public:
 
     void saveSelection();
 
-    bool quickBoot();
-
     void renderBackground();
 
     int renderLogo(bool small);
@@ -201,8 +199,6 @@ public:
     SDL_Shared<SDL_Texture> buttonBackspace;
     SDL_Shared<SDL_Texture> buttonTab;
     SDL_Shared<SDL_Texture> cdJewel;
-
-    bool overrideQuickBoot = false;
 
     std::string pathToGamesDir; // path to /Games.  "/media/Games" or "/debugSystemPath/Games".
 

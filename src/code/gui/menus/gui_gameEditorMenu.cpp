@@ -2,16 +2,16 @@
 // Created by screemer on 2019-01-25.
 //
 
-#include "gui_editor.h"
-#include "gui.h"
-#include "gui_keyboard.h"
-#include "gui_selectmemcard.h"
-#include "../engine/memcard.h"
-#include "../engine/cfgprocessor.h"
+#include "gui_gameEditorMenu.h"
+#include "../gui.h"
+#include "../gui_keyboard.h"
+#include "../gui_selectmemcard.h"
+#include "../../engine/memcard.h"
+#include "../../engine/cfgprocessor.h"
 #include <SDL2/SDL_image.h>
-#include "../lang.h"
+#include "../../lang.h"
 #include <sstream>
-#include "../environment.h"
+#include "../../environment.h"
 
 using namespace std;
 
@@ -422,7 +422,7 @@ void GuiEditor::render() {
 //*******************************
 void GuiEditor::loop() {
     shared_ptr<Gui> gui(Gui::getInstance());
-    bool menuVisible = true;
+    menuVisible = true;
     while (menuVisible) {
         gui->watchJoystickPort();
         SDL_Event e;
@@ -513,7 +513,7 @@ void GuiEditor::loop() {
                             selector->cardSelected = gameIni.values["memcard"];
                             selector->show();
 
-                            if (selector->selected != -1)
+                            if (selector->selected != -1) {
                                 if (selector->selected == 0) {
                                     gameIni.values["memcard"] = "SONY";
                                     gameIni.save(gameIni.path);
@@ -521,6 +521,7 @@ void GuiEditor::loop() {
                                     gameIni.values["memcard"] = selector->cards[selector->selected];
                                     gameIni.save(gameIni.path);
                                 }
+                            }
                             delete (selector);
                         } else {
                             Mix_PlayChannel(-1, gui->cancel, 0);

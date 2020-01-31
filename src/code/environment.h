@@ -16,6 +16,10 @@ struct Environment {
     static std::string getPathToRegionalDBFile();   // includes the "regional.db" filename
     static std::string getPathToInternalDBFile();   // includes the "internal.db" filename
 
+    // for networking
+    static std::string getPathToBleemsyncDir();
+    static std::string getPathToBleemsyncCFGDir();
+
     static std::string getWorkingPath();  // 1 arg: "usb:/Autobleem/bin/autobleem", 2 arg: autobleem-gui executable dir
     static std::string getSonyPath();  // 1 arg: "usb:/Autobleem/bin/autobleem/sony", 2 arg: "" + sep + "sony"
     static std::string getSonyFontPath();  // 1 arg: "usb:/Autobleem/bin/autobleem/sony", 2 arg: "" + sep + "sony"

@@ -168,37 +168,37 @@ bool GuiKeyboard::handlePowerShutdownAndQuit(SDL_Event &e) {
 // GuiKeyboard::doKbdRight
 //*******************************
 void GuiKeyboard::doKbdRight() {
-    Mix_PlayChannel(-1, gui->cursor, 0);
-    if (L2_cursor_shift) {
-        if (cursorIndex != result.size())
-            ++cursorIndex;
-    } else {
-        selx++;
-        if (selx > xlast) {
-            selx = 0;
-        }
-    }
     L2_cursor_shift = true;
     usingUsbKeyboard = true;
-    render();
+    doJoyRight();
 }
 
 //*******************************
 // GuiKeyboard::doKbdLeft
 //*******************************
 void GuiKeyboard::doKbdLeft() {
-    Mix_PlayChannel(-1, gui->cursor, 0);
-    if (L2_cursor_shift) {
-        if (cursorIndex > 0)
-            --cursorIndex;
-    } else {
-        selx--;
-        if (selx < 0) {
-            selx = xlast;
-        }
-    }
     L2_cursor_shift = true;
     usingUsbKeyboard = true;
+    doJoyLeft();
+}
+
+//*******************************
+// GuiKeyboard::doKbdHome
+//*******************************
+void GuiKeyboard::doKbdHome() {
+    L2_cursor_shift = true;
+    usingUsbKeyboard = true;
+    cursorIndex = 0;
+    render();
+}
+
+//*******************************
+// GuiKeyboard::doKbdEnd
+//*******************************
+void GuiKeyboard::doKbdEnd() {
+    L2_cursor_shift = true;
+    usingUsbKeyboard = true;
+    cursorIndex = result.size();
     render();
 }
 
@@ -306,7 +306,7 @@ void GuiKeyboard::doL2_down() {
 }
 
 //*******************************
-// GuiKeyboard::doTriangle
+// GuiKeyboard::doTrianglePressed
 //*******************************
 void GuiKeyboard::doTriangle() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -318,7 +318,7 @@ void GuiKeyboard::doTriangle() {
 }
 
 //*******************************
-// GuiKeyboard::doSquare
+// GuiKeyboard::doSquarePressed
 //*******************************
 void GuiKeyboard::doSquare() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -328,7 +328,7 @@ void GuiKeyboard::doSquare() {
 }
 
 //*******************************
-// GuiKeyboard::doCross
+// GuiKeyboard::doCrossPressed
 //*******************************
 void GuiKeyboard::doCross() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -344,7 +344,7 @@ void GuiKeyboard::doCross() {
 }
 
 //*******************************
-// GuiKeyboard::doStart
+// GuiKeyboard::doStartPressed
 //*******************************
 void GuiKeyboard::doStart() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -353,7 +353,7 @@ void GuiKeyboard::doStart() {
 }
 
 //*******************************
-// GuiKeyboard::doCircle
+// GuiKeyboard::doCirclePressed
 //*******************************
 void GuiKeyboard::doCircle() {
     Mix_PlayChannel(-1, gui->cursor, 0);
@@ -362,9 +362,9 @@ void GuiKeyboard::doCircle() {
 }
 
 //*******************************
-// GuiKeyboard::doRight
+// GuiKeyboard::doJoyRight
 //*******************************
-void GuiKeyboard::doRight() {
+void GuiKeyboard::doJoyRight() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (L2_cursor_shift) {
         if (cursorIndex != result.size())
@@ -379,9 +379,9 @@ void GuiKeyboard::doRight() {
 }
 
 //*******************************
-// GuiKeyboard::doLeft
+// GuiKeyboard::doJoyLeft
 //*******************************
-void GuiKeyboard::doLeft() {
+void GuiKeyboard::doJoyLeft() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (L2_cursor_shift) {
         if (cursorIndex > 0)
@@ -396,9 +396,9 @@ void GuiKeyboard::doLeft() {
 }
 
 //*******************************
-// GuiKeyboard::doDown
+// GuiKeyboard::doJoyDown
 //*******************************
-void GuiKeyboard::doDown() {
+void GuiKeyboard::doJoyDown() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (!L2_cursor_shift) {
         sely++;
@@ -410,9 +410,9 @@ void GuiKeyboard::doDown() {
 }
 
 //*******************************
-// GuiKeyboard::doUp
+// GuiKeyboard::doJoyUp
 //*******************************
-void GuiKeyboard::doUp() {
+void GuiKeyboard::doJoyUp() {
     Mix_PlayChannel(-1, gui->cursor, 0);
     if (!L2_cursor_shift) {
         sely--;
@@ -444,6 +444,12 @@ void GuiKeyboard::loop() {
 
                     } else if (e.key.keysym.sym == SDLK_LEFT) {
                         doKbdLeft();
+
+                    } else if (e.key.keysym.sym == SDLK_HOME) {
+                        doKbdHome();
+
+                    } else if (e.key.keysym.sym == SDLK_END) {
+                        doKbdEnd();
 
                     } else if (e.key.keysym.sym == SDLK_BACKSPACE) {
                         doKbdBackspace();
@@ -499,16 +505,16 @@ void GuiKeyboard::loop() {
                 case SDL_JOYAXISMOTION:
                 case SDL_JOYHATMOTION:
                     if (gui->mapper.isRight(&e)) {
-                        doRight();
+                        doJoyRight();
                     } else if (gui->mapper.isLeft(&e)) {
-                        doLeft();
+                        doJoyLeft();
                     }
 
                     if (!L2_cursor_shift) {
                         if (gui->mapper.isDown(&e)) {
-                            doDown();
+                            doJoyDown();
                         } else if (gui->mapper.isUp(&e)) {
-                            doUp();
+                            doJoyUp();
                         }
                     }
 

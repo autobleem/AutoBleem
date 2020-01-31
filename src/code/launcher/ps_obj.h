@@ -13,6 +13,8 @@
 //******************
 class PsObj {
 public:
+    virtual ~PsObj() {}
+
     SDL_Shared<SDL_Renderer> renderer;
     int x = 0, y = 0, w = 0, h = 0;
     int ox = 0, oy = 0, ow = 0, oh = 0;
@@ -30,7 +32,7 @@ public:
 
     virtual void destroy();
 
-    virtual void update(long time) {};
+    virtual void update(long /*time*/) {};
 
     virtual void render();
 };
