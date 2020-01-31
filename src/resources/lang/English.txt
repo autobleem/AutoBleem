@@ -36,6 +36,8 @@ Backspace
 
 Bin file failed to verify
 
+Bleemsync directory not on USB
+
 Button Guide
 
 Cancel
@@ -94,6 +96,12 @@ Edit game parameters
 
 Edit Memory Card information
 
+Edit Network SSID and Password (ssid.cfg)
+
+Edit Password
+
+Edit SSID
+
 Emulator config MENU
 
 Enter
@@ -105,6 +113,10 @@ Enter new game name
 Enter new name for card
 
 Enter new name for memory card
+
+Enter Password
+
+Enter SSID
 
 Entry
 
@@ -160,13 +172,17 @@ Go back
 
 High res:
 
-Hold
-
 In Boot Menu: Safe Power Off The Console
 
 In Game
 
 In Retroarch Game
+
+Initialize Network
+
+Initialize Network using prior connect info
+
+Initialize Wi-Fi Now?
 
 Internal
 
@@ -192,15 +208,17 @@ Memory Card:
 
 Memory Cards
 
-Menu
-
 Move Cursor
 
 Moving :
 
 Music:
 
+Network SSID
+
 New Card
+
+New Connection:
 
 New GamePad found
 
@@ -219,6 +237,8 @@ Options
 Original
 
 Page
+
+Password:
 
 pcsx.cfg file not found
 
@@ -250,13 +270,7 @@ Press any DPAD button (to determine if it's digital or analogue)
 
 Published by:
 
-Quick boot
-
 Quick scroll to next letter
-
-QuickBoot Init:
-
-QuickBoot:
 
 Quit emulation - back to AutoBleem
 
@@ -338,6 +352,8 @@ SpeedHack:
 
 Spu Interpolation:
 
+SSID:
+
 Starting EvolutionUI
 
 Support via Discord:
@@ -365,6 +381,10 @@ WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
 
 Widescreen:
+
+Write new connect info to ssid.cfg file
+
+Write ssid.cfg file
 
 Year:
 
