@@ -280,6 +280,14 @@ string Util::getStringWithinChar(string s, char del) {
 }
 
 //*******************************
+// Util::removeCharsFromString
+//*******************************
+void Util::removeCharsFromString(string& str, string charsToRemove) {
+    for (char ch : charsToRemove)
+        str.erase( std::remove(str.begin(), str.end(), ch), str.end() );
+}
+
+//*******************************
 // Util::cleanPublisherString
 // remove any trailing "." or space or " ."
 //*******************************

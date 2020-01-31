@@ -38,6 +38,8 @@ public:
     static std::string rtrim(const std::string& s);
     static std::string trim(const std::string& s);
     static std::string getStringWithinChar(std::string s, char del);
+    static void removeCharsFromString(std::string& str, std::string charsToRemove);
+    static void removeCRLFFromString(std::string& str) { removeCharsFromString(str, "\r\n"); }
 
     static std::string getAvailableSpace();
     static std::string floatToString(float f, int n);

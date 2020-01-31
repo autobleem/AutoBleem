@@ -163,8 +163,7 @@ string GuiBase::getCurrentThemeFontPath() {
 // Gui::logText
 //*******************************
 void Gui::logText(const string &message) {
-    shared_ptr<Gui> gui(Gui::getInstance());
-    gui->drawText(message);
+    drawText(message);
 }
 
 
@@ -967,7 +966,8 @@ void Gui::renderStatus(const string &text, int posy) {
     {
         textRec.y=posy;
     }
-    if (textRec.w > atoi(themeData.values["textw"].c_str())) textRec.w = atoi(themeData.values["textw"].c_str());
+    if (textRec.w > atoi(themeData.values["textw"].c_str()))
+        textRec.w = atoi(themeData.values["textw"].c_str());
     SDL_RenderCopy(renderer, textTex, nullptr, &textRec);
 }
 
