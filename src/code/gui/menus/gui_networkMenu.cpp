@@ -113,7 +113,7 @@ void GuiNetworkMenu::fill() {
 string GuiNetworkMenu::getStatusLine() {
     switch (selected) {
         case Text:
-            return "";
+            return "   |@O| " + _("Cancel") + " |";
 
         case SSID:
             return "   |@X| " + _("Edit SSID") +
@@ -124,14 +124,14 @@ string GuiNetworkMenu::getStatusLine() {
                    "   |@O| " + _("Cancel") + " |";
 
         case Blank1:
-            return "";
+            return "   |@O| " + _("Cancel") + " |";
 
         case WriteFile:
             return "   |@X| " + _("Write ssid.cfg file") +
                    "   |@O| " + _("Cancel") + " |";
 
         case Blank2:
-            return "";
+            return "   |@O| " + _("Cancel") + " |";
 
         case InitNetwork:
             return "   |@X| " + _("Initialize Network") +
@@ -139,7 +139,7 @@ string GuiNetworkMenu::getStatusLine() {
 
         default:
             assert(false);
-            return "";
+            return "   |@O| " + _("Cancel") + " |";
     }
 }
 
