@@ -79,6 +79,7 @@ void GuiOptions::fill() {
     lines.emplace_back(CFG_JEWEL, _("Cover Style:"), "jewel", false, getJewels());
     lines.emplace_back(CFG_MUSIC, _("Music:"), "music", false, getMusic());
     lines.emplace_back(CFG_ENABLE_BACKGROUND_MUSIC, _("Background Music:"), "nomusic", true, vector<string> ({ "true", "false" }) );
+    lines.emplace_back(CFG_AUTO_INIT_NETWORK_ON_BOOT, _("Auto Init Network on Boot:"), "autobootnetwork", true, vector<string> ({ "false", "true" }) );
     lines.emplace_back(CFG_WIDESCREEN, _("Widescreen:"), "aspect", true, vector<string> ({ "false", "true" }) );
     lines.emplace_back(CFG_GFX_FILTER, _("GFX Filter:"), "mip", true, vector<string> ({ "true", "false" }) );
     lines.emplace_back(CFG_RACONFIG, _("Update RA Config:"), "raconfig", true, vector<string> ({ "false", "true" }) );

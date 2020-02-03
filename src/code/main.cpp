@@ -9,6 +9,7 @@
 #include "engine/database.h"
 #include "engine/scanner.h"
 #include "gui/gui.h"
+#include "gui/menus/gui_networkMenu.h"
 #include "main.h"
 #include "ver_migration.h"
 #include "engine/coverdb.h"
@@ -223,6 +224,16 @@ int main(int argc, char *argv[]) {
 
     if (thereAreRawGameFilesInGamesDir)
         copyGameFilesInGamesDirToSubDirs(pathToGamesDir);   // calls splash() so the gui->display needs to be up first
+
+    bool autobootnetwork = (gui->cfg.inifile.values["autobootnetwork"] == "true");
+    if (autobootnetwork) {
+        string ssid = GuiNetworkMenu::getSSID();
+        if (ssid != "") {
+            shared_ptr<Gui> splash(Gui::getInstance());
+            splash->logText(_("Initializing Wi-Fi To Network SSID: " + ssid));
+            GuiNetworkMenu::initializeWifi();
+        }
+    }
 
     while (gui->menuOption == MENU_OPTION_SCAN || gui->menuOption == MENU_OPTION_START) {
 

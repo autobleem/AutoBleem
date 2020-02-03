@@ -562,16 +562,13 @@ void Gui::menuSelection() {
     }
     otherMenuShift = false;
     powerOffShift = false;
-    string adv = cfg.inifile.values["adv"];
     string mainMenu = "|@Start| " + _("AutoBleem") + "    |@X|  " + _("Re/Scan") + " ";
     if (cfg.inifile.values["ui"] == "classic") {
         mainMenu += "  |@O|  " + _("Original") + "  ";
     }
     mainMenu += "|@S|  " + _("RetroArch") + "   ";
     mainMenu += "|@T|  " + _("About") + "  |@Select|  " + _("Options") + " ";
-    if (adv == "true") {
-        mainMenu += "|@L1| " + _("Advanced");
-    }
+    mainMenu += "|@L1| " + _("Advanced");
     mainMenu += " |@L2|+|@R2|" + _("Power Off");
 
     string forceScanMenu = _("Games changed. Press") + "  |@X|  " + _("to scan") + "|";
@@ -620,33 +617,28 @@ void Gui::menuSelection() {
             }
             switch (e.type) {
                 case SDL_JOYBUTTONUP:
-                    if (adv != "false") {
-                        if (!forceScan) {
-                            if (e.jbutton.button == _cb(PCS_BTN_L1, &e)) {
-                                Mix_PlayChannel(-1, cursor, 0);
-                                drawText(mainMenu);
-                                otherMenuShift = false;
-                            }
-                            if (e.jbutton.button == _cb(PCS_BTN_L2, &e)) {
-                                Mix_PlayChannel(-1, cursor, 0);
-                                powerOffShift = false;
-                            }
+                    if (!forceScan) {
+                        if (e.jbutton.button == _cb(PCS_BTN_L1, &e)) {
+                            Mix_PlayChannel(-1, cursor, 0);
+                            drawText(mainMenu);
+                            otherMenuShift = false;
+                        }
+                        if (e.jbutton.button == _cb(PCS_BTN_L2, &e)) {
+                            Mix_PlayChannel(-1, cursor, 0);
+                            powerOffShift = false;
                         }
                     }
                     break;
                 case SDL_JOYBUTTONDOWN:
-                    if (adv != "false") {
-                        if (!forceScan) {
-                            if (e.jbutton.button == _cb(PCS_BTN_L1, &e)) {
-                                Mix_PlayChannel(-1, cursor, 0);
-                                drawText(otherMenu);
-                                otherMenuShift = true;
-                            }
-                            if (e.jbutton.button == _cb(PCS_BTN_L2, &e)) {
-                                Mix_PlayChannel(-1, cursor, 0);
-
-                                powerOffShift = true;
-                            }
+                    if (!forceScan) {
+                        if (e.jbutton.button == _cb(PCS_BTN_L1, &e)) {
+                            Mix_PlayChannel(-1, cursor, 0);
+                            drawText(otherMenu);
+                            otherMenuShift = true;
+                        }
+                        if (e.jbutton.button == _cb(PCS_BTN_L2, &e)) {
+                            Mix_PlayChannel(-1, cursor, 0);
+                            powerOffShift = true;
                         }
                     }
 

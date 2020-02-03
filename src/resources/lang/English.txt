@@ -24,6 +24,8 @@ Are you sure you want to flush all covers?
 
 Are you sure?
 
+Auto Init Network on Boot:
+
 AutoBleem
 
 AutoBleem resume points not available in RetroArch.

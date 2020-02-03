@@ -22,9 +22,8 @@ Config::Config()
     inifile.values.erase("quick");
     inifile.values.erase("quickmenu");
     inifile.values.erase("delay");
+    inifile.values.erase("adv");
     save();
-
-    inifile.values["adv"]="true";
 
     bool aDefaultWasSet {false};
     if (inifile.values["language"]=="")

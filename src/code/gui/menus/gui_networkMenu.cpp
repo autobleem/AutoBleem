@@ -22,9 +22,6 @@ enum { Text=0, SSID, PW, Blank1, WriteFile, Blank2, InitNetwork };
 void GuiNetworkMenu::init() {
     GuiMenuBase::init();    // call the base init
 
-    cfgPath = Env::getPathToBleemsyncCFGDir() + sep + "ssid.cfg";
-    runPath = Env::getPathToApps() + sep + "bleemsync_networking" + sep + "run.sh";
-
     // read from ssid.cfg if it exists
     readCfgFile();
 
@@ -36,6 +33,7 @@ void GuiNetworkMenu::init() {
 //*******************************
 void GuiNetworkMenu::readCfgFile() {
     // read from ssid.cfg if it exists
+    string cfgPath = getCfgPath();
     if (DirEntry::exists(cfgPath)) {
         ifstream ssidFile;
         ssidFile.open(cfgPath.c_str(), ios::binary);
@@ -58,6 +56,7 @@ void GuiNetworkMenu::readCfgFile() {
 // GuiNetworkMenu::writeCfgFile
 //*******************************
 void GuiNetworkMenu::writeCfgFile() {
+    string cfgPath = getCfgPath();
     ofstream ssidFile(cfgPath, ios_base::trunc);
     ssidFile << ssid << endl;
     ssidFile << password << endl;
@@ -69,6 +68,7 @@ void GuiNetworkMenu::writeCfgFile() {
 // GuiNetworkMenu::initializeWifi
 //*******************************
 void GuiNetworkMenu::initializeWifi() {
+    string runPath = getRunPath();
     if (DirEntry::exists(runPath)) {
         cout << "Attempting to initialize wifi networking" << endl;
         std::vector<const char *> argvNew;
@@ -93,6 +93,69 @@ void GuiNetworkMenu::initializeWifi() {
 }
 
 //*******************************
+// GuiNetworkMenu::getSSID
+//*******************************
+string GuiNetworkMenu::getSSID() {
+    string ret = getSSIDfrom_ssidcfg();
+    if (ret == "")
+        ret = getSSIDfrom_wpa_supplicant();
+
+    return ret;
+}
+
+//*******************************
+// GuiNetworkMenu::getSSIDfrom_ssidcfg
+//*******************************
+string GuiNetworkMenu::getSSIDfrom_ssidcfg() {
+    string ret;
+    // read from ssid.cfg if it exists
+    string cfgPath = getCfgPath();
+    if (DirEntry::exists(cfgPath)) {
+        ifstream ssidFile;
+        ssidFile.open(cfgPath.c_str(), ios::binary);
+
+        getline(ssidFile, ret);
+        Util::removeCRLFFromString(ret);
+
+        ssidFile.close();
+    }
+
+        return ret;
+}
+
+//*******************************
+// GuiNetworkMenu::getSSIDfrom_wpa_supplicant
+//*******************************
+string GuiNetworkMenu::getSSIDfrom_wpa_supplicant() {
+    string ret;
+    string wpaPath = getWpaSupplicantPath();
+    if (DirEntry::exists(wpaPath)) {
+        ifstream wpaFile;
+        wpaFile.open(wpaPath.c_str(), ios::binary);
+        string line;
+        string searchFor = "ssid=";
+        while (getline(wpaFile, line)) {
+            trim(line);
+            if (!line.empty()) {
+                auto pos = line.find(searchFor);
+                if (pos != string::npos) {  // if found on this line
+                    // get the rest of the line
+                    ret = line.substr(pos + string(searchFor).size(), string::npos);
+                    // remove the "" around the ssid
+                    Util::removeCharsFromString(ret, "\"");
+                    if (ret == "1")
+                        ret = "";   // bleemsync will create an ssid of 1 if there is no ssid.cfg
+                    break;
+                }
+            }
+        }
+        wpaFile.close();
+    }
+
+    return ret;
+}
+
+//*******************************
 // GuiNetworkMenu::fill
 //*******************************
 void GuiNetworkMenu::fill() {
@@ -113,7 +176,7 @@ void GuiNetworkMenu::fill() {
 string GuiNetworkMenu::getStatusLine() {
     switch (selected) {
         case Text:
-            return "";
+            return "   |@O| " + _("Cancel") + " |";
 
         case SSID:
             return "   |@X| " + _("Edit SSID") +
@@ -124,14 +187,14 @@ string GuiNetworkMenu::getStatusLine() {
                    "   |@O| " + _("Cancel") + " |";
 
         case Blank1:
-            return "";
+            return "   |@O| " + _("Cancel") + " |";
 
         case WriteFile:
             return "   |@X| " + _("Write ssid.cfg file") +
                    "   |@O| " + _("Cancel") + " |";
 
         case Blank2:
-            return "";
+            return "   |@O| " + _("Cancel") + " |";
 
         case InitNetwork:
             return "   |@X| " + _("Initialize Network") +
@@ -139,7 +202,7 @@ string GuiNetworkMenu::getStatusLine() {
 
         default:
             assert(false);
-            return "";
+            return "   |@O| " + _("Cancel") + " |";
     }
 }
 
@@ -196,6 +259,7 @@ void GuiNetworkMenu::doCross_Pressed() {
 
         case WriteFile: {
             writeCfgFile();
+            string runPath = getRunPath();
             if (DirEntry::exists(runPath)) {
                 auto confirm = new GuiConfirm(renderer);
                 confirm->label = _("Initialize Wi-Fi Now?");
@@ -217,14 +281,17 @@ void GuiNetworkMenu::doCross_Pressed() {
         case Blank2:
             break;
 
-        case InitNetwork:
+        case InitNetwork: {
+            string runPath = getRunPath();
             if (DirEntry::exists(runPath)) {
 #if defined(__x86_64__) || defined(_M_X64)
-                    // nope
+                // nope
 #else
-                    initializeWifi();
+                initializeWifi();
 #endif
             }
+            }
+            break;
 
         default:
             assert(false);
