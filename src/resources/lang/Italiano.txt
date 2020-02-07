@@ -18,12 +18,14 @@ Advanced
 Avanzate
 All Games
 Tutti i Giochi
- Are you sure you want to delete
- Sei sicuro di voler cancellare
- Are you sure you want to flush all covers?
- Sei sicuro di voler cancellare tutte le cover?
- Are you sure?
- Sei sicuro?
+Are you sure you want to delete
+Sei sicuro di voler cancellare
+Are you sure you want to flush all covers?
+Sei sicuro di voler cancellare tutte le cover?
+Are you sure?
+Sei sicuro?
+Auto Init Network on Boot:
+Inizializza Rete all'Avvio:
 AutoBleem
 AutoBleem
 AutoBleem resume points not available in RetroArch.
@@ -36,6 +38,8 @@ Backspace
 Backspace
 Bin file failed to verify
 Verifica del file Bin fallita
+Bleemsync directory not on USB
+Cartella Bleemsync non presente su USB
 Button Guide
 Guida ai Pulsanti
 Cancel
@@ -94,6 +98,12 @@ Edit game parameters
 Modifica parametri del gioco
 Edit Memory Card information
 Modifica informazioni della Memory Card
+Edit Network SSID and Password (ssid.cfg)
+Modifica SSID e Password della Rete (ssid.cfg)
+Edit Password
+Modifica Password
+Edit SSID
+Modifica SSID
 Emulator config MENU
 MENU configurazione dell'emulatore
 Enter
@@ -106,10 +116,14 @@ Enter new name for card
 Inserisci il nuovo nome della card
 Enter new name for memory card
 Inserisci il nuovo nome della memory card
+Enter Password
+Inserisci Password
+Enter SSID
+Inserisci SSID
 Entry
-Valore
- Exit to EvoUI
- Torna a EvoUI
+Voce
+Exit to EvoUI
+Torna a EvoUI
 Failed to delete
 Impossibile cancellare
 Favorite Games
@@ -160,14 +174,18 @@ Go back
 Ritorna
 High res:
 Alta risoluzione:
-Hold
-Mantieni
- In Boot Menu: Safe Power Off The Console
- Nel Menu Di Avvio: Spegni La Console In Modo Sicuro
+In Boot Menu: Safe Power Off The Console
+Nel Menu Di Avvio: Spegni La Console In Modo Sicuro
 In Game
 Mentre Giochi
 In Retroarch Game
 Mentre Giochi - in RetroArch
+Initialize Network
+Inizializza Rete
+Initialize Network using prior connect info
+Inizializza Rete usando info di connessione precedente
+Initialize Wi-Fi Now?
+Inizializza Wi-Fi Adesso?
 Internal
 Interno
 INTERNAL
@@ -180,8 +198,8 @@ Link Block
 Blocco di Link
 Link end Block
 Blocco di Fine Link
- Loading ... Please Wait ...
- Caricamento ... Attendere Prego ...
+Loading ... Please Wait ...
+Caricamento ... Attendere Prego ...
 Lock data:
 Blocca dati:
 MEMORY CARD
@@ -192,26 +210,28 @@ Memory Card:
 Memory Card:
 Memory Cards
 Memory Cards
-Menu
-Menu
 Move Cursor
 Sposta Cursore
 Moving :
 Spostando :
 Music:
 Musica:
+Network SSID
+SSID della Rete
 New Card
 Nuova Card
+New Connection:
+Nuova Connessione:
 New GamePad found
 Trovato nuovo GamePad
- No disc name
- Nessun nome del disco
+No discs name
+Nessun nome del disco
 No discs
 Nessun disco
 OK
 OK
 OOPS! Game crashed. Resume point not available.
-Oh-Oh! Il gioco e' crashato. Punto di salvataggio non disponibile.
+Oh-Oh! Il gioco e' crashato. Punto di ripristino non disponibile.
 Open Retroarch Menu
 Apri il Menu di RetroArch
 Options
@@ -220,6 +240,8 @@ Original
 Originale
 Page
 Pagina
+Password:
+Password:
 pcsx.cfg file not found
 File pcsx.cfg non trovato
 Player
@@ -242,22 +264,16 @@ Power Off
 Spegni
 POWERING OFF... PLEASE WAIT
 SPEGNIMENTO IN CORSO... ATTENDERE PREGO
- Press a key for
- Premi un tasto per
+Press a key for
+Premi un tasto per
 Press any DPAD button (to determine if it's digital or analogue)
 Premi un tasto del DPAD (per determinare se digitale o analogico)
 Press |@X| to save controller mapping, or |@O| to retry configuration
 Premi |@X| per salvare la mappatura del controller, o |@O| per ripetere la configurazione
 Published by:
 Pubblicato da:
-Quick boot
-Avvio rapido
 Quick scroll to next letter
-Scorri rapidamente alla lettera successiva/precedente
-QuickBoot Init:
-Esegui all'AvvioRapido:
-QuickBoot:
-AvvioRapido:
+Scorri rapidamente alla lettera successiva
 Quit emulation - back to AutoBleem
 Esci dall'emulazione - torna ad AutoBleem
 Re/Scan
@@ -314,8 +330,8 @@ Share MC
 Condividi MC
 Show Internal Games:
 Mostra Giochi Interni
- Showing Timeout (0 = no timeout):
- Timeout di Visualizzazione (0 = nessun timeout):
+Showing Timeout (0 = no timeout):
+Timeout di Visualizzazione (0 = nessun timeout):
 Showing: All Games
 Sto mostrando: Tutti i Giochi
 Showing: Apps
@@ -338,20 +354,22 @@ SpeedHack:
 SpeedHack:
 Spu Interpolation:
 Interpolazione Spu:
+SSID:
+SSID:
 Starting EvolutionUI
 Avvio di EvolutionUI
- Support via Discord:
- Supporto via Discord:
- This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
- Questo e' un programma gratuito e open source. Funziona COSI' COME E' e Noi non ci assumiamo alcuna responsabilita' per eventuali problemi o danni.
+Support via Discord:
+Supporto via Discord:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+Questo e' un programma gratuito e open source. Funziona COSI' COME E' e Noi non ci assumiamo alcuna responsabilita' per eventuali problemi o danni.
 to scan
 per cercare
 Total:
 Totale:
 UI:
 UI:
- Unknown Core (AutoDetect)
- Core Sconosciuto (AutoDetect)
+Unknown Core (AutoDetect)
+Core Sconosciuto (AutoDetect)
 Update RA Config:
 Aggiorna Configurazione RA:
 Updating regional.db...
@@ -366,5 +384,9 @@ WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
 ATTENZIONE: NESSUN GIOCO TROVATO. PREMI UN TASTO QUALSIASI.
 Widescreen:
 Widescreen:
+Write new connect info to ssid.cfg file
+Scrivi le nuove info di connessione nel file ssid.cfg
+Write ssid.cfg file
+Scrivi file ssid.cfg
 Year:
 Anno:

@@ -24,6 +24,8 @@ Are you sure you want to flush all covers?
 ¿Estas seguro que quieres eliminar todas las caratulas?
 Are you sure?
 ¿Estas seguro?
+Auto Init Network on Boot:
+Auto Iniciar Red al Arrancar:
 AutoBleem
 AutoBleem
 AutoBleem resume points not available in RetroArch.
@@ -36,6 +38,8 @@ Backspace
 Restroceso
 Bin file failed to verify
 El archivo .bin no se pudo verificar
+Bleemsync directory not on USB
+El directorio de Bleemsync no esta en el USB
 Button Guide
 Guia de Botones
 Cancel
@@ -94,6 +98,12 @@ Edit game parameters
 Editar parametros de juego
 Edit Memory Card information
 Editar informacion de Memory Card
+Edit Network SSID and Password (ssid.cfg)
+Editar SSID de Red y Password (ssid.cfg)
+Edit Password
+Editar Password
+Edit SSID
+Editar SSID
 Emulator config MENU
 MENU de configuracion del Emulador
 Enter
@@ -106,6 +116,10 @@ Enter new name for card
 Entra nuevo monbre para tarjeta
 Enter new name for memory card
 Entra nuevo nombre para memory card
+Enter Password
+Introducir Password
+Enter SSID
+Introducir SSID
 Entry
 Entrada
 Exit to EvoUI
@@ -160,14 +174,18 @@ Go back
 Ir atras
 High res:
 High res:
-Hold
-Manten
 In Boot Menu: Safe Power Off The Console
 En el Menu Principal: Apagado Seguro de la Consola
 In Game
 En Juego
 In Retroarch Game
 En Juego de Retoarch
+Initialize Network
+Iniciar Red
+Initialize Network using prior connect info
+Iniciar Red usando informacion de conexion previa
+Initialize Wi-Fi Now?
+¿Iniciar Wi-Fi Ahora?
 Internal
 Interno
 INTERNAL
@@ -192,16 +210,18 @@ Memory Card:
 Memory Card:
 Memory Cards
 Memory Cards
-Menu
-Menu
 Move Cursor
 Mover Cursor
 Moving :
 Moviendo :
 Music:
 Musica:
+Network SSID
+Red SSID
 New Card
 Nueva Tarjeta
+New Connection:
+Nueva Conexion:
 New GamePad found
 Nuevo GamePad encontrado
 No disc name
@@ -220,6 +240,8 @@ Original
 Original
 Page
 Pagina
+Password:
+Password:
 pcsx.cfg file not found
 Archivo pcsx.cfg no encontrado
 Player
@@ -250,14 +272,8 @@ Press |@X| to save controller mapping, or |@O| to retry configuration
 Pulsa |@X| para guardar el mapeo de botones, o |@O| para reiniciar la configuracion
 Published by:
 Publicado por:
-Quick boot
-Arranque rapido
 Quick scroll to next letter
 Desplazamiento rapido a la siguiente letra
-QuickBoot Init:
-Inicio QuickBoot:
-QuickBoot:
-QuickBoot:
 Quit emulation - back to AutoBleem
 Quitar emulacion - volver a AutoBleem
 Re/Scan
@@ -338,6 +354,8 @@ SpeedHack:
 SpeedHack:
 Spu Interpolation:
 Spu Interpolation:
+SSID:
+SSID:
 Starting EvolutionUI
 Iniciando EvolutionUI
 Support via Discord:
@@ -366,5 +384,9 @@ WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
 ADVERTENCIA: JUEGOS NO ENCONTRADOS. PULSE CUALQUIER BOTON.
 Widescreen:
 Widescreen:
+Write new connect info to ssid.cfg file
+Escribir nueva informacion de conexion en el archivo ssid.cfg
+Write ssid.cfg file
+Escribir archivo ssid.cfg
 Year:
 Año:
