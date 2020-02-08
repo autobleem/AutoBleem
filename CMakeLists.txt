@@ -4,7 +4,8 @@ project(autobleem-gui)
 set(CMAKE_CXX_STANDARD 11)
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
-if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "arm CPU" )
+message(STATUS "CMAKE_SYSTEM_PROCESSOR=${CMAKE_SYSTEM_PROCESSOR}")
+if (CMAKE_SYSTEM_PROCESSOR MATCHES "^arm" )
 	message(STATUS "Building for ARM")
 	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 8.0)
 		message(STATUS "CXX Compiler Version > 8")
@@ -32,7 +33,7 @@ else()
 #			SET(CMAKE_CXX_FLAGS "-Wall -W")
 
 			message(STATUS "Enabling some warnings")
-			# all compiler warnings
+			# some compiler warnings
 			SET(CMAKE_C_FLAGS "-Wreturn-type -Wuninitialized")
 			SET(CMAKE_CXX_FLAGS "-Wreturn-type -Wuninitialized")
 
