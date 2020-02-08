@@ -24,6 +24,7 @@ public:
     virtual std::string getStatusLine() override;   // returns the status line at the bottom
 
     std::string ssid, password;
+    bool displayAsterisksInsteadOfPassword = true;   // this is a password.  display *****
 
     static std::string getCfgPath() { return Env::getPathToBleemsyncCFGDir() + sep + "ssid.cfg"; }
     static std::string getRunPath() { return Env::getPathToApps() + sep + "bleemsync_networking" + sep + "run.sh"; }

@@ -162,7 +162,10 @@ void GuiNetworkMenu::fill() {
     lines.clear();
     lines.emplace_back(_("New Connection:"));
     lines.emplace_back(_("SSID:") + " " + ssid);
-    lines.emplace_back(_("Password:") + " " + password);
+    if (displayAsterisksInsteadOfPassword)
+        lines.emplace_back(_("Password:") + " " + string(password.size(), '*'));
+    else
+        lines.emplace_back(_("Password:") + " " + password);
     lines.emplace_back("");
     lines.emplace_back(_("Write new connect info to ssid.cfg file"));
     lines.emplace_back("");
@@ -243,6 +246,7 @@ void GuiNetworkMenu::doCross_Pressed() {
             GuiKeyboard *keyboard = new GuiKeyboard(renderer);
             keyboard->label = _("Enter Password");
             keyboard->result = password;
+            keyboard->displayAsterisksInstead = displayAsterisksInsteadOfPassword;
             keyboard->show();
             string result = keyboard->result;
             bool cancelled = keyboard->cancelled;

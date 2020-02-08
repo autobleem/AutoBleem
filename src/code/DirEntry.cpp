@@ -51,6 +51,9 @@ bool DirEntry::isPBPFile(std::string path) {
     return last_four == ".pbp";
 }
 
+//*******************************
+// DirEntry::generateM3UForDirectory
+//*******************************
 void DirEntry::generateM3UForDirectory(std::string path, std::string basename) {
     if (DirEntry::isPBPFile(basename)) {
         basename = basename.substr(basename.length() - 4);

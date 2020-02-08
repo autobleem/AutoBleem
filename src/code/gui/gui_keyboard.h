@@ -56,6 +56,7 @@ public:
     bool L2_cursor_shift = false;
     bool cancelled=true;
     bool usingUsbKeyboard = false;
+    bool displayAsterisksInstead = false;   // this is a password.  display *****
 
     using GuiScreen::GuiScreen;
 };
