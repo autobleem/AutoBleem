@@ -72,18 +72,18 @@ bool copyGameFilesInGamesDirToSubDirs(const string & path){
                     //Create directory for game
                     DirEntry::createDir(path + sep + filenameWE);
                     //Move cue file
-                    rename((path + "/" + entry.name).c_str(), (path + sep + filenameWE + "/" + entry.name).c_str());
+                    DirEntry::renameFile(path + "/" + entry.name, path + sep + filenameWE + "/" + entry.name);
                     //Move bin files
                     for (const auto &bin : binList){
                         splash->logText(_("Moving :") + " " + bin);
-                        rename((path + sep + bin).c_str(), (path + sep + filenameWE + sep + bin).c_str());
+                        DirEntry::renameFile(path + sep + bin, path + sep + filenameWE + sep + bin);
                     }
                     ret = true;
                 }
             }else{
                 DirEntry::createDir(path + sep + filenameWE);
 
-                rename((path + sep + entry.name).c_str(),(path + sep + filenameWE + sep + entry.name).c_str());
+                DirEntry::renameFile(path + sep + entry.name, path + sep + filenameWE + sep + entry.name);
                 ret = true;
             }
         }
@@ -101,7 +101,7 @@ bool copyGameFilesInGamesDirToSubDirs(const string & path){
         //Checking if file exists
         if(access((path + sep + entry.name).c_str(),F_OK) != -1){
             DirEntry::createDir(path + sep + filenameWE);
-            rename((path + sep + entry.name).c_str(), (path + sep + filenameWE + sep + entry.name).c_str());
+            DirEntry::renameFile(path + sep + entry.name, path + sep + filenameWE + sep + entry.name);
             ret = true;
         }
     }

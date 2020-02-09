@@ -52,11 +52,17 @@ public:
     static DirEntries diru_DirsOnly(std::string path);  // diru but only returns directories
     static DirEntries diru_FilesOnly(std::string path);  // diru but only returns files
 
-    static bool copy(const std::string& source, const std::string& dest); // copies a file
-    static bool exists(const std::string &name);
+    static bool copy(const std::string& source, const std::string& dest);
+    static bool exists(const std::string &name);        // return if a file or dir exists
     static bool createDir(const std::string &name);
     static int rmDir(std::string path);
     static bool removeDirAndContents(const std::string path);
+
+    // convenience routines  to not have to use c_str() on strings
+    static bool removeFile(const std::string& path);
+    static bool renameFile(const std::string& pathFrom, const std::string& pathTo);
+    static bool copyFile(const std::string& pathFrom, const std::string& pathTo);
+
     static std::string removeDotFromExtension(const std::string & ext); // if it has it
     static std::string addDotToExtension(const std::string & ext); // if it doesn't start with a "."
     static bool matchExtension(std::string path, std::string ext);  // this does a case insensitive compare

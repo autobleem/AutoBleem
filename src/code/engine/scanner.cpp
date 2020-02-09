@@ -31,7 +31,7 @@ void Scanner::unecm(const string & path) {
             shared_ptr<Gui> splash(Gui::getInstance());
             splash->logText(_("Decompressing ecm:"));
             if (ecm.unecm(path + sep + entry.name, path + sep + entry.name.substr(0, entry.name.length() - 4))) {
-                remove((path + sep + entry.name).c_str());
+                DirEntry::removeFile(path + sep + entry.name);
             }
         }
     }
@@ -123,9 +123,8 @@ void repairBinCommaNames(const string & path) {
                 os.close();
                 is.close();
 
-                remove((path + sep + entry.name).c_str());
-                rename((path + sep + entry.name + ".new").c_str(),
-                       (path + sep + entry.name).c_str());
+                DirEntry::removeFile(path + sep + entry.name);
+                DirEntry::renameFile(path + sep + entry.name + ".new", path + sep + entry.name);
             }
         }
     }
@@ -196,7 +195,7 @@ void Scanner::moveFolderIfNeeded(const std::string &gameDirName, string gameData
             string newName = path + sep + gameDirName + sep + entryGame.name;
             string oldName = gameDataPath + sep + entryGame.name;
             cerr << "Moving: " << oldName << "  to: " << newName << endl;
-            rename(oldName.c_str(), newName.c_str());
+            DirEntry::renameFile(oldName, newName);
         }
     }
 

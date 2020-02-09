@@ -178,7 +178,7 @@ bool DirEntry::fixCommaInDirOrFileName(const std::string &path, DirEntry *entry)
     if (entry->name.find(",") != string::npos) {
         string newName = entry->name;
         Util::replaceAll(newName, ",", "-");
-        rename((path + sep + entry->name).c_str(), (path + sep + newName).c_str());
+        DirEntry::renameFile(path + sep + entry->name, path + sep + newName);
         entry->name = newName;
         return true;
     } else
@@ -336,7 +336,7 @@ bool  DirEntry::removeDirAndContents(const std::string path) {
     // remove the files in the dir
     auto files = diru_FilesOnly(path);
     for (auto & file : files)
-        { remove((path + sep + file.name).c_str()); }
+        { removeFile(path + sep + file.name); }
 
     // recursively remove the subdirs
     auto dirs = diru_DirsOnly(path);
@@ -348,7 +348,28 @@ bool  DirEntry::removeDirAndContents(const std::string path) {
 }
 
 //*******************************
-// DirEntry::copy file
+// DirEntry::removeFile
+//*******************************
+bool DirEntry::removeFile(const string& path) {
+    return remove(path.c_str()) == 0;
+}
+
+//*******************************
+// DirEntry::renameFile
+//*******************************
+bool DirEntry::renameFile(const std::string& pathFrom, const std::string& pathTo) {
+    return rename(pathFrom.c_str(), pathTo.c_str()) == 0;
+}
+
+//*******************************
+// DirEntry::copyFile
+//*******************************
+bool DirEntry::copyFile(const std::string& pathFrom, const std::string& pathTo) {
+    return DirEntry::copy(pathFrom, pathTo) == 0;
+}
+
+//*******************************
+// DirEntry::copy
 //*******************************
 bool DirEntry::copy(const string &source, const string &dest) {
     ifstream infile;
