@@ -8,13 +8,19 @@
 #include <cassert> // assert
 #include <iostream>
 #include <unistd.h>
+#include <sys/types.h>
+#include <ifaddrs.h>
+#include <arpa/inet.h>
+#include <stdio.h>
+#include <regex>
+
 #ifndef __APPLE__
 #include <wait.h>
 #endif
 
 using namespace std;
 
-enum { Text=0, SSID, PW, Blank1, WriteFile, Blank2, InitNetwork };
+enum { Text=0, SSID, PW, WriteFile, Blank, InitNetwork, IpAddress };
 
 //*******************************
 // GuiNetworkMenu::init
@@ -47,7 +53,7 @@ void GuiNetworkMenu::readCfgFile() {
         ssidFile.close();
     }
     else {
-        ssid = "";
+        ssid = getSSIDfrom_wpa_supplicant();
         password = "";
     }
 }
@@ -67,10 +73,17 @@ void GuiNetworkMenu::writeCfgFile() {
 //*******************************
 // GuiNetworkMenu::initializeWifi
 //*******************************
-void GuiNetworkMenu::initializeWifi() {
+std::string GuiNetworkMenu::initializeWifi() {
+    deleteNetworkLog(); // delete info from last wifi connection
+
+    string ssid = getSSID();
+    shared_ptr<Gui> splash(Gui::getInstance());
+    splash->logText(_("Initializing Wi-Fi To Network SSID:") + " " + ssid);
+    string ipAddress;
+
     string runPath = getRunPath();
     if (DirEntry::exists(runPath)) {
-        cout << "Attempting to initialize wifi networking" << endl;
+        cout << runPath << " found. Attempting to initialize wifi networking" << endl;
         std::vector<const char *> argvNew;
         argvNew.push_back(runPath.c_str());
         argvNew.push_back(nullptr);
@@ -82,14 +95,127 @@ void GuiNetworkMenu::initializeWifi() {
         }
         cout << endl;
 
-
         int pid = fork();
         if (!pid) {
             execvp(runPath.c_str(), (char **) argvNew.data());
         }
         waitpid(pid, NULL, 0);
-        usleep(3 * 1000);
+
+        // wait for network.log to appear and gt IP address
+        auto startTime = SDL_GetTicks();
+        do {
+            usleep(1 * 1000000);
+            ipAddress = getIPAddress();
+        } while (ipAddress == "" && SDL_GetTicks() - startTime < 10 * 1000);
+
+        if (ipAddress != "") {
+            splash->logText(_("Initialized Wi-Fi To Network SSID:") + " " + ssid + ", " + _("IP:") + " " + ipAddress);
+            usleep(5 * 1000000);
+        } else {
+            splash->logText(_("Failed to Initialize Wi-Fi To Network SSID:") + " " + ssid);
+            usleep(2 * 1000000);
+        }
     }
+
+    return ipAddress;
+}
+
+//*******************************
+// GuiNetworkMenu::getIPAddress
+//*******************************
+string GuiNetworkMenu::getIPAddress() {
+    cout << "getIPAddress() called" << endl;
+    string ipAddress;
+
+    // read from network.log if it exists
+    string logPath = Env::getPathToLogsDir() + sep + "network.log";
+    if (DirEntry::exists(logPath)) {
+        ifstream logFile;
+        logFile.open(logPath.c_str(), ios::binary);
+        string line;
+        while (getline(logFile, line)) {
+            Util::removeCRLFFromString(line);
+            if (line.find("Lease of") != string::npos) {
+                cout << "found Lease" << endl;
+                regex expr("[0-9]{1,3}[.][0-9]{1,3}[.][0-9]{1,3}[.][0-9]{1,3}");
+                smatch match;
+                if (regex_search(line, match, expr)) {
+                    ipAddress = match.str();
+                }
+                break;
+            }
+        }
+
+        logFile.close();
+    } else
+        cout << logPath << " not found" << endl;
+
+#if 0
+    std::vector<const char *> argvNew;
+    string scriptPath = Env::getPathToRCDir() + sep + "get_IP_address.sh";
+    string ipPath = Env::getPathToBleemsyncCFGDir() + sep + "ipAddress.txt";
+    argvNew.push_back(scriptPath.c_str());
+    argvNew.push_back(ipPath.c_str());
+    argvNew.push_back(nullptr);
+
+    for (const char *s:argvNew) {
+        if (s != nullptr) {
+            cout << s << " ";
+        }
+    }
+    cout << endl;
+
+    int pid = fork();
+    if (!pid) {
+        execvp(scriptPath.c_str(), (char **) argvNew.data());
+    }
+    waitpid(pid, NULL, 0);
+    usleep(3 * 1000);
+
+    // read from ipAddress.txt if it exists
+    if (DirEntry::exists(ipPath)) {
+        ifstream ipFile;
+        ipFile.open(ipPath.c_str(), ios::binary);
+
+        getline(ipFile, ipAddress);
+        Util::removeCRLFFromString(ipAddress);
+
+        ipFile.close();
+        //remove(ipPath.c_str());
+    } else {
+        cout << ipPath << " doesn't exist" << endl;
+    }
+#endif
+
+#if 0   // didn't work on the PSC
+    struct ifaddrs *interfaces = NULL;
+    struct ifaddrs *temp_addr = NULL;
+    int success = 0;
+    // retrieve the current interfaces - returns 0 on success
+    success = getifaddrs(&interfaces);
+    if (success == 0) {
+        // Loop through linked list of interfaces
+        temp_addr = interfaces;
+        while(temp_addr != NULL) {
+            //if (temp_addr->ifa_addr->sa_family == AF_INET) {
+                cout << "ifa_name = " << temp_addr->ifa_name << endl;
+                cout << "which has ip = " << inet_ntoa(((struct sockaddr_in*)temp_addr->ifa_addr)->sin_addr) << endl;
+                if (strcmp(temp_addr->ifa_name, "wlan0") == 0){
+                    ipAddress = inet_ntoa(((struct sockaddr_in*)temp_addr->ifa_addr)->sin_addr);
+                    cout << "ip address from inet_ntoa = " << ipAddress << endl;
+                }
+            //}
+            temp_addr = temp_addr->ifa_next;
+        }
+    } else
+        cout << "call to getifaddrs() failed" << endl;
+
+    freeifaddrs(interfaces);        // Free memory
+#endif
+
+
+    cout << "IpAddress returned by getIPAddress() = " << ipAddress << endl;
+    return ipAddress;
 }
 
 //*******************************
@@ -160,16 +286,16 @@ string GuiNetworkMenu::getSSIDfrom_wpa_supplicant() {
 //*******************************
 void GuiNetworkMenu::fill() {
     lines.clear();
-    lines.emplace_back(_("New Connection:"));
+    lines.emplace_back(_("Wi-Fi Connection:"));
     lines.emplace_back(_("SSID:") + " " + ssid);
     if (displayAsterisksInsteadOfPassword)
         lines.emplace_back(_("Password:") + " " + string(password.size(), '*'));
     else
         lines.emplace_back(_("Password:") + " " + password);
+    lines.emplace_back(_("Write connect info to ssid.cfg file"));
     lines.emplace_back("");
-    lines.emplace_back(_("Write new connect info to ssid.cfg file"));
-    lines.emplace_back("");
-    lines.emplace_back(_("Initialize Network using prior connect info"));
+    lines.emplace_back(_("Initialize Network"));
+    lines.emplace_back(_("IP Address:") + " " + getIPAddress());
 }
 
 //*******************************
@@ -189,14 +315,11 @@ string GuiNetworkMenu::getStatusLine() {
             return "   |@X| " + _("Edit Password") +
                    "   |@O| " + _("Cancel") + " |";
 
-        case Blank1:
-            return "   |@O| " + _("Cancel") + " |";
-
         case WriteFile:
             return "   |@X| " + _("Write ssid.cfg file") +
                    "   |@O| " + _("Cancel") + " |";
 
-        case Blank2:
+        case Blank:
             return "   |@O| " + _("Cancel") + " |";
 
         case InitNetwork:
@@ -258,9 +381,6 @@ void GuiNetworkMenu::doCross_Pressed() {
         }
             break;
 
-        case Blank1:
-            break;
-
         case WriteFile: {
             writeCfgFile();
             string runPath = getRunPath();
@@ -282,7 +402,7 @@ void GuiNetworkMenu::doCross_Pressed() {
             }
             break;
 
-        case Blank2:
+        case Blank:
             break;
 
         case InitNetwork: {
@@ -295,6 +415,9 @@ void GuiNetworkMenu::doCross_Pressed() {
 #endif
             }
             }
+            break;
+
+        case IpAddress:
             break;
 
         default:

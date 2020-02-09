@@ -223,15 +223,14 @@ int main(int argc, char *argv[]) {
     gui->display(scanner->forceScan, pathToGamesDir, db, false);
 
     if (thereAreRawGameFilesInGamesDir)
-        copyGameFilesInGamesDirToSubDirs(pathToGamesDir);   // calls splash() so the gui->display needs to be up first
+        copyGameFilesInGamesDirToSubDirs(pathToGamesDir);   // the gui->display needs to be up first
 
+    GuiNetworkMenu::deleteNetworkLog(); // delete info from last wifi connection
     bool autobootnetwork = (gui->cfg.inifile.values["autobootnetwork"] == "true");
     if (autobootnetwork) {
         string ssid = GuiNetworkMenu::getSSID();
         if (ssid != "") {
-            shared_ptr<Gui> splash(Gui::getInstance());
-            splash->logText(_("Initializing Wi-Fi To Network SSID: " + ssid));
-            GuiNetworkMenu::initializeWifi();
+            string ipAddress = GuiNetworkMenu::initializeWifi();
         }
     }
 
