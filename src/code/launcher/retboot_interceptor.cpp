@@ -193,8 +193,8 @@ void RetroArchInterceptor::memcardOut(PsGamePtr &game) {
 
 
         if (DirEntry::exists(backup)) {
-            remove(inpath.c_str());
-            rename(backup.c_str(), inpath.c_str());
+            DirEntry::removeFile(inpath);
+            DirEntry::renameFile(backup, inpath);
         }
     }
 }
@@ -209,11 +209,11 @@ void RetroArchInterceptor::backupCoreConfig() {
 void RetroArchInterceptor::restoreCoreConfig() {
     if (DirEntry::exists(string(RA_CORE_CONFIG) + ".bak")) {
         DirEntry::copy(string(RA_CORE_CONFIG) + ".bak", RA_CORE_CONFIG);
-        remove((string(RA_CORE_CONFIG) + ".bak").c_str());
+        DirEntry::removeFile(string(RA_CORE_CONFIG) + ".bak");
     }
     if (DirEntry::exists(string(RA_CONFIG) + ".bak")) {
         DirEntry::copy(string(RA_CONFIG) + ".bak", RA_CONFIG);
-        remove((string(RA_CONFIG) + ".bak").c_str());
+        DirEntry::removeFile(string(RA_CONFIG) + ".bak");
     }
 }
 

@@ -63,7 +63,11 @@ void GuiKeyboard::render() {
         SDL_RenderDrawRect(renderer, &rectSelection2);
     };
 
-    string displayResult = result;
+    string displayResult;
+    if (displayAsterisksInstead)
+        displayResult = string(result.size(), '*');
+    else
+        displayResult = result;
     displayResult.insert(cursorIndex, "#");
     gui->renderTextLine(displayResult, 1, offset, POS_CENTER);
 

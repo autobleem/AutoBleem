@@ -131,7 +131,7 @@ void GuiLauncher::getGames_SET_RETROARCH(const std::string &playlistName, PsGame
 void GuiLauncher::getGames_SET_APPS(PsGames *gamesList) {
     PsGames completeList;
 
-    std::string appPath = Environment::getPathToApps();
+    std::string appPath = Environment::getPathToAppsDir();
     if (!DirEntry::exists(appPath)) {
         return;
     }

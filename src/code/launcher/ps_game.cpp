@@ -56,15 +56,15 @@ void PsGame::removeResumePoint(int slot) {
                  std::getline(is, line);
 
                  string ssfile = ssFolder + sep + "sstates/" + line + ".00" + to_string(slot) + ".res";
-                 remove(ssfile.c_str());
+                 DirEntry::removeFile(ssfile);
                  // last line is our filename
                  if (slot == 0) {
                      string slot0img = ssFolder + sep + "screenshots/" + line + ".png.res";
-                     remove(slot0img.c_str());
+                     DirEntry::removeFile(slot0img);
 
                  } else {
                      string slotnimg = ssFolder + sep + "screenshots/" + line + "." + to_string(slot) + ".png.res";
-                     remove(slotnimg.c_str());
+                     DirEntry::removeFile(slotnimg);
                  }
                  is.close();
              }
@@ -141,9 +141,9 @@ void PsGame::storeResumePicture(int slot) {
                 }
                 is.close();
 
-                remove(slotImg.c_str());
+                DirEntry::removeFile(slotImg);
                 DirEntry::copy(inputImg, slotImg);
-                remove(inputImg.c_str());
+                DirEntry::removeFile(inputImg);
             }
         }
     }

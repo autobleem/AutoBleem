@@ -160,19 +160,20 @@ string GuiBase::getCurrentThemeFontPath() {
                                     //*******************************
 
 //*******************************
-// Gui::logText
+// Gui::splash
 //*******************************
-void Gui::logText(const string &message) {
-    drawText(message);
+void Gui::splash(const string &message) {
+    shared_ptr<Gui> gui(Gui::getInstance());
+    gui->drawText(message);
 }
 
 
 extern "C"
 {
 //*******************************
-// Gui::logText
+// Gui::splash
 //*******************************
-void logText(char *message) {
+void splash(char *message) {
     shared_ptr<Gui> gui(Gui::getInstance());
     gui->drawText(message);
 }
@@ -747,8 +748,7 @@ void Gui::menuSelection() {
                                 menuSelection();
                                 menuVisible = false;
                             } else {
-                                shared_ptr<Gui> splash(Gui::getInstance());
-                                splash->logText(_("Bleemsync directory not on USB"));
+                                Gui::splash(_("Bleemsync directory not on USB"));
                             }
                         };
 

@@ -112,7 +112,7 @@ public:
     void getEmojiTextTexture(SDL_Shared<SDL_Renderer> renderer, std::string text,
                              TTF_Font_Shared font, SDL_Shared<SDL_Texture> *texture, SDL_Rect *rect);
 
-    void logText(const std::string & message);
+    static void splash(const std::string & message);
 
     void menuSelection();
 

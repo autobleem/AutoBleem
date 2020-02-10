@@ -96,7 +96,7 @@ void Memcard::rename(string oldName, string newName)
         return;
     }
 
-    std::rename(oldPath.c_str(),newPath.c_str());
+    DirEntry::renameFile(oldPath,newPath);
 
     // now go to all game ini's and find out if needs updated
     for (const DirEntry & entry: DirEntry::diru(path)) {

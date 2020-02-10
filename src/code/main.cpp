@@ -50,8 +50,6 @@ bool copyGameFilesInGamesDirToSubDirs(const string & path){
     vector<string> extensions;
     vector<string> binList;
 
-    shared_ptr<Gui> splash(Gui::getInstance());
-
     extensions.push_back("pbp");
     extensions.push_back("cue");
 
@@ -61,7 +59,7 @@ bool copyGameFilesInGamesDirToSubDirs(const string & path){
 
     //On first run, we won't process bin/img files, as cue file may handle a part of them
     for (const auto &entry : fileList){
-        splash->logText(_("Moving :") + " " + entry.name);
+        Gui::splash(_("Moving :") + " " + entry.name);
         fileExt = DirEntry::getFileExtension(entry.name);
         filenameWE = DirEntry::getFileNameWithoutExtension(entry.name);
         //Checking if file exists
@@ -72,18 +70,18 @@ bool copyGameFilesInGamesDirToSubDirs(const string & path){
                     //Create directory for game
                     DirEntry::createDir(path + sep + filenameWE);
                     //Move cue file
-                    rename((path + "/" + entry.name).c_str(), (path + sep + filenameWE + "/" + entry.name).c_str());
+                    DirEntry::renameFile(path + "/" + entry.name, path + sep + filenameWE + "/" + entry.name);
                     //Move bin files
                     for (const auto &bin : binList){
-                        splash->logText(_("Moving :") + " " + bin);
-                        rename((path + sep + bin).c_str(), (path + sep + filenameWE + sep + bin).c_str());
+                        Gui::splash(_("Moving :") + " " + bin);
+                        DirEntry::renameFile(path + sep + bin, path + sep + filenameWE + sep + bin);
                     }
                     ret = true;
                 }
             }else{
                 DirEntry::createDir(path + sep + filenameWE);
 
-                rename((path + sep + entry.name).c_str(),(path + sep + filenameWE + sep + entry.name).c_str());
+                DirEntry::renameFile(path + sep + entry.name, path + sep + filenameWE + sep + entry.name);
                 ret = true;
             }
         }
@@ -95,13 +93,13 @@ bool copyGameFilesInGamesDirToSubDirs(const string & path){
     extensions.push_back("bin");
     fileList = DirEntry::getFilesWithExtension(path, globalFileList, extensions);
     for (const auto &entry : fileList){
-        splash->logText(_("Moving :") + " " + entry.name);
+        Gui::splash(_("Moving :") + " " + entry.name);
         fileExt = DirEntry::getFileExtension(entry.name);
         filenameWE = DirEntry::getFileNameWithoutExtension(entry.name);
         //Checking if file exists
         if(access((path + sep + entry.name).c_str(),F_OK) != -1){
             DirEntry::createDir(path + sep + filenameWE);
-            rename((path + sep + entry.name).c_str(), (path + sep + filenameWE + sep + entry.name).c_str());
+            DirEntry::renameFile(path + sep + entry.name, path + sep + filenameWE + sep + entry.name);
             ret = true;
         }
     }
@@ -223,15 +221,14 @@ int main(int argc, char *argv[]) {
     gui->display(scanner->forceScan, pathToGamesDir, db, false);
 
     if (thereAreRawGameFilesInGamesDir)
-        copyGameFilesInGamesDirToSubDirs(pathToGamesDir);   // calls splash() so the gui->display needs to be up first
+        copyGameFilesInGamesDirToSubDirs(pathToGamesDir);   // the gui->display needs to be up first
 
+    GuiNetworkMenu::deleteNetworkLog(); // delete info from last wifi connection
     bool autobootnetwork = (gui->cfg.inifile.values["autobootnetwork"] == "true");
     if (autobootnetwork) {
         string ssid = GuiNetworkMenu::getSSID();
         if (ssid != "") {
-            shared_ptr<Gui> splash(Gui::getInstance());
-            splash->logText(_("Initializing Wi-Fi To Network SSID: " + ssid));
-            GuiNetworkMenu::initializeWifi();
+            string ipAddress = GuiNetworkMenu::initializeWifi();
         }
     }
 
@@ -369,7 +366,7 @@ int main(int argc, char *argv[]) {
     delete internalDB;
 	internalDB = nullptr;
 
-    gui->logText(_("Loading ... Please Wait ..."));
+    Gui::splash(_("Loading ... Please Wait ..."));
     gui->finish();
     SDL_Quit();
     delete coverdb;

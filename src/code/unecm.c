@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void logText(char *message);
+void splash(char *message);
 
 /***************************************************************************/
 
@@ -216,7 +216,7 @@ void setcounter(unsigned n) {
         fprintf(stderr, "Decoding (%02d%%)\r", (100 * a) / d);
         char buffer[1024];
         sprintf(buffer, "Decoding ECMed bin (%02d%%)\r", (100 * a) / d);
-        logText(buffer);
+        splash(buffer);
     }
     mycounter = n;
 }

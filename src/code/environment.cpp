@@ -31,8 +31,16 @@ string Environment::getPathToUSBRoot() {
   return private_pathToUSBDrive;
 }
 
-string Environment::getPathToApps() {
+string Environment::getPathToAutobleemDir() {
+    return private_pathToUSBDrive + sep + "Autobleem";
+}
+
+string Environment::getPathToAppsDir() {
     return private_pathToUSBDrive + sep + "Apps";
+}
+
+std::string Environment::getPathToRCDir() {
+    return getPathToAutobleemDir() + sep + "rc";
 }
 
 string Environment::getPathToGamesDir() {
@@ -84,6 +92,14 @@ string Environment::getPathToBleemsyncDir() {
 
 string Environment::getPathToBleemsyncCFGDir() {
     return getPathToBleemsyncDir() + sep + "etc/bleemsync/CFG";
+}
+
+string Environment::getPathToBleemsyncWPADir() {
+    return getPathToBleemsyncDir() + sep + "network/etc/wpa_supplicant";
+}
+
+string Environment::getPathToLogsDir() {
+    return private_pathToUSBDrive + sep + "logs";
 }
 
 //*******************************

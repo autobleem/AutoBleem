@@ -126,6 +126,8 @@ Exit to EvoUI
 
 Failed to delete
 
+Failed to Initialize of Wi-Fi To Network SSID:
+
 Favorite Games
 
 Favorite:
@@ -182,15 +184,21 @@ In Retroarch Game
 
 Initialize Network
 
-Initialize Network using prior connect info
-
 Initialize Wi-Fi Now?
+
+Initialized Wi-Fi To Network SSID:
+
+Initializing Wi-Fi To Network SSID:
 
 Internal
 
 INTERNAL
 
 Internal Games
+
+IP Address:
+
+IP:
 
 Language:
 
@@ -219,8 +227,6 @@ Music:
 Network SSID
 
 New Card
-
-New Connection:
 
 New GamePad found
 
@@ -384,7 +390,9 @@ WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
 
 Widescreen:
 
-Write new connect info to ssid.cfg file
+Wi-Fi Connection:
+
+Write connect info to ssid.cfg file
 
 Write ssid.cfg file
 

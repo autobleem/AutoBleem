@@ -28,10 +28,9 @@ void Scanner::unecm(const string & path) {
         if (entry.name[0] == '.') continue;
         if (DirEntry::matchExtension(entry.name, EXT_ECM)) {
             Ecmhelper ecm;
-            shared_ptr<Gui> splash(Gui::getInstance());
-            splash->logText(_("Decompressing ecm:"));
+            Gui::splash(_("Decompressing ecm:"));
             if (ecm.unecm(path + sep + entry.name, path + sep + entry.name.substr(0, entry.name.length() - 4))) {
-                remove((path + sep + entry.name).c_str());
+                DirEntry::removeFile(path + sep + entry.name);
             }
         }
     }
@@ -41,8 +40,7 @@ void Scanner::unecm(const string & path) {
 // Scanner::updateRegionalDB
 //*******************************
 void Scanner::updateRegionalDB(GamesHierarchy &gamesHierarchy, Database *db) {
-    shared_ptr<Gui> splash(Gui::getInstance());
-    splash->logText(_("Updating regional.db..."));
+    Gui::splash(_("Updating regional.db..."));
     string path = Env::getWorkingPath() + sep + "autobleem.list";
     ofstream outfile;
     outfile.open(path);
@@ -123,9 +121,8 @@ void repairBinCommaNames(const string & path) {
                 os.close();
                 is.close();
 
-                remove((path + sep + entry.name).c_str());
-                rename((path + sep + entry.name + ".new").c_str(),
-                       (path + sep + entry.name).c_str());
+                DirEntry::removeFile(path + sep + entry.name);
+                DirEntry::renameFile(path + sep + entry.name + ".new", path + sep + entry.name);
             }
         }
     }
@@ -196,7 +193,7 @@ void Scanner::moveFolderIfNeeded(const std::string &gameDirName, string gameData
             string newName = path + sep + gameDirName + sep + entryGame.name;
             string oldName = gameDataPath + sep + entryGame.name;
             cerr << "Moving: " << oldName << "  to: " << newName << endl;
-            rename(oldName.c_str(), newName.c_str());
+            DirEntry::renameFile(oldName, newName);
         }
     }
 
@@ -306,8 +303,7 @@ void Scanner::scanUSBGamesDirectory(GamesHierarchy &gamesHierarchy) {
     gamesToAddToDB.clear();  // clear games list
     complete = false;
 
-    shared_ptr<Gui> splash(Gui::getInstance());
-    splash->logText(_("Scanning..."));
+    Gui::splash(_("Scanning..."));
 
     if (!DirEntry::exists(Env::getPathToSaveStatesDir())) {
         DirEntry::createDir(Env::getPathToSaveStatesDir());
@@ -349,7 +345,7 @@ void Scanner::scanUSBGamesDirectory(GamesHierarchy &gamesHierarchy) {
         game->folder_id = 0; // this will not be in use;
         game->saveStatePath = Env::getPathToSaveStatesDir() + sep + game->gameDirName + sep;
 
-        splash->logText(_("Game:") + " " + game->gameDirName);
+        Gui::splash(_("Game:") + " " + game->gameDirName);
 
         string gamePathWithOutSeparator = DirEntry::removeSeparatorFromEndOfPath(game->fullPath);
 
@@ -469,7 +465,7 @@ void Scanner::scanUSBGamesDirectory(GamesHierarchy &gamesHierarchy) {
                 DirEntry::generateM3UForDirectory(game->fullPath, game->discs[0].cueName);
             }
             else {
-                splash->logText(_("Game failed to verify:") + " " + game->fullPath);
+                Gui::splash(_("Game failed to verify:") + " " + game->fullPath);
                 sleep(3);
                 badGameFile << "Game failed to verify: " << game->fullPath << endl;
                 for (const auto & reason : failureReasons)
