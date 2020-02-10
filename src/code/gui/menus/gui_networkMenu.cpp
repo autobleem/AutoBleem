@@ -77,8 +77,7 @@ std::string GuiNetworkMenu::initializeWifi() {
     deleteNetworkLog(); // delete info from last wifi connection
 
     string ssid = getSSID();
-    shared_ptr<Gui> splash(Gui::getInstance());
-    splash->logText(_("Initializing Wi-Fi To Network SSID:") + " " + ssid);
+    Gui::splash(_("Initializing Wi-Fi To Network SSID:") + " " + ssid);
     string ipAddress;
 
     string runPath = getRunPath();
@@ -109,10 +108,10 @@ std::string GuiNetworkMenu::initializeWifi() {
         } while (ipAddress == "" && SDL_GetTicks() - startTime < 10 * 1000);
 
         if (ipAddress != "") {
-            splash->logText(_("Initialized Wi-Fi To Network SSID:") + " " + ssid + ", " + _("IP:") + " " + ipAddress);
+            Gui::splash(_("Initialized Wi-Fi To Network SSID:") + " " + ssid + ", " + _("IP:") + " " + ipAddress);
             usleep(5 * 1000000);
         } else {
-            splash->logText(_("Failed to Initialize Wi-Fi To Network SSID:") + " " + ssid);
+            Gui::splash(_("Failed to Initialize Wi-Fi To Network SSID:") + " " + ssid);
             usleep(2 * 1000000);
         }
     }
