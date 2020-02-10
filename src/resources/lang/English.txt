@@ -126,7 +126,7 @@ Exit to EvoUI
 
 Failed to delete
 
-Failed to Initialize of Wi-Fi To Network SSID:
+Failed to Initialize Wi-Fi To Network SSID:
 
 Favorite Games
 
