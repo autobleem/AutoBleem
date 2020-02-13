@@ -4,7 +4,7 @@ mkdir -p build_sys
 
 cd ./build_sys
 cmake -DCMAKE_BUILD_TYPE=Release ../
-cmake --build .
-#make -j4
+#cmake --build .
+make -j 4
 cd ..
 
