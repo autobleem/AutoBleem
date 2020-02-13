@@ -1,4 +1,4 @@
-.-= Code C++ and shell scripts =-.
+q.-= Code C++ and shell scripts =-.
 .-= Codice C++ e shell scripts =-.
 .-= Database maintenance =-.
 .-= Manutenzione database =-.
@@ -126,6 +126,8 @@ Exit to EvoUI
 Torna a EvoUI
 Failed to delete
 Impossibile cancellare
+Failed to Initialize Wi-Fi To Network SSID:
+Impossibile Inizializzare Wi-Fi per la Rete SSID:
 Favorite Games
 Giochi Preferiti
 Favorite:
@@ -182,16 +184,22 @@ In Retroarch Game
 Mentre Giochi - in RetroArch
 Initialize Network
 Inizializza Rete
-Initialize Network using prior connect info
-Inizializza Rete usando info di connessione precedente
 Initialize Wi-Fi Now?
 Inizializza Wi-Fi Adesso?
+Initialized Wi-Fi To Network SSID:
+Wi-Fi inizializzata per la Rete con SSID:
+Initializing Wi-Fi To Network SSID:
+Inizializzo Wi-Fi per la Rete con SSID:
 Internal
 Interno
 INTERNAL
 INTERNO
 Internal Games
 Giochi Interni
+IP Address:
+Indirizzo IP:
+IP:
+IP:
 Language:
 Lingua:
 Link Block
@@ -220,11 +228,9 @@ Network SSID
 SSID della Rete
 New Card
 Nuova Card
-New Connection:
-Nuova Connessione:
 New GamePad found
 Trovato nuovo GamePad
-No discs name
+No disc name
 Nessun nome del disco
 No discs
 Nessun disco
@@ -382,10 +388,12 @@ WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 ATTENZIONE: DB DELLE COVER NON TROVATO. PREMI UN TASTO QUALSIASI.
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
 ATTENZIONE: NESSUN GIOCO TROVATO. PREMI UN TASTO QUALSIASI.
+Wi-Fi Connection:
+Connessione Wi-Fi:
 Widescreen:
 Widescreen:
-Write new connect info to ssid.cfg file
-Scrivi le nuove info di connessione nel file ssid.cfg
+Write connect info to ssid.cfg file
+Scrivi le info di connessione nel file ssid.cfg
 Write ssid.cfg file
 Scrivi file ssid.cfg
 Year:
