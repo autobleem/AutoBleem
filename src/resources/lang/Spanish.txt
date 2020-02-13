@@ -126,6 +126,8 @@ Exit to EvoUI
 Salir a EvoUI
 Failed to delete
 Fallo al borrar
+Failed to Initialize Wi-Fi To Network SSID:
+Fallo al Iniciar Wi-Fi a la Red SSID:
 Favorite Games
 Juegos Favoritos
 Favorite:
@@ -182,16 +184,22 @@ In Retroarch Game
 En Juego de Retoarch
 Initialize Network
 Iniciar Red
-Initialize Network using prior connect info
-Iniciar Red usando informacion de conexion previa
 Initialize Wi-Fi Now?
 ¿Iniciar Wi-Fi Ahora?
+Initialized Wi-Fi To Network SSID:
+Wi-Fi Iniciado a Red SSID:
+Initializing Wi-Fi To Network SSID:
+Iniciando Wi-Fi a la Red SSID:
 Internal
 Interno
 INTERNAL
 INTERNO
 Internal Games
 Juegos Internos
+IP Address:
+Direccion IP:
+IP:
+IP:
 Language:
 Idioma:
 Link Block
@@ -220,8 +228,6 @@ Network SSID
 Red SSID
 New Card
 Nueva Tarjeta
-New Connection:
-Nueva Conexion:
 New GamePad found
 Nuevo GamePad encontrado
 No disc name
@@ -382,10 +388,12 @@ WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 ADVERTENCIA: COVER BD NO ENCONTRADO. PULSE CUALQUIER BOTON.
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
 ADVERTENCIA: JUEGOS NO ENCONTRADOS. PULSE CUALQUIER BOTON.
+Wi-Fi Connection:
+Conexion Wi-Fi:
 Widescreen:
 Widescreen:
-Write new connect info to ssid.cfg file
-Escribir nueva informacion de conexion en el archivo ssid.cfg
+Write connect info to ssid.cfg file
+Escribir informacion de conexion en el archivo ssid.cfg
 Write ssid.cfg file
 Escribir archivo ssid.cfg
 Year:
