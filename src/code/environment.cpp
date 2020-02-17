@@ -36,7 +36,7 @@ string Environment::getPathToAutobleemDir() {
 }
 
 string Environment::getPathToAppsDir() {
-    return private_pathToUSBDrive + sep + "Apps";
+    return private_pathToUSBDrive + sep + "Autobleem/Apps";
 }
 
 std::string Environment::getPathToRCDir() {
