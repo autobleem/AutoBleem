@@ -14,9 +14,9 @@
 #include <unistd.h>
 #include "../environment.h"
 
-#define RA_MEMCARDLOC "/media/retroarch/saves/"
-#define RA_CORE_CONFIG "/media/retroarch/config/retroarch-core-options.cfg"
-#define RA_CONFIG "/media/retroarch/config/retroarch.cfg"
+#define RA_MEMCARDLOC "/media/project_eris/opt/retroarch/saves/"
+#define RA_CORE_CONFIG "/media/project_eris/opt/retroarch/config/retroarch/retroarch-core-options.cfg"
+#define RA_CONFIG "/media/project_eris/opt/retroarch/config/retroarch/retroarch.cfg"
 #define RA_NEON "NEON"
 #define RA_PEOPS "PEOPS"
 #define PCSX_NEON "builtin_gpu"
@@ -35,7 +35,7 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
     if (game->foreign) {
         cout << "RA FOREIGN MODE" << endl;
     }
-    string link = "/media/Autobleem/rc/launch_rb.sh";
+    string link = "/media/Autobleem/rc/launch_ra.sh";
     argvNew.push_back(link.c_str());
 
 

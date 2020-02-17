@@ -48,7 +48,7 @@ void execute(int argc, char** argv)
 int main (int argc, char *argv[])
 {
     string path="/data/AppData/sony/title/";
-    string sourceCard="/media/Games/!MemCards/";
+    string sourceCard="/media/Autobleem/Games/!MemCards/";
     Inifile ini;
     ini.load(path+"Game.ini");
     string imageType=valueOrDefault("imagetype","0",ini.values);
@@ -61,7 +61,7 @@ int main (int argc, char *argv[])
     {
         if (DirEntry::exists(sourceCard+memcard))
         {
-            Memcard * card = new Memcard("/media/Games/");
+            Memcard * card = new Memcard("/media/Autobleem/Games/");
             if (!card->swapIn("./.pcsx",memcard))
             {
                 memcard = "SONY";
@@ -124,7 +124,7 @@ int main (int argc, char *argv[])
 
     if (memcard!="SONY")
     {
-            Memcard * card = new Memcard("/media/Games/");
+            Memcard * card = new Memcard("/media/Autobleem/Games/");
             card->swapOut("./.pcsx",memcard);
             delete card;
     }

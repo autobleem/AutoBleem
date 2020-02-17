@@ -28,7 +28,7 @@ string private_pathToInternalDBFile;
 //*******************************
 
 string Environment::getPathToUSBRoot() {
-  return private_pathToUSBDrive;
+  return private_pathToUSBDrive + sep + "Autobleem";
 }
 
 string Environment::getPathToAutobleemDir() {
@@ -60,15 +60,15 @@ string Environment::getPathToSystemDir() {
 }
 
 string Environment::getPathToRetroarchDir() {
-    return private_pathToUSBDrive + sep + "retroarch";
+    return private_pathToUSBDrive + sep + "project_eris/opt/retroarch";
 }
 
 string Environment::getPathToRetroarchPlaylistsDir() {
-    return getPathToRetroarchDir() + sep + "playlists";
+    return getPathToRetroarchDir() + sep + "config/retroarch/playlists";
 }
 
 string Environment::getPathToRetroarchCoreFile() {
-    return getPathToRetroarchDir() + sep + "cores/km_pcsx_rearmed_neon_libretro.so";
+    return getPathToRetroarchDir() + sep + "config/retroarch/cores/km_pcsx_rearmed_neon_libretro.so";
 }
 
 string Environment::getPathToRomsDir() {
@@ -175,7 +175,7 @@ string Environment::getPathToThemesDir() {
         return path;
     }
 #else
-    string path =  "/media/themes";
+    string path =  "/media/Autobleem/themes";
     return path;
 #endif
 }

@@ -12,7 +12,7 @@
 #include <iostream>
 using namespace std;
 
-string verFile = "/media/System/Logs/ver.txt";
+string verFile = "/media/Autobleem/System/Logs/ver.txt";
 
 //*******************************
 // VerMigration::getLastRunVersion
@@ -116,7 +116,7 @@ void VerMigration::migrate(Database * db)
     string last=getLastRunVersion();
     Config cfg;
     string current=cfg.inifile.values["version"];
-    bool autobleemEverRun = DirEntry::exists("/media/System/Logs/autobleem.log");
+    bool autobleemEverRun = DirEntry::exists("/media/Autobleem/System/Logs/autobleem.log");
     if ((autobleemEverRun) && (current!=last))
     {
         // we need to migrate from 0.4 to 0.5.0

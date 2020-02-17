@@ -86,7 +86,7 @@ string GuiBase::getCurrentThemePath() {
     }
     return path;
 #else
-    string path =  "/media/themes/" + cfg.inifile.values["theme"] + "";
+    string path =  "/media/Autobleem/themes/" + cfg.inifile.values["theme"] + "";
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data";
@@ -106,7 +106,7 @@ string GuiBase::getCurrentThemeImagePath() {
     }
     return path;
 #else
-    string path =  "/media/themes/" + cfg.inifile.values["theme"] + "/images";
+    string path =  "/media/Autobleem/themes/" + cfg.inifile.values["theme"] + "/images";
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/images";
@@ -126,7 +126,7 @@ string GuiBase::getCurrentThemeSoundPath() {
     }
     return path;
 #else
-    string path =  "/media/themes/" + cfg.inifile.values["theme"] + "/sounds";
+    string path =  "/media/Autobleem/themes/" + cfg.inifile.values["theme"] + "/sounds";
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/sounds";
@@ -146,7 +146,7 @@ string GuiBase::getCurrentThemeFontPath() {
     }
     return path;
 #else
-    string path =  "/media/themes/" + cfg.inifile.values["theme"] + "/font";
+    string path =  "/media/Autobleem/themes/" + cfg.inifile.values["theme"] + "/font";
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/font";

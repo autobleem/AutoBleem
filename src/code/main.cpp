@@ -154,7 +154,7 @@ int main(int argc, char *argv[]) {
 #if defined(__x86_64__) || defined(_M_X64)
         private_pathToInternalDBFile = "internal.db";   // it's in the same dir as the autobleem-gui app you are debugging
 #else
-        private_pathToInternalDBFile = "/media/System/Databases/internal.db";
+        private_pathToInternalDBFile = "/media/Autobleem/System/Databases/internal.db";
 #endif
         private_pathToGamesDir = argv[2];
         private_pathToUSBDrive = DirEntry::getDirNameFromPath(private_pathToGamesDir);
