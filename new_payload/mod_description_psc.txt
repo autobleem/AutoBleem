@@ -1,3 +1,2 @@
  Autobleem is an alternative front end UI for the
  PlayStation Classic with a customisable front end.
- 
