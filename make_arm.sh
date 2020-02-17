@@ -8,7 +8,7 @@ if [ ! -d "/opt/toolchain/armv8-sony-linux-gnueabihf/" ]; then
 fi
 
 cd ./build_arm
-PATH="${PATH}:/opt/toolchain/armv8-sony-linux-gnueabihf/" cmake -DCMAKE_SYSTEM_PROCESSOR="Arm" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=../PSCtoolchainV8.cmake ../
+PATH="${PATH}:/opt/toolchain/armv8-sony-linux-gnueabihf/bin" cmake -DCMAKE_SYSTEM_PROCESSOR="Arm" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=../PSCtoolchainV8.cmake ../
 #cmake --build .
 make -j 4
 cd ..

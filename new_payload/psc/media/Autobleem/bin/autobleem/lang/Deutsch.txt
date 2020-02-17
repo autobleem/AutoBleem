@@ -1,0 +1,232 @@
+'Tenchu' theme by Kevzombie
+'Tenchu' Theme von Kevzombie
+About
+Über
+About
+Über
+Advanced
+Erweitert
+Advanced:
+Erweiterte Menüs:
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+AutoBleem Theme:
+Background Music:
+Hintergrunds Musik:
+Button Guide
+Tastenübersicht
+Cancel
+Zurück
+Caps
+Großbuchstaben
+Card
+Karte
+Change MC
+Memory Card wechseln
+Close
+Schliessen
+Code: AutoBleem Team
+Entwicklung: AutoBleem Team
+Configuration
+Konfiguration
+Confirm
+Bestätigen
+Custom
+Benutzer
+Custom Memory Cards
+Benutzerdefinierte Memory Cards
+Customize AutoBleem settings
+AutoBleem Einstellungen anpassen
+Customize PlayStationClassic or AutoBleem settings
+PlayStation Classic oder AutoBleem Einstellungen anpassen
+Delete
+Löschen
+Delete card
+Karte löschen
+Download latest:
+Aktuellste version:
+DPAD - Same as classic menu
+Steuerkreuz - Spiel bzw Options-Auswahl
+Edit game parameters
+Spiel Eigenschaften editieren
+Edit Memory Card information
+Memory Card Informationen editieren
+Emulator config MENU
+Emulator Options Menü
+Enter     
+Eingabe          
+Enter new card name
+Name für neue Karte
+Enter new game name
+Neuen Spielnamen eingeben
+Enter new name for card
+Neuer Name für Karte eingeben
+Enter new name for memory card
+Neuen Namen für Memory Card eingeben
+Folder:
+Ordner:
+Free space
+Freier Speicher
+GAME
+SPIEL
+Game
+Spiel
+Game Manager
+Spiele Manager
+Game manager - Select game
+Spielemanager - Spiel auswählen
+Game:
+Spiel:
+games
+spiele
+Games changed. Press
+Spiele aktualisiert. Drücke
+Games filter
+Spiele filtern (Intern/USB/Alle)
+games scanned
+Spiele gescanned
+GFX Filter:
+Glättefilter:
+Go back
+Zurück
+Hi/Lo Res
+Hohe/Niedrige Auflösung
+High res:
+Hohe Auflösung:
+Hold
+Halten
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+IM BOOTMENÜ DRÜCKEN UM KONSOLE HERUNTERZUFAHREN (SICHERES AUSSCHALTEN !!!)
+In Game
+Im Spiel
+Internal
+Intern
+Internal
+Interne
+Internal Games:
+Zeige interne Spiele:
+It is not possible to edit internal games
+Es ist nicht möglich interne Spiele zu bearbeiten.
+Language:
+Sprache:
+Loading ... Please Wait ...
+Laden ... Bitte warten ...
+Lock
+Sperren
+Lock data:
+Infos Sperren:
+MemCard Manager will be available soon
+Memory Card Manager befindet sich noch in Entwicklung
+MEMORY CARD
+MEMORY CARD
+Memory Card:
+Memory Card:
+Memory Cards
+Memory Cards
+Menu
+Menü
+Menu Theme:
+Menü Theme:
+New Card
+Neue Karte
+NO GAMES FOUND IN THIS SECTION
+KEINE SPIELE IN DIESER SEKTION GEFUNDEN
+OOPS! Game crashed. Resume point not available
+HUCH! Das Spiel ist abgestürzt. Speicherpunkt ist nicht verfügbar.
+Options
+Optionen
+Original
+Original
+Page
+Seite
+PCSX Version:
+PCSX Version:
+Player
+Spieler
+Players
+Spieler
+Please confirm
+Bitte bestätigen
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+BITTE CONTROLLER AN DIE PLAYSTATION CLASSIC ANSCHLIESSEN
+Power Off
+Ausschalten
+POWERING OFF... PLEASE WAIT
+HERUNTERFAHREN... BITTE WARTEN
+Published by:
+Veröffentlicht von:
+Quick boot
+Schnellstart
+Quick scroll to next letter
+Zum nächsten Buchstaben springen                      
+QuickBoot:
+Schnellstart:
+Quit emulation - back to AutoBleem
+Emulation beenden - Zurück zu AutoBleem
+Re/Scan
+Neu/Scannen
+Rename
+Umbenennen
+RESUME
+FORTSETZEN
+Resume game from saved state point
+Spiel vom gespeicherten Speicherpunkt fortsetzen
+Resume point saved to slot
+Fortführen des Speicherpunkts zu Slot 
+RetroArch
+RetroArch
+RetroArch is not installed
+RetroArch ist nicht installiert
+Scanning...
+Scanne...
+Select
+Auswählen
+Select memory card
+Memory Card auswählen
+Select or cancel highlighted option
+Ausgewählte Option bestätigen oder abbrechen
+SELECT RESUME SLOT TO LOAD
+SLOT ZUM FORTSETZEN AUSWÄHLEN
+SELECT SLOT TO SAVE STATE
+SLOT ZUM SPEICHERN AUSWÄHLEN
+SETTINGS
+EINSTELLUNGEN
+Share MC
+MC teilen
+Show RetroArch:
+Zeige RetroArch:
+Showing: All games
+Zeige: Alle Spiele
+Showing: Favorite games
+Zeige: Favourisierte Spiele
+Showing: Internal games
+Zeige: Interne Spiele
+Showing: USB games
+Zeige: USB Spiele
+Slot
+Slot
+Space
+Leertaste
+Support via Discord:
+Support Discord:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+Dies ist eine freie und quelloffene Software. Es funktioniert wie vorgegeben und wir tragen keine Verantwortung für eventuelle Schäden.
+to scan
+zum scannen
+Total:
+Insgesamt:
+Updating regional.db...
+Aktualisiere regional.db...
+Upgrading AutoBleem - Please wait...
+Aktualisiere AutoBleem - Bitte warten...
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+WARNUNG: COVER DB/S NICHT GEFUNDEN. BELIEBIGE TASTE DRÜCKEN.
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+WARNUNG: KEINE SPIELE GEFUNDEN. BELIEBIGE TASTE DRÜCKEN.
+Widescreen:
+Breitbild:
+Year:
+Jahr:
+﻿Automatic PlayStation Classic USB launcher
+Automatischer PlayStation Classic USB launcher

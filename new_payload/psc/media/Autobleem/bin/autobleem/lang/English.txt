@@ -1,0 +1,364 @@
+.-= Code C++ and shell scripts =-.
+
+.-= Database maintenance =-.
+
+.-= Graphics =-.
+
+.-= Localization support =-.
+
+.-= Retroboot and emulation cores =-.
+
+.-= Testing =-.
+
+.lic file not found
+
+About
+
+Advanced
+
+All Games
+
+Are you sure you want to delete
+
+Are you sure you want to flush all covers?
+
+Are you sure?
+
+AutoBleem
+
+AutoBleem resume points not available in RetroArch.
+
+AutoBleem Theme:
+
+Background Music:
+
+Bin file failed to verify
+
+Button Guide
+
+Cancel
+
+Caps
+
+Card
+
+Change MC
+
+Change RetroBoot System
+
+Change USB Games Sub-Directory
+
+Clock:
+
+Close
+
+Configuration
+
+Configuration saved - Press |@X| to continue
+
+CONFIGURED
+
+Confirm
+
+Copy
+
+Cover image file not found
+
+Cover Style:
+
+Cue file not found
+
+Custom
+
+Custom Memory Cards
+
+Customize AutoBleem settings
+
+Decompressing ecm:
+
+Defragment Card
+
+Delete
+
+Delete !SaveState folder for game
+
+Delete card
+
+Delete Game
+
+Do you want to save memcards data ?
+
+Download latest:
+
+DPAD
+
+Edit game parameters
+
+Edit Memory Card information
+
+Emulator config MENU
+
+Enter
+
+Enter new card name
+
+Enter new game name
+
+Enter new name for card
+
+Enter new name for memory card
+
+Entry
+
+Exit to EvoUI
+
+Failed to delete
+
+Favorite Games
+
+Favorite:
+
+Flush covers
+
+Folder:
+
+Frameskip:
+
+Free
+
+Free space
+
+Game
+
+GAME
+
+Game failed to verify:
+
+Game file not found
+
+Game Manager
+
+Game manager - Select game
+
+Game.ini file not found
+
+Game.ini file not valid
+
+Game:
+
+games
+
+Games
+
+Games changed. Press
+
+Games filter
+
+games scanned
+
+GFX Filter:
+
+Go back
+
+High res:
+
+Hold
+
+In Boot Menu: Safe Power Off The Console
+
+In Game
+
+In Retroarch Game
+
+Internal
+
+INTERNAL
+
+Internal Games
+
+Is your dpad analogue?
+
+Language:
+
+Link Block
+
+Link end Block
+
+Loading ... Please Wait ...
+
+Lock data:
+
+MEMORY CARD
+
+Memory Card Manager
+
+Memory Card:
+
+Memory Cards
+
+Menu
+
+Moving :
+
+Music:
+
+New Card
+
+New GamePad found
+
+No disc name
+
+No discs
+
+OK
+
+OOPS! Game crashed. Resume point not available.
+
+Open Retroarch Menu
+
+Options
+
+Original
+
+Page
+
+pcsx.cfg file not found
+
+Player
+
+Players
+
+Please confirm
+
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+
+Please wait ... deleting
+
+Please wait ... deleting covers...
+
+Plugin:
+
+POWER
+
+Power Off
+
+POWERING OFF... PLEASE WAIT
+
+Press a key for
+
+Published by:
+
+Quick boot
+
+Quick scroll to next letter
+
+QuickBoot Init:
+
+QuickBoot:
+
+Quit emulation - back to AutoBleem
+
+Re/Scan
+
+ReadMe file not found
+
+Region:
+
+Reload Cards
+
+Rename
+
+RESUME
+
+Resume game from saved state point
+
+Resume point saved to slot
+
+RetroArch
+
+RetroArch is not installed
+
+Run using RetroBoot
+
+Same as classic menu
+
+Scanline Level:
+
+Scanlines:
+
+Scanning...
+
+Select
+
+Select memory card
+
+Select or cancel highlighted option
+
+Select PS1 Game Category
+
+SELECT RESUME SLOT TO LOAD
+
+Select RetroBoot Platform
+
+Select Right Card
+
+SELECT SLOT TO SAVE STATE
+
+Serial:
+
+SETTINGS
+
+Share MC
+
+Show Internal Games:
+
+Showing Timeout (0 = no timeout):
+
+Showing: All Games
+
+Showing: Apps
+
+Showing: Favorite Games
+
+Showing: Internal Games
+
+Showing: Retroarch
+
+Showing: USB Games Directory:
+
+Slot
+
+Space
+
+SpeedHack:
+
+Spu Interpolation:
+
+Starting EvolutionUI
+
+Support via Discord:
+
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+
+to scan
+
+Total:
+
+UI:
+
+Unknown Core (AutoDetect)
+
+Update RA Config:
+
+Updating regional.db...
+
+USB Games
+
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+
+Widescreen:
+
+Year:
+

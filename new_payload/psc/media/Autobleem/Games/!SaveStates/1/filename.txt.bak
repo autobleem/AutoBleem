@@ -1,0 +1,2 @@
+/data/AppData/sony/title/SCES-00002.cue
+BATTLEARENATOSHINDEN-SCES00002

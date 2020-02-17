@@ -1,0 +1,2 @@
+/data/AppData/sony/title/SCUS-94163.cue
+FINALFANTASY7-SCUS94163

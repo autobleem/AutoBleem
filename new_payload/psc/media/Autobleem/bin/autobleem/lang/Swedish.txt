@@ -1,0 +1,332 @@
+.-= Code C++ and shell scripts =-.
+.-= Kod C++ och Shell-skript =-.
+.-= Database maintenance =-.
+.-= Databas-underhåll =-.
+.-= Graphics =-.
+.-= Grafik =-.
+.-= Localization support =-.
+.-= Lokaliseringshjälp =-.
+.-= Retroboot and emulation cores =-.
+.-= Retroboot och emuleringskärnor =-.
+.-= Testing =-.
+.-= Testning =-.
+About
+Om
+About
+Om
+Advanced
+Avancerat
+Advanced:
+Avancerat:
+Are you sure you want to delete
+Är du säker på att du vill radera
+Are you sure you want to flush all covers?
+Är du säker på att du vill nollställa alla omslag?
+Are you sure?
+Är du säker?
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+AutoBleem-tema:
+AutoBleem resume points not available in RetroArch.
+AutoBleems spar-punkter är inte tillgängliga i RetroArch.
+Background Music:
+Bakgrundsmusik:
+Button Guide
+Knappguide
+Cancel
+Avbryt
+Caps
+Caps
+Card
+CONFIGURED
+KONFIGURERAT
+Kort
+Change MC
+Byt minneskort
+Close
+Stäng
+Configuration
+Konfiguration
+Confirm
+Bekräfta
+Custom
+Anpassad
+Custom Memory Cards
+Anpassade minneskort
+Delete
+Radera
+Delete card
+Radera kort
+Download latest:
+Hämta senaste version:
+Enter new card name
+Ange namn på nytt kort
+Enter new game name
+Ange namn på nytt spel
+Enter new name for card
+Ange nytt namn för kort
+Enter new name for memory card
+Ange nytt namn för minneskort
+Folder:
+Mapp:
+Free space
+Ledigt utrymme
+Game
+Spel
+Game Manager
+Spelbibliotek
+Game manager - Select game
+Spelbibliotek - Välj spel
+Game:
+Spel:
+Games changed. Press
+Spelen förändrade. Tryck
+games scanned
+spel scannade
+GFX Filter:
+Grafikfilter:
+Go back
+Tillbaka
+High res:
+Hög upplösning:
+Hold
+Vänta
+Internal
+Intern
+Internal
+Intern
+Language:
+Språk:
+Loading ... Please Wait ...
+Laddar ... Vänligen vänta ...
+Lock data:
+Lås data:
+Memory Card:
+Minneskort:
+Memory Cards
+Minneskort
+Menu
+Meny
+New Card
+Nytt kort
+Options
+Alternativ
+Original
+Original
+Page
+Sida
+Players
+Spelare
+Please confirm
+Vänligen bekräfta
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+VÄNLIGEN ANSLUT HANDKONTROLL TILL PLAYSTATION CLASSIC
+Published by:
+Utgivet av:
+Quick boot
+Snabbstart
+QuickBoot:
+Snabbstart:
+Re/Scan
+Re/Scan
+Rename
+Byt namn
+RetroArch
+RetroArch
+RetroArch is not installed
+RetroArch är inte installerat
+Scanning...
+Scannar...
+Select
+Välj
+Select memory card
+Välj minneskort
+Share MC
+Dela minneskort
+Show RetroArch:
+Visa RetroArch:
+Space
+Mellanslag
+Support via Discord:
+Support via Discord:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+Detta är gratis Open Source-mjukvara. Den tillhandahålls i befintligt skick och vi tar inget ansvar för eventuella problem eller skada som kan uppstå.
+to scan
+till scanning
+Total:
+Total:
+Updating regional.db...
+Uppdaterar regional.db...
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+VARNING: INGEN COVER DB HITTADES. TRYCK PÅ VALFRI KNAPP.
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+VARNING: INGA SPEL HITTADES. TRYCK PÅ VALFRI KNAPP.
+Year:
+År:
+Change RetroBoot System
+Byt RetroBoot-system
+Change USB Games Sub-Directory
+Byt undermapp för USB-spel
+Clock:
+Klocka:
+Configuration saved - Press |@X| to continue
+Konfiguration sparad - Tryck |@X| för att fortsätta
+Copy
+Kopiera
+Cover Style:
+Omslagsstil:
+Customize AutoBleem settings
+Anpassa AutoBleem-inställningar
+DPAD - Same as classic menu
+DPAD - samma som Classic-menyn
+Decompressing ecm:
+Avkomprimerar ecm:
+Defragment Card
+Avfragmentera kort
+Delete !SaveState folder for game
+Radera !SaveState mapp för spel
+Delete Game
+Radera spel
+Do you want to save memcards data ?
+Vill du spara minneskortsdata?
+Edit Memory Card information
+Redigera minneskortsinformation
+Edit game parameters
+Redigera spelparametrar
+Emulator config MENU
+Emulator-inställningsmeny
+Enter
+Mata in
+Entry
+Inmatning
+Exit to EvoUI
+Avsluta till EvoUI
+Failed to delete
+Kunde inte radera
+Favorite:
+Favorit:
+Flush covers
+Nollställ omslag
+Frameskip:
+Frameskip:
+Free
+Ledigt
+GAME
+SPEL
+Games
+Spel
+Games filter
+Spelfilter
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+I BOOT-MENY FÖR ATT STÄNGA AV KONSOLLEN (SÄKER AVSTÄNGNING !!!)
+INTERNAL
+INTERN
+In Game
+I spel
+In Retroarch Game
+I RetroArch-spel
+Internal Games:
+Interna spel:
+Is your dpad analogue?
+Är din DPAD analog?
+Link Block
+Länkblock
+Link end Block
+Slutblock länk
+MEMORY CARD
+MINNESKORT
+Memory Card Manager
+Minneskorthanterare
+Moving :
+Flyttar :
+Music:
+Musik:
+New GamePad found
+Ny gamepad hittad
+OK
+OK
+OOPS! Game crashed. Resume point not available.
+Hoppsan! Spelet kraschade. Spar-punkt ej tillgänglig.
+Open Retroarch Menu
+Öppna RetroArch-meny
+POWER
+STRÖM
+POWERING OFF... PLEASE WAIT
+STÄNGER AV... VÄNLIGEN VÄNTA
+Player
+Spelare
+Please wait ... deleting
+Vänligen vänta ... raderar
+Please wait ... deleting covers...
+Vänligen vänta ... raderar omslag
+Plugin:
+Plugin:
+Power Off
+Stäng av
+Press a key for
+Tryck på en knapp för att
+Quick scroll to next letter
+Snabbscrolla till nästa bokstav
+QuickBoot Init:
+QuickBoot-initiering:
+Quit emulation - back to AutoBleem
+Avsluta emulation - tillbaka till AutoBleem
+RESUME
+FORTSÄTT
+Region:
+Region:
+Reload Cards
+Ladda om kort
+Resume game from saved state point
+Fortsätt spel från befintlig sparpunkt
+Resume point saved to slot
+Sparpunkt lagrad på position
+Run using RetroBoot(if installed)
+Kör med RetroBoot(om installerat)
+SELECT RESUME SLOT TO LOAD
+VÄLJ SPARPUNKT ATT LADDA
+SELECT SLOT TO SAVE STATE
+VÄLJ SPARPUNKT ATT SPARA TILL
+SETTINGS
+INSTÄLLNINGAR
+Scanline Level:
+Scanline-nivå:
+Scanlines:
+Scanlines:
+Select RetroBoot Platform
+Välj RetroBoot-plattform
+Select Right Card
+Välj rätt kort
+Select or cancel highlighted option
+Välj eller avbryt aktuellt alternativ
+Serial:
+Serial:
+Showing Timeout (0 = no timeout):
+Visningstimeout (0 = ingen timeout):
+Showing: All games
+Visar: alla spel
+Showing: Favorite games
+Visar: favoritspel
+Showing: Internal games
+Visar: interna spel
+Showing: Retroarch
+Visar: RetroArch
+Showing: USB Games Directory:
+Visar: USB-spel i mapp:
+Slot
+Plats
+SpeedHack:
+SpeedHack:
+Spu Interpolation:
+SPU-Interpolation:
+Starting EvolutionUI
+Startar EvolutionUI
+UI:
+UI:
+Unknown Core (AutoDetect)
+Okänd kärna (AutoDetect)
+Widescreen:
+Widescreen:
+games
+spel

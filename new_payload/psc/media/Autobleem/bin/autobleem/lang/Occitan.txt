@@ -1,0 +1,308 @@
+.-= Code C++ and shell scripts =-.
+.-= Còdi C++ e scripts shell =-.
+.-= Database maintenance =-.
+.-= Mantenença de la basa de donadas =-.
+.-= Graphics =-.
+.-= Grafics =-.
+.-= Localization support =-.
+.-= Assisténcia localizacion =-.
+.-= Retroboot and emulation cores =-.
+.-= Retroboot e còrs d'emulacion =-.
+.-= Testing =-.
+.-= Ensag =-.
+About
+A prepaus
+Advanced
+Avançat
+Advanced:
+Paramètres avançats :
+Are you sure you want to flush all covers?
+Volètz vertadièrament suprimir totas las cobèrturas ?
+Are you sure?
+O volètz vertadièrament ?
+AutoBleem
+AutoBleem
+AutoBleem resume points not available in RetroArch.
+Punt de represa AutoBleem pas disponible dins RetroArch.
+AutoBleem Theme:
+Tèma AutoBleem :
+Background Music:
+Musica de fons :
+Button Guide
+Guida dels botons
+Cancel
+Anullar
+Caps
+Maj.
+Card
+Carta
+Change MC
+Cambiar de MC
+Clock:
+Frequéncia :
+Close
+Barrar
+Configuration
+Configuracion
+Configuration saved - Press |@X| to continue
+Configuracion salvagarda - Quichatz |@X| per contunhar
+CONFIGURED
+CONFIGURAT
+Confirm
+Confirmar
+Copy
+Copiar
+Cover Style:
+Estil cobèrtura :
+Custom
+Personalizada
+Custom Memory Cards
+Cartas memòria personalizadas
+Customize AutoBleem settings
+Personalizar los paramètres AutoBleem
+Decompressing ecm:
+Descompression de l'ecm :
+Defragment Card
+Desfragmentar la carta
+Delete
+Suprimir
+Delete card
+Suprimir la carta
+Do you want to save memcards data ?
+Volètz salvagarda las donadas memcards ?
+Download latest:
+Darrièra version :
+DPAD - Same as classic menu
+DPAD - Coma lo menú classic
+Edit game parameters
+Modificar los paramètres del jòc
+Edit Memory Card information
+Modificar las informacions de la carta memòria
+Emulator config MENU
+Menú config de l'emulator
+Enter
+Dintrar
+Enter new card name
+Picatz un nòu nom per la carta
+Enter new game name
+Picatz un nòu nom pel jòc
+Enter new name for card
+Picatz un nòu nom per la carta
+Enter new name for memory card
+Picatz un nòu nom per la carta memòria
+Entry
+Entrada
+Favorite:
+Favorits :
+Flush covers
+Suprimir las cobèrturas
+Folder:
+Dorsièr :
+Frameskip:
+Frameskip :
+Free
+Liure
+Free space
+Espaci liure
+Game
+Jòc
+GAME
+JÒC
+Game Manager
+Gestionari de jòcs
+Game manager - Select game
+Gestionari de jòcs - Causir un jòc
+Game:
+Jòc :
+games
+jòcs
+Games changed. Press
+Jòcs cambiats. Quichatz
+Games filter
+Filtre jòcs
+games scanned
+jòcs trobats
+GFX Filter:
+Filtre GFX :
+Go back
+Tornar
+High res:
+Nauta resolucion :
+Hold
+Manténer
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+AL MENÚ D'AVIADA PER ATUDAR LA CONSÒLA (EXTINCION SEGURA !!!)
+In Game
+Jòcs intèrnes
+Internal
+Intèrna
+INTERNAL
+INTÈRNA
+Internal Games:
+Jòcs intèrnes :
+Is your dpad analogue?
+Es vòstre dpad analòg ?
+Language:
+Lenga :
+Link Block
+
+Link end Block
+
+Loading ... Please Wait ...
+Cargament ... Esperatz ...
+Lock data:
+Verrolhar las donadas :
+MEMORY CARD
+CARTA MEMÒRIA
+Memory Card Manager
+Gestionari de carta memòria
+Memory Card:
+Carta memòria :
+Memory Cards
+Cartas memòria
+Menu
+Menú
+Menu Theme:
+Tèma del menú :
+Moving :
+Desplaçament :
+Music:
+Musica :
+New Card
+Nòva carta
+New GamePad found
+Nòva maneta trobada
+OK
+OK
+OOPS! Game crashed. Resume point not available.
+Ops ! Lo jòc a agut un problèma. Lo punt de represa es pas disponible.
+Options
+Opcions
+Original
+Originals
+Page
+Pagina
+Player
+Jogaire
+Players
+Jogaires
+Please confirm
+Volgatz confirmar
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+VOLGATZ CONNECTAR UNA MANETA A LA CONSÒLA
+Please wait ... deleting covers...
+Esperatz ... supression de las cobèrturas...
+Plugin:
+Extension :
+Power Off
+Atudar
+POWERING OFF... PLEASE WAIT
+EXTINCION... ESPERATZ
+Press a key for
+Quichatz un boton per
+Published by:
+Editat per : 
+Quick boot
+Aviada rapida
+Quick scroll to next letter
+Davalada rapida fins a la letra seguenta
+QuickBoot Init:
+Init aviada rapida :
+QuickBoot:
+Aviada rapida :
+Quit emulation - back to AutoBleem
+Quitar l'emulation - tornar a AutoBleem
+Re/Scan
+Re/Scan
+Region:
+Region :
+Reload Cards
+Recargar las cartas
+Rename
+Renomenar
+RESUME
+REPRENDRE
+Resume game from saved state point
+Reprendre lo jòc a un punt de represa salvagardat
+Resume point saved to slot
+Punt de reprisa salvagardat al lòc
+RetroArch
+RetroArch
+RetroArch is not installed
+RetroArch es pas installat
+RetroBoot Systems
+Sistèmas RetroBoot
+Run using RetroBoot(if installed)
+Lançar amb RetroBoot (s’es installat)
+Scanline Level:
+Nivèl d'escansion
+Scanlines:
+Linhas d'escansion :
+Scanning...
+Analisi...
+Select
+Causir
+Select memory card
+Causir una carta memòria
+Select or cancel highlighted option
+Activar o desactivar las opcions subrelinhadas
+SELECT RESUME SLOT TO LOAD
+CAUSISSÈTZ UN PUNT DE REPRESA A CARGAR
+Select RetroBoot Platform
+Causissètz la plataforma RetroBoot
+Select Right Card
+Causissètz la carta que cal
+SELECT SLOT TO SAVE STATE
+CAUSISSÈTZ UN LÒC PER SALVAGARDAR L'ESTAT
+Serial:
+Numèro de seria :
+SETTINGS
+PARAMÈTRES
+Share MC
+Partejar MC
+Show RetroArch:
+Mostrar RetroArch :
+Showing Timeout (0 = no timeout):
+Afichatge Timeout (0 = cap de timeout) :
+Showing:
+Afichatge :
+Showing: All games
+Afichatge : totes los jòcs
+Showing: Favorite games
+Afichatge : jòcs favorits
+Showing: Internal games
+Afichatge : jòcs intèrnes
+Showing: USB games
+Afichatge : jòcs USB
+Slot
+Lòc
+Space
+Espaci
+SpeedHack:
+Hack velocitat :
+Spu Interpolation:
+Interpolacion Spu :
+Starting EvolutionUI
+Aviada d'EvolutionUI
+Support via Discord:
+Sosten via Discord :
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+Aqueste logicial es gratuit e open source. Es provesit coma aquò e cap de responsabilitat es pas nòstra.
+to scan
+per analizar
+Total:
+Total :
+UI:
+UI :
+Unknown Core (AutoDetect)
+Còr desconegut (AutoDetect)
+Updating regional.db...
+Actualizacion de regional.db...
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+ATENCION : CAP DE COBÈRTURA PAS TROBADA. QUICHATZ UN BOTON
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+ATENCION : CAP DE JÒC PAS TROBAT. QUICHATZ UN BOTON
+Widescreen:
+Grand ecran :
+Year:
+Annada :
