@@ -6,8 +6,8 @@
 .-= Grafik =-.
 .-= Localization support =-.
 .-= Lokaliseringshjälp =-.
-.-= Retroboot and emulation cores =-.
-.-= Retroboot och emuleringskärnor =-.
+.-= Retroarch and emulation cores =-.
+.-= Retroarch och emuleringskärnor =-.
 .-= Testing =-.
 .-= Testning =-.
 About
@@ -164,8 +164,8 @@ WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
 VARNING: INGA SPEL HITTADES. TRYCK PÅ VALFRI KNAPP.
 Year:
 År:
-Change RetroBoot System
-Byt RetroBoot-system
+Change Retroarch System
+Byt Retroarch-system
 Change USB Games Sub-Directory
 Byt undermapp för USB-spel
 Clock:
@@ -282,8 +282,8 @@ Resume game from saved state point
 Fortsätt spel från befintlig sparpunkt
 Resume point saved to slot
 Sparpunkt lagrad på position
-Run using RetroBoot(if installed)
-Kör med RetroBoot(om installerat)
+Run using Retroarch(if installed)
+Kör med Retroarch(om installerat)
 SELECT RESUME SLOT TO LOAD
 VÄLJ SPARPUNKT ATT LADDA
 SELECT SLOT TO SAVE STATE
@@ -294,8 +294,8 @@ Scanline Level:
 Scanline-nivå:
 Scanlines:
 Scanlines:
-Select RetroBoot Platform
-Välj RetroBoot-plattform
+Select Retroarch Platform
+Välj Retroarch-plattform
 Select Right Card
 Välj rätt kort
 Select or cancel highlighted option

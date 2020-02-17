@@ -6,8 +6,8 @@
 .-= Graficos =-.
 .-= Localization support =-.
 .-= Soporte de localizacion =-.
-.-= Retroboot and emulation cores =-.
-.-= Retroboot y cores de emulacion =-.
+.-= Retroarch and emulation cores =-.
+.-= Retroarch y cores de emulacion =-.
 .-= Testing =-.
 .-= Testers =-.
 .lic file not found
@@ -44,8 +44,8 @@ Card
 Tarjeta
 Change MC
 Cambiar MC
-Change RetroBoot System
-Cambiar Sistema RetroBoot
+Change Retroarch System
+Cambiar Sistema Retroarch
 Change USB Games Sub-Directory
 Cambiar Sub-Directorio Juegos USB
 Clock:
@@ -278,8 +278,8 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch no esta instalado
-Run using RetroBoot
-Ejecutar con RetroBoot
+Run using Retroarch
+Ejecutar con Retroarch
 Same as classic menu
 Igual que el Menu Clasico
 Scanline Level:
@@ -298,8 +298,8 @@ Select PS1 Game Category
 Selecciona Categoria de Juegos PS1
 SELECT RESUME SLOT TO LOAD
 ELIGE RANURA PARA CARGAR
-Select RetroBoot Platform
-Seleccionar la Plataforma de RetroBoot
+Select Retroarch Platform
+Seleccionar la Plataforma de Retroarch
 Select Right Card
 Seleccionar Tarjeta Derecha
 SELECT SLOT TO SAVE STATE

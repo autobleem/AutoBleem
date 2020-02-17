@@ -4,7 +4,7 @@
 killall -s KILL showLogo sonyapp ui_menu auto_dimmer pcsx dimmer
 echo 2 > /data/power/disable
 
-sh /media/retroarch/retroboot/bin/launch_rfa.sh
+sh /media/retroarch/Retroarch/bin/launch_rfa.sh
 
 #return to Autobleem UI
 cd /media/Autobleem/

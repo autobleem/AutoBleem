@@ -16,10 +16,7 @@ mkdir -p "${AUTOBLEEM_PATH}/System/Region"
 mkdir -p "${AUTOBLEEM_PATH}/System/Logs"
 mkdir -p "${AUTOBLEEM_PATH}/System/UI"
 
-cp -r "${AUTOBLEEM_PATH}/Autobleem/rc/launch_rom.rfa.sh" "${AUTOBLEEM_PATH}/retroarch/retroboot/bin/"
 cp -r "${AUTOBLEEM_PATH}/Autobleem/bin/autobleem/AutoBleem.rdb" "${AUTOBLEEM_PATH}/retroarch/database/rdb/"
-chmod 777 "${AUTOBLEEM_PATH}/retroarch/retroboot/bin/"*
-
 
 # Copy the BIOS files to USB
 [ ! -f "${AUTOBLEEM_PATH}/System/Bios/romw.bin" ] && cp -r "/gaadata/system/bios/romw.bin" "${AUTOBLEEM_PATH}/System/Bios/romw.bin"

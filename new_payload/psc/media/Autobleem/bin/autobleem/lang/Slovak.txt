@@ -6,8 +6,8 @@
 .-= Grafika =-.
 .-= Localization support =-.
 .-= Podpora lokalizácie =-.
-.-= Retroboot and emulation cores =-.
-.-= Retroboot a jadrá emulácie =-.
+.-= Retroarch and emulation cores =-.
+.-= Retroarch a jadrá emulácie =-.
 .-= Testing =-.
 .-= Testovanie =-.
 .lic file not found
@@ -44,8 +44,8 @@ Card
 Karta
 Change MC
 Vymeniť Pamäťovú kartu
-Change RetroBoot System
-Zmeniť systém RetroBoot
+Change Retroarch System
+Zmeniť systém Retroarch
 Change USB Games Sub-Directory
 Zmeniť podadresár hier USB
 Clock:
@@ -280,8 +280,8 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch nie je nainštalovaný
-Run using RetroBoot
-Spustiť cez Retroboot
+Run using Retroarch
+Spustiť cez Retroarch
 Same as classic menu
 Rovnaké ako v PS Classic menu
 Scanline Level:
@@ -300,8 +300,8 @@ Select PS1 Game Category
 Vybrať kategóriu PS1 hry
 SELECT RESUME SLOT TO LOAD
 VYBERTE POZÍCIU, Z KTOREJ SA NAHRÁ PRERUŠENÁ HRA
-Select RetroBoot Platform
-Vyberte platformu RetroBoot
+Select Retroarch Platform
+Vyberte platformu Retroarch
 Select Right Card
 Vyberte kartu v pravo
 SELECT SLOT TO SAVE STATE

@@ -6,8 +6,8 @@
 .-= Grafika =-.
 .-= Localization support =-.
 .-= Tłumaczenie =-.
-.-= Retroboot and emulation cores =-.
-.-= Retroboot i rdzenie =-.
+.-= Retroarch and emulation cores =-.
+.-= Retroarch i rdzenie =-.
 .-= Testing =-.
 .-= Testerzy =-.
 .lic file not found
@@ -44,8 +44,8 @@ Card
 Karta
 Change MC
 Zmień kartę
-Change RetroBoot System
-Zmiana Systemu RetroBoot
+Change Retroarch System
+Zmiana Systemu Retroarch
 Change USB Games Sub-Directory
 Zmiana Podfolderu Gier z USB
 Clock:
@@ -280,8 +280,8 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch jest nie zainstalowany
-Run using RetroBoot
-Urochom za pomocą RetroBoot
+Run using Retroarch
+Urochom za pomocą Retroarch
 Same as classic menu
 Tak samo jak w klasycznym menu
 Scanline Level:
@@ -300,8 +300,8 @@ Select PS1 Game Category
 Wybierz Kategorię Gry PS1
 SELECT RESUME SLOT TO LOAD
 WYBIERZ SLOT DO WCZYTANIA
-Select RetroBoot Platform
-Wybierz Platformę Retroboot
+Select Retroarch Platform
+Wybierz Platformę Retroarch
 Select Right Card
 Wybierz Prawą Kartę
 SELECT SLOT TO SAVE STATE

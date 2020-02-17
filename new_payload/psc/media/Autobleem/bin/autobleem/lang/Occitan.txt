@@ -6,8 +6,8 @@
 .-= Grafics =-.
 .-= Localization support =-.
 .-= Assisténcia localizacion =-.
-.-= Retroboot and emulation cores =-.
-.-= Retroboot e còrs d'emulacion =-.
+.-= Retroarch and emulation cores =-.
+.-= Retroarch e còrs d'emulacion =-.
 .-= Testing =-.
 .-= Ensag =-.
 About
@@ -230,10 +230,10 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch es pas installat
-RetroBoot Systems
-Sistèmas RetroBoot
-Run using RetroBoot(if installed)
-Lançar amb RetroBoot (s’es installat)
+Retroarch Systems
+Sistèmas Retroarch
+Run using Retroarch(if installed)
+Lançar amb Retroarch (s’es installat)
 Scanline Level:
 Nivèl d'escansion
 Scanlines:
@@ -248,8 +248,8 @@ Select or cancel highlighted option
 Activar o desactivar las opcions subrelinhadas
 SELECT RESUME SLOT TO LOAD
 CAUSISSÈTZ UN PUNT DE REPRESA A CARGAR
-Select RetroBoot Platform
-Causissètz la plataforma RetroBoot
+Select Retroarch Platform
+Causissètz la plataforma Retroarch
 Select Right Card
 Causissètz la carta que cal
 SELECT SLOT TO SAVE STATE

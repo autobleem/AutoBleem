@@ -6,7 +6,7 @@
 
 .-= Yerelleştirme desteği =-.
 
-.-= Retroboot ve çekirdek emülasyonları =-.
+.-= Retroarch ve çekirdek emülasyonları =-.
 
 .-= Deneme =-.
 
@@ -44,7 +44,7 @@ Kart
 
 MC'yi değiştir
 
-Change RetroBoot System
+Change Retroarch System
 
 USB Oyunları Alt Dizinini Değiştir
 
@@ -278,7 +278,7 @@ RetroArch
 
 RetroArch kurulu değil
 
-RetroBoot kullanarak çalıştırın
+Retroarch kullanarak çalıştırın
 
 Klasik menü ile aynı
 
@@ -298,7 +298,7 @@ PS1 Oyun Kategorisini Seçin
 
 YÜKLEMEK İÇİN DEVAM YUVASINI SEÇİN
 
-RetroBoot Platformunu Seçin
+Retroarch Platformunu Seçin
 
 Sağ Kartı Seçin
 

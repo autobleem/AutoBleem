@@ -6,8 +6,8 @@
 .-= Grafica =-.
 .-= Localization support =-.
 .-= Supporto alla localizzazione =-.
-.-= Retroboot and emulation cores =-.
-.-= Retroboot e core emulazione =-.
+.-= Retroarch and emulation cores =-.
+.-= Retroarch e core emulazione =-.
 .-= Testing =-.
 .-= Testing =-.
 .lic file not found
@@ -44,8 +44,8 @@ Card
 Schede
 Change MC
 Cambia MC
-Change RetroBoot System
-Cambia Sistema di RetroBoot
+Change Retroarch System
+Cambia Sistema di Retroarch
 Change USB Games Sub-Directory
 Cambia la Sottoartella dei Giochi su USB
 Clock:
@@ -278,8 +278,8 @@ RetroArch
 RetroArch
 RetroArch is not installed
 RetroArch non e' installato
-Run using RetroBoot
-Esegui con RetroBoot
+Run using Retroarch
+Esegui con Retroarch
 Same as classic menu
 Come nel menu classico
 Scanline Level:
@@ -298,8 +298,8 @@ Select PS1 Game Category
 Seleziona la Categoria dei Giochi PS1
 SELECT RESUME SLOT TO LOAD
 SELEZIONA UNO SLOT DA CARICARE
-Select RetroBoot Platform
-Seleziona la Piattaforma RetroBoot
+Select Retroarch Platform
+Seleziona la Piattaforma Retroarch
 Select Right Card
 Seleziona la Card Destra
 SELECT SLOT TO SAVE STATE
