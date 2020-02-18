@@ -1,7 +1,7 @@
 language: shell
 os: linux
-
-install: cmake make get-deps
+dist: bionic
+sudo: true
 
 # env:
 #   jobs:
