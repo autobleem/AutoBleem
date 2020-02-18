@@ -1,10 +1,10 @@
 language: shell
 os: linux
 
-env:
-  jobs:
-    - TARGET=nesc CLOUD_DIR=NESC
-    - TARGET=psc CLOUD_DIR=PSC
+# env:
+#   jobs:
+#     - TARGET=nesc CLOUD_DIR=NESC
+#     - TARGET=psc CLOUD_DIR=PSC
 
 # services:
 #   - docker
