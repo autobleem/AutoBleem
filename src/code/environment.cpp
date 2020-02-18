@@ -73,7 +73,7 @@ string Environment::getPathToRetroarchCoreFile() {
 }
 
 string Environment::getPathToRomsDir() {
-    return getPathToAutobleemDir + sep + "roms";
+    return getPathToAutobleemDir() + sep + "roms";
 }
 
 // includes the "regional.db" filename
