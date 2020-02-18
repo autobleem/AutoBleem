@@ -1,0 +1,16 @@
+language: shell
+os: linux
+
+env:
+  jobs:
+    - TARGET=nesc CLOUD_DIR=NESC
+    - TARGET=psc CLOUD_DIR=PSC
+
+# services:
+#   - docker
+
+#before_script:
+
+script:
+  - chmod +x make_packages.sh
+  - ./make_packages.sh
