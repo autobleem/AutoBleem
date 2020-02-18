@@ -1,3 +1,5 @@
+![Travis Badge](https://api.travis-ci.org/Project-Eris-psc/AutoBleem.svg?branch=develop)
+
 ### Please Read: Important note about upgrading from previous versions with RetroBoot 0.9 installed manually
 The non RetroBoot enabled packages (full, ntscU, palE, ntscJ) contain a startup script that is not compatible with RetroBoot 0.9. If RetroBoot 0.9 was previously installed manually on your build and you see issues running RetroArch  please update one file on your build to fix the loader:
 
