@@ -4,7 +4,8 @@ mkdir -p build_arm
 
 if [ ! -d "/opt/toolchain/armv8-sony-linux-gnueabihf/" ]; then
   echo "/opt/toolchain/armv8-sony-linux-gnueabihf/ NOT FOUND!!"
-  git pull https://github.com/autobleem/PSC-CrossCompile-Toolchain "/opt/toolchain/"
+  mkdir -p "/opt/toolchain/"
+  git clone https://github.com/autobleem/PSC-CrossCompile-Toolchain "/opt/toolchain/"
 fi
 
 cd ./build_arm

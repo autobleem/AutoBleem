@@ -175,7 +175,7 @@ string Environment::getPathToThemesDir() {
         return path;
     }
 #else
-    string path "/media" + sep + "Autobleem" + sep + "themes";
+    string path = "/media" + sep + "Autobleem" + sep + "themes";
     return path;
 #endif
 }
