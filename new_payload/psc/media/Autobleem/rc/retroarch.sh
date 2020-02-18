@@ -1,12 +1,14 @@
 #!/bin/sh
 
-#kill sony stuffs and set powermanagement parameters
-killall -s KILL showLogo sonyapp ui_menu auto_dimmer pcsx dimmer
-echo 2 > /data/power/disable
+kill_it_with_fire(){
+n=0
+while [ "${n}" -lt 50 ]; do
+  n=$(( n + 1 ))
+  killall autobleem-gui
+  sleep 0.1
+done
+}
 
-sh /media/retroarch/Retroarch/bin/launch_rfa.sh
-
-#return to Autobleem UI
-cd /media/Autobleem/
-rm /tmp/.abload 
-./start.sh
+echo "launch_retroarch_standalone_AB" > "/tmp/launchfilecommand"
+# TODO: Find more graceful way to kill Autobleem
+kill_it_with_fire &

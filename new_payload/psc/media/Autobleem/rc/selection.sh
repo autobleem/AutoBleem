@@ -1,7 +1,6 @@
 #!/bin/sh
 
-# This is kind of deprecated - the selector is not needed with EvoUI
-
+AUTOBLEEM_PATH="/media/Autobleem"
 SEL_ORIGINAL=3
 SEL_RETROARCH=4
 SEL_AUTOBLEEM=1
@@ -11,50 +10,33 @@ source ./autobleem_cfg.sh
 echo Selection: $AB_SELECTION
 echo MipMap: $AB_MIP
 
-
-function select_pcsx
-{
-      echo Custom PCSX
-      cp -f /media/Autobleem/bin/emu/pcsx-ab /tmp/pcsx
-      [ -f /tmp/pcsx ] && chmod +x /tmp/pcsx
-}
-
 function set_theme
 {
-   if [ "$AB_THEME" = "default" ]
-   then
-     echo Default Theme
-   else
-	 [ -f /media/themes/$AB_THEME/images/Rectangle.png ] && mount -o bind /media/themes/$AB_THEME/images/ /usr/sony/share/data/images/
-     [ -f /media/themes/$AB_THEME/sounds/cancel.wav ] && mount -o bind /media/themes/$AB_THEME/sounds/ /usr/sony/share/data/sounds/
-     [ -f /media/themes/$AB_THEME/font/SST-Bold.ttf ] && mount -o bind /media/themes/$AB_THEME/font/ /usr/sony/share/data/font/
-   fi
+  if [ "$AB_THEME" = "default" ]; then
+    echo "Default Theme"
+  else
+    [ -f "${AUTOBLEEM_PATH}/themes/$AB_THEME/images/Rectangle.png" ] && mount -o bind "${AUTOBLEEM_PATH}/themes/$AB_THEME/images/" "/usr/sony/share/data/images/"
+    [ -f "${AUTOBLEEM_PATH}/themes/$AB_THEME/sounds/cancel.wav" ] && mount -o bind "${AUTOBLEEM_PATH}/themes/$AB_THEME/sounds/" "/usr/sony/share/data/sounds/"
+    [ -f "${AUTOBLEEM_PATH}/themes/$AB_THEME/font/SST-Bold.ttf" ] && mount -o bind "${AUTOBLEEM_PATH}/themes/$AB_THEME/font/" "/usr/sony/share/data/font/"
+  fi
 }
 
 function start_sony
 {
-
-   mount -o remount,rw /data
-   mount -o bind /tmp/pcsx /usr/sony/bin/pcsx
-   ./startsony.sh
+  ./startsony.sh
 }
 
 function start_retroarch
 {
-    ./retroarch.sh
+  ./retroarch.sh
 }
 
 function start_autobleem
 {
-     mount -o bind /media/Autobleem/bin/autobleem/starter /usr/sony/bin/pcsx
-	 ./overmount.sh
-     ./link.sh
-     ./startsony.sh
+  ./startsony.sh
 }
 
-select_pcsx
 set_theme
-
 
 if [ $AB_SELECTION -eq $SEL_ORIGINAL ]
 then
@@ -75,8 +57,3 @@ if [ $AB_SELECTION -eq $SEL_SCAN ]
 then
     start_autobleem
 fi
-
-sync
-umount /media
-sync
-reboot

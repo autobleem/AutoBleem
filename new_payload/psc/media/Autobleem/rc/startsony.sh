@@ -1,6 +1,14 @@
 #!/bin/sh
-cd "/data/AppData/sony/pcsx"
-export PCSX_ESC_KEY=2
-/usr/sony/bin/ui_menu --power-off-enable &> "/media/Autobleem/System/Logs/ui_menu.log"
-sync
-reboot
+
+kill_it_with_fire(){
+n=0
+while [ "${n}" -lt 50 ]; do
+  n=$(( n + 1 ))
+  killall autobleem-gui
+  sleep 0.1
+done
+}
+
+echo "launch_stockui" > "/tmp/launchfilecommand"
+# TODO: Find more graceful way to kill Autobleem
+kill_it_with_fire &

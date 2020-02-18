@@ -42,24 +42,24 @@ cp -r "${AUTOBLEEM_PATH}/Autobleem/bin/autobleem/AutoBleem.rdb" "${AUTOBLEEM_PAT
 # Init the ui_menu.log
 [ ! -f "${AUTOBLEEM_PATH}/System/Logs/ui_menu.log" ] && touch "${AUTOBLEEM_PATH}/System/Logs/ui_menu.log"
 
-mkdir -p "/tmp/gaadatatmp" "/tmp/datatmp"
-# Create gaadata on tmpfs
-mkdir -p "/tmp/gaadatatmp/system/"
-ln -s "${AUTOBLEEM_PATH}/System/Databases /tmp/gaadatatmp/databases"
-ln -s "${AUTOBLEEM_PATH}/System/Region /tmp/gaadatatmp/geninfo"
-ln -s "${AUTOBLEEM_PATH}/System/Bios /tmp/gaadatatmp/system/bios"
-ln -s "${AUTOBLEEM_PATH}/System/Preferences/System /tmp/gaadatatmp/preferences"
+# mkdir -p "/tmp/gaadatatmp" "/tmp/datatmp"
+# # Create gaadata on tmpfs
+# mkdir -p "/tmp/gaadatatmp/system/"
+# ln -s "${AUTOBLEEM_PATH}/System/Databases /tmp/gaadatatmp/databases"
+# ln -s "${AUTOBLEEM_PATH}/System/Region /tmp/gaadatatmp/geninfo"
+# ln -s "${AUTOBLEEM_PATH}/System/Bios /tmp/gaadatatmp/system/bios"
+# ln -s "${AUTOBLEEM_PATH}/System/Preferences/System /tmp/gaadatatmp/preferences"
 
-# Create data on tmpfs
-mkdir -p "/tmp/datatmp/sony/sgmo" "/tmp/datatmp/AppData/sony"
-ln -s "/tmp/diag" "/tmp/datatmp/sony/sgmo/diag"
-ln -s "/dev/shm/power" "/tmp/datatmp/power"
-ln -s "${AUTOBLEEM_PATH}/System/UI" "/tmp/datatmp/sony/ui"
-ln -s "${AUTOBLEEM_PATH}/System/Preferences/User" "/tmp/datatmp/AppData/sony/ui"
-ln -s "${AUTOBLEEM_PATH}/System/Preferences/AutoDimmer" "/tmp/datatmp/AppData/sony/auto_dimmer"
-cp -r "/usr/sony/share/recovery/AppData/sony/pcsx" "/tmp/datatmp/AppData/sony/pcsx"
-ln -s "${AUTOBLEEM_PATH}/System/Bios" "/tmp/datatmp/AppData/sony/pcsx/bios"
-ln -s "/usr/sony/bin/plugins" "/tmp/datatmp/AppData/sony/pcsx/plugins"
+# # Create data on tmpfs
+# mkdir -p "/tmp/datatmp/sony/sgmo" "/tmp/datatmp/AppData/sony"
+# ln -s "/tmp/diag" "/tmp/datatmp/sony/sgmo/diag"
+# ln -s "/dev/shm/power" "/tmp/datatmp/power"
+# ln -s "${AUTOBLEEM_PATH}/System/UI" "/tmp/datatmp/sony/ui"
+# ln -s "${AUTOBLEEM_PATH}/System/Preferences/User" "/tmp/datatmp/AppData/sony/ui"
+# ln -s "${AUTOBLEEM_PATH}/System/Preferences/AutoDimmer" "/tmp/datatmp/AppData/sony/auto_dimmer"
+# cp -r "/usr/sony/share/recovery/AppData/sony/pcsx" "/tmp/datatmp/AppData/sony/pcsx"
+# ln -s "${AUTOBLEEM_PATH}/System/Bios" "/tmp/datatmp/AppData/sony/pcsx/bios"
+# ln -s "/usr/sony/bin/plugins" "/tmp/datatmp/AppData/sony/pcsx/plugins"
 
-#disable power button event
-echo 2 > "/tmp/datatmp/power/disable"
+# #disable power button event
+# echo 2 > "/tmp/datatmp/power/disable"
