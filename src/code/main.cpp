@@ -183,7 +183,8 @@ int main(int argc, char *argv[]) {
 
     // if the /System/Databases/internal.db doesn't exist make a copy from the PSC
     cout << "Importing internal games from PSC to USB" << endl;
-    Util::execUnixCommand(Env::getPathToRCDir() + sep + "backup_internal.sh");
+    //TODO: This path needs var'ing
+    Util::execUnixCommand("/media/Autobleem/rc/backup_internal.sh");
 
     // add favorites and history columns to internal.db if the column doesn't exist
     Database *internalDB = new Database();
