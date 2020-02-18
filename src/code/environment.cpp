@@ -133,7 +133,7 @@ string Environment::getSonyPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     return getWorkingPath() + sep + "sony";
 #else
-    return sep + "usr" + sep + "sony" + sep + "share" + sep + "data";
+    return "/usr" + sep + "sony" + sep + "share" + sep + "data";
 #endif
 }
 
@@ -175,7 +175,7 @@ string Environment::getPathToThemesDir() {
         return path;
     }
 #else
-    string path = sep + "media" + sep + "Autobleem" + sep + "themes";
+    string path "/media" + sep + "Autobleem" + sep + "themes";
     return path;
 #endif
 }
