@@ -1,6 +1,8 @@
 language: shell
 os: linux
 
+install: cmake make get-deps
+
 # env:
 #   jobs:
 #     - TARGET=nesc CLOUD_DIR=NESC
