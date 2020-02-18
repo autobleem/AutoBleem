@@ -36,7 +36,7 @@ string Environment::getPathToAutobleemDir() {
 }
 
 string Environment::getPathToAppsDir() {
-    return private_pathToUSBDrive + sep + "Autobleem/Apps";
+    return private_pathToUSBDrive + sep + "Autobleem" + sep + "Apps";
 }
 
 std::string Environment::getPathToRCDir() {
@@ -60,15 +60,15 @@ string Environment::getPathToSystemDir() {
 }
 
 string Environment::getPathToRetroarchDir() {
-    return private_pathToUSBDrive + sep + "project_eris/opt/retroarch";
+    return private_pathToUSBDrive + sep + "project_eris" + sep + "opt" + sep + "retroarch";
 }
 
 string Environment::getPathToRetroarchPlaylistsDir() {
-    return getPathToRetroarchDir() + sep + "config/retroarch/playlists";
+    return getPathToRetroarchDir() + sep + "config" + sep + "retroarch" + sep + "playlists";
 }
 
 string Environment::getPathToRetroarchCoreFile() {
-    return getPathToRetroarchDir() + sep + "config/retroarch/cores/km_pcsx_rearmed_neon_libretro.so";
+    return getPathToRetroarchDir() + sep + "config" + sep + "retroarch" + sep + "cores" + sep + "pcsx_rearmed_libretro.so";
 }
 
 string Environment::getPathToRomsDir() {
@@ -91,11 +91,11 @@ string Environment::getPathToBleemsyncDir() {
 }
 
 string Environment::getPathToBleemsyncCFGDir() {
-    return getPathToBleemsyncDir() + sep + "etc/bleemsync/CFG";
+    return getPathToBleemsyncDir() + sep + "etc" + sep + "bleemsync" + sep + "CFG";
 }
 
 string Environment::getPathToBleemsyncWPADir() {
-    return getPathToBleemsyncDir() + sep + "network/etc/wpa_supplicant";
+    return getPathToBleemsyncDir() + sep + "network" + sep + "etc" + sep + "wpa_supplicant";
 }
 
 string Environment::getPathToLogsDir() {
@@ -111,7 +111,7 @@ string Environment::getPathToLogsDir() {
 string Environment::getWorkingPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     if (private_singleArgPassed) {
-        string path = private_pathToUSBDrive + sep + "Autobleem/bin/autobleem";
+        string path = private_pathToUSBDrive + sep + "Autobleem" + sep + "bin" + sep + "autobleem";
         return path;
     } else {
         char temp[PATH_MAX];
@@ -133,7 +133,7 @@ string Environment::getSonyPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     return getWorkingPath() + sep + "sony";
 #else
-    return "/usr/sony/share/data";
+    return sep + "usr" + sep + "sony" + sep + "share" + sep + "data";
 #endif
 }
 
@@ -175,7 +175,7 @@ string Environment::getPathToThemesDir() {
         return path;
     }
 #else
-    string path =  "/media/Autobleem/themes";
+    string path = sep + "media" + sep + "Autobleem" + sep + "themes";
     return path;
 #endif
 }
@@ -188,14 +188,14 @@ string Environment::getPathToThemesDir() {
 string Environment::getPathToCoversDBDir() {
 #if defined(__x86_64__) || defined(_M_X64)
     if (private_singleArgPassed) {
-        string path = private_pathToUSBDrive + sep + "Autobleem/bin/db";
+        string path = private_pathToUSBDrive + sep + "Autobleem" + sep + "bin" + sep + "db";
         return path;
     } else {
-        string path = "../db";
+        string path = ".." + sep + "db";
         return path;
     }
 #else
-    string path =  "../db";
+    string path =  ".." + sep + "db";
     return path;
 #endif
 }

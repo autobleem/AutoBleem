@@ -133,8 +133,10 @@ void GuiLauncher::getGames_SET_APPS(PsGames *gamesList) {
 
     std::string appPath = Environment::getPathToAppsDir();
     if (!DirEntry::exists(appPath)) {
+        printf("appPath doesn't Exist!!! AppPath: %s\n", AppPath);
         return;
     }
+    printf("appPath detected! AppPath: %s\n", AppPath);
     DirEntries dirs = DirEntry::diru_DirsOnly(appPath);
     cout << "Scanning apps in: " << appPath << endl;
     for (auto &dir : dirs) {

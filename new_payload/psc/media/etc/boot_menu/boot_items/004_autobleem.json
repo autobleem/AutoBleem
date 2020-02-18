@@ -1,0 +1,5 @@
+{
+  "texture":"AB.png",
+  "hoverTexture":"AB_Hover.png",
+  "launchCommand":"sh /media/Autobleem/rc/autobleem.sh"
+}
