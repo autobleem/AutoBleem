@@ -27,8 +27,9 @@ string private_pathToInternalDBFile;
 // Environment:: One Liners
 //*******************************
 
+// Kind of redundant...
 string Environment::getPathToUSBRoot() {
-  return private_pathToUSBDrive + sep + "Autobleem";
+  return private_pathToUSBDrive;
 }
 
 string Environment::getPathToAutobleemDir() {
@@ -36,7 +37,7 @@ string Environment::getPathToAutobleemDir() {
 }
 
 string Environment::getPathToAppsDir() {
-    return private_pathToUSBDrive + sep + "Autobleem" + sep + "Apps";
+    return getPathToAutobleemDir() + sep + "Apps";
 }
 
 std::string Environment::getPathToRCDir() {
@@ -56,7 +57,7 @@ string Environment::getPathToSaveStatesDir() {
 }
 
 string Environment::getPathToSystemDir() {
-    return private_pathToUSBDrive + sep + "System";
+    return getPathToAutobleemDir() + sep + "System";
 }
 
 string Environment::getPathToRetroarchDir() {
@@ -72,7 +73,7 @@ string Environment::getPathToRetroarchCoreFile() {
 }
 
 string Environment::getPathToRomsDir() {
-    return private_pathToUSBDrive + sep + "roms";
+    return getPathToAutobleemDir + sep + "roms";
 }
 
 // includes the "regional.db" filename
@@ -86,8 +87,9 @@ string Environment::getPathToInternalDBFile() {
 }
 
 // for networking
+// Bleemsync is no more so this needs retiring.
 string Environment::getPathToBleemsyncDir() {
-    return getPathToUSBRoot() + sep + "bleemsync";
+    return private_pathToUSBDrive + sep + "bleemsync";
 }
 
 string Environment::getPathToBleemsyncCFGDir() {
