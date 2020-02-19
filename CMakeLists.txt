@@ -54,6 +54,10 @@ else()
   endif()
 endif()
 
+if( "${CONSOLIDATE}" STREQUAL "TRUE" )
+  add_compile_definitions(CONSOLIDATE)
+endif()
+
 find_package(Threads REQUIRED
   SDL2 REQUIRED)
 

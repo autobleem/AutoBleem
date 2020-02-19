@@ -37,7 +37,11 @@ string Environment::getPathToAutobleemDir() {
 }
 
 string Environment::getPathToAppsDir() {
+#ifdef CONSOLIDATE
     return getPathToAutobleemDir() + sep + "Apps";
+#else
+    return private_pathToUSBDrive + sep + "Apps";
+#endif
 }
 
 std::string Environment::getPathToRCDir() {
@@ -61,15 +65,27 @@ string Environment::getPathToSystemDir() {
 }
 
 string Environment::getPathToRetroarchDir() {
+#ifdef TARGET_PSC_ERIS
     return private_pathToUSBDrive + sep + "project_eris" + sep + "opt" + sep + "retroarch";
+#else
+    return private_pathToUSBDrive + sep + "retroarch";
+#endif
 }
 
 string Environment::getPathToRetroarchPlaylistsDir() {
+#ifdef TARGET_PSC_ERIS
     return getPathToRetroarchDir() + sep + "config" + sep + "retroarch" + sep + "playlists";
+#else
+    return getPathToRetroarchDir() + sep + "playlists";
+#endif
 }
 
 string Environment::getPathToRetroarchCoreFile() {
+#ifdef TARGET_PSC_ERIS
     return getPathToRetroarchDir() + sep + "config" + sep + "retroarch" + sep + "cores" + sep + "pcsx_rearmed_libretro.so";
+#else
+    return getPathToRetroarchDir() + sep + "cores" + sep + "km_pcsx_rearmed_neon_libretro.so";
+#endif
 }
 
 string Environment::getPathToRomsDir() {
