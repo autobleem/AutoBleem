@@ -1,5 +1,7 @@
 DEPENDANT=0
 
+BUILDTARGET := psc_eris
+
 PKG_PRETTY_NAME := Autobleem front end
 PKG_NAME := autobleem
 VERSION := 0.8.5
@@ -28,7 +30,7 @@ $(PKG_TARGET).mod:
 		"Maintainer: $(MAINTAINER)" \
 		"Description: $(PKG_PRETTY_NAME)" > $(PKG_TARGET)/DEBIAN/control
 	echo " Type: USB_MOD" >> $(PKG_TARGET)/DEBIAN/control
-	cat mod_description_psc.txt >> $(PKG_TARGET)/DEBIAN/control
+	cat mod_description_$(BUILDTARGET).txt >> $(PKG_TARGET)/DEBIAN/control
 	echo " Author: $(PKG_CREATOR)" >> $(PKG_TARGET)/DEBIAN/control
 	echo " Platform: $(PLATFORM) $(ARCHITECTURE)" >> $(PKG_TARGET)/DEBIAN/control
 	echo " Git Commit: $(GIT_COMMIT)" >> $(PKG_TARGET)/DEBIAN/control

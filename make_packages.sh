@@ -18,10 +18,7 @@
 
 ARMv8STRIP="/opt/toolchain/armv8-sony-linux-gnueabihf/bin/armv8-sony-linux-gnueabihf-strip"
 TARGET="$(pwd)/build_arm/autobleem-gui"
-TARGET_PLATFORMS=( "psc" )
-
-# Clean dist bin
-rm -rf "./build_arm" && mkdir -p "./build_arm"
+TARGET_PLATFORMS=( "psc_eris" )
 
 # Grab toolchain if req'd
 if [ ! -d "/opt/toolchain/armv8-sony-linux-gnueabihf/" ]; then
@@ -30,19 +27,26 @@ if [ ! -d "/opt/toolchain/armv8-sony-linux-gnueabihf/" ]; then
   git clone https://github.com/autobleem/PSC-CrossCompile-Toolchain "/opt/toolchain/"
 fi
 
-# CMAKE the AB binary
-cd ./build_arm
-PATH="${PATH}:/opt/toolchain/armv8-sony-linux-gnueabihf/bin" cmake -DCMAKE_SYSTEM_PROCESSOR="Arm" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=../PSCtoolchainV8.cmake ../
-make -j
-${ARMv8STRIP} "${TARGET}"
-chmod +x "${TARGET}"
-cd ..
-
-# Sense check before proceeding to packaging
-touch "${TARGET}" || exit 1
+for PLATFORM in "${TARGET_PLATFORMS[@]}"; do
+  TARGET="$(pwd)/build_arm_${PLATFORM}/autobleem-gui"
+  # Clean dist bin
+  rm -rf "./build_arm_${PLATFORM}" && mkdir -p "./build_arm_${PLATFORM}"
+  # CMAKE the AB binary
+  cd "./build_arm_${PLATFORM}"
+  PATH="${PATH}:/opt/toolchain/armv8-sony-linux-gnueabihf/bin" \
+  cmake -DCMAKE_SYSTEM_PROCESSOR="Arm" -DCMAKE_BUILD_TYPE="Release" -DCMAKE_TOOLCHAIN_FILE="../PSCtoolchainV8.cmake" -DTARGET="${PLATFORM}" \
+  ../
+  make -j
+  ${ARMv8STRIP} "${TARGET}"
+  chmod +x "${TARGET}"
+  cd ..
+  # Sense check before proceeding to packaging
+  touch "${TARGET}" || exit 1
+done
 
 # Build the packages
 for PLATFORM in "${TARGET_PLATFORMS[@]}"; do
+  TARGET="$(pwd)/build_arm_${PLATFORM}/autobleem-gui"
   cd "./new_payload"
   cp -f "${TARGET}" "./${PLATFORM}/media/Autobleem/bin/autobleem/"
   make -f "Makefile.pack_${PLATFORM}"
