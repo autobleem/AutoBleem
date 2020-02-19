@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # find all the _("some text") strings in the code.  handle case if more than one is on a line.
 # strip off the _(" and ")
 # delete the line |@lang|

@@ -60,3 +60,7 @@ db/
 
 #VS Code
 .vscode/
+default.lic
+default.png
+pcsx.cfg
+coversP.db

@@ -1,7 +1,6 @@
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR arm)
 
-
 set(CMAKE_C_COMPILER armv8-sony-linux-gnueabihf-gcc)
 set(CMAKE_CXX_COMPILER armv8-sony-linux-gnueabihf-g++)
 

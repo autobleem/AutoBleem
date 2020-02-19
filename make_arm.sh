@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 rm -rf ./build_arm
 mkdir -p build_arm
 
