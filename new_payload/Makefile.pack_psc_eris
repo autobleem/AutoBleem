@@ -20,7 +20,7 @@ all : $(PKG_TARGET).mod
 
 $(PKG_TARGET).mod:
 	mkdir -p $(PKG_TARGET)/DEBIAN
-	cp -rf psc/* $(PKG_TARGET)/
+	cp -rf psc_eris/* $(PKG_TARGET)/
 	chmod +x $(PKG_TARGET)/media/Autobleem/rc/* $(PKG_TARGET)/media/Autobleem/Apps/*
 	printf "%s\n" \
 		"Package: $(PKG_NAME)" \
