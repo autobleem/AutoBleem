@@ -143,10 +143,14 @@ int main(int argc, char *argv[]) {
     if (argc == 1 + 1) {
         // the single arg is the path to the usb drive
         private_singleArgPassed = true;
-        private_pathToUSBDrive = argv[1];
+        private_pathToUSBDrive = argv[1];      
         private_pathToRegionalDBFile = Env::getPathToSystemDir() + sep + "Databases" + sep + "regional.db";
         private_pathToInternalDBFile = Env::getPathToSystemDir() + sep + "Databases" + sep + "internal.db";
+#ifdef CONSOLIDATE
         private_pathToGamesDir = Env::getPathToAutobleemDir() + sep + "Games";
+#else
+        private_pathToGamesDir = private_pathToUSBDrive + sep + "Games";
+#endif
     } else if (argc == 1 + 2) {
         // the two args are the path to the regional.db file and the path to the /Games dir on the usb drive
         private_singleArgPassed = false;
@@ -179,6 +183,7 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
     gui->db = db;
+    //TODO: This path needs var'ing
     db->createInitialDatabase();
 
     // if the /System/Databases/internal.db doesn't exist make a copy from the PSC

@@ -86,7 +86,11 @@ string GuiBase::getCurrentThemePath() {
     }
     return path;
 #else
-    string path =  "/media/Autobleem/themes/" + cfg.inifile.values["theme"] + "";
+#ifdef CONSOLIDATE
+    string path =  "/media" + sep + "Autobleem" + sep + "themes" + sep + cfg.inifile.values["theme"] + "";
+#else
+    string path =  "/media" + sep + sep + "themes" + sep + cfg.inifile.values["theme"] + "";
+#endif
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data";
@@ -106,7 +110,11 @@ string GuiBase::getCurrentThemeImagePath() {
     }
     return path;
 #else
-    string path =  "/media/Autobleem/themes/" + cfg.inifile.values["theme"] + "/images";
+#ifdef CONSOLIDATE
+    string path =  "/media" + sep + "Autobleem" + sep + "themes" + sep + cfg.inifile.values["theme"] + sep + "images";
+#else
+    string path =  "/media" + sep + sep + "themes" + sep + cfg.inifile.values["theme"] + sep + "images";
+#endif
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/images";
@@ -126,7 +134,11 @@ string GuiBase::getCurrentThemeSoundPath() {
     }
     return path;
 #else
-    string path =  "/media/Autobleem/themes/" + cfg.inifile.values["theme"] + "/sounds";
+#ifdef CONSOLIDATE
+    string path =  "/media" + sep + "Autobleem" + sep + "themes" + sep + cfg.inifile.values["theme"] + sep + "sounds";
+#else
+    string path =  "/media" + sep + sep + "themes" + sep + cfg.inifile.values["theme"] + sep + "sounds";
+#endif
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/sounds";
@@ -146,7 +158,11 @@ string GuiBase::getCurrentThemeFontPath() {
     }
     return path;
 #else
-    string path =  "/media/Autobleem/themes/" + cfg.inifile.values["theme"] + "/font";
+#ifdef CONSOLIDATE
+    string path =  "/media" + sep + "Autobleem" + sep + "themes" + sep + cfg.inifile.values["theme"] + sep + "font";
+#else
+    string path =  "/media" + sep + sep + "themes" + sep + cfg.inifile.values["theme"] + sep + "font";
+#endif
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/font";
