@@ -61,7 +61,11 @@ string Environment::getPathToSaveStatesDir() {
 }
 
 string Environment::getPathToSystemDir() {
+#ifdef CONSOLIDATE
     return getPathToAutobleemDir() + sep + "System";
+#else
+    return private_pathToUSBDrive + sep + "System";
+#endif
 }
 
 string Environment::getPathToRetroarchDir() {
@@ -89,7 +93,11 @@ string Environment::getPathToRetroarchCoreFile() {
 }
 
 string Environment::getPathToRomsDir() {
+#ifdef CONSOLIDATE
     return getPathToAutobleemDir() + sep + "roms";
+#else
+    return private_pathToUSBDrive + sep + "roms";
+#endif
 }
 
 // includes the "regional.db" filename
@@ -193,7 +201,11 @@ string Environment::getPathToThemesDir() {
         return path;
     }
 #else
+#ifdef CONSOLIDATE
     string path = "/media" + sep + "Autobleem" + sep + "themes";
+#else
+    string path =  "/media" + sep + "themes";
+#endif
     return path;
 #endif
 }
