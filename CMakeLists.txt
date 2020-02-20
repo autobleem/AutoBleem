@@ -58,6 +58,10 @@ if( "${CONSOLIDATE}" STREQUAL "TRUE" )
   add_compile_definitions(CONSOLIDATE)
 endif()
 
+if( "${PACKAGED}" STREQUAL "TRUE" )
+  add_compile_definitions(PACKAGED)
+endif()
+
 find_package(Threads REQUIRED
   SDL2 REQUIRED)
 

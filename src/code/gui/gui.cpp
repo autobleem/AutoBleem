@@ -586,10 +586,18 @@ void Gui::menuSelection() {
     mainMenu += "|@S|  " + _("RetroArch") + "   ";
     mainMenu += "|@T|  " + _("About") + "  |@Select|  " + _("Options") + " ";
     mainMenu += "|@L1| " + _("Advanced");
+#ifdef PACKAGED
+    mainMenu += " |@L2|+|@R2|" + _("Exit to Boot Menu");
+#else
     mainMenu += " |@L2|+|@R2|" + _("Power Off");
+#endif
 
     string forceScanMenu = _("Games changed. Press") + "  |@X|  " + _("to scan") + "|";
+#ifdef TARGET_PSC_ERIS
     string otherMenu = "|@S|  " + _("Network SSID") + "  |@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager");
+#else
+    string otherMenu = "|@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager");
+#endif
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
 
     if (!forceScan) {
@@ -662,13 +670,21 @@ void Gui::menuSelection() {
                     if (powerOffShift) {
                         if (e.jbutton.button == _cb(PCS_BTN_R2, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
+#ifndef TARGET_PSC_ERIS
                             drawText(_("POWERING OFF... PLEASE WAIT"));
+#endif
 #if defined(__x86_64__) || defined(_M_X64)
                             exit(0);
 #else
+#ifdef TARGET_PSC_ERIS 
+                            sync();
+                            Util::execUnixCommand("echo 'launch_bootmenu' > '/tmp/launchfilecommand'");
+                            exit(1);
+#else
                             Util::execUnixCommand("shutdown -h now");
-                                    sync();
-                                    exit(1);
+                            sync();
+                            exit(1);
+#endif
 #endif
                         };
                     }
@@ -754,6 +770,7 @@ void Gui::menuSelection() {
                                 };
                         break;
                     } else {
+#ifndef TARGET_PSC_ERIS
                         if (e.jbutton.button == _cb(PCS_BTN_SQUARE, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             if (DirEntry::exists(Env::getPathToBleemsyncCFGDir())) {
@@ -767,6 +784,7 @@ void Gui::menuSelection() {
                                 Gui::splash(_("Bleemsync directory not on USB"));
                             }
                         };
+#endif
 
                         if (e.jbutton.button == _cb(PCS_BTN_CROSS, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);

@@ -24,8 +24,12 @@ void GuiAbout::init() {
 // GuiAbout::render
 //*******************************
 void GuiAbout::render() {
-    std::shared_ptr<Gui> gui(Gui::getInstance());
+    std::shared_ptr<Gui> gui(Gui::getInstance()); 
+#ifdef PACKAGED
+    vector<string> credits = {gui->cfg.inifile.values["version"], " Packaged Build",
+#else
     vector<string> credits = {gui->cfg.inifile.values["version"], " ",
+#endif
                               _(".-= Code C++ and shell scripts =-."),
                               "screemer, Axanar, mGGk, nex, genderbent",
                               _(".-= Graphics =-."),
@@ -39,7 +43,11 @@ void GuiAbout::render() {
                               "Sasha(Italian), Jakejj(BR_Portuguese), jolny(Swedish), StepJefli(Danish), alucard73 / MagnusRC(French), Quenti(Occitan), ",
                               _(".-= Retroboot and emulation cores =-."),
                               "genderbent, KMFDManic"," ",
-                              _("Support via Discord:") + " https://discord.gg/AHUS3RM",
+#ifdef TARGET_PSC_ERIS
+                              _(".-= Packaged build for Project Eris =-."),
+                              "Built and maintained by Modmyclassic.com"," ",
+#endif
+                              _("AB Support via Discord:") + " https://discord.gg/AHUS3RM",
                               _("This is free and open source software. It works AS IS and We take no responsibility for any issues or damage."),
                               _("Download latest:") + " https://github.com/autobleem/AutoBleem"
     };
