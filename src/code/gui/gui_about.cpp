@@ -26,7 +26,7 @@ void GuiAbout::init() {
 void GuiAbout::render() {
     std::shared_ptr<Gui> gui(Gui::getInstance()); 
 #ifdef PACKAGED
-    vector<string> credits = {gui->cfg.inifile.values["version"], " Packaged Build",
+    vector<string> credits = {gui->cfg.inifile.values["version"] + " Packaged Build", " ",
 #else
     vector<string> credits = {gui->cfg.inifile.values["version"], " ",
 #endif
@@ -41,17 +41,22 @@ void GuiAbout::render() {
                               _(".-= Localization support =-."),
                               "nex(German), Azazel(Polish), gadsby(Turkish), GeekAndy(Dutch), Pardubak(Slovak), SupaSAIAN(Spanish), Mate(Czech)",
                               "Sasha(Italian), Jakejj(BR_Portuguese), jolny(Swedish), StepJefli(Danish), alucard73 / MagnusRC(French), Quenti(Occitan), ",
-                              _(".-= Retroboot and emulation cores =-."),
-                              "genderbent, KMFDManic"," ",
 #ifdef TARGET_PSC_ERIS
+                              _(".-= Retroboot and emulation cores =-."),
+                              "genderbent, KMFDManic",
                               _(".-= Packaged build for Project Eris =-."),
                               "Built and maintained by Modmyclassic.com"," ",
-#endif
+                              _("PE Support via Discord:") + " https://modmyclassic.com/discord",
+                              _("AB Support via Discord:") + " https://discord.gg/AHUS3RM",
+                              _("This is free and open source software. It works AS IS and We take no responsibility for any issues or damage."),
+#else
+                              _(".-= Retroboot and emulation cores =-."),
+                              "genderbent, KMFDManic"," ",
                               _("AB Support via Discord:") + " https://discord.gg/AHUS3RM",
                               _("This is free and open source software. It works AS IS and We take no responsibility for any issues or damage."),
                               _("Download latest:") + " https://github.com/autobleem/AutoBleem"
+#endif
     };
-
 
     gui->renderBackground();
 

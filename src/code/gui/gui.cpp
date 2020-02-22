@@ -594,9 +594,9 @@ void Gui::menuSelection() {
 
     string forceScanMenu = _("Games changed. Press") + "  |@X|  " + _("to scan") + "|";
 #ifdef TARGET_PSC_ERIS
-    string otherMenu = "|@S|  " + _("Network SSID") + "  |@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager");
-#else
     string otherMenu = "|@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager");
+#else
+    string otherMenu = "|@S|  " + _("Network SSID") + "  |@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager");
 #endif
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
 
@@ -678,7 +678,7 @@ void Gui::menuSelection() {
 #else
 #ifdef TARGET_PSC_ERIS 
                             sync();
-                            Util::execUnixCommand("echo 'launch_bootmenu' > '/tmp/launchfilecommand'");
+                            system("echo 'launch_bootmenu' > '/tmp/launchfilecommand'");
                             exit(1);
 #else
                             Util::execUnixCommand("shutdown -h now");
