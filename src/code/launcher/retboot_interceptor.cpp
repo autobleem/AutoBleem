@@ -107,11 +107,13 @@ bool RetroArchInterceptor::execute(PsGamePtr &game, int resumepoint) {
     }
     cout << endl;
 
+#ifndef TARGET_PSC_ERIS
     // core config here - to be optional
     if (gui->cfg.inifile.values["raconfig"]=="true") {
         backupCoreConfig();
         transferConfig(game);
     }
+#endif
 
     int pid = fork();
     if (!pid) {
