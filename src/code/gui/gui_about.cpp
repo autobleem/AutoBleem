@@ -25,11 +25,7 @@ void GuiAbout::init() {
 //*******************************
 void GuiAbout::render() {
     std::shared_ptr<Gui> gui(Gui::getInstance()); 
-#ifdef PACKAGED
-    vector<string> credits = {gui->cfg.inifile.values["version"] + " Packaged Build", " ",
-#else
     vector<string> credits = {gui->cfg.inifile.values["version"], " ",
-#endif
                               _(".-= Code C++ and shell scripts =-."),
                               "screemer, Axanar, mGGk, nex, genderbent",
                               _(".-= Graphics =-."),

@@ -692,26 +692,43 @@ void Gui::menuSelection() {
                     if (!otherMenuShift) {
                         if (!forceScan)
                             if (e.jbutton.button == _cb(PCS_BTN_START, &e)) {
-                                if (cfg.inifile.values["ui"] == "classic") {
-                                    Mix_PlayChannel(-1, cursor, 0);
-                                    this->menuOption = MENU_OPTION_RUN;
-                                    menuVisible = false;
-                                } else {
-                                    if (lastSet < 0) {
-                                        lastSet = SET_PS1;
-                                        lastSelIndex=0;
-                                        resumingGui = false;
-                                    }
-                                    Mix_PlayChannel(-1, cursor, 0);
-                                    drawText(_("Starting EvolutionUI"));
-                                    loadAssets(false);
-                                    auto launcherScreen = new GuiLauncher(renderer);
-                                    launcherScreen->show();
-                                    delete launcherScreen;
-
-                                    menuSelection();
-                                    menuVisible = false;
+                              if (cfg.inifile.values["ui"] == "classic") {
+#ifdef PACKAGED 
+                                if (lastSet < 0) {
+                                    lastSet = SET_PS1;
+                                    lastSelIndex=0;
+                                    resumingGui = false;
                                 }
+                                Mix_PlayChannel(-1, cursor, 0);
+                                drawText(_("Starting EvolutionUI"));
+                                loadAssets(false);
+                                auto launcherScreen = new GuiLauncher(renderer);
+                                launcherScreen->show();
+                                delete launcherScreen;
+
+                                menuSelection();
+                                menuVisible = false;
+#else
+                                Mix_PlayChannel(-1, cursor, 0);
+                                this->menuOption = MENU_OPTION_RUN;
+                                menuVisible = false;
+#endif
+                              } else {
+                                if (lastSet < 0) {
+                                    lastSet = SET_PS1;
+                                    lastSelIndex=0;
+                                    resumingGui = false;
+                                }
+                                Mix_PlayChannel(-1, cursor, 0);
+                                drawText(_("Starting EvolutionUI"));
+                                loadAssets(false);
+                                auto launcherScreen = new GuiLauncher(renderer);
+                                launcherScreen->show();
+                                delete launcherScreen;
+
+                                menuSelection();
+                                menuVisible = false;
+                              }
                             };
 
                         if (!forceScan)
