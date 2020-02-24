@@ -4,7 +4,7 @@ kill_it_with_fire(){
 n=0
 while [ "${n}" -lt 50 ]; do
   n=$(( n + 1 ))
-  killall autobleem-gui
+  killall autobleem-gui &> "/dev/null"
   sleep 0.1
 done
 }
