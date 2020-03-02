@@ -31,7 +31,9 @@ AutoBleem
 AutoBleem resume points not available in RetroArch.
 Pontos de retomada do AutoBleem não estão disponíveis no RetroArch.
 AutoBleem Theme:
-Tema AutoBleem:
+Tema do AutoBleem:
+Automatic PlayStation Classic USB launcher
+Launcher automático PlayStation Classic USB
 Background Music:
 Música de Fundo:
 Backspace
@@ -58,6 +60,8 @@ Clock:
 Relógio:
 Close
 Fechar
+Code: AutoBleem Team
+Código: Equipe AutoBleem
 Configuration
 Configuração
 CONFIGURED
