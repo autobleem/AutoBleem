@@ -1,77 +1,135 @@
+.-= Code C++ and shell scripts =-.
+.-= Código C++ e shell scripts =-.
+.-= Database maintenance =-.
+.-= Manutenção de banco de dados =-.
+.-= Graphics =-.
+.-= Gráficos =-.
+.-= Localization support =-.
+.-= Suporte de localização =-.
+.-= Retroboot and emulation cores =-.
+.-= Retroboot e núcleos de emulação =-.
+.-= Testing =-.
+.-= Teste =-.
+.lic file not found
+Arquivo .lic não encontrado
 About
 Sobre
 Advanced
 Avançado
-Advanced:
-Avançado:
+All Games
+Todos os jogos
+Are you sure you want to delete
+Tem certeza de que deseja excluir
 Are you sure you want to flush all covers?
 Você tem certeza que deseja atualizar todas as capas?
 Are you sure?
 Você tem certeza?
+Auto Init Network on Boot:
+Auto iniciar rede na inicialização:
 AutoBleem
 AutoBleem
+AutoBleem resume points not available in RetroArch.
+Pontos de retomada do AutoBleem não estão disponíveis no RetroArch.
 AutoBleem Theme:
-Tema AutoBleem:
-Automatic PlayStation Classic USB launcher
-Launcher Automático PlayStation Classic USB
+Tema do AutoBleem:
 Background Music:
 Música de Fundo:
+Backspace
+Retrocesso
+Bin file failed to verify
+Falha ao verificar o arquivo .bin
+Bleemsync directory not on USB
+O diretório do Bleemsync não está no USB
 Button Guide
 Guia de Botões
 Cancel
 Cancelar
 Caps
-Caps
+Maiúsculas
 Card
-Card
+Cartão
 Change MC
-Mudar MC
+Mudar CM
+Change RetroBoot System
+Trocar sistema RetroBoot
+Change USB Games Sub-Directory
+Trocar sub-diretório jogos USB
 Clock:
 Relógio:
 Close
 Fechar
-Code: AutoBleem Team
-Código: Time AutoBleem
 Configuration
 Configuração
-Configuration saved - Press |@X| to continue
-Configuração salva - Pressione |@X| para continuar
+CONFIGURED
+CONFIGURADO
 Confirm
-Confirmar
+Ok
+Copy
+Copiar
+Cover image file not found
+Imagem de capa não encontrada
 Cover Style:
-Estilo da Capa:
+Estilo da capa:
+Cue file not found
+Arquivo .cue não encontrado
 Custom
 Person.
 Custom Memory Cards
-Personalizar Memory Cards
+Personalizar cartões de memória
 Customize AutoBleem settings
-Personalizar Configurações AutoBleem
+Personalizar configurações do AutoBleem
 Decompressing ecm:
 Descomprimindo ecm:
+Defragment Card
+Desfragmentar cartão
 Delete
-Deletar
+Excluir
+Delete !SaveState folder for game
+Excluir pasta !SaveState do jogo
 Delete card
-Deletar card
+Excluir cartão
+Delete Game
+Excluir jogo
+Do you want to save memcards data ?
+Quer salvar os dados dos cartões de memória?
 Download latest:
-Baixar Última Versão:
-DPAD - Same as classic menu
-DPAD - Igual ao menu clássico
+Baixar última versão:
 Edit game parameters
 Editar parâmetros do jogo
 Edit Memory Card information
-Editar informação Memory Card
+Editar informação do cartão de memória
+Edit Network SSID and Password (ssid.cfg)
+Editar SSID de rede e senha (ssid.cfg)
+Edit Password
+Editar senha
+Edit SSID
+Editar SSID
 Emulator config MENU
-MENU Configs. Emulador
+MENU de configuração do emulador
 Enter
-Confirmar
+Iniciar
 Enter new card name
-Inserir nome do novo card
+Inserir novo nome do cartão
 Enter new game name
-Inserir nome do novo jogo
+Inserir novo nome do jogo
 Enter new name for card
-Inserir novo nome do card
+Inserir novo nome para cartão
 Enter new name for memory card
-Inserir novo nome do MemoryCard
+Inserir novo nome para cartão de memória
+Enter Password
+Inserir senha
+Enter SSID
+Inserir SSID
+Entry
+Entrada
+Exit to EvoUI
+Sair para EvoUI
+Failed to delete
+Falha ao excluir
+Failed to Initialize Wi-Fi To Network SSID:
+Falha ao iniciar Wi-Fi na rede SSID:
+Favorite Games
+Jogos favoritos
 Favorite:
 Favorito:
 Flush covers
@@ -80,16 +138,28 @@ Folder:
 Pasta:
 Frameskip:
 Pular frame:
+Free
+Livre
 Free space
 Espaço livre
 Game
 Jogo
 GAME
 JOGO
+Game failed to verify:
+Falha ao verificar o jogo:
+Game file not found
+Arquivo de jogo não encontrado
+Game History
+Histórico do jogo
 Game Manager
-Gerenciador de Jogos
+Gerenciador de jogos
 Game manager - Select game
-Gerenciador de Jogos - Selecionar jogo
+Gerenciador de jogos - Selecionar jogo
+Game.ini file not found
+Aquivo game.ini não encontrado
+Game.ini file not valid
+O arquivo game.ini não é válido
 Game:
 Jogo:
 games
@@ -99,59 +169,87 @@ Jogos alterados. Pressione
 Games filter
 Filtrar jogos
 games scanned
-jogos escaneados
+jogos analisados
 GFX Filter:
-Filtro GFX:
+Filtro gráfico:
 Go back
 Voltar
-Graphics by:
-Graficos por:
 High res:
 Alta resol.:
-Hold
-Segurar
-IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
-DESLIGUE O CONSOLE PELO MENU PRINCIPAL (DESLIGAMENTO SEGURO !!!)
+In Boot Menu: Safe Power Off The Console
+No menu de inicialização: desligamento seguro do console
 In Game
-Em Jogo
+Em jogo
+In Retroarch Game
+Em jogo do Retoarch
+Initialize Network
+Iniciar rede
+Initialize Wi-Fi Now?
+Iniciar Wi-Fi agora?
+Initialized Wi-Fi To Network SSID:
+Wi-Fi iniciado na rede SSID:
+Initializing Wi-Fi To Network SSID:
+Iniciando Wi-Fi na rede SSID:
 Internal
-Internos
-Internal Games:
-Jogos Internos:
-Is your dpad analogue?
-O seu direcional é analógico?
+Interno
+INTERNAL
+INTERNO
+Internal Games
+Jogos internos
+IP Address:
+Endereço IP:
+IP:
+IP:
 Language:
-Linguagem:
+Idioma:
+Link Block
+Link Block
+Link end Block
+Link end Block
 Loading ... Please Wait ...
-Carregando ... Aguarde ...
+Carregando... Aguarde...
 Lock data:
 Travar dados:
-MemCard Manager will be available soon
-Gerenciador de MemCard em breve
 MEMORY CARD
-MEMORY CARD
+CARTÃO DE MEMÓRIA
+Memory Card Manager
+Gerenciador de cartão de memória
 Memory Card:
-Memory Card:
+Cartão de memória:
 Memory Cards
-Memory Cards
-Menu
-Menu
-Menu Theme:
-Tema do Menu:
+Cartões de memória
+Move Cursor
+Mover cursor
+Moving :
+Movendo:
 Music:
 Música:
+Network SSID
+Rede SSID
 New Card
-Novo Card
+Novo cartão
 New GamePad found
-Novo Controle Encontrado
+Novo controle encontrado
+No disc name
+Sem nome de disco
+No discs
+Sem discos
+OK
+Aceitar
 OOPS! Game crashed. Resume point not available.
 OOPS! O jogo travou. Não é possível retomar.
+Open Retroarch Menu
+Abrir menu do Retoarch
 Options
 Opções
 Original
 Original
 Page
 Página
+Password:
+Senha:
+pcsx.cfg file not found
+Arquivo pcsx.cfg não encontrado
 Player
 Jogador
 Players
@@ -160,90 +258,110 @@ Please confirm
 Confirmar
 PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
 CONECTE O CONTROLE NO CONSOLE
+Please wait ... deleting
+Aguarde... excluindo
 Please wait ... deleting covers...
-Aguarde ... apagando capas...
+Aguarde... excluindo capas...
 Plugin:
 Plugin:
+POWER
+LIGAR
 Power Off
 Desligar
 POWERING OFF... PLEASE WAIT
 DESLIGANDO... AGUARDE
+Press |@X| to save controller mapping, or |@O| to retry configuration
+Pressione |@X| para salvar o mapeamento de botões, ou |@O| para reconfigurar
 Press a key for
 Pressione um botão para
+Press any DPAD button (to determine if it's digital or analogue)
+Pressione qualquer direção do DPAD (para determinar se é digital ou analógico)
 Published by:
 Publicado por:
-Quick boot
-Boot rápido
 Quick scroll to next letter
 Descer para próxima letra
-QuickBoot Init:
-BootRapido Init:
-QuickBoot:
-BootRapido:
 Quit emulation - back to AutoBleem
-Emulação rápida - voltar ao AutoBleem
+Sair da emulação - voltar ao AutoBleem
 Re/Scan
-Re/Escanear
+Re/Analisar
+ReadMe file not found
+Arquivo ReadMe não encontrado
 Region:
 Região:
+Reload Cards
+Recarregar cartões
 Rename
 Renomear
+RESET
+REINICIAR
 RESUME
 CONTINUAR
 Resume game from saved state point
 Continuar jogo salvo
 Resume point saved to slot
-Jogo salvo no slot
+Jogo salvo no compartimento
 RetroArch
 RetroArch
 RetroArch is not installed
-RetroArch não instalado
+RetroArch não está instalado
+Run using RetroBoot
+Executar com RetroBoot
 Scanline Level:
-Nível Scanline:
+Nível de scanline:
 Scanlines:
 Scanlines:
 Scanning...
-Escaneando...
+Analisando...
 Select
 Selecionar
 Select memory card
-Selecionar memory card
+Selecionar cartão de memória
 Select or cancel highlighted option
 Selecionar ou cancelar opção destacada
+Select PS1 Game Category
+Selecionar categoria de jogos do PS1
 SELECT RESUME SLOT TO LOAD
-SELECIONE O SAVE PARA CARREGAR
+SELECIONE O JOGO SALVO PARA CARREGAR
+Select RetroBoot Platform
+Selecionar a plataforma do RetroBoot
+Select Right Card
+Selec. cartão direito
 SELECT SLOT TO SAVE STATE
-SELECIONE SLOT PARA SALVAR
+SELECIONAR COMPARTIMENTO PARA SALVAR
 Serial:
-Serial:
+Série:
 SETTINGS
 CONFIGURAÇÕES
 Share MC
-Compartilhar MC
-Show RetroArch:
-Mostrar RetroArch:
+Compartilhar CM
+Show Internal Games:
+Mostrar jogos internos:
 Showing Timeout (0 = no timeout):
-Tempo Limite (0 = sem limite):
-Showing: All games
-Mostrando: Todos os Jogos
-Showing: Favorite games
-Mostrando: Jogos Favoritos
-Showing: Internal games
-Mostrando: Jogos Internos
-Showing: USB games
-Mostrando: Jogos no USB
+Tempo limite (0 = sem limite):
+Showing: All Games
+Mostrando: Todos os jogos
+Showing: Apps
+Mostrando: Apps
+Showing: Favorite Games
+Mostrando: Jogos favoritos
+Showing: Game History
+Mostrando: Histórico de jogo
+Showing: Internal Games
+Mostrando: Jogos internos
+Showing: Retroarch
+Mostrando: Retroarch
+Showing: USB Games Directory:
+Mostrando: Diretório de jogos USB
 Slot
-Slot
-Sorting :
-Organizando :
-Sorting...
-Organizando...
+Compartimento
 Space
 Espaço
 SpeedHack:
-SpeedHack:
+Hack de velocidade:
 Spu Interpolation:
-Interpolação Spu:
+Interpolação da Spu:
+SSID:
+SSID:
 Starting EvolutionUI
 Iniciando EvolutionUI
 Support via Discord:
@@ -251,18 +369,32 @@ Suporte via Discord:
 This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
 Esse software é grátis e open source. Funciona COMO ESTÁ e não assumimos responsabilidade por nenhum tipo de dano.
 to scan
-para escanear
+para analisar
 Total:
 Total:
 UI:
-UI:
+Interface:
+Unknown Core (AutoDetect)
+Núcleo desconhecido (Auto detectar)
+Update RA Config:
+Atualizar configuração do RA
 Updating regional.db...
 Atualizando regional.db...
+USB Games
+Jogos USB
+Use Controller
+Usar controle
 WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
 AVISO: DB DE CAPAS NÃO ENCONTRADA. PRESSIONE QUALQUER BOTÃO.
 WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
 AVISO: NENHUM JOGO ENCONTRADO. PRESSIONE QUALQUER BOTÃO.
 Widescreen:
 Widescreen:
+Wi-Fi Connection:
+Conexão Wi-Fi
+Write connect info to ssid.cfg file
+Gravar informações de conexão no arquivo ssid.cfg
+Write ssid.cfg file
+Gravar arquivo ssid.cfg
 Year:
 Ano:
