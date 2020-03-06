@@ -583,7 +583,9 @@ void Gui::menuSelection() {
     if (cfg.inifile.values["ui"] == "classic") {
         mainMenu += "  |@O|  " + _("Original") + "  ";
     }
+#ifndef PACKAGED
     mainMenu += "|@S|  " + _("RetroArch") + "   ";
+#endif
     mainMenu += "|@T|  " + _("About") + "  |@Select|  " + _("Options") + " ";
     mainMenu += "|@L1| " + _("Advanced");
 #ifdef PACKAGED
@@ -732,6 +734,7 @@ void Gui::menuSelection() {
                             };
 
                         if (!forceScan)
+#ifndef PACKAGED                        
                             if (e.jbutton.button == _cb(PCS_BTN_SQUARE, &e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
                                 if (!DirEntry::exists(Env::getPathToRetroarchDir() + sep + "retroarch")) {
@@ -754,7 +757,7 @@ void Gui::menuSelection() {
                                     menuVisible = false;
                                 }
                             };
-
+#endif
                         if (e.jbutton.button == _cb(PCS_BTN_CROSS, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             this->menuOption = MENU_OPTION_SCAN;

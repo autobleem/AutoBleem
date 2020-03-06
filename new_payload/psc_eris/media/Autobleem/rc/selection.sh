@@ -38,25 +38,25 @@ function start_autobleem
 
 set_theme
 
-if [ $AB_SELECTION -eq $SEL_ORIGINAL ]
-then
-    start_sony
-fi
+# if [ $AB_SELECTION -eq $SEL_ORIGINAL ]
+# then
+#     start_sony
+# fi
 
 if [ $AB_SELECTION -eq $SEL_RETROARCH ]
 then
 	 start_retroarch
 fi
 
-if [ $AB_SELECTION -eq $SEL_AUTOBLEEM ]
-then
-    start_autobleem
-fi
+# if [ $AB_SELECTION -eq $SEL_AUTOBLEEM ]
+# then
+#     start_autobleem
+# fi
 
-if [ $AB_SELECTION -eq $SEL_SCAN ]
-then
-    start_autobleem
-fi
+# if [ $AB_SELECTION -eq $SEL_SCAN ]
+# then
+#     start_autobleem
+# fi
 
 while [ -f "/tmp/launch_ra.flag" ]; do 
   DELAY_DIE=TRUE
