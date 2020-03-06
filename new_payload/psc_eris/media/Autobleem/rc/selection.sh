@@ -57,3 +57,12 @@ if [ $AB_SELECTION -eq $SEL_SCAN ]
 then
     start_autobleem
 fi
+
+while [ -f "/tmp/launch_ra.flag" ]; do 
+  DELAY_DIE=TRUE
+  sleep 0.5
+done
+
+if [ ! -z "${DELAY_DIE}" ]; then
+  sleep 2
+done
