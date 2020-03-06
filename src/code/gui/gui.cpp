@@ -679,7 +679,7 @@ void Gui::menuSelection() {
 #ifdef TARGET_PSC_ERIS 
                             sync();
                             system("echo 'launch_bootmenu' > '/tmp/launchfilecommand'");
-                            exit(1);
+                            exit(5);
 #else
                             Util::execUnixCommand("shutdown -h now");
                             sync();

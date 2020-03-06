@@ -65,4 +65,4 @@ done
 
 if [ ! -z "${DELAY_DIE}" ]; then
   sleep 2
-done
+fi
