@@ -62,6 +62,10 @@ if( "${PACKAGED}" STREQUAL "TRUE" )
   add_compile_definitions(PACKAGED)
 endif()
 
+if( "${PROJECT_ERIS}" STREQUAL "TRUE" )
+  add_compile_definitions(TARGET_PSC_ERIS)
+endif()
+
 find_package(Threads REQUIRED
   SDL2 REQUIRED)
 
