@@ -27,6 +27,7 @@ string private_pathToInternalDBFile;
 // Environment:: One Liners
 //*******************************
 
+// Kind of redundant...
 string Environment::getPathToUSBRoot() {
   return private_pathToUSBDrive;
 }
@@ -36,7 +37,11 @@ string Environment::getPathToAutobleemDir() {
 }
 
 string Environment::getPathToAppsDir() {
+#ifdef CONSOLIDATE
+    return getPathToAutobleemDir() + sep + "Apps";
+#else
     return private_pathToUSBDrive + sep + "Apps";
+#endif
 }
 
 std::string Environment::getPathToRCDir() {
@@ -56,23 +61,43 @@ string Environment::getPathToSaveStatesDir() {
 }
 
 string Environment::getPathToSystemDir() {
+#ifdef CONSOLIDATE
+    return getPathToAutobleemDir() + sep + "System";
+#else
     return private_pathToUSBDrive + sep + "System";
+#endif
 }
 
 string Environment::getPathToRetroarchDir() {
+#ifdef TARGET_PSC_ERIS
+    return private_pathToUSBDrive + sep + "project_eris" + sep + "opt" + sep + "retroarch";
+#else
     return private_pathToUSBDrive + sep + "retroarch";
+#endif
 }
 
 string Environment::getPathToRetroarchPlaylistsDir() {
+#ifdef TARGET_PSC_ERIS
+    return getPathToRetroarchDir() + sep + "config" + sep + "retroarch" + sep + "playlists";
+#else
     return getPathToRetroarchDir() + sep + "playlists";
+#endif
 }
 
 string Environment::getPathToRetroarchCoreFile() {
-    return getPathToRetroarchDir() + sep + "cores/km_pcsx_rearmed_neon_libretro.so";
+#ifdef TARGET_PSC_ERIS
+    return getPathToRetroarchDir() + sep + "config" + sep + "retroarch" + sep + "cores" + sep + "pcsx_rearmed_libretro.so";
+#else
+    return getPathToRetroarchDir() + sep + "cores" + sep + "km_pcsx_rearmed_neon_libretro.so";
+#endif
 }
 
 string Environment::getPathToRomsDir() {
+#ifdef CONSOLIDATE
+    return getPathToAutobleemDir() + sep + "roms";
+#else
     return private_pathToUSBDrive + sep + "roms";
+#endif
 }
 
 // includes the "regional.db" filename
@@ -86,16 +111,17 @@ string Environment::getPathToInternalDBFile() {
 }
 
 // for networking
+// Bleemsync is no more so this needs retiring.
 string Environment::getPathToBleemsyncDir() {
-    return getPathToUSBRoot() + sep + "bleemsync";
+    return private_pathToUSBDrive + sep + "bleemsync";
 }
 
 string Environment::getPathToBleemsyncCFGDir() {
-    return getPathToBleemsyncDir() + sep + "etc/bleemsync/CFG";
+    return getPathToBleemsyncDir() + sep + "etc" + sep + "bleemsync" + sep + "CFG";
 }
 
 string Environment::getPathToBleemsyncWPADir() {
-    return getPathToBleemsyncDir() + sep + "network/etc/wpa_supplicant";
+    return getPathToBleemsyncDir() + sep + "network" + sep + "etc" + sep + "wpa_supplicant";
 }
 
 string Environment::getPathToLogsDir() {
@@ -111,7 +137,7 @@ string Environment::getPathToLogsDir() {
 string Environment::getWorkingPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     if (private_singleArgPassed) {
-        string path = private_pathToUSBDrive + sep + "Autobleem/bin/autobleem";
+        string path = private_pathToUSBDrive + sep + "Autobleem" + sep + "bin" + sep + "autobleem";
         return path;
     } else {
         char temp[PATH_MAX];
@@ -133,7 +159,7 @@ string Environment::getSonyPath() {
 #if defined(__x86_64__) || defined(_M_X64)
     return getWorkingPath() + sep + "sony";
 #else
-    return "/usr/sony/share/data";
+    return "/usr" + sep + "sony" + sep + "share" + sep + "data";
 #endif
 }
 
@@ -175,7 +201,11 @@ string Environment::getPathToThemesDir() {
         return path;
     }
 #else
-    string path =  "/media/themes";
+#ifdef CONSOLIDATE
+    string path = "/media" + sep + "Autobleem" + sep + "themes";
+#else
+    string path =  "/media" + sep + "themes";
+#endif
     return path;
 #endif
 }
@@ -188,14 +218,14 @@ string Environment::getPathToThemesDir() {
 string Environment::getPathToCoversDBDir() {
 #if defined(__x86_64__) || defined(_M_X64)
     if (private_singleArgPassed) {
-        string path = private_pathToUSBDrive + sep + "Autobleem/bin/db";
+        string path = private_pathToUSBDrive + sep + "Autobleem" + sep + "bin" + sep + "db";
         return path;
     } else {
-        string path = "../db";
+        string path = ".." + sep + "db";
         return path;
     }
 #else
-    string path =  "../db";
+    string path =  ".." + sep + "db";
     return path;
 #endif
 }

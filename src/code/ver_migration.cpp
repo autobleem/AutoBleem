@@ -12,8 +12,11 @@
 #include <iostream>
 using namespace std;
 
-string verFile = "/media/System/Logs/ver.txt";
-
+#ifdef CONSOLIDATE
+    string verFile = "/media" + sep + "Autobleem" + sep + "System" + sep + "Logs" + sep + "ver.txt";
+#else
+    string verFile = "/media" + sep + "System" + sep + "Logs" + sep + "ver.txt";
+#endif
 //*******************************
 // VerMigration::getLastRunVersion
 //*******************************
@@ -116,7 +119,11 @@ void VerMigration::migrate(Database * db)
     string last=getLastRunVersion();
     Config cfg;
     string current=cfg.inifile.values["version"];
-    bool autobleemEverRun = DirEntry::exists("/media/System/Logs/autobleem.log");
+#ifdef CONSOLIDATE
+    bool autobleemEverRun = DirEntry::exists("/media" + sep + "Autobleem" + sep + "System" + sep + "Logs" + sep + "autobleem.log");
+#else
+    bool autobleemEverRun = DirEntry::exists("/media" + sep + "System" + sep + "Logs" + sep + "autobleem.log");
+#endif
     if ((autobleemEverRun) && (current!=last))
     {
         // we need to migrate from 0.4 to 0.5.0

@@ -86,7 +86,11 @@ string GuiBase::getCurrentThemePath() {
     }
     return path;
 #else
-    string path =  "/media/themes/" + cfg.inifile.values["theme"] + "";
+#ifdef CONSOLIDATE
+    string path =  "/media" + sep + "Autobleem" + sep + "themes" + sep + cfg.inifile.values["theme"] + "";
+#else
+    string path =  "/media" + sep + sep + "themes" + sep + cfg.inifile.values["theme"] + "";
+#endif
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data";
@@ -106,7 +110,11 @@ string GuiBase::getCurrentThemeImagePath() {
     }
     return path;
 #else
-    string path =  "/media/themes/" + cfg.inifile.values["theme"] + "/images";
+#ifdef CONSOLIDATE
+    string path =  "/media" + sep + "Autobleem" + sep + "themes" + sep + cfg.inifile.values["theme"] + sep + "images";
+#else
+    string path =  "/media" + sep + sep + "themes" + sep + cfg.inifile.values["theme"] + sep + "images";
+#endif
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/images";
@@ -126,7 +134,11 @@ string GuiBase::getCurrentThemeSoundPath() {
     }
     return path;
 #else
-    string path =  "/media/themes/" + cfg.inifile.values["theme"] + "/sounds";
+#ifdef CONSOLIDATE
+    string path =  "/media" + sep + "Autobleem" + sep + "themes" + sep + cfg.inifile.values["theme"] + sep + "sounds";
+#else
+    string path =  "/media" + sep + sep + "themes" + sep + cfg.inifile.values["theme"] + sep + "sounds";
+#endif
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/sounds";
@@ -146,7 +158,11 @@ string GuiBase::getCurrentThemeFontPath() {
     }
     return path;
 #else
-    string path =  "/media/themes/" + cfg.inifile.values["theme"] + "/font";
+#ifdef CONSOLIDATE
+    string path =  "/media" + sep + "Autobleem" + sep + "themes" + sep + cfg.inifile.values["theme"] + sep + "font";
+#else
+    string path =  "/media" + sep + sep + "themes" + sep + cfg.inifile.values["theme"] + sep + "font";
+#endif
     if (!DirEntry::exists(path))
     {
         path = "/usr/sony/share/data/font";
@@ -567,13 +583,23 @@ void Gui::menuSelection() {
     if (cfg.inifile.values["ui"] == "classic") {
         mainMenu += "  |@O|  " + _("Original") + "  ";
     }
+#ifndef PACKAGED
     mainMenu += "|@S|  " + _("RetroArch") + "   ";
+#endif
     mainMenu += "|@T|  " + _("About") + "  |@Select|  " + _("Options") + " ";
     mainMenu += "|@L1| " + _("Advanced");
+#ifdef PACKAGED
+    mainMenu += " |@L2|+|@R2|" + _("Exit to Boot Menu");
+#else
     mainMenu += " |@L2|+|@R2|" + _("Power Off");
+#endif
 
     string forceScanMenu = _("Games changed. Press") + "  |@X|  " + _("to scan") + "|";
+#ifdef TARGET_PSC_ERIS
+    string otherMenu = "|@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager");
+#else
     string otherMenu = "|@S|  " + _("Network SSID") + "  |@X|  " + _("Memory Cards") + "   |@O|  " + _("Game Manager");
+#endif
     cout << SDL_NumJoysticks() << "joysticks were found." << endl;
 
     if (!forceScan) {
@@ -646,13 +672,21 @@ void Gui::menuSelection() {
                     if (powerOffShift) {
                         if (e.jbutton.button == _cb(PCS_BTN_R2, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
+#ifndef TARGET_PSC_ERIS
                             drawText(_("POWERING OFF... PLEASE WAIT"));
+#endif
 #if defined(__x86_64__) || defined(_M_X64)
                             exit(0);
 #else
+#ifdef TARGET_PSC_ERIS 
+                            sync();
+                            system("echo 'launch_bootmenu' > '/tmp/launchfilecommand'");
+                            exit(5);
+#else
                             Util::execUnixCommand("shutdown -h now");
-                                    sync();
-                                    exit(1);
+                            sync();
+                            exit(1);
+#endif
 #endif
                         };
                     }
@@ -660,29 +694,47 @@ void Gui::menuSelection() {
                     if (!otherMenuShift) {
                         if (!forceScan)
                             if (e.jbutton.button == _cb(PCS_BTN_START, &e)) {
-                                if (cfg.inifile.values["ui"] == "classic") {
-                                    Mix_PlayChannel(-1, cursor, 0);
-                                    this->menuOption = MENU_OPTION_RUN;
-                                    menuVisible = false;
-                                } else {
-                                    if (lastSet < 0) {
-                                        lastSet = SET_PS1;
-                                        lastSelIndex=0;
-                                        resumingGui = false;
-                                    }
-                                    Mix_PlayChannel(-1, cursor, 0);
-                                    drawText(_("Starting EvolutionUI"));
-                                    loadAssets(false);
-                                    auto launcherScreen = new GuiLauncher(renderer);
-                                    launcherScreen->show();
-                                    delete launcherScreen;
-
-                                    menuSelection();
-                                    menuVisible = false;
+                              if (cfg.inifile.values["ui"] == "classic") {
+#ifdef PACKAGED 
+                                if (lastSet < 0) {
+                                    lastSet = SET_PS1;
+                                    lastSelIndex=0;
+                                    resumingGui = false;
                                 }
+                                Mix_PlayChannel(-1, cursor, 0);
+                                drawText(_("Starting EvolutionUI"));
+                                loadAssets(false);
+                                auto launcherScreen = new GuiLauncher(renderer);
+                                launcherScreen->show();
+                                delete launcherScreen;
+
+                                menuSelection();
+                                menuVisible = false;
+#else
+                                Mix_PlayChannel(-1, cursor, 0);
+                                this->menuOption = MENU_OPTION_RUN;
+                                menuVisible = false;
+#endif
+                              } else {
+                                if (lastSet < 0) {
+                                    lastSet = SET_PS1;
+                                    lastSelIndex=0;
+                                    resumingGui = false;
+                                }
+                                Mix_PlayChannel(-1, cursor, 0);
+                                drawText(_("Starting EvolutionUI"));
+                                loadAssets(false);
+                                auto launcherScreen = new GuiLauncher(renderer);
+                                launcherScreen->show();
+                                delete launcherScreen;
+
+                                menuSelection();
+                                menuVisible = false;
+                              }
                             };
 
                         if (!forceScan)
+#ifndef PACKAGED                        
                             if (e.jbutton.button == _cb(PCS_BTN_SQUARE, &e)) {
                                 Mix_PlayChannel(-1, cursor, 0);
                                 if (!DirEntry::exists(Env::getPathToRetroarchDir() + sep + "retroarch")) {
@@ -705,7 +757,7 @@ void Gui::menuSelection() {
                                     menuVisible = false;
                                 }
                             };
-
+#endif
                         if (e.jbutton.button == _cb(PCS_BTN_CROSS, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             this->menuOption = MENU_OPTION_SCAN;
@@ -738,6 +790,7 @@ void Gui::menuSelection() {
                                 };
                         break;
                     } else {
+#ifndef TARGET_PSC_ERIS
                         if (e.jbutton.button == _cb(PCS_BTN_SQUARE, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);
                             if (DirEntry::exists(Env::getPathToBleemsyncCFGDir())) {
@@ -751,6 +804,7 @@ void Gui::menuSelection() {
                                 Gui::splash(_("Bleemsync directory not on USB"));
                             }
                         };
+#endif
 
                         if (e.jbutton.button == _cb(PCS_BTN_CROSS, &e)) {
                             Mix_PlayChannel(-1, cursor, 0);

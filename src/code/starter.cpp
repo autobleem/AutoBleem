@@ -48,7 +48,11 @@ void execute(int argc, char** argv)
 int main (int argc, char *argv[])
 {
     string path="/data/AppData/sony/title/";
-    string sourceCard="/media/Games/!MemCards/";
+#ifdef CONSOLIDATE
+    string sourceCard="/media" + sep + "Autobleem" + sep + "Games" + sep + "!MemCards/";
+#else
+    string sourceCard="/media" + sep + "Games" + sep + "!MemCards/";
+#endif
     Inifile ini;
     ini.load(path+"Game.ini");
     string imageType=valueOrDefault("imagetype","0",ini.values);
@@ -61,7 +65,11 @@ int main (int argc, char *argv[])
     {
         if (DirEntry::exists(sourceCard+memcard))
         {
-            Memcard * card = new Memcard("/media/Games/");
+#ifdef CONSOLIDATE
+            Memcard * card = new Memcard("/media" + sep + "Autobleem" + sep + "Games/");
+#else
+            Memcard * card = new Memcard("/media" + sep + "Games/");
+#endif
             if (!card->swapIn("./.pcsx",memcard))
             {
                 memcard = "SONY";
@@ -124,9 +132,13 @@ int main (int argc, char *argv[])
 
     if (memcard!="SONY")
     {
-            Memcard * card = new Memcard("/media/Games/");
-            card->swapOut("./.pcsx",memcard);
-            delete card;
+#ifdef CONSOLIDATE
+        Memcard * card = new Memcard("/media" + sep + "Autobleem" + sep + "Games/");
+#else
+        Memcard * card = new Memcard("/media" + sep + "Games/");
+#endif
+        card->swapOut("./.pcsx",memcard);
+        delete card;
     }
 
     return 0;

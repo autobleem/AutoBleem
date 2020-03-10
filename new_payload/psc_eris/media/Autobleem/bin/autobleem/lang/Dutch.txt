@@ -1,0 +1,158 @@
+'Tenchu' theme by Kevzombie
+'Tenchu' thema door Kevzombie
+About
+Over
+About
+Over
+Advanced
+Geavanceerd
+Advanced:
+Geavanceerd:
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+AutoBleem Thema:
+Automatic PlayStation Classic USB launcher
+Automatische Playstation Classic USB Launcher
+Background Music:
+Achtergrond Muziek
+Cancel
+Annuleer
+Caps
+Caps
+Card
+Kaart
+Change MC
+Verander MC
+Close
+Sluiten
+Code: AutoBleem Team
+Code: AutoBleem Team
+Configuration
+Configuratie
+Confirm
+Bevestig
+Custom
+Aangepast
+Custom Memory Cards
+Custom Memory Kaart
+Delete
+Verwijder
+Delete card
+Verwijder kaart
+Download latest:
+Download laatste versie:
+Enter new card name
+Nieuwe kaart naam
+Enter new game name
+Nieuwe game naam
+Enter new name for card
+Nieuwe naam voor kaart
+Enter new name for memory card
+Nieuwe naam voor memory card
+Folder:
+Map:
+Free space
+Vrije ruimte
+Game
+Game
+Game Manager
+Game Manager
+Game manager - Select game
+Game manager - Selecteer game
+Game:
+Game:
+games
+games
+Games changed. Press
+Games geüpdate. Druk
+games scanned
+games gescand
+GFX Filter:
+GFX Filter:
+Go back
+Ga terug
+Hi/Lo Res
+Hi/Lo Res
+High res:
+High res:
+Hold
+Pauze
+Internal
+Intern
+Internal
+Intern
+Loading ... Please Wait ...
+Laden... Even geduld ...
+Lock
+Gesloten
+Lock data:
+Lock data:
+Memory Card:
+Memory Kaart:
+Memory Cards
+Memory Kaarten
+Menu
+Menu
+Menu Theme:
+Menu Thema:
+New Card
+Nieuwe Kaart
+Options
+Options
+Original
+Origineel
+Page
+Pagina
+PCSX Version:
+PCSX Versie:
+Players
+Spelers
+Please confirm
+Bevestig
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+SLUIT EEB PLAYSTATION CLASSIC CONTROLLER AAN
+Published by:
+Gepubliceerd door:
+Quick boot
+Snel starten
+QuickBoot:
+Snel Starten:
+Re/Scan
+Re/Scan
+Rename
+Hernoem
+RetroArch
+RetroArch
+RetroArch is not installed
+RetroArch is niet geïnstalleerd
+Scanning...
+Scannen...
+Select
+Selecteer
+Select memory card
+Selecteer memory card
+Share MC
+Deel MC
+Show RetroArch:
+Toon RetroArch:
+Space
+Spatie
+Support via Discord:
+Support ons via Discord:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+Dit is gratis en open source software. Het werkt ZOALS AANGELEVERD en wij nemen geen verantwoordelijkheid voor eventuele problemen of schade. 
+to scan
+te scannen
+Total:
+Totaal:
+Updating regional.db...
+regional.db updaten...
+Upgrading AutoBleem - Please wait...
+AutoBleem upgraden - Moment...
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+WAARSCHUWING: GEEN COVER DATABASE GEVONDEN. DRUK OP KNOP
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+WAARSCHUWING: GEEN GAMES GEVONDEN. DRUK OP EEN KNOP.
+Year:
+Jaar:

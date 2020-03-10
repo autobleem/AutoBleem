@@ -474,6 +474,7 @@ bool RAIntegrator::autoDetectCorePath(PsGamePtr game, string &core_name, string 
 void RAIntegrator::initCoreInfo() {
     cout << "Building core list" << endl;
     if (!DirEntry::exists(Env::getPathToRetroarchDir())) {
+        printf("Retroarch directory not found! getPathToRetroarchDir: %s\n",Env::getPathToRetroarchDir().c_str());
         cout << "Retroarch Not Found" << endl;
         return;
     }

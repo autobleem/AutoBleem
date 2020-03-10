@@ -1,0 +1,363 @@
+.-= Kod C ++ ve shell komut dosyaları =-.
+
+.-= Veritabanı Bakımı =-.
+
+.-= Grafik =-.
+
+.-= Yerelleştirme desteği =-.
+
+.-= Retroarch ve çekirdek emülasyonları =-.
+
+.-= Deneme =-.
+
+.lic dosyası bulunamadı
+
+Hakkında
+
+Gelişmiş
+
+Tüm Oyunlar
+
+Silmek istediğine emin misin
+
+Tüm kapakları temizlemek istediğinizden emin misiniz?
+
+Emin misiniz?
+
+AutoBleem
+
+AutoBleem sürdürme noktaları RetroArch'ta bulunmaz.
+
+AutoBleem Teması
+
+Arkaplan Müziği:
+
+Bin dosyası doğrulanamadı
+
+Düğme Kılavuzu
+
+İptal et
+
+Caps
+
+Kart
+
+MC'yi değiştir
+
+Change Retroarch System
+
+USB Oyunları Alt Dizinini Değiştir
+
+Saat hızı:
+
+Kapat
+
+Konfigürasyon
+
+Yapılandırma kaydedildi - Devam etmek için |@X| basın
+
+YAPILANDIRILDI
+
+Onayla
+
+Kopyala
+
+Kapak resmi dosyası bulunamadı
+
+Kapak Stili:
+
+Cue dosyası bulunamadı
+
+Özel
+
+Özel Bellek Kartları
+
+AutoBleem ayarlarını özelleştirme
+
+Ecm sıkıştırılıyor:
+
+Birleştirme Kartı
+
+Sil
+
+Oyun için !SaveState klasörünü sil
+
+Kartı sil
+
+Oyunu Sil
+
+Hafıza kartların verilerini kaydetmek istiyor musunuz?
+
+En son indir:
+
+DPAD
+
+Oyun parametrelerini düzenle
+
+Bellek Kartı bilgilerini düzenleme
+
+Emülatör yapılandırma MENÜSÜ
+
+Giriş
+
+Yeni kart adı girin
+
+Yeni oyun adı girin
+
+Kart için yeni bir ad girin
+
+Hafıza kartı için yeni bir ad girin
+
+Girdi
+
+EvoUI'ye çıkış
+
+Silinemedi
+
+Favori Oyunlar
+
+Favori:
+
+Gömme kapaklar
+
+Klasör:
+
+Çerçeve atlama:
+
+Boş
+
+Boş alan
+
+oyun
+
+OYUN
+
+Oyun doğrulanamadı:
+
+Oyun dosyası bulunamadı
+
+Oyun Yöneticisi
+
+Oyun yöneticisi - Oyunu seç
+
+Game.ini dosyası bulunamadı
+
+Game.ini dosyası geçerli değil
+
+Oyun:
+
+oyunlar
+
+Oyunlar
+
+Oyunlar değişti. Basın
+
+Oyunlar filtresi
+
+taranan oyunlar
+
+GFX Filtresi:
+
+Geri dön
+
+Yüksek çözünürlük:
+
+Basılı tutun
+
+Önyükleme Menüsünde: Konsolu Güvenli Kapatma
+
+Oyunda
+
+Retroarch Oyunu
+
+İç
+
+İÇ
+
+Dahili Oyunlar
+
+Dpad'iniz analog mu?
+
+Dil:
+
+Bağlantı Bloğu
+
+Bağlantı sonu Bloğu
+
+Yükleniyor lütfen bekleyin ...
+
+Verileri kilitle:
+
+HAFIZA KARTI
+
+Hafıza Kartı Yöneticisi
+
+Hafıza kartı:
+
+Hafıza kartları
+
+Menü
+
+Hareketli :
+
+Müzik:
+
+Yeni Kart
+
+Yeni GamePad bulundu
+
+Disk adı yok
+
+Disk yok
+
+TAMAM
+
+Oops! Oyun çöktü. Devam noktası yok.
+
+Retroarch Menüsünü Aç
+
+Seçenekler
+
+Orijinal
+
+Sayfa
+
+pcsx.cfg dosyası bulunamadı
+
+Oyuncu
+
+Oyuncular
+
+Lütfen onaylayın
+
+LÜTFEN GAMEPAD'I PLAYSTATION CLASSIC'E BAĞLAYIN
+
+Lütfen bekleyin ... siliniyor
+
+Lütfen bekleyin ... kapaklar siliniyor ...
+
+Eklenti:
+
+GÜÇ
+
+Kapat
+
+KAPATILIYOR... LÜTFEN BEKLEYİN
+
+İçin bir tuşa basın
+
+Tarafından yayınlandı:
+
+Hızlı önyükleme
+
+Sonraki harfe hızlı kaydırma
+
+Hızlı Önyükleme Init:
+
+Hızlı önyükleme:
+
+Emülasyondan çık - AutoBleem'e geri dön
+
+Yeniden/Tara
+
+BeniOku dosyası bulunamadı
+
+Bölge:
+
+Kartları Yeniden Yükle
+
+Adını değiştir
+
+DEVAM ET
+
+Oyunu kayıtlı durum noktasından devam ettir
+
+Devam noktası yuvaya kaydedildi
+
+RetroArch
+
+RetroArch kurulu değil
+
+Retroarch kullanarak çalıştırın
+
+Klasik menü ile aynı
+
+Tarama Seviyesi:
+
+Scanlines:
+
+Taranıyor...
+
+Seç
+
+Hafıza kartını seçin
+
+Vurgulanan seçeneği seçme veya iptal etme
+
+PS1 Oyun Kategorisini Seçin
+
+YÜKLEMEK İÇİN DEVAM YUVASINI SEÇİN
+
+Retroarch Platformunu Seçin
+
+Sağ Kartı Seçin
+
+KONUM KAYDI İÇİN YUVA SEÇİN
+
+Seri:
+
+AYARLAR
+
+Paylaş HK
+
+Dahili Oyunları Göster:
+
+Zaman Aşımı Gösteriliyor (0 = zaman aşımı yok):
+
+Gösterilen: Tüm Oyunlar
+
+Gösteriliyor: Uygulamalar
+
+Gösterilen: Favori Oyunlar
+
+Gösterilen: Dahili Oyunlar
+
+Gösterilen: Retroarch
+
+Gösterilen: USB Oyunlar Dizini:
+
+Yuva
+
+Alan
+
+Hız hilesi:
+
+Spu Enterpolasyonu:
+
+EvolutionUI Başlat
+
+Discord aracılığıyla destek:
+
+Bu ücretsiz ve açık kaynaklı bir yazılımdır. OLDUĞU GİBİ çalışır, herhangi bir sorun veya hasar için sorumluluk kabul etmiyoruz.
+
+taramak için
+
+Toplam:
+
+Kullanıcı arayüzü:
+
+Bilinmeyen Çekirdek (Otomatik Algılama)
+
+RA Konfigürasyonu güncelleyin:
+
+Regional.db güncelleniyor ...
+
+USB Oyunlar
+
+UYARI: KAPAK VERİTABANI BULUNAMADI. HERHANGİ BİR TUŞA BASIN.
+
+UYARI: OYUN BULUNAMADI. HERHANGİ BİR TUŞA BASIN.
+
+Geniş Ekran:
+
+Yıl:

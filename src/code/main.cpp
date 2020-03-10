@@ -143,10 +143,14 @@ int main(int argc, char *argv[]) {
     if (argc == 1 + 1) {
         // the single arg is the path to the usb drive
         private_singleArgPassed = true;
-        private_pathToUSBDrive = argv[1];
-        private_pathToRegionalDBFile = private_pathToUSBDrive + sep + "System/Databases/regional.db";
-        private_pathToInternalDBFile = private_pathToUSBDrive + sep + "System/Databases/internal.db";
+        private_pathToUSBDrive = argv[1];      
+        private_pathToRegionalDBFile = Env::getPathToSystemDir() + sep + "Databases" + sep + "regional.db";
+        private_pathToInternalDBFile = Env::getPathToSystemDir() + sep + "Databases" + sep + "internal.db";
+#ifdef CONSOLIDATE
+        private_pathToGamesDir = Env::getPathToAutobleemDir() + sep + "Games";
+#else
         private_pathToGamesDir = private_pathToUSBDrive + sep + "Games";
+#endif
     } else if (argc == 1 + 2) {
         // the two args are the path to the regional.db file and the path to the /Games dir on the usb drive
         private_singleArgPassed = false;
@@ -154,7 +158,7 @@ int main(int argc, char *argv[]) {
 #if defined(__x86_64__) || defined(_M_X64)
         private_pathToInternalDBFile = "internal.db";   // it's in the same dir as the autobleem-gui app you are debugging
 #else
-        private_pathToInternalDBFile = "/media/System/Databases/internal.db";
+        private_pathToInternalDBFile = Env::getPathToSystemDir() + sep + "Databases" + sep + "internal.db";
 #endif
         private_pathToGamesDir = argv[2];
         private_pathToUSBDrive = DirEntry::getDirNameFromPath(private_pathToGamesDir);
@@ -179,10 +183,12 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
     gui->db = db;
+    //TODO: This path needs var'ing
     db->createInitialDatabase();
 
     // if the /System/Databases/internal.db doesn't exist make a copy from the PSC
     cout << "Importing internal games from PSC to USB" << endl;
+    //TODO: This path needs var'ing
     Util::execUnixCommand("/media/Autobleem/rc/backup_internal.sh");
 
     // add favorites and history columns to internal.db if the column doesn't exist

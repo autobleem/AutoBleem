@@ -1,0 +1,48 @@
+DEPENDANT=0
+
+BUILDTARGET := psc_eris
+
+PKG_PRETTY_NAME := Autobleem front end
+PKG_NAME := autobleem
+VERSION := 0.8.5
+GIT_COMMIT := $(shell echo "`git rev-parse --short HEAD``git diff-index --quiet HEAD --`")
+PKG_CREATOR := Artur "Screemer" Jakubowicz
+MAINTAINER := ModMyClassic <contact@modmyclassic.com>
+PLATFORM := SONYPSC
+ARCHITECTURE := armhf
+ifeq ($(DEPENDANT), 1)
+	DEPENDS :=
+endif
+
+PKG_TARGET := $(PKG_NAME)_$(VERSION)_$(PLATFORM)-$(GIT_COMMIT)
+
+all : $(PKG_TARGET).mod
+
+$(PKG_TARGET).mod:
+	mkdir -p $(PKG_TARGET)/DEBIAN
+	cp -rf psc_eris/* $(PKG_TARGET)/
+	chmod +x $(PKG_TARGET)/media/Autobleem/rc/* $(PKG_TARGET)/media/Autobleem/Apps/*
+	printf "%s\n" \
+		"Package: $(PKG_NAME)" \
+		"Version: $(VERSION)" \
+		"Architecture: $(ARCHITECTURE)" \
+		"Depends: $(DEPENDS)" \
+		"Maintainer: $(MAINTAINER)" \
+		"Description: $(PKG_PRETTY_NAME)" > $(PKG_TARGET)/DEBIAN/control
+	echo " Type: USB_MOD" >> $(PKG_TARGET)/DEBIAN/control
+	cat mod_description_$(BUILDTARGET).txt >> $(PKG_TARGET)/DEBIAN/control
+	echo " Author: $(PKG_CREATOR)" >> $(PKG_TARGET)/DEBIAN/control
+	echo " Platform: $(PLATFORM) $(ARCHITECTURE)" >> $(PKG_TARGET)/DEBIAN/control
+	echo " Git Commit: $(GIT_COMMIT)" >> $(PKG_TARGET)/DEBIAN/control
+	echo " Built: $(shell date)" >> $(PKG_TARGET)/DEBIAN/control
+
+	dpkg-deb -v --build $(PKG_TARGET)
+	mv $(PKG_TARGET).deb $(PKG_TARGET).mod
+
+	rm -r $(PKG_TARGET)/
+	touch $(PKG_TARGET).mod
+
+clean:
+	-rm -rf $(PKG_TARGET)/ $(PKG_TARGET).mod
+
+.PHONY: clean

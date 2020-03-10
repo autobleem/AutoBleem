@@ -1,0 +1,270 @@
+﻿About
+O programu
+Advanced
+Rozšířené
+Advanced:
+Rozšířené:
+Are you sure you want to flush all covers?
+Opravdu chcete smazat všechny obaly?
+Are you sure?
+Jste si jistí?
+AutoBleem
+AutoBleem
+AutoBleem Theme:
+AutoBleem téma:
+Automatic PlayStation Classic USB launcher
+Automatický USB spouštěč her PlayStation Classic
+Background Music:
+Hudba na pozadí:
+Button Guide
+Průvodce tlačítkami
+Cancel
+Zrušit
+Caps
+Velká písmena
+Card
+Karta
+Change MC
+Vyměnit Paměťovou kartu
+Clock:
+CPU hodiny
+Close
+Zavřít
+Code: AutoBleem Team
+Autoři: AutoBleem Team
+Configuration
+Nastavení
+Configuration saved - Press |@X| to continue
+Nastavení uloženo - Stiskněte |@X| pro pokračování
+Confirm
+Potvrdit
+Button Guide
+Průvodce tlačítky
+Cover Style:
+Styl obalu:
+Custom
+Vlastní
+Custom Memory Cards
+Vlastní Paměťové karty
+Customize AutoBleem settings
+Přizpůsobit nastavení AutoBleem
+Decompressing ecm:
+Rozbalování ECM:
+Delete
+Smazat
+Delete card
+Smazat kartu
+Download latest:
+Nejnovější verze:
+DPAD - Same as classic menu
+DPAD - Stejné jako na PlayStation Classic
+Edit game parameters
+Upravit parametry hry
+Edit Memory Card information
+Upravit informace Paměťové karty
+Emulator config MENU
+Konfigurace emulátoru MENU
+Enter
+Spustit
+Enter new card name
+Zadejte nový název karty
+Enter new game name
+Zadejte nový název hry
+Enter new name for card
+Zadejte nový název karty
+Enter new name for memory card
+Zadejte nový název paměťové karty
+Favorite:
+Oblíbené:
+Flush covers
+Smazat obaly
+Folder:
+Složka:
+Frameskip:
+Preskočení snímků:
+Free space
+Volné místo
+Game
+Hra
+GAME
+HRA
+Game Manager
+Správce her
+Game manager - Select game
+Správce her - Vybrat hru
+Game:
+Hra:
+games
+hry
+Games changed. Press
+Hry se změnily. Zmáčkni
+Games filter
+Filter her
+games scanned
+nalezených hier
+GFX Filter:
+Grafický filtr:
+Go back
+Zpět
+Graphics by:
+Grafika:
+High res:
+Vysoké rozlišení:
+Hold
+Čekejte
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+V BOOT MENU PRO VYPNUTÍ KONZOLE (BEZPEČNÉ VYPNUTÍ !!!)
+In Game
+Ve hře
+Internal
+Interní
+Internal Games:
+Interní hry:
+Is your dpad analogue?
+Máte analogový dpad?
+Language:
+Jazyk:
+Loading ... Please Wait ...
+Nahrávám ... Čekejte prosím ...
+Lock data:
+Zamknout data:
+MemCard Manager will be available soon
+Správce Paměťových karet není momentálně k dispozíci
+MEMORY CARD
+PAMĚŤOVÁ KARTA
+Memory Card:
+Paměťová karta:
+Memory Cards
+Paměťové karty
+Menu
+Menu
+Menu Theme:
+Téma menu:
+Music:
+Hudba:
+New Card
+Nová karta
+New GamePad found
+Nalezen nový Gamepad
+OOPS! Game crashed. Resume point not available.
+Oh! Hra spadla. Bod obnovy není k dispozícii.
+Options
+Nastavení
+Original
+Originální hry
+Page
+Strana
+Player
+Hráč
+Players
+Hráči
+Please confirm
+Potvrďte prosím
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+PŘIPOJTE PROSÍM GAMEPAD K PLAYSTATION CLASSIC
+Please wait ... deleting covers...
+Čekejte prosím... mažu obaly...
+Plugin:
+Plugin:
+Power Off
+Vypnout
+POWERING OFF... PLEASE WAIT
+VYPÍNÁM... ČEKEJTE PROSÍM
+Press a key for
+Zmáčkněte tlačítko pro
+Published by:
+Vydavatel:
+Quick boot
+Rychlý start
+Quick scroll to next letter
+Rychlý přesun na nasledující písmeno  
+QuickBoot Init:
+Rychlý start do:
+QuickBoot:
+Rychly start:
+Quit emulation - back to AutoBleem
+Ukončit emuláci - návrat do AutoBleem
+Re/Scan
+Vy/Hledat
+Region:
+Oblast:
+Rename
+Přejmenovat
+RESUME
+OBNOVIT
+Resume game from saved state point
+Pokračovat ve hře z uloženého stavu
+Resume point saved to slot
+Bod obnovy uložený na pozici
+RetroArch
+RetroArch
+RetroArch is not installed
+RetroArch není nainstalovaný
+Scanline Level:
+Úroveň obrazových řádků:
+Scanlines:
+Obrazové řádky:
+Scanning...
+Vyhledávam...
+Select
+Vybrat
+Select memory card
+Vybrat Paměťovou kartu
+Select or cancel highlighted option
+Vybrat nebo zrušit zvýrazněnou volbu
+SELECT RESUME SLOT TO LOAD
+VYBERTE POZICI, ZE KTERÉ SE NAHRAJE PRERUŠENÁ HRA
+SELECT SLOT TO SAVE STATE
+VYBERTE POZICI, NA KTEROU SE ULOŽÍ ROZEHRANÁ HRA
+Serial:
+Serial:
+SETTINGS
+NASTAVENÍ
+Share MC
+Sdílet Paměťovou kartu
+Show RetroArch:
+Zobrazit RetroArch:
+Showing Timeout (0 = no timeout):
+Časový limit zobrazení (0 = bez limitu):
+Showing: All games
+Zobrazené: Všechny hry
+Showing: Favorite games
+Zobrazené: Oblíbené hry
+Showing: Internal games
+Zobrazené: Hry v interní paměti
+Showing: USB games
+Zobrazené: Hry na USB
+Slot
+Pozice
+Sorting :
+Třídění :
+Sorting...
+Třídím...
+Space
+Mezera
+SpeedHack:
+SpeedHack:
+Spu Interpolation:
+Interpolace zvuku:
+Starting EvolutionUI
+Spouštím EvolutionUI
+Support via Discord:
+Podpora na Discord:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+AutoBleem je bezplatný open source software. Funguje TAKOVÝ JAKÝ JE, a NENESEME žádnou odpovednost za jakékoliv problémy nebo škody.
+to scan
+k prohledání
+Total:
+Celkem:
+UI:
+Uživatelské rozhraní:
+Updating regional.db...
+Aktualizuji regional.db...
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+POZOR: NENAŠLA SE DATABÁZE OBALŮ NA HRY. STLAČTE LIBOVOLNOU KLÁVESU.
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+POZOR: NENALEZENY ŽÁDNÉ HRY. STLAČTE LIBOVOLNOU KLÁVESU.
+Widescreen:
+Širokoúhlý obraz:
+Year:
+Rok:

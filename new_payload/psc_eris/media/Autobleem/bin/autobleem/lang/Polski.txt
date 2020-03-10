@@ -1,0 +1,366 @@
+﻿.-= Code C++ and shell scripts =-.
+.-= Kodowanie C++ i shell scripts =-.
+.-= Database maintenance =-.
+.-= Baza danych gier =-.
+.-= Graphics =-.
+.-= Grafika =-.
+.-= Localization support =-.
+.-= Tłumaczenie =-.
+.-= Retroarch and emulation cores =-.
+.-= Retroarch i rdzenie =-.
+.-= Testing =-.
+.-= Testerzy =-.
+.lic file not found
+Nie znaleziono pliku .lic
+About
+O programie
+Advanced
+Zawansowane
+All Games
+Wszystkie Gry
+Are you sure you want to delete
+Czy na pewno chcesz usunąć
+Are you sure you want to flush all covers?
+Czy na pewno chcesz wyczyścić wszystkie okładki?
+Are you sure?
+Czy jesteś pewien?
+AutoBleem
+AutoBleem
+AutoBleem resume points not available in RetroArch.
+RetroArch nie obsługuje punktów wznowienia Autobleem
+AutoBleem Theme:
+Skórka AutoBleem:
+Background Music:
+Muzyka w tle:
+Bin file failed to verify
+Nie udało się zweryfikować pliku Bin
+Button Guide
+Opis funkcji
+Cancel
+Anuluj
+Caps
+Duże
+Card
+Karta
+Change MC
+Zmień kartę
+Change Retroarch System
+Zmiana Systemu Retroarch
+Change USB Games Sub-Directory
+Zmiana Podfolderu Gier z USB
+Clock:
+Zegar:
+Close
+Zamknij
+Configuration
+Konfiguracja
+Configuration saved - Press |@X| to continue
+Konfiguracja zapisana - Naciśnij |@X| aby kontynuować
+CONFIGURED
+WEWNĘTRZNA
+Confirm
+Potwierdź
+Copy
+Kopiuj
+Cover image file not found
+Nie znaleziono pliku obrazu okładki
+Cover Style:
+Styl Okładek:
+Cue file not found
+Nie znaleziono pliku Cue
+Custom
+Własna
+Custom Memory Cards
+Współdzielone Karty Pamięci
+Customize AutoBleem settings
+Dostosuj ustawienia Autobleem
+Decompressing ecm:
+Dekompresuję ecm:
+Defragment Card
+Defragmentuj Kartę
+Delete
+Kasuj
+Delete !SaveState folder for game
+Usuń folder !SaveState dla gry
+Delete card
+Usuń kartę
+Delete Game
+Usuń Grę
+Do you want to save memcards data ?
+Czy chcesz zapisać zmienione dane katy ?
+Download latest:
+Pobierz najnowszy AB:
+DPAD
+Kierunki
+Edit game parameters
+Edytuj parametry gry
+Edit Memory Card information
+Edytuj informacje Karty Pamięci
+Emulator config MENU
+MENU kofiguracji emulatora
+Enter
+Wejdź
+Enter new card name
+Podaj nową nazwę karty
+Enter new game name
+Podaj nową nazwę gry
+Enter new name for card
+Podaj nową nazwę dla karty
+Enter new name for memory card
+Podaj nową nazwę dla karty pamięci
+Entry
+Wprowadź
+Exit to EvoUI
+Powrót do EvoUI
+Failed to delete
+Nieudane usuwanie
+Favorite Games
+Ulubione Gry
+Favorite:
+Ulubione:
+Flush covers
+Wyczyść okładki
+Folder:
+Folder:
+Frameskip:
+Pomiń klatki:
+Free
+Wolne
+Free space
+Wolne miejsce
+GAME
+GRA
+Game
+Gra
+Game failed to verify:
+Nie udało się zweryfikować Gry: 
+Game file not found
+Nie znaleziono pliku Gry
+Game Manager
+Menadżer gier
+Game manager - Select game
+Manadżer gier - Wybierz grę
+Game.ini file not found
+Nie znaleziono pliku Game.ini
+Game.ini file not valid
+Plik Game.ini jest niepoprawny
+Game:
+Gra:
+games
+gry
+Games
+Gry
+Games changed. Press
+Gry zmienione. Naciśnij
+Games filter
+Filtr gier
+games scanned
+gier znaleziono
+GFX Filter:
+Filtr grafiki:
+Go back
+Powrót
+High res:
+Zwiększ Rozdzielczość:
+Hold
+Przytrzymaj
+IN BOOT MENU TO POWER OFF THE CONSOLE (SAFE POWER OFF !!!)
+W MENU STARTOWYM - BEZPIECZNE WYŁĄCZENIE KONSOLI
+In Boot Menu: Safe Power Off The Console
+W Menu Startowym: Bezpieczne Wyłączenie Konsoli
+In Game
+W Grze
+In Retroarch Game
+W grze Retroarch
+INTERNAL
+WEWNĘTRZNA
+Internal
+Wewnętrzna
+Internal Games
+Wewnętrzne Gry
+Is your dpad analogue?
+Czy twój D-pad to analog?
+Language:
+Język:
+Link Block
+Polaczony Blok
+Link end Block
+Blok Koncowy
+Loading ... Please Wait ...
+Ładuję ... Proszę czekać ...
+Lock data:
+Blokuj zmiany:
+MEMORY CARD
+KARTA PAMIĘCI
+Memory Card Manager
+Menadżer Kart Pamięci
+Memory Card:
+Karta pamięci:
+Memory Cards
+Karty Pamięci
+Menu
+Menu
+Moving :
+Przenoszenie :
+Music:
+Muzyka:
+New Card
+Nowa karta
+New GamePad found
+Znaleziono Nowy Kontroler
+No disc name
+Brak nazwy dysku
+No discs
+Brak dysku
+OK
+OK
+OOPS! Game crashed. Resume point not available.
+UUPS! Wysypało grę. Punkt wznowienia niedostępny.
+Open Retroarch Menu
+Otwiera Menu Retroarch
+Options
+Opcje
+Original
+Oryginał
+Page
+Strona
+pcsx.cfg file not found
+Nie znaleziono pliku pcsx.cfg
+Player
+Gracz
+Players
+Graczy
+Please confirm
+Potwierdź
+PLEASE CONNECT GAMEPAD TO PLAYSTATION CLASSIC
+PODŁĄCZ KONTROLER DO PLAYSTATION CLASSIC
+Please wait ... deleting
+Proszę czekać ... usuwanie
+Please wait ... deleting covers...
+Proszę czekać... usuwanie okładek...
+Plugin:
+Wtyczka:
+POWER
+Przycisk POWER
+Power Off
+Wyłączanie
+POWERING OFF... PLEASE WAIT
+WYŁĄCZANIE KONSOLI ... PROSZĘ CZEKAĆ
+Press a key for
+Naciśnij przycisk dla
+Published by:
+Wydawca:
+Quick boot
+Szybki Start
+Quick scroll to next letter
+Szybki przeskok do następnej litery
+QuickBoot Init:
+Szybki Start do:
+QuickBoot:
+Szybki Start:
+Quit emulation - back to AutoBleem
+Zakończ emulację - powrót do AutoBleem
+Re/Scan
+Skanuj
+ReadMe file not found
+Nie znaleziono pliku ReadMe
+Region:
+Region:
+Reload Cards
+Odśwież Karty
+Rename
+Zmień nazwę
+RESUME
+WZNÓW
+Resume game from saved state point
+Wznów grę od ostatnigo punktu zapisu
+Resume point saved to slot
+Zapisano punkt wznowienia do slotu
+RetroArch
+RetroArch
+RetroArch is not installed
+RetroArch jest nie zainstalowany
+Run using Retroarch
+Urochom za pomocą Retroarch
+Same as classic menu
+Tak samo jak w klasycznym menu
+Scanline Level:
+Intensywność linii:
+Scanlines:
+Linie:
+Scanning...
+Skanuję...
+Select
+Wybierz
+Select memory card
+Wybierz kartę
+Select or cancel highlighted option
+Wybierz lub anuluj podświetloną opcję
+Select PS1 Game Category
+Wybierz Kategorię Gry PS1
+SELECT RESUME SLOT TO LOAD
+WYBIERZ SLOT DO WCZYTANIA
+Select Retroarch Platform
+Wybierz Platformę Retroarch
+Select Right Card
+Wybierz Prawą Kartę
+SELECT SLOT TO SAVE STATE
+WYBIERZ SLOT DO ZAPISU
+Serial:
+Serial:
+SETTINGS
+USTAWIENIA
+Share MC
+Stwórz własną MC
+Show Internal Games:
+Pokazuj Wewnętrzne Gry:
+Showing Timeout (0 = no timeout):
+Czas Wyświetlania (0 = ciągle)
+Showing: All Games
+Wyświetla: Wszystkie Gry
+Showing: Apps
+Wyświetla: Aplikacje
+Showing: Favorite Games
+Wyświetla: Ulubione Gry
+Showing: Internal Games
+Wyświetla: Wewnętrzne Gry
+Showing: Retroarch
+Wyświetla: Retroarch
+Showing: USB Games Directory:
+Wyświetla: Folder Gier z USB:
+Slot
+Slot
+Space
+Spacja
+SpeedHack:
+SpeedHack:
+Spu Interpolation:
+Interpolacja Spu:
+Starting EvolutionUI
+Włączam EvolutionUI
+Support via Discord:
+Wsparcie na Discord:
+This is free and open source software. It works AS IS and We take no responsibility for any issues or damage.
+To jest darmowe i wolne oprogramowanie. Nie bierzemy żadnej odpowiedzialności za szkody nim wywołane.
+to scan
+aby przeskanować
+Total:
+Razem:
+UI:
+Interfejs:
+Unknown Core (AutoDetect)
+Nieznany Rdzeń (AutoDetekcja)
+Update RA Config:
+Uaktualniaj plik konfiguracji RA:
+Updating regional.db...
+Uaktualniam regional.db...
+USB Games
+Gry USB
+WARNING: NO COVER DB FOUND. PRESS ANY BUTTON.
+UWAGA: BRAK BAZY OKŁADEK. NACIŚNIJ DOWOLNY PRZYCISK
+WARNING: NO GAMES FOUND. PRESS ANY BUTTON.
+UWAGA: NIE WYKRYTO GIER. WCIŚNIJ DOWOLNY PRZYCISK.
+Widescreen:
+Pełny ekran:
+Year:
+Rok:
